@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/escoria/character.gd" id=1]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player.png" id=2]
+
+[node name="player" type="Area2D"]
+script = ExtResource("1")
+global_id = "player"
+is_player = true
+player_controlled = true
+interaction_direction = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-10, -20, 10, -20, 10, 20, -10, 20)

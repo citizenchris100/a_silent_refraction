@@ -1,0 +1,29 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/escoria/settings.gd" id=1]
+
+[resource]
+script = ExtResource("1")
+game_version = "0.1"
+commands_path = "res://game/commands/"
+dialogs_path = "res://game/dialogs/"
+items_path = "res://game/items/"
+rooms_path = "res://game/rooms/"
+ui_path = "res://game/ui/"
+save_folder = "user://saves/"
+text_lang = "en"
+voice_lang = "en"
+speech_enabled = true
+speech_auto_restart = true
+fast_dialog_text_speed = 0.5
+default_dialog_text_speed = 1.0
+max_dialog_text_speed = 20.0
+dialog_text_speed_per_character = 0.1
+default_transition = "fade"
+inventory_item_size = Vector2(75, 75)
+default_dialog_type = "text"
+default_transition_length = 1.0
+camera_limits = true
+inventory_automatic_transition = 0.3
+development_lang = "en"
+max_saving_slots = 30

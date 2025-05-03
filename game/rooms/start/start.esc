@@ -1,0 +1,7 @@
+:setup
+> set_global suspicion_level 0
+> set_global coalition_strength 0
+> set_global investigation_progress 0
+
+:ready
+> show_menu main_menu
