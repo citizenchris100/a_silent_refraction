@@ -1,8 +1,0 @@
-[gd_resource type="Resource" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://addons/escoria/ui_config.gd" id=1]
-
-[resource]
-script = ExtResource("1")
-tooltip_follows_mouse = true
-inventory_right_click_action = "use"
