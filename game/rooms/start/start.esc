@@ -1,7 +1,20 @@
+# Save this as res://game/rooms/start/start.esc
+
 :setup
 > set_global suspicion_level 0
 > set_global coalition_strength 0
 > set_global investigation_progress 0
+> set_global test_mode false
 
 :ready
-> show_menu main_menu
+# Only show menu if not in test mode
+> if test_mode == false
+    show_menu main_menu
+> end
+# Create the player character in the room for movement testing
+> player_create player player_start
+> camera_set_target player
+# Display a test message if in test mode
+> if test_mode == true
+    say player "Test mode active. Basic movement enabled."
+> end

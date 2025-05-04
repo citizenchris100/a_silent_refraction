@@ -1,0 +1,15 @@
+# Save this as res://tests/test_runner.tscn
+
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/test_iteration1.gd" id=1]
+
+[node name="TestRunner" type="Node"]
+script = ExtResource("1")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+text = "Running tests... Check output in the console."
+horizontal_alignment = 1
+vertical_alignment = 1

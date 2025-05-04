@@ -13,7 +13,10 @@ boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.png"
 
 [autoload]
-escoria="*res://addons/escoria/escoria.tscn"
+escoria="*res://addons/escoria-core/game/escoria.tscn"
+GameStateManager="*res://game/game_state_manager.gd"
+DialogManager="*res://game/dialogs/dialog_manager.gd"
+TestIteration1="*res://tests/test_iteration1.gd"
 
 [display]
 window/size/viewport_width=1920
