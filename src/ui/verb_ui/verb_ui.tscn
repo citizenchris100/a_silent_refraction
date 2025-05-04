@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/ui/verb_ui/verb_ui.gd" type="Script" id=1]
+
+[node name="VerbUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 120 )
+script = ExtResource( 1 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.2, 0.2, 0.2, 1 )

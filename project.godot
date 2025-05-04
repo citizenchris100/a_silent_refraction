@@ -8,8 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "BaseDistrict",
+"language": "GDScript",
+"path": "res://src/core/districts/base_district.gd"
+}, {
+"base": "Node2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/characters/player/player.gd"
+} ]
 _global_script_class_icons={
+"BaseDistrict": "",
+"Player": ""
 }
 
 [application]
@@ -18,9 +30,36 @@ config/name="A Silent Refraction"
 run/main_scene="res://src/core/main.tscn"
 config/icon="res://icon.png"
 
+[editor_plugins]
+
+enabled=PoolStringArray(  )
+
+[input]
+
+click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_environment="res://default_env.tres"
+
+[global]
+
+run_main_scene=false
+
+[autoload]
+
+
+[debug]
+
+
+[display]
+
+window/size/width=1024
+window/size/height=600
