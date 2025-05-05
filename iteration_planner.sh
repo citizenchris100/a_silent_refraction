@@ -1,0 +1,375 @@
+#!/bin/bash
+
+# iteration_planner.sh - Advanced iteration planning script for A Silent Refraction
+# This script helps create, update, and track iteration plans
+
+# Text formatting
+BOLD="\033[1m"
+RESET="\033[0m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RED="\033[0;31m"
+
+# Function for displaying help
+show_help() {
+    echo -e "${BOLD}A Silent Refraction - Iteration Planning Tool${RESET}"
+    echo
+    echo "Usage:"
+    echo "  $0 create <iteration_number> \"<iteration_name>\" - Create new iteration plan"
+    echo "  $0 update <iteration_number> <task_number> <status> - Update task status (pending|in_progress|complete)"
+    echo "  $0 report - Generate progress report for all iterations"
+    echo "  $0 link <iteration_number> <task_number> \"<file_path>\" - Link task to source file"
+    echo
+    echo "Examples:"
+    echo "  $0 create 2 \"NPC Framework and Suspicion System\""
+    echo "  $0 update 2 3 complete"
+    echo "  $0 report"
+    echo "  $0 link 2 3 \"src/core/suspicion_system.gd\""
+    exit 1
+}
+
+# Function to create iteration plan
+create_iteration_plan() {
+    ITERATION_NUM=$1
+    ITERATION_NAME=$2
+    
+    if [ -z "$ITERATION_NUM" ] || [ -z "$ITERATION_NAME" ]; then
+        echo -e "${RED}Error: Missing arguments${RESET}"
+        show_help
+    fi
+    
+    FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
+    
+    # Check if file already exists
+    if [ -f "$FILE_PATH" ]; then
+        echo -e "${RED}Error: $FILE_PATH already exists${RESET}"
+        exit 1
+    fi
+    
+    # Create the directory if it doesn't exist
+    mkdir -p "docs"
+    
+    # Generate template based on iteration number
+    case $ITERATION_NUM in
+        2)
+            cat > "$FILE_PATH" << EOL
+# Iteration ${ITERATION_NUM}: ${ITERATION_NAME}
+
+## Goals
+- Implement basic NPCs with interactive capabilities
+- Create the suspicion system as a core gameplay mechanic
+- Apply visual style guide to one area as a prototype
+- Develop placeholder art generation for NPCs
+
+## Tasks
+- [ ] Task 1: Create base NPC class with state machine
+- [ ] Task 2: Implement NPC dialog system
+- [ ] Task 3: Create suspicion meter UI element
+- [ ] Task 4: Implement suspicion tracking system
+- [ ] Task 5: Script NPC reactions based on suspicion levels
+- [ ] Task 6: Apply visual style guide to Shipping District
+- [ ] Task 7: Create bash script for generating NPC placeholders
+- [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs
+
+## Testing Criteria
+- NPCs can be interacted with using the verb system
+- Suspicion level changes based on player actions
+- Visual style matches the style guide specifications
+- Observation mechanics work correctly
+
+## Timeline
+- Start date: $(date +%Y-%m-%d)
+- Target completion: $(date -d "+14 days" +%Y-%m-%d)
+
+## Dependencies
+- Iteration 1 (Basic Environment and Navigation)
+
+## Code Links
+- No links yet
+
+## Notes
+This iteration focuses on implementing the core NPC and suspicion systems, 
+while also beginning to apply the visual style guide to establish the game's aesthetic.
+EOL
+            ;;
+        3)
+            cat > "$FILE_PATH" << EOL
+# Iteration ${ITERATION_NUM}: ${ITERATION_NAME}
+
+## Goals
+- Implement multiple station districts with transitions
+- Create detailed time management system (Persona-style)
+- Develop day/night cycle and time progression
+- Implement random NPC assimilation tied to time
+
+## Tasks
+- [ ] Task 1: Create at least one additional district besides Shipping
+- [ ] Task 2: Implement district transitions via tram system
+- [ ] Task 3: Develop in-game clock and calendar system
+- [ ] Task 4: Create time progression through player actions
+- [ ] Task 5: Implement day cycle with sleep mechanics
+- [ ] Task 6: Design and implement time UI indicators
+- [ ] Task 7: Create system for random NPC assimilation over time
+- [ ] Task 8: Add time-based events and triggers
+
+## Testing Criteria
+- Player can travel between at least two districts
+- Time advances through specific actions (tram travel, conversations, etc.)
+- Day advances when player sleeps
+- NPCs change status (assimilated/not) over time
+
+## Timeline
+- Start date: $(date +%Y-%m-%d)
+- Target completion: $(date -d "+21 days" +%Y-%m-%d)
+
+## Dependencies
+- Iteration 2 (NPC Framework and Suspicion System)
+
+## Code Links
+- No links yet
+
+## Notes
+This iteration focuses on expanding the game world and implementing the time management system,
+which is a crucial mechanic for the game's progression and tension.
+EOL
+            ;;
+        4)
+            cat > "$FILE_PATH" << EOL
+# Iteration ${ITERATION_NUM}: ${ITERATION_NAME}
+
+## Goals
+- Implement investigation mechanics
+- Create quest log system for tracking progress
+- Develop item/inventory system for collecting evidence
+- Add system for logging known assimilated NPCs
+
+## Tasks
+- [ ] Task 1: Create quest data structure and manager
+- [ ] Task 2: Implement quest log UI
+- [ ] Task 3: Develop inventory system for evidence items
+- [ ] Task 4: Create puzzles for accessing restricted areas
+- [ ] Task 5: Implement clue discovery and collection system
+- [ ] Task 6: Create assimilated NPC tracking log
+- [ ] Task 7: Develop investigation progress tracking
+- [ ] Task 8: Add quest state persistence
+
+## Testing Criteria
+- Quest log accurately tracks active and completed quests
+- Player can collect and use items/evidence
+- Puzzles can be solved to progress investigation
+- Player can track which NPCs are known to be assimilated
+
+## Timeline
+- Start date: $(date +%Y-%m-%d)
+- Target completion: $(date -d "+21 days" +%Y-%m-%d)
+
+## Dependencies
+- Iteration 3 (Game Districts and Time Management)
+
+## Code Links
+- No links yet
+
+## Notes
+This iteration implements the core investigation gameplay loop, allowing players 
+to gather evidence, solve puzzles, and track their progress in discovering the 
+conspiracy on the station.
+EOL
+            ;;
+        *)
+            cat > "$FILE_PATH" << EOL
+# Iteration ${ITERATION_NUM}: ${ITERATION_NAME}
+
+## Goals
+- Goal 1
+- Goal 2
+- Goal 3
+
+## Tasks
+- [ ] Task 1: Description of task 1
+- [ ] Task 2: Description of task 2
+- [ ] Task 3: Description of task 3
+
+## Testing Criteria
+- Criterion 1
+- Criterion 2
+- Criterion 3
+
+## Timeline
+- Start date: $(date +%Y-%m-%d)
+- Target completion: $(date -d "+14 days" +%Y-%m-%d)
+
+## Dependencies
+- List any dependencies here
+
+## Code Links
+- No links yet
+
+## Notes
+Add any additional notes or considerations here.
+EOL
+            ;;
+    esac
+    
+    echo -e "${GREEN}Created iteration plan: $FILE_PATH${RESET}"
+}
+
+# Function to update task status
+update_task_status() {
+    ITERATION_NUM=$1
+    TASK_NUM=$2
+    STATUS=$3
+    
+    if [ -z "$ITERATION_NUM" ] || [ -z "$TASK_NUM" ] || [ -z "$STATUS" ]; then
+        echo -e "${RED}Error: Missing arguments${RESET}"
+        show_help
+    fi
+    
+    FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
+    
+    # Check if file exists
+    if [ ! -f "$FILE_PATH" ]; then
+        echo -e "${RED}Error: $FILE_PATH does not exist${RESET}"
+        exit 1
+    fi
+    
+    # Status symbols
+    case $STATUS in
+        pending)
+            STATUS_SYMBOL="[ ]"
+            ;;
+        in_progress)
+            STATUS_SYMBOL="[~]"
+            ;;
+        complete)
+            STATUS_SYMBOL="[x]"
+            ;;
+        *)
+            echo -e "${RED}Error: Invalid status. Use pending, in_progress, or complete${RESET}"
+            exit 1
+            ;;
+    esac
+    
+    # Update task
+    sed -i "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    
+    echo -e "${GREEN}Updated task $TASK_NUM in iteration $ITERATION_NUM to status: $STATUS${RESET}"
+}
+
+# Function to generate progress report
+generate_report() {
+    echo -e "${BOLD}A Silent Refraction - Iteration Progress Report${RESET}"
+    echo "Generated on $(date +%Y-%m-%d)"
+    echo
+    
+    TOTAL_TASKS=0
+    COMPLETED_TASKS=0
+    
+    # Find all iteration plans
+    for PLAN in docs/iteration*_plan.md; do
+        if [ ! -f "$PLAN" ]; then
+            echo -e "${YELLOW}No iteration plans found${RESET}"
+            return
+        fi
+        
+        ITER_NAME=$(grep -m 1 "# Iteration" "$PLAN" | sed 's/# Iteration [0-9]*: //')
+        ITER_NUM=$(grep -m 1 "# Iteration" "$PLAN" | sed 's/# Iteration \([0-9]*\):.*/\1/')
+        
+        echo -e "${BOLD}Iteration $ITER_NUM: $ITER_NAME${RESET}"
+        
+        # Count tasks
+        ITER_TOTAL=$(grep -c "Task [0-9]*:" "$PLAN")
+        ITER_COMPLETED=$(grep -c "- \[x\] Task [0-9]*:" "$PLAN")
+        ITER_IN_PROGRESS=$(grep -c "- \[~\] Task [0-9]*:" "$PLAN")
+        ITER_PENDING=$((ITER_TOTAL - ITER_COMPLETED - ITER_IN_PROGRESS))
+        
+        TOTAL_TASKS=$((TOTAL_TASKS + ITER_TOTAL))
+        COMPLETED_TASKS=$((COMPLETED_TASKS + ITER_COMPLETED))
+        
+        # Calculate percentage
+        if [ $ITER_TOTAL -gt 0 ]; then
+            PERCENTAGE=$((ITER_COMPLETED * 100 / ITER_TOTAL))
+        else
+            PERCENTAGE=0
+        fi
+        
+        echo "Progress: $ITER_COMPLETED/$ITER_TOTAL tasks complete ($PERCENTAGE%)"
+        echo "Status: $ITER_COMPLETED complete, $ITER_IN_PROGRESS in progress, $ITER_PENDING pending"
+        echo
+    done
+    
+    # Overall progress
+    if [ $TOTAL_TASKS -gt 0 ]; then
+        OVERALL_PERCENTAGE=$((COMPLETED_TASKS * 100 / TOTAL_TASKS))
+    else
+        OVERALL_PERCENTAGE=0
+    fi
+    
+    echo -e "${BOLD}Overall Project Progress: $COMPLETED_TASKS/$TOTAL_TASKS tasks complete ($OVERALL_PERCENTAGE%)${RESET}"
+}
+
+# Function to link task to code file
+link_task_to_file() {
+    ITERATION_NUM=$1
+    TASK_NUM=$2
+    FILE_PATH=$3
+    
+    if [ -z "$ITERATION_NUM" ] || [ -z "$TASK_NUM" ] || [ -z "$FILE_PATH" ]; then
+        echo -e "${RED}Error: Missing arguments${RESET}"
+        show_help
+    fi
+    
+    PLAN_PATH="docs/iteration${ITERATION_NUM}_plan.md"
+    
+    # Check if files exist
+    if [ ! -f "$PLAN_PATH" ]; then
+        echo -e "${RED}Error: $PLAN_PATH does not exist${RESET}"
+        exit 1
+    fi
+    
+    # Check if file exists or is planned to be created
+    if [ ! -f "$FILE_PATH" ] && [ ! -d "$(dirname "$FILE_PATH")" ]; then
+        echo -e "${YELLOW}Warning: Directory for $FILE_PATH does not exist. Creating it...${RESET}"
+        mkdir -p "$(dirname "$FILE_PATH")"
+    fi
+    
+    # Update the code links section
+    if grep -q "## Code Links" "$PLAN_PATH"; then
+        # Check if the task is already linked
+        if grep -q "- Task $TASK_NUM:" "$PLAN_PATH" | grep -q "$FILE_PATH"; then
+            echo -e "${YELLOW}Task $TASK_NUM is already linked to $FILE_PATH${RESET}"
+        else
+            # Add link or update existing link
+            if grep -q "- Task $TASK_NUM:" "$PLAN_PATH" | grep -q "Code Links"; then
+                # Update existing link
+                sed -i "/## Code Links/,/^$/ s/- Task $TASK_NUM:.*$/- Task $TASK_NUM: $FILE_PATH/g" "$PLAN_PATH"
+            else
+                # Add new link
+                sed -i "/## Code Links/a - Task $TASK_NUM: $FILE_PATH" "$PLAN_PATH"
+            fi
+        fi
+    else
+        echo -e "${RED}Error: Could not find Code Links section in $PLAN_PATH${RESET}"
+        exit 1
+    fi
+    
+    echo -e "${GREEN}Linked task $TASK_NUM in iteration $ITERATION_NUM to file: $FILE_PATH${RESET}"
+}
+
+# Main execution
+case $1 in
+    create)
+        create_iteration_plan "$2" "$3"
+        ;;
+    update)
+        update_task_status "$2" "$3" "$4"
+        ;;
+    report)
+        generate_report
+        ;;
+    link)
+        link_task_to_file "$2" "$3" "$4"
+        ;;
+    *)
+        show_help
+        ;;
+esac
