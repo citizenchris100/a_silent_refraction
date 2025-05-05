@@ -319,8 +319,14 @@ update_task_status() {
             ;;
     esac
     
-    # Update task
-    sed -i "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    # Update task - Windows compatible version
+    if [ "$OSTYPE" == "msys" ] || [ "$OSTYPE" == "cygwin" ]; then
+        # Using perl for Windows/MinGW
+        perl -i -pe "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    else
+        # Using sed for Linux/Mac
+        sed -i "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    fi
     
     echo -e "${GREEN}Updated task $TASK_NUM in iteration $ITERATION_NUM to status: $STATUS${RESET}"
 }
@@ -335,7 +341,8 @@ generate_report() {
     mkdir -p docs
     
     # Check if any iteration plans exist
-    if [ ! "$(ls -A docs/iteration*_plan.md 2>/dev/null)" ]; then
+    iteration_files=( docs/iteration*_plan.md )
+    if [ ! -f "${iteration_files[0]}" ]; then
         echo -e "${YELLOW}No iteration plans found. Run '$0 init' to initialize from existing progress or create a new plan.${RESET}"
         return
     fi
@@ -345,15 +352,16 @@ generate_report() {
     
     # Find all iteration plans
     for PLAN in docs/iteration*_plan.md; do
-        ITER_NAME=$(grep -m 1 "# Iteration" "$PLAN" | sed 's/# Iteration [0-9]*: //')
-        ITER_NUM=$(grep -m 1 "# Iteration" "$PLAN" | sed 's/# Iteration \([0-9]*\):.*/\1/')
+        # Extract iteration info using simpler methods that work in MinGW
+        ITER_NAME=$(head -30 "$PLAN" | grep "# Iteration" | head -1 | cut -d ":" -f 2- | sed 's/^ *//')
+        ITER_NUM=$(head -30 "$PLAN" | grep "# Iteration" | head -1 | sed 's/# Iteration \([0-9]*\):.*/\1/')
         
         echo -e "${BOLD}Iteration $ITER_NUM: $ITER_NAME${RESET}"
         
-        # Count tasks
-        ITER_TOTAL=$(grep -c "Task [0-9]*:" "$PLAN")
-        ITER_COMPLETED=$(grep -c "- \[x\] Task [0-9]*:" "$PLAN")
-        ITER_IN_PROGRESS=$(grep -c "- \[~\] Task [0-9]*:" "$PLAN")
+        # Count tasks with simpler methods for MinGW
+        ITER_TOTAL=$(grep "Task [0-9]*:" "$PLAN" | wc -l)
+        ITER_COMPLETED=$(grep -c "\[x\] Task [0-9]*:" "$PLAN")
+        ITER_IN_PROGRESS=$(grep -c "\[~\] Task [0-9]*:" "$PLAN")
         ITER_PENDING=$((ITER_TOTAL - ITER_COMPLETED - ITER_IN_PROGRESS))
         
         TOTAL_TASKS=$((TOTAL_TASKS + ITER_TOTAL))
@@ -409,20 +417,31 @@ link_task_to_file() {
         mkdir -p "$(dirname "$FILE_PATH")"
     fi
     
-    # Update the code links section
+    # Check if Code Links section exists
     if grep -q "## Code Links" "$PLAN_PATH"; then
-        # Check if the task is already linked
-        if grep -q "- Task $TASK_NUM:" "$PLAN_PATH" | grep -q "$FILE_PATH"; then
-            echo -e "${YELLOW}Task $TASK_NUM is already linked to $FILE_PATH${RESET}"
-        else
-            # Add link or update existing link
-            if grep -q "- Task $TASK_NUM:" "$PLAN_PATH" | grep -q "## Code Links"; then
-                # Update existing link
-                sed -i "/## Code Links/,/^$/ s/- Task $TASK_NUM:.*$/- Task $TASK_NUM: $FILE_PATH/g" "$PLAN_PATH"
+        # Check if task is already linked
+        TASK_PATTERN="- Task $TASK_NUM:"
+        if grep -q "$TASK_PATTERN" "$PLAN_PATH"; then
+            # Update existing link
+            if [ "$OSTYPE" == "msys" ] || [ "$OSTYPE" == "cygwin" ]; then
+                # Using perl for Windows/MinGW
+                perl -i -pe "s|$TASK_PATTERN.*|$TASK_PATTERN $FILE_PATH|g" "$PLAN_PATH"
             else
-                # Add new link
-                sed -i "/## Code Links/a - Task $TASK_NUM: $FILE_PATH" "$PLAN_PATH"
+                # Using sed for Linux/Mac
+                sed -i "s|$TASK_PATTERN.*|$TASK_PATTERN $FILE_PATH|g" "$PLAN_PATH"
             fi
+        else
+            # Add new link - works in MinGW
+            TEMP_FILE=$(mktemp)
+            awk -v task="$TASK_NUM" -v file="$FILE_PATH" '
+            {
+                print $0
+                if ($0 ~ /## Code Links/ && !added) {
+                    print "- Task " task ": " file
+                    added = 1
+                }
+            }' "$PLAN_PATH" > "$TEMP_FILE"
+            mv "$TEMP_FILE" "$PLAN_PATH"
         fi
     else
         echo -e "${RED}Error: Could not find Code Links section in $PLAN_PATH${RESET}"
