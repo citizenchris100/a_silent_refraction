@@ -7,6 +7,10 @@ func _ready():
     
     # Call parent _ready
     ._ready()
+    
+    # Set visual color
+    if visual_sprite is ColorRect:
+        visual_sprite.color = Color(0.8, 0.2, 0.2)  # Red
 
 # Override dialog initialization
 func initialize_dialog():
@@ -171,15 +175,13 @@ func choose_dialog_option(option_index):
         
         # Handle game over
         if current_dialog_node == "game_over":
-            # Here you would trigger game over
+            # TODO: Implement proper game over handling
             print("GAME OVER - Player has been captured!")
-            # For now, just print a message
         
         # Handle brig transition
         if current_dialog_node == "brig_transition":
-            # Here you would transition to the brig scene
+            # TODO: Implement transition to brig scene
             print("Player has been taken to the brig!")
-            # For now, just print a message
         
         # Call parent method to handle the rest
         return .choose_dialog_option(option_index)

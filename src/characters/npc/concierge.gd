@@ -9,6 +9,10 @@ func _ready():
     
     # Call parent _ready
     ._ready()
+    
+    # Set visual color
+    if visual_sprite is ColorRect:
+        visual_sprite.color = Color(0.2, 0.8, 0.2)  # Green
 
 # Override dialog initialization
 func initialize_dialog():
@@ -100,8 +104,7 @@ func choose_dialog_option(option_index):
         # If giving package
         if current_dialog_node == "give_package" and has_package:
             has_package = false
-            # Here you would add the package to the player's inventory
-            # For now, just print a message
+            # TODO: Add the package to the player's inventory when inventory system is ready
             print("Concierge package added to inventory")
         
         # Call parent method to handle the rest
@@ -123,5 +126,3 @@ func become_suspicious():
             "options": []
         }
     }
-    
-    print(npc_name + " has become suspicious!")

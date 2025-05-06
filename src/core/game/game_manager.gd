@@ -1,6 +1,6 @@
 extends Node
 
-# References to game systems
+# References
 var verb_ui
 var input_manager
 var current_district
@@ -15,13 +15,9 @@ var current_object = null
 func _ready():
     print("Game Manager initializing...")
     
-    # Create input manager
-    input_manager = load("res://src/core/input/input_manager.gd").new()
-    add_child(input_manager)
-    input_manager.connect("object_clicked", self, "_on_object_clicked")
-    
     # Create dialog manager
     dialog_manager = load("res://src/core/dialog/dialog_manager.gd").new()
+    dialog_manager.name = "DialogManager"
     add_child(dialog_manager)
     
     # Wait a frame to make sure nodes are ready
@@ -57,49 +53,26 @@ func _ready():
 # Handle verb selection
 func _on_verb_selected(verb):
     current_verb = verb
-    update_interaction_text()
+    if interaction_text:
+        interaction_text.text = current_verb + "..."
+    print("Verb selected: " + verb)
 
-# Handle object clicks
-func _on_object_clicked(object, _position):
-    current_object = object
+# Handle NPC clicks
+func handle_npc_click(npc):
+    current_object = npc
     
     # Show interaction result
-    if object.has_method("interact"):
-        var response = object.interact(current_verb)
+    if npc.has_method("interact"):
+        var response = npc.interact(current_verb)
         if interaction_text:
             interaction_text.text = response
     else:
-        print("Object doesn't have interact method")
+        print("NPC doesn't have interact method!")
     
-    # Move player to object if needed
+    # Move player to npc if needed
     if player and current_verb != "Look at":
-        # Calculate a position near the object
-        var object_pos = object.global_position
-        var dir = (player.global_position - object_pos).normalized()
-        var target_pos = object_pos + dir * 50
+        var target_pos = npc.global_position
         
-        # Ensure target is in walkable area
-        if current_district and current_district.has_method("is_position_walkable"):
-            if current_district.is_position_walkable(target_pos):
-                player.move_to(target_pos)
-            else:
-                # Find closest walkable position
-                var closest_pos = object_pos
-                for i in range(8):
-                    var angle = i * PI / 4
-                    var test_pos = object_pos + Vector2(cos(angle), sin(angle)) * 50
-                    if current_district.is_position_walkable(test_pos):
-                        closest_pos = test_pos
-                        break
-                
-                player.move_to(closest_pos)
-        else:
-            player.move_to(object_pos)
-
-# Update the interaction text based on current verb/object
-func update_interaction_text():
-    if interaction_text:
-        if current_object and current_object.has_method("interact"):
-            interaction_text.text = current_object.interact(current_verb)
-        else:
-            interaction_text.text = current_verb + "..."
+        # Check if player has move_to method
+        if player.has_method("move_to"):
+            player.move_to(target_pos)

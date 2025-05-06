@@ -6,10 +6,6 @@ export var npc_name = "Unknown NPC"
 export var description = "An unknown person"
 export var is_assimilated = false
 
-# Visual representation
-var visual_sprite
-var collision_shape
-
 # Suspicion system
 var suspicion_level = 0.0  # 0.0 to 1.0
 var suspicion_threshold = 0.8  # Level at which NPC becomes suspicious of player
@@ -28,88 +24,10 @@ func _ready():
     add_to_group("npc")
     add_to_group("interactive_object")
     
-    # Create visual representation if not present
-    _ensure_visual_exists()
-    
     # Initialize dialog tree
     initialize_dialog()
-    
-    # Set process input
-    set_process_input(true)
 
-# Listen for direct input
-func _input(event):
-    if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
-        # Check if click was on this NPC
-        if visual_sprite and visual_sprite is Control:
-            var rect_global_pos = visual_sprite.rect_position + global_position
-            var rect_size = visual_sprite.rect_size
-            var click_rect = Rect2(rect_global_pos, rect_size)
-            
-            if click_rect.has_point(event.position):
-                # Find game manager
-                var game_manager = find_game_manager()
-                if game_manager:
-                    game_manager.handle_npc_click(self)
-
-# Ensure NPC has visual representation
-func _ensure_visual_exists():
-    # Check if we already have a sprite
-    if has_node("Sprite"):
-        visual_sprite = get_node("Sprite")
-    elif has_node("Visual"):
-        visual_sprite = get_node("Visual")
-    else:
-        # Create a default visual
-        var rect = ColorRect.new()
-        rect.name = "Visual"
-        rect.rect_size = Vector2(32, 48)
-        rect.rect_position = Vector2(-16, -48)
-        rect.color = Color(0.7, 0.7, 0.7)  # Default gray
-        add_child(rect)
-        visual_sprite = rect
-    
-    # Add collision if needed
-    if not has_node("NpcArea"):
-        var area = Area2D.new()
-        area.name = "NpcArea"
-        add_child(area)
-        
-        var shape = CollisionShape2D.new()
-        shape.name = "CollisionShape"
-        var rect_shape = RectangleShape2D.new()
-        rect_shape.extents = Vector2(16, 24)  # Half of visual size
-        shape.shape = rect_shape
-        shape.position = Vector2(0, -24)  # Center on visual
-        area.add_child(shape)
-        collision_shape = shape
-        
-        # Connect area signals
-        area.connect("input_event", self, "_on_NpcArea_input_event")
-
-# Handle input events
-func _on_NpcArea_input_event(viewport, event, shape_idx):
-    if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
-        # Find game manager
-        var game_manager = find_game_manager()
-        if game_manager:
-            game_manager.handle_npc_click(self)
-
-# Find game manager in scene
-func find_game_manager():
-    var root = get_tree().get_root()
-    for child in root.get_children():
-        if child.has_method("handle_npc_click"):
-            return child
-        
-        # Try checking direct children of scene
-        for grandchild in child.get_children():
-            if grandchild.has_method("handle_npc_click"):
-                return grandchild
-    
-    return null
-
-# Initialize dialog tree - should be overridden
+# Initialize the dialog tree - should be overridden by child classes
 func initialize_dialog():
     dialog_tree = {
         "root": {
@@ -155,14 +73,7 @@ func interact(verb, item = null):
 # Start a dialog with this NPC
 func start_dialog():
     current_dialog_node = "root"
-    
-    # This is the key change - we get the dialog manager directly from the game manager
-    var game_manager = find_game_manager()
-    if game_manager and game_manager.has_node("DialogManager"):
-        var dialog_manager = game_manager.get_node("DialogManager")
-        if dialog_manager and dialog_manager.has_method("show_dialog"):
-            dialog_manager.show_dialog(self)
-            emit_signal("dialog_started", self)
+    emit_signal("dialog_started", self)
 
 # End dialog with this NPC
 func end_dialog():
@@ -208,5 +119,9 @@ func change_suspicion(amount):
 
 # Called when NPC becomes suspicious
 func become_suspicious():
+    print(npc_name + " has become suspicious!")
     # This should be overridden by child classes
-    pass
+
+# Get assimilation status - used by player to detect if NPC is assimilated
+func is_assimilated():
+    return is_assimilated
