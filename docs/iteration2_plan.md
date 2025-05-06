@@ -7,7 +7,7 @@
 - Develop placeholder art generation for NPCs
 
 ## Tasks
-- [ ] Task 1: Create base NPC class with state machine
+- [~] Task 1: Create base NPC class with state machine
 - [ ] Task 2: Implement NPC dialog system
 - [ ] Task 3: Create suspicion meter UI element
 - [ ] Task 4: Implement suspicion tracking system

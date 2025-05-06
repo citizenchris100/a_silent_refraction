@@ -20,6 +20,7 @@ show_help() {
     echo "  $0 report - Generate progress report for all iterations"
     echo "  $0 link <iteration_number> <task_number> \"<file_path>\" - Link task to source file"
     echo "  $0 init - Initialize docs directory and copy existing iteration progress"
+    echo "  $0 list <iteration_number> - List all tasks for a specific iteration"
     echo
     echo "Examples:"
     echo "  $0 create 2 \"NPC Framework and Suspicion System\""
@@ -27,6 +28,7 @@ show_help() {
     echo "  $0 report"
     echo "  $0 link 2 3 \"src/core/suspicion_system.gd\""
     echo "  $0 init"
+    echo "  $0 list 2"
     exit 1
 }
 
@@ -331,6 +333,103 @@ update_task_status() {
     echo -e "${GREEN}Updated task $TASK_NUM in iteration $ITERATION_NUM to status: $STATUS${RESET}"
 }
 
+# Function to list all tasks for a specific iteration
+# Function to list all tasks for a specific iteration
+# Function to list all tasks for a specific iteration
+list_iteration_tasks() {
+    ITERATION_NUM=$1
+    
+    if [ -z "$ITERATION_NUM" ]; then
+        echo -e "${RED}Error: Missing iteration number${RESET}"
+        show_help
+    fi
+    
+    FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
+    
+    # Check if file exists
+    if [ ! -f "$FILE_PATH" ]; then
+        echo -e "${RED}Error: $FILE_PATH does not exist${RESET}"
+        exit 1
+    fi
+    
+    # Extract iteration name - MinGW compatible
+    ITER_NAME=$(head -30 "$FILE_PATH" | grep "# Iteration" | head -1)
+    ITER_NAME=${ITER_NAME#*: }
+    
+    echo -e "${BOLD}Tasks for Iteration $ITERATION_NUM: $ITER_NAME${RESET}"
+    echo
+    
+    # Use a more basic approach that works in MinGW
+    while IFS= read -r line; do
+        if [[ $line =~ "Task "([0-9]+)":" ]]; then
+            # Only process lines that contain task definitions
+            if [[ $line =~ "- [".[^]]*"]" ]]; then
+                # Extract task status symbol
+                if [[ $line =~ "- ["(.)"]" ]]; then
+                    STATUS_CHAR="${BASH_REMATCH[1]}"
+                    
+                    # Convert status symbol to text
+                    case $STATUS_CHAR in
+                        "x")
+                            STATUS="${GREEN}Complete${RESET}"
+                            ;;
+                        "~")
+                            STATUS="${YELLOW}In Progress${RESET}"
+                            ;;
+                        " ")
+                            STATUS="Pending"
+                            ;;
+                        *)
+                            STATUS="Unknown"
+                            ;;
+                    esac
+                    
+                    # Extract task number
+                    if [[ $line =~ "Task "([0-9]+)":" ]]; then
+                        TASK_NUM="${BASH_REMATCH[1]}"
+                    else
+                        TASK_NUM="?"
+                    fi
+                    
+                    # Extract task description
+                    TASK_DESC=${line#*Task $TASK_NUM: }
+                    
+                    echo -e "Task $TASK_NUM: $TASK_DESC"
+                    echo -e "Status: $STATUS"
+                    
+                    # Skip code link checking for now (removing the problematic grep)
+                    
+                    echo
+                fi
+            fi
+        fi
+    done < "$FILE_PATH"
+    
+    # Separately check the Code Links section in a simple way
+    echo -e "${BOLD}Code Links:${RESET}"
+    # Capture the Code Links section
+    IN_CODE_LINKS=0
+    while IFS= read -r line; do
+        if [[ $line == "## Code Links" ]]; then
+            IN_CODE_LINKS=1
+            continue
+        fi
+        
+        if [[ $IN_CODE_LINKS -eq 1 ]]; then
+            # Stop at the next section or empty line
+            if [[ $line == "## "* ]] || [[ -z "$line" ]]; then
+                IN_CODE_LINKS=0
+                continue
+            fi
+            
+            # Skip "No links yet" line
+            if [[ $line != *"No links yet"* ]]; then
+                echo "$line"
+            fi
+        fi
+    done < "$FILE_PATH"
+}
+
 # Function to generate progress report
 generate_report() {
     echo -e "${BOLD}A Silent Refraction - Iteration Progress Report${RESET}"
@@ -467,6 +566,9 @@ case $1 in
         ;;
     init)
         initialize_docs
+        ;;
+    list)
+        list_iteration_tasks "$2"
         ;;
     *)
         show_help

@@ -17,10 +17,12 @@ The game is designed to be reminiscent of classic Lucas Arts point & click adven
 
 - **Game Engine**: Godot 3.5.2
 - **Language**: GDScript
-- **Platform**: Cross-platform (developed on Linux Mint)
+- **Platform**: Cross-platform (developed on Linux Mint and Windows)
 - **Architecture**: Custom SCUMM-like framework built from scratch
 
 ## Project Structure
+
+```
 a_silent_refraction/
 ├── assets/            # Game assets (images, audio, etc.)
 ├── docs/              # Documentation and design documents
@@ -31,18 +33,17 @@ a_silent_refraction/
 │   ├── objects/       # Interactive objects
 │   └── ui/            # User interface elements
 └── tools/             # Development tools and scripts
+```
 
 ## Setup Instructions
 
-### Linux Setup
-
-#### Prerequisites
+### Prerequisites
 
 - [Godot 3.5.2](https://godotengine.org/download/archive/) (Standard version, not Mono)
-- Linux is recommended (developed on Linux Mint)
+- Linux or Windows with Git Bash
 - Command line tools for development
 
-#### Installation
+### Installation
 
 1. **Install Godot 3.5.2**:
    ```bash
@@ -62,174 +63,170 @@ a_silent_refraction/
    ln -s ~/godot/Godot_v3.5.2-stable_x11.64 ~/bin/godot
    export PATH="$HOME/bin:$PATH"
    echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+   ```
 
-Clone the Repository:
-bashgit clone https://github.com/yourusername/a_silent_refraction.git
-cd a_silent_refraction
+2. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/a_silent_refraction.git
+   cd a_silent_refraction
+   ```
 
-Run the Game:
-bash# Using the Godot binary directly
-~/godot/Godot_v3.5.2-stable_x11.64 --path /path/to/a_silent_refraction
+3. **Run the Game**:
+   ```bash
+   # Using the Godot binary directly
+   ~/godot/Godot_v3.5.2-stable_x11.64 --path /path/to/a_silent_refraction
+   
+   # Or if you set up the symlink
+   godot --path /path/to/a_silent_refraction
+   ```
 
-# Or if you set up the symlink
-godot --path /path/to/a_silent_refraction
+4. **Open in Editor** (if needed):
+   ```bash
+   # Launch Godot editor with the project
+   ~/godot/Godot_v3.5.2-stable_x11.64 -e --path /path/to/a_silent_refraction
+   ```
 
-Open in Editor (if needed):
-bash# Launch Godot editor with the project
-~/godot/Godot_v3.5.2-stable_x11.64 -e --path /path/to/a_silent_refraction
+## Iteration Planning System
 
+The project uses a custom iteration planning system via the `iteration_planner.sh` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations.
 
-Windows Setup
-Prerequisites
+### Using the Iteration Planner
 
-Godot 3.5.2 (Standard version, not Mono)
-Git Bash for command line operations
-ImageMagick for image processing scripts
+Make the script executable:
+```bash
+chmod +x iteration_planner.sh
+```
 
-Installation
+### Available Commands
 
-Install Godot 3.5.2:
-bash# Create a directory for Godot
-mkdir -p ~/godot
+#### Initialize the Planning System
+```bash
+./iteration_planner.sh init
+```
+Creates the docs directory and initializes the iteration planning system.
 
-# Download Godot 3.5.2
-cd ~/godot
-curl -L -o godot.zip https://github.com/godotengine/godot/releases/download/3.5.2-stable/Godot_v3.5.2-stable_win64.exe.zip
+#### Create a New Iteration Plan
+```bash
+./iteration_planner.sh create <iteration_number> "<iteration_name>"
+```
+Example:
+```bash
+./iteration_planner.sh create 2 "NPC Framework and Suspicion System"
+```
+This creates a new iteration plan with predefined tasks based on the iteration number.
 
-# Extract the executable
-unzip godot.zip
+#### List Tasks for a Specific Iteration
+```bash
+./iteration_planner.sh list <iteration_number>
 
-# Optional: Create a shortcut for easier access
-mkdir -p ~/bin
-echo '#!/bin/bash
-~/godot/Godot_v3.5.2-stable_win64.exe "$@"' > ~/bin/godot
-chmod +x ~/bin/godot
+Example:
+```bash
+./iteration_planner.sh list 2
+```
 
-# Add to PATH
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+#### Update Task Status
+```bash
+./iteration_planner.sh update <iteration_number> <task_number> <status>
+```
+Where status can be: `pending`, `in_progress`, or `complete`
 
-Install ImageMagick (required for development scripts):
-bash# Create a temporary directory
-mkdir -p ~/temp
-cd ~/temp
+Example:
+```bash
+./iteration_planner.sh update 2 3 in_progress
+```
+This marks Task 3 in Iteration 2 as in progress.
 
-# Download the installer
-curl -L -o imagemagick-installer.exe https://imagemagick.org/archive/binaries/ImageMagick-7.1.1-25-Q16-HDRI-x64-dll.exe
+#### Generate Progress Report
+```bash
+./iteration_planner.sh report
+```
+Displays a progress report across all iterations, showing completion percentages and task statuses.
 
-# Run the installer
-./imagemagick-installer.exe
+#### List Tasks for a Specific Iteration
+```bash
+./iteration_planner.sh list <iteration_number>
+```
+Example:
+```bash
+./iteration_planner.sh list 2
+```
+Shows all tasks for the specified iteration, including their descriptions, current status, and any linked code files.
 
-# Verify installation
-convert --version
+#### Link Tasks to Code Files
+```bash
+./iteration_planner.sh link <iteration_number> <task_number> "<file_path>"
+```
+Example:
+```bash
+./iteration_planner.sh link 2 1 "src/core/npc/base_npc.gd"
+```
+This associates Task 1 in Iteration 2 with the specified code file.
 
-Clone the Repository:
-bashgit clone https://github.com/yourusername/a_silent_refraction.git
-cd a_silent_refraction
+### Predefined Iterations
 
-Make Scripts Executable:
-bash# Ensure all scripts have proper permissions
-find ./tools -name "*.sh" -exec chmod +x {} \;
+The iteration planner comes with templates for key iterations:
 
-Run the Game:
-bash# Using the Godot binary directly
-~/godot/Godot_v3.5.2-stable_win64.exe --path .
+1. **Iteration 1**: Basic Environment and Navigation
+   - Project setup
+   - Basic room with walkable areas
+   - Player character movement
+   - Navigation in shipping district
 
-# Or if you set up the godot shortcut
-godot --path .
+2. **Iteration 2**: NPC Framework and Suspicion System
+   - Basic NPCs with interactive capabilities
+   - Suspicion system as a core gameplay mechanic
+   - Visual style guide application
+   - Placeholder art generation
 
-Open in Editor (if needed):
-bash# Launch Godot editor with the project
-godot -e --path .
+3. **Iteration 3**: Game Districts and Time Management
+   - Multiple station districts with transitions
+   - Detailed time management system (Persona-style)
+   - Day/night cycle and time progression
+   - Random NPC assimilation tied to time
 
+4. **Iteration 4**: Investigation Mechanics
+   - Quest log system
+   - Item/inventory system for evidence collection
+   - Puzzles for accessing restricted areas
+   - System for logging known assimilated NPCs
 
-Windows-Specific Notes
+## Development Guide
 
-Git is configured to handle line endings correctly with git config core.autocrlf input
-Some bash scripts may need adjustment if they use Linux-specific commands not available in Git Bash
-The project structure and paths should work cross-platform without modifications
+## Git Divergent Branch Resolution
 
-Development Guide
-Core Systems
+When working with this project, you may encounter situations where your local branch and the remote branch have diverged. This happens when both your local repository and the remote repository have different commits that aren't present in the other.
 
-Game Manager (src/core/game/game_manager.gd):
+### Using the Resolution Script
 
-Coordinates all game systems
-Manages interaction between verb UI, objects, and player
+We've included a helpful script to resolve these divergent branch situations:
 
+1. Navigate to the project root directory
+2. Run the resolution script:
+   ```bash
+   ./tools/resolve-git-divergence.sh
 
-District System (src/core/districts/base_district.gd):
+### Core Systems
 
-Base class for all game areas
-Handles walkable areas and interactive objects
+1. **Game Manager** (`src/core/game/game_manager.gd`):
+   - Coordinates all game systems
+   - Manages interaction between verb UI, objects, and player
 
+2. **District System** (`src/core/districts/base_district.gd`):
+   - Base class for all game areas
+   - Handles walkable areas and interactive objects
 
-Player Character (src/characters/player/player.gd):
+3. **Player Character** (`src/characters/player/player.gd`):
+   - Handles movement and animations
+   - Responds to player input
 
-Handles movement and animations
-Responds to player input
+4. **Interactive Objects** (`src/objects/base/interactive_object.gd`):
+   - Base class for all interactive items
+   - Handles interactions with verbs
 
+5. **Verb UI** (`src/ui/verb_ui/verb_ui.gd`):
+   - SCUMM-style verb selection interface
+   - Handles verb selection and UI display
 
-Interactive Objects (src/objects/base/interactive_object.gd):
+## License
 
-Base class for all interactive items
-Handles interactions with verbs
-
-
-Verb UI (src/ui/verb_ui/verb_ui.gd):
-
-SCUMM-style verb selection interface
-Handles verb selection and UI display
-
-
-
-Adding New Content
-
-Creating a New District:
-bash# Create necessary files
-mkdir -p src/districts/new_district_name
-touch src/districts/new_district_name/new_district_name.gd
-touch src/districts/new_district_name/new_district_name.tscn
-
-Adding Interactive Objects:
-bash# Create object files
-mkdir -p src/objects/category_name
-touch src/objects/category_name/object_name.gd
-touch src/objects/category_name/object_name.tscn
-
-
-Current State (Iteration 1)
-The project has completed Iteration 1, which includes:
-
-Basic project structure and architecture
-Shipping District implementation with walkable areas
-Player character with point-and-click movement
-SCUMM-style verb interface
-Basic interaction system for objects
-
-Roadmap
-Iteration 2
-
-Implement basic NPCs with suspicion system
-Add dialog interactions
-Create observation mechanics
-
-Iteration 3
-
-Add additional districts
-Implement time management
-Create district navigation
-
-Iteration 4
-
-Add investigation mechanics
-Implement puzzles
-Create evidence collection system
-
-Iteration 5
-
-Implement coalition building mechanics
-Add risk/reward for information sharing
-
-License
-[To be determined]
+[MIT License](LICENSE)
