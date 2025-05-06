@@ -19,13 +19,82 @@ show_help() {
     echo "  $0 update <iteration_number> <task_number> <status> - Update task status (pending|in_progress|complete)"
     echo "  $0 report - Generate progress report for all iterations"
     echo "  $0 link <iteration_number> <task_number> \"<file_path>\" - Link task to source file"
+    echo "  $0 init - Initialize docs directory and copy existing iteration progress"
+    echo "  $0 list <iteration_number> - List all tasks for a specific iteration"
     echo
     echo "Examples:"
     echo "  $0 create 2 \"NPC Framework and Suspicion System\""
     echo "  $0 update 2 3 complete"
     echo "  $0 report"
     echo "  $0 link 2 3 \"src/core/suspicion_system.gd\""
+    echo "  $0 init"
+    echo "  $0 list 2"
     exit 1
+}
+
+# Function to initialize docs directory and import existing iteration data
+initialize_docs() {
+    echo -e "${BOLD}Initializing docs directory...${RESET}"
+    
+    # Create docs directory if it doesn't exist
+    mkdir -p docs
+    
+    # Check if Iteration Progress file exists and import it
+    if [ -f "Iteration Progress" ]; then
+        echo -e "${YELLOW}Found existing Iteration Progress file.${RESET}"
+        
+        # Create iteration1_plan.md from the existing progress
+        cat > "docs/iteration1_plan.md" << EOL
+# Iteration 1: Basic Environment and Navigation
+
+## Goals
+- Complete the project setup
+- Create a basic room with walkable areas
+- Implement player character movement
+- Test navigation in the shipping district
+
+## Tasks
+- [x] Task 1: Set up project structure with organized directories
+- [x] Task 2: Create configuration in project.godot
+- [x] Task 3: Implement shipping district scene with background
+- [x] Task 4: Add walkable area with collision detection
+- [x] Task 5: Create functional player character
+- [x] Task 6: Implement point-and-click navigation
+- [x] Task 7: Develop smooth movement system
+- [x] Task 8: Test navigation within defined boundaries
+
+## Testing Criteria
+- Project structure is clean and organized
+- Shipping district has proper background and walkable areas
+- Player character responds to input
+- Navigation works within defined boundaries
+
+## Timeline
+- Start date: $(date -d "-14 days" +%Y-%m-%d)
+- Completion date: $(date +%Y-%m-%d)
+
+## Dependencies
+- None
+
+## Code Links
+- Task 3: src/districts/shipping/shipping_district.tscn
+- Task 4: src/core/districts/walkable_area.gd
+- Task 5: src/characters/player/player.gd
+- Task 6: src/core/input/input_manager.gd
+
+## Notes
+Additional achievements beyond Iteration 1:
+- Created a verb-based interaction system (SCUMM style)
+- Implemented an interactive object framework
+- Built a game manager to coordinate systems
+- Added UI elements for displaying verbs and interaction text
+EOL
+        echo -e "${GREEN}Created docs/iteration1_plan.md from existing progress.${RESET}"
+    else
+        echo -e "${YELLOW}No existing Iteration Progress file found.${RESET}"
+    fi
+    
+    echo -e "${GREEN}Docs directory initialized.${RESET}"
 }
 
 # Function to create iteration plan
@@ -38,6 +107,9 @@ create_iteration_plan() {
         show_help
     fi
     
+    # Create docs directory if it doesn't exist
+    mkdir -p docs
+    
     FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
     
     # Check if file already exists
@@ -45,9 +117,6 @@ create_iteration_plan() {
         echo -e "${RED}Error: $FILE_PATH already exists${RESET}"
         exit 1
     fi
-    
-    # Create the directory if it doesn't exist
-    mkdir -p "docs"
     
     # Generate template based on iteration number
     case $ITERATION_NUM in
@@ -224,6 +293,9 @@ update_task_status() {
         show_help
     fi
     
+    # Create docs directory if it doesn't exist
+    mkdir -p docs
+    
     FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
     
     # Check if file exists
@@ -249,10 +321,113 @@ update_task_status() {
             ;;
     esac
     
-    # Update task
-    sed -i "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    # Update task - Windows compatible version
+    if [ "$OSTYPE" == "msys" ] || [ "$OSTYPE" == "cygwin" ]; then
+        # Using perl for Windows/MinGW
+        perl -i -pe "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    else
+        # Using sed for Linux/Mac
+        sed -i "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
+    fi
     
     echo -e "${GREEN}Updated task $TASK_NUM in iteration $ITERATION_NUM to status: $STATUS${RESET}"
+}
+
+# Function to list all tasks for a specific iteration
+# Function to list all tasks for a specific iteration
+# Function to list all tasks for a specific iteration
+list_iteration_tasks() {
+    ITERATION_NUM=$1
+    
+    if [ -z "$ITERATION_NUM" ]; then
+        echo -e "${RED}Error: Missing iteration number${RESET}"
+        show_help
+    fi
+    
+    FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
+    
+    # Check if file exists
+    if [ ! -f "$FILE_PATH" ]; then
+        echo -e "${RED}Error: $FILE_PATH does not exist${RESET}"
+        exit 1
+    fi
+    
+    # Extract iteration name - MinGW compatible
+    ITER_NAME=$(head -30 "$FILE_PATH" | grep "# Iteration" | head -1)
+    ITER_NAME=${ITER_NAME#*: }
+    
+    echo -e "${BOLD}Tasks for Iteration $ITERATION_NUM: $ITER_NAME${RESET}"
+    echo
+    
+    # Use a more basic approach that works in MinGW
+    while IFS= read -r line; do
+        if [[ $line =~ "Task "([0-9]+)":" ]]; then
+            # Only process lines that contain task definitions
+            if [[ $line =~ "- [".[^]]*"]" ]]; then
+                # Extract task status symbol
+                if [[ $line =~ "- ["(.)"]" ]]; then
+                    STATUS_CHAR="${BASH_REMATCH[1]}"
+                    
+                    # Convert status symbol to text
+                    case $STATUS_CHAR in
+                        "x")
+                            STATUS="${GREEN}Complete${RESET}"
+                            ;;
+                        "~")
+                            STATUS="${YELLOW}In Progress${RESET}"
+                            ;;
+                        " ")
+                            STATUS="Pending"
+                            ;;
+                        *)
+                            STATUS="Unknown"
+                            ;;
+                    esac
+                    
+                    # Extract task number
+                    if [[ $line =~ "Task "([0-9]+)":" ]]; then
+                        TASK_NUM="${BASH_REMATCH[1]}"
+                    else
+                        TASK_NUM="?"
+                    fi
+                    
+                    # Extract task description
+                    TASK_DESC=${line#*Task $TASK_NUM: }
+                    
+                    echo -e "Task $TASK_NUM: $TASK_DESC"
+                    echo -e "Status: $STATUS"
+                    
+                    # Skip code link checking for now (removing the problematic grep)
+                    
+                    echo
+                fi
+            fi
+        fi
+    done < "$FILE_PATH"
+    
+    # Separately check the Code Links section in a simple way
+    echo -e "${BOLD}Code Links:${RESET}"
+    # Capture the Code Links section
+    IN_CODE_LINKS=0
+    while IFS= read -r line; do
+        if [[ $line == "## Code Links" ]]; then
+            IN_CODE_LINKS=1
+            continue
+        fi
+        
+        if [[ $IN_CODE_LINKS -eq 1 ]]; then
+            # Stop at the next section or empty line
+            if [[ $line == "## "* ]] || [[ -z "$line" ]]; then
+                IN_CODE_LINKS=0
+                continue
+            fi
+            
+            # Skip "No links yet" line
+            if [[ $line != *"No links yet"* ]]; then
+                echo "$line"
+            fi
+        fi
+    done < "$FILE_PATH"
 }
 
 # Function to generate progress report
@@ -261,25 +436,31 @@ generate_report() {
     echo "Generated on $(date +%Y-%m-%d)"
     echo
     
+    # Create docs directory if it doesn't exist
+    mkdir -p docs
+    
+    # Check if any iteration plans exist
+    iteration_files=( docs/iteration*_plan.md )
+    if [ ! -f "${iteration_files[0]}" ]; then
+        echo -e "${YELLOW}No iteration plans found. Run '$0 init' to initialize from existing progress or create a new plan.${RESET}"
+        return
+    fi
+    
     TOTAL_TASKS=0
     COMPLETED_TASKS=0
     
     # Find all iteration plans
     for PLAN in docs/iteration*_plan.md; do
-        if [ ! -f "$PLAN" ]; then
-            echo -e "${YELLOW}No iteration plans found${RESET}"
-            return
-        fi
-        
-        ITER_NAME=$(grep -m 1 "# Iteration" "$PLAN" | sed 's/# Iteration [0-9]*: //')
-        ITER_NUM=$(grep -m 1 "# Iteration" "$PLAN" | sed 's/# Iteration \([0-9]*\):.*/\1/')
+        # Extract iteration info using simpler methods that work in MinGW
+        ITER_NAME=$(head -30 "$PLAN" | grep "# Iteration" | head -1 | cut -d ":" -f 2- | sed 's/^ *//')
+        ITER_NUM=$(head -30 "$PLAN" | grep "# Iteration" | head -1 | sed 's/# Iteration \([0-9]*\):.*/\1/')
         
         echo -e "${BOLD}Iteration $ITER_NUM: $ITER_NAME${RESET}"
         
-        # Count tasks
-        ITER_TOTAL=$(grep -c "Task [0-9]*:" "$PLAN")
-        ITER_COMPLETED=$(grep -c "- \[x\] Task [0-9]*:" "$PLAN")
-        ITER_IN_PROGRESS=$(grep -c "- \[~\] Task [0-9]*:" "$PLAN")
+        # Count tasks with simpler methods for MinGW
+        ITER_TOTAL=$(grep "Task [0-9]*:" "$PLAN" | wc -l)
+        ITER_COMPLETED=$(grep -c "\[x\] Task [0-9]*:" "$PLAN")
+        ITER_IN_PROGRESS=$(grep -c "\[~\] Task [0-9]*:" "$PLAN")
         ITER_PENDING=$((ITER_TOTAL - ITER_COMPLETED - ITER_IN_PROGRESS))
         
         TOTAL_TASKS=$((TOTAL_TASKS + ITER_TOTAL))
@@ -318,6 +499,9 @@ link_task_to_file() {
         show_help
     fi
     
+    # Create docs directory if it doesn't exist
+    mkdir -p docs
+    
     PLAN_PATH="docs/iteration${ITERATION_NUM}_plan.md"
     
     # Check if files exist
@@ -332,20 +516,31 @@ link_task_to_file() {
         mkdir -p "$(dirname "$FILE_PATH")"
     fi
     
-    # Update the code links section
+    # Check if Code Links section exists
     if grep -q "## Code Links" "$PLAN_PATH"; then
-        # Check if the task is already linked
-        if grep -q "- Task $TASK_NUM:" "$PLAN_PATH" | grep -q "$FILE_PATH"; then
-            echo -e "${YELLOW}Task $TASK_NUM is already linked to $FILE_PATH${RESET}"
-        else
-            # Add link or update existing link
-            if grep -q "- Task $TASK_NUM:" "$PLAN_PATH" | grep -q "Code Links"; then
-                # Update existing link
-                sed -i "/## Code Links/,/^$/ s/- Task $TASK_NUM:.*$/- Task $TASK_NUM: $FILE_PATH/g" "$PLAN_PATH"
+        # Check if task is already linked
+        TASK_PATTERN="- Task $TASK_NUM:"
+        if grep -q "$TASK_PATTERN" "$PLAN_PATH"; then
+            # Update existing link
+            if [ "$OSTYPE" == "msys" ] || [ "$OSTYPE" == "cygwin" ]; then
+                # Using perl for Windows/MinGW
+                perl -i -pe "s|$TASK_PATTERN.*|$TASK_PATTERN $FILE_PATH|g" "$PLAN_PATH"
             else
-                # Add new link
-                sed -i "/## Code Links/a - Task $TASK_NUM: $FILE_PATH" "$PLAN_PATH"
+                # Using sed for Linux/Mac
+                sed -i "s|$TASK_PATTERN.*|$TASK_PATTERN $FILE_PATH|g" "$PLAN_PATH"
             fi
+        else
+            # Add new link - works in MinGW
+            TEMP_FILE=$(mktemp)
+            awk -v task="$TASK_NUM" -v file="$FILE_PATH" '
+            {
+                print $0
+                if ($0 ~ /## Code Links/ && !added) {
+                    print "- Task " task ": " file
+                    added = 1
+                }
+            }' "$PLAN_PATH" > "$TEMP_FILE"
+            mv "$TEMP_FILE" "$PLAN_PATH"
         fi
     else
         echo -e "${RED}Error: Could not find Code Links section in $PLAN_PATH${RESET}"
@@ -368,6 +563,12 @@ case $1 in
         ;;
     link)
         link_task_to_file "$2" "$3" "$4"
+        ;;
+    init)
+        initialize_docs
+        ;;
+    list)
+        list_iteration_tasks "$2"
         ;;
     *)
         show_help

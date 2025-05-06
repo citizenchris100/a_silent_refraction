@@ -18,10 +18,9 @@ func _ready():
     # Create input manager
     input_manager = load("res://src/core/input/input_manager.gd").new()
     add_child(input_manager)
-    input_manager.connect("object_clicked", self, "_on_object_clicked")
     
     # Create dialog manager
-    dialog_manager = load("res://src/core/dialog/dialog_manager.gd").new()
+    dialog_manager = load("res://src/core/dialog/dialog_manager_fixed.gd").new()
     add_child(dialog_manager)
     
     # Wait a frame to make sure nodes are ready
@@ -59,8 +58,8 @@ func _on_verb_selected(verb):
     current_verb = verb
     update_interaction_text()
 
-# Handle object clicks
-func _on_object_clicked(object, _position):
+# Handle object clicks - called directly from objects now
+func _on_object_clicked(object, position):
     current_object = object
     
     # Show interaction result
@@ -74,7 +73,7 @@ func _on_object_clicked(object, _position):
     # Move player to object if needed
     if player and current_verb != "Look at":
         # Calculate a position near the object
-        var object_pos = object.global_position
+        var object_pos = position
         var dir = (player.global_position - object_pos).normalized()
         var target_pos = object_pos + dir * 50
         
