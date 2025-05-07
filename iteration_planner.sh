@@ -163,13 +163,15 @@ EOL
             ;;
         3)
             cat > "$FILE_PATH" << EOL
-# Iteration ${ITERATION_NUM}: ${ITERATION_NAME}
+# Iteration ${ITERATION_NUM}: Game Districts, Time Management, and Save System
 
 ## Goals
 - Implement multiple station districts with transitions
 - Create detailed time management system (Persona-style)
 - Develop day/night cycle and time progression
 - Implement random NPC assimilation tied to time
+- Implement single-slot save system
+- Create basic limited inventory system
 
 ## Tasks
 - [ ] Task 1: Create at least one additional district besides Shipping
@@ -180,12 +182,17 @@ EOL
 - [ ] Task 6: Design and implement time UI indicators
 - [ ] Task 7: Create system for random NPC assimilation over time
 - [ ] Task 8: Add time-based events and triggers
+- [ ] Task 9: Implement player bedroom as save point location
+- [ ] Task 10: Create single-slot save system with confirmation UI
+- [ ] Task 11: Create basic inventory system with size limitations
 
 ## Testing Criteria
 - Player can travel between at least two districts
 - Time advances through specific actions (tram travel, conversations, etc.)
 - Day advances when player sleeps
 - NPCs change status (assimilated/not) over time
+- Player can save game by returning to their room
+- Player has limited inventory space
 
 ## Timeline
 - Start date: $(date +%Y-%m-%d)
@@ -198,42 +205,48 @@ EOL
 - No links yet
 
 ## Notes
-This iteration focuses on expanding the game world and implementing the time management system,
-which is a crucial mechanic for the game's progression and tension.
+This iteration expands the game world while implementing core mechanical systems like time management,
+the save system, and basic inventory. These systems create the foundation for the strategic
+gameplay where players must manage their time and inventory effectively.
 EOL
             ;;
         4)
             cat > "$FILE_PATH" << EOL
-# Iteration ${ITERATION_NUM}: ${ITERATION_NAME}
+# Iteration ${ITERATION_NUM}: Investigation Mechanics and Advanced Inventory
 
 ## Goals
 - Implement investigation mechanics
 - Create quest log system for tracking progress
-- Develop item/inventory system for collecting evidence
+- Develop advanced inventory system for collecting evidence
 - Add system for logging known assimilated NPCs
+- Implement overflow storage in player's room
 
 ## Tasks
 - [ ] Task 1: Create quest data structure and manager
 - [ ] Task 2: Implement quest log UI
-- [ ] Task 3: Develop inventory system for evidence items
+- [ ] Task 3: Develop advanced inventory features including categorization
 - [ ] Task 4: Create puzzles for accessing restricted areas
 - [ ] Task 5: Implement clue discovery and collection system
 - [ ] Task 6: Create assimilated NPC tracking log
 - [ ] Task 7: Develop investigation progress tracking
 - [ ] Task 8: Add quest state persistence
+- [ ] Task 9: Implement overflow inventory storage in player's room
+- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
 
 ## Testing Criteria
 - Quest log accurately tracks active and completed quests
 - Player can collect and use items/evidence
 - Puzzles can be solved to progress investigation
 - Player can track which NPCs are known to be assimilated
+- Player can store extra items in their room
+- Inventory management creates meaningful gameplay decisions
 
 ## Timeline
 - Start date: $(date +%Y-%m-%d)
 - Target completion: $(date -d "+21 days" +%Y-%m-%d)
 
 ## Dependencies
-- Iteration 3 (Game Districts and Time Management)
+- Iteration 3 (Game Districts, Time Management, and Save System)
 
 ## Code Links
 - No links yet
@@ -241,7 +254,8 @@ EOL
 ## Notes
 This iteration implements the core investigation gameplay loop, allowing players 
 to gather evidence, solve puzzles, and track their progress in discovering the 
-conspiracy on the station.
+conspiracy on the station. The expanded inventory system creates meaningful
+strategic choices about what to carry and when to return to home base.
 EOL
             ;;
         *)
@@ -293,284 +307,4 @@ update_task_status() {
         show_help
     fi
     
-    # Create docs directory if it doesn't exist
-    mkdir -p docs
-    
-    FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
-    
-    # Check if file exists
-    if [ ! -f "$FILE_PATH" ]; then
-        echo -e "${RED}Error: $FILE_PATH does not exist${RESET}"
-        exit 1
-    fi
-    
-    # Status symbols
-    case $STATUS in
-        pending)
-            STATUS_SYMBOL="[ ]"
-            ;;
-        in_progress)
-            STATUS_SYMBOL="[~]"
-            ;;
-        complete)
-            STATUS_SYMBOL="[x]"
-            ;;
-        *)
-            echo -e "${RED}Error: Invalid status. Use pending, in_progress, or complete${RESET}"
-            exit 1
-            ;;
-    esac
-    
-    # Update task - Windows compatible version
-    if [ "$OSTYPE" == "msys" ] || [ "$OSTYPE" == "cygwin" ]; then
-        # Using perl for Windows/MinGW
-        perl -i -pe "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
-    else
-        # Using sed for Linux/Mac
-        sed -i "s/- \[.\] Task $TASK_NUM:/- $STATUS_SYMBOL Task $TASK_NUM:/g" "$FILE_PATH"
-    fi
-    
-    echo -e "${GREEN}Updated task $TASK_NUM in iteration $ITERATION_NUM to status: $STATUS${RESET}"
-}
-
-# Function to list all tasks for a specific iteration
-# Function to list all tasks for a specific iteration
-# Function to list all tasks for a specific iteration
-list_iteration_tasks() {
-    ITERATION_NUM=$1
-    
-    if [ -z "$ITERATION_NUM" ]; then
-        echo -e "${RED}Error: Missing iteration number${RESET}"
-        show_help
-    fi
-    
-    FILE_PATH="docs/iteration${ITERATION_NUM}_plan.md"
-    
-    # Check if file exists
-    if [ ! -f "$FILE_PATH" ]; then
-        echo -e "${RED}Error: $FILE_PATH does not exist${RESET}"
-        exit 1
-    fi
-    
-    # Extract iteration name - MinGW compatible
-    ITER_NAME=$(head -30 "$FILE_PATH" | grep "# Iteration" | head -1)
-    ITER_NAME=${ITER_NAME#*: }
-    
-    echo -e "${BOLD}Tasks for Iteration $ITERATION_NUM: $ITER_NAME${RESET}"
-    echo
-    
-    # Use a more basic approach that works in MinGW
-    while IFS= read -r line; do
-        if [[ $line =~ "Task "([0-9]+)":" ]]; then
-            # Only process lines that contain task definitions
-            if [[ $line =~ "- [".[^]]*"]" ]]; then
-                # Extract task status symbol
-                if [[ $line =~ "- ["(.)"]" ]]; then
-                    STATUS_CHAR="${BASH_REMATCH[1]}"
-                    
-                    # Convert status symbol to text
-                    case $STATUS_CHAR in
-                        "x")
-                            STATUS="${GREEN}Complete${RESET}"
-                            ;;
-                        "~")
-                            STATUS="${YELLOW}In Progress${RESET}"
-                            ;;
-                        " ")
-                            STATUS="Pending"
-                            ;;
-                        *)
-                            STATUS="Unknown"
-                            ;;
-                    esac
-                    
-                    # Extract task number
-                    if [[ $line =~ "Task "([0-9]+)":" ]]; then
-                        TASK_NUM="${BASH_REMATCH[1]}"
-                    else
-                        TASK_NUM="?"
-                    fi
-                    
-                    # Extract task description
-                    TASK_DESC=${line#*Task $TASK_NUM: }
-                    
-                    echo -e "Task $TASK_NUM: $TASK_DESC"
-                    echo -e "Status: $STATUS"
-                    
-                    # Skip code link checking for now (removing the problematic grep)
-                    
-                    echo
-                fi
-            fi
-        fi
-    done < "$FILE_PATH"
-    
-    # Separately check the Code Links section in a simple way
-    echo -e "${BOLD}Code Links:${RESET}"
-    # Capture the Code Links section
-    IN_CODE_LINKS=0
-    while IFS= read -r line; do
-        if [[ $line == "## Code Links" ]]; then
-            IN_CODE_LINKS=1
-            continue
-        fi
-        
-        if [[ $IN_CODE_LINKS -eq 1 ]]; then
-            # Stop at the next section or empty line
-            if [[ $line == "## "* ]] || [[ -z "$line" ]]; then
-                IN_CODE_LINKS=0
-                continue
-            fi
-            
-            # Skip "No links yet" line
-            if [[ $line != *"No links yet"* ]]; then
-                echo "$line"
-            fi
-        fi
-    done < "$FILE_PATH"
-}
-
-# Function to generate progress report
-generate_report() {
-    echo -e "${BOLD}A Silent Refraction - Iteration Progress Report${RESET}"
-    echo "Generated on $(date +%Y-%m-%d)"
-    echo
-    
-    # Create docs directory if it doesn't exist
-    mkdir -p docs
-    
-    # Check if any iteration plans exist
-    iteration_files=( docs/iteration*_plan.md )
-    if [ ! -f "${iteration_files[0]}" ]; then
-        echo -e "${YELLOW}No iteration plans found. Run '$0 init' to initialize from existing progress or create a new plan.${RESET}"
-        return
-    fi
-    
-    TOTAL_TASKS=0
-    COMPLETED_TASKS=0
-    
-    # Find all iteration plans
-    for PLAN in docs/iteration*_plan.md; do
-        # Extract iteration info using simpler methods that work in MinGW
-        ITER_NAME=$(head -30 "$PLAN" | grep "# Iteration" | head -1 | cut -d ":" -f 2- | sed 's/^ *//')
-        ITER_NUM=$(head -30 "$PLAN" | grep "# Iteration" | head -1 | sed 's/# Iteration \([0-9]*\):.*/\1/')
-        
-        echo -e "${BOLD}Iteration $ITER_NUM: $ITER_NAME${RESET}"
-        
-        # Count tasks with simpler methods for MinGW
-        ITER_TOTAL=$(grep "Task [0-9]*:" "$PLAN" | wc -l)
-        ITER_COMPLETED=$(grep -c "\[x\] Task [0-9]*:" "$PLAN")
-        ITER_IN_PROGRESS=$(grep -c "\[~\] Task [0-9]*:" "$PLAN")
-        ITER_PENDING=$((ITER_TOTAL - ITER_COMPLETED - ITER_IN_PROGRESS))
-        
-        TOTAL_TASKS=$((TOTAL_TASKS + ITER_TOTAL))
-        COMPLETED_TASKS=$((COMPLETED_TASKS + ITER_COMPLETED))
-        
-        # Calculate percentage
-        if [ $ITER_TOTAL -gt 0 ]; then
-            PERCENTAGE=$((ITER_COMPLETED * 100 / ITER_TOTAL))
-        else
-            PERCENTAGE=0
-        fi
-        
-        echo "Progress: $ITER_COMPLETED/$ITER_TOTAL tasks complete ($PERCENTAGE%)"
-        echo "Status: $ITER_COMPLETED complete, $ITER_IN_PROGRESS in progress, $ITER_PENDING pending"
-        echo
-    done
-    
-    # Overall progress
-    if [ $TOTAL_TASKS -gt 0 ]; then
-        OVERALL_PERCENTAGE=$((COMPLETED_TASKS * 100 / TOTAL_TASKS))
-    else
-        OVERALL_PERCENTAGE=0
-    fi
-    
-    echo -e "${BOLD}Overall Project Progress: $COMPLETED_TASKS/$TOTAL_TASKS tasks complete ($OVERALL_PERCENTAGE%)${RESET}"
-}
-
-# Function to link task to code file
-link_task_to_file() {
-    ITERATION_NUM=$1
-    TASK_NUM=$2
-    FILE_PATH=$3
-    
-    if [ -z "$ITERATION_NUM" ] || [ -z "$TASK_NUM" ] || [ -z "$FILE_PATH" ]; then
-        echo -e "${RED}Error: Missing arguments${RESET}"
-        show_help
-    fi
-    
-    # Create docs directory if it doesn't exist
-    mkdir -p docs
-    
-    PLAN_PATH="docs/iteration${ITERATION_NUM}_plan.md"
-    
-    # Check if files exist
-    if [ ! -f "$PLAN_PATH" ]; then
-        echo -e "${RED}Error: $PLAN_PATH does not exist${RESET}"
-        exit 1
-    fi
-    
-    # Check if file exists or is planned to be created
-    if [ ! -f "$FILE_PATH" ] && [ ! -d "$(dirname "$FILE_PATH")" ]; then
-        echo -e "${YELLOW}Warning: Directory for $FILE_PATH does not exist. Creating it...${RESET}"
-        mkdir -p "$(dirname "$FILE_PATH")"
-    fi
-    
-    # Check if Code Links section exists
-    if grep -q "## Code Links" "$PLAN_PATH"; then
-        # Check if task is already linked
-        TASK_PATTERN="- Task $TASK_NUM:"
-        if grep -q "$TASK_PATTERN" "$PLAN_PATH"; then
-            # Update existing link
-            if [ "$OSTYPE" == "msys" ] || [ "$OSTYPE" == "cygwin" ]; then
-                # Using perl for Windows/MinGW
-                perl -i -pe "s|$TASK_PATTERN.*|$TASK_PATTERN $FILE_PATH|g" "$PLAN_PATH"
-            else
-                # Using sed for Linux/Mac
-                sed -i "s|$TASK_PATTERN.*|$TASK_PATTERN $FILE_PATH|g" "$PLAN_PATH"
-            fi
-        else
-            # Add new link - works in MinGW
-            TEMP_FILE=$(mktemp)
-            awk -v task="$TASK_NUM" -v file="$FILE_PATH" '
-            {
-                print $0
-                if ($0 ~ /## Code Links/ && !added) {
-                    print "- Task " task ": " file
-                    added = 1
-                }
-            }' "$PLAN_PATH" > "$TEMP_FILE"
-            mv "$TEMP_FILE" "$PLAN_PATH"
-        fi
-    else
-        echo -e "${RED}Error: Could not find Code Links section in $PLAN_PATH${RESET}"
-        exit 1
-    fi
-    
-    echo -e "${GREEN}Linked task $TASK_NUM in iteration $ITERATION_NUM to file: $FILE_PATH${RESET}"
-}
-
-# Main execution
-case $1 in
-    create)
-        create_iteration_plan "$2" "$3"
-        ;;
-    update)
-        update_task_status "$2" "$3" "$4"
-        ;;
-    report)
-        generate_report
-        ;;
-    link)
-        link_task_to_file "$2" "$3" "$4"
-        ;;
-    init)
-        initialize_docs
-        ;;
-    list)
-        list_iteration_tasks "$2"
-        ;;
-    *)
-        show_help
-        ;;
-esac
+    # Create docs direct
