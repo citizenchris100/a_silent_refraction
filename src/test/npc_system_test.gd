@@ -1,7 +1,7 @@
 extends Node2D
 
 func _ready():
-    print("NPC System Integration Test - Starting")
+    print("NPC System Test - Starting up")
     
     # Create a simple background
     var background = ColorRect.new()
@@ -23,7 +23,7 @@ func _ready():
     game_manager.name = "GameManager"
     add_child(game_manager)
     
-    print("NPC System Integration Test - Ready")
+    print("NPC System Test - Ready")
 
 func _create_ui():
     # Create UI Canvas Layer
@@ -32,19 +32,11 @@ func _create_ui():
     add_child(canvas_layer)
     
     # Create Verb UI
-    var verb_container = VBoxContainer.new()
-    verb_container.name = "VerbUI"
-    verb_container.rect_position = Vector2(20, 20)
-    verb_container.rect_size = Vector2(130, 160)
-    canvas_layer.add_child(verb_container)
-    
-    # Add verb buttons
-    var verbs = ["Look at", "Talk to", "Use", "Pick up"]
-    for verb in verbs:
-        var button = Button.new()
-        button.text = verb
-        button.connect("pressed", self, "_on_verb_selected", [verb])
-        verb_container.add_child(button)
+    var verb_ui = load("res://src/ui/verb_ui/verb_ui.gd").new()
+    verb_ui.name = "VerbUI"
+    verb_ui.rect_position = Vector2(20, 20)
+    verb_ui.rect_size = Vector2(350, 160)
+    canvas_layer.add_child(verb_ui)
     
     # Create Interaction Text
     var interaction_text = Label.new()
@@ -100,17 +92,19 @@ func _process(delta):
 
 func _create_npcs():
     # Create Concierge
-    var concierge = load("res://src/characters/npc/concierge.gd").new()
+    var concierge = Node2D.new()
+    concierge.set_script(load("res://src/characters/npc/base_npc.gd"))
     concierge.position = Vector2(300, 400)
+    concierge.npc_name = "Concierge"
+    concierge.description = "The concierge of the Barracks, dressed in a neat uniform."
+    concierge.is_assimilated = false
     add_child(concierge)
     
     # Create Security Officer
-    var security = load("res://src/characters/npc/security_officer.gd").new()
+    var security = Node2D.new()
+    security.set_script(load("res://src/characters/npc/base_npc.gd"))
     security.position = Vector2(700, 400)
+    security.npc_name = "Security Officer"
+    security.description = "A stern-looking security officer in a uniform."
+    security.is_assimilated = true
     add_child(security)
-
-# Handle verb selection
-func _on_verb_selected(verb):
-    var game_manager = get_node("GameManager")
-    if game_manager:
-        game_manager._on_verb_selected(verb)

@@ -1,5 +1,6 @@
 extends Node
 
+# UI components
 var dialog_panel
 var dialog_text
 var dialog_options
@@ -14,24 +15,13 @@ func _ready():
     # Create dialog UI
     _create_dialog_ui()
     
-    # Connect to NPCs
+    # Connect to NPCs in the scene
+    yield(get_tree(), "idle_frame")
     _connect_to_npcs()
 
-# Connect to all NPCs in the scene
-func _connect_to_npcs():
-    # Wait a frame to make sure all NPCs are initialized
-    yield(get_tree(), "idle_frame")
-    
-    # Find and connect to all NPCs
-    for npc in get_tree().get_nodes_in_group("npc"):
-        if not npc.is_connected("dialog_started", self, "_on_dialog_started"):
-            npc.connect("dialog_started", self, "_on_dialog_started")
-        
-        if not npc.is_connected("dialog_ended", self, "_on_dialog_ended"):
-            npc.connect("dialog_ended", self, "_on_dialog_ended")
-
+# Create dialog UI components
 func _create_dialog_ui():
-    # Create canvas layer if needed
+    # Create canvas layer for UI
     var canvas = CanvasLayer.new()
     canvas.name = "DialogCanvas"
     canvas.layer = 10  # Make sure it's on top
@@ -57,13 +47,14 @@ func _create_dialog_ui():
     dialog_options.rect_size = Vector2(560, 150)
     dialog_panel.add_child(dialog_options)
 
-# Handle dialog started signal
-func _on_dialog_started(npc):
-    show_dialog(npc)
-
-# Handle dialog ended signal
-func _on_dialog_ended(npc):
-    end_dialog()
+# Connect to all NPCs in the scene
+func _connect_to_npcs():
+    for npc in get_tree().get_nodes_in_group("npc"):
+        if not npc.is_connected("dialog_started", self, "_on_dialog_started"):
+            npc.connect("dialog_started", self, "_on_dialog_started")
+        
+        if not npc.is_connected("dialog_ended", self, "_on_dialog_ended"):
+            npc.connect("dialog_ended", self, "_on_dialog_ended")
 
 # Show dialog with an NPC
 func show_dialog(npc):
@@ -93,12 +84,23 @@ func show_dialog(npc):
     else:
         end_dialog()
 
-# Hide dialog panel
+# End the current dialog
 func end_dialog():
     dialog_panel.visible = false
     var old_npc = current_npc
     current_npc = null
-    emit_signal("dialog_ended", old_npc)
+    
+    if old_npc:
+        emit_signal("dialog_ended", old_npc)
+
+# Handle dialog started signal
+func _on_dialog_started(npc):
+    show_dialog(npc)
+
+# Handle dialog ended signal
+func _on_dialog_ended(npc):
+    if current_npc == npc:
+        end_dialog()
 
 # Handle dialog option selection
 func _on_dialog_option_selected(option_index):
@@ -109,6 +111,3 @@ func _on_dialog_option_selected(option_index):
         if dialog:
             # Update dialog
             show_dialog(current_npc)
-        else:
-            # Dialog ended
-            end_dialog()

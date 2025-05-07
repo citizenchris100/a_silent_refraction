@@ -3,7 +3,7 @@ extends Control
 signal verb_selected(verb)
 
 # Available verbs
-var verbs = ["Look at", "Use", "Talk to", "Pick up", "Push", "Pull", "Open", "Close", "Give"]
+var verbs = ["Look at", "Talk to", "Use", "Pick up", "Push", "Pull", "Open", "Close", "Give"]
 var current_verb = "Look at"
 
 func _ready():
