@@ -26,7 +26,58 @@ func _ready():
 func _input(event):
     if event is InputEventMouseButton:
         if event.button_index == BUTTON_LEFT and event.pressed:
+            # Skip processing if the click was on a UI element
+            if _is_click_on_ui(event.position):
+                return
+            
             _handle_click(event.position)
+
+# Check if a point is on a UI element
+func _is_click_on_ui(position):
+    # Get the UI CanvasLayer
+    var ui_layer = _find_ui_layer()
+    if not ui_layer:
+        return false
+    
+    # Check all controls in the UI layer
+    for control in _get_all_controls(ui_layer):
+        if _is_point_in_control(control, position):
+            return true
+    
+    return false
+
+# Find the UI CanvasLayer
+func _find_ui_layer():
+    var root = get_tree().get_root()
+    for node in root.get_children():
+        if node.has_node("UI"):
+            return node.get_node("UI")
+    return null
+
+# Get all Control nodes in a parent
+func _get_all_controls(parent):
+    var controls = []
+    for child in parent.get_children():
+        if child is Control:
+            controls.append(child)
+        
+        # Also include all nested controls
+        if child.get_child_count() > 0:
+            controls += _get_all_controls(child)
+    
+    return controls
+
+# Check if a point is within a Control node
+func _is_point_in_control(control, point):
+    # Skip invisible controls
+    if not control.visible:
+        return false
+    
+    # Convert point to control's coordinate system
+    var local_point = control.get_global_transform().affine_inverse().xform(point)
+    
+    # Check if point is inside control's rect
+    return Rect2(Vector2(), control.rect_size).has_point(local_point)
 
 func _handle_click(position):
     # Check if clicking on an interactive object
