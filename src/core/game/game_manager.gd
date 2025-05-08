@@ -86,11 +86,41 @@ func _on_verb_selected(verb):
         interaction_text.text = current_verb + "..."
     print("Verb selected: " + verb)
 
-# Handle object clicks
+# Handle NPC click specifically for dialog
+func handle_npc_click(npc):
+    current_object = npc
+    
+    # Move player to the NPC first
+    if player and player.has_method("move_to"):
+        var direction = (player.global_position - npc.global_position).normalized()
+        var target_pos = npc.global_position + direction * 50
+        player.move_to(target_pos)
+        
+        # Wait until player arrives before starting dialog
+        yield(get_tree().create_timer(0.5), "timeout")
+    
+    # Handle interaction based on current verb
+    if current_verb == "Talk to" and npc.has_method("start_dialog"):
+        if interaction_text:
+            interaction_text.text = "Talking to " + npc.npc_name
+        npc._change_state(npc.State.TALKING)
+    else:
+        # For other verbs, just use the standard interact method
+        if npc.has_method("interact"):
+            var response = npc.interact(current_verb)
+            if interaction_text:
+                interaction_text.text = response
+
+# Handle object clicks (used for non-NPC objects)
 func handle_object_click(object, position):
     current_object = object
     
-    # Show interaction result
+    # Check if this is an NPC
+    if object.is_in_group("npc"):
+        handle_npc_click(object)
+        return
+    
+    # For regular objects, show interaction result
     if object.has_method("interact"):
         var response = object.interact(current_verb)
         if interaction_text:

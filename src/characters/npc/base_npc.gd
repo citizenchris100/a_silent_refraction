@@ -240,6 +240,14 @@ func initialize_dialog():
 
 # Handle interactions with this NPC
 func interact(verb, item = null):
+    # Special case for talking
+    if verb == "Talk to":
+        _change_state(State.TALKING)
+        return "You begin talking to " + npc_name
+    # Special case for talking
+    if verb == "Talk to":
+        _change_state(State.TALKING)
+        return "You begin talking to " + npc_name
     # Switch to interacting state if not already talking
     if current_state != State.TALKING:
         _change_state(State.INTERACTING)
