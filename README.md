@@ -1,26 +1,23 @@
-# A Silent Refraction
-
+A Silent Refraction
 A SCUMM-style point-and-click adventure game built with Godot 3.5.2.
-
-## Project Overview
-
+Project Overview
 In "A Silent Refraction," you play as a courier who unknowingly delivers a mysterious substance to a space station. As the substance begins to assimilate the station's inhabitants, you must navigate a web of intrigue to determine who can be trusted and how to stop the invasion.
-
 The game is designed to be reminiscent of classic Lucas Arts point & click adventure games like The Secret of Monkey Island, with a focus on:
-- Point-and-click navigation
-- Verb-based interaction system
-- Inventory management
-- Dialog with NPCs
-- Suspicion mechanics
 
-## Technical Stack
+Point-and-click navigation
+Verb-based interaction system
+Inventory management
+Dialog with NPCs
+Suspicion mechanics
 
-- **Game Engine**: Godot 3.5.2
-- **Language**: GDScript
-- **Platform**: Cross-platform (developed on Linux Mint and Windows)
-- **Architecture**: Custom SCUMM-like framework built from scratch
+Technical Stack
 
-## Project Structure
+Game Engine: Godot 3.5.2
+Language: GDScript
+Platform: Cross-platform (developed on Linux Mint and Windows)
+Architecture: Custom SCUMM-like framework built from scratch
+
+Project Structure
 a_silent_refraction/
 ├── assets/            # Game assets (images, audio, etc.)
 ├── docs/              # Documentation and design documents
@@ -31,48 +28,46 @@ a_silent_refraction/
 │   ├── objects/       # Interactive objects
 │   └── ui/            # User interface elements
 └── tools/             # Development tools and scripts
+Setup Instructions
+Prerequisites
 
-## Setup Instructions
+Godot 3.5.2 (Standard version, not Mono)
+Linux or Windows with Git Bash
+Command line tools for development
 
-### Prerequisites
+Installation
 
-- [Godot 3.5.2](https://godotengine.org/download/archive/) (Standard version, not Mono)
-- Linux or Windows with Git Bash
-- Command line tools for development
+Install Godot 3.5.2:
 
-### Installation
+bash# Create a directory for Godot
+mkdir -p ~/godot
 
-1. **Install Godot 3.5.2**:
-   ```bash
-   # Create a directory for Godot
-   mkdir -p ~/godot
-   
-   # Download Godot 3.5.2
-   cd ~/godot
-   wget https://github.com/godotengine/godot/releases/download/3.5.2-stable/Godot_v3.5.2-stable_x11.64.zip
-   
-   # Extract and make executable
-   unzip Godot_v3.5.2-stable_x11.64.zip
-   chmod +x Godot_v3.5.2-stable_x11.64
-   
-   # Optional: Create a symlink for easier access
-   mkdir -p ~/bin
-   ln -s ~/godot/Godot_v3.5.2-stable_x11.64 ~/bin/godot
-   export PATH="$HOME/bin:$PATH"
-   echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+# Download Godot 3.5.2
+cd ~/godot
+wget https://github.com/godotengine/godot/releases/download/3.5.2-stable/Godot_v3.5.2-stable_x11.64.zip
+
+# Extract and make executable
+unzip Godot_v3.5.2-stable_x11.64.zip
+chmod +x Godot_v3.5.2-stable_x11.64
+
+# Optional: Create a symlink for easier access
+mkdir -p ~/bin
+ln -s ~/godot/Godot_v3.5.2-stable_x11.64 ~/bin/godot
+export PATH="$HOME/bin:$PATH"
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 
 Clone the Repository:
+
 bashgit clone https://github.com/yourusername/a_silent_refraction.git
 cd a_silent_refraction
 
 Run the Game:
+
 bash# Using the provided script
 ./a_silent_refraction.sh run
 
 # Or to run the NPC test scene specifically
 ./a_silent_refraction.sh test
-
-
 Game Management Script
 The project includes a management script (a_silent_refraction.sh) to streamline development:
 bash# Show available commands
@@ -173,17 +168,6 @@ System for logging known assimilated NPCs
 
 
 
-Development Guide
-Git Divergent Branch Resolution
-When working with this project, you may encounter situations where your local branch and the remote branch have diverged. This happens when both your local repository and the remote repository have different commits that aren't present in the other.
-Using the Resolution Script
-We've included a helpful script to resolve these divergent branch situations:
-
-Navigate to the project root directory
-Run the resolution script:
-bash./tools/resolve-git-divergence.sh
-
-
 Core Systems
 
 Game Manager (src/core/game/game_manager.gd):
@@ -231,5 +215,14 @@ Handles verb selection and UI display
 
 
 
+Git Divergent Branch Resolution
+When working with this project, you may encounter situations where your local branch and the remote branch have diverged. This happens when both your local repository and the remote repository have different commits that aren't present in the other.
+Using the Resolution Script
+We've included a helpful script to resolve these divergent branch situations:
+
+Navigate to the project root directory
+Run the resolution script:
+
+bash./tools/resolve-git-divergence.sh
 License
 MIT License
