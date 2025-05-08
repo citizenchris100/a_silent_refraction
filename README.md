@@ -134,67 +134,67 @@ The project includes a management script (`a_silent_refraction.sh`) to streamlin
 
 ## Iteration Planning System
 
-The project uses a custom iteration planning system via the `iteration_planner.sh` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations.
+The project uses a custom iteration planning system via the `iteration_planner.sh (now fixed)` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations.
 
 ### Using the Iteration Planner
 
 Make the script executable:
 ```bash
-chmod +x iteration_planner.sh
+chmod +x iteration_planner.sh (now fixed)
 ```
 
 ### Available Commands
 
 #### Initialize the Planning System
 ```bash
-./iteration_planner.sh init
+./iteration_planner.sh (now fixed) init
 ```
 Creates the docs directory and initializes the iteration planning system.
 
 #### Create a New Iteration Plan
 ```bash
-./iteration_planner.sh create <iteration_number> "<iteration_name>"
+./iteration_planner.sh (now fixed) create <iteration_number> "<iteration_name>"
 ```
 Example:
 ```bash
-./iteration_planner.sh create 2 "NPC Framework and Suspicion System"
+./iteration_planner.sh (now fixed) create 2 "NPC Framework and Suspicion System"
 ```
 This creates a new iteration plan with predefined tasks based on the iteration number.
 
 #### List Tasks for a Specific Iteration
 ```bash
-./iteration_planner.sh list <iteration_number>
+./iteration_planner.sh (now fixed) list <iteration_number>
 ```
 Example:
 ```bash
-./iteration_planner.sh list 2
+./iteration_planner.sh (now fixed) list 2
 ```
 
 #### Update Task Status
 ```bash
-./iteration_planner.sh update <iteration_number> <task_number> <status>
+./iteration_planner.sh (now fixed) update <iteration_number> <task_number> <status>
 ```
 Where status can be: pending, in_progress, or complete
 
 Example:
 ```bash
-./iteration_planner.sh update 2 3 in_progress
+./iteration_planner.sh (now fixed) update 2 3 in_progress
 ```
 This marks Task 3 in Iteration 2 as in progress.
 
 #### Generate Progress Report
 ```bash
-./iteration_planner.sh report
+./iteration_planner.sh (now fixed) report
 ```
 Displays a progress report across all iterations, showing completion percentages and task statuses.
 
 #### Link Tasks to Code Files
 ```bash
-./iteration_planner.sh link <iteration_number> <task_number> "<file_path>"
+./iteration_planner.sh (now fixed) link <iteration_number> <task_number> "<file_path>"
 ```
 Example:
 ```bash
-./iteration_planner.sh link 2 1 "src/core/npc/base_npc.gd"
+./iteration_planner.sh (now fixed) link 2 1 "src/core/npc/base_npc.gd"
 ```
 This associates Task 1 in Iteration 2 with the specified code file.
 

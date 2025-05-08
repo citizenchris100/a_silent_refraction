@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # iteration_planner.sh - Iteration Planning System for A Silent Refraction
-# Version 1.0
+# Version 1.1
 
 # Colors for output
 RED="\033[0;31m"
@@ -355,30 +355,28 @@ function update_task {
         exit 1
     fi
     
-    # Extract the task line
-    task_line=$(grep -A 100 "^## Tasks" "${iteration_file}" | grep -B 100 "^## Testing" | grep "^\- \[" | grep -v "^## Testing" | sed -n "${task_number}p")
-    
-    if [ -z "${task_line}" ]; then
-        echo -e "${RED}Error: Task ${task_number} not found.${NC}"
-        echo "List tasks with: ./iteration_planner.sh list ${iteration_number}"
+    # Find the line number after "## Tasks" plus the task number
+    tasks_line=$(grep -n "^## Tasks" "${iteration_file}" | cut -d: -f1)
+    if [ -z "$tasks_line" ]; then
+        echo -e "${RED}Error: Could not find Tasks section in iteration file.${NC}"
         exit 1
     fi
     
-    # Update the task status
-    case ${status} in
+    # Calculate the line number for the specific task
+    task_line=$((tasks_line + task_number))
+    
+    # Update the line based on status
+    case "$status" in
         "pending")
-            new_task_line=$(echo "${task_line}" | sed 's/\- \[[xX ]\]/\- \[ \]/')
+            sed -i "${task_line}s/- \[[xX~]\]/- \[ \]/g" "${iteration_file}"
             ;;
         "in_progress")
-            new_task_line=$(echo "${task_line}" | sed 's/\- \[[xX ]\]/\- \[~\]/')
+            sed -i "${task_line}s/- \[[xX ]\]/- \[~\]/g" "${iteration_file}"
             ;;
         "complete")
-            new_task_line=$(echo "${task_line}" | sed 's/\- \[[xX ]\]/\- \[x\]/')
+            sed -i "${task_line}s/- \[[~ ]\]/- \[x\]/g" "${iteration_file}"
             ;;
     esac
-    
-    # Replace the task line in the file
-    sed -i "s/${task_line}/${new_task_line}/g" "${iteration_file}"
     
     echo -e "${GREEN}Task ${task_number} updated to ${status}.${NC}"
     
@@ -405,15 +403,6 @@ function link_task_to_file {
         exit 1
     fi
     
-    # Extract the task line
-    task_line=$(grep -A 100 "^## Tasks" "${iteration_file}" | grep -B 100 "^## Testing" | grep "^\- \[" | grep -v "^## Testing" | sed -n "${task_number}p")
-    
-    if [ -z "${task_line}" ]; then
-        echo -e "${RED}Error: Task ${task_number} not found.${NC}"
-        echo "List tasks with: ./iteration_planner.sh list ${iteration_number}"
-        exit 1
-    fi
-    
     # Update the Code Links section
     if grep -q "^- No links yet" "${iteration_file}"; then
         # Replace the "No links yet" line
@@ -427,6 +416,9 @@ function link_task_to_file {
     fi
     
     echo -e "${GREEN}Linked Task ${task_number} to file: ${file_path}${NC}"
+    
+    # Update progress file
+    update_progress_file
 }
 
 # Function to update the progress file
@@ -504,12 +496,18 @@ function update_progress_file {
             tasks=$(grep -A 100 "^## Tasks" "${iter_file}" | grep -B 100 "^## Testing" | grep "^\- \[" | grep -v "^## Testing")
             task_num=1
             
-            # Process each task
+            # Process each task and add to the progress file
             echo "${tasks}" | while read -r task_line; do
                 # Extract task description
-                task_desc=$(echo "${task_line}" | sed -n 's/^\- \[[x~ ]\] Task [0-9]*: \(.*\)/\1/p')
+                task_desc=$(echo "${task_line}" | sed -n 's/^\- \[[xX~]\] Task [0-9]*: \(.*\)/\1/p')
                 if [ -z "${task_desc}" ]; then
-                    task_desc=$(echo "${task_line}" | sed -n 's/^\- \[[x~ ]\] \(.*\)/\1/p')
+                    task_desc=$(echo "${task_line}" | sed -n 's/^\- \[[xX~]\] \(.*\)/\1/p')
+                    if [ -z "${task_desc}" ]; then
+                        task_desc=$(echo "${task_line}" | sed -n 's/^\- \[ \] Task [0-9]*: \(.*\)/\1/p')
+                        if [ -z "${task_desc}" ]; then
+                            task_desc=$(echo "${task_line}" | sed -n 's/^\- \[ \] \(.*\)/\1/p')
+                        fi
+                    fi
                 fi
                 
                 # Determine status
@@ -527,10 +525,11 @@ function update_progress_file {
                     linked_file="-"
                 fi
                 
-                # Add task to detailed progress
-                echo "| ${task_desc} | ${task_status} | ${linked_file} |" >> "${PROGRESS_FILE}"
-                
-                task_num=$((task_num + 1))
+                # Only add to the progress file if we have a task description
+                if [ ! -z "${task_desc}" ]; then
+                    echo "| ${task_desc} | ${task_status} | ${linked_file} |" >> "${PROGRESS_FILE}"
+                    task_num=$((task_num + 1))
+                fi
             done
             
             echo "" >> "${PROGRESS_FILE}"
@@ -586,8 +585,7 @@ function generate_report {
         echo "------------------------"
         
         # Display iteration status from progress file
-        grep "|" "${PROGRESS_FILE}" | head -n 2
-        grep "^| [0-9]" "${PROGRESS_FILE}"
+        sed -n '/^| Iteration /,/^$/p' "${PROGRESS_FILE}" | grep -v "^$"
     else
         echo -e "${RED}Progress file not found. Run init first.${NC}"
         exit 1

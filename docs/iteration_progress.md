@@ -6,8 +6,8 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
-| 2 | NPC Framework and Suspicion System | Not started | 0% (0/8) |
+| 1 | Basic Environment and Navigation | IN PROGRESS | 62% (5/8) |
+| 2 | NPC Framework and Suspicion System | IN PROGRESS | 25% (2/8) |
 | 3 | Game Districts, Time Management, and Save System | Not started | 0% (0/11) |
 | 4 | Investigation Mechanics and Advanced Inventory | Not started | 0% (0/10) |
 | 5 | Coalition Building | Not started | 0% (0/8) |
@@ -24,18 +24,18 @@ This file tracks the progress of all iterations for the project.
 | Implement shipping district scene with background | Complete | - |
 | Add walkable area with collision detection | Complete | - |
 | Create functional player character | Complete | - |
-| Implement point-and-click navigation | Complete | - |
-| Develop smooth movement system | Complete | - |
-| Test navigation within defined boundaries | Complete | - |
+| Implement point-and-click navigation | Pending | - |
+| Develop smooth movement system | Pending | - |
+| Test navigation within defined boundaries | Pending | - |
 
 ### Iteration 2: NPC Framework and Suspicion System
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create base NPC class with state machine | Pending | - |
-| Implement NPC dialog system | Pending | - |
-| Create suspicion meter UI element | Pending | - |
-| Implement suspicion tracking system | Pending | - |
+| Create base NPC class with state machine | Complete | - |
+| Implement NPC dialog system | Complete | - |
+| Create suspicion meter UI element | In Progress | - |
+| Implement suspicion tracking system | In Progress | - |
 | Script NPC reactions based on suspicion levels | Pending | - |
 | Apply visual style guide to Shipping District | Pending | - |
 | Create bash script for generating NPC placeholders | Pending | - |
