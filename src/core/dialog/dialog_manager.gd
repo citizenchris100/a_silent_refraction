@@ -55,6 +55,8 @@ func _connect_to_npcs():
         
         if not npc.is_connected("dialog_ended", self, "_on_dialog_ended"):
             npc.connect("dialog_ended", self, "_on_dialog_ended")
+        
+        print("Connected dialog system to NPC: " + npc.npc_name)
 
 # Show dialog with an NPC
 func show_dialog(npc):
@@ -111,3 +113,6 @@ func _on_dialog_option_selected(option_index):
         if dialog:
             # Update dialog
             show_dialog(current_npc)
+        else:
+            # Dialog ended
+            end_dialog()
