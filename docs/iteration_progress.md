@@ -6,7 +6,7 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 1 | Basic Environment and Navigation | IN PROGRESS | 62% (5/8) |
+| 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | IN PROGRESS | 25% (2/8) |
 | 3 | Game Districts, Time Management, and Save System | Not started | 0% (0/11) |
 | 4 | Investigation Mechanics and Advanced Inventory | Not started | 0% (0/10) |
@@ -24,9 +24,9 @@ This file tracks the progress of all iterations for the project.
 | Implement shipping district scene with background | Complete | - |
 | Add walkable area with collision detection | Complete | - |
 | Create functional player character | Complete | - |
-| Implement point-and-click navigation | Pending | - |
-| Develop smooth movement system | Pending | - |
-| Test navigation within defined boundaries | Pending | - |
+| Implement point-and-click navigation | Complete | src/core/input/input_manager.gd |
+| Develop smooth movement system | Complete | src/characters/player/player.gd |
+| Test navigation within defined boundaries | Complete | src/test/navigation_test.gd |
 
 ### Iteration 2: NPC Framework and Suspicion System
 

@@ -13,6 +13,7 @@ func contains_point(point):
     var inside = false
     var j = poly.size() - 1
     
+    # Standard point-in-polygon algorithm
     for i in range(poly.size()):
         if ((poly[i].y > point.y) != (poly[j].y > point.y)) and \
            (point.x < poly[i].x + (poly[j].x - poly[i].x) * (point.y - poly[i].y) / (poly[j].y - poly[i].y)):

@@ -15,8 +15,6 @@ PROJECT_ROOT=$(pwd)
 GODOT_CMD="godot"
 MAIN_SCENE="res://src/core/main.tscn"
 TEST_SCENE="res://src/test/npc_system_test.tscn"
-NAVIGATION_TEST_SCENE="res://src/test/navigation_test.tscn"
-DIALOG_TEST_SCENE="res://src/test/dialog_test.tscn"
 
 # Function to display help
 function show_help {
@@ -27,8 +25,6 @@ function show_help {
     echo "Commands:"
     echo "  run         - Run the main game"
     echo "  test        - Run the NPC test scene"
-    echo "  navigation  - Run the navigation test scene"
-    echo "  dialog      - Run the dialog test scene"
     echo "  clean       - Clean up redundant files"
     echo "  build       - Build the game for distribution"
     echo "  check       - Check project for errors"
@@ -50,25 +46,13 @@ function run_test {
     $GODOT_CMD --path $PROJECT_ROOT $TEST_SCENE
 }
 
-# Function to run the navigation test scene
-function run_navigation_test {
-    echo -e "${GREEN}Running navigation test scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $NAVIGATION_TEST_SCENE
-}
-
-# Function to run the dialog test scene
-function run_dialog_test {
-    echo -e "${GREEN}Running dialog test scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $DIALOG_TEST_SCENE
-}
-
 # Function to clean up redundant files
 function clean_project {
     echo -e "${YELLOW}Cleaning up redundant files...${NC}"
     
     # Remove redundant files
     echo "Removing redundant test scenes..."
-    for file in $(find src/test -name "*.tscn" -not -name "npc_system_test.tscn" -not -name "navigation_test.tscn" -not -name "dialog_test.tscn"); do
+    for file in $(find src/test -name "*.tscn" -not -name "npc_system_test.tscn"); do
         rm "$file"
         rm "${file%.tscn}.gd" 2>/dev/null || true
     done
@@ -275,12 +259,6 @@ case "$1" in
         ;;
     test)
         run_test
-        ;;
-    navigation)
-        run_navigation_test
-        ;;
-    dialog)
-        run_dialog_test
         ;;
     clean)
         clean_project

@@ -13,11 +13,15 @@ func _ready():
     var players = get_tree().get_nodes_in_group("player")
     if players.size() > 0:
         player = players[0]
+    else:
+        push_error("No player found in the scene!")
     
     # Find the current district
     var districts = get_tree().get_nodes_in_group("district")
     if districts.size() > 0:
         current_district = districts[0]
+    else:
+        push_error("No district found in the scene!")
 
 func _input(event):
     if event is InputEventMouseButton:
@@ -27,6 +31,8 @@ func _input(event):
 func _handle_click(position):
     # Check if clicking on an interactive object
     var interactive_objects = get_tree().get_nodes_in_group("interactive_object")
+    var clicked_on_object = false
+    
     for obj in interactive_objects:
         # Simple rectangular hit detection, can be improved
         if obj.get_node_or_null("Sprite") != null:
@@ -37,9 +43,12 @@ func _handle_click(position):
             )
             if rect.has_point(position):
                 emit_signal("object_clicked", obj, position)
-                return
+                clicked_on_object = true
+                break
     
     # If not clicking on an object, check if clicking in walkable area
-    if current_district and player:
+    if not clicked_on_object and current_district and player:
         if current_district.is_position_walkable(position):
             player.move_to(position)
+        else:
+            print("Clicked outside walkable area")

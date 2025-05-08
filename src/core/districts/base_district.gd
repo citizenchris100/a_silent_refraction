@@ -39,6 +39,37 @@ func is_position_walkable(position):
             return true
     return false
 
+# Debug function to test walkable boundaries
+func test_walkable_boundaries():
+    var screen_size = get_viewport_rect().size
+    var test_points = []
+    var results = []
+    
+    # Create a grid of test points
+    for x in range(0, int(screen_size.x), 50):
+        for y in range(0, int(screen_size.y), 50):
+            var point = Vector2(x, y)
+            test_points.append(point)
+            results.append(is_position_walkable(point))
+    
+    # Output results to a debug visualization node
+    var debug_node = Node2D.new()
+    debug_node.name = "WalkableBoundaryTest"
+    add_child(debug_node)
+    
+    for i in range(test_points.size()):
+        var point = test_points[i]
+        var is_walkable = results[i]
+        
+        var marker = ColorRect.new()
+        marker.rect_size = Vector2(10, 10)
+        marker.rect_position = point - Vector2(5, 5)
+        marker.color = Color.green if is_walkable else Color.red
+        debug_node.add_child(marker)
+    
+    print("Created walkable boundary test with " + str(test_points.size()) + " points")
+    return {"walkable": results.count(true), "unwalkable": results.count(false)}
+
 # Exit this district
 func exit_district():
     emit_signal("district_exited", district_name)

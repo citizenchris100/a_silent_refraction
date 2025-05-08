@@ -12,9 +12,9 @@
 - [x] Task 3: Implement shipping district scene with background
 - [x] Task 4: Add walkable area with collision detection
 - [x] Task 5: Create functional player character
-- [ ] Task 6: Implement point-and-click navigation
-- [ ] Task 7: Develop smooth movement system
-- [ ] Task 8: Test navigation within defined boundaries
+- [x] Task 6: Implement point-and-click navigation
+- [x] Task 7: Develop smooth movement system
+- [x] Task 8: Test navigation within defined boundaries
 
 ## Testing Criteria
 - Player can move around the shipping district

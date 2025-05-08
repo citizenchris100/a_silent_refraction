@@ -33,6 +33,9 @@ The game features a retro-futuristic aesthetic combining elements from:
 
 ## Project Structure
 
+```
+a_silent_refraction/
+├── docs/              # Documentation and design documents
 ├── src/               # Source code
 │   ├── characters/    # Player and NPC implementations
 │   │   ├── npc/       # NPC classes with dialog and behavior
@@ -46,14 +49,10 @@ The game features a retro-futuristic aesthetic combining elements from:
 │   │   └── shipping/  # Shipping district implementation
 │   ├── objects/       # Interactive objects
 │   │   └── base/      # Base interactive object classes
-│   ├── test/          # Test scenes for isolated functionality
-│   │   ├── dialog_test.tscn    # For testing dialog system
-│   │   ├── navigation_test.tscn # For testing navigation system
-│   │   └── npc_system_test.tscn # For testing NPC interaction
 │   └── ui/            # User interface elements
 │       └── verb_ui/   # SCUMM-style verb interface
 └── tools/             # Development tools and scripts
-
+```
 
 ## Setup Instructions
 
@@ -67,22 +66,55 @@ The game features a retro-futuristic aesthetic combining elements from:
 
 1. Install Godot 3.5.2:
 
+```bash
+# Create a directory for Godot
+mkdir -p ~/godot
 
+# Download Godot 3.5.2
+cd ~/godot
+wget https://github.com/godotengine/godot/releases/download/3.5.2-stable/Godot_v3.5.2-stable_x11.64.zip
+
+# Extract and make executable
+unzip Godot_v3.5.2-stable_x11.64.zip
+chmod +x Godot_v3.5.2-stable_x11.64
+
+# Optional: Create a symlink for easier access
+mkdir -p ~/bin
+ln -s ~/godot/Godot_v3.5.2-stable_x11.64 ~/bin/godot
+export PATH="$HOME/bin:$PATH"
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+```
 
 2. Clone the Repository:
 
-
+```bash
+git clone https://github.com/yourusername/a_silent_refraction.git
+cd a_silent_refraction
+```
 
 3. Run the Game:
 
+```bash
+# Using the provided script
+./a_silent_refraction.sh run
 
+# Or to run the NPC test scene specifically
+./a_silent_refraction.sh test
+```
 
 ## Game Management Script
 
 The project includes a management script (`a_silent_refraction.sh`) to streamline development:
 
-./a_silent_refraction.sh navigation # Test navigation system
-./a_silent_refraction.sh dialog     # Test dialog system
+```bash
+# Show available commands
+./a_silent_refraction.sh help
+
+# Run the main game
+./a_silent_refraction.sh run
+
+# Run the NPC test scene
+./a_silent_refraction.sh test
 
 # Clean up redundant files
 ./a_silent_refraction.sh clean
@@ -98,68 +130,111 @@ The project includes a management script (`a_silent_refraction.sh`) to streamlin
 
 # Build the game for distribution
 ./a_silent_refraction.sh build
-
+```
 
 ## Iteration Planning System
 
-The project uses a custom iteration planning system via the `iteration_planner.sh` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations.
+The project uses a custom iteration planning system via the `iteration_planner.sh (now fixed)` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations.
 
 ### Using the Iteration Planner
 
 Make the script executable:
-
+```bash
+chmod +x iteration_planner.sh (now fixed)
+```
 
 ### Available Commands
 
 #### Initialize the Planning System
-
+```bash
+./iteration_planner.sh (now fixed) init
+```
 Creates the docs directory and initializes the iteration planning system.
 
 #### Create a New Iteration Plan
-
+```bash
+./iteration_planner.sh (now fixed) create <iteration_number> "<iteration_name>"
+```
 Example:
-
+```bash
+./iteration_planner.sh (now fixed) create 2 "NPC Framework and Suspicion System"
+```
 This creates a new iteration plan with predefined tasks based on the iteration number.
 
 #### List Tasks for a Specific Iteration
-
+```bash
+./iteration_planner.sh (now fixed) list <iteration_number>
+```
 Example:
-
+```bash
+./iteration_planner.sh (now fixed) list 2
+```
 
 #### Update Task Status
-
+```bash
+./iteration_planner.sh (now fixed) update <iteration_number> <task_number> <status>
+```
 Where status can be: pending, in_progress, or complete
 
 Example:
-
+```bash
+./iteration_planner.sh (now fixed) update 2 3 in_progress
+```
 This marks Task 3 in Iteration 2 as in progress.
 
 #### Generate Progress Report
-
+```bash
+./iteration_planner.sh (now fixed) report
+```
 Displays a progress report across all iterations, showing completion percentages and task statuses.
 
 #### Link Tasks to Code Files
-
+```bash
+./iteration_planner.sh (now fixed) link <iteration_number> <task_number> "<file_path>"
+```
 Example:
-
+```bash
+./iteration_planner.sh (now fixed) link 2 1 "src/core/npc/base_npc.gd"
+```
 This associates Task 1 in Iteration 2 with the specified code file.
+
+### Predefined Iterations
+
+The iteration planner comes with templates for key iterations:
+
+#### Iteration 1: Basic Environment and Navigation
+- Project setup
+- Basic room with walkable areas
+- Player character movement
+- Navigation in shipping district
+
+#### Iteration 2: NPC Framework and Suspicion System
+- Basic NPCs with interactive capabilities
+- Suspicion system as a core gameplay mechanic
+- Visual style guide application
+- Placeholder art generation
+
+#### Iteration 3: Game Districts and Time Management
+- Multiple station districts with transitions
+- Detailed time management system (Persona-style)
+- Day/night cycle and time progression
+- Random NPC assimilation tied to time
+
+#### Iteration 4: Investigation Mechanics
+- Quest log system
+- Item/inventory system for evidence collection
+- Puzzles for accessing restricted areas
+- System for logging known assimilated NPCs
 
 ## Core Systems
 
 ### Game Manager (`src/core/game/game_manager.gd`)
 - Coordinates all game systems
 - Manages interaction between verb UI, objects, and player
-- Handles object clicks and player movement to interaction points
-
-### Input Manager (`src/core/input/input_manager.gd`)
-- Handles player input and routes to appropriate systems
-- Manages point-and-click movement
-- Controls object detection and interaction
 
 ### District System (`src/core/districts/base_district.gd`)
 - Base class for all game areas
 - Handles walkable areas and interactive objects
-- Provides boundary checking for player movement
 
 ### NPC System (`src/characters/npc/base_npc.gd`)
 - State machine for NPC behavior (IDLE, TALKING, SUSPICIOUS, HOSTILE, etc.)
@@ -172,9 +247,8 @@ This associates Task 1 in Iteration 2 with the specified code file.
 - Handles dialog UI
 
 ### Player Character (`src/characters/player/player.gd`)
-- Handles movement with acceleration/deceleration
-- Responds to point-and-click input
-- Stays within walkable area boundaries
+- Handles movement and animations
+- Responds to player input
 
 ### Interactive Objects (`src/objects/base/interactive_object.gd`)
 - Base class for all interactive items
@@ -195,8 +269,6 @@ The project is being developed in iterations, with each iteration focusing on sp
 - Point-and-click navigation system implemented
 - Interactive object framework created
 - Verb-based interaction system implemented
-- Smooth movement with acceleration/deceleration added
-- Boundary detection ensures player stays in walkable areas
 
 ### Iteration 2: NPC Framework and Suspicion System ⏳
 - Base NPC class with state machine created
@@ -211,29 +283,6 @@ The project is being developed in iterations, with each iteration focusing on sp
 - Iteration 5: Coalition Building
 - Iteration 6: Game Progression and Multiple Endings
 
-## Testing Systems
-
-The game includes specialized test scenes for focused testing of specific systems:
-
-### Main Game (`./a_silent_refraction.sh run`)
-- Runs the complete game with all integrated systems
-- Includes NPCs, dialog, interaction, and navigation
-- Represents the current production version of the game
-
-### Navigation Test (`./a_silent_refraction.sh navigation`)
-- Focused test of the point-and-click navigation system
-- Visual indicators for walkable/unwalkable areas
-- Tests boundary detection and smooth movement
-
-### Dialog Test (`./a_silent_refraction.sh dialog`)
-- Isolated environment for testing the dialog system
-- Tests NPC conversations and dialog trees
-- Tests suspicion changes through dialog choices
-
-### NPC Test (`./a_silent_refraction.sh test`)
-- Simple environment for testing NPC interactions
-- Tests NPC state machines and behavior
-
 ## NPC Framework
 
 The game features a robust NPC system with:
@@ -244,9 +293,26 @@ The game features a robust NPC system with:
 
 To create a new NPC, use the management script:
 
-
+```bash
+./a_silent_refraction.sh new-npc SecurityGuard
+```
 
 Then customize its dialog and behavior in `src/characters/npc/SecurityGuard.gd`.
+
+## Git Divergent Branch Resolution
+
+When working with this project, you may encounter situations where your local branch and the remote branch have diverged. This happens when both your local repository and the remote repository have different commits that aren't present in the other.
+
+### Using the Resolution Script
+
+We've included a helpful script to resolve these divergent branch situations:
+
+1. Navigate to the project root directory
+2. Run the resolution script:
+
+```bash
+./tools/resolve-git-divergence.sh
+```
 
 ## License
 
