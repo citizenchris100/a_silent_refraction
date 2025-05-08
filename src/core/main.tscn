@@ -22,8 +22,14 @@ anchor_bottom = 1.0
 margin_top = -120.0
 
 [node name="InteractionText" type="Label" parent="UI"]
+    align = 1
 margin_left = 20.0
-margin_top = 20.0
+    align = 1
+margin_top = 520.0
+    align = 1
 margin_right = 600.0
-margin_bottom = 60.0
-text = "Click on objects to interact with them."
+    align = 1
+margin_bottom = 560.0
+    align = 1
+text = ""
+    align = 1

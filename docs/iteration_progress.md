@@ -24,9 +24,9 @@ This file tracks the progress of all iterations for the project.
 | Implement shipping district scene with background | Complete | - |
 | Add walkable area with collision detection | Complete | - |
 | Create functional player character | Complete | - |
-| Implement point-and-click navigation | Complete | src/core/input/input_manager.gd |
-| Develop smooth movement system | Complete | src/characters/player/player.gd |
-| Test navigation within defined boundaries | Complete | src/test/navigation_test.gd |
+| Implement point-and-click navigation | Complete | - |
+| Develop smooth movement system | Complete | - |
+| Test navigation within defined boundaries | Complete | - |
 
 ### Iteration 2: NPC Framework and Suspicion System
 
