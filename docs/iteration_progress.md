@@ -7,10 +7,10 @@ This file tracks the progress of all iterations for the project.
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
-| 2 | NPC Framework and Suspicion System | IN PROGRESS | 62.5% (5/8) |
-| 3 | Game Districts, Time Management, and Save System | Not started | 0% (0/12) |
+| 2 | NPC Framework and Suspicion System | IN PROGRESS | 62% (5/8) |
+| 3 | Game Districts, Time Management, and Save System | Not started | 0% (0/11) |
 | 4 | Investigation Mechanics and Advanced Inventory | Not started | 0% (0/10) |
-| 5 | Coalition Building | Not started | 0% (0/11) |
+| 5 | Coalition Building | Not started | 0% (0/8) |
 | 6 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
 
 ## Detailed Progress
@@ -36,7 +36,7 @@ This file tracks the progress of all iterations for the project.
 | Implement NPC dialog system | Complete | - |
 | Create suspicion meter UI element | Complete | - |
 | Implement suspicion tracking system | Complete | - |
-| Script NPC reactions based on suspicion levels (including suspicion-based dialog options) | Complete | src/characters/npc/base_npc.gd, src/characters/npc/concierge.gd, src/characters/npc/security_officer.gd |
+| Script NPC reactions based on suspicion levels | Complete | - |
 | Apply visual style guide to Shipping District | Pending | - |
 | Create bash script for generating NPC placeholders | Pending | - |
 | Implement observation mechanics for detecting assimilated NPCs | Pending | - |
@@ -45,18 +45,17 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create at least one additional district besides Shipping (with district-specific suspicion level tracking) | Pending | - |
+| Create at least one additional district besides Shipping | Pending | - |
 | Implement district transitions via tram system | Pending | - |
 | Develop in-game clock and calendar system | Pending | - |
 | Create time progression through player actions | Pending | - |
 | Implement day cycle with sleep mechanics | Pending | - |
 | Design and implement time UI indicators | Pending | - |
 | Create system for random NPC assimilation over time | Pending | - |
-| Add time-based events and triggers (including station-wide suspicion events) | Pending | - |
+| Add time-based events and triggers | Pending | - |
 | Implement player bedroom as save point location | Pending | - |
 | Create single-slot save system with confirmation UI | Pending | - |
 | Create basic inventory system with size limitations | Pending | - |
-| Implement action-based suspicion triggers | Pending | - |
 
 ### Iteration 4: Investigation Mechanics and Advanced Inventory
 
@@ -85,9 +84,6 @@ This file tracks the progress of all iterations for the project.
 | Create consequences for failed recruitment attempts | Pending | - |
 | Develop coalition headquarters location | Pending | - |
 | Implement coalition mission assignment system | Pending | - |
-| Implement NPC cooperation/hostility system based on suspicion levels | Pending | - |
-| Implement inverse suspicion dynamic (assimilated NPCs identifying non-assimilated targets) | Pending | - |
-| Create coordinated behavior between assimilated NPCs | Pending | - |
 
 ### Iteration 6: Game Progression and Multiple Endings
 
