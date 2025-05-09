@@ -12,9 +12,12 @@ signal dialog_ended(npc)
 signal option_selected(option_index)
 
 func _ready():
+    # Add to group
+    add_to_group("dialog_manager")
+
     # Create dialog UI
     _create_dialog_ui()
-    
+
     # Connect to NPCs in the scene
     yield(get_tree(), "idle_frame")
     _connect_to_npcs()
@@ -64,7 +67,6 @@ func _connect_to_npcs():
 # Show dialog with an NPC
 func show_dialog(npc):
     if not npc:
-        print("Error: Trying to show dialog with null NPC")
         return
 
     current_npc = npc
@@ -75,7 +77,6 @@ func show_dialog(npc):
 
     # Check if NPC has the get_current_dialog method
     if not npc.has_method("get_current_dialog"):
-        print("Error: NPC does not have get_current_dialog method")
         end_dialog()
         return
 
@@ -98,7 +99,6 @@ func show_dialog(npc):
 
         emit_signal("dialog_started", npc)
     else:
-        print("No dialog found for NPC: " + npc.name)
         end_dialog()
 
 # End the current dialog
@@ -111,7 +111,7 @@ func end_dialog():
     # Block clicks for a short period after dialog ends to prevent accidental movement
     var input_manager = _find_input_manager()
     if input_manager and input_manager.has_method("block_clicks"):
-        input_manager.block_clicks(500)  # Block clicks for 500ms
+        input_manager.block_clicks(1000)  # Block clicks for 1000ms
 
     if old_npc:
         emit_signal("dialog_ended", old_npc)

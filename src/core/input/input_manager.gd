@@ -40,14 +40,13 @@ func _input(event):
             if _is_click_on_ui(event.position):
                 return
 
-            # Skip clicks while player is in dialog
-            var dialog_active = false
+            # Skip clicks while player is in dialog - use explicit flag
             var dialog_manager = _find_dialog_manager()
             if dialog_manager and dialog_manager.dialog_panel and dialog_manager.dialog_panel.visible:
-                dialog_active = true
+                return  # IMPORTANT: Return immediately if dialog is active
 
-            if not dialog_active:
-                _handle_click(event.position)
+            # Only process clicks if no dialog is active
+            _handle_click(event.position)
 
 # Check if a point is on a UI element
 func _is_click_on_ui(position):

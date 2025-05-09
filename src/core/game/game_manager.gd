@@ -65,10 +65,38 @@ func _find_ui_elements():
             verb_ui = node.get_node("UI/VerbUI")
             verb_ui.connect("verb_selected", self, "_on_verb_selected")
             print("Connected to VerbUI")
-        
+
         if node.has_node("UI/InteractionText"):
             interaction_text = node.get_node("UI/InteractionText")
             print("Found InteractionText")
+
+    # Connect to dialog manager signals if it exists
+    var dialog_manager = null
+    for node in get_tree().get_nodes_in_group("dialog_manager"):
+        dialog_manager = node
+        break
+
+    if dialog_manager:
+        dialog_manager.connect("dialog_ended", self, "_on_dialog_ended")
+
+# Find input manager
+func _find_input_manager():
+    var root = get_tree().get_root()
+    for child in root.get_children():
+        for grandchild in child.get_children():
+            if grandchild.get_class() == "Node" and grandchild.get_script() and grandchild.get_script().get_path().ends_with("input_manager.gd"):
+                return grandchild
+    return null
+
+# Handle dialog ended event
+func _on_dialog_ended(npc):
+    # Re-enable input handling after dialog ends
+    var input_manager = _find_input_manager()
+    if input_manager:
+        # Use a timer to delay re-enabling input to prevent accidental clicks
+        yield(get_tree().create_timer(0.75), "timeout")
+        input_manager.set_process_input(true)
+        input_manager.set_process(true)
 
 # Find player
 func _find_player():
@@ -89,7 +117,13 @@ func _on_verb_selected(verb):
 # Handle NPC click specifically for dialog
 func handle_npc_click(npc):
     current_object = npc
-    
+
+    # IMPORTANT: Disable input handling for the dialog sequence
+    var input_manager = _find_input_manager()
+    if input_manager:
+        input_manager.set_process_input(false)
+        input_manager.set_process(false)
+
     # Move player to the NPC first
     if player and player.has_method("move_to"):
         var direction = (player.global_position - npc.global_position).normalized()
