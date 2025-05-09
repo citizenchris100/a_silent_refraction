@@ -248,6 +248,30 @@ To create a new NPC, use the management script:
 
 Then customize its dialog and behavior in `src/characters/npc/SecurityGuard.gd`.
 
+## Development Scripts
+
+The project includes helpful scripts for development tasks:
+
+### SSH Setup for GitHub
+
+To set up SSH authentication with GitHub (recommended):
+
+
+
+This script will:
+- Check for or create SSH keys
+- Help you add the SSH key to your GitHub account
+- Test the connection to GitHub
+- Optionally update your repository to use SSH instead of HTTPS
+
+### Branch Cleanup
+
+To clean up all local and remote branches except for main:
+
+
+
+**Warning**: This is a destructive operation that will delete branches!
+
 ## License
 
 MIT License
