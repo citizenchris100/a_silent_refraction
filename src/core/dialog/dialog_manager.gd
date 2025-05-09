@@ -63,18 +63,28 @@ func _connect_to_npcs():
 
 # Show dialog with an NPC
 func show_dialog(npc):
+    if not npc:
+        print("Error: Trying to show dialog with null NPC")
+        return
+
     current_npc = npc
-    
+
     # Clear previous options
     for child in dialog_options.get_children():
         child.queue_free()
-    
+
+    # Check if NPC has the get_current_dialog method
+    if not npc.has_method("get_current_dialog"):
+        print("Error: NPC does not have get_current_dialog method")
+        end_dialog()
+        return
+
     # Get current dialog
     var dialog = npc.get_current_dialog()
     if dialog:
         # Set dialog text
         dialog_text.text = dialog.text
-        
+
         # Create dialog options
         for i in range(dialog.options.size()):
             var option = dialog.options[i]
@@ -82,21 +92,27 @@ func show_dialog(npc):
             button.text = option.text
             button.connect("pressed", self, "_on_dialog_option_selected", [i])
             dialog_options.add_child(button)
-        
+
         # Show dialog panel
         dialog_panel.visible = true
-        
+
         emit_signal("dialog_started", npc)
     else:
+        print("No dialog found for NPC: " + npc.name)
         end_dialog()
 
 # End the current dialog
 func end_dialog():
     dialog_panel.visible = false
-    
+
     var old_npc = current_npc
     current_npc = null
-    
+
+    # Block clicks for a short period after dialog ends to prevent accidental movement
+    var input_manager = _find_input_manager()
+    if input_manager and input_manager.has_method("block_clicks"):
+        input_manager.block_clicks(500)  # Block clicks for 500ms
+
     if old_npc:
         emit_signal("dialog_ended", old_npc)
 
@@ -111,17 +127,36 @@ func _on_dialog_ended(npc):
 
 # Handle dialog option selection
 func _on_dialog_option_selected(option_index):
-    if current_npc:
+    if current_npc and is_instance_valid(current_npc):
         emit_signal("option_selected", option_index)
-        var dialog = current_npc.choose_dialog_option(option_index)
-        
-        if dialog:
-            # Update dialog
-            show_dialog(current_npc)
+        # Store a reference to the NPC to handle null case
+        var npc = current_npc
+        var dialog = npc.choose_dialog_option(option_index)
+
+        # Check if NPC is still valid (could be freed during choose_dialog_option)
+        if is_instance_valid(npc) and npc.has_method("get_current_dialog"):
+            if dialog:
+                # Update dialog
+                show_dialog(npc)
+            else:
+                # Dialog ended
+                end_dialog()
         else:
-            # Dialog ended
+            # NPC became invalid
             end_dialog()
+    else:
+        # No current NPC
+        end_dialog()
 
 # Handle suspicion changed signal - no individual meter to update
 func _on_suspicion_changed(old_level, new_level, npc):
     pass
+
+# Find the input manager in the scene tree
+func _find_input_manager():
+    var root = get_tree().get_root()
+    for child in root.get_children():
+        for grandchild in child.get_children():
+            if grandchild.get_class() == "Node" and grandchild.get_script() and grandchild.get_script().get_path().ends_with("input_manager.gd"):
+                return grandchild
+    return null

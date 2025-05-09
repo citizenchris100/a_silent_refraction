@@ -172,17 +172,102 @@ func choose_dialog_option(option_index):
     var dialog = get_current_dialog()
     if dialog and option_index < dialog.options.size():
         var option = dialog.options[option_index]
-        
+
         # Handle game over
         if current_dialog_node == "game_over":
             # TODO: Implement proper game over handling
             print("GAME OVER - Player has been captured!")
-        
+
         # Handle brig transition
         if current_dialog_node == "brig_transition":
             # TODO: Implement transition to brig scene
             print("Player has been taken to the brig!")
-        
+
         # Call parent method to handle the rest
         return .choose_dialog_option(option_index)
     return null
+
+# Override update_dialog_for_suspicion to make the officer more aggressive at higher suspicion
+func update_dialog_for_suspicion():
+    # Store current node
+    var current_node = current_dialog_node
+
+    # Reset dialog tree
+    initialize_dialog()
+
+    # Modify based on suspicion tier
+    match current_suspicion_tier:
+        "low":
+            # Slightly more watchful
+            dialog_tree["root"]["text"] = "Halt. This area is under security lockdown. State your business. *observes you closely*"
+
+        "medium":
+            # More direct questioning
+            dialog_tree["root"]["text"] = "You there! What are you doing in this area? You look suspicious."
+            dialog_tree["root"]["options"] = [
+                {"text": "Just passing through.", "next": "passing", "suspicion_change": 0.2},
+                {"text": "What's going on with the lockdown?", "next": "lockdown_info", "suspicion_change": 0.1},
+                {"text": "I'll go elsewhere.", "next": "exit"}
+            ]
+
+            # Add more aggressive questioning
+            for node_name in ["passing", "lockdown_info", "breach", "bank_teller"]:
+                if dialog_tree.has(node_name):
+                    dialog_tree[node_name]["text"] += " *hand rests on weapon*"
+
+        "high":
+            # Actively hostile
+            dialog_tree["root"] = {
+                "text": "You! Stop right there. Security breach in progress. *draws weapon*",
+                "options": [
+                    {"text": "I'm authorized to be here.", "next": "unauthorized", "suspicion_change": 0.2},
+                    {"text": "I'll leave immediately.", "next": "flee", "suspicion_change": 0.1}
+                ]
+            }
+
+            dialog_tree["unauthorized"] = {
+                "text": "No one is authorized during a Level 2 lockdown. Show me your credentials now.",
+                "options": [
+                    {"text": "I don't have any.", "next": "game_over", "suspicion_change": 0.5},
+                    {"text": "Let me explain...", "next": "game_over", "suspicion_change": 0.3}
+                ]
+            }
+
+            dialog_tree["flee"] = {
+                "text": "Too late for that. You're coming with me for questioning.",
+                "options": [
+                    {"text": "Alright, I'll come quietly.", "next": "brig", "suspicion_change": 0.0},
+                    {"text": "I've done nothing wrong!", "next": "game_over", "suspicion_change": 0.2}
+                ]
+            }
+
+        "critical":
+            # Immediate hostile action
+            dialog_tree = {
+                "root": {
+                    "text": "SECURITY ALERT! Intruder detected! *alarm sounds*",
+                    "options": [
+                        {"text": "Wait! I can explain!", "next": "game_over"},
+                        {"text": "I surrender.", "next": "surrender"}
+                    ]
+                },
+                "surrender": {
+                    "text": "Smart move. You'll be questioned by the Station Administrator personally.",
+                    "options": [
+                        {"text": "...", "next": "game_over"}
+                    ]
+                },
+                "game_over": {
+                    "text": "You are hereby detained under Section 7 of Station Security Protocols.",
+                    "options": [
+                        {"text": "...", "next": "exit"}
+                    ]
+                },
+                "exit": {
+                    "text": "*Security forces surround you*",
+                    "options": []
+                }
+            }
+
+    # Restore current node if possible
+    current_dialog_node = current_node if dialog_tree.has(current_node) else "root"

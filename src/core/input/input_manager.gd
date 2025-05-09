@@ -4,6 +4,7 @@ signal object_clicked(object, position)
 
 var player
 var current_district
+var block_clicks_until = 0  # Time until which clicks should be blocked
 
 func _ready():
     # Wait a frame to make sure all nodes are initialized
@@ -23,14 +24,30 @@ func _ready():
     else:
         push_error("No district found in the scene!")
 
+func _process(delta):
+    # Update the click block timer
+    if block_clicks_until > 0 and OS.get_ticks_msec() > block_clicks_until:
+        block_clicks_until = 0
+
 func _input(event):
     if event is InputEventMouseButton:
         if event.button_index == BUTTON_LEFT and event.pressed:
+            # Skip processing if clicks are blocked
+            if block_clicks_until > 0 and OS.get_ticks_msec() < block_clicks_until:
+                return
+
             # Skip processing if the click was on a UI element
             if _is_click_on_ui(event.position):
                 return
-            
-            _handle_click(event.position)
+
+            # Skip clicks while player is in dialog
+            var dialog_active = false
+            var dialog_manager = _find_dialog_manager()
+            if dialog_manager and dialog_manager.dialog_panel and dialog_manager.dialog_panel.visible:
+                dialog_active = true
+
+            if not dialog_active:
+                _handle_click(event.position)
 
 # Check if a point is on a UI element
 func _is_click_on_ui(position):
@@ -53,6 +70,19 @@ func _find_ui_layer():
         if node.has_node("UI"):
             return node.get_node("UI")
     return null
+
+# Find dialog manager in scene tree
+func _find_dialog_manager():
+    var root = get_tree().get_root()
+    for child in root.get_children():
+        for grandchild in child.get_children():
+            if grandchild.get_class() == "Node" and grandchild.get_script() and grandchild.get_script().get_path().ends_with("dialog_manager.gd"):
+                return grandchild
+    return null
+
+# Block clicks for a specified duration in milliseconds
+func block_clicks(duration_ms):
+    block_clicks_until = OS.get_ticks_msec() + duration_ms
 
 # Get all Control nodes in a parent
 func _get_all_controls(parent):

@@ -16,9 +16,15 @@ var current_state = State.IDLE
 
 # Suspicion System
 var suspicion_level = 0.0  # 0.0 to 1.0
-var suspicion_threshold = 0.8
+var suspicion_threshold = 0.8  # Main threshold for becoming suspicious
+# Additional thresholds for gradual reactions
+var low_suspicion_threshold = 0.3
+var medium_suspicion_threshold = 0.5
+var high_suspicion_threshold = 0.8
+var critical_suspicion_threshold = 0.9
 var suspicion_decay_rate = 0.05
 var suspicion_decay_enabled = true
+var current_suspicion_tier = "none"  # none, low, medium, high, critical
 
 # Dialog System
 var dialog_tree = {}
@@ -118,12 +124,28 @@ func _find_game_manager():
     for child in root.get_children():
         if child.has_method("handle_npc_click"):
             return child
-        
+
         # Try checking children too
         for grandchild in child.get_children():
             if grandchild.has_method("handle_npc_click"):
                 return grandchild
-    
+
+    return null
+
+# Find dialog manager in scene tree
+func _find_dialog_manager():
+    # First try to get it from the game manager
+    var game_manager = _find_game_manager()
+    if game_manager and game_manager.has_node("DialogManager"):
+        return game_manager.get_node("DialogManager")
+
+    # If not found through game manager, search the scene tree
+    var root = get_tree().get_root()
+    for child in root.get_children():
+        for grandchild in child.get_children():
+            if grandchild.get_class() == "Node" and grandchild.get_script() and grandchild.get_script().get_path().ends_with("dialog_manager.gd"):
+                return grandchild
+
     return null
 
 # Handle state changes
@@ -325,17 +347,79 @@ func choose_dialog_option(option_index):
 func change_suspicion(amount):
     var old_level = suspicion_level
     suspicion_level = clamp(suspicion_level + amount, 0.0, 1.0)
-    
-    # Check if NPC is now suspicious
-    if suspicion_level >= suspicion_threshold and old_level < suspicion_threshold:
+
+    # Update suspicion tier
+    var old_tier = current_suspicion_tier
+    update_suspicion_tier()
+
+    # Check thresholds for state changes
+    if suspicion_level >= high_suspicion_threshold and old_level < high_suspicion_threshold:
         _change_state(State.SUSPICIOUS)
-    
+    elif suspicion_level >= critical_suspicion_threshold and old_level < critical_suspicion_threshold:
+        _change_state(State.HOSTILE)
+
+    # React to tier changes if talking or interacting
+    if current_state == State.TALKING or current_state == State.INTERACTING:
+        if old_tier != current_suspicion_tier:
+            react_to_suspicion_change(old_tier, current_suspicion_tier)
+
     emit_signal("suspicion_changed", old_level, suspicion_level)
+
+# Update the suspicion tier based on current level
+func update_suspicion_tier():
+    var old_tier = current_suspicion_tier
+
+    if suspicion_level >= critical_suspicion_threshold:
+        current_suspicion_tier = "critical"
+    elif suspicion_level >= high_suspicion_threshold:
+        current_suspicion_tier = "high"
+    elif suspicion_level >= medium_suspicion_threshold:
+        current_suspicion_tier = "medium"
+    elif suspicion_level >= low_suspicion_threshold:
+        current_suspicion_tier = "low"
+    else:
+        current_suspicion_tier = "none"
+
+    return old_tier != current_suspicion_tier
+
+# React to changes in suspicion tier
+func react_to_suspicion_change(old_tier, new_tier):
+    # Default implementation
+    print(npc_name + " suspicion changed from " + old_tier + " to " + new_tier)
+
+    # If in dialog, potentially modify dialog options based on suspicion
+    if current_state == State.TALKING:
+        update_dialog_for_suspicion()
+
+        # Update the dialog UI if it's currently shown
+        var dialog_manager = _find_dialog_manager()
+        if dialog_manager and dialog_manager.current_npc == self:
+            # Use a small delay to ensure dialog tree is updated first
+            yield(get_tree().create_timer(0.1), "timeout")
+            dialog_manager.show_dialog(self)
 
 # Called when NPC becomes suspicious - override in child classes
 func become_suspicious():
     # Default implementation
-    print(npc_name + " has become suspicious!")
+    print(npc_name + " has become highly suspicious!")
+
+    # Update dialog options for suspicion
+    update_dialog_for_suspicion()
+
+    # If currently in dialog, update the dialog UI (with safety checks)
+    if current_state == State.TALKING:
+        var dialog_manager = _find_dialog_manager()
+        if dialog_manager and is_instance_valid(dialog_manager):
+            # Use a small delay to ensure dialog tree is updated first
+            yield(get_tree().create_timer(0.1), "timeout")
+            if is_instance_valid(dialog_manager) and dialog_manager.has_method("show_dialog"):
+                dialog_manager.show_dialog(self)
+
+# Update dialog options based on current suspicion level
+func update_dialog_for_suspicion():
+    # This is a template method to be overridden by child classes
+    # It should modify the dialog tree based on suspicion level
+    pass
 
 # Get assimilation status
 func is_assimilated():
@@ -350,18 +434,32 @@ func update_appearance():
                 if is_assimilated:
                     visual_sprite.color = Color(0.8, 0.2, 0.2)  # Red for assimilated
                 else:
-                    visual_sprite.color = Color(0.2, 0.8, 0.2)  # Green for unassimilated
+                    # Subtle color variations based on suspicion tier
+                    match current_suspicion_tier:
+                        "none":
+                            visual_sprite.color = Color(0.2, 0.8, 0.2)  # Green for unassimilated
+                        "low":
+                            visual_sprite.color = Color(0.4, 0.8, 0.2)  # Slightly yellower green
+                        "medium":
+                            visual_sprite.color = Color(0.6, 0.8, 0.2)  # Greenish yellow
+                        "high", "critical":
+                            visual_sprite.color = Color(0.8, 0.8, 0.2)  # Yellow
             State.SUSPICIOUS:
-                visual_sprite.color = Color(0.8, 0.8, 0.2)  # Yellow for suspicious
+                visual_sprite.color = Color(0.8, 0.7, 0.2)  # Yellow for suspicious
             State.HOSTILE:
-                visual_sprite.color = Color(0.8, 0.2, 0.2)  # Red for hostile
+                visual_sprite.color = Color(0.9, 0.1, 0.1)  # Bright red for hostile
             State.FOLLOWING:
                 visual_sprite.color = Color(0.2, 0.2, 0.8)  # Blue for following
             State.TALKING:
-                # Use suspicion level to determine color when talking
-                var suspicion_color = Color(
-                    lerp(0.2, 0.8, suspicion_level),  # R increases with suspicion
-                    lerp(0.8, 0.2, suspicion_level),  # G decreases with suspicion
-                    0.2                               # B stays constant
-                )
-                visual_sprite.color = suspicion_color
+                # Use suspicion tier to determine color when talking
+                match current_suspicion_tier:
+                    "none":
+                        visual_sprite.color = Color(0.2, 0.7, 0.2)  # Green
+                    "low":
+                        visual_sprite.color = Color(0.4, 0.7, 0.2)  # Yellow-green
+                    "medium":
+                        visual_sprite.color = Color(0.6, 0.6, 0.2)  # Yellow
+                    "high":
+                        visual_sprite.color = Color(0.8, 0.4, 0.2)  # Orange
+                    "critical":
+                        visual_sprite.color = Color(0.9, 0.2, 0.2)  # Red

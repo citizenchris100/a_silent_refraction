@@ -111,18 +111,91 @@ func choose_dialog_option(option_index):
         return .choose_dialog_option(option_index)
     return null
 
-# Override become_suspicious
+# Override update_dialog_for_suspicion method to modify dialog based on suspicion tier
+func update_dialog_for_suspicion():
+    # Store the current dialog node to restore after updating
+    var current_node = current_dialog_node
+
+    # Initialize base dialog tree
+    initialize_dialog()
+
+    # Modify dialog based on current suspicion tier
+    match current_suspicion_tier:
+        "low":
+            # Slightly cautious but still helpful
+            dialog_tree["root"]["text"] = "Yes? How can I help you today? *adjusts collar nervously*"
+            # Add a new suspicious option
+            dialog_tree["station_info"]["options"].append({
+                "text": "Are you feeling alright?",
+                "next": "feeling_alright",
+                "suspicion_change": -0.1
+            })
+            # Add the new dialog node
+            dialog_tree["feeling_alright"] = {
+                "text": "Me? Yes, of course. Just a bit tired. These long shifts, you know...",
+                "options": [
+                    {"text": "I understand.", "next": "exit"},
+                    {"text": "You seem nervous.", "next": "seem_nervous", "suspicion_change": 0.1}
+                ]
+            }
+            dialog_tree["seem_nervous"] = {
+                "text": "No, not at all. I should get back to work now.",
+                "options": [
+                    {"text": "Alright then.", "next": "exit"}
+                ]
+            }
+
+        "medium":
+            # More visibly uncomfortable
+            dialog_tree["root"]["text"] = "Hello... um, is there something specific you need? I'm rather busy."
+            # Modify existing responses to be more curt
+            for node in ["checkin", "station_info", "suspicious"]:
+                if dialog_tree.has(node):
+                    dialog_tree[node]["text"] += " *glances at security camera*"
+
+            # Make package delivery less likely
+            if dialog_tree.has("package"):
+                dialog_tree["package"]["options"] = [
+                    {"text": "I'll deliver it for you.", "next": "give_package", "suspicion_change": -0.3},
+                    {"text": "Sorry, I can't help.", "next": "exit", "suspicion_change": 0.0}
+                ]
+
+        "high", "critical":
+            # When concierge becomes highly suspicious, he will refuse to talk
+            dialog_tree = {
+                "root": {
+                    "text": "I'm sorry, I'm very busy right now and can't talk. *calls someone on communicator*",
+                    "options": [
+                        {"text": "Alright.", "next": "exit"},
+                        {"text": "Who are you calling?", "next": "calling", "suspicion_change": 0.2}
+                    ]
+                },
+                "calling": {
+                    "text": "Just checking with my supervisor about... something. Please excuse me.",
+                    "options": [
+                        {"text": "I'll leave you to it.", "next": "exit"}
+                    ]
+                },
+                "exit": {
+                    "text": "Security will be doing rounds soon. Good day.",
+                    "options": []
+                }
+            }
+
+    # If we were in the middle of a conversation, try to restore the node
+    # but fall back to root if the node no longer exists in the modified tree
+    current_dialog_node = current_node if dialog_tree.has(current_node) else "root"
+
+# Override become_suspicious for when suspicion crosses the main threshold
 func become_suspicious():
-    # When concierge becomes suspicious, he will refuse to talk
-    dialog_tree = {
-        "root": {
-            "text": "I'm sorry, I'm very busy right now and can't talk.",
-            "options": [
-                {"text": "Alright.", "next": "exit"}
-            ]
-        },
-        "exit": {
-            "text": "Good day.",
-            "options": []
-        }
-    }
+    print(npc_name + " has become highly suspicious of the player!")
+    update_dialog_for_suspicion()
+
+    # If currently in dialog, update the dialog immediately
+    if current_state == State.TALKING:
+        var dialog_manager = _find_dialog_manager()
+        if dialog_manager and is_instance_valid(dialog_manager):
+            # Use a small delay to ensure dialog tree is updated first
+            yield(get_tree().create_timer(0.1), "timeout")
+            if is_instance_valid(dialog_manager):
+                dialog_manager.show_dialog(self)
