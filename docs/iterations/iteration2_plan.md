@@ -9,8 +9,8 @@
 ## Tasks
 - [x] Task 1: Create base NPC class with state machine
 - [x] Task 2: Implement NPC dialog system
-- [~] Task 3: Create suspicion meter UI element
-- [~] Task 4: Implement suspicion tracking system
+- [x] Task 3: Create suspicion meter UI element
+- [x] Task 4: Implement suspicion tracking system
 - [ ] Task 5: Script NPC reactions based on suspicion levels
 - [ ] Task 6: Apply visual style guide to Shipping District
 - [ ] Task 7: Create bash script for generating NPC placeholders

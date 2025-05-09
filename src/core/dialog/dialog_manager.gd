@@ -56,6 +56,9 @@ func _connect_to_npcs():
         if not npc.is_connected("dialog_ended", self, "_on_dialog_ended"):
             npc.connect("dialog_ended", self, "_on_dialog_ended")
         
+        if not npc.is_connected("suspicion_changed", self, "_on_suspicion_changed"):
+            npc.connect("suspicion_changed", self, "_on_suspicion_changed", [npc])
+        
         print("Connected dialog system to NPC: " + npc.npc_name)
 
 # Show dialog with an NPC
@@ -82,6 +85,7 @@ func show_dialog(npc):
         
         # Show dialog panel
         dialog_panel.visible = true
+        
         emit_signal("dialog_started", npc)
     else:
         end_dialog()
@@ -89,6 +93,7 @@ func show_dialog(npc):
 # End the current dialog
 func end_dialog():
     dialog_panel.visible = false
+    
     var old_npc = current_npc
     current_npc = null
     
@@ -116,3 +121,7 @@ func _on_dialog_option_selected(option_index):
         else:
             # Dialog ended
             end_dialog()
+
+# Handle suspicion changed signal - no individual meter to update
+func _on_suspicion_changed(old_level, new_level, npc):
+    pass

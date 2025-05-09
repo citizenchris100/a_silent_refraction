@@ -10,6 +10,10 @@ func _ready():
     add_child(background)
     
     # Create managers
+    var suspicion_manager = load("res://src/core/suspicion/suspicion_manager.gd").new()
+    suspicion_manager.name = "SuspicionManager"
+    add_child(suspicion_manager)
+    
     var game_manager = load("res://src/core/game/game_manager.gd").new()
     game_manager.name = "GameManager"
     add_child(game_manager)
@@ -44,7 +48,7 @@ func _ready():
     add_child(player)
     
     # Create NPCs
-    _create_npcs()
+    call_deferred("_create_npcs")
 
 func _create_ui():
     var canvas_layer = CanvasLayer.new()
@@ -61,22 +65,21 @@ func _create_ui():
         verb_ui.margin_top = -120.0
         canvas_layer.add_child(verb_ui)
     
-    # Create interaction text
-    var interaction_text = Label.new()
-    interaction_text.name = "InteractionText"
-    interaction_text.text = "Dialog Test: Select 'Talk to' verb and click on an NPC."
-    interaction_text.rect_position = Vector2(20, 20)
-    interaction_text.rect_size = Vector2(600, 60)
-    canvas_layer.add_child(interaction_text)
+    # Create global suspicion meter (positioned to avoid overlap)
+    var global_meter_scene = load("res://src/ui/suspicion_meter/global_suspicion_meter.tscn")
+    if global_meter_scene:
+        var global_meter = global_meter_scene.instance()
+        canvas_layer.add_child(global_meter)
     
     # Create instructions
     var instructions = Label.new()
+    instructions.name = "Instructions"
     instructions.text = "Dialog Test\n" + \
                         "- Select 'Talk to' verb\n" + \
                         "- Click on an NPC to start dialog\n" + \
                         "- Select dialog options\n" + \
                         "- Test different NPCs for different dialogs"
-    instructions.rect_position = Vector2(20, 80)
+    instructions.rect_position = Vector2(20, 140)
     canvas_layer.add_child(instructions)
 
 func _create_npcs():
@@ -117,6 +120,7 @@ func _create_npcs():
             suspicious_npc.set_script(base_npc_script)
             suspicious_npc.name = "SuspiciousNPC" 
             suspicious_npc.position = Vector2(700, 300)
+            suspicious_npc.suspicion_level = 0.6
             add_child(suspicious_npc)
             
             print("Created 2 generic NPCs for testing")

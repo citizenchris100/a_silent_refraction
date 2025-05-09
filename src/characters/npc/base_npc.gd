@@ -17,6 +17,8 @@ var current_state = State.IDLE
 # Suspicion System
 var suspicion_level = 0.0  # 0.0 to 1.0
 var suspicion_threshold = 0.8
+var suspicion_decay_rate = 0.05
+var suspicion_decay_enabled = true
 
 # Dialog System
 var dialog_tree = {}
@@ -149,30 +151,36 @@ func _change_state(new_state):
         State.FOLLOWING:
             _on_enter_following_state()
     
+    # Update visual appearance
+    update_appearance()
+    
     emit_signal("state_changed", old_state, new_state)
 
 # State entry handlers
 func _on_enter_idle_state():
-    pass
+    suspicion_decay_enabled = true
 
 func _on_enter_interacting_state():
-    pass
+    suspicion_decay_enabled = false
 
 func _on_enter_talking_state():
+    suspicion_decay_enabled = false
     start_dialog()
 
 func _on_enter_suspicious_state():
+    suspicion_decay_enabled = false
     become_suspicious()
 
 func _on_enter_hostile_state():
-    pass
+    suspicion_decay_enabled = false
 
 func _on_enter_following_state():
-    pass
+    suspicion_decay_enabled = true
 
 # State exit handlers
 func _on_exit_talking_state():
     end_dialog()
+    suspicion_decay_enabled = true
 
 # Process function based on current state
 func _process(delta):
@@ -189,6 +197,10 @@ func _process(delta):
             _process_hostile_state(delta)
         State.FOLLOWING:
             _process_following_state(delta)
+    
+    # Process suspicion decay
+    if suspicion_decay_enabled and suspicion_level > 0:
+        change_suspicion(-suspicion_decay_rate * delta)
 
 # State processing functions
 func _process_idle_state(delta):
@@ -244,10 +256,7 @@ func interact(verb, item = null):
     if verb == "Talk to":
         _change_state(State.TALKING)
         return "You begin talking to " + npc_name
-    # Special case for talking
-    if verb == "Talk to":
-        _change_state(State.TALKING)
-        return "You begin talking to " + npc_name
+    
     # Switch to interacting state if not already talking
     if current_state != State.TALKING:
         _change_state(State.INTERACTING)
@@ -332,7 +341,7 @@ func become_suspicious():
 func is_assimilated():
     return is_assimilated
 
-# Update NPC appearance based on state
+# Update NPC appearance based on state and suspicion
 func update_appearance():
     if visual_sprite and visual_sprite is ColorRect:
         # Update color based on state
@@ -348,3 +357,11 @@ func update_appearance():
                 visual_sprite.color = Color(0.8, 0.2, 0.2)  # Red for hostile
             State.FOLLOWING:
                 visual_sprite.color = Color(0.2, 0.2, 0.8)  # Blue for following
+            State.TALKING:
+                # Use suspicion level to determine color when talking
+                var suspicion_color = Color(
+                    lerp(0.2, 0.8, suspicion_level),  # R increases with suspicion
+                    lerp(0.8, 0.2, suspicion_level),  # G decreases with suspicion
+                    0.2                               # B stays constant
+                )
+                visual_sprite.color = suspicion_color
