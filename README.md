@@ -81,26 +81,30 @@ The game features a retro-futuristic aesthetic combining elements from:
 
 The project includes a management script (`a_silent_refraction.sh`) to streamline development:
 
-./a_silent_refraction.sh navigation # Test navigation system
-./a_silent_refraction.sh dialog     # Test dialog system
+```bash
+# Run specific scenes
+./a_silent_refraction.sh run         # Run the main game
+./a_silent_refraction.sh navigation  # Test navigation system
+./a_silent_refraction.sh dialog      # Test dialog system
+./a_silent_refraction.sh test        # Run NPC test scene
 
-# Clean up redundant files
-./a_silent_refraction.sh clean
+# Debug tools
+./a_silent_refraction.sh debug                # Run debug tools test scene
+./a_silent_refraction.sh debug-universal      # Run universal scene debugger
+./a_silent_refraction.sh debug-district NAME  # Debug a specific district
 
-# Check project for errors
-./a_silent_refraction.sh check
+# Project management
+./a_silent_refraction.sh clean       # Clean up redundant files
+./a_silent_refraction.sh check       # Check project for errors
+./a_silent_refraction.sh import      # Import all assets (required after adding new assets)
+./a_silent_refraction.sh build       # Build the game for distribution
 
-# Import all assets (required after adding new assets)
-./a_silent_refraction.sh import
+# Content creation
+./a_silent_refraction.sh new-npc <npc_name>         # Create a new NPC
+./a_silent_refraction.sh new-district <district_name>  # Create a new district
+```
 
-# Create a new NPC
-./a_silent_refraction.sh new-npc <npc_name>
-
-# Create a new district
-./a_silent_refraction.sh new-district <district_name>
-
-# Build the game for distribution
-./a_silent_refraction.sh build
+For detailed instructions on using the debug tools, see [Debug Tools Guide](docs/debug_tools.md).
 
 
 ## Iteration Planning System
@@ -236,6 +240,21 @@ The game includes specialized test scenes for focused testing of specific system
 ### NPC Test (`./a_silent_refraction.sh test`)
 - Simple environment for testing NPC interactions
 - Tests NPC state machines and behavior
+
+### Debug Tools (`./a_silent_refraction.sh debug`)
+- Visualizes walkable area polygons
+- Displays real-time coordinates
+- Helps with level design and debugging
+
+### Universal Debug (`./a_silent_refraction.sh debug-universal`)
+- Allows debugging of any scene in the game
+- Provides a scene selector interface
+- Automatically adds debug tools to any scene
+
+### District Debug (`./a_silent_refraction.sh debug-district NAME`)
+- Directly debug a specific district
+- Full polygon editing capabilities
+- Coordinate picking and visualization
 
 ## NPC Framework
 

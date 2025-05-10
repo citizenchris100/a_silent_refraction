@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/test/debug_tools_test.gd" type="Script" id=1]
+[ext_resource path="res://src/core/debug/coordinate_picker.gd" type="Script" id=2]
+[ext_resource path="res://src/core/debug/polygon_visualizer.gd" type="Script" id=3]
+[ext_resource path="res://src/core/districts/walkable_area.gd" type="Script" id=4]
+[ext_resource path="res://src/assets/backgrounds/shipping_district_bg.png" type="Texture" id=5]
+
+[node name="DebugToolsTest" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Background" type="TextureRect" parent="."]
+margin_right = 1424.0
+margin_bottom = 830.0
+texture = ExtResource( 5 )
+expand = false
+stretch_mode = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WalkableArea" type="Polygon2D" parent="." groups=["walkable_area"]]
+visible = true
+modulate = Color( 1, 1, 1, 1.0 )
+color = Color( 1.0, 0.0, 0.0, 0.5 )
+polygon = PoolVector2Array(
+	2, 650,
+	1, 668,
+	125, 669,
+	154, 655,
+	291, 655,
+	343, 634,
+	1084, 636,
+	1127, 662,
+	1229, 659,
+	1250, 671,
+	1407, 674,
+	1419, 672,
+	1420, 791,
+	4, 791,
+	6, 674
+)
+script = ExtResource( 4 )
+
+[node name="DebugTools" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="CoordinatePicker" type="Node2D" parent="DebugTools"]
+script = ExtResource( 2 )
+show_grid = true
+
+[node name="PolygonVisualizer" type="Node2D" parent="DebugTools"]
+script = ExtResource( 3 )
+
+[node name="Instructions" type="Label" parent="DebugTools"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 400.0
+margin_bottom = 150.0
+text = "Debug Tools Test
+====================
+- Left-click to capture coordinates
+- Press C to copy coordinates to clipboard
+- Click vertices to select polygon points 
+- Press P to print current polygon data"
+__meta__ = {
+"_edit_use_anchors_": false
+}

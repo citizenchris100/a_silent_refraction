@@ -17,6 +17,8 @@ MAIN_SCENE="res://src/core/main.tscn"
 TEST_SCENE="res://src/test/npc_system_test.tscn"
 NAVIGATION_TEST_SCENE="res://src/test/navigation_test.tscn"
 DIALOG_TEST_SCENE="res://src/test/dialog_test.tscn"
+DEBUG_TOOLS_TEST_SCENE="res://src/test/debug_tools_test.tscn"
+UNIVERSAL_DEBUG_SCENE="res://src/test/universal_debug.tscn"
 
 # Function to display help
 function show_help {
@@ -25,17 +27,20 @@ function show_help {
     echo "Usage: ./a_silent_refraction.sh [command]"
     echo ""
     echo "Commands:"
-    echo "  run         - Run the main game"
-    echo "  test        - Run the NPC test scene"
-    echo "  navigation  - Run the navigation test scene"
-    echo "  dialog      - Run the dialog test scene"
-    echo "  clean       - Clean up redundant files"
-    echo "  build       - Build the game for distribution"
-    echo "  check       - Check project for errors"
-    echo "  import      - Import all assets (required after adding new assets)"
-    echo "  new-npc     - Create a new NPC script"
-    echo "  new-district - Create a new district"
-    echo "  help        - Show this help message"
+    echo "  run                  - Run the main game"
+    echo "  test                 - Run the NPC test scene"
+    echo "  navigation           - Run the navigation test scene"
+    echo "  dialog               - Run the dialog test scene"
+    echo "  debug                - Run the debug tools test scene"
+    echo "  debug-universal      - Run the universal debug scene"
+    echo "  debug-district NAME  - Debug a specific district (e.g. shipping)"
+    echo "  clean                - Clean up redundant files"
+    echo "  build                - Build the game for distribution"
+    echo "  check                - Check project for errors"
+    echo "  import               - Import all assets (required after adding new assets)"
+    echo "  new-npc              - Create a new NPC script"
+    echo "  new-district         - Create a new district"
+    echo "  help                 - Show this help message"
     echo ""
 }
 
@@ -61,6 +66,46 @@ function run_navigation_test {
 function run_dialog_test {
     echo -e "${GREEN}Running dialog test scene...${NC}"
     $GODOT_CMD --path $PROJECT_ROOT $DIALOG_TEST_SCENE
+}
+
+# Function to run the debug tools test scene
+function run_debug_tools_test {
+    echo -e "${GREEN}Running debug tools test scene...${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT $DEBUG_TOOLS_TEST_SCENE
+}
+
+# Function to run the universal debug scene
+function run_universal_debug {
+    echo -e "${GREEN}Running universal debug scene...${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT $UNIVERSAL_DEBUG_SCENE
+}
+
+# Function to debug a specific district
+function debug_district {
+    if [ -z "$1" ]; then
+        echo -e "${RED}Error: No district name provided.${NC}"
+        echo "Usage: ./a_silent_refraction.sh debug-district <district_name>"
+        exit 1
+    fi
+
+    district_name=$1
+    district_scene="res://src/districts/${district_name}/${district_name}_district.tscn"
+
+    # Check if district exists
+    if [ ! -f "${PROJECT_ROOT}/src/districts/${district_name}/${district_name}_district.tscn" ]; then
+        echo -e "${RED}Error: District '${district_name}' not found.${NC}"
+        echo "Available districts:"
+        for dir in $(find ${PROJECT_ROOT}/src/districts -mindepth 1 -maxdepth 1 -type d); do
+            basename=$(basename $dir)
+            echo "  - $basename"
+        done
+        exit 1
+    fi
+
+    echo -e "${GREEN}Debugging ${district_name} district...${NC}"
+
+    # Run with the universal debug scene and target district
+    $GODOT_CMD --path $PROJECT_ROOT $UNIVERSAL_DEBUG_SCENE --target-scene=$district_scene
 }
 
 # Function to clean up redundant files
@@ -289,6 +334,15 @@ case "$1" in
         ;;
     dialog)
         run_dialog_test
+        ;;
+    debug)
+        run_debug_tools_test
+        ;;
+    debug-universal)
+        run_universal_debug
+        ;;
+    debug-district)
+        debug_district "$2"
         ;;
     clean)
         clean_project
