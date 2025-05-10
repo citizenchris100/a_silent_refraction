@@ -18,11 +18,19 @@ func _ready():
 	# Add the player character
 	var player = load("res://src/characters/player/player.tscn").instance()
 	add_child(player)
-	player.position = Vector2(500, 700)  # Starting position within the walkable area
+	player.position = Vector2(712, 680)  # Starting position aligned with the floor and centered horizontally
 	
 	# Add some NPCs for testing if they don't already exist
 	_add_test_npcs()
-	
+
+	# Debug label disabled for clearer screenshots
+	# var debug_label = Label.new()
+	# debug_label.name = "PlayerPosLabel"
+	# debug_label.text = "Player position y=" + str(player.position.y)
+	# debug_label.rect_position = Vector2(20, 80)
+	# debug_label.add_color_override("font_color", Color(0, 1, 0))
+	# add_child(debug_label)
+
 	# Main initialization completed
 	print("Main scene loaded")
 
@@ -74,7 +82,7 @@ func _add_test_npcs():
 		var concierge = Node2D.new()
 		concierge.set_script(concierge_script)
 		concierge.name = "Concierge"
-		concierge.position = Vector2(300, 700)  # Updated position to be in the walkable area
+		concierge.position = Vector2(500, 680)  # Updated position to be in the walkable area
 		add_child(concierge)
 		print("Added Concierge NPC")
 	
@@ -84,7 +92,7 @@ func _add_test_npcs():
 		var security = Node2D.new()
 		security.set_script(security_script)
 		security.name = "SecurityOfficer"
-		security.position = Vector2(700, 700)  # Updated position to be in the walkable area
+		security.position = Vector2(900, 680)  # Updated position to be in the walkable area
 		add_child(security)
 		print("Added Security Officer NPC")
 

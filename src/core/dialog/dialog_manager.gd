@@ -32,22 +32,22 @@ func _create_dialog_ui():
     
     # Create dialog panel
     dialog_panel = Panel.new()
-    dialog_panel.rect_position = Vector2(212, 150)
-    dialog_panel.rect_size = Vector2(600, 300)
+    dialog_panel.rect_position = Vector2(1100, 720)  # Bottom right position, right above verb UI
+    dialog_panel.rect_size = Vector2(320, 110)      # Even smaller, more compact size
     dialog_panel.visible = false
     canvas.add_child(dialog_panel)
     
     # Create dialog text
     dialog_text = Label.new()
-    dialog_text.rect_position = Vector2(20, 20)
-    dialog_text.rect_size = Vector2(560, 100)
+    dialog_text.rect_position = Vector2(15, 10)
+    dialog_text.rect_size = Vector2(320, 50)
     dialog_text.autowrap = true
     dialog_panel.add_child(dialog_text)
-    
+
     # Create dialog options container
     dialog_options = VBoxContainer.new()
-    dialog_options.rect_position = Vector2(20, 130)
-    dialog_options.rect_size = Vector2(560, 150)
+    dialog_options.rect_position = Vector2(15, 80)
+    dialog_options.rect_size = Vector2(320, 80)
     dialog_panel.add_child(dialog_options)
 
 # Connect to all NPCs in the scene

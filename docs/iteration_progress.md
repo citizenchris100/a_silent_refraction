@@ -7,7 +7,7 @@ This file tracks the progress of all iterations for the project.
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
-| 2 | NPC Framework and Suspicion System | IN PROGRESS | 62% (5/8) |
+| 2 | NPC Framework and Suspicion System | IN PROGRESS | 69% (5.5/8) |
 | 3 | Game Districts, Time Management, and Save System | Not started | 0% (0/11) |
 | 4 | Investigation Mechanics and Advanced Inventory | Not started | 0% (0/10) |
 | 5 | Coalition Building | Not started | 0% (0/8) |
@@ -37,7 +37,7 @@ This file tracks the progress of all iterations for the project.
 | Create suspicion meter UI element | Complete | - |
 | Implement suspicion tracking system | Complete | - |
 | Script NPC reactions based on suspicion levels | Complete | - |
-| Apply visual style guide to Shipping District | Pending | - |
+| Apply visual style guide to Shipping District | In Progress | - |
 | Create bash script for generating NPC placeholders | Pending | - |
 | Implement observation mechanics for detecting assimilated NPCs | Pending | - |
 

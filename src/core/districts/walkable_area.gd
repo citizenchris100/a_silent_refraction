@@ -4,8 +4,9 @@ func _ready():
     # Add to walkable area group
     add_to_group("walkable_area")
 
-    # Make semi-transparent for debugging but not too obtrusive
-    color = Color(0.2, 0.6, 0.2, 0.15)
+    # Make highly visible for debugging
+    color = Color(1.0, 0.0, 0.0, 0.5)
+    modulate = Color(1, 1, 1, 1.0)
 
 # Check if a point is inside this area
 func contains_point(point):

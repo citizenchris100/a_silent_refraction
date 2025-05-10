@@ -19,17 +19,25 @@ func _ready():
     var walkable_area = Polygon2D.new()
     walkable_area.set_script(load("res://src/core/districts/walkable_area.gd"))
     walkable_area.polygon = PoolVector2Array([
-        Vector2(100, 100),
-        Vector2(900, 100),
-        Vector2(900, 500),
-        Vector2(100, 500)
+        Vector2(150, 200),
+        Vector2(900, 200),
+        Vector2(900, 480),
+        Vector2(150, 480)
     ])
+    walkable_area.color = Color(0.2, 0.6, 0.2, 0.3)
+    walkable_area.add_to_group("walkable_area")
     district.add_child(walkable_area)
+    yield(get_tree(), "idle_frame")
+    district.walkable_areas.append(walkable_area)
     
     # Create a player
     var player = load("res://src/characters/player/player.tscn").instance()
-    player.position = Vector2(500, 300)
+    player.position = Vector2(500, 350)
     add_child(player)
+
+    # Manually set the district for the player
+    yield(get_tree(), "idle_frame")
+    player.current_district = district
     
     # Create input manager
     var input_manager = load("res://src/core/input/input_manager.gd").new()
