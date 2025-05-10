@@ -32,6 +32,7 @@ function show_help {
     echo "  clean       - Clean up redundant files"
     echo "  build       - Build the game for distribution"
     echo "  check       - Check project for errors"
+    echo "  import      - Import all assets (required after adding new assets)"
     echo "  new-npc     - Create a new NPC script"
     echo "  new-district - Create a new district"
     echo "  help        - Show this help message"
@@ -94,6 +95,13 @@ function clean_project {
 function check_project {
     echo -e "${BLUE}Checking project for errors...${NC}"
     $GODOT_CMD --path $PROJECT_ROOT --check-only
+}
+
+# Function to import all assets
+function import_assets {
+    echo -e "${BLUE}Importing assets...${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT --headless --quit
+    echo -e "${GREEN}Asset import complete.${NC}"
 }
 
 # Function to build the game
@@ -290,6 +298,9 @@ case "$1" in
         ;;
     check)
         check_project
+        ;;
+    import)
+        import_assets
         ;;
     new-npc)
         create_new_npc "$2"

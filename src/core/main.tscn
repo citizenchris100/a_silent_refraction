@@ -12,3 +12,4 @@ script = ExtResource( 1 )
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -120.0
+margin_bottom = 0.0

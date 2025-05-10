@@ -90,6 +90,9 @@ The project includes a management script (`a_silent_refraction.sh`) to streamlin
 # Check project for errors
 ./a_silent_refraction.sh check
 
+# Import all assets (required after adding new assets)
+./a_silent_refraction.sh import
+
 # Create a new NPC
 ./a_silent_refraction.sh new-npc <npc_name>
 
@@ -247,6 +250,56 @@ To create a new NPC, use the management script:
 
 
 Then customize its dialog and behavior in `src/characters/npc/SecurityGuard.gd`.
+
+## Asset Management
+
+The project uses the following structure for assets:
+
+```
+src/assets/
+  backgrounds/     # Background images for districts
+  characters/      # Character sprites
+    player/        # Player character sprites
+    npcs/          # NPC character sprites
+  ui/              # UI elements
+    buttons/       # Button graphics
+    icons/         # Icon graphics
+    panels/        # Panel backgrounds
+  fonts/           # Custom fonts
+  sfx/             # Sound effects
+  music/           # Background music
+```
+
+### Importing Assets
+
+When adding new assets to the project, they need to be imported by Godot before they can be used. This can be done in two ways:
+
+#### Using the Godot Editor
+
+1. Open the project in the Godot Editor
+2. The editor will automatically import new assets
+3. Save the project
+
+#### Using Command Line (Recommended)
+
+To import assets without opening the Godot Editor, use:
+
+```bash
+godot --path /path/to/project --headless --quit
+```
+
+For this project:
+
+```bash
+godot --path /home/chris/Documents/repos/a_silent_refraction --headless --quit
+```
+
+This command:
+- Launches Godot with the project
+- Processes and imports all new assets
+- Quits immediately without showing the editor UI
+
+You'll need to run this command whenever you add new assets to the project. Consider adding it to your workflow or scripts.
 
 ## Development Scripts
 
