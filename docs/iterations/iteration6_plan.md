@@ -14,6 +14,7 @@
 - [ ] Task 6: Create ending cinematics
 - [ ] Task 7: Add game over screens
 - [ ] Task 8: Implement statistics tracking for playthrough
+- [ ] Task 9: Perform in-game integration testing of all Iteration 6 features and complete game flow
 
 ## Testing Criteria
 - Game can be completed with multiple different outcomes

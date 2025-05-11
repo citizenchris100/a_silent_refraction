@@ -62,6 +62,8 @@ The game features a retro-futuristic aesthetic combining elements from:
 - Godot 3.5.2 (Standard version, not Mono)
 - Linux or Windows with Git Bash
 - Command line tools for development
+- ImageMagick (for asset generation)
+- jq (for JSON processing)
 
 ### Installation
 
@@ -73,7 +75,14 @@ The game features a retro-futuristic aesthetic combining elements from:
 
 
 
-3. Run the Game:
+3. Install required dependencies:
+
+```bash
+# For asset generation and NPC registry
+sudo apt-get install imagemagick jq
+```
+
+4. Run the Game:
 
 
 
@@ -89,9 +98,9 @@ The project includes a management script (`a_silent_refraction.sh`) to streamlin
 ./a_silent_refraction.sh test        # Run NPC test scene
 
 # Debug tools
-./a_silent_refraction.sh debug                # Run debug tools test scene
-./a_silent_refraction.sh debug-universal      # Run universal scene debugger
-./a_silent_refraction.sh debug-district NAME  # Debug a specific district
+./a_silent_refraction.sh debug                # Run debug tools test scene with visualization helpers
+./a_silent_refraction.sh debug-universal      # Run universal scene debugger (can load any scene with debug tools)
+./a_silent_refraction.sh debug-district NAME  # Debug a specific district (e.g., 'shipping', 'security')
 
 # Project management
 ./a_silent_refraction.sh clean       # Clean up redundant files
@@ -104,7 +113,7 @@ The project includes a management script (`a_silent_refraction.sh`) to streamlin
 ./a_silent_refraction.sh new-district <district_name>  # Create a new district
 ```
 
-For detailed instructions on using the debug tools, see [Debug Tools Guide](docs/debug_tools.md).
+For comprehensive instructions on using these powerful debugging tools, including keyboard shortcuts, editing modes, and workflow tips, see the [Debug Tools Guide](docs/debug_tools.md).
 
 
 ## Iteration Planning System
@@ -150,6 +159,46 @@ Displays a progress report across all iterations, showing completion percentages
 Example:
 
 This associates Task 1 in Iteration 2 with the specified code file.
+
+## NPC Registry System
+
+The project includes a comprehensive NPC registry system that manages NPCs and their assimilation status throughout the game.
+
+### Using the NPC Registry
+
+```bash
+# Generate or update the NPC registry and placeholder sprites
+./tools/create_npc_registry.sh
+```
+
+This script:
+- Creates a JSON-based NPC database with metadata
+- Generates placeholder sprites for all NPCs in different states
+- Creates a GDScript utility class for accessing NPC data
+- Tracks which NPCs are assimilated and known to be assimilated
+
+### Dependencies
+
+The NPC registry system requires:
+- ImageMagick (for sprite generation)
+- jq (for JSON processing)
+
+Install these dependencies with:
+```bash
+sudo apt-get install imagemagick jq
+```
+
+### NPC States and Assimilation
+
+Each NPC in the registry has:
+- Basic information (name, type, location)
+- Assimilation status (true/false)
+- Suspicion level (0.0 to 1.0)
+- Known assimilation status (player's knowledge)
+
+The system supports the game's core assimilation mechanic where NPCs are secretly assimilated over time.
+
+For detailed documentation, see [NPC Registry Usage Guide](docs/npc_registry_usage.md).
 
 ## Core Systems
 
@@ -205,16 +254,18 @@ The project is being developed in iterations, with each iteration focusing on sp
 - Smooth movement with acceleration/deceleration added
 - Boundary detection ensures player stays in walkable areas
 
-### Iteration 2: NPC Framework and Suspicion System ⏳
+### Iteration 2: NPC Framework, Suspicion System, and Initial Asset Creation ⏳
 - Base NPC class with state machine created
 - Dialog system implemented
 - NPC suspicion system introduced
 - Dialog choices affecting suspicion levels
 - Example NPCs (Concierge, Security Officer) implemented
+- NPC registry and placeholder generation system
+- Initial asset creation for key game areas
 
 ### Planned Future Iterations
-- Iteration 3: Game Districts, Time Management, and Save System
-- Iteration 4: Investigation Mechanics and Advanced Inventory
+- Iteration 3: Game Districts, Time Management, Save System, and Asset Expansion
+- Iteration 4: Investigation Mechanics, Advanced Inventory, and Mall/Trading Floor Assets
 - Iteration 5: Coalition Building
 - Iteration 6: Game Progression and Multiple Endings
 
@@ -242,19 +293,27 @@ The game includes specialized test scenes for focused testing of specific system
 - Tests NPC state machines and behavior
 
 ### Debug Tools (`./a_silent_refraction.sh debug`)
-- Visualizes walkable area polygons
-- Displays real-time coordinates
-- Helps with level design and debugging
+- Visualizes walkable area polygons with vertex indices and coordinates
+- Displays real-time mouse coordinates for precise placement
+- Helps with level design and debugging collision areas
+- Provides polygon editing tools (add/move/delete vertices)
+- Includes undo/redo functionality for safe editing
 
 ### Universal Debug (`./a_silent_refraction.sh debug-universal`)
-- Allows debugging of any scene in the game
-- Provides a scene selector interface
-- Automatically adds debug tools to any scene
+- Allows debugging of any scene in the game through a scene selector
+- Provides a dropdown menu to choose which scene to load
+- Automatically adds debug tools to any selected scene
+- Switch between scenes without restarting the game
+- Perfect for testing multiple scenes during development
 
 ### District Debug (`./a_silent_refraction.sh debug-district NAME`)
-- Directly debug a specific district
-- Full polygon editing capabilities
-- Coordinate picking and visualization
+- Directly debug a specific district (e.g., `debug-district shipping`)
+- Full polygon editing capabilities with multiple editing modes
+- Coordinate picking and visualization for precise measurements
+- Print/copy polygon data in GDScript format ready for code insertion
+- Immediate visualization of changes to walkable areas
+
+For comprehensive instructions on using these powerful debugging tools, including keyboard shortcuts, editing modes, and workflow tips, see the [Debug Tools Guide](docs/debug_tools.md).
 
 ## NPC Framework
 
@@ -320,6 +379,26 @@ This command:
 
 You'll need to run this command whenever you add new assets to the project. Consider adding it to your workflow or scripts.
 
+### Asset Generation Tools
+
+The project includes tools for generating placeholder assets:
+
+```bash
+# Generate NPC placeholder sprites and registry
+./tools/create_npc_registry.sh
+
+# Generate player character placeholder
+./tools/create_player_sprite.sh
+
+# Generate placeholder backgrounds
+./tools/create_placeholder_bg.sh
+
+# Generate game icon
+./tools/create_icon.sh
+```
+
+These tools help maintain consistency across assets and speed up development. See the documentation for each tool in the `docs/` directory for details.
+
 ## Development Scripts
 
 The project includes helpful scripts for development tasks:
@@ -343,6 +422,73 @@ To clean up all local and remote branches except for main:
 
 
 **Warning**: This is a destructive operation that will delete branches!
+
+## Project Documentation
+
+The project includes comprehensive documentation to help developers understand the game architecture, design, and implementation plans.
+
+### Core Documentation
+
+| Document | Description | Access Command |
+|----------|-------------|----------------|
+| [Game Design Document](GAME_DESIGN_DOCUMENT.md) | Full game concept, setting, mechanics, and visual style | `cat GAME_DESIGN_DOCUMENT.md` |
+| [Architecture Document](ARCHITECTURE.md) | System architecture, component design, and code organization | `cat ARCHITECTURE.md` |
+| [Claude Instructions](CLAUDE.md) | Guidelines for working with Claude.ai on this codebase | `cat CLAUDE.md` |
+
+### Development Planning
+
+| Document | Description | Access Command |
+|----------|-------------|----------------|
+| [Iteration Progress](docs/iteration_progress.md) | Current development status across all iterations | `cat docs/iteration_progress.md` |
+| [Iteration 1 Plan](docs/iterations/iteration1_plan.md) | Basic Environment and Navigation | `cat docs/iterations/iteration1_plan.md` |
+| [Iteration 2 Plan](docs/iterations/iteration2_plan.md) | NPC Framework and Suspicion System | `cat docs/iterations/iteration2_plan.md` |
+| [Iteration 3 Plan](docs/iterations/iteration3_plan.md) | Game Districts and Time Management | `cat docs/iterations/iteration3_plan.md` |
+| [Iteration 4 Plan](docs/iterations/iteration4_plan.md) | Investigation Mechanics and Inventory | `cat docs/iterations/iteration4_plan.md` |
+| [Iteration 5 Plan](docs/iterations/iteration5_plan.md) | Coalition Building | `cat docs/iterations/iteration5_plan.md` |
+| [Iteration 6 Plan](docs/iterations/iteration6_plan.md) | Game Progression and Endings | `cat docs/iterations/iteration6_plan.md` |
+| [Iteration 7 Plan](docs/iterations/iteration7_plan.md) | Quest System and Story Implementation | `cat docs/iterations/iteration7_plan.md` |
+
+### System Design Documents
+
+| Document | Description | Access Command |
+|----------|-------------|----------------|
+| [Debug Tools Guide](docs/debug_tools.md) | Using the polygon editing and scene debugging tools | `cat docs/debug_tools.md` |
+| [NPC Registry Usage](docs/npc_registry_usage.md) | Managing NPCs and their assimilation status | `cat docs/npc_registry_usage.md` |
+| [Observation Mechanics](docs/observation_mechanics.md) | NPC assimilation detection system | `cat docs/observation_mechanics.md` |
+| [Animated Backgrounds](docs/animated_backgrounds.md) | Creating and managing animated background elements | `cat docs/animated_backgrounds.md` |
+| [Quest Design](docs/quest_design.md) | Quest system architecture and specific quest designs | `cat docs/quest_design.md` |
+
+### Reading Documentation
+
+You can view any of these documents in several ways:
+
+```bash
+# Terminal-based reading (with syntax highlighting if available)
+cat docs/debug_tools.md
+less docs/debug_tools.md
+bat docs/debug_tools.md  # If bat is installed
+
+# Open in your default text editor
+xdg-open docs/debug_tools.md  # Linux
+open docs/debug_tools.md      # macOS
+```
+
+For a better reading experience with Markdown formatting:
+
+```bash
+# Install a Markdown viewer (if needed)
+sudo apt-get install grip  # Debian/Ubuntu example
+
+# View document with GitHub-style rendering
+grip docs/debug_tools.md
+
+# Alternative: Convert to HTML and view in browser
+pandoc docs/debug_tools.md -o /tmp/doc.html && xdg-open /tmp/doc.html
+```
+
+### Updating Documentation
+
+When making significant changes to the codebase, please update the relevant documentation. This keeps the project maintainable and helps onboard new developers.
 
 ## License
 

@@ -479,26 +479,43 @@ This creates a retro-futuristic space horror adventure with a distinct visual id
 
 ### 2\. Color Palette
 
-#### Primary Palette
+#### Canonical Palette
 
-* Dark blues and purples for space/night scenes (RGB: 12,18,29 to 45,10,75)
-* Rust reds and oranges for Mars references (RGB: 150,50,20 to 200,80,30)
-* Industrial grays and metallic tones (RGB: 80,85,90 to 160,165,170)
+The game uses the following 16-color palette throughout all environments and UI:
 
-#### Accent Colors
-
-* Neon cyan/blue for computer terminals and technology (RGB: 0,200,255)
-* Warning reds for alarms and danger (RGB: 255,30,30)
-* Sickly green for the "goo"/alien presence (RGB: 180,255,150)
+| Color | Hex Code | Description | Primary Usage |
+|-------|----------|-------------|---------------|
+| Dark Black | `#212225` | Deep shadows and outlines | UI borders, deep shadows |
+| Dark Purple | `#29272c` | Space and darkness | Space backgrounds, shadows |
+| Dark Brown | `#3c3537` | Industrial tones | Machine elements, dark areas |
+| Medium Brown | `#494543` | Wood and aged materials | Furniture, structure elements |
+| Tan Brown | `#58504b` | Natural surfaces | Floors, walls, terrain |
+| Green-Gray | `#5e6259` | Utilitarian surfaces | Walls, industrial elements |
+| Purple-Gray | `#726b73` | Cold metal and shadows | Metal surfaces, machinery |
+| Rusty Pink | `#907577` | Oxidized metal | Rusty machinery, warning elements |
+| Blue Gray | `#7b8e95` | Technical surfaces | Computer interfaces, tech elements |
+| Muted Purple | `#b18da1` | Accent highlights | UI highlights, special elements |
+| Warm Tan | `#c2a783` | Warm light sources | Lamps, warm accents |
+| Pale Green | `#a9c2a4` | Alien presence | The "goo", alien elements |
+| Light Gray | `#cec6c0` | Light surfaces | UI elements, bright surfaces |
+| Warm Cream | `#e4d2c6` | Skin tones, warm light | Character skin, light sources |
+| Pale Yellow | `#f3e9c4` | Bright highlights | UI focus, bright indicators |
+| Pale Pink | `#fbede4` | Brightest elements | Highlights, bright UI elements |
 
 #### Color Rules
 
-* Limit to 32-64 colors per scene to maintain the retro feel
+* All game assets must use only colors from this canonical palette
 * Use dithering for gradients rather than smooth transitions
-* Each district should have its own dominant color theme:
-  * Shipping: Industrial browns and grays
-  * Mall: Consumer blues and whites with neon accents
-  * Trading Floor: Financial greens and golds
-  * Barracks: Utilitarian grays and blues
-  * Engineering: Mechanical oranges and yellows with warning red accents
+* Each district should have its own dominant color theme using palette subsets:
+  * Shipping: Industrial browns and grays (`#3c3537`, `#494543`, `#58504b`, `#5e6259`)
+  * Mall: Consumer purples and pinks with neon accents (`#726b73`, `#907577`, `#b18da1`)
+  * Trading Floor: Financial greens and tans (`#5e6259`, `#a9c2a4`, `#c2a783`)
+  * Barracks: Utilitarian grays and blues (`#5e6259`, `#726b73`, `#7b8e95`)
+  * Engineering: Mechanical browns and warm accents (`#494543`, `#58504b`, `#c2a783`)
+
+#### Special Effect Colors
+
+* The alien "goo" uses `#a9c2a4` (pale green) with dithered animation patterns
+* Computer screens primarily use `#7b8e95` (blue gray) with `#f3e9c4` (pale yellow) for text
+* Warning indicators use `#907577` (rusty pink) contrasted with `#f3e9c4` (pale yellow)
 

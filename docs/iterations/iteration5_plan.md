@@ -14,6 +14,7 @@
 - [ ] Task 6: Create consequences for failed recruitment attempts
 - [ ] Task 7: Develop coalition headquarters location
 - [ ] Task 8: Implement coalition mission assignment system
+- [ ] Task 9: Perform in-game integration testing of all Iteration 5 features
 
 ## Testing Criteria
 - NPCs can be successfully recruited to the coalition

@@ -18,24 +18,26 @@ signal district_exited(district_name)
 func _ready():
     # Initialize the district
     print(district_name + " loaded")
-    
+
     # Add to district group
     add_to_group("district")
-    
+
     # Find walkable areas and interactive objects
     for child in get_children():
         if child.is_in_group("walkable_area"):
             walkable_areas.append(child)
         if child.is_in_group("interactive_object"):
             interactive_objects.append(child)
-    
+
     # Emit signal
     emit_signal("district_entered", district_name)
 
 # Check if a position is in a walkable area
 func is_position_walkable(position):
     for area in walkable_areas:
-        if area.contains_point(position):
+        # Check if the point is in the polygon
+        var polygon = area.polygon
+        if Geometry.is_point_in_polygon(position, polygon):
             return true
     return false
 
@@ -75,3 +77,7 @@ func test_walkable_boundaries():
 # Exit this district
 func exit_district():
     emit_signal("district_exited", district_name)
+
+# This method will be implemented in a future iteration
+func register_locations():
+    return {}

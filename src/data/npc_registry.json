@@ -1,0 +1,328 @@
+{
+  "npcs": [
+    {
+      "id": "security_officer_01",
+      "name": "Officer Jenkins",
+      "type": "security_officer",
+      "location": "security_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "security_officer_02",
+      "name": "Officer Rodriguez",
+      "type": "security_officer",
+      "location": "security_brig",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "security_officer_03",
+      "name": "Officer Chen",
+      "type": "security_officer",
+      "location": "security_brig",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "security_officer_04",
+      "name": "Officer Wilson",
+      "type": "security_officer",
+      "location": "security_patrol",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "security_officer_05",
+      "name": "Officer Martinez",
+      "type": "security_officer",
+      "location": "security_patrol",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "security_officer_06",
+      "name": "Officer Taylor",
+      "type": "security_officer",
+      "location": "security_patrol",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "office_clerk_security",
+      "name": "Clerk Adams",
+      "type": "generic_female",
+      "location": "security_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "detective_01",
+      "name": "Detective Sharma",
+      "type": "security_officer",
+      "location": "security_investigative",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "detective_02",
+      "name": "Detective Lee",
+      "type": "security_officer",
+      "location": "security_investigative",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "security_admin_01",
+      "name": "Administrator Garcia",
+      "type": "generic_male",
+      "location": "security_admin",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "dock_worker_01",
+      "name": "Worker Smith",
+      "type": "dock_worker",
+      "location": "shipping_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "dock_worker_02",
+      "name": "Worker Jones",
+      "type": "dock_worker",
+      "location": "shipping_main",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "dock_worker_03",
+      "name": "Worker Garcia",
+      "type": "dock_worker",
+      "location": "shipping_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "dock_foreman",
+      "name": "Foreman Harris",
+      "type": "dock_worker",
+      "location": "shipping_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "dock_manager",
+      "name": "Manager Phillips",
+      "type": "generic_male",
+      "location": "shipping_office",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "dock_secretary",
+      "name": "Secretary Chen",
+      "type": "generic_female",
+      "location": "shipping_office",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "ship_captain_theseus",
+      "name": "Captain Reynolds",
+      "type": "ship_captain",
+      "location": "ship_theseus",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "flight_attendant_01",
+      "name": "Attendant Torres",
+      "type": "flight_attendant",
+      "location": "ship_theseus",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "flight_attendant_02",
+      "name": "Attendant Kim",
+      "type": "flight_attendant",
+      "location": "ship_theseus",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "concierge",
+      "name": "Henry Davis",
+      "type": "concierge",
+      "location": "barracks_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "porter_01",
+      "name": "Porter Wilson",
+      "type": "generic_male",
+      "location": "barracks_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "porter_02",
+      "name": "Porter Chang",
+      "type": "generic_male",
+      "location": "barracks_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_01",
+      "name": "Sarah Kim",
+      "type": "generic_female",
+      "location": "barracks_floor01_room103",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_02",
+      "name": "David Miller",
+      "type": "generic_male",
+      "location": "barracks_floor05_room508",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_03",
+      "name": "Jennifer Wu",
+      "type": "generic_female",
+      "location": "barracks_floor05_room508",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_04",
+      "name": "Robert Singh",
+      "type": "generic_male",
+      "location": "barracks_floor06_room601",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_05",
+      "name": "Emily Johnson",
+      "type": "generic_female",
+      "location": "barracks_floor09_room915",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_06",
+      "name": "Thomas Brown",
+      "type": "generic_male",
+      "location": "barracks_floor09_room915",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "resident_07",
+      "name": "Rebecca Wilson",
+      "type": "generic_female",
+      "location": "barracks_floor12_room1211",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "bank_teller",
+      "name": "Teller Morgan",
+      "type": "bank_teller",
+      "location": "trading_bank",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "bank_manager",
+      "name": "Manager Blackwell",
+      "type": "generic_male",
+      "location": "trading_bank",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "broker_01",
+      "name": "Broker Williams",
+      "type": "generic_male",
+      "location": "trading_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "broker_02",
+      "name": "Broker Thompson",
+      "type": "generic_female",
+      "location": "trading_main",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "broker_03",
+      "name": "Broker Jackson",
+      "type": "generic_male",
+      "location": "trading_main",
+      "assimilated": true,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "office_worker_01",
+      "name": "Worker Davis",
+      "type": "generic_female",
+      "location": "trading_regulatory",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    },
+    {
+      "id": "office_manager",
+      "name": "Manager Roberts",
+      "type": "generic_male",
+      "location": "trading_regulatory",
+      "assimilated": false,
+      "suspicious_level": 0,
+      "known_assimilated": false
+    }
+  ]
+}
