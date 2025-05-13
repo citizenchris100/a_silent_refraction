@@ -19,6 +19,7 @@ NAVIGATION_TEST_SCENE="res://src/test/navigation_test.tscn"
 DIALOG_TEST_SCENE="res://src/test/dialog_test.tscn"
 DEBUG_TOOLS_TEST_SCENE="res://src/test/debug_tools_test.tscn"
 UNIVERSAL_DEBUG_SCENE="res://src/test/universal_debug.tscn"
+CAMERA_TEST_SCENE="res://src/test/scrolling_camera_test.tscn"
 
 # Function to display help
 function show_help {
@@ -31,6 +32,7 @@ function show_help {
     echo "  test                 - Run the NPC test scene"
     echo "  navigation           - Run the navigation test scene"
     echo "  dialog               - Run the dialog test scene"
+    echo "  camera               - Run the scrolling camera test scene"
     echo "  debug                - Run the debug tools test scene"
     echo "  debug-universal      - Run the universal debug scene"
     echo "  debug-district NAME  - Debug a specific district (e.g. shipping)"
@@ -38,6 +40,7 @@ function show_help {
     echo "  build                - Build the game for distribution"
     echo "  check                - Check project for errors"
     echo "  import               - Import all assets (required after adding new assets)"
+    echo "  register-classes     - Register new classes with the Godot editor"
     echo "  new-npc              - Create a new NPC script"
     echo "  new-district         - Create a new district"
     echo "  help                 - Show this help message"
@@ -72,6 +75,12 @@ function run_dialog_test {
 function run_debug_tools_test {
     echo -e "${GREEN}Running debug tools test scene...${NC}"
     $GODOT_CMD --path $PROJECT_ROOT $DEBUG_TOOLS_TEST_SCENE
+}
+
+# Function to run the scrolling camera test scene
+function run_camera_test {
+    echo -e "${GREEN}Running scrolling camera test scene...${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT $CAMERA_TEST_SCENE
 }
 
 # Function to run the universal debug scene
@@ -147,6 +156,13 @@ function import_assets {
     echo -e "${BLUE}Importing assets...${NC}"
     $GODOT_CMD --path $PROJECT_ROOT --headless --quit
     echo -e "${GREEN}Asset import complete.${NC}"
+}
+
+# Function to register new classes
+function register_classes {
+    echo -e "${BLUE}Registering new classes with Godot editor...${NC}"
+    ./register_new_classes.sh
+    echo -e "${GREEN}Class registration complete.${NC}"
 }
 
 # Function to build the game
@@ -335,6 +351,9 @@ case "$1" in
     dialog)
         run_dialog_test
         ;;
+    camera)
+        run_camera_test
+        ;;
     debug)
         run_debug_tools_test
         ;;
@@ -355,6 +374,9 @@ case "$1" in
         ;;
     import)
         import_assets
+        ;;
+    register-classes)
+        register_classes
         ;;
     new-npc)
         create_new_npc "$2"

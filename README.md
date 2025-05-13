@@ -12,6 +12,7 @@ The game is designed to be reminiscent of classic LucasArts point & click advent
 - Verb-based interaction system
 - Dialog with NPCs and conversation choices
 - Suspicion mechanics for NPC interactions
+- Dynamic environments with animated background elements
 - Investigation and puzzle-solving
 - Multiple game endings based on player choices
 
@@ -103,10 +104,11 @@ The project includes a management script (`a_silent_refraction.sh`) to streamlin
 ./a_silent_refraction.sh debug-district NAME  # Debug a specific district (e.g., 'shipping', 'security')
 
 # Project management
-./a_silent_refraction.sh clean       # Clean up redundant files
-./a_silent_refraction.sh check       # Check project for errors
-./a_silent_refraction.sh import      # Import all assets (required after adding new assets)
-./a_silent_refraction.sh build       # Build the game for distribution
+./a_silent_refraction.sh clean               # Clean up redundant files
+./a_silent_refraction.sh check               # Check project for errors
+./a_silent_refraction.sh import              # Import all assets (required after adding new assets)
+./a_silent_refraction.sh register-classes    # Register new custom classes with the Godot editor
+./a_silent_refraction.sh build               # Build the game for distribution
 
 # Content creation
 ./a_silent_refraction.sh new-npc <npc_name>         # Create a new NPC
@@ -216,6 +218,7 @@ For detailed documentation, see [NPC Registry Usage Guide](docs/npc_registry_usa
 - Base class for all game areas
 - Handles walkable areas and interactive objects
 - Provides boundary checking for player movement
+- Supports animated background elements for dynamic environments
 
 ### NPC System (`src/characters/npc/base_npc.gd`)
 - State machine for NPC behavior (IDLE, TALKING, SUSPICIOUS, HOSTILE, etc.)
@@ -264,10 +267,18 @@ The project is being developed in iterations, with each iteration focusing on sp
 - Initial asset creation for key game areas
 
 ### Planned Future Iterations
-- Iteration 3: Game Districts, Time Management, Save System, and Asset Expansion
+- Iteration 3.5: Animation Framework and Core Systems ⏳
+  - Core animation management system for dynamic backgrounds
+  - Animation asset pipeline using Midjourney/RunwayML
+  - Animation configuration system and interactive triggers
+  - Tram system animations for district transitions
+  - Integration with game events and narrative
+
+- Iteration 3: Game Districts, Time Management, Save System, Title Screen, and Asset Expansion
 - Iteration 4: Investigation Mechanics, Advanced Inventory, and Mall/Trading Floor Assets
 - Iteration 5: Coalition Building
 - Iteration 6: Game Progression and Multiple Endings
+- Iteration 7: Quest System and Story Implementation
 
 ## Testing Systems
 
@@ -399,6 +410,19 @@ The project includes tools for generating placeholder assets:
 
 These tools help maintain consistency across assets and speed up development. See the documentation for each tool in the `docs/` directory for details.
 
+### Sprite Creation Workflow
+
+The project includes a comprehensive sprite creation workflow that combines Midjourney for character design, RunwayML for animation, and ImageMagick for processing into 32-bit era game sprites.
+
+For detailed instructions on creating game sprites, see the [Sprite Workflow Guide](docs/sprite_workflow.md). This guide covers:
+
+- Midjourney prompt templates for character generation
+- RunwayML animation prompt examples
+- Complete processing pipeline with ImageMagick
+- Neo Geo and Saturn/32X styling options
+- Batch processing multiple characters and animations
+- Godot integration for the generated sprite sheets
+
 ## Development Scripts
 
 The project includes helpful scripts for development tasks:
@@ -456,7 +480,10 @@ The project includes comprehensive documentation to help developers understand t
 | [NPC Registry Usage](docs/npc_registry_usage.md) | Managing NPCs and their assimilation status | `cat docs/npc_registry_usage.md` |
 | [Observation Mechanics](docs/observation_mechanics.md) | NPC assimilation detection system | `cat docs/observation_mechanics.md` |
 | [Animated Backgrounds](docs/animated_backgrounds.md) | Creating and managing animated background elements | `cat docs/animated_backgrounds.md` |
+| [Animated Backgrounds (Comprehensive)](docs/animated_backgrounds_comprehensive.md) | Detailed guide to the animated background system | `cat docs/animated_backgrounds_comprehensive.md` |
+| [Animated Background Workflow](docs/animated_background_workflow.md) | End-to-end workflow for creating animated elements with AI tools | `cat docs/animated_background_workflow.md` |
 | [Quest Design](docs/quest_design.md) | Quest system architecture and specific quest designs | `cat docs/quest_design.md` |
+| [Sprite Workflow](docs/sprite_workflow.md) | Comprehensive workflow for creating 32-bit era game sprites | `cat docs/sprite_workflow.md` |
 
 ### Reading Documentation
 

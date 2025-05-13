@@ -25,13 +25,19 @@ Each district has a tram station where the player can board a tram to travel to 
 
 The districts are as follows
 
-### Shipping
+### Spaceport
 
-This is the station equivalent of a dock or port. Since the station is primarily a trade hub. Here is where ships arrive with their payload of goods and of course depart. The import / export hub of the station. Populated mostly by manual laborers who work to perform the loading / unloading of the ships. Additionally acts as a port for simple guest ship arrivals and departures.
+This location acts as the space station's equivalent of an "airport". Suited for both commercial departures/arrivals of guests to the station as well as for shipping/cargo trade purposes. This Spaceport also acts as the station's equivalent of a dock or port. Since the station is primarily a trade hub. Here is where ships arrive with their payload of goods and of course depart. The import/export hub of the station.
 
 #### Sub Locations
 
-* **Main Floor**: the main area when you enter the Shipping district.
+* **Spaceport Terminal**
+  * NPCs
+    * Traveler 01
+    * Traveler 02
+    * Traveler 03
+    * Traveler 04
+* **Loading Dock**: the main area when you enter the Shipping district.
   * NPCs
     * Dock Foreman
     * Dock Worker 1
@@ -518,4 +524,3 @@ The game uses the following 16-color palette throughout all environments and UI:
 * The alien "goo" uses `#a9c2a4` (pale green) with dithered animation patterns
 * Computer screens primarily use `#7b8e95` (blue gray) with `#f3e9c4` (pale yellow) for text
 * Warning indicators use `#907577` (rusty pink) contrasted with `#f3e9c4` (pale yellow)
-

@@ -7,8 +7,9 @@ This file tracks the progress of all iterations for the project.
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
-| 2 | NPC Framework, Suspicion System, and Initial Asset Creation | IN PROGRESS | 45% (9/20) |
-| 3 | Game Districts, Time Management, Save System, and Asset Expansion | Not started | 0% (0/22) |
+| 2 | NPC Framework, Suspicion System, and Initial Asset Creation | IN PROGRESS | 43% (9/21) |
+| 3.5 | Animation Framework and Core Systems | IN PROGRESS | 59% (6.5/11) |
+| 3 | Game Districts, Time Management, Save System, Title Screen, and Asset Expansion | Not started | 0% (0/40) |
 | 4 | Investigation Mechanics, Advanced Inventory, and Mall/Trading Floor Assets | Not started | 0% (0/18) |
 | 5 | Coalition Building | Not started | 0% (0/9) |
 | 6 | Game Progression and Multiple Endings | Not started | 0% (0/9) |
@@ -42,6 +43,7 @@ This file tracks the progress of all iterations for the project.
 | Create bash script for generating NPC placeholders | Complete | tools/create_npc_registry.sh |
 | Implement observation mechanics for detecting assimilated NPCs | Complete | src/characters/npc/base_npc.gd, src/ui/verb_ui/verb_ui.gd, docs/observation_mechanics.md |
 | Create script for generating animated background elements | Complete | tools/create_animated_bg_elements.sh, src/core/background/animated_background.gd, docs/animated_backgrounds.md |
+| Implement scrolling camera system for wide backgrounds | Pending | src/core/districts/base_district.gd, src/characters/player/player.gd |
 | Design Shipping District main floor background with animated elements | Pending | - |
 | Create Docked Ship USCSS Theseus background (player starting location) | Pending | - |
 | Create Player character sprites (front, side, back views) | Pending | - |
@@ -54,12 +56,33 @@ This file tracks the progress of all iterations for the project.
 | Create Player's room (Room 306) background | Pending | - |
 | Perform in-game integration testing of all Iteration 2 features | Pending | - |
 
-### Iteration 3: Game Districts, Time Management, Save System, and Asset Expansion
+### Iteration 3.5: Animation Framework and Core Systems
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create at least one additional district besides Shipping | Pending | - |
-| Implement district transitions via tram system | Pending | - |
+| Create base AnimatedElement class for all animated background elements | Complete | src/core/districts/animated_background_manager.gd |
+| Develop enhanced AnimationManager system | Complete | src/core/districts/animated_background_manager.gd |
+| Implement district-agnostic animation templates | Complete | src/core/districts/animated_background_manager.gd |
+| Build Midjourney/RunwayML animation asset pipeline extensions | Complete | docs/animated_background_workflow.md, tools/process_animation_frames.sh, tools/test_animation_performance.sh |
+| Implement Tram System core animations | Pending | - |
+| Develop interactive animation triggers | Complete | src/core/districts/animated_background_manager.gd |
+| Create animation configuration system | Complete | src/core/districts/animated_background_manager.gd, src/districts/shipping/animated_elements_config.json |
+| Implement animation performance optimization systems | In Progress | src/shaders/hologram.shader, src/shaders/crt_screen.shader, src/shaders/heat_distortion.shader |
+| Build animation testing framework | Pending | - |
+| Develop animation-narrative linkage system | Pending | - |
+| Perform integration testing of animation framework | Pending | - |
+
+### Iteration 3: Game Districts, Time Management, Save System, Title Screen, and Asset Expansion
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Create Security District scene with main floor | Pending | - |
+| Create Barracks District scene with main floor | Pending | - |
+| Design 3 tram station template layouts | Pending | - |
+| Implement tram station scene templates | Pending | - |
+| Create tram arrival/departure animations | Pending | - |
+| Develop district transition system | Pending | - |
+| Implement tram stations in each district | Pending | - |
 | Develop in-game clock and calendar system | Pending | - |
 | Create time progression through player actions | Pending | - |
 | Implement day cycle with sleep mechanics | Pending | - |
@@ -79,6 +102,19 @@ This file tracks the progress of all iterations for the project.
 | Create Shipping Office background with animated elements | Pending | - |
 | Create Dock Worker sprites (3 variations) | Pending | - |
 | Design interactive room door objects | Pending | - |
+| Create title screen scene with background art | Pending | - |
+| Implement main menu UI | Pending | - |
+| Create game state manager | Pending | - |
+| Develop new game initialization process | Pending | - |
+| Implement game loading system | Pending | - |
+| Add options menu functionality | Pending | - |
+| Create character selection screen | Pending | - |
+| Develop player data structure with gender attribute | Pending | - |
+| Create female player character sprites | Pending | - |
+| Implement sprite loading based on gender selection | Pending | - |
+| Implement Shipping District background animations | Pending | - |
+| Create Docked Ship area animations | Pending | - |
+| Develop Shipping Office animated elements | Pending | - |
 | Perform in-game integration testing of all Iteration 3 features | Pending | - |
 
 ### Iteration 4: Investigation Mechanics, Advanced Inventory, and Mall/Trading Floor Assets

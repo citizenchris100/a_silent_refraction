@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/test/scrolling_camera_test.gd" type="Script" id=1]
+[ext_resource path="res://src/characters/player/player.tscn" type="PackedScene" id=2]
+
+[node name="ScrollingCameraTest" type="Node2D"]
+script = ExtResource( 1 )
+use_scrolling_camera = true
+
+[node name="Background" type="Sprite" parent="."]
+centered = false
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 512, 300 )
+
+[node name="WalkableArea" type="Polygon2D" parent="."]
+color = Color( 0, 1, 0, 0.101961 )
+polygon = PoolVector2Array( 10, 10, 3000, 10, 3000, 1500, 10, 1500 )
+
+[node name="Instructions" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 532.0
+margin_bottom = 107.0
+text = "Scrolling Camera Test Scene
+
+- Click anywhere to move the player
+- When the player approaches the edge of the screen, the camera will scroll
+- The green area shows the walkable bounds
+- Try moving to the far edges of the large background
+
+Press ESC to exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}

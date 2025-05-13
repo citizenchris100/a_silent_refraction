@@ -1,0 +1,105 @@
+{
+  "elements": [
+    {
+      "type": "computer_terminal",
+      "id": "shipping_main",
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "properties": {
+        "frame_delay": 0.3,
+        "interactive": true,
+        "animation_frames": "res://path/to/your/custom/frames/computer_terminal_frames.tres"
+      }
+    },
+    {
+      "type": "warning_light",
+      "id": "security",
+      "position": {
+        "x": 500,
+        "y": 85
+      },
+      "properties": {
+        "frame_delay": 0.2,
+        "interactive": false,
+        "animation_frames": "res://path/to/your/custom/frames/warning_light_frames.tres"
+      }
+    },
+    {
+      "type": "conveyor_belt",
+      "id": "shipping",
+      "position": {
+        "x": 512,
+        "y": 450
+      },
+      "properties": {
+        "is_moving": true,
+        "direction": 1,
+        "speed": 1.0,
+        "animation_frames": "res://path/to/your/custom/frames/conveyor_belt_frames.tres"
+      }
+    },
+    {
+      "type": "steam_vent",
+      "id": "maintenance",
+      "position": {
+        "x": 350,
+        "y": 550
+      },
+      "properties": {
+        "cycle_pause": 5.0,
+        "animation_frames": "res://path/to/your/custom/frames/steam_vent_frames.tres"
+      }
+    },
+    {
+      "type": "ventilation_fan",
+      "id": "standard",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "properties": {
+        "speed_factor": 0.5,
+        "animation_frames": "res://path/to/your/custom/frames/ventilation_fan_frames.tres"
+      }
+    },
+    {
+      "type": "sliding_door",
+      "id": "main_door",
+      "position": {
+        "x": 500,
+        "y": 550
+      },
+      "properties": {
+        "initially_open": false,
+        "animation_frames": "res://path/to/your/custom/frames/sliding_door_frames.tres"
+      }
+    },
+    {
+      "type": "security_camera",
+      "id": "shipping_main",
+      "position": {
+        "x": 230,
+        "y": 100
+      },
+      "properties": {
+        "scan_angle": 45,
+        "scan_speed": 0.5,
+        "animation_frames": "res://path/to/your/custom/frames/security_camera_frames.tres"
+      }
+    },
+    {
+      "type": "flickering_light",
+      "id": "hallway",
+      "position": {
+        "x": 650,
+        "y": 50
+      },
+      "properties": {
+        "flicker_pattern": [0.1, 0.05, 0.2, 0.1],
+        "animation_frames": "res://path/to/your/custom/frames/flickering_light_frames.tres"
+      }
+    }
+  ]
+}

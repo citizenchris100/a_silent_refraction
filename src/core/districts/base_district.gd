@@ -4,12 +4,24 @@ class_name BaseDistrict
 # District properties
 export var district_name = "Unknown District"
 export var district_description = "A district on the station"
+export var animated_elements_config = ""  # Path to JSON config for animated elements
+
+# Camera properties
+export var use_scrolling_camera = false  # Whether this district uses scrolling camera
+export var camera_follow_smoothing = 5.0  # Camera smoothing factor
+export var camera_edge_margin = Vector2(150, 100)  # Distance from edge to trigger scrolling
 
 # Areas where the player can walk
 var walkable_areas = []
 
 # Interactive objects in this district
 var interactive_objects = []
+
+# Animated background elements manager
+var animated_bg_manager = null
+
+# Other components
+var camera = null
 
 # Signals
 signal district_entered(district_name)
@@ -28,9 +40,62 @@ func _ready():
             walkable_areas.append(child)
         if child.is_in_group("interactive_object"):
             interactive_objects.append(child)
+        # Check if we already have a camera as a child
+        if child is Camera2D:
+            camera = child
+            print("Found existing camera in district")
+
+    # Initialize animated background elements
+    initialize_animated_elements()
+
+    # Setup scrolling camera if enabled
+    if use_scrolling_camera:
+        setup_scrolling_camera()
 
     # Emit signal
     emit_signal("district_entered", district_name)
+
+# Initialize the animated background elements
+func initialize_animated_elements():
+    # Create the manager
+    animated_bg_manager = AnimatedBackgroundManager.new(self)
+
+    # If a config path is provided, load from it
+    if animated_elements_config != "":
+        var config_path = animated_elements_config
+
+        # If not an absolute path, assume it's relative to the district
+        if not config_path.begins_with("res://"):
+            var script_path = get_script().get_path().get_base_dir()
+            config_path = script_path + "/" + config_path
+
+        # Load the animated elements
+        animated_bg_manager.load_from_config(config_path)
+    else:
+        # Check if we have a default config file in the district folder
+        var script_path = get_script().get_path().get_base_dir()
+        var default_config = script_path + "/animated_elements_config.json"
+
+        var file = File.new()
+        if file.file_exists(default_config):
+            animated_bg_manager.load_from_config(default_config)
+
+# Add an animated element at runtime
+func add_animated_element(type, id, position, properties = {}):
+    if animated_bg_manager:
+        return animated_bg_manager.add_element(type, id, position, properties)
+    return null
+
+# Get a specific animated element
+func get_animated_element(type, id):
+    if animated_bg_manager:
+        return animated_bg_manager.get_element(type, id)
+    return null
+
+# Toggle all elements of a specific type
+func toggle_animated_elements(type, enabled):
+    if animated_bg_manager:
+        animated_bg_manager.toggle_elements_by_type(type, enabled)
 
 # Check if a position is in a walkable area
 func is_position_walkable(position):
@@ -74,8 +139,41 @@ func test_walkable_boundaries():
     print("Created walkable boundary test with " + str(test_points.size()) + " points")
     return {"walkable": results.count(true), "unwalkable": results.count(false)}
 
+# Set up the scrolling camera for this district
+func setup_scrolling_camera():
+    # If we already have a camera, configure it
+    if camera != null:
+        # Update camera settings
+        camera.follow_smoothing = camera_follow_smoothing
+        camera.edge_margin = camera_edge_margin
+        camera.update_bounds()
+        print("Updated existing camera in " + district_name)
+        return
+
+    # Otherwise, create a new scrolling camera
+    var camera_script = load("res://src/core/camera/scrolling_camera.gd")
+    if camera_script:
+        camera = Camera2D.new()
+        camera.name = "ScrollingCamera"
+        camera.set_script(camera_script)
+        camera.follow_smoothing = camera_follow_smoothing
+        camera.edge_margin = camera_edge_margin
+
+        # In development/debug builds, enable debug drawing
+        if OS.is_debug_build():
+            camera.debug_draw = true
+
+        add_child(camera)
+        print("Added scrolling camera to " + district_name)
+    else:
+        push_error("Failed to load ScrollingCamera scene!")
+
 # Exit this district
 func exit_district():
+    # Clean up animated elements
+    if animated_bg_manager:
+        animated_bg_manager._on_district_exited()
+
     emit_signal("district_exited", district_name)
 
 # This method will be implemented in a future iteration

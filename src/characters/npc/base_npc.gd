@@ -160,10 +160,16 @@ func _create_placeholder_texture():
     var image = Image.new()
     image.create(32, 64, false, Image.FORMAT_RGBA8)
 
+    # Lock the image before modifying pixels
+    image.lock()
+
     # Fill with gray color
     for x in range(32):
         for y in range(64):
             image.set_pixel(x, y, Color(0.5, 0.5, 0.5, 1.0))
+
+    # Unlock the image after modification
+    image.unlock()
 
     var texture = ImageTexture.new()
     texture.create_from_image(image)
