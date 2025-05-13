@@ -427,11 +427,109 @@ For detailed instructions on creating game sprites, see the [Sprite Workflow Gui
 
 The project includes helpful scripts for development tasks:
 
+### Session Logger
+
+The project includes a comprehensive session logging system to track development progress across multiple sessions:
+
+```bash
+# Start a new development session
+./tools/session_logger.sh start
+
+# Add tasks to the current session
+./tools/session_logger.sh add-task "Implement scrolling camera system"
+
+# Mark tasks as completed
+./tools/session_logger.sh complete-task 1
+
+# Add notes about development progress
+./tools/session_logger.sh add-note "Found bug in camera implementation"
+
+# Link tasks to specific code files
+./tools/session_logger.sh link-task 1 "src/core/camera/scrolling_camera.gd"
+
+# End the current session
+./tools/session_logger.sh end
+
+# View session history
+./tools/session_logger.sh list
+./tools/session_logger.sh view 2025-05-12
+
+# Update iteration progress file
+./tools/session_logger.sh update-progress "camera"
+
+# Install for system-wide use
+./tools/session_logger.sh install
+```
+
+#### Picking Up Where You Left Off
+
+To resume work after taking a break, follow these steps:
+
+1. First, see your previous session history:
+   ```bash
+   ./tools/session_logger.sh list
+   ```
+   This will show all your recorded sessions.
+
+2. View the details of your last session:
+   ```bash
+   ./tools/session_logger.sh view
+   ```
+   This will show the full details of your most recent session, including all notes, completed tasks, and next steps.
+
+3. Start a new session:
+   ```bash
+   ./tools/session_logger.sh start
+   ```
+   You'll be prompted to enter a title, task focus, and iteration number.
+
+4. Add your next tasks based on the "Next Steps" from your previous session:
+   ```bash
+   ./tools/session_logger.sh add-task "Test camera with different background sizes"
+   ./tools/session_logger.sh add-task "Add smooth interpolation to camera movement"
+   ```
+
+5. As you work, link tasks to the files you're working on:
+   ```bash
+   ./tools/session_logger.sh link-task 1 "src/core/camera/scrolling_camera.gd"
+   ```
+
+6. Add notes about issues or discoveries:
+   ```bash
+   ./tools/session_logger.sh add-note "Found smooth interpolation works best with value 0.2"
+   ```
+
+7. Mark tasks as completed:
+   ```bash
+   ./tools/session_logger.sh complete-task 1
+   ```
+
+8. When you're done, end your session with a summary:
+   ```bash
+   ./tools/session_logger.sh end
+   ```
+
+This workflow ensures you never lose context between work sessions, even if days or weeks pass between them.
+
+#### Benefits
+
+The session logger helps maintain continuity across development sessions by:
+- Tracking task status (pending, in-progress, completed)
+- Recording development notes and goals
+- Linking tasks to specific code files
+- Maintaining a searchable history of sessions
+- Updating the iteration progress file automatically
+- Providing detailed session summaries
+
+For more information, run `./tools/session_logger.sh help` or see the [complete documentation](docs/session_logger.md).
+
 ### SSH Setup for GitHub
 
 To set up SSH authentication with GitHub (recommended):
 
-
+```bash
+./setup_github_ssh.sh
+```
 
 This script will:
 - Check for or create SSH keys
@@ -443,7 +541,9 @@ This script will:
 
 To clean up all local and remote branches except for main:
 
-
+```bash
+./cleanup_branches.sh
+```
 
 **Warning**: This is a destructive operation that will delete branches!
 
@@ -484,6 +584,7 @@ The project includes comprehensive documentation to help developers understand t
 | [Animated Background Workflow](docs/animated_background_workflow.md) | End-to-end workflow for creating animated elements with AI tools | `cat docs/animated_background_workflow.md` |
 | [Quest Design](docs/quest_design.md) | Quest system architecture and specific quest designs | `cat docs/quest_design.md` |
 | [Sprite Workflow](docs/sprite_workflow.md) | Comprehensive workflow for creating 32-bit era game sprites | `cat docs/sprite_workflow.md` |
+| [Session Logger](docs/session_logger.md) | Using the session logging system to track development progress | `cat docs/session_logger.md` |
 
 ### Reading Documentation
 
