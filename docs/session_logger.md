@@ -50,6 +50,7 @@ A typical development workflow with the Session Logger looks like this:
 | `recover` | Recover from incomplete or broken sessions | `./tools/session_logger.sh recover` |
 | `clean` | Clean up session logs directory | `./tools/session_logger.sh clean` |
 | `backup` | Backup all session logs | `./tools/session_logger.sh backup` |
+| `update-summary` | Update the session summary file | `./tools/session_logger.sh update-summary` |
 
 ### Task Management
 
@@ -164,7 +165,7 @@ When you mark a task as completed:
 
 ## Error Recovery and Maintenance
 
-The Session Logger includes several tools for error recovery and maintenance:
+The Session Logger includes several tools for error recovery and maintenance, and is designed to handle special characters in summaries and task descriptions gracefully:
 
 ### Session Recovery
 
@@ -284,6 +285,8 @@ This will:
 
 If you encounter any of these issues:
 
+0. **Summary with special characters**: The system handles special characters in summaries using a robust approach with multiple fallback methods. No special escaping is required when writing summaries.
+
 1. **"No active session found"**: The current_session.md symlink is missing or broken.
    ```bash
    # Fix by creating a new session
@@ -323,7 +326,7 @@ If you encounter any of these issues:
    ```
 
 4. **End Your Session with a Good Summary**
-   When ending a session, provide a clear, concise summary of what you accomplished.
+   When ending a session, provide a clear, concise summary of what you accomplished. You can safely include special characters in your summaries, as the system now handles them correctly.
 
 5. **Check for Task Progress from Previous Sessions**
    Always check what was happening in the previous session by examining both completed and incomplete tasks.

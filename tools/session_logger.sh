@@ -400,11 +400,42 @@ function end_session_noninteractive() {
         return 1
     fi
     
-    # Update summary with auto-generated message
-    if ! sed -i "s/\[TO BE COMPLETED\]/Auto-closed during non-interactive operation/" "$SESSION_FILE"; then
-        echo -e "${RED}Error: Failed to update summary in session file.${NC}"
-        return 1
+    # Update summary with auto-generated message - using a more robust approach
+    # Write to a temporary file for safe replacement
+    TEMP_SUMMARY_FILE=$(mktemp)
+    echo "Auto-closed during non-interactive operation" > "$TEMP_SUMMARY_FILE"
+    TEMP_OUTPUT_FILE=$(mktemp)
+    
+    # Try to use Perl first (best handling of special characters)
+    if command -v perl &>/dev/null; then
+        # Replace the placeholder with the contents of the temp file using Perl
+        if ! perl -0777 -i -pe 's/\[TO BE COMPLETED\]/`cat $TEMP_SUMMARY_FILE`/ee' "$SESSION_FILE"; then
+            echo -e "${RED}Error: Failed to update summary in session file using Perl.${NC}"
+            # Fall back to alternative method
+            perl_failed=true
+        else
+            perl_failed=false
+        fi
+    else
+        perl_failed=true
     fi
+    
+    # Fallback method if Perl isn't available or fails
+    if [ "$perl_failed" = true ]; then
+        # Use awk with null record separator as fallback
+        if ! awk -v RS='\0' -v ORS='' '{gsub(/\[TO BE COMPLETED\]/, "'$(cat $TEMP_SUMMARY_FILE | sed 's/[\&/]/\\&/g')'"); print}' "$SESSION_FILE" > "$TEMP_OUTPUT_FILE"; then
+            echo -e "${RED}Error: Failed to update summary in session file using awk.${NC}"
+            # Final fallback - direct file replacement approach
+            awk '{gsub(/\[TO BE COMPLETED\]/, "Auto-closed during non-interactive operation."); print}' "$SESSION_FILE" > "$TEMP_OUTPUT_FILE" \
+                && mv "$TEMP_OUTPUT_FILE" "$SESSION_FILE" \
+                || echo -e "${RED}Error: All methods failed to update summary.${NC}"
+        else
+            mv "$TEMP_OUTPUT_FILE" "$SESSION_FILE"
+        fi
+    fi
+    
+    # Clean up temporary files
+    rm -f "$TEMP_SUMMARY_FILE" "$TEMP_OUTPUT_FILE" 2>/dev/null
     
     # Remove current session link
     rm -f "$CURRENT_SESSION_FILE"
@@ -467,11 +498,42 @@ function end_session() {
         fi
     fi
     
-    # Update summary
-    if ! sed -i "s/\[TO BE COMPLETED\]/$session_summary/" "$SESSION_FILE"; then
-        echo -e "${RED}Error: Failed to update summary in session file.${NC}"
-        return 1
+    # Update summary - using a more robust approach that handles all special characters
+    # Write to a temporary file for safe replacement
+    TEMP_SUMMARY_FILE=$(mktemp)
+    echo "$session_summary" > "$TEMP_SUMMARY_FILE"
+    TEMP_OUTPUT_FILE=$(mktemp)
+    
+    # Try to use Perl first (best handling of special characters)
+    if command -v perl &>/dev/null; then
+        # Replace the placeholder with the contents of the temp file using Perl
+        if ! perl -0777 -i -pe 's/\[TO BE COMPLETED\]/`cat $TEMP_SUMMARY_FILE`/ee' "$SESSION_FILE"; then
+            echo -e "${RED}Error: Failed to update summary in session file using Perl.${NC}"
+            # Fall back to alternative method
+            perl_failed=true
+        else
+            perl_failed=false
+        fi
+    else
+        perl_failed=true
     fi
+    
+    # Fallback method if Perl isn't available or fails
+    if [ "$perl_failed" = true ]; then
+        # Use awk with null record separator as fallback
+        if ! awk -v RS='\0' -v ORS='' '{gsub(/\[TO BE COMPLETED\]/, "'$(cat $TEMP_SUMMARY_FILE | sed 's/[\&/]/\\&/g')'"); print}' "$SESSION_FILE" > "$TEMP_OUTPUT_FILE"; then
+            echo -e "${RED}Error: Failed to update summary in session file using awk.${NC}"
+            # Final fallback - direct file replacement approach
+            awk '{gsub(/\[TO BE COMPLETED\]/, "Session completed."); print}' "$SESSION_FILE" > "$TEMP_OUTPUT_FILE" \
+                && mv "$TEMP_OUTPUT_FILE" "$SESSION_FILE" \
+                || echo -e "${RED}Error: All methods failed to update summary.${NC}"
+        else
+            mv "$TEMP_OUTPUT_FILE" "$SESSION_FILE"
+        fi
+    fi
+    
+    # Clean up temporary files
+    rm -f "$TEMP_SUMMARY_FILE" "$TEMP_OUTPUT_FILE" 2>/dev/null
     
     # Remove current session link
     rm -f "$CURRENT_SESSION_FILE"
@@ -874,12 +936,26 @@ This file provides an overview of all development sessions for the project.
 EOL
     }
     
+    # Use an associative array to prevent duplicates
+    declare -A processed_sessions
+    
     # Add all sessions to the summary
     for session_file in $(find "$SESSION_LOG_DIR" -name "session_*.md" -type f | sort -r); do
         # Skip empty or invalid files
         if [ ! -s "$session_file" ]; then
             continue
         fi
+        
+        # Get base filename to use as a key for de-duplication
+        base_name=$(basename "$session_file")
+        
+        # Skip if we've already processed this session
+        if [ -n "${processed_sessions[$base_name]}" ]; then
+            continue
+        fi
+        
+        # Mark this session as processed
+        processed_sessions[$base_name]=1
         
         # Extract session metadata with error handling
         session_date=$(grep "Date:" "$session_file" | sed 's/\*\*Date:\*\* //' || echo "Unknown date")
@@ -1595,9 +1671,10 @@ function show_help() {
     echo -e "  ${CYAN}clean${NC}                       - Clean up session logs directory"
     echo -e "  ${CYAN}clean auto${NC}                  - Clean up session logs non-interactively"
     echo -e "  ${CYAN}backup${NC}                      - Backup all session logs"
+    echo -e "  ${CYAN}update-summary${NC}              - Update the session summary file"
     echo -e "  ${CYAN}help${NC}                        - Show this help message"
     echo ""
-    ${CYAN}claude-session${NC} "title" "focus" "iter#" - Start a new session for Claude with robust handling
+    echo -e "  ${CYAN}claude-session${NC} \"title\" \"focus\" \"iter#\" - Start a new session for Claude with robust handling"
     echo -e "  ${CYAN}claude get-recent${NC}            - Get the most recent session info for Claude"
     echo -e "  ${CYAN}claude start${NC} \"title\" \"focus\" \"iter#\" - Start a new session for Claude"
     echo -e "  ${CYAN}claude end \"summary\"${NC}         - End the current session with Claude's summary"
@@ -1775,6 +1852,10 @@ function main() {
             ;;
         backup)
             backup_sessions
+            ;;
+        update-summary)
+            # Add a public command to update the session summary file
+            update_summary
             ;;
         claude)
             if [ $# -lt 2 ]; then
