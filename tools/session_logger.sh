@@ -358,8 +358,8 @@ EOL
 [TO BE COMPLETED]
 EOL
     
-    # Create a link to the current session
-    ln -sf "$SESSION_FILE" "$CURRENT_SESSION_FILE"
+    # Create a link to the current session - use absolute paths to ensure it works correctly
+    ln -sf "$(realpath "$SESSION_FILE")" "$CURRENT_SESSION_FILE"
     
     echo -e "${GREEN}Started new development session: $session_title${NC}"
     echo -e "${GREEN}Session log created at: $SESSION_FILE${NC}"
@@ -379,7 +379,7 @@ EOL
 
 # Non-interactive version of end_session for use when auto-closing sessions
 function end_session_noninteractive() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found.${NC}"
         return 1
     fi
@@ -419,7 +419,7 @@ function end_session_noninteractive() {
 
 # End the current development session
 function end_session() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found.${NC}"
         return 1
     fi
@@ -606,7 +606,7 @@ function recover_session() {
 
 # Add a new task to the current session
 function add_task() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found. Start a session first.${NC}"
         return 1
     fi
@@ -652,7 +652,7 @@ function add_task() {
 
 # Mark a task as completed
 function complete_task() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found. Start a session first.${NC}"
         return 1
     fi
@@ -737,7 +737,7 @@ function complete_task() {
 
 # Add a note to the current session
 function add_note() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found. Start a session first.${NC}"
         return 1
     fi
@@ -774,7 +774,7 @@ function add_note() {
 
 # Add a goal to the current session
 function set_goal() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found. Start a session first.${NC}"
         return 1
     fi
@@ -811,7 +811,7 @@ function set_goal() {
 
 # Add a next step to the current session
 function add_next_step() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found. Start a session first.${NC}"
         return 1
     fi
@@ -1053,7 +1053,7 @@ function view_session() {
 
 # Link a task to specific code files
 function link_task_to_files() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${RED}No active session found. Start a session first.${NC}"
         return 1
     fi
@@ -1520,27 +1520,41 @@ function claude_start() {
         echo -e "${YELLOW}Usage: $0 claude start \"Session Title\" \"Task Focus\" \"Iteration Number\"${NC}"
         return 1
     fi
-    
+
+    # Sanitize and validate iteration number
+    local iteration_number="$(echo "$3" | tr -d "[:space:]")"
+    if ! [[ "$iteration_number" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+        echo -e "${RED}Error: Iteration number must be a number (e.g., 2 or 3.5).${NC}"
+        echo -e "${YELLOW}You provided: \"$3\"${NC}"
+        return 1
+    fi
+
     # End any existing session first
-    if [ -f "$CURRENT_SESSION_FILE" ]; then
+    if [ -e "$CURRENT_SESSION_FILE" ]; then
         echo -e "${YELLOW}A session is already in progress. Ending it first...${NC}"
         end_session_noninteractive
     fi
-    
+
     # Create backup
     backup_sessions
-    
-    # Start a new session with the provided arguments
-    start_session "$1" "$2" "$3"
-    
-    # Output created session for Claude to read
-    if [ -f "$CURRENT_SESSION_FILE" ]; then
-        cat "$CURRENT_SESSION_FILE"
-    else
-        echo "Failed to create new session file."
-    fi
-}
 
+    # Start a new session with the provided arguments
+    if ! start_session "$1" "$2" "$iteration_number"; then
+        echo -e "${RED}Failed to start new session.${NC}"
+        return 1
+    fi
+
+    # Verify the current session link was created
+    if [ ! -e "$CURRENT_SESSION_FILE" ]; then
+        echo -e "${RED}Current session link was not created properly.${NC}"
+        return 1
+    fi
+
+    # Output created session for Claude to read
+    cat "$CURRENT_SESSION_FILE"
+    echo "Session started successfully."
+    return 0
+}
 # End the current session with Claude's summary
 function claude_end() {
     # Check if a summary is provided
@@ -1583,7 +1597,7 @@ function show_help() {
     echo -e "  ${CYAN}backup${NC}                      - Backup all session logs"
     echo -e "  ${CYAN}help${NC}                        - Show this help message"
     echo ""
-    echo -e "Claude Code Integration:"
+    ${CYAN}claude-session${NC} "title" "focus" "iter#" - Start a new session for Claude with robust handling
     echo -e "  ${CYAN}claude get-recent${NC}            - Get the most recent session info for Claude"
     echo -e "  ${CYAN}claude start${NC} \"title\" \"focus\" \"iter#\" - Start a new session for Claude"
     echo -e "  ${CYAN}claude end \"summary\"${NC}         - End the current session with Claude's summary"
@@ -1603,6 +1617,67 @@ function show_help() {
     echo -e "  $0 clean                     # Clean up and fix session logs"
 }
 
+
+# Helper function to start a new session with Claude in a robust way
+function claude_session_handler() {
+    if [ -e "$CURRENT_SESSION_FILE" ]; then
+        # If there is an active session, first clean it
+        echo "Ending current session..."
+        end_session_noninteractive
+    fi
+
+    # Clean up any broken sessions
+    clean_sessions auto
+
+    # Validate iteration number
+    if [ -z "$3" ] || ! [[ "$(echo "$3" | tr -d "[:space:]" )" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+        echo "Error: Invalid iteration number. Using default iteration 2."
+        local iteration="2"
+    else
+        local iteration="$(echo "$3" | tr -d "[:space:]")"
+    fi
+
+    # Start a new session
+    echo "Starting new session with title: $1, focus: $2, iteration: $iteration"
+    if ! claude_start "$1" "$2" "$iteration"; then
+        echo "Attempting fallback method..."
+        # Create session file directly if claude_start fails
+        SESSION_FILE="$SESSION_LOG_DIR/session_$(date +"%Y-%m-%d_%H-%M-%S").md"
+        mkdir -p "$SESSION_LOG_DIR"
+        # Create minimal session file
+        cat > "$SESSION_FILE" << EOL
+# Development Session: $1
+**Date:** $(date +"%B %d, %Y")
+**Time:** $(date +"%H:%M:%S")
+**Iteration:** $iteration
+**Task Focus:** $2
+
+## Session Goals
+- 
+
+## Progress Tracking
+- [ ] 
+
+## Notes
+- 
+
+## Next Steps
+- 
+
+## Time Log
+- Started: $(date +"%H:%M:%S")
+- Ended: [IN PROGRESS]
+
+## Summary
+[TO BE COMPLETED]
+EOL
+        # Create symlink to current session - use absolute paths to ensure it works correctly
+        ln -sf "$(realpath "$SESSION_FILE")" "$CURRENT_SESSION_FILE"
+        echo "Created session via fallback method."
+        cat "$SESSION_FILE"
+    fi
+}
+
 # Main function
 function main() {
     if [ $# -eq 0 ]; then
@@ -1611,6 +1686,9 @@ function main() {
     fi
     
     case $1 in
+        claude-session)
+            claude_session_handler "$2" "$3" "$4"
+            ;;
         start)
             if [ $# -ge 4 ]; then
                 # Non-interactive mode with parameters

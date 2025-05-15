@@ -72,9 +72,29 @@ A typical development workflow with the Session Logger looks like this:
 
 | Command | Description | Example |
 |---------|-------------|---------|
+| `claude-session "title" "focus" "iter#"` | Start a new session with robust error handling (RECOMMENDED) | `./tools/session_logger.sh claude-session "Camera System" "Camera Effects" "2"` |
 | `claude get-recent` | Get the most recent session info for Claude | `./tools/session_logger.sh claude get-recent` |
-| `claude start "title" "focus" "iter#"` | Start a new session for Claude | `./tools/session_logger.sh claude start "Camera System" "Camera Effects" "2"` |
+| `claude start "title" "focus" "iter#"` | Start a new session for Claude (legacy) | `./tools/session_logger.sh claude start "Camera System" "Camera Effects" "2"` |
 | `claude end "summary"` | End the current session with Claude's summary | `./tools/session_logger.sh claude end "Implemented scrolling camera"` |
+
+## Directory Structure and File Locations
+
+All session logs are stored in the `dev_logs/sessions` directory:
+
+```
+dev_logs/
+└── sessions/
+    ├── session_summary.md                 # Overview of all sessions
+    ├── current_session.md                 # Symlink to the active session
+    ├── session_YYYY-MM-DD_HH-MM-SS.md     # Individual session logs
+    └── backup_YYYYMMDD_HHMMSS/            # Backup directories
+```
+
+### Key Files
+
+- **current_session.md**: This is a symbolic link to the currently active session file. Commands like `add-task` modify this file.
+- **session_summary.md**: Provides an overview of all sessions with their status and summaries.
+- **session_YYYY-MM-DD_HH-MM-SS.md**: Actual session log files named with timestamps.
 
 ## Session Files
 
@@ -142,14 +162,6 @@ When you mark a task as completed:
 2. The iteration progress file is automatically updated with the task marked as "Complete"
 3. The iteration progress summary is recalculated to show the new completion percentage
 
-### Adding New Tasks
-
-Tasks can be linked with specific iteration tasks:
-
-1. Each session clearly shows which iteration it belongs to
-2. New tasks can be designed to fulfill specific pending iteration tasks
-3. Tasks remain linked with related files for better tracking
-
 ## Error Recovery and Maintenance
 
 The Session Logger includes several tools for error recovery and maintenance:
@@ -180,21 +192,121 @@ For general maintenance and to fix issues, use the `clean` command:
 ./tools/session_logger.sh clean
 ```
 
-### Session Backup
+## Using with Claude Code
 
-Before performing risky operations, you can create a backup of your session logs:
+### Special Instructions for Claude
 
-```bash
-./tools/session_logger.sh backup
+When working with Claude Code, follow these specific steps to ensure seamless session handling:
+
+#### 1. Continuing from Previous Sessions
+
+When a user asks to pick up where they left off or continue previous work:
+
+```
+Using session manager (/docs/session_logger.md). I would like to pick up where we left off from the most recent session please.
 ```
 
-This creates a timestamped backup directory with all session logs.
+Claude should:
+
+1. Use the `claude-session` command to start a new session (NOT the legacy `claude start` command):
+   ```bash
+   ./tools/session_logger.sh claude-session "Debug System Testing" "Testing Debug Tools" "2"
+   ```
+   - First parameter: Session title (based on the ongoing work)
+   - Second parameter: Task focus (more specific area of focus)
+   - Third parameter: Iteration number (IMPORTANT: always use "2" unless explicitly told otherwise)
+
+2. If there are any issues with starting the session, use the cleanup tools:
+   ```bash
+   ./tools/session_logger.sh clean auto
+   ```
+   Then try starting the session again.
+
+3. After creating a new session, add goals and tasks based on previous work:
+   ```bash
+   ./tools/session_logger.sh set-goal "Continue debug system implementation"
+   ./tools/session_logger.sh add-task "Test coordinate picker visualization"
+   ```
+
+#### 2. Adding Tasks and Notes
+
+During a session, always use the session logger to track work:
+
+```bash
+# Add tasks
+./tools/session_logger.sh add-task "Task description"
+
+# Add notes about findings
+./tools/session_logger.sh add-note "Note content"
+
+# Add goals
+./tools/session_logger.sh set-goal "Goal description"
+```
+
+#### 3. Finding Previous Work
+
+To access previous work:
+
+```bash
+# Get all sessions (you'll see this in the summary file)
+./tools/session_logger.sh list
+
+# View the most recent session
+./tools/session_logger.sh claude get-recent
+
+# View a specific session by date
+./tools/session_logger.sh view 2025-05-14
+```
+
+#### 4. Ending a Session
+
+When concluding work:
+
+```bash
+./tools/session_logger.sh claude end "Brief summary of what was accomplished"
+```
+
+### Starting a Claude Session
+
+When starting a session with Claude, use the claude-session command (preferred over claude start):
+
+```bash
+./tools/session_logger.sh claude-session "Camera System" "Camera Effects" "2"
+```
+
+This will:
+1. Create a properly formatted session file
+2. Automatically gather iteration tasks
+3. Import outstanding tasks from previous sessions
+4. Return the session content to Claude
+
+### Common Issues and Solutions
+
+If you encounter any of these issues:
+
+1. **"No active session found"**: The current_session.md symlink is missing or broken.
+   ```bash
+   # Fix by creating a new session
+   ./tools/session_logger.sh claude-session "Session Title" "Task Focus" "2"
+   ```
+
+2. **"Error: Iteration number must be a number"**: The iteration parameter has whitespace or formatting issues.
+   ```bash
+   # Use a plain number without quotes
+   ./tools/session_logger.sh claude-session "Session Title" "Task Focus" 2
+   ```
+
+3. **Cleanup required**: When multiple broken sessions exist
+   ```bash
+   # Run cleanup before starting a new session
+   ./tools/session_logger.sh clean auto
+   ```
 
 ## Tips for Effective Use
 
-1. **Start Each Work Session with the Session Logger**
+1. **Always use claude-session** instead of other methods for starting sessions with Claude
    ```bash
-   ./tools/session_logger.sh start
+   ./tools/session_logger.sh claude-session "Session Title" "Task Focus" "2"
    ```
 
 2. **Add Tasks at the Beginning**
@@ -204,156 +316,50 @@ This creates a timestamped backup directory with all session logs.
    ./tools/session_logger.sh add-task "Add debug visualization"
    ```
 
-3. **Link Tasks to Files as You Work**
-   When you modify or create files, link them to the relevant task.
-   ```bash
-   ./tools/session_logger.sh link-task 1 "src/core/camera/scrolling_camera.gd"
-   ```
-
-4. **Add Notes About Challenges and Solutions**
+3. **Add Notes About Challenges and Solutions**
    Document issues you encounter and how you solve them.
    ```bash
    ./tools/session_logger.sh add-note "Fixed camera jitter by updating position in _process instead of _physics_process"
    ```
 
-5. **End Your Session with a Good Summary**
+4. **End Your Session with a Good Summary**
    When ending a session, provide a clear, concise summary of what you accomplished.
 
-6. **Use `list` and `view` to Refer to Previous Sessions**
-   ```bash
-   ./tools/session_logger.sh list
-   ./tools/session_logger.sh view 2025-05-10
-   ```
-
-7. **Update Iteration Progress for Completed Tasks**
-   ```bash
-   ./tools/session_logger.sh update-progress "camera system"
-   ```
-
-8. **Regularly Clean and Maintain Your Session Logs**
-   ```bash
-   ./tools/session_logger.sh clean
-   ```
-
-## Using with Claude Code
-
-The Session Logger has special integration with Claude Code to assist with AI-powered development:
-
-### Starting a Claude Session
-
-When starting a session with Claude, use the claude start command:
-
-```bash
-./tools/session_logger.sh claude start "Camera System" "Camera Effects" "2"
-```
-
-This will:
-1. Create a properly formatted session file
-2. Automatically gather iteration tasks
-3. Import outstanding tasks from previous sessions
-4. Return the session content to Claude
-
-### Ending a Claude Session
-
-When Claude has completed its work, use:
-
-```bash
-./tools/session_logger.sh claude end "Implemented camera system with smooth scrolling and bounds validation"
-```
-
-This properly ends the session with Claude's provided summary.
-
-### Viewing Recent Sessions
-
-Claude can get information about recent sessions:
-
-```bash
-./tools/session_logger.sh claude get-recent
-```
-
-This provides Claude with the context of the latest work to continue work in the right direction.
-
-## Advanced Usage
-
-### Searching Session Logs
-
-You can use standard command-line tools to search across all session logs:
-
-```bash
-# Search for all mentions of "camera" in session logs
-grep -r "camera" dev_logs/sessions/
-
-# Find all tasks related to a specific feature
-grep -r "▶ Related files: src/core/camera" dev_logs/sessions/
-
-# List all completed tasks
-grep -r "- \[x\]" dev_logs/sessions/
-```
-
-### Automating Session Logger Operations
-
-You can use the non-interactive versions of many commands to automate workflows:
-
-```bash
-# Non-interactive start session
-./tools/session_logger.sh start "Camera Enhancements" "Camera Effects" "2"
-
-# Auto-complete and update a task
-./tools/session_logger.sh complete-task 1 auto-update
-
-# Non-interactive end session
-./tools/session_logger.sh end "Added smooth camera transitions and zoom functionality"
-
-# Auto-fix sessions
-./tools/session_logger.sh recover auto
-./tools/session_logger.sh clean auto
-```
+5. **Check for Task Progress from Previous Sessions**
+   Always check what was happening in the previous session by examining both completed and incomplete tasks.
 
 ## Troubleshooting
 
 If you encounter issues with the Session Logger:
 
 - Run `./tools/session_logger.sh recover` to fix broken or incomplete sessions
-- Run `./tools/session_logger.sh clean` to clean up and fix session logs
+- Run `./tools/session_logger.sh clean auto` to clean up and fix session logs
 - Ensure the log directory (`dev_logs/sessions`) exists
 - Check file permissions (`chmod +x tools/session_logger.sh`)
 - Verify that required dependencies (sed, grep) are installed
 - Ensure the iteration progress file exists at the expected path
 
-## Example: Complete Development Session
+## Example: Claude Development Session
 
-Here's an example of a full development session workflow:
+Here's an example of how Claude should handle a development session:
 
 ```bash
-# Start a new session
-./tools/session_logger.sh start
-# (enter session title, focus, and iteration number)
+# User: "Using session manager. Please pick up where we left off."
 
-# Add session goals
-./tools/session_logger.sh set-goal "Implement scrolling camera system"
-./tools/session_logger.sh set-goal "Test with different background sizes"
+# Claude should:
+# 1. Check recent sessions
+./tools/session_logger.sh claude get-recent
 
-# Add specific tasks
-./tools/session_logger.sh add-task "Create base scrolling camera class"
-./tools/session_logger.sh add-task "Modify district class to support camera"
-./tools/session_logger.sh add-task "Add camera bounds validation"
+# 2. Start a new session based on previous work
+./tools/session_logger.sh claude-session "Debug System Testing" "Coordinate Picker Enhancements" "2"
 
-# As you complete tasks, mark them and link to files
-./tools/session_logger.sh complete-task 1
-./tools/session_logger.sh link-task 1 "src/core/camera/scrolling_camera.gd"
+# 3. After reviewing the output, add tasks based on previous work
+./tools/session_logger.sh set-goal "Improve coordinate picker visibility"
+./tools/session_logger.sh add-task "Fix crosshair size and color"
+./tools/session_logger.sh add-task "Add animation to coordinate notifications"
 
-./tools/session_logger.sh complete-task 2
-./tools/session_logger.sh link-task 2 "src/core/districts/base_district.gd"
-
-# Add notes about important discoveries
-./tools/session_logger.sh add-note "Camera needs to respect screen size when calculating bounds"
-
-# Add next steps for future sessions
-./tools/session_logger.sh add-next-step "Test with larger backgrounds"
-
-# End the session with a summary
-./tools/session_logger.sh end
-# (enter summary of what was accomplished)
+# 4. After completing work
+./tools/session_logger.sh claude end "Enhanced coordinate picker visibility with larger crosshairs and animated notifications for better visibility during debug sessions"
 ```
 
-This creates a comprehensive record of your development session that you can refer back to later and helps ensure continuity between work sessions.
+This approach ensures seamless continuity between sessions and proper documentation of development work.
