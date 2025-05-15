@@ -2,10 +2,25 @@ extends Node2D
 
 # Polygon Visualizer - Debug Tool
 # Visualizes polygon vertices and allows easier editing of walkable areas
+# Modified to use Godot UI controls rather than direct font rendering
+
+# Signals for integration with DebugManager
+signal polygon_updated(polygon)
+signal polygon_completed(polygon)
+
+# Methods added for better integration with DebugManager
+func update_current_polygon(polygon):
+    # This allows DebugManager to set the current polygon
+    current_polygon = polygon
+    update()
+    
+func update_polygons(polygon_list):
+    # This allows DebugManager to set all polygons
+    # For now just handle updating visuals
+    update()
 
 # Display settings
 export var vertex_size = 6
-export var label_font_size = 12
 export var line_width = 2
 export var vertex_color = Color(0, 1, 0.5, 0.8)
 export var line_color = Color(0, 0.8, 0.3, 0.5)
@@ -19,22 +34,90 @@ var current_mode = EditMode.VIEW
 var polygons = []
 var selected_polygon = null
 var selected_point_index = -1
-var font
 var dragging = false
 var drag_offset = Vector2()
 var new_point_position = Vector2()
 var showing_mode_help = false
 var undo_stack = []
 var redo_stack = []
+var current_polygon = PoolVector2Array()  # Added missing variable for debug manager integration
+
+# UI elements
+var vertex_labels = {}
+var mode_label
+var help_panel
 
 func _ready():
-	# Create dynamic font for labels
-	font = DynamicFont.new()
-	font.font_data = load("res://default_font.tres")
-	font.size = label_font_size
+	# Set up UI for the polygon editor
+	setup_ui()
 
 	# Find all polygon nodes in the target group
 	find_polygons()
+	
+	# Setup processing
+	set_process_input(true)
+	set_process(true)
+
+	print("Polygon Visualizer Debug Tool Activated")
+	print("- Mode 1 (Default): View/Select - Click vertices to select")
+	print("- Mode 2: Move - Click and drag vertices to move them")
+	print("- Mode 3: Add - Click to add new vertices between existing ones")
+	print("- Mode 4: Delete - Click vertices to delete them")
+	print("- Mode 5: Drag All - Click and drag to move entire polygon")
+	print("- Press 1-5 to switch modes")
+	print("- Press H to toggle help")
+	print("- Press P to print/copy current polygon coordinates")
+	print("- Press Z to undo, Y to redo")
+
+func setup_ui():
+	# Create control node to hold all labels
+	var control = Control.new()
+	control.name = "PolygonLabels"
+	control.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(control)
+	
+	# Create a help panel
+	var help_container = PanelContainer.new()
+	help_container.name = "HelpPanel"
+	help_container.visible = false
+	control.add_child(help_container)
+	
+	var vbox = VBoxContainer.new()
+	help_container.add_child(vbox)
+	
+	var help_title = Label.new()
+	help_title.text = "Polygon Editor Controls:"
+	help_title.add_color_override("font_color", Color(1, 1, 0))
+	vbox.add_child(help_title)
+	
+	var help_items = [
+		"1: View/Select Mode - Click vertices to select",
+		"2: Move Mode - Click and drag vertices",
+		"3: Add Mode - Add vertices between points",
+		"4: Delete Mode - Delete selected vertices",
+		"5: Drag All Mode - Move entire polygon",
+		"P: Print/copy polygon data",
+		"Z: Undo, Y: Redo",
+		"H: Toggle this help"
+	]
+	
+	for item in help_items:
+		var label = Label.new()
+		label.text = item
+		vbox.add_child(label)
+	
+	help_panel = help_container
+	
+	# Create mode display label - check for existing label first
+	var nodes = get_tree().get_nodes_in_group("debug_mode_display")
+	if nodes.size() > 0:
+		mode_label = nodes[0]
+	else:
+		mode_label = Label.new()
+		mode_label.name = "ModeLabel"
+		mode_label.rect_position = Vector2(10, get_viewport_rect().size.y - 30)
+		mode_label.add_color_override("font_color", Color(0, 1, 0))
+		control.add_child(mode_label)
 
 	# Setup processing
 	set_process_input(true)
@@ -67,12 +150,78 @@ func _process(_delta):
 	if current_mode == EditMode.ADD and selected_polygon != null:
 		var mouse_pos = get_viewport().get_mouse_position()
 		new_point_position = selected_polygon.get_global_transform().affine_inverse().xform(mouse_pos)
-
+	
+	# Update the mode display
+	if mode_label:
+		var mode_text = "Current Mode: "
+		match current_mode:
+			EditMode.VIEW: mode_text += "View/Select (1)"
+			EditMode.MOVE: mode_text += "Move Vertex (2)"
+			EditMode.ADD: mode_text += "Add Vertex (3)"
+			EditMode.DELETE: mode_text += "Delete Vertex (4)"
+			EditMode.DRAG_ALL: mode_text += "Drag All (5)"
+		mode_label.text = mode_text
+	
+	# Show/hide help panel
+	if help_panel:
+		help_panel.visible = showing_mode_help
+	
+	# Update vertex labels
+	update_vertex_labels()
+	
 	# Force redraw to update visuals
 	update()
 
+# Update the vertex label positions and text
+func update_vertex_labels():
+	# First, clear old labels
+	var labels_container = get_node_or_null("PolygonLabels")
+	if !labels_container:
+		return
+	
+	# Remove old vertex labels
+	for key in vertex_labels.keys():
+		if vertex_labels[key] and is_instance_valid(vertex_labels[key]):
+			vertex_labels[key].queue_free()
+	vertex_labels.clear()
+	
+	# Create new labels for each vertex
+	for poly in polygons:
+		var points = poly.polygon
+		var global_transform = poly.global_transform
+		
+		for i in range(points.size()):
+			var pos = global_transform.xform(points[i])
+			var label_text = str(i) + ": (" + str(int(points[i].x)) + "," + str(int(points[i].y)) + ")"
+			
+			var label = Label.new()
+			label.text = label_text
+			label.rect_position = pos + Vector2(vertex_size + 2, 0)
+			
+			# Highlight selected point label
+			if poly == selected_polygon and i == selected_point_index:
+				label.add_color_override("font_color", Color(1, 0, 0))
+			else:
+				label.add_color_override("font_color", Color(1, 1, 0))
+			
+			labels_container.add_child(label)
+			vertex_labels[poly.name + "_" + str(i)] = label
+		
+		# Add a label for the new point if in ADD mode
+		if current_mode == EditMode.ADD and poly == selected_polygon and selected_point_index != -1:
+			var new_pos = global_transform.xform(new_point_position)
+			var label_text = "New: (" + str(int(new_point_position.x)) + "," + str(int(new_point_position.y)) + ")"
+			
+			var label = Label.new()
+			label.text = label_text
+			label.rect_position = new_pos + Vector2(vertex_size + 2, 0)
+			label.add_color_override("font_color", Color(1, 0.5, 0))
+			
+			labels_container.add_child(label)
+			vertex_labels["new_point"] = label
+
 func _draw():
-	# Draw all polygons
+	# Draw all polygons - geometric elements only, no text
 	for poly in polygons:
 		var points = poly.polygon
 		var global_transform = poly.global_transform
@@ -95,10 +244,6 @@ func _draw():
 			# Draw vertex
 			draw_circle(pos, vertex_size, color)
 
-			# Draw index label
-			var label = str(i) + ": (" + str(int(points[i].x)) + "," + str(int(points[i].y)) + ")"
-			draw_string(font, pos + Vector2(vertex_size + 2, 0), label, Color(1, 1, 0))
-
 		# Draw new point in ADD mode
 		if current_mode == EditMode.ADD and poly == selected_polygon and selected_point_index != -1:
 			var next_idx = (selected_point_index + 1) % points.size()
@@ -110,44 +255,8 @@ func _draw():
 			draw_circle(new_pos, vertex_size, Color(1, 0.5, 0, 0.8))
 			draw_line(p1, new_pos, Color(1, 0.5, 0, 0.5), line_width)
 			draw_line(new_pos, p2, Color(1, 0.5, 0, 0.5), line_width)
-
-			# Draw label
-			var label = "New: (" + str(int(new_point_position.x)) + "," + str(int(new_point_position.y)) + ")"
-			draw_string(font, new_pos + Vector2(vertex_size + 2, 0), label, Color(1, 0.5, 0))
-
-	# Draw current mode text
-	var mode_text = "Current Mode: "
-	match current_mode:
-		EditMode.VIEW: mode_text += "View/Select (1)"
-		EditMode.MOVE: mode_text += "Move Vertex (2)"
-		EditMode.ADD: mode_text += "Add Vertex (3)"
-		EditMode.DELETE: mode_text += "Delete Vertex (4)"
-		EditMode.DRAG_ALL: mode_text += "Drag All (5)"
-
-	draw_string(font, Vector2(20, 20), mode_text, Color(1, 1, 1))
-
-	# Draw shortcut help when requested
-	if showing_mode_help:
-		var help_text = [
-			"Polygon Editor Controls:",
-			"1: View/Select Mode - Click vertices to select",
-			"2: Move Mode - Click and drag vertices",
-			"3: Add Mode - Add vertices between points",
-			"4: Delete Mode - Delete selected vertices",
-			"5: Drag All Mode - Move entire polygon",
-			"P: Print/copy polygon data",
-			"Z: Undo, Y: Redo",
-			"H: Toggle this help"
-		]
-
-		# Draw background
-		var y_pos = 50
-		var height = help_text.size() * 20 + 10
-		draw_rect(Rect2(10, y_pos - 5, 350, height), Color(0, 0, 0, 0.7))
-
-		# Draw help text
-		for i in range(help_text.size()):
-			draw_string(font, Vector2(20, y_pos + i * 20), help_text[i], Color(1, 0.8, 0.2))
+			
+	# No text drawing here - we use Labels instead
 
 func save_state():
 	if selected_polygon != null:
@@ -176,12 +285,21 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.scancode >= KEY_1 and event.scancode <= KEY_5:
 			current_mode = event.scancode - KEY_1
-			print("Switched to mode: " + str(current_mode))
+			
+			# Update mode text for display
+			var mode_names = ["View/Select", "Move", "Add", "Delete", "Drag All"]
+			print("Switched to mode: " + mode_names[current_mode] + " (" + str(current_mode + 1) + ")")
+			
+			# Update mode label
+			if mode_label:
+				mode_label.text = "Current Mode: " + mode_names[current_mode] + " (" + str(current_mode + 1) + ")"
+			
 			return
 
 		# Toggle help with H
 		if event.scancode == KEY_H:
 			showing_mode_help = !showing_mode_help
+			print("Help panel " + ("shown" if showing_mode_help else "hidden"))
 			return
 
 		# Undo with Z

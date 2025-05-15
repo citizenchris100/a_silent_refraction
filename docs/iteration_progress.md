@@ -8,7 +8,7 @@ This file tracks the progress of all iterations for the project.
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework, Suspicion System, and Initial Asset Creation | IN PROGRESS | 43% (9/21) |
-| 3.5 | Animation Framework and Core Systems | IN PROGRESS | 59% (6.5/11) |
+| 3.5 | Animation Framework and Core Systems | IN PROGRESS | 50% (5.5/11) |
 | 3 | Game Districts, Time Management, Save System, Title Screen, and Asset Expansion | Not started | 0% (0/40) |
 | 4 | Investigation Mechanics, Advanced Inventory, and Mall/Trading Floor Assets | Not started | 0% (0/18) |
 | 5 | Coalition Building | Not started | 0% (0/9) |
@@ -42,7 +42,7 @@ This file tracks the progress of all iterations for the project.
 | Apply visual style guide to Shipping District | Complete | - |
 | Create bash script for generating NPC placeholders | Complete | tools/create_npc_registry.sh |
 | Implement observation mechanics for detecting assimilated NPCs | Complete | src/characters/npc/base_npc.gd, src/ui/verb_ui/verb_ui.gd, docs/observation_mechanics.md |
-| Create script for generating animated background elements | Complete | tools/create_animated_bg_elements.sh, src/core/background/animated_background.gd, docs/animated_backgrounds.md |
+| Create script for generating animated background elements | Complete | tools/create_animated_bg_elements.sh, src/core/background/animated_background.gd, docs/animated_background_workflow.md |
 | Implement scrolling camera system for wide backgrounds | Pending | src/core/districts/base_district.gd, src/characters/player/player.gd |
 | Design Shipping District main floor background with animated elements | Pending | - |
 | Create Docked Ship USCSS Theseus background (player starting location) | Pending | - |
@@ -66,7 +66,7 @@ This file tracks the progress of all iterations for the project.
 | Build Midjourney/RunwayML animation asset pipeline extensions | Complete | docs/animated_background_workflow.md, tools/process_animation_frames.sh, tools/test_animation_performance.sh |
 | Implement Tram System core animations | Pending | - |
 | Develop interactive animation triggers | Complete | src/core/districts/animated_background_manager.gd |
-| Create animation configuration system | Complete | src/core/districts/animated_background_manager.gd, src/districts/shipping/animated_elements_config.json |
+| Create animation configuration system | Pending | src/core/districts/animated_background_manager.gd, src/districts/shipping/animated_elements_config.json, tools/create_animation_config.sh, tools/validate_animation_config.sh, tools/update_animation_paths.sh |
 | Implement animation performance optimization systems | In Progress | src/shaders/hologram.shader, src/shaders/crt_screen.shader, src/shaders/heat_distortion.shader |
 | Build animation testing framework | Pending | - |
 | Develop animation-narrative linkage system | Pending | - |

@@ -454,6 +454,10 @@ The project includes a comprehensive session logging system to track development
 ./tools/session_logger.sh list
 ./tools/session_logger.sh view 2025-05-12
 
+# Recovery and maintenance
+./tools/session_logger.sh recover         # Fix incomplete or broken sessions
+./tools/session_logger.sh clean           # Clean up session logs directory
+
 # Update iteration progress file
 ./tools/session_logger.sh update-progress "camera"
 
@@ -511,6 +515,23 @@ To resume work after taking a break, follow these steps:
 
 This workflow ensures you never lose context between work sessions, even if days or weeks pass between them.
 
+#### Recovery and Maintenance
+
+If your work is interrupted or you encounter issues with the session logging system, use these commands:
+
+```bash
+# Recover from incomplete sessions or broken links
+./tools/session_logger.sh recover
+
+# Clean up session logs and fix formatting issues
+./tools/session_logger.sh clean
+
+# Migrate to new version of the session logger
+./tools/session_logger.sh migrate
+```
+
+These tools help maintain the integrity of your development logs even when unexpected issues occur.
+
 #### Benefits
 
 The session logger helps maintain continuity across development sessions by:
@@ -520,6 +541,7 @@ The session logger helps maintain continuity across development sessions by:
 - Maintaining a searchable history of sessions
 - Updating the iteration progress file automatically
 - Providing detailed session summaries
+- Recovering from errors with robust recovery tools
 
 For more information, run `./tools/session_logger.sh help` or see the [complete documentation](docs/session_logger.md).
 
@@ -579,9 +601,7 @@ The project includes comprehensive documentation to help developers understand t
 | [Debug Tools Guide](docs/debug_tools.md) | Using the polygon editing and scene debugging tools | `cat docs/debug_tools.md` |
 | [NPC Registry Usage](docs/npc_registry_usage.md) | Managing NPCs and their assimilation status | `cat docs/npc_registry_usage.md` |
 | [Observation Mechanics](docs/observation_mechanics.md) | NPC assimilation detection system | `cat docs/observation_mechanics.md` |
-| [Animated Backgrounds](docs/animated_backgrounds.md) | Creating and managing animated background elements | `cat docs/animated_backgrounds.md` |
-| [Animated Backgrounds (Comprehensive)](docs/animated_backgrounds_comprehensive.md) | Detailed guide to the animated background system | `cat docs/animated_backgrounds_comprehensive.md` |
-| [Animated Background Workflow](docs/animated_background_workflow.md) | End-to-end workflow for creating animated elements with AI tools | `cat docs/animated_background_workflow.md` |
+| [Animated Background Workflow](docs/animated_background_workflow.md) | Comprehensive guide to creating and managing animated background elements | `cat docs/animated_background_workflow.md` |
 | [Quest Design](docs/quest_design.md) | Quest system architecture and specific quest designs | `cat docs/quest_design.md` |
 | [Sprite Workflow](docs/sprite_workflow.md) | Comprehensive workflow for creating 32-bit era game sprites | `cat docs/sprite_workflow.md` |
 | [Session Logger](docs/session_logger.md) | Using the session logging system to track development progress | `cat docs/session_logger.md` |

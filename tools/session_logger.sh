@@ -1,7 +1,6 @@
 #!/bin/bash
-# Session logger tool for A Silent Refraction development
-# Helps track progress across multiple development sessions
-# Enhanced with iteration planning and Claude Code integration
+# Unified Session Logger for A Silent Refraction development
+# Helps track progress across multiple development sessions with Claude integration
 
 # Colors for output
 RED='\033[0;31m'
@@ -19,7 +18,6 @@ ITERATION_PROGRESS_FILE="docs/iteration_progress.md"
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 DATE_FORMATTED=$(date +"%B %d, %Y")
 TIME_FORMATTED=$(date +"%H:%M:%S")
-CLAUDE_MD_FILE="CLAUDE.md"
 
 # Check if session log directory exists, create if not
 function ensure_log_dir() {
@@ -42,116 +40,128 @@ function validate_input() {
     return 0
 }
 
-# Fetch pending tasks for a specific iteration number
-function fetch_pending_iteration_tasks() {
+# Backup session logs before performing risky operations
+function backup_sessions() {
+    ensure_log_dir
+    
+    # Create backup folder
+    BACKUP_DIR="${SESSION_LOG_DIR}/backup_$(date +"%Y%m%d_%H%M%S")"
+    mkdir -p "$BACKUP_DIR"
+    
+    # Backup existing session files
+    echo -e "${BLUE}Creating backup of existing session logs...${NC}"
+    cp -r "${SESSION_LOG_DIR}"/*.md "$BACKUP_DIR/" 2>/dev/null
+    echo -e "${GREEN}Backup created at: $BACKUP_DIR${NC}"
+    
+    return 0
+}
+
+# Get pending tasks from iteration progress file
+function get_iteration_tasks() {
     local iteration_number="$1"
-    local results=()
-    local section_found=0
-    local in_section=0
+    local tasks=""
     
     if [ ! -f "$ITERATION_PROGRESS_FILE" ]; then
-        echo -e "${YELLOW}Warning: Iteration progress file not found at $ITERATION_PROGRESS_FILE${NC}"
-        return 1
+        echo ""
+        return 0
     fi
     
     # Find the section for the specified iteration
-    while IFS= read -r line; do
-        if [[ "$line" =~ ^"### Iteration $iteration_number:" ]]; then
-            section_found=1
-            in_section=1
-            continue
-        fi
-        
-        # If we found our section and now encounter a new section, we're done
-        if [[ $in_section -eq 1 && "$line" =~ ^"### Iteration" ]]; then
-            in_section=0
-            break
-        fi
-        
-        # If in the right section and line contains "Pending", extract the task
-        if [[ $in_section -eq 1 && "$line" =~ "| Pending |" ]]; then
-            # Extract task description (field between first and second pipe)
-            task=$(echo "$line" | sed -E 's/\|(.*?)\|(.*?)\|.*/\2/' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-            results+=("$task")
-        fi
-    done < "$ITERATION_PROGRESS_FILE"
+    local section_start=$(grep -n "^### Iteration $iteration_number:" "$ITERATION_PROGRESS_FILE"  < /dev/null |  cut -d: -f1)
     
-    if [ ${#results[@]} -eq 0 ]; then
-        if [ $section_found -eq 0 ]; then
-            echo -e "${YELLOW}No iteration found with number: $iteration_number${NC}"
+    if [ -z "$section_start" ]; then
+        # Try with a more flexible search if the exact match isn't found
+        section_start=$(grep -n "^### Iteration $iteration_number[^0-9]" "$ITERATION_PROGRESS_FILE" | cut -d: -f1)
+    fi
+    
+    if [ -n "$section_start" ]; then
+        # Find the next iteration section or end of file
+        local next_section=$(tail -n +$((section_start + 1)) "$ITERATION_PROGRESS_FILE" | grep -n "^### Iteration" | head -1 | cut -d: -f1)
+        
+        if [ -n "$next_section" ]; then
+            next_section=$((section_start + next_section))
         else
-            echo -e "${YELLOW}No pending tasks found for iteration $iteration_number${NC}"
-        fi
-        return 1
-    fi
-    
-    # Return the results
-    for task in "${results[@]}"; do
-        echo "$task"
-    done
-    
-    return 0
-}
-
-# Get incomplete tasks from previous session
-function get_outstanding_tasks() {
-    local prev_session="$1"
-    local results=()
-    
-    if [ ! -f "$prev_session" ]; then
-        return 1
-    fi
-    
-    # Extract incomplete tasks (lines with "- [ ]")
-    while IFS= read -r line; do
-        if [[ "$line" =~ "- [ ] " ]]; then
-            # Extract task description
-            task=$(echo "$line" | sed 's/- \[ \] //')
-            results+=("$task")
-        fi
-    done < <(grep "- \[ \]" "$prev_session")
-    
-    # Extract next steps if any exist
-    local in_next_steps=0
-    while IFS= read -r line; do
-        if [[ "$line" =~ "## Next Steps" ]]; then
-            in_next_steps=1
-            continue
-        elif [[ "$line" =~ "##" && $in_next_steps -eq 1 ]]; then
-            # We've hit the next section
-            break
+            next_section=$(wc -l < "$ITERATION_PROGRESS_FILE")
         fi
         
-        if [[ $in_next_steps -eq 1 && "$line" =~ ^"- " ]]; then
-            # Extract next step (remove the leading "- ")
-            next_step=$(echo "$line" | sed 's/- //')
-            if [ ! -z "$next_step" ]; then
-                results+=("$next_step")
-            fi
-        fi
-    done < "$prev_session"
-    
-    # Return the results
-    for task in "${results[@]}"; do
-        echo "$task"
-    done
-    
-    return 0
-}
-
-# Find and return the most recent session file
-function get_most_recent_session() {
-    local most_recent=""
-    
-    # Find most recent session file (excluding current_session.md)
-    most_recent=$(find "$SESSION_LOG_DIR" -name "session_*.md" -type f -not -name "current_session.md" | sort -r | head -n 1)
-    
-    if [ -z "$most_recent" ]; then
-        return 1
+        # Extract pending tasks
+        tasks=$(sed -n "${section_start},${next_section}p" "$ITERATION_PROGRESS_FILE" | grep "| Pending |" | sed 's/^| /- [ ] /' | sed 's/ | Pending |.*$//' | sed 's/ *$//')
     fi
     
-    echo "$most_recent"
-    return 0
+    echo "$tasks"
+}
+
+# Get the name of the current iteration from the iteration progress file
+function get_current_iteration_name() {
+    local iteration_number="$1"
+    local name=""
+    
+    if [ ! -f "$ITERATION_PROGRESS_FILE" ]; then
+        echo "Unknown"
+        return 0
+    fi
+    
+    # Find the section for the specified iteration
+    local line=$(grep "^### Iteration $iteration_number:" "$ITERATION_PROGRESS_FILE" | head -1)
+    
+    if [ -z "$line" ]; then
+        # Try with a more flexible search if the exact match isn't found
+        line=$(grep "^### Iteration $iteration_number[^0-9]" "$ITERATION_PROGRESS_FILE" | head -1)
+    fi
+    
+    if [ -n "$line" ]; then
+        name=$(echo "$line" | sed -E 's/^### Iteration [0-9.]+: (.*)/\1/')
+    else
+        name="Unknown"
+    fi
+    
+    echo "$name"
+}
+
+# Get incomplete tasks from the most recent session
+function get_previous_incomplete_tasks() {
+    local previous_tasks=""
+    
+    # Find the most recent session file (excluding the current one if it exists)
+    local previous_session_file=""
+    
+    if [ -f "$CURRENT_SESSION_FILE" ] && [ -L "$CURRENT_SESSION_FILE" ]; then
+        # If there's a current session, get the file it points to
+        previous_session_file=$(readlink -f "$CURRENT_SESSION_FILE")
+    else
+        # Otherwise find the most recent session file
+        previous_session_file=$(find "$SESSION_LOG_DIR" -name "session_*.md" -type f | sort -r | head -n 1)
+    fi
+    
+    if [ -n "$previous_session_file" ] && [ -f "$previous_session_file" ]; then
+        # Extract incomplete tasks
+        previous_tasks=$(grep -n "- \[ \]" "$previous_session_file" | sed 's/^[0-9]*://')
+    fi
+    
+    echo "$previous_tasks"
+}
+
+# Get next steps from the most recent session
+function get_previous_next_steps() {
+    local next_steps=""
+    
+    # Find the most recent session file (excluding the current one if it exists)
+    local previous_session_file=""
+    
+    if [ -f "$CURRENT_SESSION_FILE" ] && [ -L "$CURRENT_SESSION_FILE" ]; then
+        # If there's a current session, get the file it points to
+        previous_session_file=$(readlink -f "$CURRENT_SESSION_FILE")
+    else
+        # Otherwise find the most recent session file
+        previous_session_file=$(find "$SESSION_LOG_DIR" -name "session_*.md" -type f | sort -r | head -n 1)
+    fi
+    
+    if [ -n "$previous_session_file" ] && [ -f "$previous_session_file" ]; then
+        # Extract next steps section
+        next_steps=$(awk '/^## Next Steps$/{flag=1; next} /^## /{flag=0} flag' "$previous_session_file")
+    fi
+    
+    echo "$next_steps"
 }
 
 # Create a new development session
@@ -163,18 +173,12 @@ function start_session() {
     local session_title=""
     local task_focus=""
     local iteration_number=""
-    local claude_mode=false
     
     if [ ! -z "$1" ] && [ ! -z "$2" ] && [ ! -z "$3" ]; then
         noninteractive=true
         session_title="$1"
         task_focus="$2"
         iteration_number="$3"
-        
-        # Check if this is a Claude-triggered session
-        if [ "$4" = "claude" ]; then
-            claude_mode=true
-        fi
         
         # Validate inputs for non-interactive mode
         if ! validate_input "Session title" "$session_title"; then
@@ -188,7 +192,7 @@ function start_session() {
         fi
         
         # Validate that iteration number is numeric
-        if ! [[ "$iteration_number" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        if ! [[ "$iteration_number" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
             echo -e "${RED}Error: Iteration number must be a number (e.g., 2 or 3.5).${NC}"
             return 1
         fi
@@ -257,7 +261,7 @@ function start_session() {
             read -p "Enter iteration number: " iteration_number
             if validate_input "Iteration number" "$iteration_number"; then
                 # Validate that iteration number is numeric
-                if [[ "$iteration_number" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+                if [[ "$iteration_number" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
                     break
                 else
                     echo -e "${RED}Error: Iteration number must be a number (e.g., 2 or 3.5).${NC}"
@@ -269,76 +273,82 @@ function start_session() {
     # Create new session file
     SESSION_FILE="$SESSION_LOG_DIR/session_${TIMESTAMP}.md"
     
-    # Get outstanding tasks from previous session if available
-    local outstanding_tasks=()
-    local pending_iteration_tasks=()
-    local most_recent_session
-    local has_outstanding=false
-    local has_iteration_tasks=false
+    # Get iteration name for more context
+    local iteration_name=$(get_current_iteration_name "$iteration_number")
     
-    most_recent_session=$(get_most_recent_session)
-    if [ $? -eq 0 ] && [ -f "$most_recent_session" ]; then
-        while IFS= read -r task; do
-            outstanding_tasks+=("$task")
-            has_outstanding=true
-        done < <(get_outstanding_tasks "$most_recent_session")
-    fi
+    # Get pending tasks from iteration progress file
+    local iteration_tasks=$(get_iteration_tasks "$iteration_number")
     
-    # Get pending tasks from iteration planning
-    while IFS= read -r task; do
-        pending_iteration_tasks+=("$task")
-        has_iteration_tasks=true
-    done < <(fetch_pending_iteration_tasks "$iteration_number")
+    # Get incomplete tasks from previous session
+    local previous_tasks=$(get_previous_incomplete_tasks)
     
-    # Start building session file
+    # Get next steps from previous session
+    local previous_next_steps=$(get_previous_next_steps)
+    
+    # Generate session file with appropriate sections
     cat > "$SESSION_FILE" << EOL
 # Development Session: $session_title
 **Date:** $DATE_FORMATTED
 **Time:** $TIME_FORMATTED
-**Iteration:** $iteration_number
+**Iteration:** $iteration_number - $iteration_name
 **Task Focus:** $task_focus
 
 ## Session Goals
 - 
+
 EOL
 
-    # Add the related iteration tasks if any
-    if [ "$has_iteration_tasks" = true ]; then
+    # Add iteration tasks section if there are any
+    if [ -n "$iteration_tasks" ]; then
         cat >> "$SESSION_FILE" << EOL
-
 ## Related Iteration Tasks
-EOL
-        for task in "${pending_iteration_tasks[@]}"; do
-            echo "- [ ] $task" >> "$SESSION_FILE"
-        done
-    fi
-    
-    # Continue with the rest of the session template
-    cat >> "$SESSION_FILE" << EOL
+$iteration_tasks
 
+EOL
+    fi
+
+    # Start progress tracking section
+    cat >> "$SESSION_FILE" << EOL
 ## Progress Tracking
 EOL
 
     # Add outstanding tasks from previous session if any
-    if [ "$has_outstanding" = true ]; then
-        echo -e "\n### Outstanding Items from Previous Session" >> "$SESSION_FILE"
-        for task in "${outstanding_tasks[@]}"; do
-            echo "- [ ] $task" >> "$SESSION_FILE"
-        done
-        echo "" >> "$SESSION_FILE"
+    if [ -n "$previous_tasks" ]; then
+        cat >> "$SESSION_FILE" << EOL
+### Outstanding Tasks from Previous Session
+$previous_tasks
+
+### New Tasks
+- [ ] 
+EOL
+    else
+        cat >> "$SESSION_FILE" << EOL
+- [ ] 
+EOL
     fi
-    
-    # Always include an empty task line for manual additions
-    echo "- [ ] " >> "$SESSION_FILE"
-    
-    # Continue with the rest of the template
+
+    # Add remaining sections
     cat >> "$SESSION_FILE" << EOL
 
 ## Notes
 - 
 
 ## Next Steps
+EOL
+
+    # Add next steps from previous session if any
+    if [ -n "$previous_next_steps" ]; then
+        cat >> "$SESSION_FILE" << EOL
+$previous_next_steps
+EOL
+    else
+        cat >> "$SESSION_FILE" << EOL
 - 
+EOL
+    fi
+
+    # Add final sections
+    cat >> "$SESSION_FILE" << EOL
 
 ## Time Log
 - Started: $TIME_FORMATTED
@@ -351,23 +361,17 @@ EOL
     # Create a link to the current session
     ln -sf "$SESSION_FILE" "$CURRENT_SESSION_FILE"
     
-    # Output appropriate message based on mode
-    if [ "$claude_mode" = true ]; then
-        echo -e "${GREEN}Claude has started a new development session: $session_title${NC}"
-        echo -e "${GREEN}Session log created at: $SESSION_FILE${NC}"
-        echo -e "${CYAN}This session is managed by Claude and will track progress automatically.${NC}"
-    else
-        echo -e "${GREEN}Started new development session: $session_title${NC}"
-        echo -e "${GREEN}Session log created at: $SESSION_FILE${NC}"
-        echo -e "${CYAN}You can now edit this file to track your progress.${NC}"
-        echo ""
-        echo -e "Use the following commands to manage your session:"
-        echo -e "  ${YELLOW}$0 add-task \"Task description\"${NC} - Add a new task"
-        echo -e "  ${YELLOW}$0 complete-task <task_number>${NC} - Mark a task as completed"
-        echo -e "  ${YELLOW}$0 add-note \"Note content\"${NC} - Add a note"
-        echo -e "  ${YELLOW}$0 set-goal \"Goal description\"${NC} - Add a session goal"
-        echo -e "  ${YELLOW}$0 end${NC} - End the current session"
-    fi
+    echo -e "${GREEN}Started new development session: $session_title${NC}"
+    echo -e "${GREEN}Session log created at: $SESSION_FILE${NC}"
+    echo -e "${CYAN}You can now edit this file to track your progress.${NC}"
+    echo ""
+    echo -e "Use the following commands to manage your session:"
+    echo -e "  ${YELLOW}$0 add-task \"Task description\"${NC} - Add a new task"
+    echo -e "  ${YELLOW}$0 complete-task <task_number>${NC} - Mark a task as completed"
+    echo -e "  ${YELLOW}$0 add-note \"Note content\"${NC} - Add a note"
+    echo -e "  ${YELLOW}$0 set-goal \"Goal description\"${NC} - Add a session goal"
+    echo -e "  ${YELLOW}$0 add-next-step \"Step description\"${NC} - Add a next step"
+    echo -e "  ${YELLOW}$0 end${NC} - End the current session"
     
     # Update session summary file
     update_summary
@@ -443,21 +447,11 @@ function end_session() {
         return 1
     fi
     
-    # Process session parameters
-    local claude_mode=false
-    local session_summary=""
-    
-    # Check if arguments were provided
+    # Check if a summary argument was provided for non-interactive use
     if [ -n "$1" ]; then
-        # First parameter is the summary
         session_summary="$1"
-        
-        # Check if this is a Claude-triggered session end
-        if [ "$2" = "claude" ]; then
-            claude_mode=true
-        fi
     else
-        # Interactive mode: prompt for summary
+        # Prompt for session summary
         echo -e "${BLUE}Please provide a summary of what was accomplished in this session:${NC}"
         read -p "> " session_summary
         
@@ -473,67 +467,7 @@ function end_session() {
         fi
     fi
     
-    # Process outstanding tasks and create next steps
-    if [ "$claude_mode" = true ]; then
-        # Extract any incomplete tasks
-        local incomplete_tasks=()
-        while IFS= read -r line; do
-            if [[ "$line" =~ "- [ ] " ]]; then
-                # Extract task description (remove the checkbox part)
-                task=$(echo "$line" | sed 's/- \[ \] //')
-                # Add to the next steps section if it's not empty
-                if [ ! -z "$task" ]; then
-                    incomplete_tasks+=("$task")
-                fi
-            fi
-        done < <(grep "- \[ \]" "$SESSION_FILE")
-        
-        # Add incomplete tasks to next steps if they don't already exist there
-        local in_next_steps=false
-        local has_next_steps=false
-        local next_steps_content=""
-        
-        # Read the file to get current next steps
-        while IFS= read -r line; do
-            if [[ "$line" =~ "## Next Steps" ]]; then
-                in_next_steps=true
-                next_steps_content+="$line\n"
-                continue
-            elif [[ "$line" =~ "^##" && "$in_next_steps" = true ]]; then
-                in_next_steps=false
-                continue
-            fi
-            
-            if [ "$in_next_steps" = true ]; then
-                if [[ "$line" =~ ^"- " ]]; then
-                    has_next_steps=true
-                    next_steps_content+="$line\n"
-                fi
-            fi
-        done < "$SESSION_FILE"
-        
-        # Add incomplete tasks to next steps if any exist
-        if [ ${#incomplete_tasks[@]} -gt 0 ]; then
-            # If there are no existing next steps, clear the content and add a header
-            if [ "$has_next_steps" = false ]; then
-                next_steps_content="## Next Steps\n"
-            fi
-            
-            # Add each incomplete task as a next step if it's not already there
-            for task in "${incomplete_tasks[@]}"; do
-                # Skip if this task is already in next steps
-                if ! grep -q "^- $task" <<< "$next_steps_content"; then
-                    next_steps_content+="- $task\n"
-                fi
-            done
-            
-            # Update the next steps section
-            local escaped_content=$(printf '%s' "$next_steps_content" | sed -e 's/[\/&]/\\&/g')
-            sed -i "/## Next Steps/,/^##/c\\$escaped_content" "$SESSION_FILE"
-        fi
-    fi
-    
-    # Update the summary
+    # Update summary
     if ! sed -i "s/\[TO BE COMPLETED\]/$session_summary/" "$SESSION_FILE"; then
         echo -e "${RED}Error: Failed to update summary in session file.${NC}"
         return 1
@@ -542,13 +476,7 @@ function end_session() {
     # Remove current session link
     rm -f "$CURRENT_SESSION_FILE"
     
-    # Display appropriate message
-    if [ "$claude_mode" = true ]; then
-        echo -e "${GREEN}Claude has ended the session and logged to: $SESSION_FILE${NC}"
-        echo -e "${CYAN}Outstanding tasks have been automatically added to the next steps section.${NC}"
-    else
-        echo -e "${GREEN}Session ended and logged to: $SESSION_FILE${NC}"
-    fi
+    echo -e "${GREEN}Session ended and logged to: $SESSION_FILE${NC}"
     
     # Update session summary file
     update_summary
@@ -704,10 +632,19 @@ function add_task() {
         fi
     fi
     
-    # Add task to the progress tracking section
-    if ! sed -i "/## Progress Tracking/a - [ ] $1" "$SESSION_FILE"; then
-        echo -e "${RED}Error: Failed to add task to session file.${NC}"
-        return 1
+    # Check if the task should be added under a specific section
+    if grep -q "### New Tasks" "$SESSION_FILE"; then
+        # Add task to the new tasks section
+        if ! sed -i "/### New Tasks/a - [ ] $1" "$SESSION_FILE"; then
+            echo -e "${RED}Error: Failed to add task to session file.${NC}"
+            return 1
+        fi
+    else
+        # Add task to the progress tracking section
+        if ! sed -i "/## Progress Tracking/a - [ ] $1" "$SESSION_FILE"; then
+            echo -e "${RED}Error: Failed to add task to session file.${NC}"
+            return 1
+        fi
     fi
     
     echo -e "${GREEN}Task added to session log.${NC}"
@@ -870,6 +807,43 @@ function set_goal() {
     fi
     
     echo -e "${GREEN}Goal added to session log.${NC}"
+}
+
+# Add a next step to the current session
+function add_next_step() {
+    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
+        echo -e "${RED}No active session found. Start a session first.${NC}"
+        return 1
+    fi
+    
+    if [ -z "$1" ]; then
+        echo -e "${RED}No next step content provided.${NC}"
+        return 1
+    fi
+    
+    # Get the actual session file path
+    SESSION_FILE=$(readlink -f "$CURRENT_SESSION_FILE")
+    
+    # Validate session file
+    if [ ! -f "$SESSION_FILE" ]; then
+        echo -e "${RED}Error: Session file not found. The current session link might be broken.${NC}"
+        echo -e "${YELLOW}Would you like to recover from this error? (y/n)${NC}"
+        read -p "> " choice
+        if [ "$choice" = "y" ]; then
+            recover_session
+            return $?
+        else
+            return 1
+        fi
+    fi
+    
+    # Add next step to the next steps section
+    if ! sed -i "/## Next Steps/a - $1" "$SESSION_FILE"; then
+        echo -e "${RED}Error: Failed to add next step to session file.${NC}"
+        return 1
+    fi
+    
+    echo -e "${GREEN}Next step added to session log.${NC}"
 }
 
 # Update the session summary file
@@ -1142,8 +1116,6 @@ function link_task_to_files() {
     # Check if the file exists
     if [ ! -f "$2" ] && [ ! -d "$2" ]; then
         echo -e "${YELLOW}Warning: File/directory '$2' does not exist.${NC}"
-        
-        # Check if this is automated (non-interactive) or if we should prompt
         if [ "$3" = "force" ]; then
             echo -e "${YELLOW}Forcing link to non-existent file due to 'force' parameter.${NC}"
         else
@@ -1517,146 +1489,71 @@ function clean_sessions() {
     echo -e "${GREEN}Cleanup complete.${NC}"
 }
 
-# Migrate the session log system to new version
-function migrate_sessions() {
+# Claude-specific functions for AI integration
+
+# Get the most recent session information for Claude to continue work
+function claude_get_recent() {
     ensure_log_dir
     
-    echo -e "${BLUE}Migrating session log system to new version...${NC}"
-    
-    # Validate session log structure
-    if [ ! -d "$SESSION_LOG_DIR" ]; then
-        echo -e "${RED}Error: Session log directory not found.${NC}"
-        return 1
-    fi
-    
-    # Create backup folder
-    BACKUP_DIR="${SESSION_LOG_DIR}/backup_$(date +"%Y%m%d_%H%M%S")"
-    mkdir -p "$BACKUP_DIR"
-    
-    # Backup existing session files
-    echo -e "${BLUE}Creating backup of existing session logs...${NC}"
-    cp -r "${SESSION_LOG_DIR}"/*.md "$BACKUP_DIR/" 2>/dev/null
-    echo -e "${GREEN}Backup created at: $BACKUP_DIR${NC}"
-    
-    # Fix session summary file if it exists
-    if [ -f "$SESSION_SUMMARY_FILE" ]; then
-        echo -e "${BLUE}Fixing session summary file...${NC}"
-        # Create a clean summary file
-        rm -f "$SESSION_SUMMARY_FILE"
-        update_summary
-    fi
-    
-    # Fix incomplete sessions
-    INCOMPLETE_SESSIONS=$(grep -l "\[IN PROGRESS\]" $SESSION_LOG_DIR/session_*.md 2>/dev/null)
-    INCOMPLETE_COUNT=$(echo "$INCOMPLETE_SESSIONS" | grep -c "^")
-    
-    if [ "$INCOMPLETE_COUNT" -gt 0 ]; then
-        # Check if non-interactive mode is requested
-        if [ "$1" = "auto" ]; then
-            echo -e "${BLUE}Found $INCOMPLETE_COUNT incomplete sessions. Auto-fixing in non-interactive mode...${NC}"
-            # Keep all sessions as in-progress (do nothing)
+    # Find the most recent session file
+    if [ -f "$CURRENT_SESSION_FILE" ]; then
+        # If there's a current session, return it
+        cat "$CURRENT_SESSION_FILE"
+    else
+        # Otherwise find the most recent completed session
+        local recent_session=$(find "$SESSION_LOG_DIR" -name "session_*.md" -type f | sort -r | head -n 1)
+        
+        if [ -n "$recent_session" ] && [ -f "$recent_session" ]; then
+            # Return the session content
+            cat "$recent_session"
         else
-            echo -e "${BLUE}Found $INCOMPLETE_COUNT incomplete sessions.${NC}"
-            echo -e "Do you want to:"
-            echo -e "  ${CYAN}1${NC} - Keep all sessions as in-progress"
-            echo -e "  ${CYAN}2${NC} - Auto-close all incomplete sessions"
-            echo -e "  ${CYAN}3${NC} - Review each session individually"
-            read -p "Your choice: " choice
-            
-            case $choice in
-                2)
-                    # Auto-close all sessions
-                    END_TIME=$(date +"%H:%M:%S")
-                    for session in $INCOMPLETE_SESSIONS; do
-                        sed -i "s/- Ended: \[IN PROGRESS\]/- Ended: $END_TIME/" "$session"
-                        sed -i "s/\[TO BE COMPLETED\]/Auto-closed during migration/" "$session"
-                        echo -e "  ${GREEN}Auto-closed: $(basename "$session")${NC}"
-                    done
-                    ;;
-                3)
-                    # Review each session
-                    for session in $INCOMPLETE_SESSIONS; do
-                        session_date=$(grep "Date:" "$session" 2>/dev/null | sed 's/\*\*Date:\*\* //' || echo "Unknown date")
-                        session_title=$(grep "# Development Session:" "$session" 2>/dev/null | sed 's/# Development Session: //' || echo "Untitled session")
-                        echo -e "${BLUE}Session: $session_date - $session_title${NC}"
-                        echo -e "Do you want to:"
-                        echo -e "  ${CYAN}1${NC} - Keep as in-progress"
-                        echo -e "  ${CYAN}2${NC} - Auto-close this session"
-                        echo -e "  ${CYAN}3${NC} - View session details then decide"
-                        read -p "Your choice: " session_choice
-                        
-                        if [ "$session_choice" = "3" ]; then
-                            less "$session"
-                            echo -e "${BLUE}Close this session? (y/n)${NC}"
-                            read -p "> " close_choice
-                            session_choice=$([ "$close_choice" = "y" ] && echo "2" || echo "1")
-                        fi
-                        
-                        if [ "$session_choice" = "2" ]; then
-                            END_TIME=$(date +"%H:%M:%S")
-                            sed -i "s/- Ended: \[IN PROGRESS\]/- Ended: $END_TIME/" "$session"
-                            sed -i "s/\[TO BE COMPLETED\]/Auto-closed during migration/" "$session"
-                            echo -e "  ${GREEN}Closed: $(basename "$session")${NC}"
-                        else
-                            echo -e "  ${YELLOW}Kept as in-progress: $(basename "$session")${NC}"
-                        fi
-                    done
-                    ;;
-                *)
-                    echo -e "${YELLOW}All sessions kept as in-progress.${NC}"
-                    ;;
-            esac
+            echo "No recent sessions found."
         fi
     fi
-    
-    # Check for broken current session link
-    if [ -L "$CURRENT_SESSION_FILE" ] && [ ! -e "$(readlink -f "$CURRENT_SESSION_FILE")" ]; then
-        echo -e "${YELLOW}Found broken current session link. Removing...${NC}"
-        rm -f "$CURRENT_SESSION_FILE"
-    fi
-    
-    # Update all summary information
-    echo -e "${BLUE}Updating session summary...${NC}"
-    update_summary
-    
-    echo -e "${GREEN}Session log system migration complete!${NC}"
 }
 
-# Add a next step to the current session
-function add_next_step() {
-    if [ ! -f "$CURRENT_SESSION_FILE" ]; then
-        echo -e "${RED}No active session found. Start a session first.${NC}"
+# Start a new session specifically for Claude
+function claude_start() {
+    # Check if required arguments are provided
+    if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+        echo -e "${RED}Error: Missing required parameters for Claude session start.${NC}"
+        echo -e "${YELLOW}Usage: $0 claude start \"Session Title\" \"Task Focus\" \"Iteration Number\"${NC}"
         return 1
     fi
     
+    # End any existing session first
+    if [ -f "$CURRENT_SESSION_FILE" ]; then
+        echo -e "${YELLOW}A session is already in progress. Ending it first...${NC}"
+        end_session_noninteractive
+    fi
+    
+    # Create backup
+    backup_sessions
+    
+    # Start a new session with the provided arguments
+    start_session "$1" "$2" "$3"
+    
+    # Output created session for Claude to read
+    if [ -f "$CURRENT_SESSION_FILE" ]; then
+        cat "$CURRENT_SESSION_FILE"
+    else
+        echo "Failed to create new session file."
+    fi
+}
+
+# End the current session with Claude's summary
+function claude_end() {
+    # Check if a summary is provided
     if [ -z "$1" ]; then
-        echo -e "${RED}No next step content provided.${NC}"
+        echo -e "${RED}Error: Missing required parameter for Claude session end.${NC}"
+        echo -e "${YELLOW}Usage: $0 claude end \"Session Summary\"${NC}"
         return 1
     fi
     
-    # Get the actual session file path
-    SESSION_FILE=$(readlink -f "$CURRENT_SESSION_FILE")
+    # End the current session with the provided summary
+    end_session "$1"
     
-    # Validate session file
-    if [ ! -f "$SESSION_FILE" ]; then
-        echo -e "${RED}Error: Session file not found. The current session link might be broken.${NC}"
-        echo -e "${YELLOW}Would you like to recover from this error? (y/n)${NC}"
-        read -p "> " choice
-        if [ "$choice" = "y" ]; then
-            recover_session
-            return $?
-        else
-            return 1
-        fi
-    fi
-    
-    # Add next step to the next steps section
-    if ! sed -i "/## Next Steps/a - $1" "$SESSION_FILE"; then
-        echo -e "${RED}Error: Failed to add next step to session file.${NC}"
-        return 1
-    fi
-    
-    echo -e "${GREEN}Next step added to session log.${NC}"
+    echo "Session ended successfully."
 }
 
 # Show help
@@ -1665,7 +1562,7 @@ function show_help() {
     echo ""
     echo -e "Usage: $0 [command] [arguments]"
     echo ""
-    echo -e "Basic Commands:"
+    echo -e "Commands:"
     echo -e "  ${CYAN}start${NC}                       - Start a new development session"
     echo -e "  ${CYAN}start \"title\" \"focus\" \"iter#\"${NC} - Start session non-interactively with given parameters"
     echo -e "  ${CYAN}end${NC}                         - End the current session"
@@ -1677,42 +1574,21 @@ function show_help() {
     echo -e "  ${CYAN}add-next-step \"description\"${NC}  - Add a next step to the current session"
     echo -e "  ${CYAN}list${NC}                        - List all development sessions"
     echo -e "  ${CYAN}view [date]${NC}                 - View a specific session (or current if no date)"
-    echo ""
-    echo -e "Iteration Planning Integration:"
     echo -e "  ${CYAN}link-task <number> <file>${NC}    - Link a task to specific code files"
     echo -e "  ${CYAN}update-progress \"keyword\"${NC}    - Update iteration progress file for a completed task"
-    echo -e "  ${CYAN}get-iteration-tasks <iter#>${NC}   - List pending tasks for a specific iteration"
-    echo ""
-    echo -e "Claude Code Integration:"
-    echo -e "  ${CYAN}claude start \"title\" \"focus\" \"iter#\"${NC} - Start a Claude-managed session"
-    echo -e "  ${CYAN}claude end \"summary\"${NC}         - End a Claude-managed session"
-    echo -e "  ${CYAN}claude continue${NC}              - Continue using an existing session with Claude"
-    echo -e "  ${CYAN}get-recent-session${NC}          - Get the path to the most recent session file"
-    echo ""
-    echo -e "Maintenance Commands:"
     echo -e "  ${CYAN}recover${NC}                     - Recover from incomplete or broken sessions"
     echo -e "  ${CYAN}recover auto${NC}                - Recover all sessions automatically"
     echo -e "  ${CYAN}clean${NC}                       - Clean up session logs directory"
     echo -e "  ${CYAN}clean auto${NC}                  - Clean up session logs non-interactively"
-    echo -e "  ${CYAN}migrate${NC}                     - Migrate to new session logger version"
-    echo -e "  ${CYAN}migrate auto${NC}                - Migrate non-interactively"
-    echo -e "  ${CYAN}install${NC}                     - Install session logger for system-wide use"
+    echo -e "  ${CYAN}backup${NC}                      - Backup all session logs"
     echo -e "  ${CYAN}help${NC}                        - Show this help message"
     echo ""
-    echo -e "Claude Code Integration Examples:"
-    echo -e "  $0 claude start \"Camera Improvements\" \"Scrolling Camera\" \"2\"  # Start Claude session"
-    echo -e "  $0 claude end \"Implemented smooth camera transitions and added config options\" # End Claude session"
-    echo -e "  $0 claude continue          # Continue with existing session in Claude mode"
-    echo -e "  $0 get-iteration-tasks 2    # Show pending tasks for iteration 2"
-    echo -e "  $0 get-recent-session       # Get path to most recent session file"
+    echo -e "Claude Code Integration:"
+    echo -e "  ${CYAN}claude get-recent${NC}            - Get the most recent session info for Claude"
+    echo -e "  ${CYAN}claude start${NC} \"title\" \"focus\" \"iter#\" - Start a new session for Claude"
+    echo -e "  ${CYAN}claude end \"summary\"${NC}         - End the current session with Claude's summary"
     echo ""
-    echo -e "Non-interactive mode examples (for use with scripts):"
-    echo -e "  $0 start \"Camera Enhancements\" \"Camera Effects\" \"2\"  # Start new session"
-    echo -e "  $0 end \"Added smooth camera transitions and zoom functionality\" # End with summary"
-    echo -e "  $0 recover auto              # Auto-fix all incomplete sessions"
-    echo -e "  $0 clean auto                # Clean up logs non-interactively"
-    echo ""
-    echo -e "Interactive mode examples:"
+    echo -e "Examples:"
     echo -e "  $0 start                     # Start a new session"
     echo -e "  $0 add-task \"Implement scrolling camera system\""
     echo -e "  $0 complete-task 1           # Mark the first task as completed"
@@ -1725,108 +1601,6 @@ function show_help() {
     echo -e "  $0 view 2025-05-12           # View session from May 12, 2025"
     echo -e "  $0 recover                   # Fix orphaned or broken sessions"
     echo -e "  $0 clean                     # Clean up and fix session logs"
-    echo -e "  $0 install                   # Install session logger system-wide"
-}
-
-# Install the session logger
-function install() {
-    ensure_log_dir
-    
-    # Create a symbolic link to make the script easily accessible
-    if [ ! -L "/usr/local/bin/session-logger" ]; then
-        echo -e "${YELLOW}Creating symbolic link for easy access...${NC}"
-        echo -e "${YELLOW}This may require sudo privileges.${NC}"
-        sudo ln -sf "$(readlink -f "$0")" "/usr/local/bin/session-logger"
-        echo -e "${GREEN}You can now use 'session-logger' command from anywhere.${NC}"
-    fi
-    
-    # Create initial session summary file
-    if [ ! -f "$SESSION_SUMMARY_FILE" ]; then
-        update_summary
-    fi
-    
-    echo -e "${GREEN}Session logger installation complete!${NC}"
-    echo -e "${BLUE}Usage: session-logger [command] [arguments]${NC}"
-    echo -e "${BLUE}Type 'session-logger help' for more information.${NC}"
-}
-
-# Function to create a Claude session
-function claude_session() {
-    local action="$1"
-    
-    case $action in
-        start)
-            # Claude start session mode
-            if [ $# -lt 4 ]; then
-                echo -e "${RED}Error: Missing required parameters for Claude session start.${NC}"
-                echo -e "${YELLOW}Usage: $0 claude start \"Session Title\" \"Task Focus\" \"Iteration Number\"${NC}"
-                return 1
-            fi
-            
-            # Start session with Claude mode flag
-            start_session "$2" "$3" "$4" "claude"
-            ;;
-        end)
-            # Claude end session mode
-            if [ $# -lt 3 ]; then
-                echo -e "${RED}Error: Missing required parameter for Claude session end.${NC}"
-                echo -e "${YELLOW}Usage: $0 claude end \"Session Summary\"${NC}"
-                return 1
-            fi
-            
-            # End session with Claude mode flag
-            end_session "$2" "claude"
-            ;;
-        continue)
-            # Claude continue existing session
-            if [ ! -f "$CURRENT_SESSION_FILE" ]; then
-                echo -e "${RED}No active session found to continue.${NC}"
-                return 1
-            fi
-            
-            echo -e "${GREEN}Continuing existing session for Claude.${NC}"
-            SESSION_FILE=$(readlink -f "$CURRENT_SESSION_FILE")
-            echo -e "${CYAN}Current session: $(basename "$SESSION_FILE")${NC}"
-            return 0
-            ;;
-        *)
-            echo -e "${RED}Unknown Claude action: $action${NC}"
-            echo -e "${YELLOW}Available actions: start, end, continue${NC}"
-            return 1
-            ;;
-    esac
-}
-
-# Function to fetch pending tasks for an iteration
-function get_iteration_tasks() {
-    if [ -z "$1" ]; then
-        echo -e "${RED}Error: No iteration number provided.${NC}"
-        echo -e "${YELLOW}Usage: $0 get-iteration-tasks <iteration_number>${NC}"
-        return 1
-    fi
-    
-    local iteration_number="$1"
-    local tasks=()
-    
-    # Fetch tasks
-    while IFS= read -r task; do
-        tasks+=("$task")
-    done < <(fetch_pending_iteration_tasks "$iteration_number")
-    
-    # Output tasks
-    if [ ${#tasks[@]} -gt 0 ]; then
-        echo -e "${GREEN}Pending tasks for Iteration $iteration_number:${NC}"
-        local i=1
-        for task in "${tasks[@]}"; do
-            echo -e "  ${CYAN}$i${NC}. $task"
-            i=$((i + 1))
-        done
-    else
-        echo -e "${YELLOW}No pending tasks found for iteration $iteration_number.${NC}"
-        return 1
-    fi
-    
-    return 0
 }
 
 # Main function
@@ -1885,9 +1659,6 @@ function main() {
         help)
             show_help
             ;;
-        install)
-            install
-            ;;
         update-progress)
             if [ "$3" = "auto" ]; then
                 # Non-interactive mode
@@ -1924,33 +1695,32 @@ function main() {
                 clean_sessions
             fi
             ;;
-        migrate)
-            if [ "$2" = "auto" ]; then
-                # Non-interactive mode
-                migrate_sessions "auto"
-            else
-                # Interactive mode
-                migrate_sessions
-            fi
+        backup)
+            backup_sessions
             ;;
         claude)
-            # Claude integration mode
-            shift
-            claude_session "$@"
-            ;;
-        get-iteration-tasks)
-            # Fetch tasks for a given iteration
-            get_iteration_tasks "$2"
-            ;;
-        get-recent-session)
-            # Get the most recent session file
-            most_recent=$(get_most_recent_session)
-            if [ $? -eq 0 ]; then
-                echo "$most_recent"
-            else
-                echo -e "${YELLOW}No recent sessions found.${NC}"
+            if [ $# -lt 2 ]; then
+                echo -e "${RED}Error: Missing Claude command.${NC}"
+                echo -e "${YELLOW}Usage: $0 claude [get-recent|start|end] [arguments]${NC}"
                 return 1
             fi
+            
+            case $2 in
+                get-recent)
+                    claude_get_recent
+                    ;;
+                start)
+                    claude_start "$3" "$4" "$5"
+                    ;;
+                end)
+                    claude_end "$3"
+                    ;;
+                *)
+                    echo -e "${RED}Unknown Claude command: $2${NC}"
+                    echo -e "${YELLOW}Available commands: get-recent, start, end${NC}"
+                    return 1
+                    ;;
+            esac
             ;;
         *)
             echo -e "${RED}Unknown command: $1${NC}"

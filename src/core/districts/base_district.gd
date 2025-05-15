@@ -5,11 +5,15 @@ class_name BaseDistrict
 export var district_name = "Unknown District"
 export var district_description = "A district on the station"
 export var animated_elements_config = ""  # Path to JSON config for animated elements
+export var background_size = Vector2(3000, 1500)  # Default background size for camera bounds and calculations
 
 # Camera properties
 export var use_scrolling_camera = false  # Whether this district uses scrolling camera
 export var camera_follow_smoothing = 5.0  # Camera smoothing factor
 export var camera_edge_margin = Vector2(150, 100)  # Distance from edge to trigger scrolling
+export(String, "left", "right", "center") var initial_camera_view = "right"  # Initial camera view position
+export var camera_initial_position = Vector2.ZERO  # Custom initial position (overrides initial_camera_view if not zero)
+export(String, "LINEAR", "EASE_IN", "EASE_OUT", "EASE_IN_OUT", "EXPONENTIAL", "SINE", "ELASTIC", "CUBIC", "QUAD") var camera_easing_type = "SINE"  # Easing type for camera movement
 
 # Areas where the player can walk
 var walkable_areas = []
@@ -146,6 +150,22 @@ func setup_scrolling_camera():
         # Update camera settings
         camera.follow_smoothing = camera_follow_smoothing
         camera.edge_margin = camera_edge_margin
+        
+        # Set initial view settings
+        if "initial_view" in camera:
+            camera.initial_view = initial_camera_view
+        
+        if "initial_position" in camera and camera_initial_position != Vector2.ZERO:
+            camera.initial_position = camera_initial_position
+            
+        # Set easing type
+        if "easing_type" in camera:
+            # Match the string with the EasingType enum value in the camera
+            var easing_types = ["LINEAR", "EASE_IN", "EASE_OUT", "EASE_IN_OUT", "EXPONENTIAL", "SINE", "ELASTIC", "CUBIC", "QUAD"]
+            var index = easing_types.find(camera_easing_type)
+            if index != -1:
+                camera.easing_type = index
+        
         camera.update_bounds()
         print("Updated existing camera in " + district_name)
         return
@@ -158,13 +178,25 @@ func setup_scrolling_camera():
         camera.set_script(camera_script)
         camera.follow_smoothing = camera_follow_smoothing
         camera.edge_margin = camera_edge_margin
+        
+        # Set initial view settings
+        if camera_initial_position != Vector2.ZERO:
+            camera.initial_position = camera_initial_position
+        else:
+            camera.initial_view = initial_camera_view
+            
+        # Set easing type
+        var easing_types = ["LINEAR", "EASE_IN", "EASE_OUT", "EASE_IN_OUT", "EXPONENTIAL", "SINE", "ELASTIC", "CUBIC", "QUAD"]
+        var index = easing_types.find(camera_easing_type)
+        if index != -1:
+            camera.easing_type = index
 
         # In development/debug builds, enable debug drawing
         if OS.is_debug_build():
             camera.debug_draw = true
 
         add_child(camera)
-        print("Added scrolling camera to " + district_name)
+        print("Added scrolling camera to " + district_name + " with initial view: " + initial_camera_view)
     else:
         push_error("Failed to load ScrollingCamera scene!")
 

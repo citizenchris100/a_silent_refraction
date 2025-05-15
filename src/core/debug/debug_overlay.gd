@@ -2,6 +2,19 @@ extends CanvasLayer
 
 # Debug Overlay System
 # A modular system that can be attached to any scene to provide debug tools
+#
+# ======================================================================
+# DEPRECATED: This class is deprecated in favor of debug_manager.gd
+# Please use DebugManager.add_to_scene(scene, camera) instead, or use
+# the debug console command: debug on
+# ======================================================================
+#
+# This class will be removed in a future update. For new code, use:
+# var DebugManager = load("res://src/core/debug/debug_manager.gd")
+# var debug_manager = DebugManager.add_to_scene(get_tree().current_scene, camera)
+#
+# See the debug_tools.md documentation for details on the new system.
+# ====================================================================
 
 # Components
 var coordinate_picker
@@ -22,6 +35,11 @@ var help_visible = false
 var font
 
 func _ready():
+	# Print deprecation warning
+	push_warning("DEPRECATION NOTICE: debug_overlay.gd is deprecated and will be removed in a future update.")
+	push_warning("Please use debug_manager.gd instead: var debug_manager = DebugManager.add_to_scene(scene, camera)")
+	push_warning("Or use the debug console command: debug on")
+	
 	# Set up debug layer
 	layer = 100  # Top layer
 	
@@ -108,13 +126,33 @@ P: Print/copy current polygon data
 			draw_string(font, Vector2(20, y_offset + i * line_height), lines[i], Color(1, 1, 0))
 
 # Static method to easily add debug overlay to any scene
+# DEPRECATED: Please use DebugManager.add_to_scene(scene, camera) instead
 static func add_to_scene(scene):
+	# Print deprecation warning
+	push_warning("DEPRECATION NOTICE: debug_overlay.gd is deprecated and will be removed in a future update.")
+	push_warning("Please use debug_manager.gd instead: var debug_manager = DebugManager.add_to_scene(scene, camera)")
+	
+	# Try to use the new DebugManager if possible
+	var DebugManager = load("res://src/core/debug/debug_manager.gd")
+	if DebugManager:
+		# Try to find a camera
+		var camera = null
+		for child in scene.get_children():
+			if child is Camera2D:
+				camera = child
+				break
+				
+		# If we found a camera, use the DebugManager
+		if camera:
+			push_warning("Automatically redirecting to DebugManager.add_to_scene()")
+			return DebugManager.add_to_scene(scene, camera)
+	
 	# Check if the scene already has a debug overlay
 	for child in scene.get_children():
 		if child.get_class() == "DebugOverlay":
 			return child
 	
-	# Create and add debug overlay
+	# Create and add debug overlay (fallback)
 	var debug_overlay = load("res://src/core/debug/debug_overlay.gd").new()
 	debug_overlay.name = "DebugOverlay"
 	scene.add_child(debug_overlay)

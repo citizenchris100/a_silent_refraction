@@ -346,53 +346,53 @@ Once you have your animation frames, process them to match the game's style:
 
 Create or update the district's animation configuration file:
 
-1. **Add Element Definition**:
+1. **Generate a template config file**:
    ```bash
-   # Open the district's animation config file
-   nano src/districts/shipping/animated_elements_config.json
+   # Create the district's animation config file template
+   ./tools/create_animation_config.sh shipping
    ```
 
-2. **Add JSON Configuration**:
+2. **Edit the JSON Configuration**:
    ```json
    {
-     "elements": [
+     "district": "shipping",
+     "background": "res://src/assets/backgrounds/shipping/shipping_district_bg.png",
+     "animated_elements": [
        {
-         "type": "security_camera",
-         "id": "main_entrance",
-         "position": {
-           "x": 450,
-           "y": 120
+         "name": "security_camera",
+         "type": "sprite_sequence",
+         "position": {"x": 450, "y": 120},
+         "frames_path": "res://src/assets/backgrounds/animated_elements/shipping/security_camera",
+         "frame_count": 4,
+         "animation_speed": 0.5,
+         "loop": true,
+         "autoplay": true,
+         "states": {
+           "normal": {
+             "frames_path": "res://src/assets/backgrounds/animated_elements/shipping/security_camera/normal",
+             "frame_count": 4,
+             "animation_speed": 0.5
+           },
+           "alert": {
+             "frames_path": "res://src/assets/backgrounds/animated_elements/shipping/security_camera/alert",
+             "frame_count": 4,
+             "animation_speed": 1.0
+           }
          },
+         "initial_state": "normal",
          "properties": {
            "scan_angle": 45,
            "scan_speed": 0.5
-         },
-         "states": {
-           "normal": {
-             "frames": [
-               "res://src/assets/animations/security_camera/normal/frame001.png",
-               "res://src/assets/animations/security_camera/normal/frame002.png",
-               "res://src/assets/animations/security_camera/normal/frame003.png",
-               "res://src/assets/animations/security_camera/normal/frame004.png"
-             ],
-             "speed": 0.5,
-             "loop": true
-           },
-           "alert": {
-             "frames": [
-               "res://src/assets/animations/security_camera/alert/frame001.png",
-               "res://src/assets/animations/security_camera/alert/frame002.png",
-               "res://src/assets/animations/security_camera/alert/frame003.png",
-               "res://src/assets/animations/security_camera/alert/frame004.png"
-             ],
-             "speed": 1.0,
-             "loop": true
-           }
-         },
-         "initial_state": "normal"
+         }
        }
      ]
    }
+   ```
+
+3. **Validate your configuration**:
+   ```bash
+   # Check for errors in your animation config file
+   ./tools/validate_animation_config.sh shipping
    ```
 
 ### 2. Custom Element Types (If Required)
@@ -787,28 +787,6 @@ void fragment() {
 }
 ```
 
-#### JSON Configuration Integration:
-```json
-{
-  "elements": [
-    {
-      "type": "holographic_display",
-      "id": "security_hologram",
-      "position": {
-        "x": 250,
-        "y": 300
-      },
-      "properties": {
-        "base_texture": "res://src/assets/hologram_base.png",
-        "color": "#00CCFF",
-        "scan_line_intensity": 0.2,
-        "flicker_intensity": 0.03
-      }
-    }
-  ]
-}
-```
-
 ### Plugin Options
 
 Several Godot plugins can enhance your background animations:
@@ -832,7 +810,6 @@ Several Godot plugins can enhance your background animations:
 
 Combining multiple techniques creates the most compelling environments:
 
-#### Example: Atmospheric Server Room
 ```gdscript
 extends Node2D
 
@@ -1081,11 +1058,17 @@ func process_elements_by_type(type, delta):
 ./tools/create_animation_config.sh <district_name>
 
 # Validate animation configuration file
-./tools/validate_animation_config.sh <config_file_path>
+./tools/validate_animation_config.sh <district_name>
+# or validate all districts
+./tools/validate_animation_config.sh --all
 
 # Update animation paths after moving assets
-./tools/update_animation_paths.sh <district_name> <old_path> <new_path>
+./tools/update_animation_paths.sh --district <district_name> --old-path <old_path> --new-path <new_path>
+# or update all districts
+./tools/update_animation_paths.sh --all --old-path <old_path> --new-path <new_path>
 ```
+
+> **Note:** For detailed documentation on the animation configuration system including JSON format, element types, and advanced features, see [Animation System Documentation](./animation_system.md).
 
 ### Animation Testing
 

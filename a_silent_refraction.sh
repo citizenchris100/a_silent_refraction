@@ -19,7 +19,7 @@ NAVIGATION_TEST_SCENE="res://src/test/navigation_test.tscn"
 DIALOG_TEST_SCENE="res://src/test/dialog_test.tscn"
 DEBUG_TOOLS_TEST_SCENE="res://src/test/debug_tools_test.tscn"
 UNIVERSAL_DEBUG_SCENE="res://src/test/universal_debug.tscn"
-CAMERA_TEST_SCENE="res://src/test/scrolling_camera_test.tscn"
+CAMERA_TEST_SCENE="res://src/test/new_camera_test.tscn"
 
 # Function to display help
 function show_help {

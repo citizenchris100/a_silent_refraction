@@ -15,12 +15,12 @@ position = Vector2( 512, 300 )
 
 [node name="WalkableArea" type="Polygon2D" parent="."]
 color = Color( 0, 1, 0, 0.101961 )
-polygon = PoolVector2Array( 10, 10, 3000, 10, 3000, 1500, 10, 1500 )
+polygon = PoolVector2Array( 1, 600, 1327, 602, 1327, 633, 1, 631 )
 
 [node name="Instructions" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 600.0
 margin_top = 20.0
-margin_right = 532.0
+margin_right = 1112.0
 margin_bottom = 107.0
 text = "Scrolling Camera Test Scene
 

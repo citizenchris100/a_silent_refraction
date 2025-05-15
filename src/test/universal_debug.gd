@@ -9,6 +9,13 @@ export var auto_load_scene = true
 export var debug_walkable_areas = true
 export var debug_group = "walkable_area"
 
+# Debug options
+var enable_coordinate_picker = true
+var enable_polygon_visualizer = true
+var enable_fps_counter = true
+var enable_camera_debug = true
+var enable_debug_console = true
+
 # UI elements
 var scene_selector
 var scene_list = []
@@ -33,6 +40,13 @@ func initialize_ui():
 	
 	# Connect signals
 	$UI/SceneSelector/LoadButton.connect("pressed", self, "_on_load_button_pressed")
+	
+	# Set initial debug options
+	enable_coordinate_picker = $UI/SceneSelector/DebugOptions/CoordinatePickerCheck.pressed
+	enable_polygon_visualizer = $UI/SceneSelector/DebugOptions/PolygonVisualizerCheck.pressed
+	enable_fps_counter = $UI/SceneSelector/DebugOptions/FPSCounterCheck.pressed
+	enable_camera_debug = $UI/SceneSelector/DebugOptions/CameraDebugCheck.pressed
+	enable_debug_console = $UI/SceneSelector/DebugOptions/DebugConsoleCheck.pressed
 	
 	# Find all scenes in the project
 	find_scenes()
@@ -106,15 +120,31 @@ func load_scene(scene_path):
 	if scene:
 		var scene_instance = scene.instance()
 		
-		# Add debug overlay
-		var debug_script = load("res://src/core/debug/debug_overlay.gd")
-		var debug_overlay = debug_script.new()
-		debug_overlay.set("target_group", debug_group)
-		scene_instance.add_child(debug_overlay)
-		
-		# Add to the scene container
+		# Add to the scene container first
 		$SceneContainer.add_child(scene_instance)
 		
+		# Wait a frame for scene to initialize
+		yield(get_tree(), "idle_frame")
+		
+		# Try to find a camera in the scene
+		var camera = find_camera(scene_instance)
+		if camera == null:
+			print("WARNING: No camera found in scene. Debug tools may not function correctly.")
+		
+		# Add debug tools using the new DebugManager
+		var DebugManager = load("res://src/core/debug/debug_manager.gd")
+		var debug_manager = DebugManager.add_to_scene(scene_instance, camera)
+		
+		# Enable selected debug tools based on UI options
+		if enable_coordinate_picker:
+			debug_manager.toggle_coordinate_picker()
+			
+		if enable_polygon_visualizer:
+			debug_manager.toggle_polygon_visualizer()
+			
+		if enable_debug_console:
+			debug_manager.toggle_debug_console()
+			
 		# Hide the scene selector
 		$UI/SceneSelector.visible = false
 		
@@ -125,11 +155,30 @@ func load_scene(scene_path):
 		# Show back button
 		$UI/BackButton.visible = true
 		
-		print("Scene loaded successfully")
+		print("Scene loaded successfully with the new DebugManager and the following tools:")
+		print("- Coordinate Picker: " + str(enable_coordinate_picker))
+		print("- Polygon Visualizer: " + str(enable_polygon_visualizer))
+		print("- Debug Console: " + str(enable_debug_console))
+		print("Press F1-F4 to toggle tools or use the debug console command")
+		
 		return true
 	else:
 		print("ERROR: Failed to load scene")
 		return false
+		
+# Find a camera in the scene
+func find_camera(node):
+	# Check if this node is a camera
+	if node is Camera2D and node.current:
+		return node
+	
+	# Recursive search for camera
+	for child in node.get_children():
+		var camera = find_camera(child)
+		if camera:
+			return camera
+	
+	return null
 
 # Clean up any loaded scene
 func clean_up_loaded_scene():
@@ -154,3 +203,24 @@ func _on_back_button_pressed():
 	# Hide scene name and back button
 	$UI/SceneName.visible = false
 	$UI/BackButton.visible = false
+
+# Debug option checkbox handlers
+func _on_CoordinatePickerCheck_toggled(button_pressed):
+	enable_coordinate_picker = button_pressed
+	print("Coordinate Picker " + ("enabled" if button_pressed else "disabled"))
+
+func _on_PolygonVisualizerCheck_toggled(button_pressed):
+	enable_polygon_visualizer = button_pressed
+	print("Polygon Visualizer " + ("enabled" if button_pressed else "disabled"))
+
+func _on_FPSCounterCheck_toggled(button_pressed):
+	enable_fps_counter = button_pressed
+	print("FPS Counter " + ("enabled" if button_pressed else "disabled"))
+
+func _on_CameraDebugCheck_toggled(button_pressed):
+	enable_camera_debug = button_pressed
+	print("Camera Debug " + ("enabled" if button_pressed else "disabled"))
+
+func _on_DebugConsoleCheck_toggled(button_pressed):
+	enable_debug_console = button_pressed
+	print("Debug Console " + ("enabled" if button_pressed else "disabled"))

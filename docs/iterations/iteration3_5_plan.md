@@ -52,12 +52,13 @@
   - District transition triggers
   - Global event triggers
 
-- [x] Task 7: Create animation configuration system
+- [ ] Task 7: Create animation configuration system
   - Design JSON schema for animation definitions
-  - Implement configuration validator
+  - Implement configuration validator (create tools/validate_animation_config.sh)
   - Add runtime configuration modification
-  - Create configuration bundling for districts
+  - Create configuration bundling for districts (create tools/create_animation_config.sh)
   - Build configuration debugger/visualizer
+  - Create path update utility (create tools/update_animation_paths.sh)
 
 - [x] Task 8 (Partial): Implement animation performance optimization systems
   - Distance-based animation culling
@@ -112,8 +113,7 @@
 - [AnimatedBackgroundManager](../../src/core/districts/animated_background_manager.gd): Core class that manages all animated elements
 - [BaseDistrict Animation Integration](../../src/core/districts/base_district.gd): Integration with district system
 - [Shipping District Config](../../src/districts/shipping/animated_elements_config.json): Example configuration file
-- [Comprehensive Documentation](../../docs/animated_backgrounds_comprehensive.md): Detailed usage guide
-- [Animation Workflow](../../docs/animated_background_workflow.md): End-to-end workflow with AI tools
+- [Animation Workflow](../../docs/animated_background_workflow.md): Comprehensive documentation and end-to-end workflow with AI tools
 - [Animation Processing Tool](../../tools/process_animation_frames.sh): Script for processing animation frames
 - [Performance Testing Tool](../../tools/test_animation_performance.sh): Script for benchmarking animations
 - [Hologram Shader](../../src/shaders/hologram.shader): Shader for holographic displays
