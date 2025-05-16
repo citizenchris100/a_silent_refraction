@@ -47,12 +47,16 @@
   - **Rationale:** State-based behavior is core to the NPC system
   - **Constraints:** Must support at least 4 emotional states and assimilation status
 
+- **T2:** Implement a scrolling background system that enables environments larger than the game window
+  - **Rationale:** Point-and-click adventures require expansive environments to explore, which necessitates a system for handling backgrounds larger than the visible screen area
+  - **Constraints:** Must maintain performance with large image files and integrate seamlessly with walkable area and navigation systems
+
 ## Tasks
-- [ ] Task 1: Create base NPC class with state machine
-- [ ] Task 2: Implement NPC dialog system
-- [ ] Task 3: Create suspicion meter UI element
-- [ ] Task 4: Implement suspicion tracking system
-- [ ] Task 5: Script NPC reactions based on suspicion levels
+- [x] Task 1: Create base NPC class with state machine
+- [x] Task 2: Implement NPC dialog system
+- [x] Task 3: Create suspicion meter UI element
+- [x] Task 4: Implement suspicion tracking system
+- [x] Task 5: Script NPC reactions based on suspicion levels
 - [ ] Task 6: Apply visual style guide to Shipping District
 - [ ] Task 7: Create bash script for generating NPC placeholders
 - [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs
@@ -93,3 +97,23 @@
 
 ## Notes
 Add any additional notes or considerations here.
+
+### Task 6: Apply visual style guide to Shipping District
+
+**User Story:** As a player, I want to explore scrolling backgrounds in the Shipping District that extend beyond the screen boundaries, so that I can experience larger, more immersive environments that feel like real spaces rather than confined screens
+
+**Requirements:**
+- **Linked to:** B5, T2
+- **Acceptance Criteria:**
+  1. Background image loads properly and extends beyond screen boundaries
+  2. Scene can designate starting position (left, middle, right) within the background
+  3. Walkable areas are properly defined across the entire background
+  4. Camera smoothly scrolls to follow player when approaching screen boundaries
+  5. Player movement remains consistent across screen transitions
+  6. Visual style follows the game's aesthetic guidelines
+
+**Implementation Notes:**
+- Implement a background manager that handles large image loading
+- Create a scrolling camera system that tracks player position
+- Integrate with existing walkable area system
+- Ensure performance optimization for large background images

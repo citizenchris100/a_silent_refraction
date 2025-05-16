@@ -6,8 +6,8 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 1 | Basic Environment and Navigation | Not started | 0% (0/8) |
-| 2 | NPC Framework, Suspicion System, and Initial Asset Creation | Not started | 0% (0/8) |
+| 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
+| 2 | NPC Framework, Suspicion System, and Initial Asset Creation | IN PROGRESS | 62% (5/8) |
 | 3 | Game Districts and Time Management | Not started | 0% (0/11) |
 | 4 | Investigation Mechanics and Inventory | Not started | 0% (0/10) |
 | 5 | Coalition Building | Not started | 0% (0/8) |
@@ -25,14 +25,14 @@ This file tracks the progress of all iterations for the project.
 - **B1:** Establish foundational gameplay movement systems
 - **U1:** As a player, I want intuitive point-and-click movement
 - **T1:** Implement efficient collision detection for walkable areas
-- [ ] Task 1: Set up project structure with organized directories
-- [ ] Task 2: Create configuration in project.godot
-- [ ] Task 3: Implement shipping district scene with background
-- [ ] Task 4: Add walkable area with collision detection
-- [ ] Task 5: Create functional player character
-- [ ] Task 6: Implement point-and-click navigation
-- [ ] Task 7: Develop smooth movement system
-- [ ] Task 8: Test navigation within defined boundaries
+- [x] Task 1: Set up project structure with organized directories
+- [x] Task 2: Create configuration in project.godot
+- [x] Task 3: Implement shipping district scene with background
+- [x] Task 4: Add walkable area with collision detection
+- [x] Task 5: Create functional player character
+- [x] Task 6: Implement point-and-click navigation
+- [x] Task 7: Develop smooth movement system
+- [x] Task 8: Test navigation within defined boundaries
 - Player can move around the shipping district
 - Movement is smooth and responsive
 - Player stays within walkable areas
@@ -50,14 +50,14 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Set up project structure with organized directories | Pending | - |
-| Create configuration in project.godot | Pending | - |
-| Implement shipping district scene with background | Pending | - |
-| Add walkable area with collision detection | Pending | - |
-| Create functional player character | Pending | - |
-| Implement point-and-click navigation | Pending | - |
-| Develop smooth movement system | Pending | - |
-| Test navigation within defined boundaries | Pending | - |
+| Set up project structure with organized directories | Complete | - |
+| Create configuration in project.godot | Complete | - |
+| Implement shipping district scene with background | Complete | - |
+| Add walkable area with collision detection | Complete | - |
+| Create functional player character | Complete | - |
+| Implement point-and-click navigation | Complete | - |
+| Develop smooth movement system | Complete | - |
+| Test navigation within defined boundaries | Complete | - |
 
 **Testing Criteria:**
 - Player can move around the shipping district
@@ -85,11 +85,11 @@ This file tracks the progress of all iterations for the project.
 - **U2:** As a player, I want to track my suspicion level with accessible UI
 - **U3:** As a player, I want NPCs to feel distinct through dialog and behavior
 - **T1:** Create extensible NPC state machine system
-- [ ] Task 1: Create base NPC class with state machine
-- [ ] Task 2: Implement NPC dialog system
-- [ ] Task 3: Create suspicion meter UI element
-- [ ] Task 4: Implement suspicion tracking system
-- [ ] Task 5: Script NPC reactions based on suspicion levels
+- [x] Task 1: Create base NPC class with state machine
+- [x] Task 2: Implement NPC dialog system
+- [x] Task 3: Create suspicion meter UI element
+- [x] Task 4: Implement suspicion tracking system
+- [x] Task 5: Script NPC reactions based on suspicion levels
 - [ ] Task 6: Apply visual style guide to Shipping District
 - [ ] Task 7: Create bash script for generating NPC placeholders
 - [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs
@@ -117,11 +117,11 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create base NPC class with state machine | Pending | - |
-| Implement NPC dialog system | Pending | - |
-| Create suspicion meter UI element (As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs.) | Pending | - |
-| Implement suspicion tracking system | Pending | - |
-| Script NPC reactions based on suspicion levels | Pending | - |
+| Create base NPC class with state machine | Complete | - |
+| Implement NPC dialog system | Complete | - |
+| Create suspicion meter UI element (As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs.) | Complete | - |
+| Implement suspicion tracking system | Complete | - |
+| Script NPC reactions based on suspicion levels | Complete | - |
 | Apply visual style guide to Shipping District | Pending | - |
 | Create bash script for generating NPC placeholders | Pending | - |
 | Implement observation mechanics for detecting assimilated NPCs | Pending | - |
