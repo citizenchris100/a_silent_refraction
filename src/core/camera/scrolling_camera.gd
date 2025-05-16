@@ -33,7 +33,7 @@ export var min_zoom: float = 0.5 # Minimum zoom level (lower value = more zoomed
 export var max_zoom: float = 1.5 # Maximum zoom level (higher value = more zoomed out)
 
 # Debug settings
-export var debug_draw: bool = true  # Enable debug drawing by default
+export var debug_draw: bool = false  # Disable debug drawing by default
 export var debug_camera_positioning: bool = true  # Enable camera position debug logs
 export var debug_background_scaling: bool = true  # Enable background scaling debug logs
 var debug_font: Font

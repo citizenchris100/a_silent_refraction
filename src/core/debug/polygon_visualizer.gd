@@ -51,7 +51,40 @@ func _ready():
 	# Set up UI for the polygon editor
 	setup_ui()
 
-	# Find all polygon nodes in the target group
+	# Print ALL walkable areas in the scene tree first, ignoring scene-specific logic
+	print("\n========== WALKABLE AREAS DEBUG START ==========")
+	print("Detecting ALL walkable areas in entire scene tree:")
+	var all_walkable_areas = get_tree().get_nodes_in_group(target_group)
+	print("Total walkable areas found: " + str(all_walkable_areas.size()))
+	
+	var index = 0
+	for area in all_walkable_areas:
+		print("\nWALKABLE AREA #" + str(index))
+		print("Name: " + area.name)
+		print("Path: " + str(area.get_path()))
+		
+		# Print parent information
+		var parent = area.get_parent()
+		if parent:
+			print("Parent: " + parent.name + " (Path: " + str(parent.get_path()) + ")")
+		else:
+			print("Parent: None")
+			
+		# Print group information
+		print("Groups: " + str(area.get_groups()))
+		
+		# Print polygon details
+		if "polygon" in area:
+			var poly = area.polygon
+			print("Polygon points: " + str(poly.size()))
+		else:
+			print("No polygon property")
+		
+		index += 1
+	print("========== WALKABLE AREAS DEBUG END ==========\n")
+
+	# Find all polygon nodes in the target group using scene-specific approach
+	print("Finding walkable areas using scene-specific approach:")
 	find_polygons()
 	
 	# Setup processing
@@ -137,13 +170,53 @@ func setup_ui():
 
 func find_polygons():
 	polygons = []
-	# Find all nodes in the target group
-	var nodes = get_tree().get_nodes_in_group(target_group)
+	
+	# Only process polygons from the current active scene
+	var current_scene = get_tree().get_current_scene()
+	if current_scene:
+		# Find polygons only within the current scene and its children
+		find_polygons_in_node(current_scene)
+		
+		# Print a summary of what we found
+		print("Found " + str(polygons.size()) + " polygons from the current scene: " + current_scene.name)
+	else:
+		# Fallback to old behavior if we can't determine current scene
+		print("WARNING: Could not determine current scene, falling back to global polygon search")
+		var nodes = get_tree().get_nodes_in_group(target_group)
+		for node in nodes:
+			if node is Polygon2D and node.has_method("get_polygon"):
+				polygons.append(node)
+				print("Found polygon: " + node.name)
 
-	for node in nodes:
-		if node is Polygon2D and node.has_method("get_polygon"):
-			polygons.append(node)
-			print("Found polygon: " + node.name)
+# Helper method to recursively find polygons starting from a specific node
+func find_polygons_in_node(node):
+	# Check if this node is a polygon in our target group
+	if node is Polygon2D and node.has_method("get_polygon") and node.is_in_group(target_group):
+		polygons.append(node)
+		print("======= FOUND POLYGON =======")
+		print("Name: " + node.name)
+		print("Path: " + str(node.get_path()))
+		
+		# Print parent information
+		var parent = node.get_parent()
+		if parent:
+			print("Parent: " + parent.name + " (Path: " + str(parent.get_path()) + ")")
+		else:
+			print("Parent: None")
+			
+		# Print group information
+		print("Groups: " + str(node.get_groups()))
+		
+		# Print polygon details
+		if node.has_method("get_polygon"):
+			var poly = node.polygon
+			print("Polygon points: " + str(poly.size()))
+		
+		print("============================")
+	
+	# Recursively check all children
+	for child in node.get_children():
+		find_polygons_in_node(child)
 
 func _process(_delta):
 	# Update new point position in ADD mode

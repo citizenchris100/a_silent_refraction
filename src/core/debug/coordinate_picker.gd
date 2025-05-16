@@ -89,6 +89,9 @@ func _process(_delta):
 	if copied_label:
 		copied_label.visible = copying
 	
+	# Update persistent visual markers for each coordinate
+	update_persistent_markers()
+	
 	# Force redraw for grid and crosshairs
 	update()
 
@@ -102,7 +105,24 @@ func _input(event):
 		var world_pos = click_pos
 		
 		if camera:
-			# Use the camera's screen_to_world method if available (new helper method)
+			# Check if we are in full view mode (often set by the debug manager)
+			var is_in_full_view = false
+			var debug_manager = null
+			
+			# Look for debug manager in the scene
+			var parent = get_parent()
+			while parent:
+				if parent.get_name() == "DebugManager":
+					debug_manager = parent
+					break
+				parent = parent.get_parent()
+			
+			# Check if we're in full view mode via debug manager
+			if debug_manager and "full_view_mode" in debug_manager:
+				is_in_full_view = debug_manager.full_view_mode
+				print("Debug manager found, full view mode: " + str(is_in_full_view))
+			
+			# Use the camera's screen_to_world method if available (preferred)
 			if camera.has_method("screen_to_world"):
 				world_pos = camera.screen_to_world(click_pos)
 				print("Using camera's screen_to_world method for precise coordinate conversion")
@@ -112,17 +132,57 @@ func _input(event):
 				print("Using standard coordinate conversion formula")
 			
 			# Get information about current camera status
-			var is_showing_full_view = false
 			var parent_scene = get_tree().get_current_scene()
 			
-			# Check if we're in the camera test scene with full view mode
+			# Check if we're in a scene with full view mode property
 			if parent_scene.has_method("_process") and "show_full_view" in parent_scene:
-				is_showing_full_view = parent_scene.show_full_view
-				print("Camera test scene detected, full view mode: " + str(is_showing_full_view))
+				is_in_full_view = is_in_full_view || parent_scene.show_full_view
+				print("Camera test scene detected, full view mode: " + str(is_in_full_view))
+			
+			# If we're in full view mode, provide better notifications
+			if is_in_full_view:
+				print("⚠️ IMPORTANT ⚠️ Capturing coordinates in full view mode!")
+				print("⚠️ IMPORTANT ⚠️ These are raw world coordinates that should work in all view modes")
 				
-				if is_showing_full_view:
-					push_error("WARNING: Capturing coordinates in full view mode!")
-					push_error("These coordinates may not work correctly in normal zoom")
+				# Create a more visible notification about full view mode
+				var notification = Label.new()
+				notification.name = "FullViewWarning"
+				notification.text = "⚠️ Full View Mode Active ⚠️\nCapturing actual world coordinates"
+				notification.add_color_override("font_color", Color(1, 0.7, 0))
+				notification.add_color_override("font_color_shadow", Color(0, 0, 0))
+				notification.add_constant_override("shadow_offset_x", 1)
+				notification.add_constant_override("shadow_offset_y", 1)
+				
+				# Add a background for the notification
+				var panel = Panel.new()
+				panel.name = "WarningPanel"
+				var style = StyleBoxFlat.new()
+				style.bg_color = Color(0.2, 0.2, 0.2, 0.8)
+				style.set_border_width_all(2)
+				style.border_color = Color(1, 0.7, 0)
+				panel.add_stylebox_override("panel", style)
+				
+				# Add to scene
+				var canvas_layer = CanvasLayer.new()
+				canvas_layer.name = "WarningLayer"
+				canvas_layer.layer = 100
+				get_tree().get_root().add_child(canvas_layer)
+				canvas_layer.add_child(panel)
+				panel.add_child(notification)
+				
+				# Size and position
+				notification.rect_size = Vector2(400, 60)
+				panel.rect_position = Vector2(get_viewport_rect().size.x/2 - 200, 10)
+				panel.rect_size = Vector2(400, 60)
+				
+				# Set up auto-removal
+				var timer = Timer.new()
+				timer.name = "RemovalTimer"
+				timer.wait_time = 5.0
+				timer.one_shot = true
+				canvas_layer.add_child(timer)
+				timer.connect("timeout", canvas_layer, "queue_free")
+				timer.start()
 			
 			# Debug output to verify conversion
 			print("Click position (screen): " + str(click_pos))
@@ -235,7 +295,7 @@ func _input(event):
 		yield(get_tree().create_timer(5.0), "timeout")
 		if is_instance_valid(notification_layer):
 			notification_layer.queue_free()
-		
+			
 	# Copy last coordinates to clipboard with C key
 	if event is InputEventKey and event.pressed and event.scancode == KEY_C:
 		if coordinate_history.size() > 0:
@@ -301,18 +361,39 @@ func _draw():
 	for i in range(coordinate_history.size()):
 		var item = coordinate_history[i]
 		var pos = item.position
-		var alpha = 1.0 - (i / float(max_history))
+		var alpha = 1.0 - (i / float(max_history) * 0.7)  # Keep minimum alpha higher
 		
-		# Draw much more visible crosshair
-		var size = 10 - i  # Size decreases with age of point
-		var circle_size = 8 - i
+		# Enhance visibility with larger markers and brighter colors
+		var size = 15 - i  # Size decreases with age of point but starts larger
+		var circle_size = 12 - i  # Larger circles
+		var outer_circle_size = 20 - i  # Add outer circle for better visibility
+		
+		# Draw outer glow first (in bright orange)
+		draw_circle(pos, outer_circle_size, Color(1, 0.5, 0, alpha * 0.3))
+		
+		# Use a bright orange marker that's more visible in all scenes
+		var marker_color = Color(1, 0.5, 0, alpha)
 		
 		# Thicker lines for better visibility
-		draw_line(Vector2(pos.x - size, pos.y), Vector2(pos.x + size, pos.y), Color(1, 0, 0, alpha), 2)
-		draw_line(Vector2(pos.x, pos.y - size), Vector2(pos.x, pos.y + size), Color(1, 0, 0, alpha), 2)
+		draw_line(Vector2(pos.x - size, pos.y), Vector2(pos.x + size, pos.y), marker_color, 3)
+		draw_line(Vector2(pos.x, pos.y - size), Vector2(pos.x, pos.y + size), marker_color, 3)
 		
-		# Add a circle to make it even more visible
-		draw_circle(pos, circle_size, Color(1, 1, 0, alpha * 0.5))
+		# Add a solid circle with border for clarity
+		draw_circle(pos, circle_size, Color(1, 0.8, 0, alpha * 0.7))  # Inner fill
+		
+		# Use draw_arc for border instead of draw_circle with too many parameters
+		draw_arc(pos, circle_size, 0, TAU, 32, marker_color, 2)  # Border using arc
+		
+		# Add number - simple approach using draw_string (no font metrics needed)
+		var text = str(i + 1)  # 1-indexed for user clarity
+		var text_pos = pos - Vector2(4, 8)  # Approximate center for single digit
+		draw_string(null, text_pos, text, marker_color)
+		
+		# Draw connecting lines between points if we have more than one point
+		if i < coordinate_history.size() - 1:
+			var next_item = coordinate_history[i + 1]
+			var next_pos = next_item.position
+			draw_line(pos, next_pos, Color(1, 0.7, 0, alpha * 0.6), 1, true)  # Dashed line
 	
 	# Draw reference grid if enabled
 	if show_grid:
@@ -326,3 +407,72 @@ func _draw():
 		# Draw horizontal lines
 		for y in range(0, int(viewport_size.y), grid_size):
 			draw_line(Vector2(0, y), Vector2(viewport_size.x, y), color, 1)
+			
+# Function to update persistent visual markers for each coordinate point
+func update_persistent_markers():
+	# Make sure we have a parent node to work with
+	var marker_parent = get_node_or_null("PersistentMarkers")
+	if !marker_parent:
+		marker_parent = Control.new()  # Changed to Control to hold UI elements
+		marker_parent.name = "PersistentMarkers"
+		marker_parent.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(marker_parent)
+	
+	# Clear old markers
+	for child in marker_parent.get_children():
+		child.queue_free()
+	
+	# Create new markers for each coordinate
+	for i in range(coordinate_history.size()):
+		var item = coordinate_history[i]
+		var pos = item.position
+		
+		# Create marker sprite - using a ColorRect since it's visible in all scenes
+		var marker = ColorRect.new()
+		marker.name = "Marker_" + str(i)
+		marker.rect_size = Vector2(24, 24)  # Large enough to be easily visible
+		marker.rect_position = pos - marker.rect_size / 2  # Center on the point
+		marker.color = Color(1, 0.5, 0, 0.7)  # Bright orange
+		marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		marker_parent.add_child(marker)
+		
+		# Add a border for better visibility
+		var border = ColorRect.new()
+		border.name = "Border"
+		border.rect_size = Vector2(28, 28)
+		border.rect_position = Vector2(-2, -2)  # Slightly larger than the marker
+		border.color = Color(0, 0, 0, 0.5)  # Dark border
+		border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		border.show_behind_parent = true
+		marker.add_child(border)
+		
+		# Add number label
+		var label = Label.new()
+		label.name = "Number"
+		label.text = str(i + 1)  # Display 1-indexed for user clarity
+		label.rect_size = marker.rect_size
+		label.align = Label.ALIGN_CENTER
+		label.valign = Label.VALIGN_CENTER
+		label.add_color_override("font_color", Color(0, 0, 0))  # Black text
+		label.add_color_override("font_color_shadow", Color(1, 1, 1))  # White shadow
+		label.add_constant_override("shadow_offset_x", 1)
+		label.add_constant_override("shadow_offset_y", 1)
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		marker.add_child(label)
+		
+		# Add some minimal animation to make it easier to spot
+		var tween = Tween.new()
+		tween.name = "Tween"
+		marker.add_child(tween)
+		
+		# Pulse the marker slightly
+		tween.interpolate_property(marker, "rect_scale", 
+			Vector2(1, 1), Vector2(1.1, 1.1), 
+			1.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		tween.interpolate_property(marker, "rect_scale", 
+			Vector2(1.1, 1.1), Vector2(1, 1), 
+			1.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 1.5)
+		tween.start()
+		
+		# Simple animation loop
+		tween.connect("tween_all_completed", tween, "start")

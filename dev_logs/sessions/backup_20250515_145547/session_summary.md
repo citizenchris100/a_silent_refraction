@@ -3,13 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 15, 2025 - Debug System Overhaul (✅ COMPLETED)
-- **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
-- **Focus:** Fixing Debug Visualization Issues
-- **Summary:** Resolved two major debug visualization issues: 1) Fixed polygon_visualizer.gd to only show walkable areas from the current scene, and 2) Fixed the "big green box" problem by disabling camera debug drawing by default. Performed comprehensive analysis of the entire debug system, removed deprecated files, and streamlined the architecture.
-- [Session Log](session_2025-05-15_14-55-47.md)
-- [Session Log](current_session.md)
-
 ### May 15, 2025 - Final Validation Test (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
 - **Focus:** Testing special character handling

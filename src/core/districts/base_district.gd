@@ -38,12 +38,32 @@ func _ready():
     # Add to district group
     add_to_group("district")
 
-    # Find walkable areas and interactive objects
+    # Clear active walkable areas before searching
+    walkable_areas.clear()
+
+    # First, handle any "designer_walkable_area" marked walkable areas
+    # These take precedence over generic walkable_area groups
+    var designer_areas_found = false
+    
     for child in get_children():
-        if child.is_in_group("walkable_area"):
+        if child.is_in_group("designer_walkable_area"):
+            # This is a specially marked walkable area from the designer
             walkable_areas.append(child)
+            designer_areas_found = true
+            print("Using designer-marked walkable area: " + child.name)
+            
+    # If no designer walkable areas were found, fall back to regular walkable areas
+    if not designer_areas_found:
+        for child in get_children():
+            if child.is_in_group("walkable_area") and !child.is_in_group("debug_walkable_area"):
+                walkable_areas.append(child)
+                print("Using standard walkable area: " + child.name)
+                
+    # Find interactive objects
+    for child in get_children():
         if child.is_in_group("interactive_object"):
             interactive_objects.append(child)
+            
         # Check if we already have a camera as a child
         if child is Camera2D:
             camera = child

@@ -539,6 +539,10 @@ static func add_to_scene(scene, camera_node):
     var debug_manager = Node.new()
     debug_manager.set_script(load("res://src/core/debug/debug_manager.gd"))
     debug_manager.name = "DebugManager"  # Set name explicitly for easier reference
+    
+    # Store reference to the target scene for scene-specific operations
+    debug_manager.set_meta("target_scene", scene)
+    
     scene.add_child(debug_manager)
     debug_manager.call("setup_camera", camera_node)
     

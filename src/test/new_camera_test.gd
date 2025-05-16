@@ -36,27 +36,54 @@ func _ready():
 	
 	print("New Camera Test initialized")
 
-# Create a walkable area spanning the full background width
+# Create a walkable area using coordinates selected by the designer
 func create_walkable_area(floor_y):
+	# Get any existing walkable areas first and remove them 
+	var existing_walkable_areas = get_tree().get_nodes_in_group("walkable_area")
+	for area in existing_walkable_areas:
+		if area.get_parent() == self or area.is_in_group("debug_walkable_area"):
+			area.remove_from_group("walkable_area")
+			if area.is_in_group("debug_walkable_area"):
+				# Just remove from walkable_area group, don't delete the debug marker
+				print("Removed a debug walkable area from visualization")
+			else:
+				# Remove old walkable areas that we control
+				area.queue_free()
+				print("Removed existing walkable area: " + area.name)
+	
+	# Create a fresh walkable area with the designer-selected coordinates
 	var walkable = Polygon2D.new()
-	walkable.name = "WalkableArea"
-	walkable.color = Color(0, 1, 0, 0.1)  # Transparent green
+	walkable.name = "DesignerWalkableArea"
+	walkable.color = Color(0, 1, 0, 0.35)  # Highly visible green for testing
 	
-	var bg_width = background_size.x
-	
-	var points = PoolVector2Array([
-		Vector2(0, floor_y - 10),          # Top-left (left edge)
-		Vector2(bg_width, floor_y - 10),   # Top-right (right edge)
-		Vector2(bg_width, floor_y + 10),   # Bottom-right
-		Vector2(0, floor_y + 10)           # Bottom-left
+	# Using the coordinates captured during testing
+	var designer_selected_points = PoolVector2Array([
+		Vector2(15, 861),       # Left edge
+		Vector2(491, 889),
+		Vector2(671, 865),
+		Vector2(1644, 812),
+		Vector2(3193, 819),
+		Vector2(3669, 865),
+		Vector2(4672, 844),
+		Vector2(4683, 941),     # Right edge
+		Vector2(11, 930)        # Bottom-left corner
 	])
 	
-	walkable.polygon = points
+	# Clear our walkable areas array and start fresh
+	walkable_areas.clear()
+	
+	walkable.polygon = designer_selected_points
 	walkable.add_to_group("walkable_area")
+	walkable.add_to_group("designer_walkable_area") # Special group to identify our areas
 	add_child(walkable)
 	walkable_areas.append(walkable)
 	
-	print("Created full-width walkable area at height: " + str(floor_y))
+	print("Created walkable area with designer-selected coordinates")
+	
+	# Force a refresh of any debug visualizations
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	update()
 
 # Add a simple UI with test information
 func add_test_ui():
