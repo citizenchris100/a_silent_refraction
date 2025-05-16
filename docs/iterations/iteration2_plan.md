@@ -5,52 +5,91 @@
 - Create the suspicion system as a core gameplay mechanic
 - Apply visual style guide to one area as a prototype
 - Develop placeholder art generation for NPCs
-- Create initial set of game assets for core gameplay areas
-- Implement assimilation detection mechanics
+
+## Requirements
+
+### Business Requirements
+
+- **B5:** Develop a core set of game assets that establish the game's visual identity and support key gameplay mechanics
+  - **Rationale:** [Add rationale here]
+  - **Success Metric/Constraints:** [Add metric or constraints here]
+
+- **B4:** Establish a suspicion mechanic that creates gameplay tension and drives player decision-making
+  - **Rationale:** [Add rationale here]
+  - **Success Metric/Constraints:** [Add metric or constraints here]
+
+- **B3:** Create an immersive NPC interaction system that supports narrative and gameplay progression
+  - **Rationale:** [Add rationale here]
+  - **Success Metric/Constraints:** [Add metric or constraints here]
+- **B1:** Establish core game mechanic of NPC suspicion to drive gameplay tension
+  - **Rationale:** The suspicion mechanic is a central selling point and distinguishing feature of the game
+  - **Success Metric:** Playtesters report feeling tension when suspicion rises, measured via satisfaction surveys
+
+- **B2:** Create reusable NPC framework to streamline future character development
+  - **Rationale:** Efficient character creation will accelerate development of future game areas
+  - **Success Metric:** New NPCs can be created and integrated within 2 hours or less
+
+### User Requirements
+- **U1:** As a player, I want to observe subtle cues that help identify assimilated NPCs
+  - **User Value:** Creates engaging gameplay through detective-like observation
+  - **Acceptance Criteria:** Multiple visual cues exist that are subtle but detectable with close observation
+
+- **U2:** As a player, I want to track my suspicion level with accessible UI
+  - **User Value:** Provides immediate feedback on risky actions
+  - **Acceptance Criteria:** Suspicion meter visibly reacts to player actions in real-time
+
+- **U3:** As a player, I want NPCs to feel distinct through dialog and behavior
+  - **User Value:** Creates an immersive world with memorable characters
+  - **Acceptance Criteria:** NPCs have unique dialog patterns and state-based behavioral differences
+
+### Technical Requirements (Optional)
+- **T1:** Create extensible NPC state machine system
+  - **Rationale:** State-based behavior is core to the NPC system
+  - **Constraints:** Must support at least 4 emotional states and assimilation status
 
 ## Tasks
-- [x] Task 1: Create base NPC class with state machine
-- [x] Task 2: Implement NPC dialog system
-- [x] Task 3: Create suspicion meter UI element
-- [x] Task 4: Implement suspicion tracking system
-- [x] Task 5: Script NPC reactions based on suspicion levels
-- [x] Task 6: Apply visual style guide to Shipping District
-- [x] Task 7: Create bash script for generating NPC placeholders
-- [x] Task 8: Implement observation mechanics for detecting assimilated NPCs
-- [x] Task 9: Create script for generating animated background elements
-- [ ] Task 10: Design Shipping District main floor background with animated elements
-- [ ] Task 11: Create Docked Ship USCSS Theseus background (player starting location)
-- [ ] Task 12: Create Player character sprites (front, side, back views)
-- [ ] Task 13: Create assimilated variant of Player character sprites
-- [ ] Task 14: Create Security Officer sprites (standard, suspicious, hostile states)
-- [ ] Task 15: Create assimilated variants of Security Officer sprites
-- [ ] Task 16: Design NPC sprite template with state transitions
-- [ ] Task 17: Create Bank Teller sprites (initial quest NPC)
-- [ ] Task 18: Create assimilated variant of Bank Teller sprites
-- [ ] Task 19: Create Player's room (Room 306) background
-- [ ] Task 20: Perform in-game integration testing of all Iteration 2 features
+- [ ] Task 1: Create base NPC class with state machine
+- [ ] Task 2: Implement NPC dialog system
+- [ ] Task 3: Create suspicion meter UI element
+- [ ] Task 4: Implement suspicion tracking system
+- [ ] Task 5: Script NPC reactions based on suspicion levels
+- [ ] Task 6: Apply visual style guide to Shipping District
+- [ ] Task 7: Create bash script for generating NPC placeholders
+- [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs
+
+### Task 3: Create suspicion meter UI element
+
+**User Story:** As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs.
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Suspicion meter is clearly visible in the game UI
+  2. Meter visually changes as suspicion level increases/decreases
+  3. Critical thresholds are visually distinct (safe, caution, danger)
+  4. Meter updates in real-time when player performs suspicious actions
+  5. Visual design matches the game's dystopian sci-fi aesthetic
+
+**Implementation Notes:**
+- Use ProgressBar node as the base for the meter implementation
+- Consider shader effects for visual polish (glowing, pulsing at high suspicion)
+- Integrate with the global_suspicion_manager.gd for data binding
 
 ## Testing Criteria
 - NPCs can be interacted with using the verb system
 - Suspicion level changes based on player actions
 - Visual style matches the style guide specifications
 - Observation mechanics work correctly
-- Background elements properly display animated components
-- NPC sprites correctly transition between states based on suspicion level
-- Assimilated NPC variants show subtle but detectable differences
-- Player can successfully identify assimilated NPCs through observation
 
 ## Timeline
-- Start date: 2025-05-07
-- Target completion: 2025-06-04 (extended by 2 weeks to account for expanded asset creation)
+- Start date: 2025-05-16
+- Target completion: 2025-05-30
 
 ## Dependencies
 - Iteration 1 (Basic Environment and Navigation)
 
 ## Code Links
-- tools/create_npc_registry.sh - NPC registry and placeholder generation
+- No links yet
 
 ## Notes
-This iteration has been expanded to include essential asset creation tasks. These assets will focus on the areas needed for the initial game experience, including the player starting location, key NPCs involved in early quests, and the player's home base. The animated background system will serve as a foundation for all future location designs.
-
-The assimilation detection mechanics are a core gameplay element that allows players to identify which NPCs have been assimilated. This system includes visual cues in NPC sprites, behavioral tells in dialog, and an observation verb in the SCUMM interface that allows players to study NPCs for signs of assimilation.
+Add any additional notes or considerations here.

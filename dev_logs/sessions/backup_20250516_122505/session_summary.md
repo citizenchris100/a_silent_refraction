@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 16, 2025 - Iteration Planner Enhancements (🟢 IN PROGRESS)
-- **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
-- **Focus:** Requirements Integration
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-16_12-25-05.md)
-
 ### May 15, 2025 - Final Validation Test (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
 - **Focus:** Testing special character handling

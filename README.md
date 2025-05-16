@@ -120,12 +120,15 @@ For comprehensive instructions on using these powerful debugging tools, includin
 
 ## Iteration Planning System
 
-The project uses a custom iteration planning system via the `iteration_planner.sh` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations.
+The project uses a custom iteration planning system via the `iteration_planner.sh` script to manage development tasks. This system helps track progress, organize tasks, and maintain development focus through clearly defined iterations with formal requirements tracking.
 
 ### Using the Iteration Planner
 
 Make the script executable:
 
+```bash
+chmod +x iteration_planner.sh
+```
 
 ### Available Commands
 
@@ -133,22 +136,44 @@ Make the script executable:
 
 Creates the docs directory and initializes the iteration planning system.
 
+```bash
+./iteration_planner.sh init
+```
+
 #### Create a New Iteration Plan
 
 Example:
+```bash
+./iteration_planner.sh create 2
+```
 
 This creates a new iteration plan with predefined tasks based on the iteration number.
+
+#### List All Iterations
+
+Lists all existing iterations with their names and file paths:
+
+```bash
+./iteration_planner.sh list-iterations
+```
 
 #### List Tasks for a Specific Iteration
 
 Example:
+```bash
+./iteration_planner.sh list 2
+```
 
+This displays all tasks for Iteration 2 with their current status.
 
 #### Update Task Status
 
 Where status can be: pending, in_progress, or complete
 
 Example:
+```bash
+./iteration_planner.sh update 2 3 in_progress
+```
 
 This marks Task 3 in Iteration 2 as in progress.
 
@@ -156,11 +181,169 @@ This marks Task 3 in Iteration 2 as in progress.
 
 Displays a progress report across all iterations, showing completion percentages and task statuses.
 
+```bash
+./iteration_planner.sh report
+```
+
 #### Link Tasks to Code Files
 
 Example:
+```bash
+./iteration_planner.sh link 2 1 "src/core/camera/scrolling_camera.gd"
+```
 
 This associates Task 1 in Iteration 2 with the specified code file.
+
+#### Add Requirements to an Iteration
+
+Add business, user, or technical requirements to an iteration:
+
+```bash
+# Add a business requirement to iteration 2
+./iteration_planner.sh add-req 2 business "Create an immersive NPC interaction system" "NPCs must be believable and responsive" "At least 5 NPCs with unique dialog trees"
+
+# Add a user requirement to iteration 2
+./iteration_planner.sh add-req 2 user "Experience dynamic NPC conversations" "Dialog choices should affect NPC reactions" "All NPCs have at least 3 dialog paths"
+
+# Add a technical requirement to iteration 2
+./iteration_planner.sh add-req 2 technical "Implement state-based NPC system" "NPCs must transition between different states" "Support for IDLE, TALKING, SUSPICIOUS, and HOSTILE states"
+```
+
+#### Add User Stories to Tasks
+
+Add detailed user stories with acceptance criteria to specific tasks:
+
+```bash
+./iteration_planner.sh add-story 2 3 "player" "have a camera that follows me" "I can see the area around my character" "B1,U2" "Camera centers on player character,Camera moves smoothly when player approaches screen edge"
+```
+
+Format: `add-story <iteration> <task> <role> <feature> <benefit> <linked_requirements> <acceptance_criteria>`
+
+#### Edit Requirements
+
+To edit requirements, simply add them again with the same type but updated content:
+
+```bash
+# Update a business requirement for iteration 2
+./iteration_planner.sh add-req 2 business "Create an improved NPC interaction system" "NPCs must be highly believable and responsive" "At least 10 NPCs with unique dialog trees"
+```
+
+#### Edit User Stories
+
+To edit a user story, open the iteration file directly in your preferred text editor:
+
+```bash
+# Open iteration 2 plan in a text editor
+nano docs/iterations/iteration2_plan.md
+```
+
+Find the task section with the user story you want to edit, and update the user story details.
+
+### Requirement Structure
+
+The iteration planner now supports formal requirements tracking at both the Epic (iteration) and User Story (task) levels.
+
+#### Epic-Level Requirements
+
+Each iteration can have three types of requirements:
+
+1. **Business Requirements (B)**: Focus on business needs and project goals
+   ```
+   - **B1:** [Brief statement of business need]
+     - **Rationale:** [Explanation of why this is important for the business/project]
+     - **Success Metric/Constraints:** [How we'll measure success]
+   ```
+
+2. **User Requirements (U)**: Focus on user experience and player needs
+   ```
+   - **U1:** [Brief statement of user need]
+     - **Rationale:** [Explanation of why this matters to users]
+     - **Success Metric/Constraints:** [How we'll measure user satisfaction]
+   ```
+
+3. **Technical Requirements (T)**: Focus on technical implementation and constraints
+   ```
+   - **T1:** [Brief statement of technical requirement]
+     - **Rationale:** [Explanation of technical importance]
+     - **Success Metric/Constraints:** [Technical validation criteria]
+   ```
+
+#### Task-Level User Stories
+
+Each task can include detailed user stories that follow the standard format:
+
+```
+**User Story:** As a [role], I want [feature/capability], so that [benefit/value].
+**Requirements:**
+- **Linked to:** [List of related Epic-level requirements, e.g., B1, U2]
+- **Acceptance Criteria:**
+  1. [Specific condition that must be met]
+  2. [Another specific condition]
+```
+
+#### Requirements Traceability
+
+The system provides traceability between User Stories (at the task level) and Epic-level requirements through the "Linked to" field. This ensures that:
+
+1. Every task contributes directly to one or more high-level requirements
+2. You can track which tasks fulfill which requirements
+3. Requirements coverage can be assessed across the project
+
+For more detailed information, see the complete iteration planner guide by running:
+```bash
+cat docs/iteration_planner_guide.md
+```
+
+### Example Workflow: Updating an Existing Iteration with Requirements
+
+Here's a step-by-step example of how to update an existing iteration (Iteration 2) with requirements and user stories:
+
+1. **First, list the current tasks for Iteration 2:**
+   ```bash
+   ./iteration_planner.sh list 2
+   ```
+
+2. **Add business requirements to the iteration:**
+   ```bash
+   ./iteration_planner.sh add-req 2 business "Create an immersive NPC interaction system" \
+     "NPCs form the backbone of the player experience and must feel authentic" \
+     "Each NPC has unique dialog and at least 2 interaction outcomes"
+   ```
+
+3. **Add user requirements:**
+   ```bash
+   ./iteration_planner.sh add-req 2 user "Have meaningful conversations with NPCs" \
+     "Dialog choices should matter and affect game outcomes" \
+     "At least 3 distinct dialog options per conversation"
+   ```
+
+4. **Add technical requirements:**
+   ```bash
+   ./iteration_planner.sh add-req 2 technical "Implement robust state machine for NPCs" \
+     "State machines enable complex behavior without code complexity" \
+     "All NPCs transition correctly between all defined states"
+   ```
+
+5. **Add user stories to specific tasks:**
+   ```bash
+   # For the scrolling camera task (assuming it's task #3):
+   ./iteration_planner.sh add-story 2 3 "player" "have a camera that follows my character" \
+     "I can explore the environment without manually adjusting the view" \
+     "B2,U1" \
+     "Camera follows player with smooth movement,Camera stops at scene boundaries,Camera adjusts zoom based on environment"
+   ```
+
+6. **View the updated iteration plan:**
+   ```bash
+   cat docs/iterations/iteration2_plan.md
+   ```
+
+7. **Generate a progress report to see requirement coverage:**
+   ```bash
+   ./iteration_planner.sh report
+   ```
+
+This workflow helps ensure that all development work is tied to specific requirements and that those requirements are tracked throughout the development process.
 
 ## NPC Registry System
 
