@@ -1,26 +1,34 @@
 extends CanvasLayer
 
 # Debug Console
-# A simple in-game console for executing debug commands
+# A console for executing debug commands with structured categories and command help
+# Integrated with the command_system.gd for better organization
 
 # Configuration
 export var console_key = KEY_QUOTELEFT  # Default ` (backtick) key
 export var history_size = 10
 export var console_height = 300
+export var enable_autocomplete = true
 
 # Console UI
 var console_container
 var input_field
 var output_text
+var autocomplete_panel
 var command_history = []
 var history_position = -1
-var registered_commands = {}
-var command_help = {}
+
+# Command system
+var command_system
+var current_autocomplete_options = []
 
 # Console state
 var console_visible = false
 
 func _ready():
+	# Initialize the command system
+	command_system = load("res://src/core/debug/command_system.gd").new()
+	
 	# Setup UI
 	create_console_ui()
 	
@@ -29,20 +37,144 @@ func _ready():
 	history_position = -1
 	
 	# Register basic commands
-	register_command("help", funcref(self, "cmd_help"), "Show available commands")
-	register_command("clear", funcref(self, "cmd_clear"), "Clear the console output")
-	register_command("print", funcref(self, "cmd_print"), "Print a value to the console")
-	register_command("quit", funcref(self, "cmd_quit"), "Exit the game")
-	register_command("scene", funcref(self, "cmd_scene"), "Get/set current scene")
-	register_command("toggle_fps", funcref(self, "cmd_toggle_fps"), "Toggle FPS counter")
-	register_command("set_zoom", funcref(self, "cmd_set_zoom"), "Set camera zoom (e.g. set_zoom 0.5)")
-	register_command("spawn_npc", funcref(self, "cmd_spawn_npc"), "Spawn NPC (e.g. spawn_npc security_officer)")
-	register_command("debug", funcref(self, "cmd_debug"), "Toggle debug manager (e.g. debug on/off)")
+	var CommandCategory = command_system.CommandCategory
+	
+	# General commands
+	command_system.register_command(
+		"help", 
+		funcref(self, "cmd_help"), 
+		"Show available commands or get help for a specific command", 
+		"help [command_name]", 
+		CommandCategory.GENERAL
+	)
+	
+	command_system.register_command(
+		"clear", 
+		funcref(self, "cmd_clear"), 
+		"Clear the console output", 
+		"clear", 
+		CommandCategory.GENERAL
+	)
+	
+	command_system.register_command(
+		"print", 
+		funcref(self, "cmd_print"), 
+		"Print text to the console", 
+		"print <text>", 
+		CommandCategory.GENERAL
+	)
+	
+	command_system.register_command(
+		"quit", 
+		funcref(self, "cmd_quit"), 
+		"Exit the game", 
+		"quit", 
+		CommandCategory.SYSTEM, 
+		["exit"]
+	)
+	
+	# Scene commands
+	command_system.register_command(
+		"scene", 
+		funcref(self, "cmd_scene"), 
+		"View or change the current scene", 
+		"scene [path_to_scene]", 
+		CommandCategory.SCENE, 
+		["change_scene"]
+	)
+	
+	# Camera commands
+	command_system.register_command(
+		"set_zoom", 
+		funcref(self, "cmd_set_zoom"), 
+		"Set camera zoom level", 
+		"set_zoom <zoom_level>", 
+		CommandCategory.CAMERA, 
+		["zoom"]
+	)
+	
+	# Entity commands
+	command_system.register_command(
+		"spawn_npc", 
+		funcref(self, "cmd_spawn_npc"), 
+		"Spawn an NPC at the specified position", 
+		"spawn_npc <type> [x] [y]", 
+		CommandCategory.ENTITY, 
+		["spawn", "create_npc"]
+	)
+	
+	# Debug commands
+	command_system.register_command(
+		"debug", 
+		funcref(self, "cmd_debug"), 
+		"Toggle debug manager or specific debug tools", 
+		"debug [on|off|status|tool_name]", 
+		CommandCategory.DEBUG, 
+		["dbg"]
+	)
+	
+	# Register debug subcommands
+	command_system.register_subcommand(
+		"debug", "coordinates", 
+		"Toggle the coordinate picker tool",
+		"debug coordinates"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "polygon", 
+		"Toggle the polygon visualizer tool",
+		"debug polygon"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "console", 
+		"Toggle the debug console tool",
+		"debug console"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "overlay", 
+		"Toggle the debug overlay tool",
+		"debug overlay"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "fullview", 
+		"Toggle the full view mode for debug tools",
+		"debug fullview"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "status", 
+		"Show status of all debug tools",
+		"debug status"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "on", 
+		"Enable the debug manager",
+		"debug on"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "off", 
+		"Disable the debug manager",
+		"debug off"
+	)
+	
+	command_system.register_command(
+		"toggle_fps", 
+		funcref(self, "cmd_toggle_fps"), 
+		"Toggle FPS counter display", 
+		"toggle_fps", 
+		CommandCategory.DEBUG, 
+		["fps"]
+	)
 	
 	# Initialize
 	hide_console()
 	
-	print("Debug console initialized - press ` to open")
+	print("Debug console initialized with command system - press ` to open")
 
 func create_console_ui():
 	# Create container
@@ -68,7 +200,16 @@ func create_console_ui():
 	input_field.rect_size = Vector2(console_container.rect_size.x - 20, 30)
 	input_field.placeholder_text = "Enter command (type 'help' for available commands)"
 	input_field.connect("text_entered", self, "_on_command_entered")
+	input_field.connect("text_changed", self, "_on_input_text_changed")
 	console_container.add_child(input_field)
+	
+	# Create autocomplete panel
+	if enable_autocomplete:
+		autocomplete_panel = PopupMenu.new()
+		autocomplete_panel.name = "AutocompletePanel"
+		autocomplete_panel.allow_search = true
+		autocomplete_panel.connect("id_pressed", self, "_on_autocomplete_selected")
+		console_container.add_child(autocomplete_panel)
 	
 	# Style the console
 	var style = StyleBoxFlat.new()
@@ -78,10 +219,6 @@ func create_console_ui():
 	console_container.add_stylebox_override("panel", style)
 
 func _input(event):
-	# Log any key press for debugging
-	if event is InputEventKey and event.pressed:
-		print("[DEBUG CONSOLE] Key pressed: " + str(event.scancode) + " (backtick is 96)")
-		
 	# Toggle console on toggle_debug_console action (backtick key)
 	if event.is_action_pressed("toggle_debug_console"):
 		print("[DEBUG CONSOLE] Backtick key detected via input action")
@@ -96,7 +233,7 @@ func _input(event):
 		# Prevent event propagation
 		get_tree().set_input_as_handled()
 	
-	# Handle history navigation when console is visible
+	# Handle key navigation when console is visible
 	if console_visible and event is InputEventKey and event.pressed:
 		match event.scancode:
 			KEY_UP:   # Up arrow - previous command
@@ -108,6 +245,10 @@ func _input(event):
 			KEY_ESCAPE: # Escape - hide console
 				hide_console()
 				get_tree().set_input_as_handled()
+			KEY_TAB: # Tab - autocomplete
+				if enable_autocomplete and !input_field.text.empty():
+					perform_autocomplete()
+					get_tree().set_input_as_handled()
 
 func toggle_console():
 	if console_visible:
@@ -133,6 +274,10 @@ func _on_command_entered(text):
 	# Clear input
 	input_field.text = ""
 	
+	# Hide autocomplete if visible
+	if enable_autocomplete and autocomplete_panel.visible:
+		autocomplete_panel.visible = false
+	
 	# Add to history
 	add_to_history(text)
 	
@@ -149,23 +294,87 @@ func execute_command(command_text):
 	# Remove the command from parts
 	parts.remove(0)
 	
-	# Check if command exists
-	if command in registered_commands:
-		var func_ref = registered_commands[command]
-		
-		# Call command with arguments
-		var result = func_ref.call_func(parts)
-		
-		# If result is a string, print it
-		if result is String and result != "":
-			print_output(result)
-	else:
-		print_output("Unknown command: " + command, Color(1, 0.3, 0.3))
-		print_output("Type 'help' for available commands")
+	# Execute the command through the command system
+	var result = command_system.execute(command, parts)
+	
+	# If result is a string, print it
+	if result is String and result != "":
+		print_output(result)
 
-func register_command(command_name, function_ref, help_text = ""):
-	registered_commands[command_name] = function_ref
-	command_help[command_name] = help_text
+# Handle input text changes for autocomplete
+func _on_input_text_changed(new_text):
+	if enable_autocomplete and new_text.strip_edges() != "":
+		update_autocomplete_options(new_text)
+	else:
+		hide_autocomplete()
+
+# Perform autocompletion
+func perform_autocomplete():
+	var text = input_field.text.strip_edges()
+	
+	# If we have exactly one option, use it
+	if current_autocomplete_options.size() == 1:
+		var command = current_autocomplete_options[0].name
+		input_field.text = command + " " 
+		input_field.caret_position = input_field.text.length()
+		hide_autocomplete()
+	# Otherwise show the autocomplete panel
+	elif current_autocomplete_options.size() > 1:
+		show_autocomplete()
+	
+# Update autocomplete options based on current text
+func update_autocomplete_options(text):
+	var parts = text.split(" ", false)
+	
+	# Only provide autocomplete for commands, not arguments
+	if parts.size() == 1:
+		current_autocomplete_options = command_system.get_commands_by_partial_name(parts[0])
+		
+		if current_autocomplete_options.size() > 0:
+			prepare_autocomplete_panel()
+		else:
+			hide_autocomplete()
+	else:
+		hide_autocomplete()
+
+# Prepare the autocomplete panel with current options
+func prepare_autocomplete_panel():
+	if !enable_autocomplete or current_autocomplete_options.size() == 0:
+		return
+		
+	autocomplete_panel.clear()
+	
+	for i in range(current_autocomplete_options.size()):
+		var cmd = current_autocomplete_options[i]
+		autocomplete_panel.add_item(cmd.name, i)
+		
+	# Only show if there's more than one option
+	if current_autocomplete_options.size() > 1:
+		show_autocomplete()
+		
+# Show the autocomplete panel
+func show_autocomplete():
+	if !enable_autocomplete or current_autocomplete_options.size() == 0:
+		return
+		
+	var pos = input_field.rect_global_position
+	pos.y += input_field.rect_size.y
+	autocomplete_panel.rect_min_size = Vector2(input_field.rect_size.x, 200)
+	autocomplete_panel.rect_position = pos
+	autocomplete_panel.popup()
+
+# Hide the autocomplete panel
+func hide_autocomplete():
+	if enable_autocomplete and autocomplete_panel.visible:
+		autocomplete_panel.hide()
+
+# Handle selecting an item from the autocomplete panel
+func _on_autocomplete_selected(id):
+	if id >= 0 and id < current_autocomplete_options.size():
+		var cmd = current_autocomplete_options[id]
+		input_field.text = cmd.name + " "
+		input_field.caret_position = input_field.text.length()
+		hide_autocomplete()
 
 func add_to_history(command):
 	if command_history.size() > 0 and command_history[0] == command:
@@ -203,13 +412,13 @@ func print_output(text, color = Color(1, 1, 1)):
 	output_text.bbcode_text += bbcode + "\n"
 
 # Built-in commands
-func cmd_help(_args = []):
-	var result = "Available commands:\n"
+func cmd_help(args = []):
+	# If no arguments, show all commands
+	if args.size() == 0:
+		return command_system.get_help_overview(true) # Show subcommands in overview
 	
-	for command in command_help.keys():
-		result += "  %-15s - %s\n" % [command, command_help[command]]
-	
-	return result
+	# Otherwise, show help for the specified command
+	return command_system.get_command_help(args[0])
 
 func cmd_clear(_args = []):
 	output_text.bbcode_text = ""

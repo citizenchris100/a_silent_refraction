@@ -73,6 +73,66 @@ There are three ways to launch the debug tools:
 ./a_silent_refraction.sh debug-district shipping
 ```
 
+## Standardized Debug Groups
+
+The debug system uses standardized group names to categorize and identify nodes for debugging purposes.
+
+### Group Naming Convention
+
+All debug groups follow these rules:
+
+1. Start with the prefix `debug_` for easy identification
+2. Use lowercase and underscores for consistent formatting
+3. Names should be descriptive of the node's purpose
+4. Singular form is used for consistency
+
+### Standard Debug Groups
+
+| Group Name | Purpose | Example Usage |
+|------------|---------|---------------|
+| `debug_walkable_area` | Defines walkable areas for player navigation | `area.add_to_group("debug_walkable_area")` |
+| `debug_interactive` | Objects that can be interacted with | `object.add_to_group("debug_interactive")` |
+| `debug_npc` | NPCs for debug tracking | `npc.add_to_group("debug_npc")` |
+| `debug_camera` | Camera nodes that can be controlled in debug mode | `camera.add_to_group("debug_camera")` |
+| `debug_boundary` | Boundaries/collision areas for debugging | `boundary.add_to_group("debug_boundary")` |
+| `debug_trigger` | Event trigger areas | `trigger.add_to_group("debug_trigger")` |
+| `debug_spawn_point` | Character/object spawn locations | `spawn.add_to_group("debug_spawn_point")` |
+| `debug_visualizer` | Nodes that provide visual debugging | `visualizer.add_to_group("debug_visualizer")` |
+
+### Using Debug Groups
+
+```gdscript
+# Adding a node to a debug group
+node.add_to_group("debug_walkable_area")
+
+# Finding nodes by debug group
+var areas = get_tree().get_nodes_in_group("debug_walkable_area")
+for area in areas:
+    # Process each area
+    print(area.name)
+
+# Checking if a node is in a debug group
+if node.is_in_group("debug_walkable_area"):
+    # Perform debug operations
+    pass
+```
+
+### Legacy Group Transition
+
+For backward compatibility during the transition to standardized group names:
+
+```gdscript
+# Add to both old and new groups
+node.add_to_group("walkable_area")         # Legacy name
+node.add_to_group("debug_walkable_area")  # New standard name
+
+# When checking for nodes
+var areas = get_tree().get_nodes_in_group("debug_walkable_area")
+if areas.empty():
+    # Fall back to legacy group name
+    areas = get_tree().get_nodes_in_group("walkable_area")
+```
+
 ## Available Debug Tools
 
 ### Coordinate Picker

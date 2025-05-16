@@ -1,7 +1,47 @@
 extends Node
 
 # Global Debug Singleton
-# This singleton can be used to enable debug tools from any scene
+# ---------------------------------
+# This singleton provides centralized access to the debug system across the entire game.
+# It enables any scene to access debug tools without requiring direct references.
+#
+# Architecture Overview:
+# --------------------
+# The debug system follows a layered architecture:
+#
+# 1. Debug Singleton (this script): Global entry point accessible from anywhere
+#    - Handles global keyboard shortcuts for debug features
+#    - Creates and manages DebugManager instances for scenes
+#    - Provides a public API for enabling debug features
+#
+# 2. Debug Manager: Per-scene debug tool manager (debug_manager.gd)
+#    - Creates and manages individual debug components for a scene
+#    - Controls the visibility and state of debug tools
+#    - Connects to the scene's camera for proper positioning
+#
+# 3. Debug Tools: Individual debug capabilities
+#    - Coordinate Picker: Shows and logs coordinates (coordinate_picker.gd)
+#    - Polygon Visualizer: Creates/edits walkable areas (polygon_visualizer.gd)
+#    - Debug Console: Command-line interface for debug operations (debug_console.gd)
+#
+# 4. Command System: Structured command handling (command_system.gd)
+#    - Organizes console commands into logical categories
+#    - Provides detailed help and usage information
+#    - Handles command aliases and autocomplete
+#
+# Usage Examples:
+# --------------
+# 1. Enable debug in any scene:
+#    var debug = get_node("/root/DebugSingleton")
+#    debug.enable_debug_tools(get_tree().get_current_scene())
+#
+# 2. Toggle specific tool:
+#    var debug = get_node("/root/DebugSingleton")
+#    debug.toggle_coordinate_picker()
+#
+# 3. Execute a debug command:
+#    var debug = get_node("/root/DebugSingleton")
+#    debug.execute_command("debug", ["on"], current_scene)
 
 var debug_console = null
 var debug_manager = null
