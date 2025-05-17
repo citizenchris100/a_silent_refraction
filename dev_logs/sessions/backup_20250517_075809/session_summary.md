@@ -3,18 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 17, 2025 - Continued work on Iteration 2 Task 6 (🟢 IN PROGRESS)
-- **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
-- **Focus:** Shipping District and Camera System
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-17_08-03-29.md)
-
-### May 17, 2025 - Moving forward with Iteration 2 Task 6 (✅ COMPLETED)
-- **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
-- **Focus:** Camera System
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-17_07-58-09.md)
-
 ### May 16, 2025 - Iteration Planner Enhancements (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
 - **Focus:** Requirements Integration
