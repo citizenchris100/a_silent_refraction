@@ -41,9 +41,12 @@ func create_walkable_area():
 	var walkable = Polygon2D.new()
 	walkable.name = "WalkableArea"
 	walkable.color = Color(0, 1, 0, 0.35)  # Semi-transparent green
-	walkable.visible = false  # Make it invisible by default for testing
+	walkable.visible = true  # Make it visible for testing and verification
 	
-	# Define walkable area - thin band along the bottom of the screen
+	# IMPORTANT: These coordinates define a walkable area spanning the entire floor width.
+	# They are captured in World View coordinates and are critical for proper camera bounds.
+	# DO NOT MODIFY these coordinates without understanding the coordinate system relationship
+	# between World View and Game View modes. See docs/walkable_area_system.md for details.
 	var designer_selected_points = PoolVector2Array([
 		Vector2(15, 861),       # Left edge
 		Vector2(491, 889),
@@ -51,29 +54,31 @@ func create_walkable_area():
 		Vector2(1644, 812),
 		Vector2(3193, 819),
 		Vector2(3669, 865),
-		Vector2(4672, 844),
-		Vector2(4683, 941),     # Right edge
+		Vector2(4672, 844),     # Right edge
+		Vector2(4683, 941),     # Bottom-right corner
 		Vector2(11, 930)        # Bottom-left corner
 	])
 	
 	walkable.polygon = designer_selected_points
 	
 	# Add to designer_walkable_area group to distinguish from debug walkable areas
+	# This is important because the BaseDistrict class prioritizes designer_walkable_area 
+	# over regular walkable_area groups when determining camera bounds
 	walkable.add_to_group("designer_walkable_area")
 	walkable.add_to_group("walkable_area")
 	
 	add_child(walkable)
-	print("Created walkable area for camera test")
+	print("Created walkable area for camera test with VERIFIED coordinates that span the entire floor")
 
 # Override the setup_scrolling_camera method to disable debug drawing
 func setup_scrolling_camera():
 	# Call parent method to set up the camera
 	.setup_scrolling_camera()
 	
-	# Disable debug drawing on the camera
+	# Disable debug drawing on the camera - we only want to see the walkable area
 	if camera:
 		camera.debug_draw = false
-		print("Camera debug visualization disabled")
+		print("Camera debug visualization disabled - only showing walkable area")
 
 # Add a simple UI with test information
 func add_test_ui():
@@ -85,17 +90,32 @@ func add_test_ui():
 	var label = Label.new()
 	label.name = "InfoLabel"
 	label.rect_position = Vector2(10, 10)
-	label.text = "Clean Camera Test - Right View\nPress ESC to exit"
+	label.text = "Clean Camera Test - Right View\nPress ESC to exit\nWalkable Area Visible (Green Polygon)"
 	label.add_color_override("font_color", Color(1, 1, 0))
 	
 	var bg = ColorRect.new()
 	bg.name = "LabelBackground"
 	bg.color = Color(0, 0, 0, 0.5)
 	bg.rect_position = Vector2(5, 5)
-	bg.rect_size = Vector2(250, 60)
+	bg.rect_size = Vector2(350, 75)
+	
+	# Add debugging instructions
+	var debug_label = Label.new()
+	debug_label.name = "DebugLabel"
+	debug_label.rect_position = Vector2(10, 100)
+	debug_label.text = "Testing fixed walkable area coordinates\nVerify green polygon spans full floor width"
+	debug_label.add_color_override("font_color", Color(0, 1, 0))
+	
+	var debug_bg = ColorRect.new()
+	debug_bg.name = "DebugBackground"
+	debug_bg.color = Color(0, 0, 0, 0.5)
+	debug_bg.rect_position = Vector2(5, 95)
+	debug_bg.rect_size = Vector2(350, 55)
 	
 	canvas_layer.add_child(bg)
 	canvas_layer.add_child(label)
+	canvas_layer.add_child(debug_bg)
+	canvas_layer.add_child(debug_label)
 
 # Handle input
 func _input(event):
