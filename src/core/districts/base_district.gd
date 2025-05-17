@@ -1,6 +1,9 @@
 extends Node2D
 class_name BaseDistrict
 
+# Preload the CoordinateSystem class
+var CoordinateSystem = preload("res://src/core/coordinate_system.gd")
+
 # District properties
 export var district_name = "Unknown District"
 export var district_description = "A district on the station"
@@ -234,44 +237,55 @@ func register_locations():
     return {}
 
 # Convert screen coordinates to world coordinates
+# This transforms screen space coordinates (like mouse position) to world coordinates
 func screen_to_world_coords(screen_pos: Vector2) -> Vector2:
+    # Validate input
+    if screen_pos == null:
+        print("WARNING: screen_to_world_coords received null position")
+        return Vector2.ZERO
+    
     # Find the camera
     var camera_node = get_camera()
-    if camera_node:
-        # Use the camera's conversion method if available
-        if camera_node.has_method("screen_to_world"):
-            var world_pos = camera_node.screen_to_world(screen_pos)
-            # Apply background scale factor if needed
-            if background_scale_factor != 1.0:
-                world_pos *= background_scale_factor
-            return world_pos
-        else:
-            # Fallback to standard formula
-            var world_pos = camera_node.get_global_position() + ((screen_pos - get_viewport_rect().size/2) * camera_node.zoom)
-            if background_scale_factor != 1.0:
-                world_pos *= background_scale_factor
-            return world_pos
-    # If no camera, return screen_pos as-is
-    return screen_pos
+    if camera_node == null:
+        print("WARNING: No camera found in district " + district_name)
+        return screen_pos
+    
+    # Use CoordinateSystem to handle the transformation
+    var world_pos = CoordinateSystem.screen_to_world(screen_pos, camera_node)
+    
+    # Apply background scale factor if needed
+    if background_scale_factor != 1.0:
+        world_pos = CoordinateSystem.apply_scale_factor(world_pos, background_scale_factor)
+        print("Applied scale factor " + str(background_scale_factor) + " to world position: " + 
+              str(world_pos / background_scale_factor) + " → " + str(world_pos))
+    
+    return world_pos
 
 # Convert world coordinates to screen coordinates
+# This transforms world coordinates to screen space (e.g., for UI positioning)
 func world_to_screen_coords(world_pos: Vector2) -> Vector2:
+    # Validate input
+    if world_pos == null:
+        print("WARNING: world_to_screen_coords received null position")
+        return Vector2.ZERO
+    
     # Find the camera
     var camera_node = get_camera()
-    if camera_node:
-        # Apply background scale factor if needed
-        var adjusted_world_pos = world_pos
-        if background_scale_factor != 1.0:
-            adjusted_world_pos /= background_scale_factor
-            
-        # Use the camera's conversion method if available
-        if camera_node.has_method("world_to_screen"):
-            return camera_node.world_to_screen(adjusted_world_pos)
-        else:
-            # Fallback to standard formula
-            return (adjusted_world_pos - camera_node.get_global_position()) / camera_node.zoom + get_viewport_rect().size/2
-    # If no camera, return world_pos as-is
-    return world_pos
+    if camera_node == null:
+        print("WARNING: No camera found in district " + district_name)
+        return world_pos
+    
+    # Apply background scale factor if needed
+    var adjusted_world_pos = world_pos
+    if background_scale_factor != 1.0:
+        adjusted_world_pos = CoordinateSystem.remove_scale_factor(world_pos, background_scale_factor)
+        print("Removed scale factor " + str(background_scale_factor) + " from world position: " + 
+              str(world_pos) + " → " + str(adjusted_world_pos))
+    
+    # Use CoordinateSystem to handle the transformation
+    var screen_pos = CoordinateSystem.world_to_screen(adjusted_world_pos, camera_node)
+    
+    return screen_pos
 
 # Get the camera in this district
 func get_camera() -> Camera2D:

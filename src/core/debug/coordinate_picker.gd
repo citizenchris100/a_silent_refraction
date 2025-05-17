@@ -5,6 +5,9 @@ extends Node2D
 # Modified to use Godot UI controls rather than direct font rendering
 # Enhanced to handle district coordinate transformations
 
+# Preload the CoordinateSystem class
+var CoordinateSystem = preload("res://src/core/coordinate_system.gd")
+
 # Add signal for integration with debug manager
 signal coordinate_selected(position)
 
@@ -144,18 +147,13 @@ func _input(event):
 				parent = parent.get_parent()
 			
 			# Check if we're in full view mode via debug manager
-			if debug_manager and "full_view_mode" in debug_manager:
-				is_in_full_view = debug_manager.full_view_mode
+			if debug_manager:
+				is_in_full_view = CoordinateSystem.get_current_view_mode(debug_manager) == CoordinateSystem.ViewMode.WORLD_VIEW
 				print("Debug manager found, full view mode: " + str(is_in_full_view))
 			
-			# Use the camera's screen_to_world method if available (preferred)
-			if camera.has_method("screen_to_world"):
-				world_pos = camera.screen_to_world(click_pos)
-				print("Using camera's screen_to_world method for precise coordinate conversion")
-			else:
-				# Fallback to standard formula if our helper isn't available
-				world_pos = camera.get_global_position() + ((click_pos - get_viewport_rect().size/2) * camera.zoom)
-				print("Using standard coordinate conversion formula")
+			# Use CoordinateSystem for coordinate transformation
+			world_pos = CoordinateSystem.screen_to_world(click_pos, camera)
+			print("Using CoordinateSystem.screen_to_world for coordinate conversion")
 			
 			# Get information about current camera status
 			var parent_scene = get_tree().get_current_scene()
@@ -220,9 +218,69 @@ func _input(event):
 		# Apply district coordinate transformation if we're in a district
 		var screen_pos = world_pos
 		var final_world_pos = world_pos
-		if district and district.has_method("screen_to_world_coords"):
-			# Convert from screen space to world space using district's transformation
-			final_world_pos = district.screen_to_world_coords(world_pos)
+		if district:
+			# Check the current view mode for proper transformation
+			# First, try finding any active DebugManager in the scene
+			var view_mode = CoordinateSystem.ViewMode.GAME_VIEW
+			var found_debug_manager = null
+			
+			# Search for DebugManager at the root level (more reliable)
+			var scene_root = get_tree().get_root()
+			found_debug_manager = scene_root.get_node_or_null("DebugManager")
+			
+			# If not found at root, try searching up from our parent
+			if found_debug_manager == null:
+				var parent = get_parent()
+				while parent != null:
+					if parent.get_name() == "DebugManager":
+						found_debug_manager = parent
+						break
+					parent = parent.get_parent()
+			
+			# Get view mode from debug manager if available
+			if found_debug_manager != null:
+				print("Found debug manager: " + found_debug_manager.get_name())
+				view_mode = CoordinateSystem.get_current_view_mode(found_debug_manager)
+			else:
+				print("No debug manager found - defaulting to Game View mode")
+				
+				# Without a debug manager, try to detect full view mode by checking camera zoom
+				if district.has_method("get_camera") and district.get_camera() != null:
+					var district_camera = district.get_camera()
+					if district_camera.zoom.x > 2.0:  # If zoomed out significantly, it's likely full view mode
+						print("Detected World View via camera zoom level: " + str(district_camera.zoom))
+						view_mode = CoordinateSystem.ViewMode.WORLD_VIEW
+			
+			print("Current view mode: " + ("WORLD_VIEW" if view_mode == CoordinateSystem.ViewMode.WORLD_VIEW else "GAME_VIEW"))
+			
+			# Convert from screen space to world space using appropriate transformation
+			if view_mode == CoordinateSystem.ViewMode.WORLD_VIEW:
+				# In World View mode, we need to convert the coordinates
+				print("World View active - converting coordinates using CoordinateSystem")
+				
+				# First check if we can apply the transformation directly
+				if district.has_method("screen_to_world_coords"):
+					# Get the base screen_to_world transformation
+					var base_world_pos = district.screen_to_world_coords(world_pos)
+					print("Base transformation: " + str(world_pos) + " → " + str(base_world_pos))
+					
+					# Apply World View transformation
+					final_world_pos = CoordinateSystem.world_view_to_game_view(base_world_pos, district)
+					print("Final transformation: " + str(base_world_pos) + " → " + str(final_world_pos))
+				else:
+					# Direct transformation using CoordinateSystem
+					final_world_pos = CoordinateSystem.world_view_to_game_view(world_pos, district)
+					print("Direct transformation: " + str(world_pos) + " → " + str(final_world_pos))
+			else:
+				# In regular Game View mode, use the district's normal transformation
+				print("Game View active - using regular coordinate transformation")
+				if district.has_method("screen_to_world_coords"):
+					final_world_pos = district.screen_to_world_coords(world_pos)
+					print("Transformed via district: " + str(world_pos) + " → " + str(final_world_pos))
+				else:
+					final_world_pos = world_pos
+					print("WARNING: District lacks screen_to_world_coords method, using untransformed coordinates")
+			
 			print("District found. Applying coordinate transformation:")
 			print("Background scale factor: " + str(district.background_scale_factor))
 			print("Original position: " + str(screen_pos))
@@ -384,9 +442,32 @@ func _input(event):
 			
 			# For district-aware mode, also show what these coordinates correspond to in screen space
 			if district and district.background_scale_factor != 1.0:
-				var screen_coords = district.world_to_screen_coords(coords)
-				var screen_text = "Vector2(%d, %d)," % [screen_coords.x, screen_coords.y]
-				print("CORRESPONDS TO SCREEN SPACE: " + screen_text)
+				# Get the current view mode
+				var view_mode = CoordinateSystem.ViewMode.GAME_VIEW
+				
+				# Try to find debug manager if it exists
+				var parent = get_parent()
+				var found_debug_manager = null
+				while parent:
+					if parent.get_name() == "DebugManager":
+						found_debug_manager = parent
+						break
+					parent = parent.get_parent()
+					
+				# Get view mode from debug manager if available
+				if found_debug_manager:
+					view_mode = CoordinateSystem.get_current_view_mode(found_debug_manager)
+				
+				# Show appropriate conversion based on view mode
+				if view_mode == CoordinateSystem.ViewMode.WORLD_VIEW:
+					var game_view_coords = CoordinateSystem.world_view_to_game_view(coords, district)
+					var game_text = "Vector2(%d, %d)," % [game_view_coords.x, game_view_coords.y]
+					print("CORRESPONDS TO GAME VIEW: " + game_text)
+				else:
+					var screen_coords = district.world_to_screen_coords(coords)
+					var screen_text = "Vector2(%d, %d)," % [screen_coords.x, screen_coords.y]
+					print("CORRESPONDS TO SCREEN SPACE: " + screen_text)
+					
 				print("SCALE FACTOR: " + str(district.background_scale_factor))
 			
 			# Also append to the log file - properly handling append mode
@@ -463,11 +544,6 @@ func _draw():
 		
 		# Use draw_arc for border instead of draw_circle with too many parameters
 		draw_arc(pos, circle_size, 0, TAU, 32, marker_color, 2)  # Border using arc
-		
-		# Add number - simple approach using draw_string (no font metrics needed)
-		var text = str(i + 1)  # 1-indexed for user clarity
-		var text_pos = pos - Vector2(4, 8)  # Approximate center for single digit
-		draw_string(null, text_pos, text, marker_color)
 		
 		# Draw connecting lines between points if we have more than one point
 		if i < coordinate_history.size() - 1:
