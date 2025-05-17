@@ -12,7 +12,7 @@ func _ready():
 	
 	# Configure the camera system
 	use_scrolling_camera = true
-	initial_camera_view = "center"  # Show the center of the background
+	initial_camera_view = "right"  # Show the right side of the background
 	
 	# Setup background
 	var background = Sprite.new()
@@ -41,19 +41,19 @@ func create_walkable_area():
 	var walkable = Polygon2D.new()
 	walkable.name = "WalkableArea"
 	walkable.color = Color(0, 1, 0, 0.35)  # Semi-transparent green
-	walkable.visible = true  # Make it visible for testing
+	walkable.visible = false  # Make it invisible by default for testing
 	
-	# Define walkable area using coordinates selected with the debug tool
+	# Define walkable area - thin band along the bottom of the screen
 	var designer_selected_points = PoolVector2Array([
-		Vector2(1383, 581),     # Top-right
-		Vector2(1099, 586),
-		Vector2(954, 575),
-		Vector2(506, 575),
-		Vector2(235, 584),
-		Vector2(174, 597),
-		Vector2(39, 587),       # Top-left
-		Vector2(37, 607),       # Bottom-left
-		Vector2(1383, 609)      # Bottom-right
+		Vector2(15, 861),       # Left edge
+		Vector2(491, 889),
+		Vector2(671, 865),
+		Vector2(1644, 812),
+		Vector2(3193, 819),
+		Vector2(3669, 865),
+		Vector2(4672, 844),
+		Vector2(4683, 941),     # Right edge
+		Vector2(11, 930)        # Bottom-left corner
 	])
 	
 	walkable.polygon = designer_selected_points
@@ -63,7 +63,7 @@ func create_walkable_area():
 	walkable.add_to_group("walkable_area")
 	
 	add_child(walkable)
-	print("Created walkable area for camera test with user-selected coordinates")
+	print("Created walkable area for camera test")
 
 # Override the setup_scrolling_camera method to disable debug drawing
 func setup_scrolling_camera():
@@ -85,45 +85,19 @@ func add_test_ui():
 	var label = Label.new()
 	label.name = "InfoLabel"
 	label.rect_position = Vector2(10, 10)
-	label.text = "Clean Camera Test - Center View\nPress ESC to exit, R/L/C to change views"
+	label.text = "Clean Camera Test - Right View\nPress ESC to exit"
 	label.add_color_override("font_color", Color(1, 1, 0))
 	
 	var bg = ColorRect.new()
 	bg.name = "LabelBackground"
 	bg.color = Color(0, 0, 0, 0.5)
 	bg.rect_position = Vector2(5, 5)
-	bg.rect_size = Vector2(350, 60)
+	bg.rect_size = Vector2(250, 60)
 	
 	canvas_layer.add_child(bg)
 	canvas_layer.add_child(label)
 
 # Handle input
 func _input(event):
-	if event is InputEventKey and event.pressed:
-		match event.scancode:
-			KEY_ESCAPE:
-				get_tree().quit()
-			
-			KEY_R:  # Test RIGHT view
-				if camera:
-					print("\nSwitching to RIGHT view")
-					camera.initial_view = "right"
-					camera.force_update_scroll()
-					get_node("UI/InfoLabel").text = "Clean Camera Test - RIGHT View\nPress ESC to exit, R/L/C to change views"
-					print("Camera moved to RIGHT view position: " + str(camera.global_position))
-			
-			KEY_L:  # Test LEFT view
-				if camera:
-					print("\nSwitching to LEFT view")
-					camera.initial_view = "left"
-					camera.force_update_scroll()
-					get_node("UI/InfoLabel").text = "Clean Camera Test - LEFT View\nPress ESC to exit, R/L/C to change views"
-					print("Camera moved to LEFT view position: " + str(camera.global_position))
-			
-			KEY_C:  # Test CENTER view
-				if camera:
-					print("\nSwitching to CENTER view")
-					camera.initial_view = "center"
-					camera.force_update_scroll()
-					get_node("UI/InfoLabel").text = "Clean Camera Test - CENTER View\nPress ESC to exit, R/L/C to change views"
-					print("Camera moved to CENTER view position: " + str(camera.global_position))
+	if event is InputEventKey and event.pressed and event.scancode == KEY_ESCAPE:
+		get_tree().quit()
