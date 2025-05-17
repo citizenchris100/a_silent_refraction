@@ -21,9 +21,6 @@ var walkable_areas = []
 # Interactive objects in this district
 var interactive_objects = []
 
-# Background scale tracking to ensure coordinate consistency
-var background_scale_factor = 1.0  # Scale factor applied to background sprite for responsive display
-
 # Animated background elements manager
 var animated_bg_manager = null
 
@@ -41,12 +38,32 @@ func _ready():
     # Add to district group
     add_to_group("district")
 
-    # Find walkable areas and interactive objects
+    # Clear active walkable areas before searching
+    walkable_areas.clear()
+
+    # First, handle any "designer_walkable_area" marked walkable areas
+    # These take precedence over generic walkable_area groups
+    var designer_areas_found = false
+    
     for child in get_children():
-        if child.is_in_group("walkable_area"):
+        if child.is_in_group("designer_walkable_area"):
+            # This is a specially marked walkable area from the designer
             walkable_areas.append(child)
+            designer_areas_found = true
+            print("Using designer-marked walkable area: " + child.name)
+            
+    # If no designer walkable areas were found, fall back to regular walkable areas
+    if not designer_areas_found:
+        for child in get_children():
+            if child.is_in_group("walkable_area") and !child.is_in_group("debug_walkable_area"):
+                walkable_areas.append(child)
+                print("Using standard walkable area: " + child.name)
+                
+    # Find interactive objects
+    for child in get_children():
         if child.is_in_group("interactive_object"):
             interactive_objects.append(child)
+            
         # Check if we already have a camera as a child
         if child is Camera2D:
             camera = child
@@ -210,16 +227,6 @@ func exit_district():
         animated_bg_manager._on_district_exited()
 
     emit_signal("district_exited", district_name)
-
-# Convert screen coordinates to world coordinates accounting for background scaling
-func screen_to_world_coords(screen_coords: Vector2) -> Vector2:
-    # Apply the background scale factor to convert screen space to world space
-    return Vector2(screen_coords.x * background_scale_factor, screen_coords.y)
-
-# Convert world coordinates to screen coordinates accounting for background scaling
-func world_to_screen_coords(world_coords: Vector2) -> Vector2:
-    # Apply the inverse background scale factor to convert world space to screen space
-    return Vector2(world_coords.x / background_scale_factor, world_coords.y)
 
 # This method will be implemented in a future iteration
 func register_locations():
