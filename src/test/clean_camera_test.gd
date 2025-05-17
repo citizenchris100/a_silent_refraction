@@ -41,19 +41,19 @@ func create_walkable_area():
 	var walkable = Polygon2D.new()
 	walkable.name = "WalkableArea"
 	walkable.color = Color(0, 1, 0, 0.35)  # Semi-transparent green
-	walkable.visible = false  # Make it invisible by default for testing
+	walkable.visible = true  # Make it visible for testing
 	
-	# Define walkable area - thin band along the bottom of the screen
+	# Define walkable area using coordinates selected with the debug tool
 	var designer_selected_points = PoolVector2Array([
-		Vector2(15, 861),       # Left edge
-		Vector2(491, 889),
-		Vector2(671, 865),
-		Vector2(1644, 812),
-		Vector2(3193, 819),
-		Vector2(3669, 865),
-		Vector2(4672, 844),
-		Vector2(4683, 941),     # Right edge
-		Vector2(11, 930)        # Bottom-left corner
+		Vector2(1383, 581),     # Top-right
+		Vector2(1099, 586),
+		Vector2(954, 575),
+		Vector2(506, 575),
+		Vector2(235, 584),
+		Vector2(174, 597),
+		Vector2(39, 587),       # Top-left
+		Vector2(37, 607),       # Bottom-left
+		Vector2(1383, 609)      # Bottom-right
 	])
 	
 	walkable.polygon = designer_selected_points
@@ -63,7 +63,7 @@ func create_walkable_area():
 	walkable.add_to_group("walkable_area")
 	
 	add_child(walkable)
-	print("Created walkable area for camera test")
+	print("Created walkable area for camera test with user-selected coordinates")
 
 # Override the setup_scrolling_camera method to disable debug drawing
 func setup_scrolling_camera():

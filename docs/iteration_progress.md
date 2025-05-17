@@ -85,12 +85,13 @@ This file tracks the progress of all iterations for the project.
 - **U2:** As a player, I want to track my suspicion level with accessible UI
 - **U3:** As a player, I want NPCs to feel distinct through dialog and behavior
 - **T1:** Create extensible NPC state machine system
+- **T2:** Implement a scrolling background system that enables environments larger than the game window
 - [x] Task 1: Create base NPC class with state machine
 - [x] Task 2: Implement NPC dialog system
 - [x] Task 3: Create suspicion meter UI element
 - [x] Task 4: Implement suspicion tracking system
 - [x] Task 5: Script NPC reactions based on suspicion levels
-- [ ] Task 6: Apply visual style guide to Shipping District
+- [~] Task 6: Apply visual style guide to Shipping District
 - [ ] Task 7: Create bash script for generating NPC placeholders
 - [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs
 - **Linked to:** B1, U2
@@ -105,7 +106,7 @@ This file tracks the progress of all iterations for the project.
 - Start date: 2025-05-16
 - Target completion: 2025-05-30
 - Iteration 1 (Basic Environment and Navigation)
-- No links yet
+- Task 7: [tools/create_npc_registry.sh](tools/create_npc_registry.sh)
 
 **Key Requirements:**
 - **B5:** Develop a core set of game assets that establish the game's visual identity and support key gameplay mechanics
@@ -122,8 +123,8 @@ This file tracks the progress of all iterations for the project.
 | Create suspicion meter UI element (As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs.) | Complete | - |
 | Implement suspicion tracking system | Complete | - |
 | Script NPC reactions based on suspicion levels | Complete | - |
-| Apply visual style guide to Shipping District | Pending | - |
-| Create bash script for generating NPC placeholders | Pending | - |
+| Apply visual style guide to Shipping District (As a player, I want to explore scrolling backgrounds in the Shipping District that extend beyond the screen boundaries, so that I can experience larger, more immersive environments that feel like real spaces rather than confined screens) | In Progress | - |
+| Create bash script for generating NPC placeholders (As a developer, I want a bash script that manages the NPC registry and creates appropriate directory structures for NPC sprites, so that I can easily add new characters to the game with proper integration into the existing systems without manual configuration.) | Pending | tools/create_npc_registry.sh |
 | Implement observation mechanics for detecting assimilated NPCs | Pending | - |
 
 **Testing Criteria:**
@@ -134,7 +135,13 @@ This file tracks the progress of all iterations for the project.
 - Start date: 2025-05-16
 - Target completion: 2025-05-30
 - Iteration 1 (Basic Environment and Navigation)
-- No links yet
+- Task 7: [tools/create_npc_registry.sh](tools/create_npc_registry.sh)
+- **Linked to:** B5, T2
+- **Acceptance Criteria:**
+- Implement a background manager that handles large image loading
+- Create a scrolling camera system that tracks player position
+- Integrate with existing walkable area system
+- Ensure performance optimization for large background images
 
 ### Iteration 3: Game Districts and Time Management
 
