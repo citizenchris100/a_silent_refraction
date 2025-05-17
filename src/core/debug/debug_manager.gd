@@ -90,8 +90,8 @@ func _input(event):
         elif event.scancode == KEY_F4:
             toggle_debug_overlay()
             
-        # V: Toggle full view mode (zoomed out to see entire background)
-        elif event.scancode == KEY_V:
+        # Alt+W: Toggle world view mode (zoomed out to see entire background)
+        elif event.scancode == KEY_W and event.alt:
             toggle_full_view()
             
         # C: Complete current polygon and start a new one

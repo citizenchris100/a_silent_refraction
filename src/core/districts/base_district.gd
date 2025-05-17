@@ -41,6 +41,10 @@ func _ready():
 
     # Add to district group
     add_to_group("district")
+    
+    # Register this district with the CoordinateManager
+    CoordinateManager.set_current_district(self)
+    print("Registered district with CoordinateManager")
 
     # Clear active walkable areas before searching
     walkable_areas.clear()
@@ -244,20 +248,19 @@ func screen_to_world_coords(screen_pos: Vector2) -> Vector2:
         print("WARNING: screen_to_world_coords received null position")
         return Vector2.ZERO
     
-    # Find the camera
-    var camera_node = get_camera()
-    if camera_node == null:
-        print("WARNING: No camera found in district " + district_name)
-        return screen_pos
+    # Ensure CoordinateManager is using this district
+    CoordinateManager.set_current_district(self)
     
-    # Use CoordinateSystem to handle the transformation
-    var world_pos = CoordinateSystem.screen_to_world(screen_pos, camera_node)
+    # Use CoordinateManager to transform coordinates
+    var world_pos = CoordinateManager.transform_coordinates(
+        screen_pos, 
+        CoordinateManager.CoordinateSpace.SCREEN_SPACE, 
+        CoordinateManager.CoordinateSpace.WORLD_SPACE
+    )
     
-    # Apply background scale factor if needed
-    if background_scale_factor != 1.0:
-        world_pos = CoordinateSystem.apply_scale_factor(world_pos, background_scale_factor)
-        print("Applied scale factor " + str(background_scale_factor) + " to world position: " + 
-              str(world_pos / background_scale_factor) + " → " + str(world_pos))
+    # Print debug info
+    print("BaseDistrict.screen_to_world_coords: " + str(screen_pos) + " → " + str(world_pos))
+    print("Used CoordinateManager for transformation")
     
     return world_pos
 
@@ -269,21 +272,19 @@ func world_to_screen_coords(world_pos: Vector2) -> Vector2:
         print("WARNING: world_to_screen_coords received null position")
         return Vector2.ZERO
     
-    # Find the camera
-    var camera_node = get_camera()
-    if camera_node == null:
-        print("WARNING: No camera found in district " + district_name)
-        return world_pos
+    # Ensure CoordinateManager is using this district
+    CoordinateManager.set_current_district(self)
     
-    # Apply background scale factor if needed
-    var adjusted_world_pos = world_pos
-    if background_scale_factor != 1.0:
-        adjusted_world_pos = CoordinateSystem.remove_scale_factor(world_pos, background_scale_factor)
-        print("Removed scale factor " + str(background_scale_factor) + " from world position: " + 
-              str(world_pos) + " → " + str(adjusted_world_pos))
+    # Use CoordinateManager to transform coordinates
+    var screen_pos = CoordinateManager.transform_coordinates(
+        world_pos, 
+        CoordinateManager.CoordinateSpace.WORLD_SPACE, 
+        CoordinateManager.CoordinateSpace.SCREEN_SPACE
+    )
     
-    # Use CoordinateSystem to handle the transformation
-    var screen_pos = CoordinateSystem.world_to_screen(adjusted_world_pos, camera_node)
+    # Print debug info
+    print("BaseDistrict.world_to_screen_coords: " + str(world_pos) + " → " + str(screen_pos))
+    print("Used CoordinateManager for transformation")
     
     return screen_pos
 

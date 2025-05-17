@@ -28,7 +28,7 @@ The easiest way to enable debug tools is through the debug console:
    - **F2**: Toggle polygon visualizer
    - **F3**: Toggle debug console
    - **F4**: Toggle debug overlay
-   - **V**: Toggle full view mode
+   - **Alt+W**: Toggle world view mode (was previously V key)
 
 ### Debug Command Options
 
@@ -42,7 +42,9 @@ debug coordinates         # Toggle coordinate picker
 debug polygon             # Toggle polygon visualizer
 debug console            # Toggle debug console
 debug overlay            # Toggle debug overlay
-debug fullview           # Toggle full view mode
+debug fullview           # Toggle world view mode (Alt+W)
+debug worldview          # Toggle world view mode (Alt+W)
+debug validate_walkable  # Validate coordinates against walkable areas
 ```
 
 ### Adding Debug Manager Programmatically
@@ -146,11 +148,11 @@ The coordinate picker shows the exact coordinates of your mouse position and all
 
 #### Usage:
 1. Hover over the area you want to measure
-2. For capturing walkable area coordinates in camera tests, press 'V' first to see the full background
+2. For capturing walkable area coordinates in camera tests, press 'Alt+W' first to see the full background
 3. Click to capture a coordinate in full view mode
 4. The coordinate will be displayed on screen and logged to a file
 5. Press 'C' to copy the coordinate for use in your code
-6. Press 'V' again to return to normal view when done with coordinate selection
+6. Press 'Alt+W' again to return to normal view when done with coordinate selection
 
 #### Log File Location:
 Coordinates are automatically logged to a file at:
@@ -381,14 +383,14 @@ The debug tools are modular and can be extended with new functionality:
 ## Example: Setting Up Walkable Areas for Camera Tests
 
 1. Run the camera test: `./a_silent_refraction.sh camera`
-2. Press 'V' to toggle to full background view (shows the entire background)
+2. Press 'Alt+W' to toggle to world view mode (shows the entire background)
 3. Click on the corners of the walkable floor area to capture coordinates
 4. All coordinates will be saved to the log file at `~/.local/share/godot/app_userdata/A Silent Refraction/logs/coordinates.log`
 5. Copy the coordinates from the log file
 6. Use these coordinates in the `setup_walkable_area()` function of your scene
-7. Press 'V' again to return to normal view and test camera scrolling
+7. Press 'Alt+W' again to return to normal view and test camera scrolling
 
-Note: When capturing coordinates for a walkable area, always use the 'V' key to see the full background first. This ensures you can define a walkable area that spans the entire scene, not just what's visible in the initial camera view.
+Note: When capturing coordinates for a walkable area, always use the 'Alt+W' key combination to see the full background first. This ensures you can define a walkable area that spans the entire scene, not just what's visible in the initial camera view.
 
 ## Example: Testing Performance with FPS Counter
 
@@ -405,7 +407,7 @@ The debug tools provide a powerful suite of features to help with development, t
 1. Enable debug tools at runtime in any scene without modifying code
 2. Toggle specific tools with function keys or console commands
 3. Capture and export polygon data for walkable areas
-4. View the entire background with the 'V' key in any scene
+4. View the entire background with the 'Alt+W' key combination in any scene
 5. Add debugging to new scenes with a single line of code
 
 The new unified system significantly improves the developer experience by providing consistent debug tools across all scenes. It eliminates redundancy, ensures proper camera integration, and provides a clean UI. 

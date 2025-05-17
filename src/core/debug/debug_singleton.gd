@@ -59,9 +59,9 @@ func _input(event):
             toggle_console()
             get_tree().set_input_as_handled()
             
-        # V key for toggling full view mode
-        elif event.scancode == KEY_V:
-            print("[DEBUG SINGLETON] V key detected - toggling full view mode")
+        # Alt+W for toggling world view (previously V key)
+        elif event.scancode == KEY_W and event.alt:
+            print("[DEBUG SINGLETON] Alt+W key detected - toggling world view mode")
             toggle_full_view()
             get_tree().set_input_as_handled()
             
@@ -264,8 +264,8 @@ func execute_command(command, args=[], scene=null):
             elif args[0].find("coord") >= 0 or args[0].find("pick") >= 0:
                 print("[DEBUG SINGLETON] Toggling coordinate picker via command: " + args[0])
                 return toggle_coordinate_picker()
-            elif args[0].find("full") >= 0 or args[0].find("view") >= 0:
-                print("[DEBUG SINGLETON] Toggling full view via command: " + args[0])
+            elif args[0].find("full") >= 0 or args[0].find("view") >= 0 or args[0] == "worldview":
+                print("[DEBUG SINGLETON] Toggling world view via command: " + args[0])
                 return toggle_full_view()
             # More commands can be added here as needed
     

@@ -202,10 +202,8 @@ func _setup_camera_bounds():
         print("Using default camera bounds based on screen size")
 
 func _calculate_district_bounds(district) -> Rect2:
-    # Create a Rect2 that encompasses all walkable areas
-    var result_bounds = Rect2(0, 0, 0, 0)
-    var first_point = true
-    var all_points = []  # Store all points for verification
+    # Use the BoundsCalculator service to calculate bounds from walkable areas
+    # This decouples the camera system from direct walkable area manipulation
     
     print("\n========== DISTRICT BOUNDS CALCULATION STARTED ==========")
     print("Background dimensions: " + str(district.background_size) if "background_size" in district else "Unknown")
@@ -213,55 +211,12 @@ func _calculate_district_bounds(district) -> Rect2:
     print("Current camera zoom: " + str(zoom))
     print("Number of walkable areas: " + str(district.walkable_areas.size()))
     
-    # Go through all walkable areas
-    for area in district.walkable_areas:
-        if area.polygon.size() == 0:
-            print("WARNING: Empty polygon in walkable area")
-            continue
-            
-        print("Processing walkable area: " + area.name + " with " + str(area.polygon.size()) + " points")
-        print("Area transform: " + str(area.transform))
-        
-        # Process each point in the polygon
-        for i in range(area.polygon.size()):
-            var point = area.polygon[i]
-            # Store local point for reference
-            all_points.append({"local": point, "index": i})
-            
-            # Convert to global coordinates
-            var global_point = area.to_global(point)
-            all_points[all_points.size()-1]["global"] = global_point
-            
-            # Debug output for coordinate conversion
-            print("Point " + str(i) + " - Local: " + str(point) + ", Global: " + str(global_point))
-            
-            if first_point:
-                # Initialize bounds with first point
-                result_bounds = Rect2(global_point, Vector2.ZERO)
-                first_point = false
-            else:
-                # Expand bounds to include this point
-                # Test if expand is working properly
-                var prev_bounds = result_bounds
-                result_bounds = result_bounds.expand(global_point)
-                
-                # Verify expand actually worked
-                if prev_bounds == result_bounds:
-                    # This is actually normal for rectangular polygons where the first point already defined the min/max
-                    # We'll use a print instead of push_error to avoid scaring users, and still handle it correctly
-                    print("Note: Rect2.expand() did not change bounds for point " + str(global_point) + 
-                          " - this is normal for some polygon arrangements")
-                    # Manually expand bounds if needed
-                    result_bounds = Rect2(
-                        min(result_bounds.position.x, global_point.x),
-                        min(result_bounds.position.y, global_point.y),
-                        max(result_bounds.end.x, global_point.x) - min(result_bounds.position.x, global_point.x),
-                        max(result_bounds.end.y, global_point.y) - min(result_bounds.position.y, global_point.y)
-                    )
+    # Use the BoundsCalculator service to calculate bounds
+    var result_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas(district.walkable_areas)
     
-    # If no walkable areas were found or bounds calculation failed, use a default area
-    if first_point:
-        print("WARNING: No valid walkable areas found, using default bounds")
+    # If the calculation returned a zero-size rectangle, use default values
+    if result_bounds.size == Vector2.ZERO:
+        print("WARNING: BoundsCalculator returned empty bounds, using defaults")
         if "background_size" in district and district.background_size != Vector2.ZERO:
             # Default to background size if available
             result_bounds = Rect2(Vector2.ZERO, district.background_size)
@@ -269,48 +224,20 @@ func _calculate_district_bounds(district) -> Rect2:
             # Otherwise use screen size
             result_bounds = Rect2(0, 0, screen_size.x, screen_size.y)
     
-    print("Raw calculated bounds: " + str(result_bounds))
-    
-    # SAFETY CHECKS AND CORRECTIONS
-    
-    # Check 1: Very small height (normal for floor walkable areas)
-    if result_bounds.size.y < 100:
-        # Log the info message - small heights are expected for floor walkable areas
-        print("INFO: Walkable area height is " + str(result_bounds.size.y) + " pixels")
-        print("This is normal for floor-based walkable areas")
-        
-        # Expand the height slightly for better camera behavior
-        # Add some pixels above and below the walkable area for better visibility
-        var center_y = result_bounds.position.y + result_bounds.size.y / 2
-        var expanded_height = 200 # Enough to show some space above and below the floor
-        result_bounds.position.y = center_y - expanded_height / 2
-        result_bounds.size.y = expanded_height
-        print("Adjusting camera height bounds to " + str(expanded_height) + " pixels for better visibility")
-        print("This preserves the exact floor walkable area while improving camera view")
-    
-    # Check 2: Very small width (indicates possible calculation error)
-    if result_bounds.size.x < 100:
-        push_error("WARNING: Suspicious bounds width detected: " + str(result_bounds.size.x))
-        
-        # Similar correction as for height
-        var center_x = result_bounds.position.x + result_bounds.size.x / 2
-        result_bounds.position.x = center_x - 100
-        result_bounds.size.x = 200
-        print("Enforced minimum bounds width")
-    
-    # Check 3: Consider background size but don't automatically expand
+    # Apply any district-specific adjustments
     if "background_size" in district and district.background_size != Vector2.ZERO:
-        var bg_size = district.background_size
-        
-        # If walkable area is significantly smaller than background, log a warning
-        # but respect the custom walkable area coordinates
-        if result_bounds.size.x < bg_size.x * 0.5 or result_bounds.size.y < bg_size.y * 0.5:
-            print("NOTE: Walkable area is much smaller than background.")
-            print("This is often intentional for floor-based walkable areas.")
-            print("Using the exact walkable area as specified in the coordinates.")
+        # Consider background size in bounds calculation
+        if result_bounds.size.x < district.background_size.x * 0.3:
+            print("NOTE: Calculated bounds width is less than 30% of background width.")
+            print("This may indicate an issue with walkable area coordinates.")
     
-    print("Final corrected bounds: " + str(result_bounds))
+    print("Final district bounds: " + str(result_bounds))
     print("========== DISTRICT BOUNDS CALCULATION COMPLETED ==========\n")
+    
+    # Create a debug visualization in development builds
+    if OS.is_debug_build() and debug_draw:
+        if get_parent() and "add_child" in get_parent():
+            BoundsCalculator.create_bounds_visualization(result_bounds, get_parent())
     
     return result_bounds
 

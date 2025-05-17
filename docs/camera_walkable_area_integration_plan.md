@@ -22,7 +22,7 @@ This document outlines a comprehensive plan for addressing issues with the tight
 
 4. **Debug System Integration**:
    - Debug tools (`docs/debug_tools.md`) are designed to capture coordinates in World View
-   - The documentation explicitly instructs users to press 'V' to toggle full background view before capturing coordinates
+   - The documentation explicitly instructs users to press 'Alt+W' to toggle full background view before capturing coordinates
    - Debug Coordinate Picker is the primary tool used for defining walkable areas
    - The coordinate picker functions as a mediator between the camera and walkable area systems
 
@@ -108,11 +108,24 @@ This plan follows a phased approach to address issues while minimizing risk. Eac
    - Add warning dialogs when attempting to use coordinates captured in the wrong view mode
    - Implement a "Validate Walkable Area" debug command to check for common issues
 
-4. **Create Comprehensive Tests**:
+4. **Update Debug Keybindings to Prevent Conflicts**:
+   - Modify debug_singleton.gd to change the 'V' key binding for toggling full view mode
+   - Update debug_manager.gd to use the 'Alt+W' key combination instead
+   - Update any documentation or UI text that refers to the 'V' key for toggling view modes
+   - This prevents keybinding conflicts with the debug console when typing commands
+
+5. **Create Regression Testing Protocol**:
+   - Set up testing scenarios for all camera views (left, center, right)
+   - Test camera behavior with different walkable area configurations for each view
+   - Verify camera properly constrains to walkable area boundaries in all scenarios
+   - Document test cases for future regression testing
+
+6. **Create Comprehensive Tests**:
    - Implement test scenes for coordinate transformations in different views
    - Add automated tests for camera bounds calculation 
-   - Create regression tests that verify walkable areas work correctly with camera system
    - Test coordinate capture in both World View and Game View
+   - Test the updated validate_walkable debug console command functionality
+   - Create tests that verify walkable areas work correctly with different camera views
 
 ### Phase 4: Documentation and Standardization (LOW RISK)
 

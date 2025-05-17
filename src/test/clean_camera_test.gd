@@ -12,7 +12,7 @@ func _ready():
 	
 	# Configure the camera system
 	use_scrolling_camera = true
-	initial_camera_view = "right"  # Show the right side of the background
+	initial_camera_view = "right"  # Show the right side of the background to test edge camera positioning
 	
 	# Setup background
 	var background = Sprite.new()
@@ -47,11 +47,20 @@ func create_walkable_area():
 	# They are captured in World View coordinates and are critical for proper camera bounds.
 	# DO NOT MODIFY these coordinates without understanding the coordinate system relationship
 	# between World View and Game View modes. See docs/walkable_area_system.md for details.
+	# 
+	# Updated on May 17, 2025 with new coordinates captured using Alt+W world view mode.
 	var designer_selected_points = PoolVector2Array([
-		Vector2(1255, 215),    # Top-left
-		Vector2(1223, 396),    # Bottom-left
-		Vector2(3759, 396),    # Bottom-right
-		Vector2(3731, 201)     # Top-right
+		Vector2(234, 816),     # Top-left edge
+		Vector2(-2, 826),      # Left edge
+		Vector2(-2, 944),      # Bottom-left corner
+		Vector2(4686, 944),    # Bottom-right corner
+		Vector2(4676, 840),    # Right edge
+		Vector2(3672, 854),    # Upper-right area
+		Vector2(3186, 812),    # Mid-upper area
+		Vector2(1942, 802),    # Mid-upper area
+		Vector2(692, 851),     # Mid-left area
+		Vector2(480, 889),     # Lower-left area
+		Vector2(258, 871)      # Upper-left area
 	])
 	
 	walkable.polygon = designer_selected_points
@@ -98,7 +107,7 @@ func add_test_ui():
 	var debug_label = Label.new()
 	debug_label.name = "DebugLabel"
 	debug_label.rect_position = Vector2(10, 100)
-	debug_label.text = "Testing fixed walkable area coordinates\nVerify green polygon spans full floor width"
+	debug_label.text = "Testing right camera view with updated walkable area\nVerify green polygon spans full floor width"
 	debug_label.add_color_override("font_color", Color(0, 1, 0))
 	
 	var debug_bg = ColorRect.new()

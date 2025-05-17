@@ -35,6 +35,10 @@ func _ready():
 	# Try to find the parent district
 	_find_district()
 	
+	# Update the CoordinateManager with the current district
+	if district:
+		CoordinateManager.set_current_district(district)
+	
 	print("Coordinate Picker Debug Tool Activated")
 	print("Click to capture coordinates. Press C to copy last coordinates.")
 	if district:
@@ -48,6 +52,9 @@ func _find_district():
 		if parent is BaseDistrict:
 			district = parent
 			print("Found district: " + district.district_name)
+			
+			# Update the CoordinateManager with the current district
+			CoordinateManager.set_current_district(district)
 			return
 		parent = parent.get_parent()
 	
@@ -56,9 +63,39 @@ func _find_district():
 	if current_scene is BaseDistrict:
 		district = current_scene
 		print("Found district as current scene: " + district.district_name)
+		
+		# Update the CoordinateManager with the current district
+		CoordinateManager.set_current_district(district)
 	else:
 		print("No district found, coordinate transformations will not be applied")
 	
+# Check if a position is inside a walkable area
+func is_inside_walkable_area(position: Vector2) -> bool:
+	if district == null:
+		print("WARNING: Cannot check walkable area - no district found")
+		return false
+		
+	# Check if the district has walkable areas defined
+	if not district.has("walkable_areas") or district.walkable_areas.size() == 0:
+		print("WARNING: District has no walkable areas defined")
+		return false
+		
+	# Check each walkable area to see if the point is inside
+	for area in district.walkable_areas:
+		if area.polygon.size() == 0:
+			continue
+			
+		# Convert position to local coordinates for the walkable area
+		var local_pos = area.to_local(position)
+		
+		# Check if the point is inside the polygon
+		if Geometry.is_point_in_polygon(local_pos, area.polygon):
+			print("Coordinate is inside walkable area: " + area.name)
+			return true
+			
+	# Not inside any walkable area
+	print("WARNING: Coordinate is outside all walkable areas")
+	return false
 func setup_ui():
 	# Create control node to hold all labels
 	var control = Control.new()

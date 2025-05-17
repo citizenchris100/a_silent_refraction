@@ -140,8 +140,14 @@ func _ready():
 	
 	command_system.register_subcommand(
 		"debug", "fullview", 
-		"Toggle the full view mode for debug tools",
+		"Toggle the full view mode for debug tools (Alt+W)",
 		"debug fullview"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "worldview", 
+		"Toggle the world view mode for seeing the entire background (Alt+W)",
+		"debug worldview"
 	)
 	
 	command_system.register_subcommand(
@@ -160,6 +166,12 @@ func _ready():
 		"debug", "off", 
 		"Disable the debug manager",
 		"debug off"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "validate_walkable", 
+		"Validate walkable area coordinates",
+		"debug validate_walkable [x1 y1 x2 y2 ...]"
 	)
 	
 	command_system.register_command(
@@ -524,6 +536,10 @@ func cmd_debug(args):
 	var debug_manager = current_scene.get_node_or_null("DebugManager")
 	print("[DEBUG CONSOLE] Local DebugManager found: ", debug_manager != null)
 	
+	# Special case for validate_walkable
+	if args.size() > 0 and args[0].to_lower() == "validate_walkable":
+		return handle_validate_walkable(args.slice(1, args.size() - 1), current_scene)
+	
 	# Check if args specify on/off
 	var turn_on = true
 	if args.size() > 0:
@@ -569,9 +585,9 @@ func cmd_debug(args):
 			"overlay":
 				debug_manager.toggle_debug_overlay()
 				return "Toggled debug overlay " + ("ON" if debug_manager.overlay_visible else "OFF")
-			"fullview", "view":
+			"fullview", "view", "worldview":
 				debug_manager.toggle_full_view()
-				return "Toggled full view " + ("ON" if debug_manager.full_view_mode else "OFF")
+				return "Toggled world view " + ("ON" if debug_manager.full_view_mode else "OFF")
 			_:
 				return "Unknown tool name. Available tools: coordinates, polygon, console, overlay, fullview"
 		
@@ -638,6 +654,56 @@ func find_camera(node):
 			return camera
 			
 	return null
+
+# Handler for the validate_walkable subcommand
+func handle_validate_walkable(coordinates_args, current_scene):
+	print("[DEBUG CONSOLE] Validating walkable area coordinates: ", coordinates_args)
+	
+	# Check if we have coordinates to validate
+	if coordinates_args.size() < 2:
+		return "Usage: debug validate_walkable [x1 y1 x2 y2 ...]\nProvide coordinate pairs (x,y) to validate against walkable areas"
+	
+	# Check if we have an odd number of arguments (incomplete coordinate pair)
+	if coordinates_args.size() % 2 != 0:
+		return "Error: Incomplete coordinate pair. Each point needs both X and Y values."
+	
+	# Convert string arguments to Vector2 points
+	var points = []
+	for i in range(0, coordinates_args.size(), 2):
+		var x = float(coordinates_args[i])
+		var y = float(coordinates_args[i+1])
+		points.append(Vector2(x, y))
+	
+	print("[DEBUG CONSOLE] Parsed points: ", points)
+	
+	# Create the validator instance
+	var validator = load("res://src/core/debug/validate_walkable_area.gd").new()
+	validator.name = "WalkableAreaValidator"
+	current_scene.add_child(validator)
+	
+	# Connect to the validation completed signal
+	validator.connect("validation_completed", self, "_on_validation_completed")
+	
+	# Run the validation
+	var success = validator.validate(points)
+	
+	# Return initial result (full results will come via the signal)
+	return "Validating " + str(points.size()) + " points against walkable areas...\nView the visual result in the scene."
+
+# Signal callback for validation completion
+func _on_validation_completed(result):
+	var summary = "Validation complete:\n"
+	summary += str(result.valid_points.size()) + " points inside walkable areas\n"
+	summary += str(result.invalid_points.size()) + " points outside walkable areas"
+	
+	print_output(summary, Color(0, 1, 0) if result.all_valid else Color(1, 0.5, 0))
+	
+	# If we have invalid points, show detailed information
+	if result.invalid_points.size() > 0:
+		var details = "Invalid points details:\n"
+		for point in result.invalid_points:
+			details += "Point " + str(point.index) + ": " + str(point.original) + " is outside walkable areas\n"
+		print_output(details, Color(1, 0.5, 0))
 
 # Utility function to find a node by name
 func find_node_by_name(root, name):
