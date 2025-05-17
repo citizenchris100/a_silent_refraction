@@ -20,6 +20,12 @@ This document outlines a comprehensive plan for addressing issues with the tight
    - Debug tools (Coordinate Picker) create inconsistent results between different view modes
    - Visualization settings (visibility) affect usability but not core functionality
 
+4. **Debug System Integration**:
+   - Debug tools (`docs/debug_tools.md`) are designed to capture coordinates in World View
+   - The documentation explicitly instructs users to press 'V' to toggle full background view before capturing coordinates
+   - Debug Coordinate Picker is the primary tool used for defining walkable areas
+   - The coordinate picker functions as a mediator between the camera and walkable area systems
+
 ### Architecture Principles at Risk
 
 1. **Minimal Coupling (Principle #1)**:
@@ -48,9 +54,16 @@ This plan follows a phased approach to address issues while minimizing risk. Eac
    - Edit `src/test/clean_camera_test.gd` to restore the original, working walkable area coordinates from commit 3ceb3e7
    - Test camera behavior extensively after restoring coordinates to ensure no regressions
 
-2. **Document the Fix**:
+2. **Fix Debug Coordinates System**:
+   - Identify the last commit where the debug coordinates system functioned correctly
+   - Compare debug_manager.gd, coordinate_picker.gd, and related debug files between working and current versions
+   - Apply necessary fixes to restore proper coordinate capture and transformation functionality
+   - Test coordinate capture in both World View and Game View modes
+
+3. **Document the Fix**:
    - Add detailed comments explaining the coordinate system and its importance
    - Note the camera-walkable area relationship to prevent future issues
+   - Document the correct process for capturing walkable area coordinates
 
 ### Phase 2: Clear Interface Definition (MEDIUM RISK)
 
@@ -89,10 +102,17 @@ This plan follows a phased approach to address issues while minimizing risk. Eac
    - Modify ScrollingCamera to use this service instead of direct walkable area manipulation
    - This creates a buffer layer between the two systems
 
-3. **Create Comprehensive Tests**:
+3. **Improve Debug System Integration**:
+   - Update `coordinate_picker.gd` to explicitly indicate when in World View vs Game View
+   - Add validation to prevent usage of untransformed coordinates between views
+   - Add warning dialogs when attempting to use coordinates captured in the wrong view mode
+   - Implement a "Validate Walkable Area" debug command to check for common issues
+
+4. **Create Comprehensive Tests**:
    - Implement test scenes for coordinate transformations in different views
-   - Add automated tests for camera bounds calculation
+   - Add automated tests for camera bounds calculation 
    - Create regression tests that verify walkable areas work correctly with camera system
+   - Test coordinate capture in both World View and Game View
 
 ### Phase 4: Documentation and Standardization (LOW RISK)
 
@@ -104,16 +124,20 @@ This plan follows a phased approach to address issues while minimizing risk. Eac
    - Update `docs/walkable_area_system.md` with implementation details
    - Create `docs/coordinate_system.md` explaining all coordinate spaces
    - Add `docs/camera_system.md` with details on camera bounds calculation
+   - Update `docs/debug_tools.md` with clear instructions on coordinate capture in different view modes
 
 2. **Create Debug Visualizations**:
    - Implement a debug overlay showing coordinate systems
    - Add visual indicators for coordinate transformations
    - Create a dedicated debug tool for walkable area editing
+   - Add color-coding to show coordinates captured in different view modes
 
 3. **Standardize Workflows**:
    - Define clear procedures for adding/editing walkable areas
    - Create standard testing protocol for changes to either system
    - Document common pitfalls and their solutions
+   - Create a step-by-step guide for capturing and using coordinates
+   - Add walkable area validation steps to the development workflow
 
 ## Implementation Details
 
@@ -247,6 +271,7 @@ static func apply_safety_corrections(bounds: Rect2) -> Rect2:
 | Action | Risk Level | Potential Issues | Mitigation |
 |--------|------------|------------------|------------|
 | Restore working coordinates | LOW | Minor visual changes | Test extensively before committing |
+| Fix debug coordinates system | MEDIUM | May affect coordinate capture in other scenes | Apply minimal changes, thoroughly test before and after |
 | Implement missing methods in BaseDistrict | MEDIUM | Conflicts with existing code | Start with minimal implementations, then expand |
 | Create CoordinateSystem class | MEDIUM | Overlooking edge cases | Thorough testing with various scenarios |
 | Refactor camera bounds calculation | HIGH | Breaking camera functionality | Create parallel implementation before switching |
