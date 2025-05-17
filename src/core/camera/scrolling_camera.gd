@@ -559,6 +559,16 @@ func calculate_optimal_zoom():
         background_node.scale = Vector2(height_scale, height_scale)
         print("Applied new scale to background: " + str(background_node.scale))
         
+        # Update district's scale factor for coordinate transformation
+        if district is BaseDistrict:
+            district.background_scale_factor = height_scale
+            print("Updated district.background_scale_factor to " + str(height_scale))
+            
+            # Re-calculate bounds to account for the new scale factor
+            if bounds_enabled and "walkable_areas" in district and district.walkable_areas.size() > 0:
+                camera_bounds = _calculate_district_bounds(district)
+                print("Updated camera bounds after setting scale factor: " + str(camera_bounds))
+        
         # Center the background vertically - CRITICAL for proper display
         if background_node.centered == false:
             # For non-centered sprites, we need to calculate precise y position for vertical centering
@@ -672,17 +682,59 @@ func _set_initial_camera_position():
             if scroll_enabled:
                 # Position camera to show only the left portion of the background
                 # We want to show the leftmost portion of the background
-                # We need to position the camera so that the left edge of the screen aligns with the left edge of the background
-                # Calculate by adding half the screen width to the left edge of the bounds
+                # First try to find the actual background sprite to get accurate dimensions
+                var district = get_parent()
+                var background_node = district.get_node_or_null("Background") if district else null
+                var bg_start_x = 0
+                var effective_height = 0
+                
+                if background_node and background_node is Sprite and background_node.texture:
+                    # Get scaled dimensions and left edge position
+                    var bg_texture_size = background_node.texture.get_size()
+                    var scale = background_node.scale
+                    effective_height = bg_texture_size.y * scale.y
+                    bg_start_x = background_node.position.x
+                    print("Using background start position: " + str(bg_start_x))
+                    print("Using scaled background height: " + str(effective_height))
+                elif district is BaseDistrict and "background_size" in district and district.background_size != Vector2.ZERO:
+                    # Use district values as fallback
+                    effective_height = district.background_size.y
+                    print("Using district background height: " + str(effective_height))
+                else:
+                    # Fallback to camera bounds
+                    bg_start_x = camera_bounds.position.x
+                    effective_height = camera_bounds.size.y
+                    print("Using camera bounds for position calculation")
+                
+                # Calculate the screen half width accounting for zoom
                 var screen_half_width = get_viewport_rect().size.x / 2 / zoom.x
-                var left_side_position = camera_bounds.position.x + screen_half_width
-                print("Left side position calculation: Left edge " + str(camera_bounds.position.x) + 
-                      " + half screen width " + str(screen_half_width) + " = " + str(left_side_position))
-                new_position = Vector2(
-                    left_side_position,
-                    camera_bounds.position.y + camera_bounds.size.y / 2
-                )
+                
+                # FIXED: Position the camera to show the leftmost part of background
+                # The camera position should be exactly screen_half_width from the left edge
+                # This ensures the left edge of the background appears at the left edge of the screen
+                var left_side_position = bg_start_x + screen_half_width
+                
+                # Ensure vertical center positioning
+                var center_y = effective_height / 2
+                
+                print("Left side position calculation:")
+                print("- Background left edge: " + str(bg_start_x))
+                print("- Half screen width (adjusted for zoom): " + str(screen_half_width))
+                print("- Calculated left position: " + str(left_side_position))
+                print("- Vertical center: " + str(center_y))
+                
+                new_position = Vector2(left_side_position, center_y)
                 print("Positioning camera at left portion: " + str(new_position))
+                
+                # Apply a small adjustment if needed to ensure extreme left edge is visible
+                var left_edge_visible = left_side_position - screen_half_width
+                
+                if left_edge_visible > bg_start_x + 5:
+                    # If our calculated view doesn't reach the left edge, adjust to show it
+                    var adjustment = (bg_start_x + 5) - left_edge_visible
+                    new_position.x += adjustment
+                    print("Applied adjustment of " + str(adjustment) + " pixels to show extreme left edge")
+                    print("Adjusted final position: " + str(new_position))
             else:
                 # If background isn't wide enough, center it
                 new_position = Vector2(
@@ -726,8 +778,13 @@ func _set_initial_camera_position():
                 debug_log("camera", "Step 1: Calculating right side position", "RIGHT_VIEW")
                 
                 # Position camera to show the extreme right edge of the background
-                # Subtract half screen width from total background width to show right edge
+                # For this, we position the camera so its right edge exactly matches the background's right edge
                 var right_side_position = full_bg_width - screen_half_width
+                
+                # Debug output for right edge calculation
+                print("RIGHT VIEW CALCULATION: full_bg_width = " + str(full_bg_width))
+                print("RIGHT VIEW CALCULATION: screen_half_width = " + str(screen_half_width))
+                print("RIGHT VIEW CALCULATION: right_side_position = " + str(right_side_position))
                 
                 # Ensure vertical center positioning
                 var center_y = effective_height / 2
@@ -751,13 +808,27 @@ func _set_initial_camera_position():
                 new_position = Vector2(right_side_position, center_y)
                 debug_log("camera", "Step 2: Initial camera position for RIGHT view: " + str(new_position), "RIGHT_VIEW")
                 
-                # Apply a small adjustment if needed to ensure extreme right edge is visible
-                # We add a tiny buffer of 5 pixels to avoid any rounding issues
-                if background_node and right_side_position + screen_half_width < full_bg_width:
-                    var adjustment = full_bg_width - (right_side_position + screen_half_width) + 5
+                # FIXED: Only apply adjustments when absolutely necessary
+                # This prevents the camera from overshooting or undershooting the right edge
+                # We add a small buffer (5 pixels) to ensure we see the absolute edge
+                var right_edge_visible = right_side_position + screen_half_width
+                var adjustment = 0
+                
+                if right_edge_visible < full_bg_width - 5:
+                    # If our calculated view doesn't reach the right edge, adjust to show it
+                    adjustment = (full_bg_width - 5) - right_edge_visible
+                    debug_log("camera", "Edge not fully visible, need positive adjustment", "RIGHT_VIEW")
+                elif right_edge_visible > full_bg_width + 5:
+                    # If our view extends beyond the right edge, adjust inward slightly
+                    adjustment = (full_bg_width + 5) - right_edge_visible
+                    debug_log("camera", "Edge overshot, need negative adjustment", "RIGHT_VIEW")
+                
+                if adjustment != 0:
                     new_position.x += adjustment
-                    debug_log("camera", "Step 3: Applied adjustment of " + str(adjustment) + " pixels to show extreme right edge", "RIGHT_VIEW")
+                    debug_log("camera", "Step 3: Applied adjustment of " + str(adjustment) + " pixels", "RIGHT_VIEW")
                     debug_log("camera", "Step 3: Adjusted final position: " + str(new_position), "RIGHT_VIEW")
+                else:
+                    debug_log("camera", "Step 3: No adjustment needed, position is optimal", "RIGHT_VIEW")
                 
                 # Store the calculated position for debugging (after adjustments)
                 debug_calculated_position = new_position
@@ -807,17 +878,23 @@ func _set_initial_camera_position():
             var distance = global_position.distance_to(center)
             print("[CAMERA DEBUG] Distance from camera to walkable center: " + str(distance))
             
-            # IMPORTANT: Don't override camera position for edge views
-            # This prevents the safety check from interfering with showing edges
-            if distance > 1000 and initial_view != "right" and initial_view != "left":
-                print("[CAMERA DEBUG] WARNING: Camera positioned too far from walkable area center.")
+            # Never override explicitly set camera views (left, center, right)
+            # This ensures all view settings are respected equally.
+            # We still log warnings if the camera position seems very far from the walkable area, 
+            # but we NEVER override these intentional position settings.
+            
+            # Never override explicitly set view positions in edge views (left/right)!
+            # Just provide debug information when the distance seems unusual
+            if OS.is_debug_build() and distance > 2000:
+                print("[CAMERA DEBUG] WARNING: Camera position is very far from walkable area center (" + str(distance) + " pixels).")
                 print("[CAMERA DEBUG] Camera: " + str(global_position) + ", Walkable center: " + str(center))
-                print("[CAMERA DEBUG] Adjusting camera to use walkable area center")
-                global_position = center
-                print("[CAMERA DEBUG] Camera position adjusted to: " + str(global_position))
-            elif initial_view == "right" or initial_view == "left":
-                print("[CAMERA DEBUG] Maintaining edge view position despite distance from walkable area")
-                print("[CAMERA DEBUG] Current camera position: " + str(global_position))
+                print("[CAMERA DEBUG] This may indicate an issue with the walkable area definition.")
+                print("[CAMERA DEBUG] However, the position will be maintained since it is explicitly set.")
+            
+            # Maintain explicit view settings ALWAYS, never override them
+            print("[CAMERA DEBUG] Maintaining edge view position despite distance from walkable area")
+            print("[CAMERA DEBUG] Current camera position: " + str(global_position) + 
+                  " (distance from walkable center: " + str(distance) + " pixels)")
     
     # Calculate and print view ratio for debugging
     var view_width = screen_size.x / zoom.x
