@@ -6,6 +6,7 @@ export var district_name = "Unknown District"
 export var district_description = "A district on the station"
 export var animated_elements_config = ""  # Path to JSON config for animated elements
 export var background_size = Vector2(3000, 1500)  # Default background size for camera bounds and calculations
+export var background_scale_factor = 1.0  # Scale factor for coordinate transformations between views
 
 # Camera properties
 export var use_scrolling_camera = false  # Whether this district uses scrolling camera
@@ -231,3 +232,56 @@ func exit_district():
 # This method will be implemented in a future iteration
 func register_locations():
     return {}
+
+# Convert screen coordinates to world coordinates
+func screen_to_world_coords(screen_pos: Vector2) -> Vector2:
+    # Find the camera
+    var camera_node = get_camera()
+    if camera_node:
+        # Use the camera's conversion method if available
+        if camera_node.has_method("screen_to_world"):
+            var world_pos = camera_node.screen_to_world(screen_pos)
+            # Apply background scale factor if needed
+            if background_scale_factor != 1.0:
+                world_pos *= background_scale_factor
+            return world_pos
+        else:
+            # Fallback to standard formula
+            var world_pos = camera_node.get_global_position() + ((screen_pos - get_viewport_rect().size/2) * camera_node.zoom)
+            if background_scale_factor != 1.0:
+                world_pos *= background_scale_factor
+            return world_pos
+    # If no camera, return screen_pos as-is
+    return screen_pos
+
+# Convert world coordinates to screen coordinates
+func world_to_screen_coords(world_pos: Vector2) -> Vector2:
+    # Find the camera
+    var camera_node = get_camera()
+    if camera_node:
+        # Apply background scale factor if needed
+        var adjusted_world_pos = world_pos
+        if background_scale_factor != 1.0:
+            adjusted_world_pos /= background_scale_factor
+            
+        # Use the camera's conversion method if available
+        if camera_node.has_method("world_to_screen"):
+            return camera_node.world_to_screen(adjusted_world_pos)
+        else:
+            # Fallback to standard formula
+            return (adjusted_world_pos - camera_node.get_global_position()) / camera_node.zoom + get_viewport_rect().size/2
+    # If no camera, return world_pos as-is
+    return world_pos
+
+# Get the camera in this district
+func get_camera() -> Camera2D:
+    # Check if we already have a camera reference
+    if camera != null:
+        return camera
+        
+    # Find any camera in the district
+    for child in get_children():
+        if child is Camera2D:
+            camera = child
+            return camera
+    return null
