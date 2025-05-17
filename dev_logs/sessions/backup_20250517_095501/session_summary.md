@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 17, 2025 - Scrolling Camera Implementation (🟢 IN PROGRESS)
-- **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
-- **Focus:** Shipping District Camera Integration
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-17_09-55-01.md)
-
 ### May 17, 2025 - Work on Iteration 2 Tasks (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
 - **Focus:** Iteration Planning and NPC Registry System
