@@ -48,15 +48,10 @@ func create_walkable_area():
 	# DO NOT MODIFY these coordinates without understanding the coordinate system relationship
 	# between World View and Game View modes. See docs/walkable_area_system.md for details.
 	var designer_selected_points = PoolVector2Array([
-		Vector2(15, 861),       # Left edge
-		Vector2(491, 889),
-		Vector2(671, 865),
-		Vector2(1644, 812),
-		Vector2(3193, 819),
-		Vector2(3669, 865),
-		Vector2(4672, 844),     # Right edge
-		Vector2(4683, 941),     # Bottom-right corner
-		Vector2(11, 930)        # Bottom-left corner
+		Vector2(1588, 538),    # Top-left
+		Vector2(1574, 795),    # Bottom-left
+		Vector2(3200, 795),    # Bottom-right
+		Vector2(3196, 541)     # Top-right
 	])
 	
 	walkable.polygon = designer_selected_points
@@ -68,7 +63,7 @@ func create_walkable_area():
 	walkable.add_to_group("walkable_area")
 	
 	add_child(walkable)
-	print("Created walkable area for camera test with VERIFIED coordinates that span the entire floor")
+	print("Created walkable area for camera test using coordinates selected during previous test")
 
 # Override the setup_scrolling_camera method to disable debug drawing
 func setup_scrolling_camera():
