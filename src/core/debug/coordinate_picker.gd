@@ -3,6 +3,7 @@ extends Node2D
 # Coordinate Picker - Debug Tool
 # Shows exact coordinates when clicking on the screen and tracks click history
 # Modified to use Godot UI controls rather than direct font rendering
+# Enhanced to handle district coordinate transformations
 
 # Add signal for integration with debug manager
 signal coordinate_selected(position)
@@ -18,6 +19,7 @@ var mouse_position = Vector2()
 var copying = false
 var coord_labels = []
 var current_label
+var district = null  # Reference to the district we're in (if any)
 
 func _ready():
 	# Set up UI for coordinate display
@@ -27,8 +29,32 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 	
+	# Try to find the parent district
+	_find_district()
+	
 	print("Coordinate Picker Debug Tool Activated")
 	print("Click to capture coordinates. Press C to copy last coordinates.")
+	if district:
+		print("District-aware mode active: Using " + district.district_name)
+		print("Background scale factor: " + str(district.background_scale_factor))
+	
+func _find_district():
+	# Try to find a BaseDistrict in the scene hierarchy
+	var parent = get_parent()
+	while parent:
+		if parent is BaseDistrict:
+			district = parent
+			print("Found district: " + district.district_name)
+			return
+		parent = parent.get_parent()
+	
+	# If not found as a parent, try to find in the current scene
+	var current_scene = get_tree().get_current_scene()
+	if current_scene is BaseDistrict:
+		district = current_scene
+		print("Found district as current scene: " + district.district_name)
+	else:
+		print("No district found, coordinate transformations will not be applied")
 	
 func setup_ui():
 	# Create control node to hold all labels
@@ -189,15 +215,26 @@ func _input(event):
 			print("Camera position: " + str(camera.get_global_position()))
 			print("Camera zoom: " + str(camera.zoom))
 			print("Viewport size: " + str(get_viewport_rect().size))
-			print("Converted world position: " + str(world_pos))
+			print("Initial world position: " + str(world_pos))
+		
+		# Apply district coordinate transformation if we're in a district
+		var screen_pos = world_pos
+		var final_world_pos = world_pos
+		if district and district.has_method("screen_to_world_coords"):
+			# Convert from screen space to world space using district's transformation
+			final_world_pos = district.screen_to_world_coords(world_pos)
+			print("District found. Applying coordinate transformation:")
+			print("Background scale factor: " + str(district.background_scale_factor))
+			print("Original position: " + str(screen_pos))
+			print("Transformed position: " + str(final_world_pos))
 		
 		# Add to history with timestamp
 		var timestamp = OS.get_time()
 		var time_text = "%02d:%02d:%02d" % [timestamp.hour, timestamp.minute, timestamp.second]
-		coordinate_history.push_front({"position": world_pos, "time": time_text})
+		coordinate_history.push_front({"position": final_world_pos, "time": time_text})
 		
 		# Emit signal for debug manager integration
-		emit_signal("coordinate_selected", world_pos)
+		emit_signal("coordinate_selected", final_world_pos)
 		
 		# Limit history size
 		if coordinate_history.size() > max_history:
@@ -205,18 +242,37 @@ func _input(event):
 		
 		# CRITICAL: Create a very visible message that's more likely to show in console
 		var separator = "##################################################################"
-		var coord_message = "COORDINATE: Vector2(%d, %d)" % [world_pos.x, world_pos.y]
+		var coord_message = "COORDINATE: Vector2(%d, %d)" % [final_world_pos.x, final_world_pos.y]
 		
-		# Create a visual log to the game output - this will be harder to miss
-		print("\n" + separator + "\n")
-		print("CLICKED AT TIME: " + time_text)
-		print(coord_message)
-		print(separator + "\n")
-		
-		# Use print instead of push_error to avoid marking coordinates as errors
-		print("IMPORTANT: " + separator)
-		print("IMPORTANT: " + coord_message)
-		print("IMPORTANT: " + separator)
+		# If we applied district transformation, show both screen space and world space coordinates
+		if district and district.background_scale_factor != 1.0:
+			var screen_message = "SCREEN SPACE: Vector2(%d, %d)" % [screen_pos.x, screen_pos.y]
+			var world_message = "WORLD SPACE: Vector2(%d, %d)" % [final_world_pos.x, final_world_pos.y]
+			var scale_message = "SCALE FACTOR: " + str(district.background_scale_factor)
+			
+			print("\n" + separator + "\n")
+			print("CLICKED AT TIME: " + time_text)
+			print(screen_message + " ➡️ " + world_message)
+			print(scale_message)
+			print(separator + "\n")
+			
+			# Use print instead of push_error to avoid marking coordinates as errors
+			print("IMPORTANT: " + separator)
+			print("IMPORTANT: " + world_message)
+			print("IMPORTANT: " + screen_message)
+			print("IMPORTANT: " + scale_message)
+			print("IMPORTANT: " + separator)
+		else:
+			# Create a visual log to the game output - this will be harder to miss
+			print("\n" + separator + "\n")
+			print("CLICKED AT TIME: " + time_text)
+			print(coord_message)
+			print(separator + "\n")
+			
+			# Use print instead of push_error to avoid marking coordinates as errors
+			print("IMPORTANT: " + separator)
+			print("IMPORTANT: " + coord_message)
+			print("IMPORTANT: " + separator)
 		
 		# Create a log file for coordinates as a backup method
 		var dir = Directory.new()
@@ -236,8 +292,14 @@ func _input(event):
 			# Create new file
 			file.open(log_path, File.WRITE)
 		
-		# Add the coordinate entry with timestamp
-		file.store_line(time_text + ": " + coord_message)
+		# Add the coordinate entry with timestamp, including transformation info if available
+		if district and district.background_scale_factor != 1.0:
+			var screen_message = "SCREEN SPACE: Vector2(%d, %d)" % [screen_pos.x, screen_pos.y]
+			var world_message = "WORLD SPACE: Vector2(%d, %d)" % [final_world_pos.x, final_world_pos.y]
+			var scale_message = "SCALE FACTOR: " + str(district.background_scale_factor)
+			file.store_line(time_text + ": " + screen_message + " ➡️ " + world_message + " (" + scale_message + ")")
+		else:
+			file.store_line(time_text + ": " + coord_message)
 		file.close()
 		
 		# Print confirmation of logging
@@ -254,9 +316,15 @@ func _input(event):
 		style.border_color = Color(1, 0.5, 0, 1)
 		panel.add_stylebox_override("panel", style)
 		
-		# Create label with larger text
+		# Create label with larger text - show both coordinates if transformed
 		var notification = Label.new()
-		notification.text = "COORDINATE CAPTURED:\n" + coord_message
+		if district and district.background_scale_factor != 1.0:
+			notification.text = "COORDINATE CAPTURED:\n" + \
+				"WORLD: Vector2(%d, %d)\n" % [final_world_pos.x, final_world_pos.y] + \
+				"SCREEN: Vector2(%d, %d)" % [screen_pos.x, screen_pos.y]
+		else:
+			notification.text = "COORDINATE CAPTURED:\n" + coord_message
+			
 		notification.add_color_override("font_color", Color(1, 1, 0, 1))
 		notification.align = Label.ALIGN_CENTER
 		notification.valign = Label.VALIGN_CENTER
@@ -300,7 +368,8 @@ func _input(event):
 	if event is InputEventKey and event.pressed and event.scancode == KEY_C:
 		if coordinate_history.size() > 0:
 			# Format for easy pasting into polygon definitions
-			var text = "Vector2(%d, %d)," % [coordinate_history[0].position.x, coordinate_history[0].position.y]
+			var coords = coordinate_history[0].position
+			var text = "Vector2(%d, %d)," % [coords.x, coords.y]
 			OS.set_clipboard(text)
 			copying = true
 			
@@ -312,6 +381,13 @@ func _input(event):
 			
 			# Use print instead of push_error
 			print("IMPORTANT: COPIED: " + text)
+			
+			# For district-aware mode, also show what these coordinates correspond to in screen space
+			if district and district.background_scale_factor != 1.0:
+				var screen_coords = district.world_to_screen_coords(coords)
+				var screen_text = "Vector2(%d, %d)," % [screen_coords.x, screen_coords.y]
+				print("CORRESPONDS TO SCREEN SPACE: " + screen_text)
+				print("SCALE FACTOR: " + str(district.background_scale_factor))
 			
 			# Also append to the log file - properly handling append mode
 			var file = File.new()
@@ -328,6 +404,10 @@ func _input(event):
 				
 			# Add the copied entry
 			file.store_line("COPIED: " + text)
+			if district and district.background_scale_factor != 1.0:
+				var screen_coords = district.world_to_screen_coords(coords)
+				var screen_text = "Vector2(%d, %d)," % [screen_coords.x, screen_coords.y]
+				file.store_line("SCREEN SPACE: " + screen_text)
 			file.close()
 			
 			# Print confirmation

@@ -12,7 +12,7 @@ func _ready():
 	
 	# Configure the camera system
 	use_scrolling_camera = true
-	initial_camera_view = "right"  # Show the right side of the background
+	initial_camera_view = "center"  # Show the center of the background
 	
 	# Setup background
 	var background = Sprite.new()
@@ -85,7 +85,7 @@ func add_test_ui():
 	var label = Label.new()
 	label.name = "InfoLabel"
 	label.rect_position = Vector2(10, 10)
-	label.text = "Clean Camera Test - Right View\nPress ESC to exit, R/L/C to change views"
+	label.text = "Clean Camera Test - Center View\nPress ESC to exit, R/L/C to change views"
 	label.add_color_override("font_color", Color(1, 1, 0))
 	
 	var bg = ColorRect.new()
