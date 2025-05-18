@@ -135,7 +135,7 @@ The game follows a component-based design with clear separation of concerns:
    - Present solutions incrementally to allow for course correction
 
 3. **Architecture Adherence**
-   - Always adhere to the structure and approach outlined in the 'A Silent Refraction Architecture' document
+   - Always adhere to the structure and approach outlined in the 'docs/architecture.md' document
    - Maintain the component-based design with clear separation of concerns
 
 4. **Iterative Development**

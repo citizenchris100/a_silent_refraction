@@ -27,6 +27,10 @@ func _ready():
 	# Call parent _ready to set up district and camera
 	._ready()
 	
+	# Setup standard player and navigation controller from main game system
+	var start_position = Vector2(4558, 885)
+	setup_player_and_controller(start_position)
+	
 	# Add simple UI
 	add_test_ui()
 	
@@ -34,6 +38,35 @@ func _ready():
 	set_process_input(true)
 	
 	print("Clean Camera Test initialized")
+
+# Setup player character with the standard point-and-click navigation system
+func setup_player_and_controller(start_position):
+	# 1. Add the player character from the standard player scene
+	var player_scene = load("res://src/characters/player/player.tscn")
+	if player_scene:
+		var player = player_scene.instance()
+		player.position = start_position
+		add_child(player)
+		print("Added standard player character at position", start_position)
+		
+		# Make the camera follow the player
+		if camera:
+			camera.follow_player = true
+			camera.target_player = player
+			print("Camera set to follow player")
+		
+		# 2. Add the player controller to handle point-and-click navigation
+		var controller_scene = load("res://src/core/player_controller.gd")
+		if controller_scene:
+			var controller = Node.new()
+			controller.name = "PlayerController"
+			controller.set_script(controller_scene)
+			add_child(controller)
+			print("Added standard player controller for point-and-click navigation")
+		else:
+			print("WARNING: Could not load player controller script")
+	else:
+		print("WARNING: Could not load player scene")
 
 # Create a walkable area with designer-selected coordinates
 func create_walkable_area():
@@ -50,10 +83,16 @@ func create_walkable_area():
 	# 
 	# Updated on May 17, 2025 with new coordinates captured using Alt+W world view mode.
 	var designer_selected_points = PoolVector2Array([
-		Vector2(1255, 229),    # Top-left point
-		Vector2(1130, 413),    # Bottom-left point
-		Vector2(4019, 396),    # Bottom-right point
-		Vector2(3714, 173)     # Top-right point
+		Vector2(4683, 844),    # Bottom-right edge
+		Vector2(3700, 861),    # Bottom-right middle
+		Vector2(3196, 819),    # Bottom-middle
+		Vector2(1814, 816),    # Bottom-left middle
+		Vector2(473, 885),     # Bottom-left 
+		Vector2(261, 868),     # Left middle
+		Vector2(220, 823),     # Left middle-top
+		Vector2(4, 816),       # Left top
+		Vector2(1, 948),       # Left bottom corner
+		Vector2(4683, 941)     # Right bottom corner
 	])
 	
 	walkable.polygon = designer_selected_points
