@@ -57,9 +57,7 @@
 - [x] Task 3: Create suspicion meter UI element
 - [x] Task 4: Implement suspicion tracking system
 - [x] Task 5: Script NPC reactions based on suspicion levels
-- [~] Task 6: Apply visual style guide to Spaceport/Shipping
-- [ ] Task 7: Create bash script for generating NPC placeholders
-- [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs
+- [x] Task 6: Apply visual style guide to Spaceport/Shipping
 
 ### Task 3: Create suspicion meter UI element
 
@@ -118,23 +116,3 @@ Add any additional notes or considerations here.
 - Integrate with existing walkable area system
 - Ensure performance optimization for large background images
 
-### Task 7: Create bash script for generating NPC placeholders
-
-**User Story:** As a developer, I want a bash script that manages the NPC registry and creates appropriate directory structures for NPC sprites, so that I can easily add new characters to the game with proper integration into the existing systems without manual configuration.
-
-**Requirements:**
-- **Linked to:** B2, B5
-- **Acceptance Criteria:**
-  1. Script creates proper directory structures for each NPC's sprite states (normal, suspicious, hostile, assimilated)
-  2. NPCs are registered in the NPC registry system with default values (not assimilated, normal suspicion level)
-  3. NPCs are properly categorized by district/location in the registry
-  4. New NPCs can be added with a single command specifying their designation/name and location
-  5. Script handles the backend integration with the JSON registry and GDScript access layer
-  6. Registry tracks both assimilation status and suspicion level as separate properties
-  7. Script prepares the structure for the four different sprite states without placing actual assets
-
-**Implementation Notes:**
-- Default NPCs should be initialized in a normal (not assimilated) state with normal suspicion
-- Maintain clear separation between assimilation status and suspicion level in the registry
-- Ensure the directory structure aligns with the game's asset loading expectations
-- Use JSON for data persistence and create a GDScript interface for game access

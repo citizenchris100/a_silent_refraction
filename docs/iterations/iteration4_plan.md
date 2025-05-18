@@ -35,6 +35,7 @@
 - [ ] Task 8: Add quest state persistence
 - [ ] Task 9: Implement overflow inventory storage in player's room
 - [ ] Task 10: Create UI for transferring items between personal inventory and room storage
+- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
 
 ## Testing Criteria
 - Quest log accurately tracks active and completed quests
@@ -43,6 +44,8 @@
 - Player can track which NPCs are known to be assimilated
 - Player can store extra items in their room
 - Inventory management creates meaningful gameplay decisions
+- Observation mechanics allow players to detect assimilated NPCs
+- Different observation intensities reveal appropriate information
 
 ## Timeline
 - Start date: 2025-05-16
@@ -57,3 +60,24 @@
 
 ## Notes
 Add any additional notes or considerations here.
+
+### Task 11: Implement observation mechanics for detecting assimilated NPCs
+
+**User Story:** As a player, I want to carefully observe NPCs for subtle clues that indicate they have been assimilated, so that I can identify threats and make informed decisions about whom to trust and recruit.
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. NPCs exhibit different subtle behavioral cues based on assimilation status
+  2. Assimilated NPCs have visual tells that are discoverable through careful observation
+  3. Player can access a dedicated "observe" mode that enables closer inspection of NPCs
+  4. Different observation levels reveal different levels of information (casual glance vs. intense scrutiny)
+  5. Successful observation adds information to the assimilated NPC tracking log
+  6. False positives are possible to create tension and uncertainty
+  7. Observation mechanics integrate with the suspicion system (being caught observing raises suspicion)
+
+**Implementation Notes:**
+- Create a sliding scale of observation intensity with corresponding information reveals
+- Design subtle visual cues that fit the game's aesthetic (slight color shifts, animation differences)
+- Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
+- Link with existing suspicion and NPC state systems from Iteration 2
