@@ -7,6 +7,8 @@ var coordinate_picker
 var polygon_visualizer
 var debug_console
 var debug_overlay
+var walkable_editor
+var coordinate_visualizer
 
 # Reference to the scene's camera
 var camera
@@ -21,6 +23,8 @@ var coordinate_picker_visible = false
 var polygon_visualizer_visible = false
 var console_visible = false
 var overlay_visible = false
+var walkable_editor_visible = false
+var coordinate_visualizer_visible = false
 
 # Polygon data
 var current_polygon = PoolVector2Array()
@@ -93,6 +97,14 @@ func _input(event):
         # Alt+W: Toggle world view mode (zoomed out to see entire background)
         elif event.scancode == KEY_W and event.alt:
             toggle_full_view()
+            
+        # Alt+E: Toggle walkable area editor
+        elif event.scancode == KEY_E and event.alt:
+            toggle_walkable_editor()
+            
+        # Alt+V: Toggle coordinate visualizer
+        elif event.scancode == KEY_V and event.alt:
+            toggle_coordinate_visualizer()
             
         # C: Complete current polygon and start a new one
         elif event.scancode == KEY_C and polygon_visualizer_visible:
@@ -171,11 +183,46 @@ func create_debug_console():
 
 func create_debug_overlay():
     if debug_overlay == null:
-        var DebugOverlay = load("res://src/core/debug/debug_overlay.gd")
-        debug_overlay = DebugOverlay.new()
-        # Add to root instead of as child of manager since it's a CanvasLayer
-        get_tree().get_root().add_child(debug_overlay)
-        print("Debug Overlay created at root level")
+        var DebugOverlay = load("res://src/core/debug/coordinate_debug_overlay.gd")
+        if DebugOverlay:
+            debug_overlay = DebugOverlay.new()
+            debug_overlay.name = "CoordinateDebugOverlay"
+            # Add to root instead of as child of manager since it's a CanvasLayer
+            get_tree().get_root().add_child(debug_overlay)
+            print("Coordinate Debug Overlay created at root level")
+        else:
+            push_error("Failed to load coordinate_debug_overlay.gd script")
+
+func create_walkable_editor():
+    if walkable_editor == null:
+        var WalkableEditor = load("res://src/core/debug/walkable_area_editor.gd")
+        if WalkableEditor:
+            # Create a Node2D with the script
+            walkable_editor = WalkableEditor.new()
+            walkable_editor.name = "WalkableAreaEditor"
+            add_child(walkable_editor)
+            
+            # Connect signals
+            if walkable_editor.has_signal("area_updated"):
+                walkable_editor.connect("area_updated", self, "_on_walkable_area_updated")
+            if walkable_editor.has_signal("code_generated"):
+                walkable_editor.connect("code_generated", self, "_on_walkable_code_generated")
+                
+            print("Walkable Area Editor created")
+        else:
+            push_error("Failed to load walkable_area_editor.gd script")
+            
+func create_coordinate_visualizer():
+    if coordinate_visualizer == null:
+        var CoordinateVisualizer = load("res://src/core/debug/coordinate_visualizer.gd")
+        if CoordinateVisualizer:
+            # Create a Node2D with the script
+            coordinate_visualizer = CoordinateVisualizer.new()
+            coordinate_visualizer.name = "CoordinateVisualizer"
+            add_child(coordinate_visualizer)
+            print("Coordinate Visualizer created")
+        else:
+            push_error("Failed to load coordinate_visualizer.gd script")
 
 # Toggle visibility functions
 func toggle_coordinate_picker():
@@ -217,6 +264,26 @@ func toggle_debug_overlay():
     elif debug_overlay != null:
         debug_overlay.visible = false
     print("Debug Overlay visibility: ", overlay_visible)
+
+func toggle_walkable_editor():
+    walkable_editor_visible = !walkable_editor_visible
+    if walkable_editor_visible:
+        if walkable_editor == null:
+            create_walkable_editor()
+        walkable_editor.visible = true
+    elif walkable_editor != null:
+        walkable_editor.visible = false
+    print("Walkable Area Editor visibility: ", walkable_editor_visible)
+    
+func toggle_coordinate_visualizer():
+    coordinate_visualizer_visible = !coordinate_visualizer_visible
+    if coordinate_visualizer_visible:
+        if coordinate_visualizer == null:
+            create_coordinate_visualizer()
+        coordinate_visualizer.visible = true
+    elif coordinate_visualizer != null:
+        coordinate_visualizer.visible = false
+    print("Coordinate Visualizer visibility: ", coordinate_visualizer_visible)
 
 func toggle_full_view():
     print("[DEBUG MANAGER] Toggling full view mode")
@@ -526,6 +593,23 @@ func _on_polygon_completed(polygon):
     
     # Reset current polygon
     current_polygon = PoolVector2Array()
+
+# Handle signals from walkable area editor
+func _on_walkable_area_updated(polygon):
+    # Update our polygons when the walkable area editor updates it
+    print("Walkable area updated with ", polygon.size(), " points")
+    
+    # Optional: you might want to update the polygon visualizer with this polygon
+    if polygon_visualizer:
+        polygon_visualizer.update_current_polygon(polygon)
+
+func _on_walkable_code_generated(code):
+    print("Walkable area code generated")
+    
+    # If we have the debug console, output the code there
+    if debug_console and debug_console.has_method("print_output"):
+        debug_console.print_output("Generated walkable area code:", Color(0, 1, 0))
+        debug_console.print_output(code)
 
 # Static method to add debug manager to a scene
 static func add_to_scene(scene, camera_node):

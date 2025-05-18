@@ -134,8 +134,20 @@ func _ready():
 	
 	command_system.register_subcommand(
 		"debug", "overlay", 
-		"Toggle the debug overlay tool",
+		"Toggle the general debug overlay tool",
 		"debug overlay"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "coordinate_overlay", 
+		"Toggle the coordinate system debug overlay",
+		"debug coordinate_overlay"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "coordinate_visualizer", 
+		"Toggle visual indicators for coordinate transformations (Alt+V)",
+		"debug coordinate_visualizer"
 	)
 	
 	command_system.register_subcommand(
@@ -172,6 +184,12 @@ func _ready():
 		"debug", "validate_walkable", 
 		"Validate walkable area coordinates",
 		"debug validate_walkable [x1 y1 x2 y2 ...]"
+	)
+	
+	command_system.register_subcommand(
+		"debug", "edit_walkable", 
+		"Launch the dedicated walkable area editor",
+		"debug edit_walkable"
 	)
 	
 	command_system.register_command(
@@ -540,6 +558,10 @@ func cmd_debug(args):
 	if args.size() > 0 and args[0].to_lower() == "validate_walkable":
 		return handle_validate_walkable(args.slice(1, args.size() - 1), current_scene)
 	
+	# Special case for edit_walkable
+	if args.size() > 0 and args[0].to_lower() == "edit_walkable":
+		return handle_edit_walkable(current_scene)
+	
 	# Check if args specify on/off
 	var turn_on = true
 	if args.size() > 0:
@@ -585,11 +607,17 @@ func cmd_debug(args):
 			"overlay":
 				debug_manager.toggle_debug_overlay()
 				return "Toggled debug overlay " + ("ON" if debug_manager.overlay_visible else "OFF")
+			"coordinate_overlay":
+				debug_manager.toggle_debug_overlay()
+				return "Toggled coordinate system debug overlay " + ("ON" if debug_manager.overlay_visible else "OFF")
+			"coordinate_visualizer":
+				debug_manager.toggle_coordinate_visualizer()
+				return "Toggled coordinate transformation visualizer " + ("ON" if debug_manager.coordinate_visualizer_visible else "OFF")
 			"fullview", "view", "worldview":
 				debug_manager.toggle_full_view()
 				return "Toggled world view " + ("ON" if debug_manager.full_view_mode else "OFF")
 			_:
-				return "Unknown tool name. Available tools: coordinates, polygon, console, overlay, fullview"
+				return "Unknown tool name. Available tools: coordinates, polygon, console, overlay, coordinate_overlay, coordinate_visualizer, fullview"
 		
 	# Main debug manager toggle functionality
 	if turn_on:
@@ -704,6 +732,25 @@ func _on_validation_completed(result):
 		for point in result.invalid_points:
 			details += "Point " + str(point.index) + ": " + str(point.original) + " is outside walkable areas\n"
 		print_output(details, Color(1, 0.5, 0))
+
+# Handler for the edit_walkable subcommand
+func handle_edit_walkable(current_scene):
+	print("[DEBUG CONSOLE] Launching walkable area editor")
+	
+	# Create the editor instance
+	var editor = load("res://src/core/debug/walkable_area_editor.gd").new()
+	editor.name = "WalkableAreaEditor"
+	current_scene.add_child(editor)
+	
+	# Connect to signals if needed
+	editor.connect("code_generated", self, "_on_walkable_editor_code_generated")
+	
+	return "Launched walkable area editor. Press 1-5 to change modes, H for help, P to generate code."
+
+# Signal callback for walkable area editor code generation
+func _on_walkable_editor_code_generated(code):
+	print_output("Generated walkable area code:", Color(0, 1, 0))
+	print_output(code)
 
 # Utility function to find a node by name
 func find_node_by_name(root, name):

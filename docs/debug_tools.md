@@ -11,7 +11,8 @@ The game includes a comprehensive debug toolset that allows you to:
 3. Monitor performance with FPS counter
 4. Debug camera settings and positioning
 5. Execute commands through an in-game console
-6. Debug any scene in the game with customizable tools
+6. Validate coordinates against walkable areas
+7. Debug any scene in the game with customizable tools
 
 ## New Unified Debug System
 
@@ -45,6 +46,7 @@ debug overlay            # Toggle debug overlay
 debug fullview           # Toggle world view mode (Alt+W)
 debug worldview          # Toggle world view mode (Alt+W)
 debug validate_walkable  # Validate coordinates against walkable areas
+debug transform_coords   # Transform coordinates between view modes
 ```
 
 ### Adding Debug Manager Programmatically
@@ -154,12 +156,32 @@ The coordinate picker shows the exact coordinates of your mouse position and all
 5. Press 'C' to copy the coordinate for use in your code
 6. Press 'Alt+W' again to return to normal view when done with coordinate selection
 
+#### View Mode Indicators:
+The coordinate picker now shows the current view mode to help avoid confusion:
+- When in World View mode, coordinates are labeled with "WORLD_VIEW"
+- When in Game View mode, coordinates are labeled with "GAME_VIEW"
+- This helps track which coordinates were captured in which view mode
+
+#### CoordinateManager Integration:
+The coordinate picker now uses the CoordinateManager singleton for more accurate transformations:
+```gdscript
+# Get world position using CoordinateManager
+var world_pos = CoordinateManager.screen_to_world(click_pos)
+
+# Store the current view mode for proper context
+var current_view_mode = CoordinateManager.get_view_mode()
+var mode_text = "WORLD_VIEW" if current_view_mode == CoordinateManager.ViewMode.WORLD_VIEW else "GAME_VIEW"
+
+# Add coordinate to history with mode information
+add_coordinate(world_pos, mode_text)
+```
+
 #### Log File Location:
 Coordinates are automatically logged to a file at:
 ```
 ~/.local/share/godot/app_userdata/A Silent Refraction/logs/coordinates.log
 ```
-This file contains all captured coordinates with timestamps and can be used as a reference when designing levels.
+This file contains all captured coordinates with timestamps and view mode information, which can be used as a reference when designing levels.
 
 ### Polygon Visualizer and Editor
 
@@ -218,6 +240,54 @@ The polygon visualizer displays and allows editing of walkable areas and other p
    - Switch to Drag All Mode (press '5')
    - Click and drag anywhere on the polygon to move the entire shape
 
+### Walkable Area Validator
+
+The new walkable area validator tool helps confirm that coordinates are properly located within walkable areas, catching common errors in coordinate transformations and view modes.
+
+#### Features:
+- Validates points against all walkable areas in the current district
+- Visualizes valid and invalid points with color-coding (green for valid, red for invalid)
+- Shows the distance from invalid points to the nearest walkable area edge
+- Transforms coordinates between World View and Game View modes automatically
+- Displays detailed visualization of all walkable areas for reference
+
+#### Usage through Debug Console:
+```
+debug validate_walkable Vector2(100,100) Vector2(500,500)
+```
+
+#### Usage in Code:
+```gdscript
+# Create and add the validator
+var validator = ValidateWalkableArea.new()
+add_child(validator)
+
+# Define points to validate
+var test_points = [
+    Vector2(100, 100),
+    Vector2(500, 500),
+    Vector2(2000, 900)
+]
+
+# Validate points against walkable areas
+var result = validator.validate(test_points)
+
+# result will be true if all points are valid, false if any are invalid
+print("All points valid: " + str(result))
+```
+
+#### View Mode Handling:
+- The validator automatically detects the current view mode from CoordinateManager
+- If in World View mode, coordinates are transformed to Game View for validation
+- The validator displays a message indicating which transformations were applied
+- This helps catch issues where coordinates were captured in one view mode but used in another
+
+#### Visualization:
+- Valid points are shown in green with coordinate information
+- Invalid points are shown in red with distance to nearest walkable area
+- A connecting line shows the path to the closest walkable area edge
+- All walkable areas are displayed as semi-transparent polygons with vertex indicators
+
 ### FPS Counter
 
 The FPS counter displays the current frame rate of the game, helping you to identify performance issues.
@@ -242,6 +312,33 @@ The camera debug tool displays information about the active camera and allows yo
 2. Current position and zoom level are displayed
 3. Press R to reset the camera if it gets into an unusable state
 
+### Coordinate Transformation Debug Tool
+
+The coordinate transformation debug tool helps developers understand how coordinates are transformed between different spaces and view modes.
+
+#### Features:
+- Displays coordinate transformations in real-time
+- Shows the effects of background_scale_factor on transformations
+- Helps debug issues with walkable areas and camera positioning
+- Visualizes the relationships between screen space, world space, and different view modes
+
+#### Usage through Debug Console:
+```
+debug transform_coords Vector2(100,100)
+```
+
+This command performs these transformations:
+1. Screen to world space in current view mode
+2. World to screen space in current view mode
+3. Current view mode to opposite view mode transformation
+4. Round-trip transformation back to original coordinate
+
+#### Visualization:
+- Points are shown with connecting arrows indicating transformation direction
+- Each point is labeled with its coordinate space and value
+- The current view mode is displayed prominently
+- Background scale factor effects are shown when applicable
+
 ### Debug Console
 
 The debug console allows you to execute commands during gameplay.
@@ -261,6 +358,8 @@ The debug console allows you to execute commands during gameplay.
 - **toggle_fps**: Toggle FPS display
 - **set_zoom [level]**: Set camera zoom level
 - **spawn_npc [type] [x] [y]**: Spawn an NPC at the specified position
+- **validate_walkable Vector2(x,y) ...**: Validate coordinates against walkable areas
+- **transform_coords Vector2(x,y)**: Show coordinate transformations between spaces and view modes
 
 #### Usage:
 1. Press ` or ~ to open the console
@@ -388,9 +487,33 @@ The debug tools are modular and can be extended with new functionality:
 4. All coordinates will be saved to the log file at `~/.local/share/godot/app_userdata/A Silent Refraction/logs/coordinates.log`
 5. Copy the coordinates from the log file
 6. Use these coordinates in the `setup_walkable_area()` function of your scene
-7. Press 'Alt+W' again to return to normal view and test camera scrolling
+7. Validate the coordinates using the ValidateWalkableArea tool:
+   ```gdscript
+   # In debug console
+   debug validate_walkable Vector2(234, 816) Vector2(-2, 826) Vector2(-2, 944) ...
+   ```
+8. Check that all points are valid (green) and properly located within the walkable area
+9. Press 'Alt+W' again to return to normal view and test camera scrolling
+10. Test the camera in all view positions (left, center, right) to ensure proper behavior
 
 Note: When capturing coordinates for a walkable area, always use the 'Alt+W' key combination to see the full background first. This ensures you can define a walkable area that spans the entire scene, not just what's visible in the initial camera view.
+
+## Example: Validating Walkable Area Coordinates
+
+1. Run any scene with walkable areas
+2. Open the debug console with the backtick key
+3. Enable debug tools with `debug on`
+4. Use the validate_walkable command:
+   ```
+   debug validate_walkable Vector2(234, 816) Vector2(-2, 826) Vector2(-2, 944) Vector2(4686, 944) Vector2(4676, 840) Vector2(3672, 854) Vector2(3186, 812) Vector2(1942, 802) Vector2(692, 851) Vector2(480, 889) Vector2(258, 871)
+   ```
+5. The validator will:
+   - Show all walkable areas as semi-transparent green polygons
+   - Show valid points in green with coordinate information
+   - Show invalid points in red with distance to nearest walkable area
+   - Apply necessary coordinate transformations based on current view mode
+6. Check any invalid points and adjust them as needed
+7. Update the coordinates in your setup_walkable_area() function
 
 ## Example: Testing Performance with FPS Counter
 
@@ -409,9 +532,14 @@ The debug tools provide a powerful suite of features to help with development, t
 3. Capture and export polygon data for walkable areas
 4. View the entire background with the 'Alt+W' key combination in any scene
 5. Add debugging to new scenes with a single line of code
+6. Validate coordinates against walkable areas to catch common errors
+7. Track which view mode coordinates were captured in
+8. Visualize coordinate transformations between different spaces
 
-The new unified system significantly improves the developer experience by providing consistent debug tools across all scenes. It eliminates redundancy, ensures proper camera integration, and provides a clean UI. 
+The new unified system significantly improves the developer experience by providing consistent debug tools across all scenes. It eliminates redundancy, ensures proper camera integration, and provides a clean UI. The coordinate validation system helps avoid common errors with walkable areas and camera bounds.
 
-Remember to use `debug on` in the console to enable debug tools when needed, and use function keys (F1-F4) to toggle specific tools. For creating walkable areas, the improved polygon handling and coordinate picking make level design much more efficient.
+Remember to use `debug on` in the console to enable debug tools when needed, and use function keys (F1-F4) to toggle specific tools. For creating walkable areas, the improved polygon handling, coordinate picking, and validation tools make level design much more efficient and less error-prone.
+
+The CoordinateManager integration ensures that coordinates are properly transformed between different spaces and view modes, making the debug tools more reliable even in complex scenes with custom scaling factors.
 
 Use these tools frequently during development to improve workflow and game quality.

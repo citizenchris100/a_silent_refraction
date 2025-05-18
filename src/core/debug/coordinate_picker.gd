@@ -16,6 +16,10 @@ export var max_history = 10
 export var show_grid = false
 export var grid_size = 100
 
+# Color coding for different view modes
+const GAME_VIEW_COLOR = Color(0, 0.8, 0, 0.8)  # Green for game view
+const WORLD_VIEW_COLOR = Color(1, 0.5, 0, 0.8)  # Orange for world view
+
 # Internal variables
 var coordinate_history = []
 var mouse_position = Vector2()
@@ -23,6 +27,7 @@ var copying = false
 var coord_labels = []
 var current_label
 var district = null  # Reference to the district we're in (if any)
+var cached_debug_manager = null  # Cached reference to debug manager
 
 func _ready():
 	# Set up UI for coordinate display
@@ -143,7 +148,17 @@ func _process(_delta):
 			var pos = item.position
 			
 			coord_labels[i].rect_position = pos + Vector2(10, 10)
-			coord_labels[i].text = "(%d, %d) - %s" % [pos.x, pos.y, item.time]
+			
+			# Add view mode indicator to the label text
+			var view_mode_text = "Game View"
+			var label_color = GAME_VIEW_COLOR
+			
+			if "view_mode" in item and item.view_mode == CoordinateSystem.ViewMode.WORLD_VIEW:
+				view_mode_text = "World View"
+				label_color = WORLD_VIEW_COLOR
+				
+			coord_labels[i].text = "(%d, %d) - %s [%s]" % [pos.x, pos.y, item.time, view_mode_text]
+			coord_labels[i].add_color_override("font_color", label_color)
 			coord_labels[i].visible = true
 	
 	# Hide unused labels
@@ -326,7 +341,15 @@ func _input(event):
 		# Add to history with timestamp
 		var timestamp = OS.get_time()
 		var time_text = "%02d:%02d:%02d" % [timestamp.hour, timestamp.minute, timestamp.second]
-		coordinate_history.push_front({"position": final_world_pos, "time": time_text})
+		
+		# Determine current view mode
+		var current_view_mode = _get_current_view_mode()
+		
+		coordinate_history.push_front({
+			"position": final_world_pos, 
+			"time": time_text,
+			"view_mode": current_view_mode
+		})
 		
 		# Emit signal for debug manager integration
 		emit_signal("coordinate_selected", final_world_pos)
@@ -408,19 +431,34 @@ func _input(event):
 		var style = StyleBoxFlat.new()
 		style.bg_color = Color(0, 0, 0, 0.8)
 		style.set_border_width_all(3)
-		style.border_color = Color(1, 0.5, 0, 1)
+		
+		# Use different border color based on view mode
+		var current_mode = _get_current_view_mode()
+		if current_mode == CoordinateSystem.ViewMode.WORLD_VIEW:
+			style.border_color = WORLD_VIEW_COLOR  # Orange for world view
+		else:
+			style.border_color = GAME_VIEW_COLOR  # Green for game view
 		panel.add_stylebox_override("panel", style)
 		
 		# Create label with larger text - show both coordinates if transformed
 		var notification = Label.new()
+		
+		# Determine view mode for this capture
+		var view_mode = _get_current_view_mode()
+		var view_mode_text = "Game View"
+		if view_mode == CoordinateSystem.ViewMode.WORLD_VIEW:
+			view_mode_text = "World View"
+		
 		if district and district.background_scale_factor != 1.0:
-			notification.text = "COORDINATE CAPTURED:\n" + \
+			notification.text = "COORDINATE CAPTURED (%s):\n" % [view_mode_text] + \
 				"WORLD: Vector2(%d, %d)\n" % [final_world_pos.x, final_world_pos.y] + \
 				"SCREEN: Vector2(%d, %d)" % [screen_pos.x, screen_pos.y]
 		else:
-			notification.text = "COORDINATE CAPTURED:\n" + coord_message
-			
-		notification.add_color_override("font_color", Color(1, 1, 0, 1))
+			notification.text = "COORDINATE CAPTURED (%s):\n" % [view_mode_text] + coord_message
+		
+		# Color code based on view mode
+		var label_color = GAME_VIEW_COLOR if view_mode == CoordinateSystem.ViewMode.GAME_VIEW else WORLD_VIEW_COLOR
+		notification.add_color_override("font_color", label_color)
 		notification.align = Label.ALIGN_CENTER
 		notification.valign = Label.VALIGN_CENTER
 		notification.rect_min_size = Vector2(280, 60)
@@ -601,6 +639,41 @@ func _draw():
 		for y in range(0, int(viewport_size.y), grid_size):
 			draw_line(Vector2(0, y), Vector2(viewport_size.x, y), color, 1)
 			
+# Helper function to get the current view mode
+func _get_current_view_mode():
+	# Get debug manager
+	var debug_manager = _find_debug_manager()
+	if debug_manager:
+		return CoordinateSystem.get_current_view_mode(debug_manager)
+	else:
+		return CoordinateSystem.ViewMode.GAME_VIEW  # Default to game view
+
+# Helper function to find debug manager
+func _find_debug_manager():
+	# Use cached reference if available
+	if cached_debug_manager != null:
+		return cached_debug_manager
+		
+	# Try to find a DebugManager in the scene
+	
+	# First, search at the root level (most reliable)
+	var scene_root = get_tree().get_root()
+	var debug_manager = scene_root.get_node_or_null("DebugManager")
+	if debug_manager:
+		cached_debug_manager = debug_manager
+		return debug_manager
+		
+	# Then, search through our parent hierarchy
+	var parent = get_parent()
+	while parent:
+		if parent.name == "DebugManager":
+			cached_debug_manager = parent
+			return parent
+		parent = parent.get_parent()
+		
+	# If not found, return null
+	return null
+
 # Function to update persistent visual markers for each coordinate point
 func update_persistent_markers():
 	# Make sure we have a parent node to work with
@@ -625,7 +698,18 @@ func update_persistent_markers():
 		marker.name = "Marker_" + str(i)
 		marker.rect_size = Vector2(24, 24)  # Large enough to be easily visible
 		marker.rect_position = pos - marker.rect_size / 2  # Center on the point
-		marker.color = Color(1, 0.5, 0, 0.7)  # Bright orange
+		
+		# Color-code based on view mode
+		var view_mode = CoordinateSystem.ViewMode.GAME_VIEW
+		if "view_mode" in item:
+			view_mode = item.view_mode
+			
+		# Set color based on view mode
+		if view_mode == CoordinateSystem.ViewMode.WORLD_VIEW:
+			marker.color = WORLD_VIEW_COLOR  # Orange for world view
+		else:
+			marker.color = GAME_VIEW_COLOR  # Green for game view
+			
 		marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		marker_parent.add_child(marker)
 		

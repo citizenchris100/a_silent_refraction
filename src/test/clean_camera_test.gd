@@ -50,17 +50,10 @@ func create_walkable_area():
 	# 
 	# Updated on May 17, 2025 with new coordinates captured using Alt+W world view mode.
 	var designer_selected_points = PoolVector2Array([
-		Vector2(234, 816),     # Top-left edge
-		Vector2(-2, 826),      # Left edge
-		Vector2(-2, 944),      # Bottom-left corner
-		Vector2(4686, 944),    # Bottom-right corner
-		Vector2(4676, 840),    # Right edge
-		Vector2(3672, 854),    # Upper-right area
-		Vector2(3186, 812),    # Mid-upper area
-		Vector2(1942, 802),    # Mid-upper area
-		Vector2(692, 851),     # Mid-left area
-		Vector2(480, 889),     # Lower-left area
-		Vector2(258, 871)      # Upper-left area
+		Vector2(1255, 229),    # Top-left point
+		Vector2(1130, 413),    # Bottom-left point
+		Vector2(4019, 396),    # Bottom-right point
+		Vector2(3714, 173)     # Top-right point
 	])
 	
 	walkable.polygon = designer_selected_points
