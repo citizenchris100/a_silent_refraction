@@ -310,6 +310,11 @@ func toggle_full_view():
         if "bounds_enabled" in camera:
             original_bounds_enabled = camera.bounds_enabled
             camera.bounds_enabled = false
+            
+        # Set world view mode flag to prevent player visibility checks
+        if "world_view_mode" in camera:
+            camera.world_view_mode = true
+            print("[DEBUG MANAGER] Set camera world_view_mode flag to true")
         
         # Calculate new zoom to show entire background
         var viewport_size = Vector2(1024, 600) # Default fallback
@@ -326,13 +331,13 @@ func toggle_full_view():
         print("[DEBUG MANAGER] Viewport size: ", viewport_size)
         
         # Calculate zoom level needed to see the entire background
-        var zoom_x = viewport_size.x / background.x
-        var zoom_y = viewport_size.y / background.y
-        var new_zoom = min(zoom_x, zoom_y) * 0.95  # 5% margin
+        var zoom_x = background.x / viewport_size.x
+        var zoom_y = background.y / viewport_size.y
+        var new_zoom = max(zoom_x, zoom_y) * 1.05  # 5% margin for safety
         
-        # In Godot, smaller zoom values zoom in (show less), larger values zoom out (show more)
-        # Here we're reversing the calculation to make it work as expected
-        var zoom_value = 1.0 / new_zoom if new_zoom > 0 else 3.0
+        # In Godot, larger zoom values zoom out (show more), smaller values zoom in (show less)
+        # Use the zoom value directly to show the entire background
+        var zoom_value = new_zoom
         
         # Don't allow extreme zoom values
         zoom_value = clamp(zoom_value, 0.1, 10.0)
@@ -370,6 +375,11 @@ func toggle_full_view():
         print("[DEBUG MANAGER] Restoring original camera state:")
         print("[DEBUG MANAGER] Position: ", original_camera_position)
         print("[DEBUG MANAGER] Zoom: ", original_camera_zoom)
+        
+        # Reset world view mode flag first to allow normal camera behavior
+        if "world_view_mode" in camera:
+            camera.world_view_mode = false
+            print("[DEBUG MANAGER] Reset camera world_view_mode flag to false")
         
         # Restore original camera state
         camera.global_position = original_camera_position

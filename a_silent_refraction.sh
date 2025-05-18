@@ -20,6 +20,7 @@ DIALOG_TEST_SCENE="res://src/test/dialog_test.tscn"
 DEBUG_TOOLS_TEST_SCENE="res://src/test/debug_tools_test.tscn"
 UNIVERSAL_DEBUG_SCENE="res://src/test/universal_debug.tscn"
 CAMERA_TEST_SCENE="res://src/test/clean_camera_test.tscn"
+CAMERA_SYSTEM_TEST_SCENE="res://src/test/clean_camera_test2.tscn"
 
 # Function to display help
 function show_help {
@@ -33,6 +34,7 @@ function show_help {
     echo "  navigation           - Run the navigation test scene"
     echo "  dialog               - Run the dialog test scene"
     echo "  camera               - Run the scrolling camera test scene"
+    echo "  camera-system        - Run the district template with enhanced camera system"
     echo "  debug                - Run the debug tools test scene"
     echo "  debug-universal      - Run the universal debug scene"
     echo "  debug-district NAME  - Debug a specific district (e.g. shipping)"
@@ -81,6 +83,14 @@ function run_debug_tools_test {
 function run_camera_test {
     echo -e "${GREEN}Running scrolling camera test scene...${NC}"
     $GODOT_CMD --path $PROJECT_ROOT $CAMERA_TEST_SCENE
+}
+
+# Function to run the enhanced camera system test scene
+function run_camera_system_test {
+    echo -e "${GREEN}Running district template with enhanced camera system...${NC}"
+    echo -e "${YELLOW}NOTE: This is a template for creating new districts with the enhanced camera system${NC}"
+    echo -e "${YELLOW}Press Alt+W to simulate world view mode for coordinate capture${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT $CAMERA_SYSTEM_TEST_SCENE
 }
 
 # Function to run the universal debug scene
@@ -353,6 +363,9 @@ case "$1" in
         ;;
     camera)
         run_camera_test
+        ;;
+    camera-system)
+        run_camera_system_test
         ;;
     debug)
         run_debug_tools_test

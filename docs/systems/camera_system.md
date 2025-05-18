@@ -19,10 +19,12 @@ The camera system follows a layered architecture with clear separation of concer
 
 #### 1. ScrollingCamera (`src/core/camera/scrolling_camera.gd`)
 - Extends Camera2D to handle larger-than-screen backgrounds
+- Implements state-based camera system (IDLE, MOVING, FOLLOWING_PLAYER)
 - Provides smooth scrolling when player approaches screen edges
 - Offers various easing functions for camera movement
 - Supports different initial camera positions (left, center, right)
 - Includes comprehensive debug visualization capabilities
+- Implements coordinate validation and transformation methods
 
 #### 2. BoundsCalculator (`src/core/camera/bounds_calculator.gd`)
 - Service that generates camera bounds from walkable area polygons
@@ -40,6 +42,28 @@ The camera system follows a layered architecture with clear separation of concer
 - Debug tools for walkable area validation
 - Visualizes valid and invalid points against walkable areas
 - Helps detect coordinate errors during development
+
+## Camera States
+
+The camera operates in three distinct states:
+
+### IDLE State
+- Camera is stationary
+- Not actively following the player or transitioning
+- The camera will remain fixed at its current position
+- Methods like `move_to_position()` will transition to the MOVING state
+
+### MOVING State
+- Camera is transitioning between two positions
+- Transition is governed by the current easing function
+- Progress is tracked with the `movement_progress` variable
+- When the transition completes, the camera returns to IDLE or FOLLOWING_PLAYER
+
+### FOLLOWING_PLAYER State
+- Camera is actively tracking the player's movement
+- Maintains player visibility using edge margins to trigger scrolling
+- Smoothly adjusts position to keep player in comfortable viewing area
+- Can be triggered with the `start_following_player()` method
 
 ## Core Camera Features
 
@@ -76,7 +100,7 @@ static func calculate_bounds_from_walkable_areas(walkable_areas: Array) -> Rect2
 
 ### Coordinate Space Management
 
-The camera system needs to handle several coordinate spaces:
+The camera system handles several coordinate spaces:
 
 1. **Screen Space**: UI coordinates relative to the viewport (used by mouse clicks)
 2. **World Space**: Global game coordinates (used for positioning game objects)
@@ -112,59 +136,87 @@ The camera system supports two main view modes that affect coordinate handling a
 1. **Game View**: Normal playing perspective with properly positioned camera
 2. **World View**: Zoomed-out debug view showing the entire scene
 
-CoordinateManager provides methods to transform coordinates between these view modes:
+### Coordinate Validation
+
+The ScrollingCamera includes coordinate validation to ensure robustness and handle edge cases:
 
 ```gdscript
-# Transform coordinates between different view modes
-func transform_view_mode_coordinates(coords, from_view_mode, to_view_mode):
-    if from_view_mode == to_view_mode:
-        return coords  # No transformation needed
+# Validate coordinates to ensure they are valid and handle edge cases
+func validate_coordinates(position: Vector2) -> Vector2:
+    # Check for NaN values
+    if is_nan(position.x) or is_nan(position.y):
+        push_warning("Camera: Invalid coordinate detected (NaN). Using camera position as fallback.")
+        return global_position
     
-    match [from_view_mode, to_view_mode]:
-        [ViewMode.WORLD_VIEW, ViewMode.GAME_VIEW]:
-            return CoordinateSystem.world_view_to_game_view(coords, _current_district)
-            
-        [ViewMode.GAME_VIEW, ViewMode.WORLD_VIEW]:
-            return CoordinateSystem.game_view_to_world_view(coords, _current_district)
+    # Check for infinite values
+    if is_inf(position.x) or is_inf(position.y):
+        push_warning("Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.")
+        return global_position
+        
+    # Check for extremely large values that likely indicate errors
+    if abs(position.x) > 100000 or abs(position.y) > 100000:
+        push_warning("Camera: Suspiciously large coordinate detected. Using camera position as fallback.")
+        debug_log("camera", "Large coordinate detected: " + str(position))
+        return global_position
+        
+    # Return the validated position
+    return position
 ```
 
-### Camera Movement Logic
+### Camera Movement and State Transitions
 
-The camera movement is handled through a series of steps:
-
-1. **Edge Detection**: The system checks if the player approaches a defined margin from the screen edge
-2. **Target Position Calculation**: If the player crosses the margin, a new camera position is calculated
-3. **Bounds Clamping**: The target position is clamped to ensure the camera stays within defined boundaries
-4. **Smooth Movement**: The camera position is interpolated using the selected easing function
-5. **Safety Checks**: Additional checks ensure the player remains visible at all times
+The camera state system manages transitions between different camera behaviors:
 
 ```gdscript
-func _handle_camera_movement(delta):
-    # Get player's position
-    var player_pos = target_player.global_position
-    
-    # Get current camera view rect in world space
-    var camera_half_size = screen_size / 2 / zoom
-    var current_view = Rect2(
-        global_position - camera_half_size,
-        camera_half_size * 2
-    )
-    
-    # Calculate the area within the view that doesn't trigger scrolling
-    var inner_margin = Rect2(
-        current_view.position + edge_margin,
-        current_view.size - (edge_margin * 2)
-    )
-    
-    # Check if player is outside the inner margin area
-    var needs_scroll = !inner_margin.has_point(player_pos)
-    
-    if needs_scroll:
-        # [Movement calculation code...]
+# Set camera state and handle state transitions
+func set_camera_state(new_state: int) -> void:
+    # Don't do anything if state isn't changing
+    if current_camera_state == new_state:
+        return
         
-        # Apply the position with proper easing
-        var weight = follow_smoothing * delta
-        global_position = _apply_easing(global_position, target_pos, weight)
+    var old_state = current_camera_state
+    current_camera_state = new_state
+    
+    # Handle state entry actions
+    match new_state:
+        CameraState.IDLE:
+            is_transition_active = false
+            movement_progress = 0.0
+            emit_signal("camera_move_completed")
+            
+        CameraState.MOVING:
+            is_transition_active = true
+            movement_progress = 0.0
+            emit_signal("camera_move_started", target_position)
+            
+        CameraState.FOLLOWING_PLAYER:
+            is_transition_active = false
+            
+    # Emit the state change signal
+    emit_signal("camera_state_changed", new_state)
+```
+
+State-based movement is handled in the _process method:
+
+```gdscript
+func _process(delta):
+    # Handle camera movement based on state
+    match current_camera_state:
+        CameraState.FOLLOWING_PLAYER:
+            if follow_player:
+                _handle_camera_movement(delta)
+                
+        CameraState.MOVING:
+            if is_transition_active:
+                _handle_transition_movement(delta)
+            else:
+                # If transition is complete but we're still in MOVING state, go to IDLE
+                set_camera_state(CameraState.IDLE)
+                
+        CameraState.IDLE:
+            # If follow_player is enabled but we're idle, switch to FOLLOWING_PLAYER
+            if follow_player and target_player:
+                set_camera_state(CameraState.FOLLOWING_PLAYER)
 ```
 
 ### Flexible Initial Positioning
@@ -175,210 +227,117 @@ The camera supports three standard positions that can be set in the district pro
 2. **Center**: Centers the camera on the background
 3. **Right**: Shows the rightmost portion of the background
 
-Each view is implemented with careful calculations to ensure proper positioning regardless of background dimensions:
+## CoordinateManager Integration
+
+The camera system integrates with the CoordinateManager singleton for consistent coordinate transformations:
 
 ```gdscript
-match initial_view.to_lower():
-    "left":
-        # Position camera to show only the left portion of the background
-        var screen_half_width = get_viewport_rect().size.x / 2 / zoom.x
-        var left_side_position = camera_bounds.position.x + screen_half_width
-        new_position = Vector2(
-            left_side_position,
-            camera_bounds.position.y + camera_bounds.size.y / 2
-        )
+# Register this camera with the CoordinateManager singleton
+func register_with_coordinate_manager():
+    if Engine.has_singleton("CoordinateManager"):
+        var coord_manager = Engine.get_singleton("CoordinateManager")
         
-    "right":
-        # Position camera to show the rightmost portion of the background
-        var viewport_size = get_viewport_rect().size
-        var screen_half_width = viewport_size.x / 2 / zoom.x
-        var right_side_position = full_bg_width - screen_half_width
-        new_position = Vector2(right_side_position, center_y)
+        # Get parent district if available
+        var district = get_parent() if get_parent() is BaseDistrict else null
         
-    "center", _:
-        # Default to center of the background
-        new_position = Vector2(
-            camera_bounds.position.x + camera_bounds.size.x / 2,
-            camera_bounds.position.y + camera_bounds.size.y / 2
-        )
-```
-
-## Debug Capabilities
-
-### Walkable Area Validation
-
-The system includes a ValidateWalkableArea tool that checks if coordinates are inside walkable areas:
-
-```gdscript
-# Validate a list of coordinates against walkable areas
-func validate(coordinates):
-    # Transform coordinates based on current view mode
-    var view_mode = CoordinateManager.get_view_mode()
-    var transformed_coords = []
-    
-    for point in points_to_validate:
-        var transformed_point = point
+        if district:
+            # Register the district with the coordinate manager
+            coord_manager.set_current_district(district)
         
-        # If we're in world view, convert to game view for validation
-        if view_mode == CoordinateManager.ViewMode.WORLD_VIEW:
-            transformed_point = CoordinateManager.transform_view_mode_coordinates(
-                point, 
-                CoordinateManager.ViewMode.WORLD_VIEW, 
-                CoordinateManager.ViewMode.GAME_VIEW
-            )
-        
-        transformed_coords.append(transformed_point)
-    
-    # Check each point against walkable areas
-    for i in range(transformed_coords.size()):
-        var point = transformed_coords[i]
-        var is_valid = is_point_in_any_walkable_area(point)
-        # [Processing results...]
+        debug_log("camera", "Camera registered with CoordinateManager")
 ```
 
-### Coordinate Validation
+## Usage
 
-The CoordinateManager provides validation functions to ensure coordinates are used in the correct context:
+### Basic Camera Setup
 
 ```gdscript
-# Utility method: Check if coordinates were captured in World View
-func validate_coordinates_for_view_mode(points, expected_view_mode):
-    # If we're not in the expected view mode, show a warning
-    if _current_view_mode != expected_view_mode:
-        var actual_mode = "WORLD_VIEW" if _current_view_mode == ViewMode.WORLD_VIEW else "GAME_VIEW"
-        var expected_mode = "WORLD_VIEW" if expected_view_mode == ViewMode.WORLD_VIEW else "GAME_VIEW"
-        
-        push_warning("CoordinateManager: Coordinate validation warning - Current view mode is " + 
-            actual_mode + " but coordinates are expected for " + expected_mode)
-        # [Additional warnings...]
-    return true
+# In a district scene
+var camera = ScrollingCamera.new()
+add_child(camera)
+
+# Configure basic properties
+camera.follow_player = true
+camera.follow_smoothing = 5.0
+camera.edge_margin = Vector2(150, 100)
+
+# Set bounds based on the district's walkable area
+camera.bounds_enabled = true
 ```
 
-### Bounds Visualization
-
-The BoundsCalculator service can create visual representations of the calculated camera bounds:
+### Camera Movement API
 
 ```gdscript
-# Create a visualization of the calculated bounds for debugging
-static func create_bounds_visualization(bounds: Rect2, parent_node):
-    if not OS.is_debug_build():
-        return null
-        
-    var visualization = Node2D.new()
-    visualization.name = "BoundsVisualization"
-    parent_node.add_child(visualization)
-    
-    # Create a polygon that represents the bounds
-    var rect = Polygon2D.new()
-    rect.name = "BoundsRect"
-    rect.color = Color(1, 0, 0, 0.2)  # Semi-transparent red
-    rect.polygon = PoolVector2Array([
-        Vector2(bounds.position.x, bounds.position.y),
-        Vector2(bounds.position.x + bounds.size.x, bounds.position.y),
-        Vector2(bounds.position.x + bounds.size.x, bounds.position.y + bounds.size.y),
-        Vector2(bounds.position.x, bounds.position.y + bounds.size.y)
-    ])
-    visualization.add_child(rect)
-    # [Additional visualization elements...]
+# Move camera to specific position immediately
+camera.move_to_position(target_position, true)
+
+# Move camera with transition
+camera.move_to_position(target_position)
+
+# Center camera on player
+camera.focus_on_player()
+
+# Start following player
+camera.start_following_player()
+
+# Stop following player
+camera.stop_following_player()
 ```
 
-## Implementation Details
-
-### BaseDistrict Configuration
-
-The `BaseDistrict` class contains properties for configuring the scrolling camera:
-
-- `use_scrolling_camera`: Flag to enable/disable scrolling camera
-- `camera_follow_smoothing`: Camera smoothing factor for movement
-- `camera_edge_margin`: Distance from screen edge that triggers scrolling
-- `initial_camera_view`: Starting position ("left", "right", "center")
-- `camera_initial_position`: Optional explicit starting position
-- `camera_easing_type`: Easing function for camera movement
-- `background_scale_factor`: Scale factor for coordinate transformations
-
-### CoordinateManager Initialization
-
-The CoordinateManager singleton needs to be properly initialized with the current district:
+### State Management API
 
 ```gdscript
-# In BaseDistrict's _ready() method:
-func _ready():
-    # Initialize camera and coordinate systems
-    if CoordinateManager:
-        CoordinateManager.set_current_district(self)
+# Get current camera state
+var state = camera.get_camera_state()
+
+# Check if camera is moving
+if camera.is_moving():
+    print("Camera is in transition")
+
+# Check if camera is following player
+if camera.is_following_player():
+    print("Camera is tracking player movement")
+
+# Set whether camera should follow player
+camera.set_follow_player(true)
 ```
 
-### Setting Up Walkable Areas
-
-Walkable areas need to be properly defined for correct camera behavior:
+### Coordinate Transformations
 
 ```gdscript
-# In a district or test scene _ready() method:
-func setup_walkable_area():
-    var walkable = Polygon2D.new()
-    walkable.name = "WalkableArea"
-    walkable.color = Color(0, 1, 0, 0.35)  # Semi-transparent green
-    walkable.polygon = PoolVector2Array([
-        Vector2(234, 816),     # Top-left edge
-        Vector2(-2, 826),      # Left edge
-        Vector2(-2, 944),      # Bottom-left corner
-        Vector2(4686, 944),    # Bottom-right corner
-        Vector2(4676, 840),    # Right edge
-        Vector2(3672, 854),    # Upper-right area
-        Vector2(3186, 812),    # Mid-upper area
-        Vector2(1942, 802),    # Mid-upper area
-        Vector2(692, 851),     # Mid-left area
-        Vector2(480, 889),     # Lower-left area
-        Vector2(258, 871)      # Upper-left area
-    ])
-    walkable.add_to_group("designer_walkable_area")
-    walkable.add_to_group("walkable_area")
-    add_child(walkable)
+# Convert screen coordinates to world coordinates
+var world_pos = camera.screen_to_world(screen_pos)
+
+# Convert world coordinates to screen coordinates
+var screen_pos = camera.world_to_screen(world_pos)
+
+# Validate coordinates to ensure they're within bounds
+var validated_position = camera.validate_coordinates(position)
+
+# Check if a world point is visible in the camera view
+var is_visible = camera.is_point_in_view(world_position)
 ```
 
-## Testing Tools
+## Events and Signals
 
-### Debug Keys
-
-The camera system supports several debug keys to aid in testing:
-
-- **Alt+W**: Toggle between Game View and World View modes
-- **F1**: Toggle coordinate picker for defining walkable areas
-- **F2**: Toggle polygon visualizer for editing walkable areas
-- **F3**: Toggle debug console
-- **F4**: Toggle debug overlay
-
-### Debug Console Commands
-
-Several debug commands are available for testing the camera system:
-
-```
-debug fullview           # Toggle world view mode (Alt+W)
-debug worldview          # Toggle world view mode (Alt+W)
-debug validate_walkable  # Validate coordinates against walkable areas
-```
-
-### Test Scene
-
-The `clean_camera_test.gd` scene demonstrates proper usage of the camera system and walkable areas:
+The camera emits the following signals:
 
 ```gdscript
-# In clean_camera_test.gd:
-func _ready():
-    # Setup the walkable area with proper coordinates
-    setup_walkable_area()
-    
-    # Create the scrolling camera
-    var camera = ScrollingCamera.new()
-    camera.name = "Camera"
-    camera.initial_view = "center"  # Show center view initially
-    add_child(camera)
-    
-    # Test different camera views:
-    # - Press 1 for left view
-    # - Press 2 for center view
-    # - Press 3 for right view
+signal camera_move_started(target_position)  # When transition begins
+signal camera_move_completed()               # When transition ends
+signal view_bounds_changed(new_bounds)       # When camera bounds update
+signal camera_state_changed(new_state)       # When camera state changes
 ```
+
+## Testing
+
+A dedicated test scene is available at `src/test/camera_system_test.tscn` to verify camera functionality:
+
+1. **State Tests** - Verify camera state transitions
+2. **Transform Tests** - Validate coordinate transformations
+3. **Validation Tests** - Test coordinate validation and error handling
+4. **Transition Tests** - Test smooth camera movement between positions
+5. **Integration Tests** - Verify CoordinateManager integration
 
 ## Best Practices
 
@@ -421,16 +380,6 @@ func _ready():
    - Test camera behavior with each initial view (left, center, right)
    - Verify camera constraints at boundaries of walkable areas
    - Check camera response when player approaches screen edges
-
-## Future Enhancements
-
-Potential improvements for the camera system:
-
-1. **Multi-layer parallax backgrounds** for depth perception
-2. **Camera zones** that define special camera behaviors in specific areas
-3. **Transition effects** when moving between districts
-4. **Camera focusing** on important objects or events
-5. **Screen edge interaction** for district transitions
 
 ## Related Documentation
 

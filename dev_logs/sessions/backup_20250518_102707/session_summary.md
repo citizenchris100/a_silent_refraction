@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 18, 2025 - Beginning Iteration 3 (🟢 IN PROGRESS)
-- **Iteration:** 3 - Game Districts and Time Management
-- **Focus:** Planning and Setup
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-18_10-27-07.md)
-
 ### May 17, 2025 - Scrolling Camera Implementation (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework, Suspicion System, and Initial Asset Creation
 - **Focus:** Shipping District Camera Integration

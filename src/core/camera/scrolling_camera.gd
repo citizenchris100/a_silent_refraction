@@ -12,7 +12,20 @@ enum EasingType {
     CUBIC,           # Cubic easing (smooth acceleration/deceleration)
     QUAD             # Quadratic easing (gentler than cubic)
 }
+
+# Camera states enum for state tracking
+enum CameraState {
+    IDLE,            # Camera is not moving
+    MOVING,          # Camera is transitioning between positions
+    FOLLOWING_PLAYER # Camera is actively tracking player movement
+}
 # ScrollingCamera: Handles camera movement for larger-than-screen backgrounds
+
+# Signals for state changes and movement events
+signal camera_move_started(target_position)
+signal camera_move_completed()
+signal view_bounds_changed(new_bounds)
+signal camera_state_changed(new_state)
 
 # Camera properties
 export var follow_player: bool = true
@@ -22,6 +35,15 @@ export var bounds_enabled: bool = true
 export var initial_position: Vector2 = Vector2.ZERO # Initial camera position (if Vector2.ZERO, will be centered)
 export var initial_view: String = "right" # Which part to show initially: "left", "right", "center"
 export(EasingType) var easing_type: int = EasingType.SINE # Type of easing to use for camera movement
+
+# State tracking
+var current_camera_state: int = CameraState.IDLE
+var target_position: Vector2 = Vector2.ZERO
+var is_transition_active: bool = false
+var movement_progress: float = 0.0
+
+# World view mode flag
+var world_view_mode: bool = false
 
 # Variables
 var target_player: Node2D = null
@@ -115,9 +137,16 @@ func _ready():
     screen_size = get_viewport_rect().size
     debug_log("trace", "Camera initialized with screen size: " + str(screen_size))
     
+    # Initialize camera state
+    current_camera_state = CameraState.IDLE
+    
     # Set up debug overlay if debug is enabled
     if debug_draw:
         setup_debug_overlay()
+    
+    # Register with the CoordinateManager 
+    # Delay this to ensure all nodes are ready
+    call_deferred("register_with_coordinate_manager")
     
     # Find player
     yield(get_tree(), "idle_frame") # Wait for scene to be ready
@@ -147,13 +176,44 @@ func _ready():
             debug_log("overlay", "Specific font not found, using alternative debug method")
             # We'll handle font rendering with labels instead
             _setup_debug_labels()
+    
+    # Connect to district signals if parent is a district
+    var parent = get_parent()
+    if parent is BaseDistrict:
+        if parent.has_signal("district_initialized"):
+            parent.connect("district_initialized", self, "_on_district_initialized")
+            debug_log("camera", "Connected to district_initialized signal")
+    
+    # Set the initial camera state based on initialization parameters
+    if follow_player and target_player:
+        set_camera_state(CameraState.FOLLOWING_PLAYER)
+        debug_log("camera", "Camera initialized in FOLLOWING_PLAYER state")
+    else:
+        set_camera_state(CameraState.IDLE)
+        debug_log("camera", "Camera initialized in IDLE state")
 
 func _process(delta):
     if !target_player:
         return
         
-    if follow_player:
-        _handle_camera_movement(delta)
+    # Handle camera movement based on state
+    match current_camera_state:
+        CameraState.FOLLOWING_PLAYER:
+            if follow_player and !world_view_mode:
+                _handle_camera_movement(delta)
+                
+        CameraState.MOVING:
+            if is_transition_active:
+                _handle_transition_movement(delta)
+            else:
+                # If transition is complete but we're still in MOVING state, go to IDLE
+                set_camera_state(CameraState.IDLE)
+                
+        CameraState.IDLE:
+            # If follow_player is enabled but we're idle, switch to FOLLOWING_PLAYER
+            # Don't switch to FOLLOWING_PLAYER when in world view mode
+            if follow_player and target_player and !world_view_mode:
+                set_camera_state(CameraState.FOLLOWING_PLAYER)
     
     # Only draw debug in editor or debug builds
     if OS.is_debug_build():
@@ -244,16 +304,122 @@ func _calculate_district_bounds(district) -> Rect2:
 # Helper method to convert screen coordinates to world coordinates
 # This ensures proper conversion regardless of zoom level
 func screen_to_world(screen_pos: Vector2) -> Vector2:
-    return global_position + ((screen_pos - get_viewport_rect().size/2) * zoom)
+    # First validate the screen position to catch any invalid values
+    if is_nan(screen_pos.x) or is_nan(screen_pos.y) or is_inf(screen_pos.x) or is_inf(screen_pos.y):
+        push_warning("Camera: Invalid screen coordinates detected. Using viewport center as fallback.")
+        screen_pos = get_viewport_rect().size / 2
+        
+    # Calculate the transformation
+    var result = global_position + ((screen_pos - get_viewport_rect().size/2) * zoom)
+    
+    # Validate the result
+    result = validate_coordinates(result)
+    
+    # If CoordinateManager singleton exists, notify it of the transformation
+    if Engine.has_singleton("CoordinateManager"):
+        var coord_manager = Engine.get_singleton("CoordinateManager")
+        debug_log("camera", "Notifying CoordinateManager of screen_to_world transformation: " +
+                 str(screen_pos) + " -> " + str(result))
+    
+    return result
 
 # Helper method to convert world coordinates to screen coordinates
 # This ensures proper conversion regardless of zoom level
 func world_to_screen(world_pos: Vector2) -> Vector2:
-    return (world_pos - global_position) / zoom + get_viewport_rect().size/2
+    # First validate the world position
+    world_pos = validate_coordinates(world_pos)
+        
+    # Calculate the transformation
+    var result = (world_pos - global_position) / zoom + get_viewport_rect().size/2
+    
+    # Validate screen coordinates as well (screen can have invalid coordinates too)
+    if is_nan(result.x) or is_nan(result.y) or is_inf(result.x) or is_inf(result.y):
+        push_warning("Camera: Invalid screen coordinates calculated. Using viewport center as fallback.")
+        result = get_viewport_rect().size / 2
+    
+    # If CoordinateManager singleton exists, notify it of the transformation
+    if Engine.has_singleton("CoordinateManager"):
+        var coord_manager = Engine.get_singleton("CoordinateManager")
+        debug_log("camera", "Notifying CoordinateManager of world_to_screen transformation: " +
+                 str(world_pos) + " -> " + str(result))
+    
+    return result
+
+# Register this camera with the CoordinateManager singleton
+func register_with_coordinate_manager():
+    if Engine.has_singleton("CoordinateManager"):
+        var coord_manager = Engine.get_singleton("CoordinateManager")
+        
+        # Get parent district if available
+        var district = get_parent() if get_parent() is BaseDistrict else null
+        
+        if district:
+            # Register the district with the coordinate manager
+            coord_manager.set_current_district(district)
+            debug_log("camera", "Registered district with CoordinateManager: " + str(district.name))
+        else:
+            debug_log("camera", "No parent district found to register with CoordinateManager")
+            
+        debug_log("camera", "Camera registered with CoordinateManager")
+    else:
+        debug_log("camera", "CoordinateManager singleton not available for registration")
+
+# Validate coordinates to ensure they are valid and handle edge cases
+func validate_coordinates(position: Vector2) -> Vector2:
+    # Check for NaN values
+    if is_nan(position.x) or is_nan(position.y):
+        push_warning("Camera: Invalid coordinate detected (NaN). Using camera position as fallback.")
+        return global_position
+    
+    # Check for infinite values
+    if is_inf(position.x) or is_inf(position.y):
+        push_warning("Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.")
+        return global_position
+        
+    # Check for extremely large values that likely indicate errors
+    if abs(position.x) > 100000 or abs(position.y) > 100000:
+        push_warning("Camera: Suspiciously large coordinate detected. Using camera position as fallback.")
+        debug_log("camera", "Large coordinate detected: " + str(position))
+        return global_position
+        
+    # Return the validated position
+    return position
+
+# Check if a world point is currently visible in the camera view
+func is_point_in_view(world_pos: Vector2) -> bool:
+    var camera_half_size = screen_size / 2 / zoom
+    var current_view = Rect2(
+        global_position - camera_half_size,
+        camera_half_size * 2
+    )
+    return current_view.has_point(world_pos)
+
+# Ensure a target position is valid for camera movement (within bounds)
+func ensure_valid_target(target_pos: Vector2) -> Vector2:
+    var validated_pos = validate_coordinates(target_pos)
+    
+    if bounds_enabled and camera_bounds.size != Vector2.ZERO:
+        # Calculate half size of camera view
+        var camera_half_size = screen_size / 2 / zoom
+        
+        # Calculate bounds limits
+        var min_x = camera_bounds.position.x + camera_half_size.x
+        var max_x = camera_bounds.position.x + camera_bounds.size.x - camera_half_size.x
+        var min_y = camera_bounds.position.y + camera_half_size.y
+        var max_y = camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
+        
+        # Clamp position to bounds
+        validated_pos.x = clamp(validated_pos.x, min_x, max_x)
+        validated_pos.y = clamp(validated_pos.y, min_y, max_y)
+    
+    return validated_pos
 
 func _handle_camera_movement(delta):
     # Get player's position
     var player_pos = target_player.global_position
+    
+    # Validate player position to catch any potential issues
+    player_pos = validate_coordinates(player_pos)
     
     # Get current camera view rect in world space
     var camera_half_size = screen_size / 2 / zoom
@@ -316,27 +482,11 @@ func _handle_camera_movement(delta):
                 diff_y += 5 * player_relative_to_inner.y
                 target_pos.y = global_position.y + diff_y
         
-        # Remember original target position before clamping
+        # Remember original target position before validation and clamping
         var original_target_pos = target_pos
         
-        # Apply bounds if enabled
-        if bounds_enabled:
-            # Ensure camera stays within bounds
-            target_pos.x = clamp(
-                target_pos.x,
-                camera_bounds.position.x + camera_half_size.x,
-                camera_bounds.position.x + camera_bounds.size.x - camera_half_size.x
-            )
-            target_pos.y = clamp(
-                target_pos.y,
-                camera_bounds.position.y + camera_half_size.y,
-                camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
-            )
-        
-        # Safety check for NaN values
-        if is_nan(target_pos.x) or is_nan(target_pos.y):
-            push_error("Camera target position contains NaN values!")
-            target_pos = player_pos
+        # Validate and ensure the target position is within bounds
+        target_pos = ensure_valid_target(target_pos)
         
         # Smoothly move camera with selected easing function
         var weight = follow_smoothing * delta
@@ -346,9 +496,16 @@ func _handle_camera_movement(delta):
         # This avoids camera oscillation when player is at the edges of bounds
         if original_target_pos.distance_to(target_pos) <= 10:
             _ensure_player_visible()
+            
+        # Log camera movement for debugging
+        debug_log("camera", "Camera following player: " + str(player_pos) + " -> " + str(global_position))
 
 # Ensure the player character is visible after camera movement
 func _ensure_player_visible():
+    # Skip this check if in world view mode
+    if world_view_mode:
+        return
+        
     if !target_player:
         return
         
@@ -361,8 +518,11 @@ func _ensure_player_visible():
     
     # Check if player is within the view
     var player_pos = target_player.global_position
-    if !current_view.has_point(player_pos):
-        print("Player outside camera view - adjusting camera position")
+    player_pos = validate_coordinates(player_pos) # Validate coordinates
+    
+    # Use our is_point_in_view method to check if player is visible
+    if !is_point_in_view(player_pos):
+        debug_log("camera", "Player outside camera view - adjusting camera position")
         
         # Calculate how far outside the view the player is
         var distance_outside = Vector2()
@@ -389,24 +549,9 @@ func _ensure_player_visible():
         if distance_outside.y != 0:
             new_camera_pos.y += distance_outside.y + (margin * sign(distance_outside.y))
         
-        # Apply bounds if enabled
-        if bounds_enabled:
-            new_camera_pos.x = clamp(
-                new_camera_pos.x,
-                camera_bounds.position.x + camera_half_size.x,
-                camera_bounds.position.x + camera_bounds.size.x - camera_half_size.x
-            )
-            new_camera_pos.y = clamp(
-                new_camera_pos.y,
-                camera_bounds.position.y + camera_half_size.y,
-                camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
-            )
+        # Use ensure_valid_target to validate and apply bounds
+        new_camera_pos = ensure_valid_target(new_camera_pos)
         
-        # Safety check for NaN values
-        if is_nan(new_camera_pos.x) or is_nan(new_camera_pos.y):
-            push_error("Camera position contains NaN values! Falling back to player position.")
-            new_camera_pos = player_pos
-            
         # Apply the position immediately to avoid oscillation
         var original_smoothing = smoothing_enabled
         smoothing_enabled = false
@@ -414,22 +559,26 @@ func _ensure_player_visible():
         smoothing_enabled = original_smoothing
         
         # Verify player is now within view after adjustment
-        var updated_view = Rect2(
-            global_position - camera_half_size,
-            camera_half_size * 2
-        )
-        
-        if !updated_view.has_point(player_pos):
-            push_error("Player still outside camera view after adjustment!")
+        if !is_point_in_view(player_pos):
+            push_warning("Player still outside camera view after adjustment - centering on player")
             # Last resort: center directly on player
-            global_position = player_pos
+            global_position = ensure_valid_target(player_pos) # Ensure valid target position
         
-        print("Camera repositioned to: " + str(global_position) + " to keep player in view")
+        debug_log("camera", "Camera repositioned to: " + str(global_position) + " to keep player in view")
 
 # Update camera bounds when the district changes
 func update_bounds():
     if get_parent() is BaseDistrict:
         camera_bounds = _calculate_district_bounds(get_parent())
+        
+        # Register updated district with CoordinateManager
+        register_with_coordinate_manager()
+        
+# Called when the parent district is initialized
+func _on_district_initialized():
+    debug_log("camera", "District initialized - updating camera bounds and registration")
+    update_bounds()
+    register_with_coordinate_manager()
 
 # Force camera to update its position and bounds immediately
 func force_update_scroll():
@@ -445,8 +594,8 @@ func force_update_scroll():
     if initial_position != Vector2.ZERO:
         # Temporarily disable bounds to ensure position is honored exactly
         bounds_enabled = false
-        global_position = initial_position
-        print("Respecting explicit initial camera position: " + str(initial_position))
+        global_position = validate_coordinates(initial_position) # Validate the position
+        debug_log("camera", "Respecting explicit initial camera position: " + str(initial_position))
     
     # Process one frame to update camera
     force_update_transform()
@@ -455,7 +604,13 @@ func force_update_scroll():
     smoothing_enabled = original_smoothing
     bounds_enabled = original_bounds_enabled
     
-    print("Camera scroll position forcibly updated at: " + str(global_position))
+    # Update camera state
+    if follow_player and target_player:
+        set_camera_state(CameraState.FOLLOWING_PLAYER)
+    else:
+        set_camera_state(CameraState.IDLE)
+    
+    debug_log("camera", "Camera scroll position forcibly updated at: " + str(global_position))
 
 # Calculate the optimal zoom level to ensure the background fills the viewport
 func calculate_optimal_zoom():
@@ -755,6 +910,113 @@ func _set_initial_camera_position():
     print("===== CAMERA INITIAL POSITION SETUP COMPLETE =====\n")
 
 # Set up UI labels for debug info (alternative to font rendering)
+# Set camera state and handle state transitions
+func set_camera_state(new_state: int) -> void:
+    # Don't do anything if state isn't changing
+    if current_camera_state == new_state:
+        return
+        
+    var old_state = current_camera_state
+    current_camera_state = new_state
+    
+    # Handle state entry actions
+    match new_state:
+        CameraState.IDLE:
+            is_transition_active = false
+            movement_progress = 0.0
+            emit_signal("camera_move_completed")
+            
+        CameraState.MOVING:
+            is_transition_active = true
+            movement_progress = 0.0
+            emit_signal("camera_move_started", target_position)
+            
+        CameraState.FOLLOWING_PLAYER:
+            is_transition_active = false
+            
+    # Emit the state change signal
+    emit_signal("camera_state_changed", new_state)
+    debug_log("camera", "Camera state changed from " + get_state_name(old_state) + 
+              " to " + get_state_name(new_state))
+
+# Get a readable name for a camera state
+func get_state_name(state: int) -> String:
+    match state:
+        CameraState.IDLE:
+            return "IDLE"
+        CameraState.MOVING:
+            return "MOVING"
+        CameraState.FOLLOWING_PLAYER:
+            return "FOLLOWING_PLAYER"
+        _:
+            return "UNKNOWN"
+
+# Move camera to a specific target position
+func move_to_position(pos: Vector2, immediate: bool = false) -> void:
+    # Validate and adjust target position
+    target_position = ensure_valid_target(pos)
+    
+    if immediate:
+        # Skip animation, set position directly
+        var original_smoothing = smoothing_enabled
+        smoothing_enabled = false
+        global_position = target_position
+        smoothing_enabled = original_smoothing
+        set_camera_state(CameraState.IDLE)
+    else:
+        # Start animated movement
+        set_camera_state(CameraState.MOVING)
+        
+# Begin following the player
+func start_following_player() -> void:
+    if target_player:
+        set_camera_state(CameraState.FOLLOWING_PLAYER)
+    else:
+        push_warning("Cannot follow player: no player target found")
+        
+# Stop following the player and stay in place
+func stop_following_player() -> void:
+    if current_camera_state == CameraState.FOLLOWING_PLAYER:
+        set_camera_state(CameraState.IDLE)
+        
+# Focus on player immediately (center camera on player position)
+func focus_on_player(with_transition: bool = false) -> void:
+    if !target_player:
+        push_warning("Cannot focus on player: no player target found")
+        return
+        
+    # Get and validate player position
+    var player_pos = validate_coordinates(target_player.global_position)
+    
+    # Move camera to player position
+    move_to_position(player_pos, !with_transition)
+    
+    # After focusing, resume following if that was the previous state
+    if follow_player and !with_transition:
+        set_camera_state(CameraState.FOLLOWING_PLAYER)
+        
+# Get current camera state
+func get_camera_state() -> int:
+    return current_camera_state
+    
+# Check if camera is currently moving (transitioning)
+func is_moving() -> bool:
+    return current_camera_state == CameraState.MOVING
+    
+# Check if camera is currently following player
+func is_following_player() -> bool:
+    return current_camera_state == CameraState.FOLLOWING_PLAYER
+    
+# Set whether camera should follow player
+func set_follow_player(should_follow: bool) -> void:
+    follow_player = should_follow
+    
+    # Update state based on new setting
+    if follow_player and target_player:
+        set_camera_state(CameraState.FOLLOWING_PLAYER)
+    elif current_camera_state == CameraState.FOLLOWING_PLAYER:
+        set_camera_state(CameraState.IDLE)
+
 func _setup_debug_labels():
     # Create a canvas layer that stays relative to the camera view
     var canvas = CanvasLayer.new()
@@ -781,7 +1043,8 @@ func _setup_debug_labels():
         {"name": "CameraPos", "text": "Camera: ", "position": Vector2(15, 15)},
         {"name": "PlayerPos", "text": "Player: ", "position": Vector2(15, 35)},
         {"name": "EasingType", "text": "Easing: ", "position": Vector2(15, 55)},
-        {"name": "ViewRatio", "text": "View: ", "position": Vector2(15, 75)}
+        {"name": "ViewRatio", "text": "View: ", "position": Vector2(15, 75)},
+        {"name": "CameraState", "text": "State: ", "position": Vector2(15, 95)}  # Added state display
     ]
     
     for label_info in labels:
@@ -834,6 +1097,11 @@ func _update_debug_labels():
         var view_width = screen_size.x / zoom.x
         var view_ratio = view_width / camera_bounds.size.x * 100
         ratio_label.text = "View: " + str(round(view_ratio)) + "% visible"
+        
+    # Update camera state label
+    var state_label = container.get_node_or_null("CameraState")
+    if state_label:
+        state_label.text = "State: " + get_state_name(current_camera_state)
     
     # Update margin visualization
     var margin_vis = container.get_node_or_null("MarginVisualization")
@@ -853,15 +1121,30 @@ func _draw():
         camera_half_size * 2
     )
     
-    # Draw camera edges
-    draw_rect(current_view, Color(1, 1, 1, 0.3), false)
+    # Draw camera edges - color based on state
+    var state_colors = {
+        CameraState.IDLE: Color(1, 1, 1, 0.3),
+        CameraState.MOVING: Color(1, 0.5, 0, 0.4),  # Orange for moving
+        CameraState.FOLLOWING_PLAYER: Color(0, 0.7, 1, 0.4)  # Blue for following
+    }
+    var edge_color = state_colors[current_camera_state]
+    draw_rect(current_view, edge_color, false)
     
     # Draw scroll trigger area
     var inner_margin = Rect2(
         current_view.position + edge_margin,
         current_view.size - (edge_margin * 2)
     )
-    draw_rect(inner_margin, Color(0, 1, 0, 0.3), false)
+    
+    # Inner margin is green when following player, otherwise dimmer
+    var inner_color = Color(0, 1, 0, 0.4) if current_camera_state == CameraState.FOLLOWING_PLAYER else Color(0, 0.5, 0, 0.2)
+    draw_rect(inner_margin, inner_color, false)
+    
+    # If transitioning, draw line to target position
+    if current_camera_state == CameraState.MOVING and is_transition_active:
+        var screen_target = world_to_screen(target_position) - get_viewport_rect().size/2
+        draw_line(Vector2.ZERO, screen_target, Color(1, 0.5, 0, 0.7), 2.0)
+        draw_circle(screen_target, 5.0, Color(1, 0.5, 0, 0.8))
     
     # Draw text only if we have a valid font
     if debug_font and debug_font.get_height() > 0:
@@ -882,9 +1165,52 @@ func _draw():
         var view_ratio = view_width / camera_bounds.size.x * 100
         text = "View ratio: " + str(round(view_ratio)) + "% visible"
         draw_string(debug_font, Vector2(-camera_half_size.x + 10, -camera_half_size.y + 80), text, Color(1, 1, 0))
+        
+        # Add camera state to debug display
+        text = "Camera state: " + get_state_name(current_camera_state)
+        draw_string(debug_font, Vector2(-camera_half_size.x + 10, -camera_half_size.y + 100), text, Color(1, 1, 0))
+        
+        # If in MOVING state, show transition progress
+        if current_camera_state == CameraState.MOVING:
+            text = "Transition: " + str(int(movement_progress * 100)) + "%"
+            draw_string(debug_font, Vector2(-camera_half_size.x + 10, -camera_half_size.y + 120), text, Color(1, 0.5, 0))
     else:
         # If font rendering fails, we'll use UI labels instead (set up in _setup_debug_labels)
         _update_debug_labels()
+
+# Handle camera transitions when in MOVING state
+func _handle_transition_movement(delta):
+    # Calculate movement progress based on delta time
+    var transition_speed = follow_smoothing * delta
+    movement_progress += transition_speed
+    
+    # Clamp progress to [0, 1]
+    movement_progress = clamp(movement_progress, 0.0, 1.0)
+    
+    # Calculate new position using easing
+    var start_position = global_position
+    global_position = _apply_easing(start_position, target_position, movement_progress)
+    
+    # Log camera movement for debugging
+    debug_log("camera", "Camera transition: Progress " + str(movement_progress) + 
+              ", Position " + str(global_position) + 
+              ", Target " + str(target_position))
+    
+    # Check if we've reached the target
+    if movement_progress >= 1.0 or global_position.distance_to(target_position) < 1.0:
+        # Transition complete - snap to exact target position
+        global_position = target_position
+        is_transition_active = false
+        
+        # Transition to appropriate next state
+        if follow_player and target_player:
+            set_camera_state(CameraState.FOLLOWING_PLAYER)
+        else:
+            set_camera_state(CameraState.IDLE)
+            
+        # Emit completion signal
+        emit_signal("camera_move_completed")
+        debug_log("camera", "Camera transition completed to " + str(global_position))
 
 # Apply the selected easing function to interpolate between start and end positions
 func _apply_easing(start_pos: Vector2, end_pos: Vector2, weight: float) -> Vector2:

@@ -46,39 +46,117 @@ This refactoring will adhere to the following architectural principles:
    - Improve screen-to-world and world-to-screen coordinate conversions
    - Ensure proper synchronization with player movement states
 
+**Comprehensive Enhancement Plan:**
+
+This phase implements Task 1 from Iteration 3 with the following comprehensive enhancements:
+
+1. **Coordinate Transformation Improvements:**
+   - Enhance screen_to_world and world_to_screen methods to handle edge cases
+   - Add validation for NaN values during transformations
+   - Improve handling of edge cases near screen boundaries
+   - Enhance zoom-specific transformations for consistent behavior
+
+2. **Camera State Management Addition:**
+   - Implement formal state system (IDLE, MOVING, FOLLOWING_PLAYER)
+   - Prevent conflicting camera movement commands
+   - Improve synchronization with player movement
+   - Implement clear entry/exit conditions for each state
+
+3. **Signal-Based Communication Enhancement:**
+   - Add camera_move_started signal when camera begins movement
+   - Add camera_move_completed signal when movement finishes
+   - Add view_bounds_changed signal when boundaries update
+   - Support established signal-based architecture
+
+4. **Coordinate Validation Methods:**
+   - Add validate_coordinates method for viewport validation
+   - Implement is_point_in_view to check visibility
+   - Add ensure_valid_target for movement validation
+
+5. **Improve CoordinateManager Integration:**
+   - Enhance integration with the singleton
+   - Add helper methods for direct utilization
+   - Ensure consistent coordinate handling
+   - Maintain proper separation of concerns
+
+6. **Testing Strategy:**
+   - Create test cases for all conversion scenarios
+   - Implement visual debugging helpers
+   - Test at different zoom levels and positions
+   - Verify edge case handling
+
+7. **Documentation Updates:**
+   - Update system documentation
+   - Document new methods, signals, and states
+   - Provide usage examples for proper implementation
+
 ```gdscript
 # Enhancements to scrolling_camera.gd
-func _handle_camera_movement(delta):
-    # Refined camera movement logic with better state tracking
-    # ...
+enum CameraState {IDLE, MOVING, FOLLOWING_PLAYER}
+var current_camera_state = CameraState.IDLE
 
-func screen_to_world(screen_pos: Vector2) -> Vector2:
-    # Enhanced conversion with edge case handling
-    # ...
-    
-func world_to_screen(world_pos: Vector2) -> Vector2:
-    # Enhanced conversion with edge case handling
-    # ...
-
-# New method for coordinate space validation
-func validate_coordinates(position: Vector2) -> Vector2:
-    # Ensures coordinates are valid in the current viewport state
-    # ...
-```
-
-2. **Improve state signaling and synchronization**
-   - Add signals to notify other systems of camera state changes
-   - Track camera movement state to prevent conflicting movements
-
-```gdscript
 # New signals
 signal camera_move_started(target_position)
 signal camera_move_completed()
 signal view_bounds_changed(new_bounds)
 
-# State tracking
-var is_camera_moving: bool = false
+# State management method
+func _set_camera_state(new_state):
+    if current_camera_state != new_state:
+        current_camera_state = new_state
+        # Trigger appropriate actions based on state change
+        match new_state:
+            CameraState.MOVING:
+                emit_signal("camera_move_started", target_position)
+            CameraState.IDLE:
+                emit_signal("camera_move_completed")
+
+# Enhanced coordinate conversion methods
+func screen_to_world(screen_pos: Vector2) -> Vector2:
+    # Enhanced conversion with edge case handling
+    var result = global_position + ((screen_pos - get_viewport_rect().size/2) * zoom)
+    return validate_coordinates(result)
+    
+func world_to_screen(world_pos: Vector2) -> Vector2:
+    # Enhanced conversion with edge case handling
+    var result = (world_pos - global_position) / zoom + get_viewport_rect().size/2
+    return result
+
+# New coordinate validation methods
+func validate_coordinates(position: Vector2) -> Vector2:
+    # Ensures coordinates are valid in the current viewport state
+    if is_nan(position.x) or is_nan(position.y):
+        push_warning("Invalid coordinate detected: NaN value")
+        return global_position # Fallback to camera position
+    return position
+
+func is_point_in_view(world_pos: Vector2) -> bool:
+    # Check if a world point is currently visible
+    var camera_half_size = screen_size / 2 / zoom
+    var current_view = Rect2(global_position - camera_half_size, camera_half_size * 2)
+    return current_view.has_point(world_pos)
+
+func ensure_valid_target(target_pos: Vector2) -> Vector2:
+    # Ensure a target position is valid for camera movement
+    if bounds_enabled:
+        # Clamp to camera bounds
+        var camera_half_size = screen_size / 2 / zoom
+        var min_x = camera_bounds.position.x + camera_half_size.x
+        var max_x = camera_bounds.position.x + camera_bounds.size.x - camera_half_size.x
+        var min_y = camera_bounds.position.y + camera_half_size.y
+        var max_y = camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
+        
+        return Vector2(
+            clamp(target_pos.x, min_x, max_x),
+            clamp(target_pos.y, min_y, max_y)
+        )
+    return target_pos
 ```
+
+2. **Improve state signaling and synchronization**
+   - Add signals to notify other systems of camera state changes
+   - Track camera movement state to prevent conflicting movements
+   - Implement state-specific behavior and transitions
 
 ### Phase 2: Player Movement Refinements
 
