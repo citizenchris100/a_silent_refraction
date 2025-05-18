@@ -24,7 +24,9 @@ The camera system follows a layered architecture with clear separation of concer
 - Offers various easing functions for camera movement
 - Supports different initial camera positions (left, center, right)
 - Includes comprehensive debug visualization capabilities
-- Implements coordinate validation and transformation methods
+- Implements robust coordinate validation and transformation methods
+- Features signal-based state change communication
+- Includes world_view_mode flag to control player following behavior
 
 #### 2. BoundsCalculator (`src/core/camera/bounds_calculator.gd`)
 - Service that generates camera bounds from walkable area polygons
@@ -66,6 +68,88 @@ The camera operates in three distinct states:
 - Can be triggered with the `start_following_player()` method
 
 ## Core Camera Features
+
+### Enhanced Coordinate Transformation
+
+The camera system now includes robust coordinate transformation with validation to handle edge cases:
+
+```gdscript
+# Helper method to convert screen coordinates to world coordinates
+func screen_to_world(screen_pos: Vector2) -> Vector2:
+    # First validate the screen position to catch any invalid values
+    if is_nan(screen_pos.x) or is_nan(screen_pos.y) or is_inf(screen_pos.x) or is_inf(screen_pos.y):
+        push_warning("Camera: Invalid screen coordinates detected. Using viewport center as fallback.")
+        screen_pos = get_viewport_rect().size / 2
+        
+    # Calculate the transformation
+    var result = global_position + ((screen_pos - get_viewport_rect().size/2) * zoom)
+    
+    # Validate the result
+    result = validate_coordinates(result)
+    
+    return result
+```
+
+The system also provides validation methods to ensure coordinates remain valid:
+
+```gdscript
+# Validate coordinates to ensure they are valid and handle edge cases
+func validate_coordinates(position: Vector2) -> Vector2:
+    # Check for NaN values
+    if is_nan(position.x) or is_nan(position.y):
+        push_warning("Camera: Invalid coordinate detected (NaN). Using camera position as fallback.")
+        return global_position
+    
+    # Check for infinite values
+    if is_inf(position.x) or is_inf(position.y):
+        push_warning("Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.")
+        return global_position
+        
+    # Check for extremely large values that likely indicate errors
+    if abs(position.x) > 100000 or abs(position.y) > 100000:
+        push_warning("Camera: Suspiciously large coordinate detected. Using camera position as fallback.")
+        return global_position
+        
+    # Return the validated position
+    return position
+```
+
+### Walkable Area Visualization
+
+The camera system now supports marker-based walkable area visualization for better visibility and debugging:
+
+```gdscript
+# Create visible yellow markers at each vertex for visual reference
+var walkable_markers = Node2D.new()
+walkable_markers.name = "WalkableAreaMarkers"
+walkable_markers.z_index = 100  # Make sure markers appear above other elements
+add_child(walkable_markers)
+
+# Add a marker at each vertex of the walkable area
+for i in range(game_view_coords.size()):
+    var marker = ColorRect.new()
+    marker.name = "Marker_" + str(i)
+    marker.rect_size = Vector2(10, 10)
+    marker.rect_position = game_view_coords[i] - Vector2(5, 5)  # Center marker on point
+    marker.color = Color(1, 1, 0, 0.9)  # Bright yellow with high opacity
+    walkable_markers.add_child(marker)
+```
+
+This technique provides clear visualization of walkable area boundaries for designers and developers, even when traditional polygon rendering encounters issues.
+
+### World View Mode Integration
+
+The camera now properly integrates with the world view mode, allowing for coordinate debugging without affecting player following:
+
+```gdscript
+# Skip this check if in world view mode
+func _ensure_player_visible():
+    if world_view_mode:
+        return
+        
+    # Rest of the player visibility logic
+    # ...
+```
 
 ### Intelligent Boundary Management
 The camera uses walkable area polygons to define its movement boundaries. The BoundsCalculator service processes these polygons to create a bounding rectangle:
@@ -134,7 +218,17 @@ func screen_to_world(screen_pos):
 The camera system supports two main view modes that affect coordinate handling and visualization:
 
 1. **Game View**: Normal playing perspective with properly positioned camera
+   - Default mode for gameplay
+   - Camera follows player according to defined rules
+   - Shows a portion of the scene based on camera position
+   - Uses default coordinate space for normal gameplay
+
 2. **World View**: Zoomed-out debug view showing the entire scene
+   - Activated with Alt+W key combination
+   - Shows the entire background/scene for debugging
+   - Camera does not follow player in this mode
+   - Used for capturing walkable area coordinates
+   - Coordinates captured in this mode need transformation for use in Game View
 
 ### Coordinate Validation
 
@@ -329,15 +423,62 @@ signal view_bounds_changed(new_bounds)       # When camera bounds update
 signal camera_state_changed(new_state)       # When camera state changes
 ```
 
+These signals enable proper synchronization between systems:
+
+```gdscript
+# Set camera state and handle state transitions
+func set_camera_state(new_state: int) -> void:
+    # Don't do anything if state isn't changing
+    if current_camera_state == new_state:
+        return
+        
+    var old_state = current_camera_state
+    current_camera_state = new_state
+    
+    # Handle state entry actions
+    match new_state:
+        CameraState.IDLE:
+            is_transition_active = false
+            movement_progress = 0.0
+            emit_signal("camera_move_completed")
+            
+        CameraState.MOVING:
+            is_transition_active = true
+            movement_progress = 0.0
+            emit_signal("camera_move_started", target_position)
+            
+        CameraState.FOLLOWING_PLAYER:
+            is_transition_active = false
+            
+    # Emit the state change signal
+    emit_signal("camera_state_changed", new_state)
+```
+
+Other systems can connect to these signals to synchronize their behavior with camera movements and state changes.
+
 ## Testing
 
-A dedicated test scene is available at `src/test/camera_system_test.tscn` to verify camera functionality:
+Multiple test scenes are available to verify camera functionality:
 
-1. **State Tests** - Verify camera state transitions
-2. **Transform Tests** - Validate coordinate transformations
-3. **Validation Tests** - Test coordinate validation and error handling
-4. **Transition Tests** - Test smooth camera movement between positions
-5. **Integration Tests** - Verify CoordinateManager integration
+1. **Camera System Test (`src/test/camera_system_test.tscn`)**
+   - Verify camera state transitions
+   - Validate coordinate transformations
+   - Test coordinate validation and error handling
+   - Test smooth camera movement between positions
+   - Verify CoordinateManager integration
+
+2. **Clean Camera Test (`src/test/clean_camera_test.tscn`)**
+   - Basic camera functionality with standard walkable areas
+   - Test viewport-scale considerations
+
+3. **Clean Camera Test 2 (`src/test/clean_camera_test2.tscn`)**
+   - Enhanced template for new districts
+   - Demonstrates coordinate transformation between view modes
+   - Shows marker-based walkable area visualization
+   - Provides proper player positioning with coordinate transformation
+   - Serves as a starting point for new districts
+   
+These test scenes provide comprehensive coverage of camera functionality in different scenarios and configurations.
 
 ## Best Practices
 
@@ -346,16 +487,33 @@ A dedicated test scene is available at `src/test/camera_system_test.tscn` to ver
 1. **Proper Space Usage**:
    - Use World View mode when defining walkable areas that span the entire background
    - Use Game View mode for local interactions and testing normal gameplay
+   - Clearly document which view mode coordinates were captured in with comments
 
 2. **CoordinateManager Usage**:
    - Always use CoordinateManager for coordinate transformations between spaces
    - Validate coordinates when capturing input or defining walkable areas
    - Be aware of the current view mode when working with coordinates
+   - Use `transform_coordinate_array()` for transforming arrays of coordinates between view modes
 
 3. **View Mode Awareness**:
    - Use Alt+W to toggle between Game View and World View modes
    - Ensure coordinates captured in World View are properly transformed before use in Game View
-   - Document which view mode coordinates were captured in
+   - Use the following pattern to transform coordinates captured in World View:
+
+```gdscript
+# Transform coordinates from WORLD_VIEW to GAME_VIEW using system architecture
+var game_view_coords = CoordinateManager.transform_coordinate_array(
+   world_view_coords,
+   CoordinateManager.ViewMode.WORLD_VIEW,
+   CoordinateManager.ViewMode.GAME_VIEW
+)
+```
+
+4. **Coordinate Validation**:
+   - Use the camera's `validate_coordinates()` method to ensure valid coordinates
+   - Check for NaN, infinite, or extremely large values that indicate errors
+   - Use `ensure_valid_target()` to validate positions for camera movement
+   - Document any special handling or edge cases in your code
 
 ### Walkable Area Definition
 
@@ -363,11 +521,19 @@ A dedicated test scene is available at `src/test/camera_system_test.tscn` to ver
    - Define walkable areas that span the entire playable region
    - Include points along the outer edges and any interior boundaries
    - Ensure all walkable points are contained within the polygon
+   - Document the coordinates clearly, specifying which view mode they were captured in
 
-2. **Validation**:
+2. **Visualizing Walkable Areas**:
+   - Use marker-based visualization for better visibility during development
+   - Create yellow markers at each polygon vertex for clear visual reference
+   - Consider adding connecting lines between markers for better area visualization
+   - Use a high z_index to ensure markers appear above other scene elements
+
+3. **Validation**:
    - Use the validate_walkable debug command to check coordinates
-   - Visually verify walkable areas with the polygon visualizer
+   - Visually verify walkable areas with the marker visualization system
    - Test with the camera in different positions (left, center, right)
+   - Verify walkable areas function properly for both collision and visual purposes
 
 ### Camera Configuration
 
@@ -386,3 +552,5 @@ A dedicated test scene is available at `src/test/camera_system_test.tscn` to ver
 - [Coordinate System](coordinate_system.md): Details on coordinate spaces and transformations
 - [Walkable Area System](walkable_area_system.md): Information on walkable area implementation
 - [Debug Tools](debug_tools.md): Documentation for the debug tools and visualization options
+- [Scrolling Camera System](scrolling_camera_system.md): Comprehensive documentation for scrolling camera implementation
+- [Background Dimensions](../reference/background_dimensions.md): Standard dimensions and camera behavior for different view types

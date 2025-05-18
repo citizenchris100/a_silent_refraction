@@ -7,9 +7,10 @@ This document explains the coordinate systems used in A Silent Refraction, inclu
 The coordinate system follows a layered architecture with clear separation of concerns:
 
 1. **CoordinateManager** - Core singleton that manages all coordinate transformations
-2. **ScrollingCamera** - Provides camera-specific coordinate transformations
-3. **BaseDistrict** - Implements district-specific coordinate handling
-4. **Debug Tools** - Tools for capturing and validating coordinates
+2. **ScrollingCamera** - Provides camera-specific coordinate transformations with robust validation
+3. **BoundsCalculator** - Handles walkable area bounds calculations and coordinate processing
+4. **BaseDistrict** - Implements district-specific coordinate handling
+5. **Debug Tools** - Tools for capturing and validating coordinates
 
 ## Coordinate Spaces
 
@@ -97,6 +98,8 @@ func transform_coordinate_array(points, from_view_mode, to_view_mode)
 func validate_coordinates_for_view_mode(points, expected_view_mode)
 ```
 
+Particularly important for walkable area creation is the `transform_coordinate_array` method which efficiently converts an entire array of coordinates between view modes:
+
 ### Using the CoordinateManager
 
 To use the CoordinateManager in your code:
@@ -130,20 +133,90 @@ var is_valid = CoordinateManager.validate_coordinates_for_view_mode(
 )
 ```
 
-## Lower Level Transformations
+### Walkable Area Creation Pattern
 
-### Camera Transformations
-
-The `ScrollingCamera` class provides basic transformations:
+A recommended pattern for creating walkable areas with proper coordinate transformation:
 
 ```gdscript
-# Convert screen position to world position
-func screen_to_world(screen_pos: Vector2) -> Vector2:
-    return global_position + ((screen_pos - get_viewport_rect().size/2) * zoom)
+# Define coordinates captured in WORLD_VIEW mode
+var world_view_coords = PoolVector2Array([
+    Vector2(4684, 843),  # Right upper corner
+    Vector2(3731, 864),  # Right middle-lower
+    # Additional coordinates...
+])
 
-# Convert world position to screen position
+# Transform coordinates from WORLD_VIEW to GAME_VIEW
+var game_view_coords = CoordinateManager.transform_coordinate_array(
+    world_view_coords,
+    CoordinateManager.ViewMode.WORLD_VIEW,
+    CoordinateManager.ViewMode.GAME_VIEW
+)
+
+# Create walkable area with the transformed coordinates
+var walkable = Polygon2D.new()
+walkable.name = "WalkableArea"
+walkable.polygon = game_view_coords
+walkable.add_to_group("designer_walkable_area")
+walkable.add_to_group("walkable_area")
+add_child(walkable)
+```
+
+## Lower Level Transformations
+
+### Enhanced Camera Transformations
+
+The `ScrollingCamera` class now provides enhanced transformations with validation:
+
+```gdscript
+# Helper method to convert screen coordinates to world coordinates
+func screen_to_world(screen_pos: Vector2) -> Vector2:
+    # First validate the screen position to catch any invalid values
+    if is_nan(screen_pos.x) or is_nan(screen_pos.y) or is_inf(screen_pos.x) or is_inf(screen_pos.y):
+        push_warning("Camera: Invalid screen coordinates detected. Using viewport center as fallback.")
+        screen_pos = get_viewport_rect().size / 2
+        
+    # Calculate the transformation
+    var result = global_position + ((screen_pos - get_viewport_rect().size/2) * zoom)
+    
+    # Validate the result
+    result = validate_coordinates(result)
+    
+    return result
+
+# Helper method to convert world coordinates to screen coordinates
 func world_to_screen(world_pos: Vector2) -> Vector2:
-    return (world_pos - global_position) / zoom + get_viewport_rect().size/2
+    # First validate the world position
+    world_pos = validate_coordinates(world_pos)
+        
+    # Calculate the transformation
+    var result = (world_pos - global_position) / zoom + get_viewport_rect().size/2
+    
+    # Validate screen coordinates as well (screen can have invalid coordinates too)
+    if is_nan(result.x) or is_nan(result.y) or is_inf(result.x) or is_inf(result.y):
+        push_warning("Camera: Invalid screen coordinates calculated. Using viewport center as fallback.")
+        result = get_viewport_rect().size / 2
+    
+    return result
+
+# Validate coordinates to ensure they are valid and handle edge cases
+func validate_coordinates(position: Vector2) -> Vector2:
+    # Check for NaN values
+    if is_nan(position.x) or is_nan(position.y):
+        push_warning("Camera: Invalid coordinate detected (NaN). Using camera position as fallback.")
+        return global_position
+    
+    # Check for infinite values
+    if is_inf(position.x) or is_inf(position.y):
+        push_warning("Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.")
+        return global_position
+        
+    # Check for extremely large values that likely indicate errors
+    if abs(position.x) > 100000 or abs(position.y) > 100000:
+        push_warning("Camera: Suspiciously large coordinate detected. Using camera position as fallback.")
+        return global_position
+        
+    # Return the validated position
+    return position
 ```
 
 ### District Transformations
@@ -315,11 +388,18 @@ If you encounter issues with coordinates not appearing where expected:
    ```gdscript
    # Document the view mode in comments
    # The following coordinates were captured in WORLD_VIEW mode
-   var walkable_coords = PoolVector2Array([
+   var world_view_coords = PoolVector2Array([
        Vector2(234, 816),     # Top-left edge
        Vector2(-2, 826),      # Left edge
        # ...
    ])
+   
+   # Store transformed coordinates separately for clarity
+   var game_view_coords = CoordinateManager.transform_coordinate_array(
+       world_view_coords,
+       CoordinateManager.ViewMode.WORLD_VIEW,
+       CoordinateManager.ViewMode.GAME_VIEW
+   )
    ```
 
 3. **Transform Between View Modes**: When using coordinates captured in a different view mode, always transform them
@@ -332,7 +412,7 @@ If you encounter issues with coordinates not appearing where expected:
    )
    ```
 
-4. **Validate Coordinates**: Use validation to catch view mode mismatches
+4. **Validate Coordinates**: Use validation to catch view mode mismatches and invalid values
    ```gdscript
    # Validate coordinates before using them
    if CoordinateManager.validate_coordinates_for_view_mode(
@@ -345,11 +425,23 @@ If you encounter issues with coordinates not appearing where expected:
        print("Warning: Coordinates may be in the wrong view mode")
    ```
 
-5. **Document Scale Factors**: When a district uses a non-default scale factor, document it clearly
+5. **Check for Invalid Coordinates**: Use the ScrollingCamera's validate_coordinates method
+   ```gdscript
+   # Validate coordinates to catch NaN or infinite values
+   position = camera.validate_coordinates(position)
+   ```
+
+6. **Document Scale Factors**: When a district uses a non-default scale factor, document it clearly
    ```gdscript
    # This district uses a background scale factor of 1.5
    # All world coordinates will be 1.5x larger than screen coordinates
    export var background_scale_factor = 1.5
+   ```
+
+7. **Use the Template District Pattern**: Follow the clean_camera_test2.gd pattern for new districts
+   ```gdscript
+   # Define world view coordinates, transform them, create walkable area,
+   # then add vertex markers for visualization
    ```
 
 ## Related Documents

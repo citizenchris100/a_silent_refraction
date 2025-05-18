@@ -25,9 +25,9 @@ The walkable area system defines where the player character can walk within game
 
 ### 2. Walkable Area Creation
 
-Walkable areas can be created in two ways:
+Walkable areas can be created in three ways:
 
-1. **Programmatically**: Created in code with specific coordinates (as in `clean_camera_test.gd`)
+1. **Programmatically with Polygon2D**: Created in code with specific coordinates (as in `clean_camera_test.gd`)
    ```gdscript
    var walkable = Polygon2D.new()
    walkable.name = "WalkableArea"
@@ -50,7 +50,47 @@ Walkable areas can be created in two ways:
    add_child(walkable)
    ```
 
-2. **In the Editor**: Created visually in the Godot editor and added to necessary groups
+2. **Programmatically with Marker Visualization**: Created using a marker-based approach with transformed coordinates (as in `clean_camera_test2.gd`)
+   ```gdscript
+   # Define coordinates captured in WORLD_VIEW mode
+   var world_view_coords = PoolVector2Array([
+       Vector2(4684, 843),  # Right upper corner
+       Vector2(3731, 864),  # Right middle-lower
+       # Additional coordinates...
+   ])
+   
+   # Transform coordinates from WORLD_VIEW to GAME_VIEW
+   var game_view_coords = CoordinateManager.transform_coordinate_array(
+       world_view_coords,
+       CoordinateManager.ViewMode.WORLD_VIEW,
+       CoordinateManager.ViewMode.GAME_VIEW
+   )
+   
+   # Create the actual walkable area
+   var walkable = Polygon2D.new()
+   walkable.name = "WalkableArea"
+   walkable.color = Color(1, 0, 0, 0.1)  # Red with very low opacity
+   walkable.polygon = game_view_coords
+   walkable.add_to_group("designer_walkable_area")
+   walkable.add_to_group("walkable_area")
+   add_child(walkable)
+   
+   # Create visible yellow markers at each vertex for visual reference
+   var walkable_markers = Node2D.new()
+   walkable_markers.name = "WalkableAreaMarkers"
+   walkable_markers.z_index = 100
+   add_child(walkable_markers)
+   
+   for i in range(game_view_coords.size()):
+       var marker = ColorRect.new()
+       marker.name = "Marker_" + str(i)
+       marker.rect_size = Vector2(10, 10)
+       marker.rect_position = game_view_coords[i] - Vector2(5, 5)
+       marker.color = Color(1, 1, 0, 0.9)  # Bright yellow
+       walkable_markers.add_child(marker)
+   ```
+
+3. **In the Editor**: Created visually in the Godot editor and added to necessary groups
 
 ### 3. Group System
 
@@ -316,36 +356,71 @@ The validator provides visual feedback for valid and invalid points:
 - Press Alt+W to toggle World View when capturing walkable area coordinates
 - Use the coordinate picker (F1) to capture precise coordinates
 - Always capture walkable area coordinates in World View for consistent results
-- Document the view mode used for any set of coordinates
+- Document the view mode used for any set of coordinates with clear comments
+- Store world view coordinates separately for easier debugging and reference
 
-### 2. Proper Validation
+### 2. Coordinate Transformation
+
+- Always transform coordinates captured in World View to Game View for actual use
+- Use the CoordinateManager's transform_coordinate_array method:
+```gdscript
+var game_view_coords = CoordinateManager.transform_coordinate_array(
+    world_view_coords,
+    CoordinateManager.ViewMode.WORLD_VIEW,
+    CoordinateManager.ViewMode.GAME_VIEW
+)
+```
+- Apply transformed coordinates to both the polygon and collision properties
+- Document the transformation process clearly in your code
+
+### 3. Walkable Area Visualization
+
+- Use marker-based visualization for better visibility during development
+- Create yellow square markers at each vertex of the walkable area
+- Consider adding connecting lines between markers for clearer area outlines
+- Use a high z_index (e.g., 100) to ensure markers are visible above other elements
+- Use the following pattern for marker creation:
+```gdscript
+for i in range(game_view_coords.size()):
+    var marker = ColorRect.new()
+    marker.name = "Marker_" + str(i)
+    marker.rect_size = Vector2(10, 10)
+    marker.rect_position = game_view_coords[i] - Vector2(5, 5)  # Center marker
+    marker.color = Color(1, 1, 0, 0.9)  # Bright yellow
+    walkable_markers.add_child(marker)
+```
+
+### 4. Proper Validation
 
 - Use the ValidateWalkableArea tool to check coordinates against walkable areas
 - Test walkable areas with the player character to ensure proper constraints
 - Validate coordinates for both World View and Game View transformations
 - Check camera behavior at walkable area edges in all camera views
 
-### 3. Using BoundsCalculator
+### 5. Using BoundsCalculator
 
 - Let BoundsCalculator handle camera bounds calculation
 - Use BoundsCalculator's safety corrections for better camera behavior
 - Ensure walkable areas are properly defined before using BoundsCalculator
 - Create visualizations of bounds during development with `create_bounds_visualization()`
 
-### 4. Debugging Tools
+### 6. Debugging Tools
 
-- Set `walkable.visible = true` temporarily to visualize areas during testing
+- Use marker-based visualization instead of relying on Polygon2D visibility
 - Use ValidateWalkableArea tool to visualize valid and invalid points
 - Check distance to nearest walkable area for invalid points
 - Test in both World View and Game View to ensure consistency
+- Add clear debug logging to track coordinate transformations and walkable area setup
 
-## Reference Implementation
+## Reference Implementations
 
-The `clean_camera_test.gd` script provides an ideal reference implementation that:
+### Basic Implementation (clean_camera_test.gd)
+
+The `clean_camera_test.gd` script provides a basic reference implementation that:
 
 1. Defines a properly sized walkable area spanning the full environment
 2. Correctly sets up the camera with the walkable area
-3. Demonstrates proper coordinate usage with the new BoundsCalculator
+3. Demonstrates proper coordinate usage with the BoundsCalculator
 4. Shows how to validate walkable areas
 
 ```gdscript
@@ -375,4 +450,85 @@ func setup_walkable_area():
     walkable.visible = OS.is_debug_build()
 ```
 
-Always refer to this implementation when setting up new walkable areas for districts.
+### Enhanced Implementation with Marker Visualization (clean_camera_test2.gd)
+
+The `clean_camera_test2.gd` script provides an enhanced reference implementation with improved visualization that:
+
+1. Captures walkable area coordinates in WORLD_VIEW mode
+2. Transforms coordinates to GAME_VIEW mode for proper usage
+3. Creates a functional walkable area for collision detection
+4. Adds visual markers at each vertex for better visibility during development
+5. Shows a complete implementation of the coordinate conversion system
+
+```gdscript
+# In clean_camera_test2.gd
+func create_walkable_area():
+    # TEMPLATE STEP 1: Define coordinates captured in WORLD_VIEW mode
+    var world_view_coords = PoolVector2Array([
+        Vector2(4684, 843),  # Right upper corner
+        Vector2(3731, 864),  # Right middle-lower
+        Vector2(3260, 822),  # Bottom middle-right
+        Vector2(4396, 877),  # Bottom middle - newly added coordinate
+        Vector2(693, 860),   # Bottom middle-left
+        Vector2(523, 895),   # Bottom left
+        Vector2(398, 895),   # Left corner
+        Vector2(267, 870),   # Left middle
+        Vector2(215, 822),   # Left lower
+        Vector2(3, 850),     # Left edge
+        Vector2(0, 947),     # Left bottom corner
+        Vector2(4691, 943),  # Right corner
+        Vector2(4677, 843),  # Right middle-upper
+        Vector2(3707, 860)   # Right lower
+    ])
+    
+    # TEMPLATE STEP 2: Transform coordinates from WORLD_VIEW to GAME_VIEW
+    var game_view_coords = CoordinateManager.transform_coordinate_array(
+        world_view_coords,
+        CoordinateManager.ViewMode.WORLD_VIEW,
+        CoordinateManager.ViewMode.GAME_VIEW
+    )
+    
+    # TEMPLATE STEP 3: Create the actual walkable area (invisible but functional)
+    var walkable = Polygon2D.new()
+    walkable.name = "WalkableArea"
+    walkable.color = Color(1, 0, 0, 0.1)  # Red with very low opacity
+    walkable.visible = true
+    walkable.polygon = game_view_coords
+    
+    # Add to designer_walkable_area group for camera bounds calculation
+    walkable.add_to_group("designer_walkable_area")
+    walkable.add_to_group("walkable_area")
+    
+    # Add the critical CollisionPolygon2D component
+    var area2d = Area2D.new()
+    area2d.name = "Area2D"
+    area2d.collision_layer = 2
+    area2d.collision_mask = 0
+    walkable.add_child(area2d)
+    
+    var collision = CollisionPolygon2D.new()
+    collision.name = "CollisionPolygon2D"
+    collision.polygon = game_view_coords
+    area2d.add_child(collision)
+    
+    add_child(walkable)
+    
+    # TEMPLATE STEP 4: Create visible yellow markers at each vertex for visual reference
+    var walkable_markers = Node2D.new()
+    walkable_markers.name = "WalkableAreaMarkers"
+    walkable_markers.z_index = 100  # Make sure markers appear above other elements
+    add_child(walkable_markers)
+    
+    # Add a marker at each vertex of the walkable area
+    for i in range(game_view_coords.size()):
+        var marker = ColorRect.new()
+        marker.name = "Marker_" + str(i)
+        marker.rect_size = Vector2(10, 10)
+        marker.rect_position = game_view_coords[i] - Vector2(5, 5)  # Center marker on point
+        marker.color = Color(1, 1, 0, 0.9)  # Bright yellow with high opacity
+        walkable_markers.add_child(marker)
+    
+    return walkable
+```
+
+The enhanced implementation provides better visibility and clearer documentation of the coordinate capture and transformation process. It's recommended to use this approach for new districts that require clear visualization of walkable areas.

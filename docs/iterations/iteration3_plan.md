@@ -47,7 +47,7 @@
 ## Tasks
 
 ### Point-and-Click Navigation Refactoring
-- [ ] Task 1: Enhance scrolling camera system with improved coordinate conversions
+- [x] Task 1: Enhance scrolling camera system with improved coordinate conversions
 - [ ] Task 2: Implement state signaling and synchronization for camera
 - [ ] Task 3: Create test scene for validating camera system improvements
 - [ ] Task 4: Enhance player controller for consistent physics behavior
