@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # iteration_planner.sh - Iteration Planning System for A Silent Refraction
-# Version 1.2
+# Version 1.3
 
 # Colors for output
 RED="\033[0;31m"
@@ -96,6 +96,13 @@ function create_iteration {
             echo "- Develop placeholder art generation for NPCs" >> "${iteration_file}"
             ;;
         3)
+            echo "- Implement improved point-and-click navigation system" >> "${iteration_file}"
+            echo "- Create multi-perspective character system" >> "${iteration_file}"
+            echo "- Enhance camera system with proper coordinate transformations" >> "${iteration_file}"
+            echo "- Implement robust walkable area integration" >> "${iteration_file}"
+            echo "- Develop comprehensive test cases for both systems" >> "${iteration_file}"
+            ;;
+        4)
             echo "- Implement multiple station districts with transitions" >> "${iteration_file}"
             echo "- Create detailed time management system (Persona-style)" >> "${iteration_file}"
             echo "- Develop day/night cycle and time progression" >> "${iteration_file}"
@@ -103,19 +110,19 @@ function create_iteration {
             echo "- Implement single-slot save system" >> "${iteration_file}"
             echo "- Create basic limited inventory system" >> "${iteration_file}"
             ;;
-        4)
+        5)
             echo "- Implement investigation mechanics" >> "${iteration_file}"
             echo "- Create quest log system for tracking progress" >> "${iteration_file}"
             echo "- Develop advanced inventory system for collecting evidence" >> "${iteration_file}"
             echo "- Add system for logging known assimilated NPCs" >> "${iteration_file}"
             echo "- Implement overflow storage in player's room" >> "${iteration_file}"
             ;;
-        5)
+        6)
             echo "- Implement recruiting NPCs to the coalition" >> "${iteration_file}"
             echo "- Add risk/reward mechanisms for revealing information" >> "${iteration_file}"
             echo "- Create coalition strength tracking" >> "${iteration_file}"
             ;;
-        6)
+        7)
             echo "- Implement game state progression" >> "${iteration_file}"
             echo "- Add multiple endings" >> "${iteration_file}"
             echo "- Create transition between narrative branches" >> "${iteration_file}"
@@ -150,6 +157,19 @@ function create_iteration {
             echo "  - **Success Metric:** New NPCs can be created and integrated within 2 hours or less" >> "${iteration_file}"
             ;;
         3)
+            echo "- **B1:** Create a more responsive and predictable navigation system" >> "${iteration_file}"
+            echo "  - **Rationale:** Intuitive, smooth navigation is essential for the point-and-click genre" >> "${iteration_file}"
+            echo "  - **Success Metric:** Player movement feels natural with minimal user frustration" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "- **B2:** Support multiple visual perspectives across different game districts" >> "${iteration_file}"
+            echo "  - **Rationale:** Visual variety enhances player engagement and world-building" >> "${iteration_file}"
+            echo "  - **Success Metric:** Seamless character movement and interaction across different perspective types" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "- **B3:** Maintain consistent visual quality and gameplay mechanics across all perspectives" >> "${iteration_file}"
+            echo "  - **Rationale:** Consistent quality ensures a cohesive player experience" >> "${iteration_file}"
+            echo "  - **Success Metric:** Players report similar levels of satisfaction across all district perspectives" >> "${iteration_file}"
+            ;;
+        4)
             echo "- **B1:** Create a sense of progression and urgency through time management" >> "${iteration_file}"
             echo "  - **Rationale:** Time-based gameplay creates strategic choices and replay value" >> "${iteration_file}"
             echo "  - **Success Metric:** Players report making meaningful time allocation decisions in test sessions" >> "${iteration_file}"
@@ -158,17 +178,17 @@ function create_iteration {
             echo "  - **Rationale:** Diverse environments increase perceived game size and exploration value" >> "${iteration_file}"
             echo "  - **Success Metric:** Each district has unique visual identity and gameplay purpose" >> "${iteration_file}"
             ;;
-        4)
+        5)
             echo "- **B1:** Implement core investigation mechanics that drive main storyline" >> "${iteration_file}"
             echo "  - **Rationale:** Investigation is the primary gameplay loop for narrative progression" >> "${iteration_file}"
             echo "  - **Success Metric:** Players can advance the story through evidence collection and analysis" >> "${iteration_file}"
             ;;
-        5)
+        6)
             echo "- **B1:** Create meaningful NPC relationships through coalition building" >> "${iteration_file}"
             echo "  - **Rationale:** Social gameplay adds depth and strategic options" >> "${iteration_file}"
             echo "  - **Success Metric:** Player choices regarding recruitment affect game outcomes" >> "${iteration_file}"
             ;;
-        6)
+        7)
             echo "- **B1:** Deliver multiple game endings based on player choices" >> "${iteration_file}"
             echo "  - **Rationale:** Meaningful consequences increase replay value and player agency" >> "${iteration_file}"
             echo "  - **Success Metric:** Each ending is distinct and reflects player decisions throughout the game" >> "${iteration_file}"
@@ -204,6 +224,19 @@ function create_iteration {
             echo "  - **Acceptance Criteria:** NPCs have unique dialog patterns and state-based behavioral differences" >> "${iteration_file}"
             ;;
         3)
+            echo "- **U1:** As a player, I want navigation to feel smooth and responsive" >> "${iteration_file}"
+            echo "  - **User Value:** Reduces frustration and enhances immersion" >> "${iteration_file}"
+            echo "  - **Acceptance Criteria:** Character movement follows clicks with appropriate pathfinding and obstacle avoidance" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "- **U2:** As a player, I want my character to appear correctly in different game areas" >> "${iteration_file}"
+            echo "  - **User Value:** Maintains visual immersion and aesthetic quality" >> "${iteration_file}"
+            echo "  - **Acceptance Criteria:** Character sprite adapts correctly to each perspective type (isometric, side-scrolling, top-down)" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "- **U3:** As a player, I want consistent gameplay mechanics regardless of visual perspective" >> "${iteration_file}"
+            echo "  - **User Value:** Reduces cognitive load when moving between areas" >> "${iteration_file}"
+            echo "  - **Acceptance Criteria:** Core interactions work identically across all perspective types" >> "${iteration_file}"
+            ;;
+        4)
             echo "- **U1:** As a player, I want to manage my time to prioritize activities" >> "${iteration_file}"
             echo "  - **User Value:** Creates strategic decision-making and consequences" >> "${iteration_file}"
             echo "  - **Acceptance Criteria:** Different actions consume varying amounts of in-game time" >> "${iteration_file}"
@@ -212,17 +245,17 @@ function create_iteration {
             echo "  - **User Value:** Provides variety and discovery" >> "${iteration_file}"
             echo "  - **Acceptance Criteria:** Each district has unique visuals, NPCs, and activities" >> "${iteration_file}"
             ;;
-        4)
+        5)
             echo "- **U1:** As a player, I want to collect and analyze evidence" >> "${iteration_file}"
             echo "  - **User Value:** Creates detective gameplay satisfaction" >> "${iteration_file}"
             echo "  - **Acceptance Criteria:** Evidence can be found, stored, examined, and combined to progress" >> "${iteration_file}"
             ;;
-        5)
+        6)
             echo "- **U1:** As a player, I want to recruit NPCs to help against the assimilation" >> "${iteration_file}"
             echo "  - **User Value:** Creates social strategy gameplay" >> "${iteration_file}"
             echo "  - **Acceptance Criteria:** NPCs can be convinced through dialog choices and evidence presentation" >> "${iteration_file}"
             ;;
-        6)
+        7)
             echo "- **U1:** As a player, I want my choices to affect the game's outcome" >> "${iteration_file}"
             echo "  - **User Value:** Provides sense of agency and consequence" >> "${iteration_file}"
             echo "  - **Acceptance Criteria:** Different ending sequences play based on key decisions and game state" >> "${iteration_file}"
@@ -250,6 +283,15 @@ function create_iteration {
             echo "  - **Constraints:** Must support at least 4 emotional states and assimilation status" >> "${iteration_file}"
             ;;
         3)
+            echo "- **T1:** Maintain architectural principles while refactoring" >> "${iteration_file}"
+            echo "  - **Rationale:** Code quality and maintainability must be preserved" >> "${iteration_file}"
+            echo "  - **Constraints:** Changes must follow established patterns and coupling guidelines" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "- **T2:** Implement flexible, configuration-driven system for perspectives" >> "${iteration_file}"
+            echo "  - **Rationale:** Facilitate easy addition of new perspectives and characters" >> "${iteration_file}"
+            echo "  - **Constraints:** Performance must remain optimal with multiple perspectives" >> "${iteration_file}"
+            ;;
+        4)
             echo "- **T1:** Implement robust scene transition system" >> "${iteration_file}"
             echo "  - **Rationale:** District loading and transitions must be seamless" >> "${iteration_file}"
             echo "  - **Constraints:** Must preserve game state across transitions" >> "${iteration_file}"
@@ -283,23 +325,56 @@ function create_iteration {
             echo "- [ ] Task 4: Implement suspicion tracking system" >> "${iteration_file}"
             echo "- [ ] Task 5: Script NPC reactions based on suspicion levels" >> "${iteration_file}"
             echo "- [ ] Task 6: Apply visual style guide to Shipping District" >> "${iteration_file}"
-            echo "- [ ] Task 7: Create bash script for generating NPC placeholders" >> "${iteration_file}"
-            echo "- [ ] Task 8: Implement observation mechanics for detecting assimilated NPCs" >> "${iteration_file}"
             ;;
         3)
-            echo "- [ ] Task 1: Create at least one additional district besides Shipping" >> "${iteration_file}"
-            echo "- [ ] Task 2: Implement district transitions via tram system" >> "${iteration_file}"
-            echo "- [ ] Task 3: Develop in-game clock and calendar system" >> "${iteration_file}"
-            echo "- [ ] Task 4: Create time progression through player actions" >> "${iteration_file}"
-            echo "- [ ] Task 5: Implement day cycle with sleep mechanics" >> "${iteration_file}"
-            echo "- [ ] Task 6: Design and implement time UI indicators" >> "${iteration_file}"
-            echo "- [ ] Task 7: Create system for random NPC assimilation over time" >> "${iteration_file}"
-            echo "- [ ] Task 8: Add time-based events and triggers" >> "${iteration_file}"
-            echo "- [ ] Task 9: Implement player bedroom as save point location" >> "${iteration_file}"
-            echo "- [ ] Task 10: Create single-slot save system with confirmation UI" >> "${iteration_file}"
-            echo "- [ ] Task 11: Create basic inventory system with size limitations" >> "${iteration_file}"
+            echo "### Point-and-Click Navigation Refactoring" >> "${iteration_file}"
+            echo "- [ ] Task 1: Enhance scrolling camera system with improved coordinate conversions" >> "${iteration_file}"
+            echo "- [ ] Task 2: Implement state signaling and synchronization for camera" >> "${iteration_file}"
+            echo "- [ ] Task 3: Create test scene for validating camera system improvements" >> "${iteration_file}"
+            echo "- [ ] Task 4: Enhance player controller for consistent physics behavior" >> "${iteration_file}"
+            echo "- [ ] Task 5: Implement proper pathfinding with Navigation2D" >> "${iteration_file}"
+            echo "- [ ] Task 6: Create test scene for player movement validation" >> "${iteration_file}"
+            echo "- [ ] Task 7: Enhance walkable area system with improved polygon algorithms" >> "${iteration_file}"
+            echo "- [ ] Task 8: Implement click detection and validation refinements" >> "${iteration_file}"
+            echo "- [ ] Task 9: Create test scene for walkable area validation" >> "${iteration_file}"
+            echo "- [ ] Task 10: Enhance system communication through signals" >> "${iteration_file}"
+            echo "- [ ] Task 11: Implement comprehensive debug tools and visualizations" >> "${iteration_file}"
+            echo "- [ ] Task 12: Create integration test for full navigation system" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "### Multi-Perspective Character System" >> "${iteration_file}"
+            echo "- [ ] Task 13: Create directory structure and base files for the multi-perspective system" >> "${iteration_file}"
+            echo "- [ ] Task 14: Define perspective types enum and configuration templates" >> "${iteration_file}"
+            echo "- [ ] Task 15: Extend district base class to support perspective information" >> "${iteration_file}"
+            echo "- [ ] Task 16: Implement character controller class with animation support" >> "${iteration_file}"
+            echo "- [ ] Task 17: Create test character with basic animations" >> "${iteration_file}"
+            echo "- [ ] Task 18: Test animation transitions within a perspective" >> "${iteration_file}"
+            echo "- [ ] Task 19: Implement movement controller with direction support" >> "${iteration_file}"
+            echo "- [ ] Task 20: Connect movement controller to point-and-click navigation" >> "${iteration_file}"
+            echo "- [ ] Task 21: Test character movement in a single perspective" >> "${iteration_file}"
+            echo "- [ ] Task 22: Create test districts with different perspective types" >> "${iteration_file}"
+            echo "- [ ] Task 23: Implement perspective switching in character controller" >> "${iteration_file}"
+            echo "- [ ] Task 24: Create test for transitions between different perspective districts" >> "${iteration_file}"
+            echo "" >> "${iteration_file}"
+            echo "### Documentation and Review" >> "${iteration_file}"
+            echo "- [ ] Task 25: Create comprehensive documentation for both systems" >> "${iteration_file}"
+            echo "- [ ] Task 26: Perform code review and optimization" >> "${iteration_file}"
+            echo "- [ ] Task 27: Update existing documentation to reflect new systems" >> "${iteration_file}"
             ;;
         4)
+            echo "- [ ] Task 1: Create at least one additional district besides Shipping" >> "${iteration_file}"
+            echo "- [ ] Task 2: Create bash script for generating NPC placeholders" >> "${iteration_file}"
+            echo "- [ ] Task 3: Implement district transitions via tram system" >> "${iteration_file}"
+            echo "- [ ] Task 4: Develop in-game clock and calendar system" >> "${iteration_file}"
+            echo "- [ ] Task 5: Create time progression through player actions" >> "${iteration_file}"
+            echo "- [ ] Task 6: Implement day cycle with sleep mechanics" >> "${iteration_file}"
+            echo "- [ ] Task 7: Design and implement time UI indicators" >> "${iteration_file}"
+            echo "- [ ] Task 8: Create system for random NPC assimilation over time" >> "${iteration_file}"
+            echo "- [ ] Task 9: Add time-based events and triggers" >> "${iteration_file}"
+            echo "- [ ] Task 10: Implement player bedroom as save point location" >> "${iteration_file}"
+            echo "- [ ] Task 11: Create single-slot save system with confirmation UI" >> "${iteration_file}"
+            echo "- [ ] Task 12: Create basic inventory system with size limitations" >> "${iteration_file}"
+            ;;
+        5)
             echo "- [ ] Task 1: Create quest data structure and manager" >> "${iteration_file}"
             echo "- [ ] Task 2: Implement quest log UI" >> "${iteration_file}"
             echo "- [ ] Task 3: Develop advanced inventory features including categorization" >> "${iteration_file}"
@@ -310,8 +385,9 @@ function create_iteration {
             echo "- [ ] Task 8: Add quest state persistence" >> "${iteration_file}"
             echo "- [ ] Task 9: Implement overflow inventory storage in player's room" >> "${iteration_file}"
             echo "- [ ] Task 10: Create UI for transferring items between personal inventory and room storage" >> "${iteration_file}"
+            echo "- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs" >> "${iteration_file}"
             ;;
-        5)
+        6)
             echo "- [ ] Task 1: Implement NPC recruitment dialog options" >> "${iteration_file}"
             echo "- [ ] Task 2: Create coalition membership tracking system" >> "${iteration_file}"
             echo "- [ ] Task 3: Develop trust/mistrust mechanics" >> "${iteration_file}"
@@ -321,7 +397,7 @@ function create_iteration {
             echo "- [ ] Task 7: Develop coalition headquarters location" >> "${iteration_file}"
             echo "- [ ] Task 8: Implement coalition mission assignment system" >> "${iteration_file}"
             ;;
-        6)
+        7)
             echo "- [ ] Task 1: Implement game state manager" >> "${iteration_file}"
             echo "- [ ] Task 2: Create win/lose conditions" >> "${iteration_file}"
             echo "- [ ] Task 3: Develop multiple ending scenarios" >> "${iteration_file}"
@@ -338,12 +414,20 @@ function create_iteration {
             ;;
     esac
     
+    # Get current date for timestamp
+    current_date=$(date +"%m/%d/%y")
+    # Default status
+    status_md="**⏳ PENDING** (${current_date})"
+    
     # Add task requirement templates (NEW)
     if [ "$iteration_number" = "2" ]; then
         echo "" >> "${iteration_file}"
         echo "### Task 3: Create suspicion meter UI element" >> "${iteration_file}"
         echo "" >> "${iteration_file}"
         echo "**User Story:** As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs." >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "**Status History:**" >> "${iteration_file}"
+        echo "- ${status_md}" >> "${iteration_file}"
         echo "" >> "${iteration_file}"
         echo "**Requirements:**" >> "${iteration_file}"
         echo "- **Linked to:** B1, U2" >> "${iteration_file}"
@@ -358,6 +442,32 @@ function create_iteration {
         echo "- Use ProgressBar node as the base for the meter implementation" >> "${iteration_file}"
         echo "- Consider shader effects for visual polish (glowing, pulsing at high suspicion)" >> "${iteration_file}"
         echo "- Integrate with the global_suspicion_manager.gd for data binding" >> "${iteration_file}"
+    fi
+    
+    # Add example user stories for key iteration 3 tasks
+    if [ "$iteration_number" = "3" ]; then
+        echo "" >> "${iteration_file}"
+        echo "### Task 1: Enhance scrolling camera system with improved coordinate conversions" >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "**User Story:** As a player, I want the game camera to track my character smoothly and accurately, so that I can focus on gameplay rather than managing my view of the action." >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "**Status History:**" >> "${iteration_file}"
+        echo "- ${status_md}" >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "**Requirements:**" >> "${iteration_file}"
+        echo "- **Linked to:** B1, U1, T1" >> "${iteration_file}"
+        echo "- **Acceptance Criteria:**" >> "${iteration_file}"
+        echo "  1. Camera follows player character smoothly without jerky movements" >> "${iteration_file}"
+        echo "  2. Screen-to-world and world-to-screen coordinate conversions work accurately at all zoom levels" >> "${iteration_file}"
+        echo "  3. Camera maintains proper boundaries based on the current district" >> "${iteration_file}"
+        echo "  4. Edge case handling prevents camera from showing areas outside the playable space" >> "${iteration_file}"
+        echo "  5. Camera movement uses appropriate easing for natural feel" >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "**Implementation Notes:**" >> "${iteration_file}"
+        echo "- Refine coordinate handling in scrolling_camera.gd" >> "${iteration_file}"
+        echo "- Add validation methods to ensure coordinates are always valid" >> "${iteration_file}"
+        echo "- Update camera targeting to prevent edge cases" >> "${iteration_file}"
+        echo "- Maintain alignment with signal-based architectural pattern" >> "${iteration_file}"
     fi
     
     echo "" >> "${iteration_file}"
@@ -378,28 +488,43 @@ function create_iteration {
             echo "- Observation mechanics work correctly" >> "${iteration_file}"
             ;;
         3)
+            echo "- Camera system properly handles coordinate conversions" >> "${iteration_file}"
+            echo "- Player movement is smooth with proper acceleration/deceleration" >> "${iteration_file}"
+            echo "- Pathfinding correctly navigates around obstacles" >> "${iteration_file}"
+            echo "- Walkable areas are properly respected with accurate boundaries" >> "${iteration_file}"
+            echo "- Characters display correctly in each perspective" >> "${iteration_file}"
+            echo "- Animation transitions are smooth in all perspectives" >> "${iteration_file}"
+            echo "- Character movement adapts correctly to each perspective type" >> "${iteration_file}"
+            echo "- Performance remains optimal across all test cases" >> "${iteration_file}"
+            echo "- All debug tools work properly" >> "${iteration_file}"
+            ;;
+        4)
             echo "- Player can travel between at least two districts" >> "${iteration_file}"
             echo "- Time advances through specific actions (tram travel, conversations, etc.)" >> "${iteration_file}"
             echo "- Day advances when player sleeps" >> "${iteration_file}"
             echo "- NPCs change status (assimilated/not) over time" >> "${iteration_file}"
             echo "- Player can save game by returning to their room" >> "${iteration_file}"
             echo "- Player has limited inventory space" >> "${iteration_file}"
+            echo "- NPC placeholder script successfully creates properly structured directories and registry entries" >> "${iteration_file}"
+            echo "- Multiple NPCs can be easily added across different districts using the script" >> "${iteration_file}"
             ;;
-        4)
+        5)
             echo "- Quest log accurately tracks active and completed quests" >> "${iteration_file}"
             echo "- Player can collect and use items/evidence" >> "${iteration_file}"
             echo "- Puzzles can be solved to progress investigation" >> "${iteration_file}"
             echo "- Player can track which NPCs are known to be assimilated" >> "${iteration_file}"
             echo "- Player can store extra items in their room" >> "${iteration_file}"
             echo "- Inventory management creates meaningful gameplay decisions" >> "${iteration_file}"
+            echo "- Observation mechanics allow players to detect assimilated NPCs" >> "${iteration_file}"
+            echo "- Different observation intensities reveal appropriate information" >> "${iteration_file}"
             ;;
-        5)
+        6)
             echo "- NPCs can be successfully recruited to the coalition" >> "${iteration_file}"
             echo "- Failed recruitment attempts have meaningful consequences" >> "${iteration_file}"
             echo "- Coalition strength affects game progression" >> "${iteration_file}"
             echo "- Coalition members provide tangible benefits" >> "${iteration_file}"
             ;;
-        6)
+        7)
             echo "- Game can be completed with multiple different outcomes" >> "${iteration_file}"
             echo "- Narrative branches based on player choices" >> "${iteration_file}"
             echo "- Game state properly tracks progress through the story" >> "${iteration_file}"
@@ -414,8 +539,42 @@ function create_iteration {
     
     echo "" >> "${iteration_file}"
     echo "## Timeline" >> "${iteration_file}"
-    echo "- Start date: $(date +%Y-%m-%d)" >> "${iteration_file}"
-    echo "- Target completion: $(date -d "+14 days" +%Y-%m-%d)" >> "${iteration_file}"
+    
+    # Set timeline based on iteration number
+    case ${iteration_number} in
+        1)
+            echo "- Start date: 2025-05-01" >> "${iteration_file}"
+            echo "- Target completion: 2025-05-15" >> "${iteration_file}"
+            ;;
+        2)
+            echo "- Start date: 2025-05-15" >> "${iteration_file}"
+            echo "- Target completion: 2025-05-29" >> "${iteration_file}"
+            ;;
+        3)
+            echo "- Start date: 2025-05-29" >> "${iteration_file}"
+            echo "- Target completion: 2025-06-12" >> "${iteration_file}"
+            ;;
+        4)
+            echo "- Start date: 2025-06-12" >> "${iteration_file}"
+            echo "- Target completion: 2025-06-26" >> "${iteration_file}"
+            ;;
+        5)
+            echo "- Start date: 2025-06-26" >> "${iteration_file}"
+            echo "- Target completion: 2025-07-10" >> "${iteration_file}"
+            ;;
+        6)
+            echo "- Start date: 2025-07-10" >> "${iteration_file}"
+            echo "- Target completion: 2025-07-24" >> "${iteration_file}"
+            ;;
+        7)
+            echo "- Start date: 2025-07-24" >> "${iteration_file}"
+            echo "- Target completion: 2025-08-07" >> "${iteration_file}"
+            ;;
+        *)
+            echo "- Start date: $(date +%Y-%m-%d)" >> "${iteration_file}"
+            echo "- Target completion: $(date -d "+14 days" +%Y-%m-%d)" >> "${iteration_file}"
+            ;;
+    esac
     
     echo "" >> "${iteration_file}"
     echo "## Dependencies" >> "${iteration_file}"
@@ -433,16 +592,22 @@ function create_iteration {
             echo "- Iteration 2 (NPC Framework and Suspicion System)" >> "${iteration_file}"
             ;;
         4)
+            echo "- Iteration 1 (Basic Environment and Navigation)" >> "${iteration_file}"
             echo "- Iteration 2 (NPC Framework and Suspicion System)" >> "${iteration_file}"
-            echo "- Iteration 3 (Game Districts and Time Management)" >> "${iteration_file}"
+            echo "- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)" >> "${iteration_file}"
             ;;
         5)
             echo "- Iteration 2 (NPC Framework and Suspicion System)" >> "${iteration_file}"
-            echo "- Iteration 4 (Investigation Mechanics)" >> "${iteration_file}"
+            echo "- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)" >> "${iteration_file}"
+            echo "- Iteration 4 (Game Districts and Time Management)" >> "${iteration_file}"
             ;;
         6)
-            echo "- Iteration 4 (Investigation Mechanics)" >> "${iteration_file}"
-            echo "- Iteration 5 (Coalition Building)" >> "${iteration_file}"
+            echo "- Iteration 2 (NPC Framework and Suspicion System)" >> "${iteration_file}"
+            echo "- Iteration 5 (Investigation Mechanics)" >> "${iteration_file}"
+            ;;
+        7)
+            echo "- Iteration 5 (Investigation Mechanics)" >> "${iteration_file}"
+            echo "- Iteration 6 (Coalition Building)" >> "${iteration_file}"
             ;;
         *)
             echo "- List any dependencies here" >> "${iteration_file}"
@@ -455,7 +620,17 @@ function create_iteration {
     
     echo "" >> "${iteration_file}"
     echo "## Notes" >> "${iteration_file}"
-    echo "Add any additional notes or considerations here." >> "${iteration_file}"
+    
+    # Add notes for iteration 3
+    if [ "$iteration_number" = "3" ]; then
+        echo "This iteration implements the plans in the following design documents:" >> "${iteration_file}"
+        echo "- docs/design/point_and_click_navigation_refactoring_plan.md" >> "${iteration_file}"
+        echo "- docs/design/multi_perspective_character_system_plan.md" >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "These systems provide the foundation for all future gameplay elements and will be extended in subsequent iterations." >> "${iteration_file}"
+    else
+        echo "Add any additional notes or considerations here." >> "${iteration_file}"
+    fi
     
     # Update progress file
     update_progress_file
@@ -501,6 +676,9 @@ function update_task {
     status=$3
     iteration_file="${ITERATIONS_DIR}/iteration${iteration_number}_plan.md"
     
+    # Get current date for timestamp
+    current_date=$(date +"%m/%d/%y")
+    
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
         echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
@@ -524,20 +702,65 @@ function update_task {
     # Calculate the line number for the specific task
     task_line=$((tasks_line + task_number))
     
-    # Update the line based on status
+    # Get the task text to extract description (for task section update)
+    task_text=$(sed -n "${task_line}p" "${iteration_file}")
+    task_desc=$(echo "${task_text}" | sed -n 's/^- \[[xX~ ]\] \(.*\)/\1/p')
+    
+    # Define status emojis and markdown formatting
     case "$status" in
         "pending")
-            sed -i "${task_line}s/- \[[xX~]\]/- \[ \]/g" "${iteration_file}"
+            checkbox=" "
+            status_emoji="⏳"
+            status_text="PENDING"
             ;;
         "in_progress")
-            sed -i "${task_line}s/- \[[xX ]\]/- \[~\]/g" "${iteration_file}"
+            checkbox="~"
+            status_emoji="🔄"
+            status_text="IN PROGRESS"
             ;;
         "complete")
-            sed -i "${task_line}s/- \[[~ ]\]/- \[x\]/g" "${iteration_file}"
+            checkbox="x"
+            status_emoji="✅"
+            status_text="COMPLETE"
             ;;
     esac
     
-    echo -e "${GREEN}Task ${task_number} updated to ${status}.${NC}"
+    # Full status with timestamp
+    status_md="**${status_emoji} ${status_text}** (${current_date})"
+    
+    # Update the checkbox in the task list
+    sed -i "${task_line}s/- \[[xX~ ]\]/- \[${checkbox}\]/g" "${iteration_file}"
+    
+    # Update the task section if it exists
+    task_section_exists=$(grep -n "^### Task ${task_number}: ${task_desc}" "${iteration_file}" | cut -d: -f1)
+    if [ ! -z "${task_section_exists}" ]; then
+        # Check if status history section already exists
+        status_history_exists=$(grep -n "^**Status History:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
+        
+        if [ -z "${status_history_exists}" ]; then
+            # Create status history section after user story or requirements section
+            req_line=$(grep -n "^**Requirements:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
+            
+            if [ ! -z "${req_line}" ]; then
+                insert_line=$((req_line - 1))
+            else
+                # If no requirements section, insert after user story
+                user_story_line=$(grep -n "^**User Story:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
+                insert_line=$((user_story_line + 1))
+            fi
+            
+            # Insert the status history section
+            sed -i "${insert_line}a\\
+**Status History:**\\
+- ${status_md}" "${iteration_file}"
+        else
+            # Add new status to history (prepend to keep newest at top)
+            status_line=$((status_history_exists + 1))
+            sed -i "${status_line}a\\- ${status_md}" "${iteration_file}"
+        fi
+    fi
+    
+    echo -e "${GREEN}Task ${task_number} updated to ${status_text} with timestamp ${current_date}.${NC}"
     
     # Update progress file
     update_progress_file
@@ -660,6 +883,9 @@ function add_user_story {
     user_story=$3
     iteration_file="${ITERATIONS_DIR}/iteration${iteration_number}_plan.md"
     
+    # Get current date for timestamp
+    current_date=$(date +"%m/%d/%y")
+    
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
         echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
@@ -684,6 +910,21 @@ function add_user_story {
         exit 1
     fi
     
+    # Get the current task status from checkbox
+    if echo "${task_text}" | grep -q "^\- \[x\]"; then
+        status_emoji="✅"
+        status_text="COMPLETE"
+    elif echo "${task_text}" | grep -q "^\- \[~\]"; then
+        status_emoji="🔄"
+        status_text="IN PROGRESS"
+    else
+        status_emoji="⏳"
+        status_text="PENDING"
+    fi
+    
+    # Full status with timestamp
+    status_md="**${status_emoji} ${status_text}** (${current_date})"
+    
     # Check if user story section already exists
     task_section_exists=$(grep -n "^### Task ${task_number}: ${task_desc}" "${iteration_file}" | cut -d: -f1)
     
@@ -693,6 +934,9 @@ function add_user_story {
         echo "### Task ${task_number}: ${task_desc}" >> "${iteration_file}"
         echo "" >> "${iteration_file}"
         echo "**User Story:** ${user_story}" >> "${iteration_file}"
+        echo "" >> "${iteration_file}"
+        echo "**Status History:**" >> "${iteration_file}"
+        echo "- ${status_md}" >> "${iteration_file}"
         echo "" >> "${iteration_file}"
         echo "**Requirements:**" >> "${iteration_file}"
         echo "- **Linked to:** [List related Epic-level requirements]" >> "${iteration_file}"
@@ -705,6 +949,17 @@ function add_user_story {
         # Update existing user story
         user_story_line=$((task_section_exists + 2))
         sed -i "${user_story_line}c\\**User Story:** ${user_story}" "${iteration_file}"
+        
+        # Check if status history exists
+        status_history_exists=$(grep -n "^**Status History:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
+        
+        if [ -z "${status_history_exists}" ]; then
+            # Add status history after user story
+            sed -i "${user_story_line}a\\
+\\
+**Status History:**\\
+- ${status_md}" "${iteration_file}"
+        fi
     fi
     
     echo -e "${GREEN}Added/updated user story for Task ${task_number} in Iteration ${iteration_number}.${NC}"

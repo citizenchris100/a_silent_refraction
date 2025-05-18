@@ -1,21 +1,21 @@
-# Iteration 6: Game Progression and Multiple Endings
+# Iteration 6: Coalition Building
 
 ## Goals
-- Implement game state progression
-- Add multiple endings
-- Create transition between narrative branches
+- Implement recruiting NPCs to the coalition
+- Add risk/reward mechanisms for revealing information
+- Create coalition strength tracking
 
 ## Requirements
 
 ### Business Requirements
-- **B1:** Deliver multiple game endings based on player choices
-  - **Rationale:** Meaningful consequences increase replay value and player agency
-  - **Success Metric:** Each ending is distinct and reflects player decisions throughout the game
+- **B1:** Create meaningful NPC relationships through coalition building
+  - **Rationale:** Social gameplay adds depth and strategic options
+  - **Success Metric:** Player choices regarding recruitment affect game outcomes
 
 ### User Requirements
-- **U1:** As a player, I want my choices to affect the game's outcome
-  - **User Value:** Provides sense of agency and consequence
-  - **Acceptance Criteria:** Different ending sequences play based on key decisions and game state
+- **U1:** As a player, I want to recruit NPCs to help against the assimilation
+  - **User Value:** Creates social strategy gameplay
+  - **Acceptance Criteria:** NPCs can be convinced through dialog choices and evidence presentation
 
 ### Technical Requirements (Optional)
 - **T1:** Technical requirement placeholder
@@ -23,28 +23,28 @@
   - **Constraints:** Any limitations to be aware of
 
 ## Tasks
-- [ ] Task 1: Implement game state manager
-- [ ] Task 2: Create win/lose conditions
-- [ ] Task 3: Develop multiple ending scenarios
-- [ ] Task 4: Add narrative branching system
-- [ ] Task 5: Implement final confrontation sequence
-- [ ] Task 6: Create ending cinematics
-- [ ] Task 7: Add game over screens
-- [ ] Task 8: Implement statistics tracking for playthrough
+- [ ] Task 1: Implement NPC recruitment dialog options
+- [ ] Task 2: Create coalition membership tracking system
+- [ ] Task 3: Develop trust/mistrust mechanics
+- [ ] Task 4: Implement coalition strength indicators
+- [ ] Task 5: Add coalition member special abilities
+- [ ] Task 6: Create consequences for failed recruitment attempts
+- [ ] Task 7: Develop coalition headquarters location
+- [ ] Task 8: Implement coalition mission assignment system
 
 ## Testing Criteria
-- Game can be completed with multiple different outcomes
-- Narrative branches based on player choices
-- Game state properly tracks progress through the story
-- Complete game flow can be tested from start to finish
+- NPCs can be successfully recruited to the coalition
+- Failed recruitment attempts have meaningful consequences
+- Coalition strength affects game progression
+- Coalition members provide tangible benefits
 
 ## Timeline
-- Start date: 2025-05-16
-- Target completion: 2025-05-30
+- Start date: 2025-06-29
+- Target completion: 2025-07-13
 
 ## Dependencies
-- Iteration 4 (Investigation Mechanics)
-- Iteration 5 (Coalition Building)
+- Iteration 2 (NPC Framework and Suspicion System)
+- Iteration 5 (Investigation Mechanics)
 
 ## Code Links
 - No links yet
