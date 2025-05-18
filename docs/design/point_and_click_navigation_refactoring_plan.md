@@ -1,5 +1,7 @@
 # Point-and-Click Navigation System Refactoring Plan
 
+**Status: **🔄 IN PROGRESS**
+
 ## Purpose Statement
 
 This refactoring plan aims to improve the point-and-click navigation system, addressing current issues while strictly adhering to the architectural principles outlined in our architecture.md document. The focus is on enhancing user experience through smoother camera movement, more natural player movement, and improved coordinate handling.

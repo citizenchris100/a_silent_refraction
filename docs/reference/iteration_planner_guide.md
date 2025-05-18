@@ -1,4 +1,5 @@
 # Iteration Planner Guide
+**Status: 📚 REFERENCE**
 
 This document provides a comprehensive guide to using the enhanced Iteration Planning System for A Silent Refraction.
 
@@ -17,15 +18,15 @@ The Iteration Planning System helps manage the development of A Silent Refractio
 
 | Command | Description |
 |---------|-------------|
-| `./iteration_planner.sh init` | Initialize the planning system |
-| `./iteration_planner.sh create <iter_num> "<name>"` | Create a new iteration |
-| `./iteration_planner.sh list <iter_num>` | List tasks for a specific iteration |
-| `./iteration_planner.sh update <iter> <task> <status>` | Update task status (pending/in_progress/complete) |
-| `./iteration_planner.sh report` | Generate progress report across all iterations |
-| `./iteration_planner.sh link <iter> <task> "<file_path>"` | Link a task to a code file |
-| `./iteration_planner.sh add-req <iter> <type> "<text>"` | Add a requirement to an iteration (type: business/user/technical) |
-| `./iteration_planner.sh add-story <iter> <task> "<story>"` | Add a user story to a task |
-| `./iteration_planner.sh help` | Show help message |
+| `./tools/iteration_planner.sh init` | Initialize the planning system |
+| `./tools/iteration_planner.sh create <iter_num> "<name>"` | Create a new iteration |
+| `./tools/iteration_planner.sh list <iter_num>` | List tasks for a specific iteration |
+| `./tools/iteration_planner.sh update <iter> <task> <status>` | Update task status (pending/in_progress/complete) |
+| `./tools/iteration_planner.sh report` | Generate progress report across all iterations |
+| `./tools/iteration_planner.sh link <iter> <task> "<file_path>"` | Link a task to a code file |
+| `./tools/iteration_planner.sh add-req <iter> <type> "<text>"` | Add a requirement to an iteration (type: business/user/technical) |
+| `./tools/iteration_planner.sh add-story <iter> <task> "<story>"` | Add a user story to a task |
+| `./tools/iteration_planner.sh help` | Show help message |
 
 ## Requirement Types
 
@@ -76,14 +77,14 @@ Each user story includes:
 
 ## Example Workflow
 
-1. Initialize the system: `./iteration_planner.sh init`
-2. Create a new iteration: `./iteration_planner.sh create 2 "NPC Framework and Suspicion System"`
-3. Add a business requirement: `./iteration_planner.sh add-req 2 business "Create reusable NPC framework to streamline future character development"`
-4. Add a user requirement: `./iteration_planner.sh add-req 2 user "Players can track their suspicion level with accessible UI"`
-5. Add a user story to a task: `./iteration_planner.sh add-story 2 3 "As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs"`
-6. Link a task to a code file: `./iteration_planner.sh link 2 3 "src/ui/suspicion_meter/global_suspicion_meter.gd"`
-7. Update task status: `./iteration_planner.sh update 2 3 complete`
-8. Generate progress report: `./iteration_planner.sh report`
+1. Initialize the system: `./tools/iteration_planner.sh init`
+2. Create a new iteration: `./tools/iteration_planner.sh create 2 "NPC Framework and Suspicion System"`
+3. Add a business requirement: `./tools/iteration_planner.sh add-req 2 business "Create reusable NPC framework to streamline future character development"`
+4. Add a user requirement: `./tools/iteration_planner.sh add-req 2 user "Players can track their suspicion level with accessible UI"`
+5. Add a user story to a task: `./tools/iteration_planner.sh add-story 2 3 "As a player, I want to see a visual indicator of my current suspicion level, so that I can make informed decisions about my actions and interactions with NPCs"`
+6. Link a task to a code file: `./tools/iteration_planner.sh link 2 3 "src/ui/suspicion_meter/global_suspicion_meter.gd"`
+7. Update task status: `./tools/iteration_planner.sh update 2 3 complete`
+8. Generate progress report: `./tools/iteration_planner.sh report`
 
 ## Conclusion
 

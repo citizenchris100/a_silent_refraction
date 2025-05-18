@@ -14,12 +14,13 @@ NC="\033[0m" # No Color
 DOCS_DIR="docs"
 ITERATIONS_DIR="${DOCS_DIR}/iterations"
 PROGRESS_FILE="${DOCS_DIR}/iteration_progress.md"
+TEMPLATE_DIR="${DOCS_DIR}/iterations"
 
 # Function to display help
 function show_help {
     echo -e "${BLUE}A Silent Refraction - Iteration Planning System${NC}"
     echo ""
-    echo "Usage: ./iteration_planner.sh [command] [options]"
+    echo "Usage: ./tools/iteration_planner.sh [command] [options]"
     echo ""
     echo "Commands:"
     echo "  init                              - Initialize the iteration planning system"
@@ -59,7 +60,7 @@ function init_system {
 function create_iteration {
     if [ -z "$1" ] || [ -z "$2" ]; then
         echo -e "${RED}Error: Missing parameters.${NC}"
-        echo "Usage: ./iteration_planner.sh create <iteration_number> \"<iteration_name>\""
+        echo "Usage: ./tools/iteration_planner.sh create <iteration_number> \"<iteration_name>\""
         exit 1
     fi
     
@@ -466,7 +467,7 @@ function create_iteration {
 function list_tasks {
     if [ -z "$1" ]; then
         echo -e "${RED}Error: Missing iteration number.${NC}"
-        echo "Usage: ./iteration_planner.sh list <iteration_number>"
+        echo "Usage: ./tools/iteration_planner.sh list <iteration_number>"
         exit 1
     fi
     
@@ -475,7 +476,7 @@ function list_tasks {
     
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
-        echo "Create it first with: ./iteration_planner.sh create ${iteration_number} \"Iteration Name\""
+        echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
         exit 1
     fi
     
@@ -490,7 +491,7 @@ function list_tasks {
 function update_task {
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
         echo -e "${RED}Error: Missing parameters.${NC}"
-        echo "Usage: ./iteration_planner.sh update <iteration_number> <task_number> <status>"
+        echo "Usage: ./tools/iteration_planner.sh update <iteration_number> <task_number> <status>"
         echo "Status can be: pending, in_progress, complete"
         exit 1
     fi
@@ -502,7 +503,7 @@ function update_task {
     
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
-        echo "Create it first with: ./iteration_planner.sh create ${iteration_number} \"Iteration Name\""
+        echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
         exit 1
     fi
     
@@ -546,7 +547,7 @@ function update_task {
 function link_task_to_file {
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
         echo -e "${RED}Error: Missing parameters.${NC}"
-        echo "Usage: ./iteration_planner.sh link <iteration_number> <task_number> \"<file_path>\""
+        echo "Usage: ./tools/iteration_planner.sh link <iteration_number> <task_number> \"<file_path>\""
         exit 1
     fi
     
@@ -557,7 +558,7 @@ function link_task_to_file {
     
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
-        echo "Create it first with: ./iteration_planner.sh create ${iteration_number} \"Iteration Name\""
+        echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
         exit 1
     fi
     
@@ -583,7 +584,7 @@ function link_task_to_file {
 function add_requirement {
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
         echo -e "${RED}Error: Missing parameters.${NC}"
-        echo "Usage: ./iteration_planner.sh add-req <iteration_number> <type> <requirement_text>"
+        echo "Usage: ./tools/iteration_planner.sh add-req <iteration_number> <type> <requirement_text>"
         echo "Type can be: business, user, technical"
         exit 1
     fi
@@ -595,7 +596,7 @@ function add_requirement {
     
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
-        echo "Create it first with: ./iteration_planner.sh create ${iteration_number} \"Iteration Name\""
+        echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
         exit 1
     fi
     
@@ -649,7 +650,7 @@ function add_requirement {
 function add_user_story {
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
         echo -e "${RED}Error: Missing parameters.${NC}"
-        echo "Usage: ./iteration_planner.sh add-story <iteration_number> <task_number> \"<user_story>\""
+        echo "Usage: ./tools/iteration_planner.sh add-story <iteration_number> <task_number> \"<user_story>\""
         echo "User story format should be: 'As a [role], I want [feature], so that [benefit]'"
         exit 1
     fi
@@ -661,7 +662,7 @@ function add_user_story {
     
     if [ ! -f "${iteration_file}" ]; then
         echo -e "${RED}Error: Iteration ${iteration_number} does not exist.${NC}"
-        echo "Create it first with: ./iteration_planner.sh create ${iteration_number} \"Iteration Name\""
+        echo "Create it first with: ./tools/iteration_planner.sh create ${iteration_number} \"Iteration Name\""
         exit 1
     fi
     

@@ -1,4 +1,5 @@
 # A Silent Refraction: Game Design Document
+**Status: 📚 REFERENCE**
 
 I want this game to be very similar to the SCUMM Lucas Arts point & click adventure games. The fidelity and level of complexity for these graphics can be on par with those early games such as 1990 The Secret of Monkey Island.
 

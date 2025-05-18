@@ -1,4 +1,5 @@
 # Coordinate Capture and Usage Guide
+**Status: 📚 REFERENCE**
 
 This guide provides detailed steps for capturing, transforming, and using coordinates in A Silent Refraction. It explains the coordinate systems, view modes, and best practices to ensure consistent results.
 

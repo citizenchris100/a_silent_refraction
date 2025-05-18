@@ -1,4 +1,5 @@
 # Session Logger for A Silent Refraction
+**Status: 📚 REFERENCE**
 
 The Session Logger is a powerful tool designed to help you maintain continuity across development sessions. It allows you to track progress, manage tasks, and document your work in a structured, searchable format.
 

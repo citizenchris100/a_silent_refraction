@@ -1,4 +1,5 @@
 # A Silent Refraction: Color Palette Guide
+**Status: 📚 REFERENCE**
 
 This document provides detailed information about the game's canonical 16-color palette and guidelines for using it in asset creation.
 

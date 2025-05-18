@@ -45,7 +45,7 @@ The following template should be used to enhance task definitions with proper us
 
 ## Integration with Iteration Requirements
 
-When updating the iteration_planner.sh script, ensure that:
+When updating the tools/iteration_planner.sh script, ensure that:
 
 1. Each task can reference one or more requirements from the Iteration-level requirements section
 2. Tasks use consistent formatting for user stories: "As a [role], I want [feature], so that [benefit]"
@@ -54,4 +54,4 @@ When updating the iteration_planner.sh script, ensure that:
 
 ## Implementation Approach
 
-The task requirements should be formatted to work well with the existing progress tracking in the iteration_planner.sh script, allowing the requirements and acceptance criteria to be included in reports and progress summaries.
+The task requirements should be formatted to work well with the existing progress tracking in the tools/iteration_planner.sh script, allowing the requirements and acceptance criteria to be included in reports and progress summaries.

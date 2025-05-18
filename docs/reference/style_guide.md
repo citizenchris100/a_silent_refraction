@@ -1,4 +1,5 @@
 # A Silent Refraction: Visual Style Guide
+**Status: 📚 REFERENCE**
 
 This document provides a comprehensive guide for the visual style of A Silent Refraction, including color palette guidelines, aesthetic principles, and district-specific design notes.
 

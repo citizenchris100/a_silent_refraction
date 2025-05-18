@@ -1,4 +1,5 @@
 # Common Pitfalls and Solutions: Walkable Areas and Coordinate Systems
+**Status: 📚 REFERENCE**
 
 This document outlines common issues developers may encounter when working with walkable areas and coordinate systems in A Silent Refraction, along with their solutions.
 

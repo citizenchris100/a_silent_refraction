@@ -1,5 +1,7 @@
 # Multi-Perspective Character System for A Silent Refraction
 
+**Status: **🔄 PENDING**
+
 ## Introduction
 
 This document outlines a comprehensive approach to implementing a multi-perspective character system in A Silent Refraction. The system allows character sprites to adapt correctly to different scene perspectives (isometric, side-scrolling, etc.) while maintaining visual consistency and adhering to the project's architectural principles.

@@ -1,4 +1,5 @@
 # A Silent Refraction: Architectural Statement of Purpose
+**Status: 📚 REFERENCE**
 
 ## Core Philosophy
 The architecture of A Silent Refraction follows a component-based design with a focus on 

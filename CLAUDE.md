@@ -39,27 +39,79 @@ A Silent Refraction is a SCUMM-style point-and-click adventure game built with G
 ./a_silent_refraction.sh new-district <district_name>
 ```
 
+### Session Logging
+
+```bash
+# Start a new development session with Claude (recommended)
+./tools/session_logger.sh claude-session "Session Title" "Task Focus" "2"
+
+# View most recent session info
+./tools/session_logger.sh claude get-recent
+
+# End the current session with a summary
+./tools/session_logger.sh claude end "Summary of work completed"
+
+# Add tasks to the current session
+./tools/session_logger.sh add-task "Task description"
+
+# Mark a task as completed
+./tools/session_logger.sh complete-task <number>
+
+# Link a task to a specific file
+./tools/session_logger.sh link-task <number> "file_path"
+
+# Add development notes
+./tools/session_logger.sh add-note "Note content"
+
+# Set session goals
+./tools/session_logger.sh set-goal "Goal description"
+
+# Add next steps for future sessions
+./tools/session_logger.sh add-next-step "Next step description"
+
+# List all development sessions
+./tools/session_logger.sh list
+
+# View a specific session by date
+./tools/session_logger.sh view <date>
+
+# Clean up session logs and fix issues
+./tools/session_logger.sh clean auto
+
+# Create a backup of all session logs
+./tools/session_logger.sh backup
+```
+
 ### Iteration Planning
 
 ```bash
 # Initialize planning system
-./iteration_planner.sh init
+./tools/iteration_planner.sh init
 
 # Create a new iteration plan
-./iteration_planner.sh create <iteration_number>
+./tools/iteration_planner.sh create <iteration_number> "<iteration_name>"
 
 # List tasks for a specific iteration
-./iteration_planner.sh list <iteration_number>
+./tools/iteration_planner.sh list <iteration_number>
 
 # Update task status
-./iteration_planner.sh update <iteration_number> <task_number> <status>
+./tools/iteration_planner.sh update <iteration_number> <task_number> <status>
 # Where status can be: pending, in_progress, or complete
 
 # Generate progress report
-./iteration_planner.sh report
+./tools/iteration_planner.sh report
 
 # Link tasks to code files
-./iteration_planner.sh link <iteration_number> <task_number> <file_path>
+./tools/iteration_planner.sh link <iteration_number> <task_number> "<file_path>"
+
+# Add a requirement to an iteration (type: business/user/technical)
+./tools/iteration_planner.sh add-req <iteration_number> <type> "<text>"
+
+# Add a user story to a task
+./tools/iteration_planner.sh add-story <iteration_number> <task_number> "<story>"
+
+# Show help message
+./tools/iteration_planner.sh help
 ```
 
 ## Architecture
@@ -135,7 +187,7 @@ The game follows a component-based design with clear separation of concerns:
    - Present solutions incrementally to allow for course correction
 
 3. **Architecture Adherence**
-   - Always adhere to the structure and approach outlined in the 'docs/architecture.md' document
+   - Always adhere to the structure and approach outlined in the 'docs/reference/architecture.md' document
    - Maintain the component-based design with clear separation of concerns
 
 4. **Iterative Development**
