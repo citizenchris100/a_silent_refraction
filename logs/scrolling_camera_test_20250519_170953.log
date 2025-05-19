@@ -1,0 +1,298 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1302
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Setting up camera system test...
+Creating new ScrollingCamera instance
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1311
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Configuring camera for testing...
+Setting debug_draw to: True
+[OVERLAY DEBUG] Created debug overlay
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+Test mode enabled: True
+Camera configured with position: (500, 500)
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (500, 500)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+Starting camera system tests...
+===== TEST SUITE: State Listener System =====
+Running test: Connect State Listener
+[CAMERA DEBUG] Connected state listener: MockListener:[Node2D:1309] -> _on_camera_state_changed
+✗ FAIL: Connect State Listener: Listener should receive state change signal
+SCRIPT ERROR: Invalid get index 'Connect' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: Listener Receives All Signal Types
+ERROR: Signal 'camera_state_changed' is already connected to given method '_on_camera_state_changed' in that object.
+   at: connect (core/object.cpp:1480)
+ERROR: ScrollingCamera: Failed to connect state listener: 31
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_started listener: MockListener:[Node2D:1309] -> _on_camera_move_started
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_completed listener: MockListener:[Node2D:1309] -> _on_camera_move_completed
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected view_bounds listener: MockListener:[Node2D:1309] -> _on_camera_view_bounds_changed
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(0, 0), Expected duration=2.854859s
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✓ PASS: Listener Receives All Signal Types: Listener should receive at least 4 different signal types
+SCRIPT ERROR: Invalid get index 'Listener' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+Running test: Listener Auto-Disconnect
+[CAMERA DEBUG] Connected state listener: TempListener:[Node2D:1341] -> _on_camera_state_changed
+[CAMERA DEBUG] Auto-removed state listener with ID: 1341
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER (Reason: manual_transition)
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE (Reason: manual_transition)
+✗ FAIL: Listener Auto-Disconnect: Listener should receive signals before being freed
+SCRIPT ERROR: Invalid get index 'Listener' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: Manual Disconnect
+ERROR: Signal 'camera_state_changed' is already connected to given method '_on_camera_state_changed' in that object.
+   at: connect (core/object.cpp:1480)
+ERROR: ScrollingCamera: Failed to connect state listener: 31
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(812, 476), Expected duration=0.333333s
+[CAMERA DEBUG] Disconnected all listeners for: MockListener:[Node2D:1309]
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✓ PASS: Manual Disconnect: Listener should receive signals before disconnect but not after
+SCRIPT ERROR: Invalid get index 'Manual' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+SCRIPT ERROR: Invalid get index 'Manual' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/scrolling_camera_test.gd:927)
+===== TEST SUITE: Signal Data Enhancement =====
+Running test: Move Started Signal Data
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_started listener: MockListener:[Node2D:1309] -> _on_camera_move_started
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(812, 476), Expected duration=0.333333s
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✓ PASS: Move Started Signal Data: Move started signal should contain all required data fields
+SCRIPT ERROR: Invalid get index 'Move' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+Running test: Move Completed Signal Data
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_completed listener: MockListener:[Node2D:1309] -> _on_camera_move_completed
+ensure_valid_target called with position: (812, 476)
+Camera half size: (712, 476)
+[TEST] TestBoundsValidator bypassing bounds validation for: (812, 476)
+move_to_position called with pos=(812, 476), immediate=True
+Target position after validation: (812, 476)
+Immediate move from (712, 476) to (812, 476)
+✓ PASS: Move Completed Signal Data: Move completed signal should contain all required data fields
+SCRIPT ERROR: Invalid get index 'Move' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+Running test: State Changed Signal Data
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected state listener: MockListener:[Node2D:1309] -> _on_camera_state_changed
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER (Reason: test_reason)
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE (Reason: manual_transition)
+✓ PASS: State Changed Signal Data: State changed signal should contain all required data fields including reason
+SCRIPT ERROR: Invalid get index 'State' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+Running test: View Bounds Changed Signal Data
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected view_bounds listener: MockListener:[Node2D:1309] -> _on_camera_view_bounds_changed
+✓ PASS: View Bounds Changed Signal Data: View bounds changed signal should contain all required data fields
+SCRIPT ERROR: Invalid get index 'View' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+SCRIPT ERROR: Invalid get index 'View' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/scrolling_camera_test.gd:927)
+===== TEST SUITE: State Query Methods =====
+Running test: Basic State Getters
+✓ PASS: Basic State Getters: State getters should return correct values
+SCRIPT ERROR: Invalid get index 'Basic' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+Running test: Movement Progress Tracking
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(912, 476), Expected duration=0.666667s
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✗ FAIL: Movement Progress Tracking: Movement progress and elapsed time should increase during movement
+SCRIPT ERROR: Invalid get index 'Movement' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: Boundary Detection
+✗ FAIL: Boundary Detection: Boundary detection should correctly identify camera position relative to bounds
+SCRIPT ERROR: Invalid get index 'Boundary' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+SCRIPT ERROR: Invalid get index 'Boundary' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/scrolling_camera_test.gd:927)
+===== TEST SUITE: UI Element Synchronization =====
+Running test: Register UI Element
+[CAMERA DEBUG] Registered UI element: MockUIElement:[Node2D:1310]
+[CAMERA DEBUG] Connected state listener: MockUIElement:[Node2D:1310] -> on_camera_state_changed
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_completed listener: MockUIElement:[Node2D:1310] -> on_camera_move_completed
+ERROR: Error calling method from signal 'camera_state_changed': 'Node2D::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(912, 476), Expected duration=0.666667s
+ERROR: Error calling method from signal 'camera_move_completed': 'Node2D::on_camera_move_completed': Method expected 0 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+ERROR: Error calling method from signal 'camera_state_changed': 'Node2D::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✗ FAIL: Register UI Element: UI element should receive state changes after registration
+SCRIPT ERROR: Invalid get index 'Register' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: UI Element Receives Movement Updates
+ERROR: Error calling method from signal 'camera_state_changed': 'Node2D::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(812, 476), Expected duration=0.333333s
+ERROR: Error calling method from signal 'camera_move_completed': 'Node2D::on_camera_move_completed': Method expected 0 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+ERROR: Error calling method from signal 'camera_state_changed': 'Node2D::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✗ FAIL: UI Element Receives Movement Updates: UI element should receive movement updates and completion notification
+SCRIPT ERROR: Invalid get index 'UI' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: Unregister UI Element
+ERROR: Error calling method from signal 'camera_state_changed': 'Node2D::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(812, 476), Expected duration=0.333333s
+[CAMERA DEBUG] Disconnected all listeners for: MockUIElement:[Node2D:1310]
+[CAMERA DEBUG] Unregistered UI element: MockUIElement:[Node2D:1310]
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✗ FAIL: Unregister UI Element: UI element should not receive updates after being unregistered
+SCRIPT ERROR: Invalid get index 'Unregister' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+SCRIPT ERROR: Invalid get index 'Unregister' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/scrolling_camera_test.gd:927)
+===== TEST SUITE: Transition Event System =====
+Running test: Register Transition Callback
+ERROR: Signal 'camera_transition_point_reached' is already connected to given method '_on_transition_point_reached' in that object.
+   at: connect (core/object.cpp:1480)
+✓ PASS: Register Transition Callback: Camera should have default transition points
+SCRIPT ERROR: Invalid get index 'Register' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+Running test: Transition Events Triggered
+ERROR: Signal 'camera_transition_point_reached' is already connected to given method '_on_transition_point_reached' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(912, 476), Expected duration=0.666667s
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✗ FAIL: Transition Events Triggered: At least one transition point should be triggered during movement
+SCRIPT ERROR: Invalid get index 'Transition' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: Custom Transition Points
+ERROR: Signal 'camera_transition_point_reached' is already connected to given method '_on_transition_point_reached' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Set transition event points to: [0.33, 0.66]
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(912, 476), Expected duration=0.666667s
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+[CAMERA DEBUG] Set transition event points to: [0.25, 0.5, 0.75]
+✗ FAIL: Custom Transition Points: Custom transition points should be correctly set and triggered
+SCRIPT ERROR: Invalid get index 'Custom' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+SCRIPT ERROR: Invalid get index 'Custom' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/scrolling_camera_test.gd:927)
+===== TEST SUITE: Debug Visualization =====
+Running test: State Change Visuals
+Setting debug_draw to: True
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(912, 476), Expected duration=0.666667s
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER (Reason: manual_transition)
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE (Reason: manual_transition)
+✗ FAIL: State Change Visuals: State change history should be recorded for visualization
+SCRIPT ERROR: Invalid get index 'State' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:948)
+Running test: Transition Point Visuals
+Setting debug_draw to: True
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING (Reason: manual_transition)
+[CAMERA DEBUG] Movement details: Start=(712, 476), Target=(912, 476), Expected duration=0.666667s
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE (Reason: manual_transition)
+✓ PASS: Transition Point Visuals: Transition point visualization should run without errors
+SCRIPT ERROR: Invalid get index 'Transition' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/scrolling_camera_test.gd:944)
+SCRIPT ERROR: Invalid get index 'Transition' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/scrolling_camera_test.gd:927)
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 0
+Passed: 0
+Failed: 0
+
+All tests passed! 🎉

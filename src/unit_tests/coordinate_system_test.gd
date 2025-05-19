@@ -105,6 +105,11 @@ func configure_camera():
 	camera.global_position = Vector2(500, 500)
 	camera.zoom = Vector2(1, 1)
 	
+	# Enable test mode if it's a ScrollingCamera
+	if camera.get_script() and "test_mode" in camera:
+		camera.test_mode = true
+		debug_log("Test mode enabled for ScrollingCamera")
+	
 	debug_log("Camera configured with position: " + str(camera.global_position) + ", zoom: " + str(camera.zoom))
 
 # ===== TEST RUNNER =====

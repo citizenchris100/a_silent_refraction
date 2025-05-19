@@ -146,6 +146,9 @@ func create_scrolling_camera():
 	new_camera.smoothing_enabled = true
 	new_camera.bounds_enabled = true
 	
+	# Enable test mode for integration tests
+	new_camera.test_mode = false  # We want to test actual bounds validation in these tests
+	
 	# Add to camera group
 	new_camera.add_to_group("camera")
 	

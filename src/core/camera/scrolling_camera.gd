@@ -1,6 +1,11 @@
 class_name ScrollingCamera
 extends Camera2D
 
+# Import validator classes - using string paths to avoid circular dependencies
+const BoundsValidatorPath = "res://src/core/camera/bounds_validator.gd"
+const DefaultBoundsValidatorPath = "res://src/core/camera/default_bounds_validator.gd"
+const TestBoundsValidatorPath = "res://src/core/camera/test_bounds_validator.gd"
+
 # ===== SCROLLING CAMERA: SIGNAL AND STATE DOCUMENTATION =====
 #
 # ScrollingCamera provides a comprehensive camera system with state management,
@@ -152,7 +157,7 @@ export var signal_debug_mode: bool = false # Enables more detailed signal inform
 export var follow_player: bool = true
 export var follow_smoothing: float = 5.0
 export var edge_margin: Vector2 = Vector2(150, 100) # Distance from edge that triggers scrolling
-export var bounds_enabled: bool = true
+export var bounds_enabled: bool = true setget set_bounds_enabled
 export var initial_position: Vector2 = Vector2.ZERO # Initial camera position (if Vector2.ZERO, will be centered)
 export var initial_view: String = "right" # Which part to show initially: "left", "right", "center"
 export(EasingType) var easing_type: int = EasingType.SINE # Type of easing to use for camera movement
@@ -176,6 +181,23 @@ var world_view_mode: bool = false
 # Variables
 # Target player reference with proper setters/getters
 var _target_player: Node2D = null
+
+# Bounds validator for decoupled bounds validation
+var _bounds_validator # Using untyped variable to avoid circular dependencies
+
+# Test mode flag
+export var test_mode: bool = false setget set_test_mode, get_test_mode
+
+# Setter for test_mode
+func set_test_mode(value: bool) -> void:
+    print("Setting test_mode to: " + str(value))
+    test_mode = value
+    # Reinitialize the bounds validator
+    _initialize_bounds_validator()
+
+# Getter for test_mode
+func get_test_mode() -> bool:
+    return test_mode
 
 # Setter for target_player with type checking and validation
 func set_target_player(player: Node2D) -> void:
@@ -232,6 +254,13 @@ func set_debug_draw(value: bool) -> void:
 # Getter for debug_draw
 func get_debug_draw() -> bool:
     return _debug_draw
+    
+# Setter for bounds_enabled
+func set_bounds_enabled(value: bool) -> void:
+    bounds_enabled = value
+    # Update bounds validator if it exists
+    if _bounds_validator != null and not test_mode:
+        _bounds_validator.set_bounds_enabled(value)
 
 # Property with setter/getter
 export var debug_draw: bool = false setget set_debug_draw, get_debug_draw
@@ -408,6 +437,9 @@ func _ready():
     # Set initial camera bounds based on parent district (if applicable)
     _setup_camera_bounds()
     
+    # Initialize the bounds validator
+    _initialize_bounds_validator()
+    
     # Set initial camera position
     _set_initial_camera_position()
     
@@ -513,6 +545,28 @@ func _setup_camera_bounds():
         # Default bounds to screen size
         camera_bounds = Rect2(0, 0, screen_size.x, screen_size.y)
         print("Using default camera bounds based on screen size")
+
+# Initialize the appropriate bounds validator based on mode
+func _initialize_bounds_validator() -> void:
+    # Create the appropriate bounds validator based on test mode
+    if test_mode:
+        print("Initializing TestBoundsValidator for test mode")
+        _bounds_validator = load(TestBoundsValidatorPath).new()
+    else:
+        print("Initializing DefaultBoundsValidator with bounds: " + str(camera_bounds))
+        _bounds_validator = load(DefaultBoundsValidatorPath).new(camera_bounds)
+        _bounds_validator.set_bounds_enabled(bounds_enabled)
+        
+    # Output message for validation
+    print("BoundsValidator initialized: " + str(_bounds_validator.get_class()))
+    
+# Provide a way to set a custom bounds validator (for advanced use cases)
+func set_bounds_validator(validator) -> void:
+    if validator:
+        _bounds_validator = validator
+    else:
+        # Fall back to default if null
+        _bounds_validator = load(DefaultBoundsValidatorPath).new(camera_bounds)
 
 func _calculate_district_bounds(district) -> Rect2:
     # Use the BoundsCalculator service to calculate bounds from walkable areas
@@ -654,32 +708,38 @@ func ensure_valid_target(target_pos: Vector2) -> Vector2:
     # Add debug output to track position changes
     print("ensure_valid_target called with position: " + str(target_pos))
     
-    if bounds_enabled and camera_bounds.size != Vector2.ZERO:
-        # Calculate half size of camera view
-        var camera_half_size = screen_size / 2 / zoom
-        print("Camera half size: " + str(camera_half_size))
-        print("Current bounds: " + str(camera_bounds))
-        
-        # Calculate bounds limits
-        var min_x = camera_bounds.position.x + camera_half_size.x
-        var max_x = camera_bounds.position.x + camera_bounds.size.x - camera_half_size.x
-        var min_y = camera_bounds.position.y + camera_half_size.y
-        var max_y = camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
-        
-        print("Bounds limits - x: [" + str(min_x) + ", " + str(max_x) + "], y: [" + str(min_y) + ", " + str(max_y) + "]")
-        
-        # Store original position for comparison
+    # Get half size of camera view
+    var camera_half_size = screen_size / 2 / zoom
+    print("Camera half size: " + str(camera_half_size))
+    
+    # Use the bounds validator to validate the position
+    if _bounds_validator != null:
         var original_pos = validated_pos
+        validated_pos = _bounds_validator.validate_position(validated_pos, camera_half_size)
         
-        # Clamp position to bounds
-        validated_pos.x = clamp(validated_pos.x, min_x, max_x)
-        validated_pos.y = clamp(validated_pos.y, min_y, max_y)
-        
-        # Log if position was adjusted
+        # Log validation result
         if original_pos != validated_pos:
-            print("Position adjusted by bounds: " + str(original_pos) + " -> " + str(validated_pos))
+            print("Position adjusted by bounds validator: " + str(original_pos) + " -> " + str(validated_pos))
     else:
-        print("Bounds checking skipped: bounds_enabled=" + str(bounds_enabled) + ", bounds size=" + str(camera_bounds.size))
+        # Fall back to old behavior if validator is null (shouldn't happen, but just in case)
+        push_warning("No bounds validator available, using legacy bounds validation")
+        if bounds_enabled and camera_bounds.size != Vector2.ZERO:
+            # Calculate bounds limits
+            var min_x = camera_bounds.position.x + camera_half_size.x
+            var max_x = camera_bounds.position.x + camera_bounds.size.x - camera_half_size.x
+            var min_y = camera_bounds.position.y + camera_half_size.y
+            var max_y = camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
+            
+            # Store original position for comparison
+            var original_pos = validated_pos
+            
+            # Clamp position to bounds
+            validated_pos.x = clamp(validated_pos.x, min_x, max_x)
+            validated_pos.y = clamp(validated_pos.y, min_y, max_y)
+            
+            # Log if position was adjusted
+            if original_pos != validated_pos:
+                print("Position adjusted by bounds: " + str(original_pos) + " -> " + str(validated_pos))
     
     return validated_pos
 
@@ -844,6 +904,10 @@ func update_bounds():
         # Register updated district with CoordinateManager
         register_with_coordinate_manager()
         
+        # Update the bounds validator with new bounds
+        if _bounds_validator != null and not test_mode:
+            _bounds_validator.set_bounds(camera_bounds)
+        
         # Emit signal with enhanced bounds information
         emit_signal("view_bounds_changed", camera_bounds, old_bounds, true)
 # Called when the parent district is initialized
@@ -865,16 +929,28 @@ func force_update_scroll():
     # If we have an explicit initial position, respect it
     if initial_position != Vector2.ZERO:
         # Temporarily disable bounds to ensure position is honored exactly
-        bounds_enabled = false
+        set_bounds_enabled(false)
+        
+        # Store whether we were in test mode
+        var original_test_mode = test_mode
+        
+        # Temporarily enable test mode to bypass bounds validation
+        if not test_mode:
+            set_test_mode(true)
+            
         global_position = validate_coordinates(initial_position) # Validate the position
         debug_log("camera", "Respecting explicit initial camera position: " + str(initial_position))
+        
+        # Restore original test mode
+        if original_test_mode != test_mode:
+            set_test_mode(original_test_mode)
     
     # Process one frame to update camera
     force_update_transform()
     
     # Restore original settings
     smoothing_enabled = original_smoothing
-    bounds_enabled = original_bounds_enabled
+    set_bounds_enabled(original_bounds_enabled)
     
     # Update camera state
     if follow_player and target_player:

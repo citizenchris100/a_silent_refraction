@@ -1,0 +1,13 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Unknown class: "BoundsValidator"
+          at: GDScript::reload (res://src/core/camera/default_bounds_validator.gd:1)
+SCRIPT ERROR: Parse Error: Couldn't fully preload the script, possible cyclic reference or compilation error. Use "load()" instead if a cyclic reference is intended.
+          at: GDScript::reload (res://src/core/camera/scrolling_camera.gd:6)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up camera state test...
+Creating a new ScrollingCamera instance
+Camera created successfully: @TestCamera@2
+ERROR: Camera doesn't have CameraState enum, script might not be loaded correctly

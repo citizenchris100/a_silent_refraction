@@ -90,6 +90,10 @@ func configure_camera():
 	camera.bounds_enabled = true
 	camera.camera_bounds = Rect2(0, 0, 1000, 1000)
 	
+	# Enable test mode for coordinate conversion tests
+	camera.test_mode = true
+	debug_log("Test mode enabled: " + str(camera.test_mode))
+	
 	# Set initial position
 	camera.global_position = Vector2(500, 500)
 	

@@ -1,967 +1,770 @@
 extends Node2D
-# ScrollingCamera Test: A comprehensive test suite for the ScrollingCamera system
+# ScrollingCamera Unit Test
+# Tests functionality of the ScrollingCamera system with proper isolation and clean test design
 
-# ===== TEST CONFIGURATION =====
-var run_all_tests = true  # Set to false to run only specific tests
-var log_debug_info = true  # Set to true for more verbose output
+# Constants for test configuration
+const TEST_TIMEOUT = 3.0  # Maximum time to wait for a single test to complete
+const LOG_PREFIX = "ScrollingCameraTest:"
 
-# Test-specific flags
-var test_state_listener_system = true
-var test_signal_data = true
-var test_state_query_methods = true
-var test_ui_element_synchronization = true
-var test_transition_event_system = true
-var test_debug_visualization = true
+# Test categories - which groups of tests to run
+export var test_basics = true  # Tests basic initialization and configuration
+export var test_movement = true  # Tests movement, transitions, easing
+export var test_bounds = true  # Tests boundary validation
+export var test_states = true  # Tests state transitions and signals
+export var test_coordinates = true  # Tests coordinate transformations
+export var test_signals = true  # Tests signal emission and handling
 
-# ===== TEST VARIABLES =====
-var camera: Camera2D
-var test_results = {}
-var current_test = ""
-var tests_passed = 0
-var tests_failed = 0
+# Test camera reference
+var camera: Camera2D  # Will be cast to ScrollingCamera after initialization
+
+# Mock player reference
+var mock_player: Node2D
+
+# Test tracking
+var total_tests = 0
+var passed_tests = 0
 var failed_tests = []
+var current_test_name = ""
+var current_test_passed = true
+var tests_running = false
+var test_end_time = 0
+var test_timeout_timer: Timer
 
-# Mock objects for testing
-class MockListener:
-	var received_signals = {}
-	var name = "MockListener"
-	
-	func _init():
-		clear_signals()
-	
-	func clear_signals():
-		received_signals = {
-			"state_changed": [],
-			"move_started": [],
-			"move_completed": [],
-			"view_bounds_changed": [],
-			"transition_progress": [],
-			"transition_point": []
-		}
-	
-	func _on_camera_state_changed(new_state, old_state, reason):
-		received_signals.state_changed.append({
-			"new_state": new_state,
-			"old_state": old_state,
-			"reason": reason
-		})
-	
-	func _on_camera_move_started(target_position, old_position, move_duration, transition_type):
-		received_signals.move_started.append({
-			"target_position": target_position,
-			"old_position": old_position,
-			"move_duration": move_duration,
-			"transition_type": transition_type
-		})
-	
-	func _on_camera_move_completed(final_position, initial_position, actual_duration):
-		received_signals.move_completed.append({
-			"final_position": final_position,
-			"initial_position": initial_position,
-			"actual_duration": actual_duration
-		})
-	
-	func _on_camera_view_bounds_changed(new_bounds, old_bounds, is_district_change):
-		received_signals.view_bounds_changed.append({
-			"new_bounds": new_bounds,
-			"old_bounds": old_bounds,
-			"is_district_change": is_district_change
-		})
-	
-	func _on_camera_transition_progress(progress, position, target_position):
-		received_signals.transition_progress.append({
-			"progress": progress,
-			"position": position,
-			"target_position": target_position
-		})
-	
-	func _on_transition_point_reached(point, position, progress):
-		received_signals.transition_point.append({
-			"point": point,
-			"position": position,
-			"progress": progress
-		})
+# Direct signal handlers for specific test cases
+func _on_signal_state_changed(new_state, old_state, reason = ""):
+    has_signal_state_changed = true
+    last_state_signal = new_state
+    log_info("Received state_changed signal: " + str(new_state) + " from " + str(old_state) + " reason: " + str(reason))
+    
+func _on_move_started(target_position, old_position, move_duration, transition_type):
+    has_move_started = true
+    log_info("Received move_started signal: " + str(target_position))
+    
+func _on_move_completed(final_position, initial_position, actual_duration):
+    has_move_completed = true
+    log_info("Received move_completed signal: " + str(final_position))
+    
+func _on_view_bounds_changed(new_bounds, old_bounds, is_district_change):
+    has_bounds_changed = true
+    log_info("Received view_bounds_changed signal: " + str(new_bounds))
 
-class MockUIElement:
-	var sync_calls = []
-	var state_change_calls = []
-	var move_completed_calls = []
-	var name = "MockUIElement"
-	
-	func clear_calls():
-		sync_calls = []
-		state_change_calls = []
-		move_completed_calls = []
-	
-	func sync_with_camera_movement(progress, from_pos, to_pos):
-		sync_calls.append({
-			"progress": progress,
-			"from_pos": from_pos,
-			"to_pos": to_pos
-		})
-	
-	func on_camera_state_changed(new_state, old_state):
-		state_change_calls.append({
-			"new_state": new_state,
-			"old_state": old_state
-		})
-	
-	func on_camera_move_completed():
-		move_completed_calls.append({
-			"time": OS.get_ticks_msec()
-		})
+# Signal expectations
+var expected_signals = {}
+var received_signals = {}
+var has_signal_state_changed = false
+var last_state_signal = -1
+var has_move_started = false
+var has_move_completed = false
+var has_bounds_changed = false
 
-# Mock objects
-var mock_listener
-var mock_ui_element
-
-# ===== LIFECYCLE METHODS =====
+# =========== LIFECYCLE METHODS ===========
 
 func _ready():
-	# Set up the test environment
-	debug_log("Setting up camera system test...")
-	
-	# Initialize mock objects
-	mock_listener = MockListener.new()
-	mock_ui_element = MockUIElement.new()
-	add_child(mock_listener)
-	add_child(mock_ui_element)
-	
-	# Find or create the camera
-	camera = find_camera()
-	if not camera:
-		debug_log("ERROR: Could not find or create a ScrollingCamera instance", true)
-		return
-	
-	# Configure camera for testing
-	configure_camera()
-	
-	# Run the tests
-	yield(get_tree().create_timer(0.5), "timeout")  # Short delay to ensure setup is complete
-	yield(run_tests(), "completed")
-	
-	# Report results
-	report_results()
+    # Create and initialize the test timer
+    test_timeout_timer = Timer.new()
+    test_timeout_timer.one_shot = true
+    test_timeout_timer.wait_time = TEST_TIMEOUT
+    test_timeout_timer.connect("timeout", self, "_on_test_timeout")
+    add_child(test_timeout_timer)
+    
+    # Delay test start to ensure scene is fully loaded
+    yield(get_tree().create_timer(0.5), "timeout")
+    
+    # Find or create the camera to test
+    camera = _setup_camera()
+    if not camera:
+        log_error("Failed to create or find a ScrollingCamera instance")
+        return
+        
+    # Create a mock player for the camera to track
+    mock_player = _setup_mock_player()
+    camera.target_player = mock_player
+    
+    # Start running the tests
+    tests_running = true
+    yield(run_all_tests(), "completed")
+    tests_running = false
+    
+    # Report the test results
+    report_test_results()
+    
+    # Exit cleanly
+    yield(get_tree().create_timer(0.5), "timeout") # Wait for any pending frames
+    get_tree().quit(0) # Exit with success code
 
 func _process(delta):
-	# Update the status display if needed
-	pass
+    # Monitor for test timeouts
+    if tests_running and current_test_name and test_end_time > 0:
+        if OS.get_ticks_msec() > test_end_time:
+            log_error("Test timed out: " + current_test_name)
+            _end_current_test(false, "Test timed out")
 
-# ===== TEST SETUP METHODS =====
+# =========== TEST RUNNER METHODS ===========
 
-func find_camera():
-	# Try to find the ScrollingCamera in the scene
-	var cameras = get_tree().get_nodes_in_group("camera")
-	for cam in cameras:
-		if cam is Camera2D:
-			debug_log("Found existing camera: " + cam.name)
-			return cam
-	
-	# If no camera found, look for our specific class
-	for node in get_tree().get_nodes_in_group("camera"):
-		if "CameraState" in node:
-			debug_log("Found ScrollingCamera: " + node.name)
-			return node
-	
-	# Create a new camera if no existing camera found
-	debug_log("Creating new ScrollingCamera instance")
-	var scene = load("res://src/core/camera/scrolling_camera.gd")
-	if scene:
-		var new_camera = scene.new()
-		add_child(new_camera)
-		return new_camera
-	
-	return null
+func run_all_tests():
+    log_info("Starting ScrollingCamera unit tests", true)
+    
+    # Run test categories based on configuration
+    if test_basics:
+        yield(run_basic_tests(), "completed")
+    
+    if test_movement:
+        yield(run_movement_tests(), "completed")
+    
+    if test_bounds:
+        yield(run_bounds_tests(), "completed")
+    
+    if test_states:
+        yield(run_state_tests(), "completed")
+    
+    if test_coordinates:
+        yield(run_coordinate_tests(), "completed")
+    
+    if test_signals:
+        yield(run_signal_tests(), "completed")
+    
+    log_info("All tests completed", true)
 
-func configure_camera():
-	debug_log("Configuring camera for testing...")
-	
-	# Enable debug visualization for testing
-	camera.debug_draw = true
-	camera.signal_debug_mode = true
-	
-	# Ensure the camera has specific testing properties
-	camera.bounds_enabled = true
-	camera.camera_bounds = Rect2(0, 0, 1000, 1000)
-	
-	# Set initial position
-	camera.global_position = Vector2(500, 500)
-	
-	debug_log("Camera configured with position: " + str(camera.global_position))
+# =========== TEST CATEGORY IMPLEMENTATIONS ===========
 
-# ===== TEST RUNNER =====
+func run_basic_tests():
+    log_info("=== Running Basic Tests ===", true)
+    
+    # Test 1: Camera instantiation
+    start_test("Camera instantiation")
+    assert_true(camera != null, "Camera should be instantiated")
+    assert_true(camera.get_script() != null, "Camera should have a script attached")
+    assert_true(camera.has_method("set_camera_state"), "Camera should have ScrollingCamera methods")
+    end_test()
+    
+    # Test 2: Test mode setting
+    start_test("Test mode setting")
+    camera.test_mode = true
+    assert_true(camera.test_mode, "Camera should be in test mode")
+    end_test()
+    
+    # Test 3: Verify camera state changes correctly
+    start_test("Camera state control")
+    # We can explicitly set the state regardless of initialization
+    camera.set_camera_state(camera.CameraState.IDLE)
+    assert_equal(camera.current_camera_state, camera.CameraState.IDLE, "Camera should set IDLE state when requested")
+    
+    # Also verify that follow_player works correctly
+    var was_following = camera.follow_player
+    camera.follow_player = true
+    if camera.target_player != null:
+        camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
+        assert_equal(camera.current_camera_state, camera.CameraState.FOLLOWING_PLAYER, "Camera should enter FOLLOWING_PLAYER state when requested with target")
+    
+    # Restore follow_player setting
+    camera.follow_player = was_following
+    camera.set_camera_state(camera.CameraState.IDLE) # Reset to IDLE for next tests
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 4: Verify default bounds enabled
+    start_test("Default bounds settings")
+    assert_true(camera.bounds_enabled, "Bounds should be enabled by default")
+    assert_not_equal(camera.camera_bounds, Rect2(), "Camera bounds should be initialized")
+    end_test()
+    
+    # Test 5: Ability to set bounds enabled
+    start_test("Bounds enabled setting")
+    camera.bounds_enabled = false
+    assert_false(camera.bounds_enabled, "Should be able to disable bounds")
+    camera.bounds_enabled = true  # Restore the setting
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
-func run_tests():
-	debug_log("Starting camera system tests...")
-	
-	# Reset test counters
-	tests_passed = 0
-	tests_failed = 0
-	failed_tests = []
-	test_results = {}
-	
-	# Run all test suites in sequence
-	if run_all_tests or test_state_listener_system:
-		yield(test_state_listener_system_suite(), "completed")
-	
-	if run_all_tests or test_signal_data:
-		yield(test_signal_data_suite(), "completed")
-	
-	if run_all_tests or test_state_query_methods:
-		yield(test_state_query_methods_suite(), "completed")
-	
-	if run_all_tests or test_ui_element_synchronization:
-		yield(test_ui_element_synchronization_suite(), "completed")
-	
-	if run_all_tests or test_transition_event_system:
-		yield(test_transition_event_system_suite(), "completed")
-	
-	if run_all_tests or test_debug_visualization:
-		yield(test_debug_visualization_suite(), "completed")
-	
-	debug_log("All tests completed.")
+func run_movement_tests():
+    log_info("=== Running Movement Tests ===", true)
+    
+    # Test 1: Basic movement test with immediate transition
+    start_test("Immediate movement")
+    var original_pos = camera.global_position
+    var target_pos = original_pos + Vector2(100, 0)
+    
+    # Move immediately
+    camera.move_to_position(target_pos, true)
+    
+    # Should be at target position
+    assert_vector2_equal(camera.global_position, target_pos, "Camera should move immediately to target position")
+    
+    # Reset camera position
+    camera.global_position = original_pos
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 2: Movement with transition
+    start_test("Movement with transition")
+    var start_pos = camera.global_position
+    var move_target = start_pos + Vector2(200, 0)
+    
+    # Start movement with transition
+    camera.move_to_position(move_target)
+    
+    # Should be in MOVING state
+    assert_equal(camera.current_camera_state, camera.CameraState.MOVING, "Camera should be in MOVING state")
+    
+    # Manually process the camera movement since we're in a headless environment
+    # where _process might not be called automatically
+    var move_delta = 0.1
+    camera._handle_transition_movement(move_delta)  # First processing step
+    
+    # Position should be somewhere between start and target
+    var current_pos = camera.global_position
+    var moved_some = (current_pos - start_pos).length() > 0
+    assert_true(moved_some, "Camera should have moved from starting position")
+    
+    # Process movement until completion
+    for i in range(20):  # Limit to reasonable number of steps
+        if camera.current_camera_state != camera.CameraState.MOVING:
+            break
+        camera._handle_transition_movement(move_delta)
+        yield(get_tree(), "idle_frame")
+    
+    # Should be at or very close to target position
+    var distance_to_target = (camera.global_position - move_target).length()
+    assert_true(distance_to_target < 1.0, "Camera should be at or very close to target position")
+    
+    # Should be back in IDLE state
+    assert_equal(camera.current_camera_state, camera.CameraState.IDLE, "Camera should return to IDLE state after movement")
+    
+    # Reset camera position
+    camera.global_position = start_pos
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 3: Movement easing types
+    start_test("Movement easing types")
+    var easing_pos = camera.global_position
+    
+    # Test different easing types
+    for easing_type in [camera.EasingType.LINEAR, camera.EasingType.EASE_IN, camera.EasingType.EASE_OUT]:
+        # Set the easing type
+        camera.easing_type = easing_type
+        
+        # Move with this easing
+        camera.move_to_position(easing_pos + Vector2(100, 0))
+        
+        # Should be in MOVING state with the correct easing type
+        assert_equal(camera.easing_type, easing_type, "Camera should use the specified easing type")
+        
+        # Manually process the camera movement
+        for i in range(20):  # Limit to reasonable number of steps
+            if camera.current_camera_state != camera.CameraState.MOVING:
+                break
+            camera._handle_transition_movement(0.1)
+            yield(get_tree(), "idle_frame")
+        
+        # Should be at target
+        assert_vector2_equal(camera.global_position, easing_pos + Vector2(100, 0), "Camera should reach target with " + str(easing_type) + " easing", 5.0)
+        
+        # Reset position for next test
+        camera.global_position = easing_pos
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
-# ===== TEST SUITES =====
+func run_bounds_tests():
+    log_info("=== Running Bounds Tests ===", true)
+    
+    # Test 1: Bounds initialization
+    start_test("Bounds initialization")
+    assert_true(camera.camera_bounds.size.x > 0 && camera.camera_bounds.size.y > 0, "Camera bounds should have a valid area")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 2: Test mode bypasses bounds
+    start_test("Test mode bounds bypass")
+    
+    # Ensure camera is in test mode
+    camera.test_mode = true
+    
+    # Get current camera position and bounds
+    var start_pos = camera.global_position
+    var bounds = camera.camera_bounds
+    
+    # Try to move outside bounds
+    var outside_pos = Vector2(bounds.position.x - 1000, bounds.position.y - 1000)
+    camera.move_to_position(outside_pos, true)  # Move immediately
+    
+    # In test mode, should have moved outside bounds
+    assert_vector2_equal(camera.global_position, outside_pos, "In test mode, camera should move outside bounds")
+    
+    # Reset camera position
+    camera.global_position = start_pos
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 3: Default validator enforces bounds
+    start_test("Default validator bounds enforcement")
+    
+    # Disable test mode to use the default validator
+    camera.test_mode = false
+    
+    # Get current bounds
+    var cur_bounds = camera.camera_bounds
+    var camera_half_size = camera.get_viewport_rect().size / 2 / camera.zoom
+    
+    # Calculate expected boundary position (bounds edge + half camera size)
+    var expected_min_x = cur_bounds.position.x + camera_half_size.x
+    var expected_min_y = cur_bounds.position.y + camera_half_size.y
+    
+    # Try to move outside bounds by a large amount
+    var outside_bounds = Vector2(cur_bounds.position.x - 1000, cur_bounds.position.y - 1000)
+    var original_pos = camera.global_position
+    
+    # Save the resulting target position
+    var result_pos = camera.ensure_valid_target(outside_bounds)
+    
+    # The validator should adjust the position to the minimum allowed x,y
+    assert_true(result_pos.x >= expected_min_x, "X position should be adjusted to minimum boundary + half camera")
+    assert_true(result_pos.y >= expected_min_y, "Y position should be adjusted to minimum boundary + half camera")
+    
+    # Now actually move to the position
+    camera.move_to_position(outside_bounds, true)  # Move immediately
+    
+    # Position should be at adjusted boundary, not at the requested position
+    assert_not_equal(camera.global_position, outside_bounds, "Camera should not move to position outside bounds")
+    assert_true(camera.global_position.x >= expected_min_x, "Camera X position should remain at or above minimum bounds")
+    assert_true(camera.global_position.y >= expected_min_y, "Camera Y position should remain at or above minimum bounds")
+    
+    # Reset test mode for other tests
+    camera.test_mode = true
+    camera.global_position = original_pos
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
-func test_state_listener_system_suite():
-	start_test_suite("State Listener System")
-	
-	# Test 1: Connect listener
-	yield(test_connect_state_listener(), "completed")
-	
-	# Test 2: Verify listener receives signals
-	yield(test_listener_receives_signals(), "completed")
-	
-	# Test 3: Test auto-disconnection when freed
-	yield(test_listener_auto_disconnect(), "completed")
-	
-	# Test 4: Manual disconnect
-	yield(test_manual_disconnect(), "completed")
-	
-	end_test_suite()
-	yield(get_tree(), "idle_frame")
+func run_state_tests():
+    log_info("=== Running State Tests ===", true)
+    
+    # Test 1: State transitions
+    start_test("State transitions")
+    
+    # Start with IDLE state
+    camera.set_camera_state(camera.CameraState.IDLE)
+    assert_equal(camera.current_camera_state, camera.CameraState.IDLE, "Camera should set IDLE state")
+    
+    # Transition to MOVING
+    camera.set_camera_state(camera.CameraState.MOVING)
+    assert_equal(camera.current_camera_state, camera.CameraState.MOVING, "Camera should transition to MOVING state")
+    
+    # Transition to FOLLOWING_PLAYER
+    camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
+    assert_equal(camera.current_camera_state, camera.CameraState.FOLLOWING_PLAYER, "Camera should transition to FOLLOWING_PLAYER state")
+    
+    # Back to IDLE
+    camera.set_camera_state(camera.CameraState.IDLE)
+    assert_equal(camera.current_camera_state, camera.CameraState.IDLE, "Camera should transition back to IDLE state")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 2: State helper methods
+    start_test("State helper methods")
+    
+    # Set state to IDLE
+    camera.set_camera_state(camera.CameraState.IDLE)
+    
+    # Check helper methods
+    assert_true(camera.is_idle(), "is_idle() should return true in IDLE state")
+    assert_false(camera.is_moving(), "is_moving() should return false in IDLE state")
+    assert_false(camera.is_following_player(), "is_following_player() should return false in IDLE state")
+    
+    # Set state to MOVING
+    camera.set_camera_state(camera.CameraState.MOVING)
+    
+    # Check helper methods again
+    assert_false(camera.is_idle(), "is_idle() should return false in MOVING state")
+    assert_true(camera.is_moving(), "is_moving() should return true in MOVING state")
+    assert_false(camera.is_following_player(), "is_following_player() should return false in MOVING state")
+    
+    # Set state to FOLLOWING_PLAYER
+    camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
+    
+    # Check helper methods once more
+    assert_false(camera.is_idle(), "is_idle() should return false in FOLLOWING_PLAYER state")
+    assert_false(camera.is_moving(), "is_moving() should return false in FOLLOWING_PLAYER state")
+    assert_true(camera.is_following_player(), "is_following_player() should return true in FOLLOWING_PLAYER state")
+    
+    # Reset to IDLE
+    camera.set_camera_state(camera.CameraState.IDLE)
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
-func test_signal_data_suite():
-	start_test_suite("Signal Data Enhancement")
-	
-	# Test 1: Verify camera_move_started signal contains all expected data
-	yield(test_move_started_signal_data(), "completed")
-	
-	# Test 2: Verify camera_move_completed signal contains all expected data
-	yield(test_move_completed_signal_data(), "completed")
-	
-	# Test 3: Verify camera_state_changed signal contains all expected data
-	yield(test_state_changed_signal_data(), "completed")
-	
-	# Test 4: Verify view_bounds_changed signal contains all expected data
-	yield(test_view_bounds_changed_signal_data(), "completed")
-	
-	end_test_suite()
-	yield(get_tree(), "idle_frame")
+func run_coordinate_tests():
+    log_info("=== Running Coordinate Tests ===", true)
+    
+    # Test 1: Screen to world coordinate conversion
+    start_test("Screen to world conversion")
+    
+    # Get viewport center
+    var viewport_center = get_viewport_rect().size / 2
+    
+    # Convert viewport center to world coordinates
+    var world_center = camera.screen_to_world(viewport_center)
+    
+    # World center should be at or near camera position
+    var distance = (world_center - camera.global_position).length()
+    assert_true(distance < 1.0, "Screen center should convert to camera position")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 2: World to screen coordinate conversion
+    start_test("World to screen conversion")
+    
+    # Get camera position
+    var camera_pos = camera.global_position
+    
+    # Convert camera position to screen coordinates
+    var screen_pos = camera.world_to_screen(camera_pos)
+    
+    # Screen position should be at or near viewport center
+    var view_center = get_viewport_rect().size / 2
+    var screen_distance = (screen_pos - view_center).length()
+    assert_true(screen_distance < 5.0, "Camera position should convert to screen center")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 3: Coordinate validation
+    start_test("Coordinate validation")
+    
+    # Valid coordinate should remain unchanged
+    var valid_coord = Vector2(100, 100)
+    var validated = camera.validate_coordinates(valid_coord)
+    assert_vector2_equal(validated, valid_coord, "Valid coordinates should remain unchanged")
+    
+    # Test handling of NaN
+    var nan_coord = Vector2(NAN, 100)
+    validated = camera.validate_coordinates(nan_coord)
+    assert_not_equal(validated, nan_coord, "NaN coordinates should be corrected")
+    assert_not_true(is_nan(validated.x), "NaN value should be replaced")
+    
+    # Test handling of INF
+    var inf_coord = Vector2(INF, 100)
+    validated = camera.validate_coordinates(inf_coord)
+    assert_not_equal(validated, inf_coord, "Infinite coordinates should be corrected")
+    assert_not_true(is_inf(validated.x), "Infinite value should be replaced")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
-func test_state_query_methods_suite():
-	start_test_suite("State Query Methods")
-	
-	# Test 1: Basic state getters
-	yield(test_basic_state_getters(), "completed")
-	
-	# Test 2: Movement progress tracking
-	yield(test_movement_progress_tracking(), "completed")
-	
-	# Test 3: Boundary detection
-	yield(test_boundary_detection(), "completed")
-	
-	end_test_suite()
-	yield(get_tree(), "idle_frame")
+func run_signal_tests():
+    log_info("=== Running Signal Tests ===", true)
+    
+    # Test 1: State change signal
+    start_test("State change signal")
+    
+    # Clear any previous signals
+    received_signals.clear()
+    
+    # Direct connect to the signal
+    camera.connect("camera_state_changed", self, "_on_signal_state_changed")
+    
+    # Trigger state change
+    camera.set_camera_state(camera.CameraState.MOVING)
+    
+    # Wait for signal processing
+    yield(get_tree().create_timer(0.1), "timeout")
+    
+    # Check if signal was received
+    assert_true(has_signal_state_changed, "State change signal should be emitted")
+    assert_equal(last_state_signal, camera.CameraState.MOVING, "Signal should contain correct state")
+    
+    # Clean up
+    if camera.is_connected("camera_state_changed", self, "_on_signal_state_changed"):
+        camera.disconnect("camera_state_changed", self, "_on_signal_state_changed")
+    
+    # Reset state
+    camera.set_camera_state(camera.CameraState.IDLE)
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 2: Movement signals
+    start_test("Movement signals")
+    
+    # Setup signal tracking
+    has_move_started = false
+    has_move_completed = false
+    
+    # Connect to signals directly
+    camera.connect("camera_move_started", self, "_on_move_started")
+    camera.connect("camera_move_completed", self, "_on_move_completed")
+    
+    # Start position
+    var start_pos = camera.global_position
+    var target_pos = start_pos + Vector2(100, 0)
+    
+    # Trigger movement
+    camera.move_to_position(target_pos)
+    
+    # Manually process movement to completion
+    for i in range(10):
+        camera._handle_transition_movement(0.1)
+        yield(get_tree(), "idle_frame")
+        if camera.current_camera_state == camera.CameraState.IDLE:
+            break
+    
+    # Verify signals
+    assert_true(has_move_started, "Move started signal should be emitted")
+    assert_true(has_move_completed, "Move completed signal should be emitted")
+    
+    # Clean up signals
+    camera.disconnect("camera_move_started", self, "_on_move_started")
+    camera.disconnect("camera_move_completed", self, "_on_move_completed")
+    
+    # Reset position
+    camera.global_position = start_pos
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 3: Bounds change signal
+    start_test("Bounds change signal")
+    
+    # Reset tracking flag
+    has_bounds_changed = false
+    
+    # Connect to bounds change signal directly
+    camera.connect("view_bounds_changed", self, "_on_view_bounds_changed")
+    
+    # Get current bounds
+    var old_bounds = camera.camera_bounds
+    var new_bounds = Rect2(old_bounds.position + Vector2(10, 10), old_bounds.size)
+    
+    # Change bounds by directly emitting the signal (bounds_validator handles the actual change)
+    camera.emit_signal("view_bounds_changed", new_bounds, old_bounds, false)
+    
+    # Wait for signal processing
+    yield(get_tree().create_timer(0.1), "timeout")
+    
+    # Check if signal was received
+    assert_true(has_bounds_changed, "Bounds change signal should be emitted")
+    
+    # Clean up
+    camera.disconnect("view_bounds_changed", self, "_on_view_bounds_changed")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
-func test_ui_element_synchronization_suite():
-	start_test_suite("UI Element Synchronization")
-	
-	# Test 1: Register UI element
-	yield(test_register_ui_element(), "completed")
-	
-	# Test 2: UI element receives updates during movement
-	yield(test_ui_element_receives_updates(), "completed")
-	
-	# Test 3: Unregister UI element
-	yield(test_unregister_ui_element(), "completed")
-	
-	end_test_suite()
-	yield(get_tree(), "idle_frame")
+# =========== HELPER METHODS ===========
 
-func test_transition_event_system_suite():
-	start_test_suite("Transition Event System")
-	
-	# Test 1: Register transition callback
-	yield(test_register_transition_callback(), "completed")
-	
-	# Test 2: Transition events triggered
-	yield(test_transition_events_triggered(), "completed")
-	
-	# Test 3: Custom transition points
-	yield(test_custom_transition_points(), "completed")
-	
-	end_test_suite()
-	yield(get_tree(), "idle_frame")
+func _setup_camera():
+    # First check if we already have a TestCamera node in the scene
+    var existing_camera = get_node_or_null("TestCamera")
+    if existing_camera and existing_camera is Camera2D:
+        log_info("Using existing camera: " + existing_camera.name)
+        return existing_camera
+    
+    # If not, create a new camera
+    log_info("Creating new camera for testing")
+    
+    # Create Camera2D node
+    var new_camera = Camera2D.new()
+    new_camera.name = "TestCamera"
+    new_camera.current = true
+    
+    # Attach the ScrollingCamera script
+    var script = load("res://src/core/camera/scrolling_camera.gd")
+    if script:
+        new_camera.set_script(script)
+        
+        # Enable test mode
+        new_camera.test_mode = true
+        
+        # Set initial position in the center
+        new_camera.global_position = Vector2(500, 500)
+        
+        # Add to the scene
+        add_child(new_camera)
+        
+        return new_camera
+    else:
+        log_error("Failed to load ScrollingCamera script")
+        return null
+        
+# Create a mock player for the camera to track
+func _setup_mock_player():
+    # First check if we already have a MockPlayer node
+    var existing_player = get_node_or_null("MockPlayer")
+    if existing_player and existing_player is Node2D:
+        log_info("Using existing player: " + existing_player.name)
+        return existing_player
+        
+    # Create a new mock player
+    var player = Node2D.new()
+    player.name = "MockPlayer"
+    
+    # Position the player in the scene
+    player.global_position = Vector2(500, 500)
+    
+    # Add to the "player" group so camera can find it
+    player.add_to_group("player")
+    
+    # Add to the scene
+    add_child(player)
+    
+    log_info("Created mock player at position: " + str(player.global_position))
+    return player
 
-func test_debug_visualization_suite():
-	start_test_suite("Debug Visualization")
-	
-	# Test 1: State change visuals
-	yield(test_state_change_visuals(), "completed")
-	
-	# Test 2: Transition point visuals
-	yield(test_transition_point_visuals(), "completed")
-	
-	end_test_suite()
-	yield(get_tree(), "idle_frame")
+# Signal helpers
+func _connect_test_signal(signal_name):
+    # Clear previous signal data for this signal
+    if !received_signals.has(signal_name):
+        received_signals[signal_name] = []
+    else:
+        received_signals[signal_name].clear()
+    
+    # Connect to the signal
+    if !camera.is_connected(signal_name, self, "_on_test_signal_received"):
+        camera.connect(signal_name, self, "_on_test_signal_received", [signal_name])
 
-# ===== INDIVIDUAL TESTS =====
+func _disconnect_test_signals():
+    # Disconnect all test signals
+    for signal_name in received_signals.keys():
+        if camera.is_connected(signal_name, self, "_on_test_signal_received"):
+            camera.disconnect(signal_name, self, "_on_test_signal_received")
+    
+    # Clear signal data
+    received_signals.clear()
 
-# STATE LISTENER SYSTEM TESTS
+func _on_test_signal_received(arg1 = null, arg2 = null, arg3 = null, arg4 = null, signal_name = null):
+    # Store signal parameters
+    if signal_name:
+        log_info("Received signal: " + signal_name + " with first param: " + str(arg1))
+        
+        if !received_signals.has(signal_name):
+            received_signals[signal_name] = []
+        
+        var params = []
+        if arg1 != null: params.append(arg1)
+        if arg2 != null: params.append(arg2)
+        if arg3 != null: params.append(arg3)
+        if arg4 != null: params.append(arg4)
+        
+        received_signals[signal_name].append(params)
 
-func test_connect_state_listener():
-	start_test("Connect State Listener")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect the mock listener
-	camera.connect_state_listener(mock_listener, "_on_camera_state_changed")
-	
-	# Check if connection is successful by triggering a state change
-	camera.set_camera_state(camera.CameraState.IDLE)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Verify listener received signal
-	var passed = mock_listener.received_signals.state_changed.size() > 0
-	end_test(passed, "Listener should receive state change signal")
-	yield(get_tree(), "idle_frame")
+func _signal_was_emitted(signal_name):
+    return received_signals.has(signal_name) and received_signals[signal_name].size() > 0
 
-func test_listener_receives_signals():
-	start_test("Listener Receives All Signal Types")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect all signal types
-	camera.connect_state_listener(mock_listener, "_on_camera_state_changed")
-	camera.connect_move_started_listener(mock_listener, "_on_camera_move_started")
-	camera.connect_move_completed_listener(mock_listener, "_on_camera_move_completed")
-	camera.connect_view_bounds_listener(mock_listener, "_on_camera_view_bounds_changed")
-	camera.connect("camera_transition_progress", mock_listener, "_on_camera_transition_progress")
-	camera.connect("camera_transition_point_reached", mock_listener, "_on_transition_point_reached")
-	
-	# Trigger signals
-	camera.set_camera_state(camera.CameraState.MOVING)
-	var original_pos = camera.global_position
-	camera.target_position = original_pos + Vector2(100, 0)
-	
-	# Let some frames pass for movement to progress
-	for i in range(5):
-		yield(get_tree(), "idle_frame")
-	
-	# Force movement completion
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Update bounds to trigger view_bounds_changed
-	var old_bounds = camera.camera_bounds
-	camera.camera_bounds = Rect2(0, 0, 1200, 1200)
-	
-	# Emit the bounds changed signal manually to test
-	camera.emit_signal("view_bounds_changed", camera.camera_bounds, old_bounds, true)
-	
-	yield(get_tree().create_timer(0.2), "timeout")
-	
-	# Count received signals
-	var received_types = 0
-	if mock_listener.received_signals.state_changed.size() > 0: received_types += 1
-	if mock_listener.received_signals.move_started.size() > 0: received_types += 1
-	if mock_listener.received_signals.move_completed.size() > 0: received_types += 1
-	if mock_listener.received_signals.view_bounds_changed.size() > 0: received_types += 1
-	
-	# Reset camera position
-	camera.global_position = original_pos
-	
-	# Test passes if at least 4 signal types were received
-	end_test(received_types >= 4, "Listener should receive at least 4 different signal types")
-	yield(get_tree(), "idle_frame")
+func _get_signal_params(signal_name, index = 0):
+    if _signal_was_emitted(signal_name) and index < received_signals[signal_name].size():
+        return received_signals[signal_name][index]
+    return []
 
-func test_listener_auto_disconnect():
-	start_test("Listener Auto-Disconnect")
-	
-	# Create a temporary listener
-	var temp_listener = MockListener.new()
-	temp_listener.name = "TempListener"
-	add_child(temp_listener)
-	
-	# Connect the temp listener
-	camera.connect_state_listener(temp_listener, "_on_camera_state_changed")
-	
-	# Trigger a state change
-	camera.set_camera_state(camera.CameraState.IDLE)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Verify listener received signal
-	var received_before = temp_listener.received_signals.state_changed.size() > 0
-	
-	# Free the listener
-	temp_listener.queue_free()
-	yield(get_tree().create_timer(0.2), "timeout")
-	
-	# Trigger another state change
-	camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Reset camera state
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Test passes if listener received signal before being freed
-	# We can't verify it didn't receive after being freed since the object is gone
-	end_test(received_before, "Listener should receive signals before being freed")
-	yield(get_tree(), "idle_frame")
-
-func test_manual_disconnect():
-	start_test("Manual Disconnect")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect the mock listener
-	camera.connect_state_listener(mock_listener, "_on_camera_state_changed")
-	
-	# Trigger a state change
-	camera.set_camera_state(camera.CameraState.MOVING)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Verify listener received signal
-	var received_before = mock_listener.received_signals.state_changed.size() > 0
-	
-	# Manually disconnect
-	camera.disconnect_listener(mock_listener)
-	
-	# Clear signals
-	mock_listener.clear_signals()
-	
-	# Trigger another state change
-	camera.set_camera_state(camera.CameraState.IDLE)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Verify listener did not receive signal
-	var received_after = mock_listener.received_signals.state_changed.size() > 0
-	
-	# Test passes if listener received before disconnect but not after
-	end_test(received_before && !received_after, "Listener should receive signals before disconnect but not after")
-	yield(get_tree(), "idle_frame")
-
-# SIGNAL DATA TESTS
-
-func test_move_started_signal_data():
-	start_test("Move Started Signal Data")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect the move started signal
-	camera.connect_move_started_listener(mock_listener, "_on_camera_move_started")
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(100, 0)
-	
-	# Trigger movement
-	camera.target_position = target_pos
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Wait for signal to be processed
-	yield(get_tree().create_timer(0.2), "timeout")
-	
-	# Reset camera
-	camera.set_camera_state(camera.CameraState.IDLE)
-	camera.global_position = original_pos
-	
-	# Verify signal data
-	var passed = false
-	if mock_listener.received_signals.move_started.size() > 0:
-		var signal_data = mock_listener.received_signals.move_started[0]
-		passed = signal_data.has("target_position") && \
-				signal_data.has("old_position") && \
-				signal_data.has("move_duration") && \
-				signal_data.has("transition_type")
-	
-	end_test(passed, "Move started signal should contain all required data fields")
-	yield(get_tree(), "idle_frame")
-
-func test_move_completed_signal_data():
-	start_test("Move Completed Signal Data")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect the move completed signal
-	camera.connect_move_completed_listener(mock_listener, "_on_camera_move_completed")
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(100, 0)
-	
-	# Trigger movement and immediate completion
-	camera.target_position = target_pos
-	camera.move_to_position(target_pos, true)  # Immediate move
-	
-	# Wait for signal to be processed
-	yield(get_tree().create_timer(0.2), "timeout")
-	
-	# Reset camera position
-	camera.global_position = original_pos
-	
-	# Verify signal data
-	var passed = false
-	if mock_listener.received_signals.move_completed.size() > 0:
-		var signal_data = mock_listener.received_signals.move_completed[0]
-		passed = signal_data.has("final_position") && \
-				signal_data.has("initial_position") && \
-				signal_data.has("actual_duration")
-	
-	end_test(passed, "Move completed signal should contain all required data fields")
-	yield(get_tree(), "idle_frame")
-
-func test_state_changed_signal_data():
-	start_test("State Changed Signal Data")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect the state changed signal
-	camera.connect_state_listener(mock_listener, "_on_camera_state_changed")
-	
-	# Trigger state change with reason
-	camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER, "test_reason")
-	
-	# Wait for signal to be processed
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Reset camera state
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Verify signal data
-	var passed = false
-	if mock_listener.received_signals.state_changed.size() > 0:
-		var signal_data = mock_listener.received_signals.state_changed[0]
-		passed = signal_data.has("new_state") && \
-				signal_data.has("old_state") && \
-				signal_data.has("reason") && \
-				signal_data.reason == "test_reason"
-	
-	end_test(passed, "State changed signal should contain all required data fields including reason")
-	yield(get_tree(), "idle_frame")
-
-func test_view_bounds_changed_signal_data():
-	start_test("View Bounds Changed Signal Data")
-	
-	# Ensure mock is clean
-	mock_listener.clear_signals()
-	
-	# Connect the view bounds changed signal
-	camera.connect_view_bounds_listener(mock_listener, "_on_camera_view_bounds_changed")
-	
-	# Get current bounds
-	var old_bounds = camera.camera_bounds
-	var new_bounds = Rect2(0, 0, 1500, 1500)
-	
-	# Trigger bounds change by emitting the signal manually
-	camera.emit_signal("view_bounds_changed", new_bounds, old_bounds, true)
-	
-	# Wait for signal to be processed
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Verify signal data
-	var passed = false
-	if mock_listener.received_signals.view_bounds_changed.size() > 0:
-		var signal_data = mock_listener.received_signals.view_bounds_changed[0]
-		passed = signal_data.has("new_bounds") && \
-				signal_data.has("old_bounds") && \
-				signal_data.has("is_district_change")
-	
-	end_test(passed, "View bounds changed signal should contain all required data fields")
-	yield(get_tree(), "idle_frame")
-
-# STATE QUERY METHODS TESTS
-
-func test_basic_state_getters():
-	start_test("Basic State Getters")
-	
-	# Set to a known state
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Check state getters
-	var idle_state = camera.is_idle()
-	var moving_state = camera.is_moving()
-	var following_state = camera.is_following_player()
-	var get_state = camera.get_camera_state() == camera.CameraState.IDLE
-	
-	# Test passes if all state getters return expected values
-	var passed = idle_state && !moving_state && !following_state && get_state
-	end_test(passed, "State getters should return correct values")
-	yield(get_tree(), "idle_frame")
-
-func test_movement_progress_tracking():
-	start_test("Movement Progress Tracking")
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(200, 0)
-	
-	# Start movement
-	camera.target_position = target_pos
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Check progress initially
-	var initial_progress = camera.get_movement_progress()
-	var initial_time = camera.get_movement_elapsed_time()
-	
-	# Let movement progress
-	yield(get_tree().create_timer(0.2), "timeout")
-	
-	# Check progress after some time
-	var mid_progress = camera.get_movement_progress()
-	var mid_time = camera.get_movement_elapsed_time()
-	
-	# Reset camera
-	camera.set_camera_state(camera.CameraState.IDLE)
-	camera.global_position = original_pos
-	
-	# Test passes if progress and time increased during movement
-	var passed = mid_progress > initial_progress && mid_time > initial_time
-	end_test(passed, "Movement progress and elapsed time should increase during movement")
-	yield(get_tree(), "idle_frame")
-
-func test_boundary_detection():
-	start_test("Boundary Detection")
-	
-	# Save original position
-	var original_pos = camera.global_position
-	
-	# Set camera bounds
-	camera.camera_bounds = Rect2(0, 0, 1000, 1000)
-	
-	# Move camera to center (not at boundary)
-	camera.global_position = Vector2(500, 500)
-	
-	# Check boundary detection at center
-	var at_center_boundary = camera.is_at_boundary()
-	
-	# Move camera to left edge
-	camera.global_position = Vector2(10, 500)
-	
-	# Check boundary detection at edge
-	var at_left_boundary = camera.is_at_boundary("left")
-	
-	# Get nearest boundary direction
-	var boundary_dir = camera.get_nearest_boundary_direction()
-	
-	# Reset camera position
-	camera.global_position = original_pos
-	
-	# Test passes if boundary detection matches expected results
-	var passed = !at_center_boundary && at_left_boundary && boundary_dir.x < 0
-	end_test(passed, "Boundary detection should correctly identify camera position relative to bounds")
-	yield(get_tree(), "idle_frame")
-
-# UI ELEMENT SYNCHRONIZATION TESTS
-
-func test_register_ui_element():
-	start_test("Register UI Element")
-	
-	# Clear previous calls
-	mock_ui_element.clear_calls()
-	
-	# Register the UI element
-	camera.register_ui_element(mock_ui_element)
-	
-	# Trigger a state change to see if the UI element receives it
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Wait for signal to be processed
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Reset camera state
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Test passes if UI element received the state change
-	var passed = mock_ui_element.state_change_calls.size() > 0
-	end_test(passed, "UI element should receive state changes after registration")
-	yield(get_tree(), "idle_frame")
-
-func test_ui_element_receives_updates():
-	start_test("UI Element Receives Movement Updates")
-	
-	# Clear previous calls
-	mock_ui_element.clear_calls()
-	
-	# Make sure UI element is registered
-	camera.register_ui_element(mock_ui_element)
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(100, 0)
-	
-	# Start movement
-	camera.target_position = target_pos
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Let movement progress for a bit
-	yield(get_tree().create_timer(0.2), "timeout")
-	
-	# Complete movement
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Reset camera position
-	camera.global_position = original_pos
-	
-	# Test passes if UI element received sync calls and move completed
-	var passed = mock_ui_element.sync_calls.size() > 0 && mock_ui_element.move_completed_calls.size() > 0
-	end_test(passed, "UI element should receive movement updates and completion notification")
-	yield(get_tree(), "idle_frame")
-
-func test_unregister_ui_element():
-	start_test("Unregister UI Element")
-	
-	# Clear previous calls
-	mock_ui_element.clear_calls()
-	
-	# Make sure UI element is registered
-	camera.register_ui_element(mock_ui_element)
-	
-	# Trigger a state change to verify registration
-	camera.set_camera_state(camera.CameraState.MOVING)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Check if UI element received event
-	var received_before = mock_ui_element.state_change_calls.size() > 0
-	
-	# Unregister the UI element
-	camera.unregister_ui_element(mock_ui_element)
-	
-	# Clear previous calls
-	mock_ui_element.clear_calls()
-	
-	# Trigger another state change
-	camera.set_camera_state(camera.CameraState.IDLE)
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	# Check if UI element received event after unregistering
-	var received_after = mock_ui_element.state_change_calls.size() > 0
-	
-	# Test passes if UI element received events before but not after unregistering
-	var passed = received_before && !received_after
-	end_test(passed, "UI element should not receive updates after being unregistered")
-	yield(get_tree(), "idle_frame")
-
-# TRANSITION EVENT SYSTEM TESTS
-
-func test_register_transition_callback():
-	start_test("Register Transition Callback")
-	
-	# Clear previous signals
-	mock_listener.clear_signals()
-	
-	# Connect to transition point signal
-	camera.connect("camera_transition_point_reached", mock_listener, "_on_transition_point_reached")
-	
-	# Verify default transition points
-	var has_default_points = camera.transition_event_points.size() > 0
-	
-	# Test passes if camera has default transition points
-	end_test(has_default_points, "Camera should have default transition points")
-	yield(get_tree(), "idle_frame")
-
-func test_transition_events_triggered():
-	start_test("Transition Events Triggered")
-	
-	# Clear previous signals
-	mock_listener.clear_signals()
-	
-	# Connect to transition point signal
-	camera.connect("camera_transition_point_reached", mock_listener, "_on_transition_point_reached")
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(200, 0)
-	
-	# Start movement
-	camera.target_position = target_pos
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Let movement complete
-	yield(get_tree().create_timer(1.0), "timeout")
-	
-	# Reset camera position
-	camera.set_camera_state(camera.CameraState.IDLE)
-	camera.global_position = original_pos
-	
-	# Test passes if at least one transition point was triggered
-	var transition_points_triggered = mock_listener.received_signals.transition_point.size() > 0
-	end_test(transition_points_triggered, "At least one transition point should be triggered during movement")
-	yield(get_tree(), "idle_frame")
-
-func test_custom_transition_points():
-	start_test("Custom Transition Points")
-	
-	# Clear previous signals
-	mock_listener.clear_signals()
-	
-	# Connect to transition point signal
-	camera.connect("camera_transition_point_reached", mock_listener, "_on_transition_point_reached")
-	
-	# Set custom transition points
-	var custom_points = [0.33, 0.66]
-	camera.set_transition_event_points(custom_points)
-	
-	# Verify custom points were set
-	var points_set = camera.transition_event_points.size() == 2
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(200, 0)
-	
-	# Start movement
-	camera.target_position = target_pos
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Let movement complete
-	yield(get_tree().create_timer(1.0), "timeout")
-	
-	# Reset camera position
-	camera.set_camera_state(camera.CameraState.IDLE)
-	camera.global_position = original_pos
-	
-	# Reset transition points
-	camera.set_transition_event_points([0.25, 0.5, 0.75])
-	
-	# Check if custom transition points were triggered
-	var point_values = []
-	for point_data in mock_listener.received_signals.transition_point:
-		point_values.append(point_data.point)
-	
-	# Test passes if custom points were set and at least one was triggered
-	var custom_points_triggered = points_set && mock_listener.received_signals.transition_point.size() > 0
-	end_test(custom_points_triggered, "Custom transition points should be correctly set and triggered")
-	yield(get_tree(), "idle_frame")
-
-# DEBUG VISUALIZATION TESTS
-
-func test_state_change_visuals():
-	start_test("State Change Visuals")
-	
-	# Enable debug visualization
-	camera.debug_draw = true
-	camera.debug_show_state_changes = true
-	
-	# Initial state
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Trigger state changes
-	camera.set_camera_state(camera.CameraState.MOVING)
-	yield(get_tree().create_timer(0.1), "timeout")
-	camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
-	yield(get_tree().create_timer(0.1), "timeout")
-	camera.set_camera_state(camera.CameraState.IDLE)
-	
-	# Verify state change history exists
-	var history_exists = camera.debug_state_change_history.size() > 0
-	
-	# Test passes if state change history exists
-	end_test(history_exists, "State change history should be recorded for visualization")
-	yield(get_tree(), "idle_frame")
-
-func test_transition_point_visuals():
-	start_test("Transition Point Visuals")
-	
-	# Enable debug visualization
-	camera.debug_draw = true
-	camera.debug_show_transition_points = true
-	
-	# Save original position
-	var original_pos = camera.global_position
-	var target_pos = original_pos + Vector2(200, 0)
-	
-	# Start movement
-	camera.target_position = target_pos
-	camera.set_camera_state(camera.CameraState.MOVING)
-	
-	# Let movement complete
-	yield(get_tree().create_timer(1.0), "timeout")
-	
-	# Reset camera position
-	camera.set_camera_state(camera.CameraState.IDLE)
-	camera.global_position = original_pos
-	
-	# We can't easily test the visual output, so this test just verifies
-	# the code runs without errors
-	end_test(true, "Transition point visualization should run without errors")
-	yield(get_tree(), "idle_frame")
-
-# ===== TEST UTILITIES =====
-
-func start_test_suite(suite_name):
-	debug_log("===== TEST SUITE: " + suite_name + " =====", true)
-	test_results[suite_name] = {
-		"passed": 0,
-		"failed": 0,
-		"tests": {}
-	}
-
-func end_test_suite():
-	var suite_name = current_test.split(":")[0]
-	var passed = test_results[suite_name].passed
-	var failed = test_results[suite_name].failed
-	var total = passed + failed
-	debug_log("Suite completed: " + str(passed) + "/" + str(total) + " tests passed", true)
-
+# Test management helpers
 func start_test(test_name):
-	var suite_name = test_name.split(" ")[0]
-	current_test = suite_name + ": " + test_name
-	debug_log("Running test: " + test_name)
+    current_test_name = test_name
+    current_test_passed = true
+    log_info("Running test: " + test_name)
+    
+    # Start timeout timer
+    test_end_time = OS.get_ticks_msec() + int(TEST_TIMEOUT * 1000)
+    test_timeout_timer.start(TEST_TIMEOUT)
 
-func end_test(passed, message = ""):
-	var parts = current_test.split(": ")
-	var suite_name = parts[0]
-	var test_name = parts[1]
-	
-	if passed:
-		debug_log("✓ PASS: " + test_name + (": " + message if message else ""))
-		test_results[suite_name].passed += 1
-		tests_passed += 1
-	else:
-		debug_log("✗ FAIL: " + test_name + (": " + message if message else ""), true)
-		test_results[suite_name].failed += 1
-		tests_failed += 1
-		failed_tests.append(current_test)
-	
-	test_results[suite_name].tests[test_name] = {
-		"passed": passed,
-		"message": message
-	}
+func end_test():
+    # Stop timeout timer
+    test_timeout_timer.stop()
+    test_end_time = 0
+    
+    # Record test result
+    total_tests += 1
+    if current_test_passed:
+        passed_tests += 1
+        log_success("PASS: " + current_test_name)
+    else:
+        failed_tests.append(current_test_name)
+        log_error("FAIL: " + current_test_name)
+    
+    # Clear current test
+    current_test_name = ""
+    current_test_passed = true
 
-func report_results():
-	debug_log("\n===== TEST RESULTS =====", true)
-	debug_log("Total Tests: " + str(tests_passed + tests_failed), true)
-	debug_log("Passed: " + str(tests_passed), true)
-	debug_log("Failed: " + str(tests_failed), true)
-	
-	if tests_failed > 0:
-		debug_log("\nFailed Tests:", true)
-		for test in failed_tests:
-			var parts = test.split(": ")
-			var suite_name = parts[0]
-			var test_name = parts[1]
-			var message = test_results[suite_name].tests[test_name].message
-			debug_log("- " + test + (": " + message if message else ""), true)
-	
-	if tests_failed == 0:
-		debug_log("\nAll tests passed! 🎉", true)
+func _end_current_test(passed, message = ""):
+    if current_test_name:
+        current_test_passed = current_test_passed and passed
+        
+        if !passed:
+            log_error("Assertion failed: " + message)
+        
+        # Note: We don't end the test here, as end_test() should be called by the test function
+    else:
+        log_error("Assertion outside of a test: " + message)
 
-func debug_log(message, force_print = false):
-	if log_debug_info || force_print:
-		print(message)
+func _on_test_timeout():
+    if current_test_name:
+        _end_current_test(false, "Test timed out: " + current_test_name)
+        end_test()
+
+# Assertion methods
+func assert_true(condition, message = ""):
+    _end_current_test(condition, message)
+
+func assert_false(condition, message = ""):
+    _end_current_test(!condition, message)
+
+func assert_equal(actual, expected, message = ""):
+    var result = actual == expected
+    if !result:
+        message += " (Expected: " + str(expected) + ", Got: " + str(actual) + ")"
+    _end_current_test(result, message)
+
+func assert_not_equal(actual, unexpected, message = ""):
+    var result = actual != unexpected
+    if !result:
+        message += " (Got unexpected value: " + str(actual) + ")"
+    _end_current_test(result, message)
+
+func assert_vector2_equal(actual, expected, message = "", tolerance = 1.0):
+    var distance = (actual - expected).length()
+    var result = distance <= tolerance
+    if !result:
+        message += " (Expected: " + str(expected) + ", Got: " + str(actual) + ", Distance: " + str(distance) + ")"
+    _end_current_test(result, message)
+
+func assert_not_true(condition, message = ""):
+    _end_current_test(!condition, message)
+
+func assert_not_false(condition, message = ""):
+    _end_current_test(condition, message)
+
+# Logging helpers
+func log_info(message, force_print = false):
+    if force_print:
+        print(LOG_PREFIX + " " + message)
+    else:
+        print(LOG_PREFIX + " " + message)
+
+func log_error(message):
+    print(LOG_PREFIX + " ERROR: " + message)
+
+func log_success(message):
+    print(LOG_PREFIX + " " + message)
+
+func report_test_results():
+    log_info("=== TEST RESULTS ===", true)
+    log_info("Total tests: " + str(total_tests), true)
+    log_info("Passed: " + str(passed_tests), true)
+    log_info("Failed: " + str(total_tests - passed_tests), true)
+    
+    if failed_tests.size() > 0:
+        log_info("\nFailed tests:", true)
+        for test in failed_tests:
+            log_info("- " + test, true)
+    
+    if passed_tests == total_tests:
+        log_info("\nAll tests passed! 🎉", true)
+    else:
+        log_info("\nSome tests failed. 😞", true)

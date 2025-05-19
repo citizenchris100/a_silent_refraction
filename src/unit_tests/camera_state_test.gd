@@ -74,20 +74,21 @@ func _process(delta):
 # ===== TEST SETUP METHODS =====
 
 func find_camera():
-	# Use the static helper method from ScrollingCamera
-	var scrolling_camera_script = load("res://src/core/camera/scrolling_camera.gd")
+	# Create a new camera instance manually
+	debug_log("Creating a new ScrollingCamera instance")
 	
-	# Call the static helper method
-	debug_log("Calling get_or_create_camera helper method")
-	
-	# We can call a static method on a script even without instantiating it
-	var new_camera = scrolling_camera_script.get_or_create_camera(self)
+	# Create a Camera2D and attach the script
+	var new_camera = Camera2D.new()
+	new_camera.name = "TestCamera"
+	new_camera.set_script(load("res://src/core/camera/scrolling_camera.gd"))
+	new_camera.add_to_group("camera")
+	add_child(new_camera)
 	
 	if new_camera:
-		debug_log("Camera created/found successfully: " + new_camera.name)
+		debug_log("Camera created successfully: " + new_camera.name)
 		return new_camera
 	else:
-		debug_log("ERROR: Failed to create/find camera", true)
+		debug_log("ERROR: Failed to create camera", true)
 		return null
 
 func setup_signal_connections():
@@ -126,6 +127,11 @@ func configure_camera():
 	camera.bounds_enabled = true
 	camera.camera_bounds = Rect2(200, 200, 800, 800)
 	
+	# IMPORTANT: Enable test mode to bypass bounds validation for tests
+	# This uses the TestBoundsValidator instead of overriding methods
+	camera.test_mode = true
+	debug_log("Test mode enabled: " + str(camera.test_mode))
+	
 	# Set initial position at the center of our test area
 	camera.global_position = Vector2(500, 500)
 	
@@ -143,19 +149,10 @@ func configure_camera():
 	if !camera.is_connected("camera_move_completed", self, "_on_camera_move_completed"):
 		camera.connect("camera_move_completed", self, "_on_camera_move_completed")
 	
-	# IMPORTANT: Override the ensure_valid_target method for tests to prevent bounds clamping
-	# We'll patch it by redefining a crucial method
-	camera.ensure_valid_target = funcref(self, "_test_ensure_valid_target")
-	
 	debug_log("Camera configured with position: " + str(camera.global_position))
 	debug_log("Camera bounds set to: " + str(camera.camera_bounds))
 
-# This is our test override for ensure_valid_target to avoid bounds clamping during tests
-func _test_ensure_valid_target(target_pos: Vector2) -> Vector2:
-	debug_log("[TEST] Using test version of ensure_valid_target: " + str(target_pos))
-	# During tests, we just return the requested position directly, skipping bounds validation
-	# This ensures position requests reach the camera unmodified for testing
-	return target_pos
+# We now use test_mode with TestBoundsValidator instead of function override
 
 func create_mock_player():
 	# Create a mock player for testing
