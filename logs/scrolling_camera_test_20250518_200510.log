@@ -1,0 +1,5 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+ERROR: Can't load the script "/home/chris/Documents/repos/a_silent_refraction/src/unit_tests/scrolling_camera_test.gd" as it doesn't inherit from SceneTree or MainLoop.
+   at: start (main/main.cpp:1801)

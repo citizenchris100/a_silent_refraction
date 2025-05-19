@@ -1,4 +1,122 @@
+class_name ScrollingCamera
 extends Camera2D
+
+# ===== SCROLLING CAMERA: SIGNAL AND STATE DOCUMENTATION =====
+#
+# ScrollingCamera provides a comprehensive camera system with state management,
+# transition events, and UI synchronization capabilities.
+#
+# === SIGNALS AND USAGE GUIDE ===
+#
+# 1. State Change Signal
+#    signal camera_state_changed(new_state, old_state, transition_reason)
+#    - Called when the camera changes state (IDLE, MOVING, FOLLOWING_PLAYER)
+#    - Example connection:
+#      camera.connect_state_listener(self, "_on_camera_state_changed")
+#    - Example handler:
+#      func _on_camera_state_changed(new_state, old_state, reason):
+#          if new_state == ScrollingCamera.CameraState.MOVING:
+#              print("Camera is now moving because: " + reason)
+#
+# 2. Movement Signals
+#    signal camera_move_started(target_position, old_position, move_duration, transition_type)
+#    - Called when camera starts moving to a new position
+#    - Example connection:
+#      camera.connect_move_started_listener(self, "_on_camera_move_started")
+#    - Example handler:
+#      func _on_camera_move_started(target, old_pos, duration, easing):
+#          print("Camera moving from " + str(old_pos) + " to " + str(target))
+#
+#    signal camera_move_completed(final_position, initial_position, actual_duration)
+#    - Called when camera completes its movement
+#    - Example connection:
+#      camera.connect_move_completed_listener(self, "_on_camera_move_completed")
+#    - Example handler:
+#      func _on_camera_move_completed(final_pos, initial_pos, duration):
+#          print("Camera movement completed in " + str(duration) + " seconds")
+#
+# 3. Bounds Change Signal
+#    signal view_bounds_changed(new_bounds, old_bounds, is_district_change)
+#    - Called when camera bounds are updated, typically when entering a new district
+#    - Example connection:
+#      camera.connect_view_bounds_listener(self, "_on_view_bounds_changed")
+#    - Example handler:
+#      func _on_view_bounds_changed(new_bounds, old_bounds, is_district_change):
+#          if is_district_change:
+#              print("Moved to a new district with bounds: " + str(new_bounds))
+#
+# 4. Transition Progress Signal
+#    signal camera_transition_progress(progress_percentage, position, target_position)
+#    - Emitted continuously during camera movement, useful for synchronized animations
+#    - Example connection:
+#      camera.connect("camera_transition_progress", self, "_on_camera_progress")
+#    - Example handler:
+#      func _on_camera_progress(progress, pos, target):
+#          $ProgressBar.value = progress * 100
+#
+# 5. Transition Event Point Signal
+#    signal camera_transition_point_reached(point, position, progress)
+#    - Emitted when camera movement reaches specific progress points (25%, 50%, 75%)
+#    - Useful for triggering effects at specific moments during transitions
+#    - Example connection:
+#      camera.connect("camera_transition_point_reached", self, "_on_transition_point")
+#    - Example handler:
+#      func _on_transition_point(point, pos, progress):
+#          if point == 0.5: # At 50% of transition
+#              play_transition_effect()
+#
+# === UI SYNCHRONIZATION SYSTEM ===
+#
+# UI elements can be registered to automatically synchronize with camera movements.
+# This is particularly useful for fade effects, parallax, and transition animations.
+#
+# 1. Register a UI element:
+#    camera.register_ui_element(my_ui_element)
+#
+# 2. The UI element should implement any of these methods:
+#    - sync_with_camera_movement(progress, from_pos, to_pos): Called during transitions
+#    - on_camera_state_changed(new_state, old_state): Called on state changes
+#    - on_camera_move_completed(): Called when movement completes
+#
+# 3. The UI element will be automatically unregistered when freed
+#
+# === TRANSITION EVENT SYSTEM ===
+#
+# The camera can trigger callbacks at specific points during transitions.
+# Default event points are at 25%, 50%, and 75% of movement progress.
+#
+# 1. Register a callback:
+#    camera.register_transition_callback(0.5, self, "_on_halfway")
+#
+# 2. Callback method:
+#    func _on_halfway(point, position, progress):
+#        # Trigger effect at halfway point
+#        spawn_effect_at(position)
+#
+# 3. Custom event points:
+#    camera.set_transition_event_points([0.25, 0.5, 0.75, 0.9])
+#
+# === INTEGRATION EXAMPLE ===
+#
+# # In a UI manager script:
+# func _ready():
+#     var camera = get_node("../ScrollingCamera")
+#     
+#     # Register for state changes and movement events
+#     camera.connect_state_listener(self, "_on_camera_state_changed")
+#     camera.connect_move_started_listener(self, "_on_camera_move_started")
+#     camera.connect_move_completed_listener(self, "_on_camera_move_completed")
+#     
+#     # Register a UI element for automatic synchronization
+#     camera.register_ui_element($FadePanel)
+#     
+#     # Register a callback at 50% of camera movement
+#     camera.register_transition_callback(0.5, self, "_on_camera_halfway")
+#     
+# # Implement the callback
+# func _on_camera_halfway(point, position, progress):
+#     $TransitionEffect.play()
+#
 
 # Easing types enum for camera movement
 enum EasingType {
@@ -22,10 +140,13 @@ enum CameraState {
 # ScrollingCamera: Handles camera movement for larger-than-screen backgrounds
 
 # Signals for state changes and movement events
-signal camera_move_started(target_position)
-signal camera_move_completed()
-signal view_bounds_changed(new_bounds)
-signal camera_state_changed(new_state)
+signal camera_move_started(target_position, old_position, move_duration, transition_type)
+signal camera_move_completed(final_position, initial_position, actual_duration)
+signal view_bounds_changed(new_bounds, old_bounds, is_district_change)
+signal camera_state_changed(new_state, old_state, transition_reason)
+
+# Debug option for extended signal information
+export var signal_debug_mode: bool = false # Enables more detailed signal information for debugging
 
 # Camera properties
 export var follow_player: bool = true
@@ -38,15 +159,44 @@ export(EasingType) var easing_type: int = EasingType.SINE # Type of easing to us
 
 # State tracking
 var current_camera_state: int = CameraState.IDLE
+var previous_camera_state: int = CameraState.IDLE # Keep track of previous state
 var target_position: Vector2 = Vector2.ZERO
 var is_transition_active: bool = false
 var movement_progress: float = 0.0
+var movement_start_time: float = 0.0 # Time when movement started 
+var transition_reason: String = "" # Why a state transition happened
+
+# Additional signals for the transition event system
+signal camera_transition_progress(progress_percentage, position, target_position)
+signal camera_transition_point_reached(point, position, progress)
 
 # World view mode flag
 var world_view_mode: bool = false
 
 # Variables
-var target_player: Node2D = null
+# Target player reference with proper setters/getters
+var _target_player: Node2D = null
+
+# Setter for target_player with type checking and validation
+func set_target_player(player: Node2D) -> void:
+    print("Setting target_player to: " + str(player))
+    if player == null:
+        print("WARNING: Setting target_player to null")
+    elif not (player is Node2D):
+        push_error("ERROR: target_player must be a Node2D, got " + str(typeof(player)))
+        return
+        
+    _target_player = player
+    # Reset state if we had no player and now have one
+    if player != null and current_camera_state == CameraState.IDLE:
+        set_camera_state(CameraState.FOLLOWING_PLAYER, "Player target assigned")
+
+# Getter for target_player
+func get_target_player() -> Node2D:
+    return _target_player
+    
+# Property accessor for backward compatibility    
+var target_player: Node2D setget set_target_player, get_target_player
 var screen_size: Vector2
 var camera_bounds: Rect2
 export var auto_adjust_zoom: bool = true # Whether to automatically adjust zoom to fill viewport
@@ -54,13 +204,45 @@ export var fill_viewport_height: bool = true # Whether to automatically adjust z
 export var min_zoom: float = 0.5 # Minimum zoom level (lower value = more zoomed in)
 export var max_zoom: float = 1.5 # Maximum zoom level (higher value = more zoomed out)
 
+# Listener system for managing signal connections
+var _state_listeners = {}
+var _move_started_listeners = {}
+var _move_completed_listeners = {}
+var _view_bounds_listeners = {}
+
+# UI synchronization registry
+var _ui_elements = [] # Array of registered UI elements to synchronize with camera
+
+# Transition event system - percentage thresholds for triggering events
+export var transition_event_points = [0.25, 0.5, 0.75] # Event points as percentage of movement
+var _registered_transition_callbacks = {} # Dictionary of callbacks by event point
+var _triggered_events = [] # Track which event points have been triggered in current transition
+
 # Debug settings
-export var debug_draw: bool = false  # Disable debug drawing by default
+# Internal debug draw value
+var _debug_draw: bool = false
+
+# Setter for debug_draw
+func set_debug_draw(value: bool) -> void:
+    print("Setting debug_draw to: " + str(value))
+    _debug_draw = value
+    if value and is_inside_tree():
+        setup_debug_overlay()
+
+# Getter for debug_draw
+func get_debug_draw() -> bool:
+    return _debug_draw
+
+# Property with setter/getter
+export var debug_draw: bool = false setget set_debug_draw, get_debug_draw
 export var debug_camera_positioning: bool = true  # Enable camera position debug logs
 export var debug_background_scaling: bool = true  # Enable background scaling debug logs
+export var debug_show_transition_points: bool = true # Show transition event points during movement
+export var debug_show_state_changes: bool = true # Show state change visualizations
 var debug_font: Font
 var debug_overlay: CanvasLayer = null
 var debug_markers = {}  # Store debug visual markers
+var debug_state_change_history = [] # Store recent state changes for visualization
 
 # Store target positions for debugging
 var debug_right_edge_position: Vector2 = Vector2.ZERO
@@ -98,6 +280,65 @@ func create_debug_marker(position, color = Color(1, 0, 0, 0.7), size = 10, name 
     
     debug_log("overlay", "Created marker '" + marker_name + "' at position " + str(position))
     return marker
+    
+# Create a temporary visual marker that fades out
+func create_temporary_marker(position, color = Color(1, 1, 0, 0.8), size = 15, duration = 1.0, name = "temp_marker"):
+    if not debug_overlay or not debug_draw:
+        return null
+        
+    var marker = create_debug_marker(position, color, size, name)
+    
+    # Create a Tween for fade out effect
+    var tween = Tween.new()
+    marker.add_child(tween)
+    
+    # Set up the fade out animation
+    tween.interpolate_property(marker, "color", color, Color(color.r, color.g, color.b, 0), 
+                              duration, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+    tween.start()
+    
+    # Set up auto-removal after fade completes
+    yield(tween, "tween_completed")
+    if marker and is_instance_valid(marker):
+        var marker_name = marker.name
+        marker.queue_free()
+        debug_markers.erase(marker_name)
+    
+    return marker
+
+# Create a state change visualization
+func create_state_change_visual(old_state, new_state, position = null):
+    if not debug_draw or not debug_show_state_changes:
+        return
+        
+    if not position:
+        position = global_position
+    
+    # Create a color based on the state transition
+    var color
+    match new_state:
+        CameraState.IDLE:
+            color = Color(0.5, 0.5, 0.5, 0.8) # Gray for idle
+        CameraState.MOVING:
+            color = Color(1, 0.5, 0, 0.8) # Orange for moving
+        CameraState.FOLLOWING_PLAYER:
+            color = Color(0, 0.7, 1, 0.8) # Blue for following
+            
+    # Create a temporary marker for the state change
+    var marker = create_temporary_marker(position, color, 20, 2.0, "state_change")
+    
+    # Add to state change history for visualization
+    if marker:
+        debug_state_change_history.append({
+            "position": position,
+            "old_state": old_state,
+            "new_state": new_state,
+            "time": OS.get_ticks_msec() / 1000.0
+        })
+        
+        # Only keep last 10 state changes
+        if debug_state_change_history.size() > 10:
+            debug_state_change_history.pop_front()
 
 # Set up the debug overlay canvas layer
 func setup_debug_overlay():
@@ -128,6 +369,10 @@ func setup_debug_overlay():
     debug_log("overlay", "Created debug overlay")
 
 func _ready():
+    # Add diagnostics to help troubleshoot property access issues
+    print("ScrollingCamera._ready() called - Script Path: " + get_script().get_path())
+    print("ScrollingCamera class loaded - Script ID: " + str(get_instance_id()))
+    
     # Setup camera properties
     current = true # Make this the active camera
     smoothing_enabled = true
@@ -141,8 +386,16 @@ func _ready():
     current_camera_state = CameraState.IDLE
     
     # Set up debug overlay if debug is enabled
-    if debug_draw:
+    if get_debug_draw():
         setup_debug_overlay()
+    else:
+        print("Debug drawing is disabled")
+    
+    # Print target player status
+    if get_target_player():
+        print("Target player set: " + str(get_target_player().name))
+    else:
+        print("No target player set")
     
     # Register with the CoordinateManager 
     # Delay this to ensure all nodes are ready
@@ -398,9 +651,14 @@ func is_point_in_view(world_pos: Vector2) -> bool:
 func ensure_valid_target(target_pos: Vector2) -> Vector2:
     var validated_pos = validate_coordinates(target_pos)
     
+    # Add debug output to track position changes
+    print("ensure_valid_target called with position: " + str(target_pos))
+    
     if bounds_enabled and camera_bounds.size != Vector2.ZERO:
         # Calculate half size of camera view
         var camera_half_size = screen_size / 2 / zoom
+        print("Camera half size: " + str(camera_half_size))
+        print("Current bounds: " + str(camera_bounds))
         
         # Calculate bounds limits
         var min_x = camera_bounds.position.x + camera_half_size.x
@@ -408,9 +666,20 @@ func ensure_valid_target(target_pos: Vector2) -> Vector2:
         var min_y = camera_bounds.position.y + camera_half_size.y
         var max_y = camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
         
+        print("Bounds limits - x: [" + str(min_x) + ", " + str(max_x) + "], y: [" + str(min_y) + ", " + str(max_y) + "]")
+        
+        # Store original position for comparison
+        var original_pos = validated_pos
+        
         # Clamp position to bounds
         validated_pos.x = clamp(validated_pos.x, min_x, max_x)
         validated_pos.y = clamp(validated_pos.y, min_y, max_y)
+        
+        # Log if position was adjusted
+        if original_pos != validated_pos:
+            print("Position adjusted by bounds: " + str(original_pos) + " -> " + str(validated_pos))
+    else:
+        print("Bounds checking skipped: bounds_enabled=" + str(bounds_enabled) + ", bounds size=" + str(camera_bounds.size))
     
     return validated_pos
 
@@ -569,11 +838,14 @@ func _ensure_player_visible():
 # Update camera bounds when the district changes
 func update_bounds():
     if get_parent() is BaseDistrict:
+        var old_bounds = camera_bounds
         camera_bounds = _calculate_district_bounds(get_parent())
         
         # Register updated district with CoordinateManager
         register_with_coordinate_manager()
         
+        # Emit signal with enhanced bounds information
+        emit_signal("view_bounds_changed", camera_bounds, old_bounds, true)
 # Called when the parent district is initialized
 func _on_district_initialized():
     debug_log("camera", "District initialized - updating camera bounds and registration")
@@ -911,33 +1183,69 @@ func _set_initial_camera_position():
 
 # Set up UI labels for debug info (alternative to font rendering)
 # Set camera state and handle state transitions
-func set_camera_state(new_state: int) -> void:
+# You can optionally provide a reason for the state change for debugging
+func set_camera_state(new_state: int, reason: String = "") -> void:
     # Don't do anything if state isn't changing
     if current_camera_state == new_state:
         return
         
     var old_state = current_camera_state
+    previous_camera_state = current_camera_state
     current_camera_state = new_state
+    transition_reason = reason if reason else "manual_transition"
+    
+    # Store the start position before any state changes
+    var start_position = global_position
+    
+    # Calculate expected move duration based on distance and smoothing
+    var expected_duration = 0.0
+    if new_state == CameraState.MOVING:
+        var distance = start_position.distance_to(target_position)
+        expected_duration = distance / (follow_smoothing * 60) # Approximate duration in seconds
+        # Reset transition event tracking
+        _triggered_events.clear()
+        
+    # Create debug visualization for state change
+    if debug_draw and debug_show_state_changes:
+        create_state_change_visual(old_state, new_state, start_position)
     
     # Handle state entry actions
     match new_state:
         CameraState.IDLE:
             is_transition_active = false
             movement_progress = 0.0
-            emit_signal("camera_move_completed")
+            
+            # Enhanced signal with more contextual data
+            emit_signal("camera_move_completed", global_position, start_position, 
+                        OS.get_ticks_msec() / 1000.0 - movement_start_time if movement_start_time > 0 else 0.0)
             
         CameraState.MOVING:
             is_transition_active = true
             movement_progress = 0.0
-            emit_signal("camera_move_started", target_position)
+            movement_start_time = OS.get_ticks_msec() / 1000.0
+            
+            # Enhanced signal with more contextual data
+            emit_signal("camera_move_started", target_position, start_position, 
+                       expected_duration, easing_type)
             
         CameraState.FOLLOWING_PLAYER:
             is_transition_active = false
             
-    # Emit the state change signal
-    emit_signal("camera_state_changed", new_state)
-    debug_log("camera", "Camera state changed from " + get_state_name(old_state) + 
-              " to " + get_state_name(new_state))
+    # Emit the enhanced state change signal
+    emit_signal("camera_state_changed", new_state, old_state, transition_reason)
+    
+    # Extended debug logging
+    if signal_debug_mode:
+        debug_log("camera", "Camera state changed from " + get_state_name(old_state) + 
+                 " to " + get_state_name(new_state) + " (Reason: " + transition_reason + ")")
+        
+        if new_state == CameraState.MOVING:
+            debug_log("camera", "Movement details: Start=" + str(start_position) + 
+                     ", Target=" + str(target_position) + ", Expected duration=" + 
+                     str(expected_duration) + "s")
+    else:
+        debug_log("camera", "Camera state changed from " + get_state_name(old_state) + 
+                  " to " + get_state_name(new_state))
 
 # Get a readable name for a camera state
 func get_state_name(state: int) -> String:
@@ -950,34 +1258,246 @@ func get_state_name(state: int) -> String:
             return "FOLLOWING_PLAYER"
         _:
             return "UNKNOWN"
+            
+# ===== STATE LISTENER SYSTEM =====
+
+# Connect a listener for camera state changes
+# Returns self for method chaining
+func connect_state_listener(listener_object, method_name, binds=[], flags=0) -> ScrollingCamera:
+    # Ensure listener is a valid object
+    if not is_instance_valid(listener_object):
+        push_error("ScrollingCamera: Cannot connect invalid listener object")
+        return self
+        
+    # Store the connection info
+    var object_id = listener_object.get_instance_id()
+    
+    if not _state_listeners.has(object_id):
+        _state_listeners[object_id] = {
+            "object": listener_object,
+            "connections": []
+        }
+        
+        # Set up automatic cleanup when listener is freed
+        if listener_object.has_method("connect"):
+            listener_object.connect("tree_exiting", self, "_on_listener_freed", [object_id], CONNECT_ONESHOT)
+    
+    # Connect the signal
+    var connection_error = connect("camera_state_changed", listener_object, method_name, binds, flags)
+    
+    if connection_error == OK:
+        _state_listeners[object_id]["connections"].append({
+            "signal": "camera_state_changed",
+            "method": method_name
+        })
+        debug_log("camera", "Connected state listener: " + str(listener_object) + " -> " + method_name)
+    else:
+        push_error("ScrollingCamera: Failed to connect state listener: " + str(connection_error))
+    
+    return self
+
+# Connect a listener for camera movement started event
+# Returns self for method chaining
+func connect_move_started_listener(listener_object, method_name, binds=[], flags=0) -> ScrollingCamera:
+    # Ensure listener is a valid object
+    if not is_instance_valid(listener_object):
+        push_error("ScrollingCamera: Cannot connect invalid listener object")
+        return self
+        
+    # Store the connection info
+    var object_id = listener_object.get_instance_id()
+    
+    if not _move_started_listeners.has(object_id):
+        _move_started_listeners[object_id] = {
+            "object": listener_object,
+            "connections": []
+        }
+        
+        # Set up automatic cleanup when listener is freed
+        if listener_object.has_method("connect"):
+            listener_object.connect("tree_exiting", self, "_on_listener_freed", [object_id], CONNECT_ONESHOT)
+    
+    # Connect the signal
+    var connection_error = connect("camera_move_started", listener_object, method_name, binds, flags)
+    
+    if connection_error == OK:
+        _move_started_listeners[object_id]["connections"].append({
+            "signal": "camera_move_started",
+            "method": method_name
+        })
+        debug_log("camera", "Connected move_started listener: " + str(listener_object) + " -> " + method_name)
+    else:
+        push_error("ScrollingCamera: Failed to connect move_started listener: " + str(connection_error))
+    
+    return self
+
+# Connect a listener for camera movement completed event
+# Returns self for method chaining
+func connect_move_completed_listener(listener_object, method_name, binds=[], flags=0) -> ScrollingCamera:
+    # Ensure listener is a valid object
+    if not is_instance_valid(listener_object):
+        push_error("ScrollingCamera: Cannot connect invalid listener object")
+        return self
+        
+    # Store the connection info
+    var object_id = listener_object.get_instance_id()
+    
+    if not _move_completed_listeners.has(object_id):
+        _move_completed_listeners[object_id] = {
+            "object": listener_object,
+            "connections": []
+        }
+        
+        # Set up automatic cleanup when listener is freed
+        if listener_object.has_method("connect"):
+            listener_object.connect("tree_exiting", self, "_on_listener_freed", [object_id], CONNECT_ONESHOT)
+    
+    # Connect the signal
+    var connection_error = connect("camera_move_completed", listener_object, method_name, binds, flags)
+    
+    if connection_error == OK:
+        _move_completed_listeners[object_id]["connections"].append({
+            "signal": "camera_move_completed",
+            "method": method_name
+        })
+        debug_log("camera", "Connected move_completed listener: " + str(listener_object) + " -> " + method_name)
+    else:
+        push_error("ScrollingCamera: Failed to connect move_completed listener: " + str(connection_error))
+    
+    return self
+
+# Connect a listener for view bounds changed event
+# Returns self for method chaining
+func connect_view_bounds_listener(listener_object, method_name, binds=[], flags=0) -> ScrollingCamera:
+    # Ensure listener is a valid object
+    if not is_instance_valid(listener_object):
+        push_error("ScrollingCamera: Cannot connect invalid listener object")
+        return self
+        
+    # Store the connection info
+    var object_id = listener_object.get_instance_id()
+    
+    if not _view_bounds_listeners.has(object_id):
+        _view_bounds_listeners[object_id] = {
+            "object": listener_object,
+            "connections": []
+        }
+        
+        # Set up automatic cleanup when listener is freed
+        if listener_object.has_method("connect"):
+            listener_object.connect("tree_exiting", self, "_on_listener_freed", [object_id], CONNECT_ONESHOT)
+    
+    # Connect the signal
+    var connection_error = connect("view_bounds_changed", listener_object, method_name, binds, flags)
+    
+    if connection_error == OK:
+        _view_bounds_listeners[object_id]["connections"].append({
+            "signal": "view_bounds_changed",
+            "method": method_name
+        })
+        debug_log("camera", "Connected view_bounds listener: " + str(listener_object) + " -> " + method_name)
+    else:
+        push_error("ScrollingCamera: Failed to connect view_bounds listener: " + str(connection_error))
+    
+    return self
+
+# Disconnect a listener from all camera signals
+# Returns self for method chaining
+func disconnect_listener(listener_object) -> ScrollingCamera:
+    if not is_instance_valid(listener_object):
+        push_error("ScrollingCamera: Cannot disconnect invalid listener object")
+        return self
+        
+    var object_id = listener_object.get_instance_id()
+    
+    # Disconnect from state change signals
+    if _state_listeners.has(object_id):
+        if is_connected("camera_state_changed", listener_object, _state_listeners[object_id]["connections"][0]["method"]):
+            disconnect("camera_state_changed", listener_object, _state_listeners[object_id]["connections"][0]["method"])
+        _state_listeners.erase(object_id)
+    
+    # Disconnect from move started signals
+    if _move_started_listeners.has(object_id):
+        if is_connected("camera_move_started", listener_object, _move_started_listeners[object_id]["connections"][0]["method"]):
+            disconnect("camera_move_started", listener_object, _move_started_listeners[object_id]["connections"][0]["method"])
+        _move_started_listeners.erase(object_id)
+    
+    # Disconnect from move completed signals
+    if _move_completed_listeners.has(object_id):
+        if is_connected("camera_move_completed", listener_object, _move_completed_listeners[object_id]["connections"][0]["method"]):
+            disconnect("camera_move_completed", listener_object, _move_completed_listeners[object_id]["connections"][0]["method"])
+        _move_completed_listeners.erase(object_id)
+    
+    # Disconnect from view bounds changed signals
+    if _view_bounds_listeners.has(object_id):
+        if is_connected("view_bounds_changed", listener_object, _view_bounds_listeners[object_id]["connections"][0]["method"]):
+            disconnect("view_bounds_changed", listener_object, _view_bounds_listeners[object_id]["connections"][0]["method"])
+        _view_bounds_listeners.erase(object_id)
+    
+    debug_log("camera", "Disconnected all listeners for: " + str(listener_object))
+    
+    return self
+
+# Called when a listener is freed (auto-cleanup)
+func _on_listener_freed(object_id):
+    # Clean up state listeners
+    if _state_listeners.has(object_id):
+        _state_listeners.erase(object_id)
+        debug_log("camera", "Auto-removed state listener with ID: " + str(object_id))
+    
+    # Clean up move started listeners
+    if _move_started_listeners.has(object_id):
+        _move_started_listeners.erase(object_id)
+        debug_log("camera", "Auto-removed move_started listener with ID: " + str(object_id))
+    
+    # Clean up move completed listeners
+    if _move_completed_listeners.has(object_id):
+        _move_completed_listeners.erase(object_id)
+        debug_log("camera", "Auto-removed move_completed listener with ID: " + str(object_id))
+    
+    # Clean up view bounds listeners
+    if _view_bounds_listeners.has(object_id):
+        _view_bounds_listeners.erase(object_id)
+        debug_log("camera", "Auto-removed view_bounds listener with ID: " + str(object_id))
 
 # Move camera to a specific target position
 func move_to_position(pos: Vector2, immediate: bool = false) -> void:
     # Validate and adjust target position
     target_position = ensure_valid_target(pos)
     
+    # Log original request for debugging
+    print("move_to_position called with pos=" + str(pos) + ", immediate=" + str(immediate))
+    print("Target position after validation: " + str(target_position))
+    
     if immediate:
         # Skip animation, set position directly
         var original_smoothing = smoothing_enabled
         smoothing_enabled = false
+        var old_position = global_position
+        print("Immediate move from " + str(old_position) + " to " + str(target_position))
         global_position = target_position
         smoothing_enabled = original_smoothing
-        set_camera_state(CameraState.IDLE)
+        
+        # Emit signals directly for immediate moves
+        emit_signal("camera_move_started", target_position, old_position, 0.0, EasingType.LINEAR)
+        emit_signal("camera_move_completed", target_position, old_position, 0.0)
+        set_camera_state(CameraState.IDLE, "immediate_position_change")
     else:
         # Start animated movement
-        set_camera_state(CameraState.MOVING)
+        print("Starting animated movement to " + str(target_position))
+        set_camera_state(CameraState.MOVING, "requested_position_change")
         
 # Begin following the player
 func start_following_player() -> void:
     if target_player:
-        set_camera_state(CameraState.FOLLOWING_PLAYER)
+        set_camera_state(CameraState.FOLLOWING_PLAYER, "explicit_follow_request")
     else:
         push_warning("Cannot follow player: no player target found")
         
 # Stop following the player and stay in place
 func stop_following_player() -> void:
     if current_camera_state == CameraState.FOLLOWING_PLAYER:
-        set_camera_state(CameraState.IDLE)
+        set_camera_state(CameraState.IDLE, "explicit_stop_follow_request")
         
 # Focus on player immediately (center camera on player position)
 func focus_on_player(with_transition: bool = false) -> void:
@@ -995,9 +1515,23 @@ func focus_on_player(with_transition: bool = false) -> void:
     if follow_player and !with_transition:
         set_camera_state(CameraState.FOLLOWING_PLAYER)
         
+# ===== STATE QUERY METHODS =====
+
 # Get current camera state
 func get_camera_state() -> int:
     return current_camera_state
+    
+# Get previous camera state
+func get_previous_state() -> int:
+    return previous_camera_state
+
+# Get the reason for the last state transition
+func get_transition_reason() -> String:
+    return transition_reason
+    
+# Check if camera is currently idle (not moving or following)
+func is_idle() -> bool:
+    return current_camera_state == CameraState.IDLE
     
 # Check if camera is currently moving (transitioning)
 func is_moving() -> bool:
@@ -1006,6 +1540,364 @@ func is_moving() -> bool:
 # Check if camera is currently following player
 func is_following_player() -> bool:
     return current_camera_state == CameraState.FOLLOWING_PLAYER
+    
+# Get current movement progress (0.0 to 1.0) if transitioning
+func get_movement_progress() -> float:
+    return movement_progress if is_moving() else 0.0
+    
+# Get elapsed movement time in seconds
+func get_movement_elapsed_time() -> float:
+    if movement_start_time <= 0 or not is_moving():
+        return 0.0
+    return OS.get_ticks_msec() / 1000.0 - movement_start_time
+
+# Calculate estimated remaining time for current transition
+# Returns 0 if not in a transition
+func get_estimated_movement_time_remaining() -> float:
+    if not is_moving() or movement_progress >= 1.0:
+        return 0.0
+        
+    var time_elapsed = get_movement_elapsed_time()
+    if movement_progress <= 0 or time_elapsed <= 0:
+        return 0.0  # Avoid division by zero
+        
+    # Estimate based on current progress and elapsed time
+    var estimated_total = time_elapsed / movement_progress
+    return estimated_total - time_elapsed
+
+# Check if camera is currently at a boundary
+# You can specify which boundary to check with the optional direction parameter
+# direction can be: "left", "right", "top", "bottom", or "any" (default)
+func is_at_boundary(direction: String = "any") -> bool:
+    if not bounds_enabled or camera_bounds.size == Vector2.ZERO:
+        return false
+        
+    # Get half size of camera view in world coordinates
+    var camera_half_size = screen_size / 2 / zoom
+    
+    # Calculate camera view edges in world space
+    var left_edge = global_position.x - camera_half_size.x
+    var right_edge = global_position.x + camera_half_size.x
+    var top_edge = global_position.y - camera_half_size.y
+    var bottom_edge = global_position.y + camera_half_size.y
+    
+    # Calculate bounds edges
+    var bounds_left = camera_bounds.position.x
+    var bounds_right = camera_bounds.position.x + camera_bounds.size.x
+    var bounds_top = camera_bounds.position.y
+    var bounds_bottom = camera_bounds.position.y + camera_bounds.size.y
+    
+    # Check specified direction
+    match direction.to_lower():
+        "left":
+            return abs(left_edge - bounds_left) < 2.0
+        "right":
+            return abs(right_edge - bounds_right) < 2.0
+        "top":
+            return abs(top_edge - bounds_top) < 2.0
+        "bottom":
+            return abs(bottom_edge - bounds_bottom) < 2.0
+        "any", _:
+            return (abs(left_edge - bounds_left) < 2.0 or
+                   abs(right_edge - bounds_right) < 2.0 or
+                   abs(top_edge - bounds_top) < 2.0 or
+                   abs(bottom_edge - bounds_bottom) < 2.0)
+
+# Get the current camera view bounds in world coordinates
+func get_current_view_bounds() -> Rect2:
+    var camera_half_size = screen_size / 2 / zoom
+    return Rect2(
+        global_position - camera_half_size,
+        camera_half_size * 2
+    )
+    
+# Get the total world camera bounds (typically set by the district)
+func get_world_bounds() -> Rect2:
+    return camera_bounds
+    
+# Get the direction to the nearest boundary
+# Returns a normalized Vector2 pointing toward the nearest boundary
+# Returns Vector2.ZERO if not near any boundary
+func get_nearest_boundary_direction(threshold: float = 50.0) -> Vector2:
+    if not bounds_enabled or camera_bounds.size == Vector2.ZERO:
+        return Vector2.ZERO
+        
+    # Get camera view in world coordinates
+    var camera_half_size = screen_size / 2 / zoom
+    var left_edge = global_position.x - camera_half_size.x
+    var right_edge = global_position.x + camera_half_size.x
+    var top_edge = global_position.y - camera_half_size.y
+    var bottom_edge = global_position.y + camera_half_size.y
+    
+    # Calculate bounds edges
+    var bounds_left = camera_bounds.position.x
+    var bounds_right = camera_bounds.position.x + camera_bounds.size.x
+    var bounds_top = camera_bounds.position.y
+    var bounds_bottom = camera_bounds.position.y + camera_bounds.size.y
+    
+    # Check distances to each boundary
+    var left_dist = left_edge - bounds_left
+    var right_dist = bounds_right - right_edge
+    var top_dist = top_edge - bounds_top
+    var bottom_dist = bounds_bottom - bottom_edge
+    
+    # Find closest boundary
+    var direction = Vector2.ZERO
+    var min_dist = threshold
+    
+    if left_dist < min_dist:
+        min_dist = left_dist
+        direction = Vector2(-1, 0)
+        
+    if right_dist < min_dist:
+        min_dist = right_dist
+        direction = Vector2(1, 0)
+        
+    if top_dist < min_dist:
+        min_dist = top_dist
+        direction = Vector2(0, -1)
+        
+    if bottom_dist < min_dist:
+        min_dist = bottom_dist
+        direction = Vector2(0, 1)
+    
+    return direction.normalized()
+
+# ===== UI ELEMENT SYNCHRONIZATION =====
+
+# Register a UI element for synchronization with camera movements
+# The element must implement specific methods to receive camera updates:
+# - sync_with_camera_movement(progress, from_pos, to_pos) -> called during transitions
+# - on_camera_state_changed(new_state, old_state) -> called when camera state changes
+# - on_camera_move_completed() -> called when camera movement completes
+# Returns self for method chaining
+func register_ui_element(element) -> ScrollingCamera:
+    if not element or not is_instance_valid(element):
+        push_error("ScrollingCamera: Cannot register invalid UI element")
+        return self
+        
+    # Check if the element has the required methods
+    if not element.has_method("sync_with_camera_movement") and \
+       not element.has_method("on_camera_state_changed") and \
+       not element.has_method("on_camera_move_completed"):
+        push_warning("ScrollingCamera: UI element doesn't implement any of the required synchronization methods")
+    
+    # Add to registry if not already registered
+    if _ui_elements.find(element) == -1:
+        _ui_elements.append(element)
+        
+        # Set up auto-cleanup when element is freed
+        if element.has_method("connect"):
+            if not element.is_connected("tree_exiting", self, "_on_ui_element_freed"):
+                element.connect("tree_exiting", self, "_on_ui_element_freed", [element], CONNECT_ONESHOT)
+        
+        debug_log("camera", "Registered UI element: " + str(element))
+        
+        # Connect signals if element has the corresponding methods
+        if element.has_method("on_camera_state_changed"):
+            connect_state_listener(element, "on_camera_state_changed")
+            
+        if element.has_method("on_camera_move_completed"):
+            connect_move_completed_listener(element, "on_camera_move_completed")
+    
+    return self
+
+# Unregister a UI element
+# Returns self for method chaining
+func unregister_ui_element(element) -> ScrollingCamera:
+    if not element or not is_instance_valid(element):
+        return self
+        
+    # Find and remove from registry
+    var index = _ui_elements.find(element)
+    if index != -1:
+        _ui_elements.remove(index)
+        
+        # Disconnect all signals
+        disconnect_listener(element)
+        
+        debug_log("camera", "Unregistered UI element: " + str(element))
+    
+    return self
+
+# Notify all registered UI elements of camera progress during transitions
+func _notify_ui_elements_of_progress(progress: float, from_pos: Vector2, to_pos: Vector2) -> void:
+    for element in _ui_elements:
+        if is_instance_valid(element) and element.has_method("sync_with_camera_movement"):
+            element.sync_with_camera_movement(progress, from_pos, to_pos)
+
+# Called when a UI element is freed
+func _on_ui_element_freed(element) -> void:
+    if element in _ui_elements:
+        unregister_ui_element(element)
+        
+# ===== TRANSITION EVENT SYSTEM =====
+
+# Check for transition events during movement
+func _check_transition_events(old_progress: float, new_progress: float, initial_position: Vector2) -> void:
+    for point in transition_event_points:
+        # Check if we've crossed this event point during this frame
+        if old_progress < point and new_progress >= point and not point in _triggered_events:
+            # Add to triggered events so we don't fire it again
+            _triggered_events.append(point)
+            
+            # Emit the transition point signal
+            emit_signal("camera_transition_point_reached", point, global_position, new_progress)
+            
+            # Call any registered callbacks for this point
+            _trigger_transition_callbacks(point)
+            
+            if signal_debug_mode:
+                debug_log("camera", "Camera transition point reached: " + str(point * 100) + "%")
+
+# Trigger callbacks registered for a transition point
+func _trigger_transition_callbacks(point: float) -> void:
+    if not _registered_transition_callbacks.has(point):
+        return
+        
+    var callbacks = _registered_transition_callbacks[point]
+    for callback in callbacks:
+        var object = callback.object
+        var method = callback.method
+        var args = callback.args if callback.has("args") else []
+        
+        if is_instance_valid(object) and object.has_method(method):
+            # Call the method with arguments
+            if args.empty():
+                object.call(method, point, global_position, movement_progress)
+            else:
+                args.push_front(movement_progress) # Add progress as first argument
+                args.push_front(global_position) # Add position as first argument
+                args.push_front(point) # Add point as first argument
+                object.callv(method, args)
+
+# Register a callback for a specific transition point
+# point should be a value between 0.0 and 1.0
+# Returns self for method chaining
+func register_transition_callback(point: float, object, method: String, args: Array = []) -> ScrollingCamera:
+    if not is_instance_valid(object) or not object.has_method(method):
+        push_error("ScrollingCamera: Cannot register invalid transition callback")
+        return self
+        
+    # Round point to nearest predefined event point if not exact
+    var closest_point = -1.0
+    var min_distance = 1.0
+    
+    for event_point in transition_event_points:
+        var distance = abs(event_point - point)
+        if distance < min_distance:
+            min_distance = distance
+            closest_point = event_point
+    
+    if closest_point < 0:
+        push_error("ScrollingCamera: No valid transition points defined")
+        return self
+        
+    # Use closest point instead of exact value
+    if abs(closest_point - point) > 0.001:
+        debug_log("camera", "Adjusted transition point from " + str(point) + 
+                  " to nearest defined point " + str(closest_point))
+        point = closest_point
+        
+    # Initialize the dictionary if needed
+    if not _registered_transition_callbacks.has(point):
+        _registered_transition_callbacks[point] = []
+        
+    # Add the callback
+    _registered_transition_callbacks[point].append({
+        "object": object,
+        "method": method,
+        "args": args
+    })
+    
+    # Set up auto-cleanup when object is freed
+    if object.has_method("connect") and not object.is_connected("tree_exiting", self, "_on_transition_callback_freed"):
+        object.connect("tree_exiting", self, "_on_transition_callback_freed", [object], CONNECT_ONESHOT)
+    
+    debug_log("camera", "Registered transition callback at point " + str(point) + ": " + 
+             str(object) + " -> " + method)
+             
+    return self
+
+# Unregister a callback from a specific transition point
+# Returns self for method chaining
+func unregister_transition_callback(point: float, object, method: String = "") -> ScrollingCamera:
+    if not _registered_transition_callbacks.has(point):
+        return self
+        
+    # Filter out callbacks for this object/method
+    var callbacks = _registered_transition_callbacks[point]
+    var i = callbacks.size() - 1
+    
+    while i >= 0:
+        var callback = callbacks[i]
+        if callback.object == object and (method.empty() or callback.method == method):
+            callbacks.remove(i)
+            debug_log("camera", "Unregistered transition callback at point " + str(point) + ": " + 
+                     str(object) + (" -> " + method if not method.empty() else ""))
+        i -= 1
+        
+    # Remove the point entry if no callbacks left
+    if callbacks.empty():
+        _registered_transition_callbacks.erase(point)
+        
+    return self
+
+# Remove all transition callbacks for an object
+# Returns self for method chaining
+func unregister_all_transition_callbacks(object) -> ScrollingCamera:
+    for point in _registered_transition_callbacks.keys():
+        unregister_transition_callback(point, object)
+    return self
+
+# Called when an object with registered callbacks is freed
+func _on_transition_callback_freed(object) -> void:
+    unregister_all_transition_callbacks(object)
+
+# Set custom transition event points
+# points should be an array of values between 0.0 and 1.0
+# Returns self for method chaining
+func set_transition_event_points(points: Array) -> ScrollingCamera:
+    # Validate points
+    var valid_points = []
+    for point in points:
+        if typeof(point) == TYPE_REAL and point > 0.0 and point < 1.0:
+            valid_points.append(point)
+            
+    # Sort the points
+    valid_points.sort()
+    
+    # Update event points
+    transition_event_points = valid_points
+    
+    # Clear any currently triggered events
+    _triggered_events.clear()
+    
+    # Update event callbacks to match new points
+    var old_callbacks = _registered_transition_callbacks.duplicate()
+    _registered_transition_callbacks.clear()
+    
+    # Reassign callbacks to closest new points
+    for old_point in old_callbacks:
+        var callbacks = old_callbacks[old_point]
+        var closest_point = -1.0
+        var min_distance = 1.0
+        
+        for new_point in transition_event_points:
+            var distance = abs(new_point - old_point)
+            if distance < min_distance:
+                min_distance = distance
+                closest_point = new_point
+                
+        if closest_point >= 0:
+            if not _registered_transition_callbacks.has(closest_point):
+                _registered_transition_callbacks[closest_point] = []
+                
+            _registered_transition_callbacks[closest_point].append_array(callbacks)
+            
+    debug_log("camera", "Set transition event points to: " + str(transition_event_points))
+    
+    return self
     
 # Set whether camera should follow player
 func set_follow_player(should_follow: bool) -> void:
@@ -1063,6 +1955,14 @@ func _setup_debug_labels():
     margin_vis.rect_size = get_viewport_rect().size - (edge_margin * 2)
     container.add_child(margin_vis)
     
+    # Create label for transition events
+    var events_label = Label.new()
+    events_label.name = "TransitionEvents"
+    events_label.text = "Transition Events: None"
+    events_label.rect_position = Vector2(15, 115)
+    events_label.add_color_override("font_color", Color(1, 1, 0))
+    container.add_child(events_label)
+    
     print("Set up UI-based debug display as alternative to font rendering")
 
 # Update debug UI labels (called from _process)
@@ -1102,6 +2002,19 @@ func _update_debug_labels():
     var state_label = container.get_node_or_null("CameraState")
     if state_label:
         state_label.text = "State: " + get_state_name(current_camera_state)
+    
+    # Update transition events label
+    var events_label = container.get_node_or_null("TransitionEvents")
+    if events_label:
+        if is_moving() and _triggered_events.size() > 0:
+            var events_text = "Transition Events: "
+            for i in range(len(_triggered_events)):
+                events_text += str(int(_triggered_events[i] * 100)) + "%"
+                if i < _triggered_events.size() - 1:
+                    events_text += ", "
+            events_label.text = events_text
+        else:
+            events_label.text = "Transition Events: None"
     
     # Update margin visualization
     var margin_vis = container.get_node_or_null("MarginVisualization")
@@ -1145,6 +2058,50 @@ func _draw():
         var screen_target = world_to_screen(target_position) - get_viewport_rect().size/2
         draw_line(Vector2.ZERO, screen_target, Color(1, 0.5, 0, 0.7), 2.0)
         draw_circle(screen_target, 5.0, Color(1, 0.5, 0, 0.8))
+        
+        # Draw transition event points if enabled
+        if debug_show_transition_points:
+            for point in transition_event_points:
+                var progress_pos = _apply_easing(
+                    Vector2.ZERO, 
+                    screen_target, 
+                    point
+                )
+                
+                # Color based on whether point has been triggered
+                var point_color = Color(0, 1, 0, 0.8) if point in _triggered_events else Color(1, 1, 0, 0.8)
+                var point_size = 8.0 if point in _triggered_events else 6.0
+                
+                draw_circle(progress_pos, point_size, point_color)
+                
+                # Draw a small label for the percentage if we have a font
+                if debug_font and debug_font.get_height() > 0:
+                    var label_text = str(int(point * 100)) + "%"
+                    draw_string(debug_font, progress_pos + Vector2(10, 5), label_text, point_color)
+                    
+    # Draw recent state change history
+    if debug_show_state_changes and debug_state_change_history.size() > 0:
+        var current_time = OS.get_ticks_msec() / 1000.0
+        var i = 0
+        for state_change in debug_state_change_history:
+            # Only show state changes in the past 10 seconds
+            if current_time - state_change.time < 10.0:
+                # Convert world position to screen space
+                var screen_pos = world_to_screen(state_change.position) - get_viewport_rect().size/2
+                
+                # Color based on the new state
+                var color = state_colors[state_change.new_state]
+                color.a = max(0.1, 1.0 - (current_time - state_change.time) / 10.0) # Fade out over time
+                
+                # Draw dot at state change location
+                draw_circle(screen_pos, 4.0, color)
+                
+                # If we have a font, draw state name
+                if debug_font and debug_font.get_height() > 0:
+                    var label_text = get_state_name(state_change.new_state)
+                    draw_string(debug_font, screen_pos + Vector2(8, -i * 15), label_text, color)
+                
+                i += 1
     
     # Draw text only if we have a valid font
     if debug_font and debug_font.get_height() > 0:
@@ -1182,6 +2139,7 @@ func _draw():
 func _handle_transition_movement(delta):
     # Calculate movement progress based on delta time
     var transition_speed = follow_smoothing * delta
+    var old_progress = movement_progress
     movement_progress += transition_speed
     
     # Clamp progress to [0, 1]
@@ -1189,28 +2147,59 @@ func _handle_transition_movement(delta):
     
     # Calculate new position using easing
     var start_position = global_position
+    var initial_position = target_position - (target_position - start_position) / movement_progress if movement_progress > 0 else start_position
     global_position = _apply_easing(start_position, target_position, movement_progress)
     
-    # Log camera movement for debugging
-    debug_log("camera", "Camera transition: Progress " + str(movement_progress) + 
-              ", Position " + str(global_position) + 
-              ", Target " + str(target_position))
+    # Notify UI elements of progress
+    _notify_ui_elements_of_progress(movement_progress, initial_position, target_position)
+    
+    # Emit transition progress signal
+    emit_signal("camera_transition_progress", movement_progress, global_position, target_position)
+    
+    # Check for transition event points
+    _check_transition_events(old_progress, movement_progress, initial_position)
+    
+    # Create visual debug markers for transition points
+    if debug_draw and debug_show_transition_points:
+        for i in range(len(_triggered_events)):
+            var event_point = _triggered_events[i]
+            if old_progress < event_point and movement_progress >= event_point:
+                # Interpolate position at exact event point
+                var event_position = _apply_easing(initial_position, target_position, event_point)
+                create_temporary_marker(event_position, Color(1, 1, 0, 0.8), 15, 1.0, "transition_point")
+    
+    # Enhanced logging in debug mode
+    if signal_debug_mode:
+        debug_log("camera", "Camera transition: Progress " + str(movement_progress) + 
+                  ", Position " + str(global_position) + 
+                  ", Target " + str(target_position) + 
+                  ", Elapsed time: " + str(OS.get_ticks_msec() / 1000.0 - movement_start_time) + "s")
+    else:
+        debug_log("camera", "Camera transition: Progress " + str(movement_progress) + 
+                  ", Position " + str(global_position) + 
+                  ", Target " + str(target_position))
     
     # Check if we've reached the target
     if movement_progress >= 1.0 or global_position.distance_to(target_position) < 1.0:
         # Transition complete - snap to exact target position
+        var actual_duration = OS.get_ticks_msec() / 1000.0 - movement_start_time
         global_position = target_position
         is_transition_active = false
         
+        # Final notification to UI elements with progress = 1.0
+        _notify_ui_elements_of_progress(1.0, initial_position, target_position)
+        
+        # Emit completion signal with enhanced data before changing state
+        emit_signal("camera_move_completed", target_position, initial_position, actual_duration)
+        
         # Transition to appropriate next state
         if follow_player and target_player:
-            set_camera_state(CameraState.FOLLOWING_PLAYER)
+            set_camera_state(CameraState.FOLLOWING_PLAYER, "movement_complete_follow_enabled")
         else:
-            set_camera_state(CameraState.IDLE)
+            set_camera_state(CameraState.IDLE, "movement_complete")
             
-        # Emit completion signal
-        emit_signal("camera_move_completed")
-        debug_log("camera", "Camera transition completed to " + str(global_position))
+        debug_log("camera", "Camera transition completed to " + str(global_position) + 
+                  ", took " + str(actual_duration) + "s")
 
 # Apply the selected easing function to interpolate between start and end positions
 func _apply_easing(start_pos: Vector2, end_pos: Vector2, weight: float) -> Vector2:
@@ -1273,3 +2262,35 @@ func _apply_easing(start_pos: Vector2, end_pos: Vector2, weight: float) -> Vecto
             
         _:  # Default to linear if unknown type
             return start_pos.linear_interpolate(end_pos, weight)
+
+# Static helper method to get or create a ScrollingCamera
+# This is especially useful for tests
+static func get_or_create_camera(parent = null) -> Camera2D:
+    print("ScrollingCamera.get_or_create_camera() called")
+    
+    # Try to find an existing ScrollingCamera in the scene
+    var cameras = []
+    if Engine.get_main_loop() and Engine.get_main_loop().root:
+        # Use get_tree().get_nodes_in_group() which is the correct API
+        if Engine.get_main_loop().has_method("get_tree"):
+            var tree = Engine.get_main_loop().get_tree()
+            if tree:
+                cameras = tree.get_nodes_in_group("camera")
+    
+    for cam in cameras:
+        if cam.get_script() == load("res://src/core/camera/scrolling_camera.gd"):
+            print("Found existing ScrollingCamera: " + cam.name)
+            return cam
+            
+    # Create a new ScrollingCamera
+    print("Creating new ScrollingCamera")
+    var camera = Camera2D.new()
+    camera.name = "ScrollingCamera"
+    camera.set_script(load("res://src/core/camera/scrolling_camera.gd"))
+    camera.add_to_group("camera")
+    
+    # Add to parent if provided
+    if parent and parent.has_method("add_child"):
+        parent.add_child(camera)
+        
+    return camera

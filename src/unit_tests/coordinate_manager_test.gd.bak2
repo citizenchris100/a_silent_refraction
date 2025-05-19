@@ -1,0 +1,827 @@
+extends Node2D
+# CoordinateManager Test: A comprehensive test suite for the CoordinateManager class
+
+# ===== TEST CONFIGURATION =====
+var run_all_tests = true  # Set to false to run only specific tests
+var log_debug_info = true  # Set to true for more verbose output
+
+# Test-specific flags
+var test_district_management = true
+var test_view_mode_management = true
+var test_coordinate_transformations = true
+var test_view_mode_transformations = true
+var test_camera_detection = true
+var test_array_transformations = true
+var test_validation = true
+
+# ===== TEST VARIABLES =====
+var manager
+var mock_district: Node2D  # Mock district for testing
+var mock_camera: Camera2D  # Mock camera for testing
+var test_results = {}
+var current_test = ""
+var tests_passed = 0
+var tests_failed = 0
+var failed_tests = []
+
+# ===== LIFECYCLE METHODS =====
+
+func _ready():
+	# Set up the test environment
+	debug_log("Setting up CoordinateManager test...")
+	
+	# Create mock district and camera
+	create_mock_district()
+	create_mock_camera()
+	
+	# Create coordinate manager
+	create_coordinate_manager()
+	
+	# Run the tests
+	yield(get_tree().create_timer(0.5), "timeout")  # Short delay to ensure setup is complete
+	yield(run_tests(), "completed")
+	
+	# Report results
+	report_results()
+
+func _process(delta):
+	# Update the status display if needed
+	update_test_display()
+
+# ===== TEST SETUP METHODS =====
+
+func create_coordinate_manager():
+	# Create a test instance of CoordinateManager
+	debug_log("Creating CoordinateManager instance")
+	
+	# Use a direct instance since we're not testing the singleton aspect
+	manager = load("res://src/core/coordinate_manager.gd").new()
+	
+	# Connect camera and district
+	manager._current_district = mock_district
+	
+	add_child(manager)
+	debug_log("CoordinateManager instance created and configured")
+
+func create_mock_district():
+	# Create a simple mock district node
+	mock_district = Node2D.new()
+	mock_district.name = "MockDistrict"
+	
+	# Add properties to mock a BaseDistrict
+	mock_district.set_script(GDScript.new())
+	mock_district.get_script().source_code = """
+	extends Node2D
+	
+	var background_scale_factor = 2.0
+	var district_name = "Test District"
+	
+	func get_camera():
+		var camera = get_node_or_null("Camera2D")
+		return camera
+	"""
+	mock_district.get_script().reload()
+	
+	add_child(mock_district)
+	debug_log("Created mock district with scale factor: " + str(mock_district.background_scale_factor))
+
+func create_mock_camera():
+	# Create a camera for the tests
+	mock_camera = Camera2D.new()
+	mock_camera.name = "Camera2D"
+	mock_camera.zoom = Vector2(1, 1)
+	mock_camera.global_position = Vector2(500, 500)
+	
+	# Add camera to the district
+	mock_district.add_child(mock_camera)
+	
+	debug_log("Created mock camera with position: " + str(mock_camera.global_position) + ", zoom: " + str(mock_camera.zoom))
+
+# ===== TEST RUNNER =====
+
+func run_tests():
+	debug_log("Starting CoordinateManager tests...")
+	
+	# Reset test counters
+	tests_passed = 0
+	tests_failed = 0
+	failed_tests = []
+	test_results = {}
+	
+	# Run all test suites in sequence
+	if run_all_tests or test_district_management:
+		yield(test_district_management_suite(), "completed")
+	
+	if run_all_tests or test_view_mode_management:
+		yield(test_view_mode_management_suite(), "completed")
+	
+	if run_all_tests or test_coordinate_transformations:
+		yield(test_coordinate_transformations_suite(), "completed")
+	
+	if run_all_tests or test_view_mode_transformations:
+		yield(test_view_mode_transformations_suite(), "completed")
+	
+	if run_all_tests or test_camera_detection:
+		yield(test_camera_detection_suite(), "completed")
+	
+	if run_all_tests or test_array_transformations:
+		yield(test_array_transformations_suite(), "completed")
+	
+	if run_all_tests or test_validation:
+		yield(test_validation_suite(), "completed")
+	
+	debug_log("All tests completed.")
+
+# ===== TEST SUITES =====
+
+func test_district_management_suite():
+	start_test_suite("District Management")
+	
+	# Test 1: Set current district
+	yield(test_set_current_district(), "completed")
+	
+	# Test 2: Get current district
+	yield(test_get_current_district(), "completed")
+	
+	# Test 3: Handle null district
+	yield(test_handle_null_district(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_view_mode_management_suite():
+	start_test_suite("View Mode Management")
+	
+	# Test 1: Set view mode
+	yield(test_set_view_mode(), "completed")
+	
+	# Test 2: Get view mode
+	yield(test_get_view_mode(), "completed")
+	
+	# Test 3: Detect view mode from debug manager
+	yield(test_detect_view_mode(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_coordinate_transformations_suite():
+	start_test_suite("Coordinate Transformations")
+	
+	# Test 1: Transform screen to world
+	yield(test_screen_to_world(), "completed")
+	
+	# Test 2: Transform world to screen
+	yield(test_world_to_screen(), "completed")
+	
+	# Test 3: Transform local to world
+	yield(test_local_to_world(), "completed")
+	
+	# Test 4: Transform world to local
+	yield(test_world_to_local(), "completed")
+	
+	# Test 5: Generic transform coordinates
+	yield(test_transform_coordinates(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_view_mode_transformations_suite():
+	start_test_suite("View Mode Transformations")
+	
+	# Test 1: Transform world view to game view
+	yield(test_world_to_game_view(), "completed")
+	
+	# Test 2: Transform game view to world view
+	yield(test_game_to_world_view(), "completed")
+	
+	# Test 3: Handle same view mode
+	yield(test_same_view_mode(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_camera_detection_suite():
+	start_test_suite("Camera Detection")
+	
+	# Test 1: Get current camera
+	yield(test_get_current_camera(), "completed")
+	
+	# Test 2: Handle missing camera
+	yield(test_handle_missing_camera(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_array_transformations_suite():
+	start_test_suite("Array Transformations")
+	
+	# Test 1: Transform coordinate array
+	yield(test_transform_coordinate_array(), "completed")
+	
+	# Test 2: Handle empty array
+	yield(test_handle_empty_array(), "completed")
+	
+	# Test 3: Handle same view mode for array
+	yield(test_same_view_mode_array(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_validation_suite():
+	start_test_suite("Validation")
+	
+	# Test 1: Validate coordinates for view mode
+	yield(test_validate_coordinates_for_view_mode(), "completed")
+	
+	# Test 2: Handle validation mismatch
+	yield(test_handle_validation_mismatch(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+# ===== INDIVIDUAL TESTS =====
+
+# DISTRICT MANAGEMENT TESTS
+
+func test_set_current_district():
+	start_test("Set Current District")
+	
+	# Create a new mock district
+	var new_district = Node2D.new()
+	new_district.name = "NewDistrict"
+	new_district.set_script(GDScript.new())
+	new_district.get_script().source_code = """
+	extends Node2D
+	var district_name = "New District"
+	"""
+	new_district.get_script().reload()
+	add_child(new_district)
+	
+	# Set the current district
+	manager.set_current_district(new_district)
+	
+	# Verify district was set
+	var correct_district = manager._current_district == new_district
+	
+	# Clean up
+	new_district.queue_free()
+	
+	# Reset to original district
+	manager._current_district = mock_district
+	
+	end_test(correct_district, "set_current_district should update the current district reference")
+	yield(get_tree(), "idle_frame")
+
+func test_get_current_district():
+	start_test("Get Current District")
+	
+	# Ensure district is set
+	manager._current_district = mock_district
+	
+	# Get current district
+	var district = manager.get_current_district()
+	
+	# Verify correct district returned
+	var correct_district = district == mock_district
+	
+	end_test(correct_district, "get_current_district should return the current district reference")
+	yield(get_tree(), "idle_frame")
+
+func test_handle_null_district():
+	start_test("Handle Null District")
+	
+	# Save original district
+	var original_district = manager._current_district
+	
+	# Set null district
+	manager._current_district = null
+	
+	# Test that coordinate transformations don't crash with null district
+	var screen_pos = Vector2(100, 100)
+	var world_pos = manager.screen_to_world(screen_pos)
+	
+	# Verify result is defined (not null)
+	var result_defined = world_pos != null
+	
+	# Reset original district
+	manager._current_district = original_district
+	
+	end_test(result_defined, "CoordinateManager should handle null district gracefully")
+	yield(get_tree(), "idle_frame")
+
+# VIEW MODE MANAGEMENT TESTS
+
+func test_set_view_mode():
+	start_test("Set View Mode")
+	
+	# Save original view mode
+	var original_view_mode = manager._current_view_mode
+	
+	# Set to world view
+	manager.set_view_mode(manager.ViewMode.WORLD_VIEW)
+	
+	# Verify view mode was set
+	var correct_view_mode = manager._current_view_mode == manager.ViewMode.WORLD_VIEW
+	
+	# Reset view mode
+	manager._current_view_mode = original_view_mode
+	
+	end_test(correct_view_mode, "set_view_mode should update the current view mode")
+	yield(get_tree(), "idle_frame")
+
+func test_get_view_mode():
+	start_test("Get View Mode")
+	
+	# Set specific view mode
+	manager._current_view_mode = manager.ViewMode.GAME_VIEW
+	
+	# Get view mode
+	var view_mode = manager.get_view_mode()
+	
+	# Verify correct view mode returned
+	var correct_view_mode = view_mode == manager.ViewMode.GAME_VIEW
+	
+	end_test(correct_view_mode, "get_view_mode should return the current view mode")
+	yield(get_tree(), "idle_frame")
+
+func test_detect_view_mode():
+	start_test("Detect View Mode")
+	
+	# Create mock debug manager in world view
+	var mock_debug_manager = Node.new()
+	mock_debug_manager.set_meta("full_view_mode", true)
+	add_child(mock_debug_manager)
+	
+	# Set to game view first
+	manager._current_view_mode = manager.ViewMode.GAME_VIEW
+	
+	# Detect view mode
+	var detected_mode = manager.detect_view_mode_from_debug(mock_debug_manager)
+	
+	# Check if view mode was detected correctly
+	var detected_world_view = detected_mode == manager.ViewMode.WORLD_VIEW
+	var manager_updated = manager._current_view_mode == manager.ViewMode.WORLD_VIEW
+	
+	# Clean up
+	mock_debug_manager.queue_free()
+	
+	# Reset view mode
+	manager._current_view_mode = manager.ViewMode.GAME_VIEW
+	
+	end_test(detected_world_view && manager_updated, "detect_view_mode_from_debug should detect and set correct view mode")
+	yield(get_tree(), "idle_frame")
+
+# COORDINATE TRANSFORMATIONS TESTS
+
+func test_screen_to_world():
+	start_test("Screen to World")
+	
+	# Save camera settings
+	var original_position = mock_camera.global_position
+	var original_zoom = mock_camera.zoom
+	
+	# Set camera to a known position and zoom
+	mock_camera.global_position = Vector2(500, 500)
+	mock_camera.zoom = Vector2(1, 1)
+	
+	# Get viewport size
+	var viewport_size = get_viewport().get_size()
+	var viewport_center = viewport_size / 2
+	
+	# Test screen-to-world conversion
+	var screen_point = viewport_center
+	var expected_world_point = mock_camera.global_position  # Center of screen should map to camera position
+	var world_point = manager.screen_to_world(screen_point)
+	
+	# Restore camera settings
+	mock_camera.global_position = original_position
+	mock_camera.zoom = original_zoom
+	
+	# Test passes if world point is close to expected
+	var close_enough = world_point.distance_to(expected_world_point) < 5
+	end_test(close_enough, "screen_to_world should map viewport center to camera position")
+	yield(get_tree(), "idle_frame")
+
+func test_world_to_screen():
+	start_test("World to Screen")
+	
+	# Save camera settings
+	var original_position = mock_camera.global_position
+	var original_zoom = mock_camera.zoom
+	
+	# Set camera to a known position and zoom
+	mock_camera.global_position = Vector2(500, 500)
+	mock_camera.zoom = Vector2(1, 1)
+	
+	# Get viewport size
+	var viewport_size = get_viewport().get_size()
+	var viewport_center = viewport_size / 2
+	
+	# Test world-to-screen conversion
+	var world_point = mock_camera.global_position  # Camera position should map to center of screen
+	var expected_screen_point = viewport_center
+	var screen_point = manager.world_to_screen(world_point)
+	
+	# Restore camera settings
+	mock_camera.global_position = original_position
+	mock_camera.zoom = original_zoom
+	
+	# Test passes if screen point is close to expected
+	var close_enough = screen_point.distance_to(expected_screen_point) < 5
+	end_test(close_enough, "world_to_screen should map camera position to viewport center")
+	yield(get_tree(), "idle_frame")
+
+func test_local_to_world():
+	start_test("Local to World")
+	
+	# Create a test node with a specific position
+	var test_node = Node2D.new()
+	test_node.name = "TestNode"
+	test_node.position = Vector2(100, 100)
+	mock_district.add_child(test_node)
+	
+	# Test local-to-world conversion
+	var local_point = Vector2(50, 50)  # Local to test_node
+	var world_point = manager.local_to_world(local_point, test_node)
+	var expected_world_point = test_node.to_global(local_point)
+	
+	# Clean up
+	test_node.queue_free()
+	
+	# Test passes if world point matches expected
+	var matches_expected = world_point == expected_world_point
+	end_test(matches_expected, "local_to_world should correctly transform local coordinates to world coordinates")
+	yield(get_tree(), "idle_frame")
+
+func test_world_to_local():
+	start_test("World to Local")
+	
+	# Create a test node with a specific position
+	var test_node = Node2D.new()
+	test_node.name = "TestNode"
+	test_node.position = Vector2(100, 100)
+	mock_district.add_child(test_node)
+	
+	# Test world-to-local conversion
+	var world_point = Vector2(150, 150)  # World coordinates
+	var local_point = manager.world_to_local(world_point, test_node)
+	var expected_local_point = test_node.to_local(world_point)
+	
+	# Clean up
+	test_node.queue_free()
+	
+	# Test passes if local point matches expected
+	var matches_expected = local_point == expected_local_point
+	end_test(matches_expected, "world_to_local should correctly transform world coordinates to local coordinates")
+	yield(get_tree(), "idle_frame")
+
+func test_transform_coordinates():
+	start_test("Transform Coordinates")
+	
+	# Test the generic transform_coordinates method
+	var screen_point = Vector2(100, 100)
+	
+	# Transform from screen space to world space
+	var world_point = manager.transform_coordinates(
+		screen_point, 
+		manager.CoordinateSpace.SCREEN_SPACE, 
+		manager.CoordinateSpace.WORLD_SPACE
+	)
+	
+	# Transform back to screen space
+	var round_trip_point = manager.transform_coordinates(
+		world_point, 
+		manager.CoordinateSpace.WORLD_SPACE, 
+		manager.CoordinateSpace.SCREEN_SPACE
+	)
+	
+	# Test passes if round trip conversion is close to original
+	var close_enough = round_trip_point.distance_to(screen_point) < 5
+	end_test(close_enough, "transform_coordinates should correctly handle coordinate space transformations")
+	yield(get_tree(), "idle_frame")
+
+# VIEW MODE TRANSFORMATIONS TESTS
+
+func test_world_to_game_view():
+	start_test("World to Game View")
+	
+	# Save original view mode
+	var original_view_mode = manager._current_view_mode
+	
+	# Set world view mode
+	manager._current_view_mode = manager.ViewMode.WORLD_VIEW
+	
+	# Test point in world view
+	var world_view_point = Vector2(200, 200)
+	
+	# Transform from world view to game view
+	var game_view_point = manager.transform_view_mode_coordinates(
+		world_view_point,
+		manager.ViewMode.WORLD_VIEW,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	# Expected: divide by scale factor
+	var scale_factor = mock_district.background_scale_factor
+	var expected_point = world_view_point / scale_factor
+	
+	# Reset view mode
+	manager._current_view_mode = original_view_mode
+	
+	# Test passes if point is close to expected
+	var close_enough = game_view_point.distance_to(expected_point) < 0.01
+	end_test(close_enough, "transform_view_mode_coordinates should correctly convert world view to game view")
+	yield(get_tree(), "idle_frame")
+
+func test_game_to_world_view():
+	start_test("Game to World View")
+	
+	# Save original view mode
+	var original_view_mode = manager._current_view_mode
+	
+	# Set game view mode
+	manager._current_view_mode = manager.ViewMode.GAME_VIEW
+	
+	# Test point in game view
+	var game_view_point = Vector2(100, 100)
+	
+	# Transform from game view to world view
+	var world_view_point = manager.transform_view_mode_coordinates(
+		game_view_point,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	# Expected: multiply by scale factor
+	var scale_factor = mock_district.background_scale_factor
+	var expected_point = game_view_point * scale_factor
+	
+	# Reset view mode
+	manager._current_view_mode = original_view_mode
+	
+	# Test passes if point is close to expected
+	var close_enough = world_view_point.distance_to(expected_point) < 0.01
+	end_test(close_enough, "transform_view_mode_coordinates should correctly convert game view to world view")
+	yield(get_tree(), "idle_frame")
+
+func test_same_view_mode():
+	start_test("Same View Mode")
+	
+	# Test point
+	var point = Vector2(100, 100)
+	
+	# Transform from game view to game view (same mode)
+	var transformed_point = manager.transform_view_mode_coordinates(
+		point,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	# Point should remain unchanged
+	var unchanged = transformed_point == point
+	
+	end_test(unchanged, "transform_view_mode_coordinates should return unchanged point for same view mode")
+	yield(get_tree(), "idle_frame")
+
+# CAMERA DETECTION TESTS
+
+func test_get_current_camera():
+	start_test("Get Current Camera")
+	
+	# Test _get_current_camera method
+	var camera = manager._get_current_camera()
+	
+	# Should return the mock camera
+	var correct_camera = camera == mock_camera
+	
+	end_test(correct_camera, "_get_current_camera should return the camera from the current district")
+	yield(get_tree(), "idle_frame")
+
+func test_handle_missing_camera():
+	start_test("Handle Missing Camera")
+	
+	# Save original district
+	var original_district = manager._current_district
+	
+	# Create district without camera
+	var district_without_camera = Node2D.new()
+	district_without_camera.name = "DistrictWithoutCamera"
+	district_without_camera.set_script(GDScript.new())
+	district_without_camera.get_script().source_code = """
+	extends Node2D
+	var district_name = "No Camera District"
+	
+	func get_camera():
+		return null
+	"""
+	district_without_camera.get_script().reload()
+	add_child(district_without_camera)
+	
+	# Set as current district
+	manager._current_district = district_without_camera
+	
+	# Test camera detection
+	var camera = manager._get_current_camera()
+	
+	# Test passes if method doesn't crash even without camera
+	var handled_gracefully = true  # If we got here, it didn't crash
+	
+	# Clean up
+	district_without_camera.queue_free()
+	
+	# Reset original district
+	manager._current_district = original_district
+	
+	end_test(handled_gracefully, "_get_current_camera should handle missing camera gracefully")
+	yield(get_tree(), "idle_frame")
+
+# ARRAY TRANSFORMATIONS TESTS
+
+func test_transform_coordinate_array():
+	start_test("Transform Coordinate Array")
+	
+	# Test array of points
+	var points = PoolVector2Array([
+		Vector2(100, 100),
+		Vector2(200, 200),
+		Vector2(300, 300)
+	])
+	
+	# Transform from game view to world view
+	var transformed_points = manager.transform_coordinate_array(
+		points,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	# Check all points were transformed correctly
+	var all_correct = true
+	var scale_factor = mock_district.background_scale_factor
+	
+	for i in range(points.size()):
+		var expected_point = points[i] * scale_factor
+		if transformed_points[i].distance_to(expected_point) > 0.01:
+			all_correct = false
+			break
+	
+	end_test(all_correct, "transform_coordinate_array should correctly transform all points in array")
+	yield(get_tree(), "idle_frame")
+
+func test_handle_empty_array():
+	start_test("Handle Empty Array")
+	
+	# Test with empty array
+	var empty_array = PoolVector2Array()
+	
+	# Transform empty array
+	var result = manager.transform_coordinate_array(
+		empty_array,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	# Test passes if method returns empty array without errors
+	var handled_correctly = result.size() == 0
+	
+	end_test(handled_correctly, "transform_coordinate_array should handle empty array gracefully")
+	yield(get_tree(), "idle_frame")
+
+func test_same_view_mode_array():
+	start_test("Same View Mode Array")
+	
+	# Test array of points
+	var points = PoolVector2Array([
+		Vector2(100, 100),
+		Vector2(200, 200)
+	])
+	
+	# Transform from game view to game view (same mode)
+	var transformed_points = manager.transform_coordinate_array(
+		points,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	# Points should remain unchanged
+	var unchanged = transformed_points == points
+	
+	end_test(unchanged, "transform_coordinate_array should return unchanged array for same view mode")
+	yield(get_tree(), "idle_frame")
+
+# VALIDATION TESTS
+
+func test_validate_coordinates_for_view_mode():
+	start_test("Validate Coordinates for View Mode")
+	
+	# Test points
+	var points = PoolVector2Array([
+		Vector2(100, 100),
+		Vector2(200, 200)
+	])
+	
+	# Ensure current view mode matches expected
+	manager._current_view_mode = manager.ViewMode.GAME_VIEW
+	
+	# Validate for game view
+	var validation_result = manager.validate_coordinates_for_view_mode(
+		points,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	end_test(validation_result, "validate_coordinates_for_view_mode should return true when view modes match")
+	yield(get_tree(), "idle_frame")
+
+func test_handle_validation_mismatch():
+	start_test("Handle Validation Mismatch")
+	
+	# Test points
+	var points = PoolVector2Array([
+		Vector2(100, 100),
+		Vector2(200, 200)
+	])
+	
+	# Ensure current view mode does not match expected
+	manager._current_view_mode = manager.ViewMode.GAME_VIEW
+	
+	# Validate for world view (mismatch)
+	var validation_result = manager.validate_coordinates_for_view_mode(
+		points,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	# Test passes if validation returns false for mismatch
+	end_test(!validation_result, "validate_coordinates_for_view_mode should return false when view modes don't match")
+	yield(get_tree(), "idle_frame")
+
+# ===== TEST UTILITIES =====
+
+func update_test_display():
+	# Update any UI elements showing test status
+	var label = get_node_or_null("TestInfo")
+	if label:
+		var status = "Tests: %d/%d passed" % [tests_passed, tests_passed + tests_failed]
+		if current_test:
+			status += "\nCurrent: " + current_test
+		label.text = status
+
+func start_test_suite(suite_name):
+	debug_log("===== TEST SUITE: " + suite_name + " =====", true)
+	test_results[suite_name] = {
+		"passed": 0,
+		"failed": 0,
+		"tests": {}
+	}
+
+func end_test_suite():
+	var suite_name = current_test.split(":")[0]
+	var passed = test_results[suite_name].passed
+	var failed = test_results[suite_name].failed
+	var total = passed + failed
+	debug_log("Suite completed: " + str(passed) + "/" + str(total) + " tests passed", true)
+
+func start_test(test_name):
+	var suite_name = test_name.split(" ")[0]
+	current_test = suite_name + ": " + test_name
+	debug_log("Running test: " + test_name)
+
+func end_test(passed, message = ""):
+	var parts = current_test.split(": ")
+	var suite_name = parts[0]
+	var test_name = parts[1]
+	
+	if passed:
+		debug_log("✓ PASS: " + test_name + (": " + message if message else ""))
+		test_results[suite_name].passed += 1
+		tests_passed += 1
+	else:
+		debug_log("✗ FAIL: " + test_name + (": " + message if message else ""), true)
+		test_results[suite_name].failed += 1
+		tests_failed += 1
+		failed_tests.append(current_test)
+	
+	test_results[suite_name].tests[test_name] = {
+		"passed": passed,
+		"message": message
+	}
+
+func report_results():
+	debug_log("\n===== TEST RESULTS =====", true)
+	debug_log("Total Tests: " + str(tests_passed + tests_failed), true)
+	debug_log("Passed: " + str(tests_passed), true)
+	debug_log("Failed: " + str(tests_failed), true)
+	
+	if tests_failed > 0:
+		debug_log("\nFailed Tests:", true)
+		for test in failed_tests:
+			var parts = test.split(": ")
+			var suite_name = parts[0]
+			var test_name = parts[1]
+			var message = test_results[suite_name].tests[test_name].message
+			debug_log("- " + test + (": " + message if message else ""), true)
+	
+	if tests_failed == 0:
+		debug_log("\nAll tests passed! 🎉", true)
+
+func debug_debug_log(message, force_print = false):
+	if log_debug_info || force_print:
+		print(message)

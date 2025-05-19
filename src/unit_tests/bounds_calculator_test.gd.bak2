@@ -1,0 +1,497 @@
+extends Node2D
+# BoundsCalculator Test: A comprehensive test suite for the BoundsCalculator class
+
+# ===== TEST CONFIGURATION =====
+var run_all_tests = true  # Set to false to run only specific tests
+var log_debug_info = true  # Set to true for more verbose output
+
+# Test-specific flags
+var test_bounds_calculation = true
+var test_safety_corrections = true
+var test_visualization = true
+var test_edge_cases = true
+
+# ===== TEST VARIABLES =====
+var test_results = {}
+var current_test = ""
+var tests_passed = 0
+var tests_failed = 0
+var failed_tests = []
+
+# ===== LIFECYCLE METHODS =====
+
+func _ready():
+	# Set up the test environment
+	debug_log("Setting up BoundsCalculator test...")
+	
+	# Run the tests
+	yield(get_tree().create_timer(0.5), "timeout")  # Short delay to ensure setup is complete
+	yield(run_tests(), "completed")
+	
+	# Report results
+	report_results()
+
+func _process(delta):
+	# Update the status display if needed
+	update_test_display()
+
+# ===== TEST RUNNER =====
+
+func run_tests():
+	debug_log("Starting BoundsCalculator tests...")
+	
+	# Reset test counters
+	tests_passed = 0
+	tests_failed = 0
+	failed_tests = []
+	test_results = {}
+	
+	# Run all test suites in sequence
+	if run_all_tests or test_bounds_calculation:
+		yield(test_bounds_calculation_suite(), "completed")
+	
+	if run_all_tests or test_safety_corrections:
+		yield(test_safety_corrections_suite(), "completed")
+	
+	if run_all_tests or test_visualization:
+		yield(test_visualization_suite(), "completed")
+	
+	if run_all_tests or test_edge_cases:
+		yield(test_edge_cases_suite(), "completed")
+	
+	debug_log("All tests completed.")
+
+# ===== TEST SUITES =====
+
+func test_bounds_calculation_suite():
+	start_test_suite("Bounds Calculation")
+	
+	# Test 1: Calculate bounds with a simple polygon
+	yield(test_calculate_bounds_simple(), "completed")
+	
+	# Test 2: Calculate bounds with multiple walkable areas
+	yield(test_calculate_bounds_multiple(), "completed")
+	
+	# Test 3: Calculate bounds with complex polygon shapes
+	yield(test_calculate_bounds_complex(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_safety_corrections_suite():
+	start_test_suite("Safety Corrections")
+	
+	# Test 1: Small height correction
+	yield(test_small_height_correction(), "completed")
+	
+	# Test 2: Small width correction
+	yield(test_small_width_correction(), "completed")
+	
+	# Test 3: Background size consideration
+	yield(test_background_size_consideration(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_visualization_suite():
+	start_test_suite("Visualization")
+	
+	# Test 1: Create bounds visualization
+	yield(test_create_bounds_visualization(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+func test_edge_cases_suite():
+	start_test_suite("Edge Cases")
+	
+	# Test 1: Handle empty walkable areas
+	yield(test_handle_empty_walkable_areas(), "completed")
+	
+	# Test 2: Handle empty polygon
+	yield(test_handle_empty_polygon(), "completed")
+	
+	# Test 3: Handle non-rectangles (C, L shaped polygons)
+	yield(test_handle_non_rectangles(), "completed")
+	
+	end_test_suite()
+	yield(get_tree(), "idle_frame")
+
+# ===== INDIVIDUAL TESTS =====
+
+# BOUNDS CALCULATION TESTS
+
+func test_calculate_bounds_simple():
+	start_test("Calculate Bounds Simple")
+	
+	# Create a simple rectangular walkable area
+	var walkable_area = create_polygon_node([
+		Vector2(0, 0),
+		Vector2(100, 0),
+		Vector2(100, 100),
+		Vector2(0, 100)
+	])
+	
+	# Calculate bounds
+	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Expected bounds should contain the polygon
+	var expected_bounds = Rect2(0, 0, 100, 100)
+	
+	# For simple rectangles, bounds should match exactly
+	var bounds_correct = bounds.position.is_equal_approx(expected_bounds.position) && 
+						  bounds.size.is_equal_approx(expected_bounds.size)
+	
+	# Clean up
+	walkable_area.queue_free()
+	
+	end_test(bounds_correct, "calculate_bounds_from_walkable_areas should compute correct bounds for simple rectangle")
+	yield(get_tree(), "idle_frame")
+
+func test_calculate_bounds_multiple():
+	start_test("Calculate Bounds Multiple")
+	
+	# Create multiple walkable areas
+	var walkable_area1 = create_polygon_node([
+		Vector2(0, 0),
+		Vector2(100, 0),
+		Vector2(100, 100),
+		Vector2(0, 100)
+	])
+	
+	var walkable_area2 = create_polygon_node([
+		Vector2(200, 200),
+		Vector2(300, 200),
+		Vector2(300, 300),
+		Vector2(200, 300)
+	])
+	
+	# Calculate bounds
+	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area1, walkable_area2])
+	
+	# Expected bounds should contain both polygons
+	var expected_bounds = Rect2(0, 0, 300, 300)
+	
+	# Check if bounds encompass both walkable areas
+	var bounds_correct = bounds.has_point(Vector2(50, 50)) && bounds.has_point(Vector2(250, 250))
+	
+	# Clean up
+	walkable_area1.queue_free()
+	walkable_area2.queue_free()
+	
+	end_test(bounds_correct, "calculate_bounds_from_walkable_areas should compute bounds that contain all walkable areas")
+	yield(get_tree(), "idle_frame")
+
+func test_calculate_bounds_complex():
+	start_test("Calculate Bounds Complex")
+	
+	# Create a complex non-rectangular polygon (L-shape)
+	var walkable_area = create_polygon_node([
+		Vector2(0, 0),
+		Vector2(100, 0),
+		Vector2(100, 50),
+		Vector2(50, 50),
+		Vector2(50, 100),
+		Vector2(0, 100)
+	])
+	
+	# Calculate bounds
+	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Expected bounds should contain the entire polygon
+	var expected_bounds = Rect2(0, 0, 100, 100)
+	
+	# Check if bounds encompass the complex shape
+	var bounds_correct = bounds.has_point(Vector2(25, 25)) && 
+						  bounds.has_point(Vector2(75, 25)) && 
+						  bounds.has_point(Vector2(25, 75))
+	
+	# Clean up
+	walkable_area.queue_free()
+	
+	end_test(bounds_correct, "calculate_bounds_from_walkable_areas should compute correct bounds for complex shapes")
+	yield(get_tree(), "idle_frame")
+
+# SAFETY CORRECTIONS TESTS
+
+func test_small_height_correction():
+	start_test("Small Height Correction")
+	
+	# Create a walkable area with very small height (floor-like)
+	var walkable_area = create_polygon_node([
+		Vector2(0, 0),
+		Vector2(500, 0),
+		Vector2(500, 20),
+		Vector2(0, 20)
+	])
+	
+	# Calculate bounds
+	var raw_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Apply safety corrections
+	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds)
+	
+	# Corrected bounds should have increased height
+	var height_increased = corrected_bounds.size.y > raw_bounds.size.y
+	
+	# Check if center y-position is preserved
+	var original_center_y = raw_bounds.position.y + raw_bounds.size.y / 2
+	var corrected_center_y = corrected_bounds.position.y + corrected_bounds.size.y / 2
+	var center_preserved = abs(original_center_y - corrected_center_y) < 5
+	
+	# Clean up
+	walkable_area.queue_free()
+	
+	end_test(height_increased && center_preserved, "apply_safety_corrections should increase height for floor-like walkable areas while preserving center")
+	yield(get_tree(), "idle_frame")
+
+func test_small_width_correction():
+	start_test("Small Width Correction")
+	
+	# Create a walkable area with very small width
+	var walkable_area = create_polygon_node([
+		Vector2(0, 0),
+		Vector2(20, 0),
+		Vector2(20, 500),
+		Vector2(0, 500)
+	])
+	
+	# Calculate bounds
+	var raw_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Apply safety corrections
+	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds)
+	
+	# Corrected bounds should have increased width
+	var width_increased = corrected_bounds.size.x > raw_bounds.size.x
+	
+	# Clean up
+	walkable_area.queue_free()
+	
+	end_test(width_increased, "apply_safety_corrections should increase width for very narrow walkable areas")
+	yield(get_tree(), "idle_frame")
+
+func test_background_size_consideration():
+	start_test("Background Size Consideration")
+	
+	# Create a mock district with background size
+	var mock_district = Node2D.new()
+	mock_district.name = "MockDistrict"
+	mock_district.set_script(GDScript.new())
+	mock_district.get_script().source_code = """
+	extends Node2D
+	var background_size = Vector2(1000, 800)
+	"""
+	mock_district.get_script().reload()
+	add_child(mock_district)
+	
+	# Create a small walkable area
+	var walkable_area = create_polygon_node([
+		Vector2(100, 100),
+		Vector2(200, 100),
+		Vector2(200, 120),
+		Vector2(100, 120)
+	])
+	
+	# Calculate bounds
+	var raw_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Apply safety corrections with district
+	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds, mock_district)
+	
+	# Clean up
+	walkable_area.queue_free()
+	mock_district.queue_free()
+	
+	# Test passes if method doesn't crash with district parameter
+	# District is only used for logging, not actual corrections in current implementation
+	end_test(true, "apply_safety_corrections should consider background size if available")
+	yield(get_tree(), "idle_frame")
+
+# VISUALIZATION TESTS
+
+func test_create_bounds_visualization():
+	start_test("Create Bounds Visualization")
+	
+	# Create a simple bounds rect
+	var bounds = Rect2(0, 0, 100, 100)
+	
+	# Create visualization
+	var visualization = BoundsCalculator.create_bounds_visualization(bounds, self)
+	
+	# Check if visualization was created
+	var visualization_created = visualization != null && visualization.is_inside_tree()
+	
+	# Check if visualization has expected children
+	var has_rect = false
+	var has_label = false
+	
+	if visualization_created:
+		for child in visualization.get_children():
+			if child.name == "BoundsRect":
+				has_rect = true
+			elif child.name == "BoundsInfo":
+				has_label = true
+	
+	# Clean up
+	if visualization_created:
+		visualization.queue_free()
+	
+	end_test(visualization_created && has_rect && has_label, "create_bounds_visualization should create a visualization with rect and label")
+	yield(get_tree(), "idle_frame")
+
+# EDGE CASES TESTS
+
+func test_handle_empty_walkable_areas():
+	start_test("Handle Empty Walkable Areas")
+	
+	# Calculate bounds with empty array
+	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([])
+	
+	# Should return a default size
+	var has_default_size = bounds.size != Vector2.ZERO
+	
+	end_test(has_default_size, "calculate_bounds_from_walkable_areas should return default bounds for empty array")
+	yield(get_tree(), "idle_frame")
+
+func test_handle_empty_polygon():
+	start_test("Handle Empty Polygon")
+	
+	# Create walkable area with empty polygon
+	var walkable_area = create_polygon_node([])
+	
+	# Calculate bounds
+	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Should return a default size
+	var has_default_size = bounds.size != Vector2.ZERO
+	
+	# Clean up
+	walkable_area.queue_free()
+	
+	end_test(has_default_size, "calculate_bounds_from_walkable_areas should handle walkable areas with empty polygons")
+	yield(get_tree(), "idle_frame")
+
+func test_handle_non_rectangles():
+	start_test("Handle Non-Rectangles")
+	
+	# Create a C-shaped walkable area
+	var walkable_area = create_polygon_node([
+		Vector2(0, 0),
+		Vector2(100, 0),
+		Vector2(100, 20),
+		Vector2(20, 20),
+		Vector2(20, 80),
+		Vector2(100, 80),
+		Vector2(100, 100),
+		Vector2(0, 100)
+	])
+	
+	# Calculate bounds
+	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
+	
+	# Expected bounds should be a rectangle enclosing the C-shape
+	var expected_bounds = Rect2(0, 0, 100, 100)
+	
+	# Check if bounds has the correct size
+	var size_correct = bounds.size.is_equal_approx(expected_bounds.size)
+	
+	# Check if the "hole" in the C-shape is incorrectly excluded 
+	var includes_hole = bounds.has_point(Vector2(50, 50))
+	
+	# Clean up
+	walkable_area.queue_free()
+	
+	end_test(size_correct && includes_hole, "calculate_bounds_from_walkable_areas should compute correct bounds for C-shaped walkable area")
+	yield(get_tree(), "idle_frame")
+
+# ===== HELPER METHODS =====
+
+func create_polygon_node(points):
+	# Create a polygon node for testing
+	var polygon = Polygon2D.new()
+	polygon.name = "TestWalkableArea"
+	
+	# Add to walkable area group
+	polygon.add_to_group("walkable_area")
+	
+	# Set polygon points
+	polygon.polygon = PoolVector2Array(points)
+	
+	# Add to scene
+	add_child(polygon)
+	
+	return polygon
+
+# ===== TEST UTILITIES =====
+
+func update_test_display():
+	# Update any UI elements showing test status
+	var label = get_node_or_null("TestInfo")
+	if label:
+		var status = "Tests: %d/%d passed" % [tests_passed, tests_passed + tests_failed]
+		if current_test:
+			status += "\nCurrent: " + current_test
+		label.text = status
+
+func start_test_suite(suite_name):
+	debug_log("===== TEST SUITE: " + suite_name + " =====", true)
+	test_results[suite_name] = {
+		"passed": 0,
+		"failed": 0,
+		"tests": {}
+	}
+
+func end_test_suite():
+	var suite_name = current_test.split(":")[0]
+	var passed = test_results[suite_name].passed
+	var failed = test_results[suite_name].failed
+	var total = passed + failed
+	debug_log("Suite completed: " + str(passed) + "/" + str(total) + " tests passed", true)
+
+func start_test(test_name):
+	var suite_name = test_name.split(" ")[0]
+	current_test = suite_name + ": " + test_name
+	debug_log("Running test: " + test_name)
+
+func end_test(passed, message = ""):
+	var parts = current_test.split(": ")
+	var suite_name = parts[0]
+	var test_name = parts[1]
+	
+	if passed:
+		debug_log("✓ PASS: " + test_name + (": " + message if message else ""))
+		test_results[suite_name].passed += 1
+		tests_passed += 1
+	else:
+		debug_log("✗ FAIL: " + test_name + (": " + message if message else ""), true)
+		test_results[suite_name].failed += 1
+		tests_failed += 1
+		failed_tests.append(current_test)
+	
+	test_results[suite_name].tests[test_name] = {
+		"passed": passed,
+		"message": message
+	}
+
+func report_results():
+	debug_log("\n===== TEST RESULTS =====", true)
+	debug_log("Total Tests: " + str(tests_passed + tests_failed), true)
+	debug_log("Passed: " + str(tests_passed), true)
+	debug_log("Failed: " + str(tests_failed), true)
+	
+	if tests_failed > 0:
+		debug_log("\nFailed Tests:", true)
+		for test in failed_tests:
+			var parts = test.split(": ")
+			var suite_name = parts[0]
+			var test_name = parts[1]
+			var message = test_results[suite_name].tests[test_name].message
+			debug_log("- " + test + (": " + message if message else ""), true)
+	
+	if tests_failed == 0:
+		debug_log("\nAll tests passed! 🎉", true)
+
+func debug_debug_log(message, force_print = false):
+	if log_debug_info || force_print:
+		print(message)

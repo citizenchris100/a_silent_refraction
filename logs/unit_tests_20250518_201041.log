@@ -1,0 +1,164 @@
+=== Test: bounds_calculator_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Error parsing expression, misplaced: '\n'
+          at: GDScript::reload (res://src/unit_tests/bounds_calculator_test.gd:143)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+=== Test: camera_state_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Error parsing expression, misplaced: '\n'
+          at: GDScript::reload (res://src/unit_tests/camera_state_test.gd:411)
+ERROR: res://src/unit_tests/camera_state_test.tscn:11 - Parse Error: Expected number (sub-resource index)
+   at: _parse_node_tag (scene/resources/resource_format_text.cpp:255)
+ERROR: Failed to load resource 'res://src/unit_tests/camera_state_test.tscn'.
+   at: load (core/io/resource_loader.cpp:206)
+ERROR: Failed loading resource: res://src/unit_tests/camera_state_test.tscn. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270)
+ERROR: Failed loading scene: res://src/unit_tests/camera_state_test.tscn
+   at: start (main/main.cpp:2107)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)
+ERROR: There are still MemoryPool allocs in use at exit!
+   at: cleanup (core/pool_vector.cpp:63)
+
+=== Test: camera_walkable_integration_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Error parsing expression, misplaced: '\n'
+          at: GDScript::reload (res://src/unit_tests/camera_walkable_integration_test.gd:605)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+=== Test: coordinate_conversion_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Error parsing expression, misplaced: '\n'
+          at: GDScript::reload (res://src/unit_tests/coordinate_conversion_test.gd:394)
+ERROR: res://src/unit_tests/coordinate_conversion_test.tscn:11 - Parse Error: Expected number (sub-resource index)
+   at: _parse_node_tag (scene/resources/resource_format_text.cpp:255)
+ERROR: Failed to load resource 'res://src/unit_tests/coordinate_conversion_test.tscn'.
+   at: load (core/io/resource_loader.cpp:206)
+ERROR: Failed loading resource: res://src/unit_tests/coordinate_conversion_test.tscn. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270)
+ERROR: Failed loading scene: res://src/unit_tests/coordinate_conversion_test.tscn
+   at: start (main/main.cpp:2107)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)
+ERROR: There are still MemoryPool allocs in use at exit!
+   at: cleanup (core/pool_vector.cpp:63)
+
+=== Test: coordinate_manager_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up CoordinateManager test...
+SCRIPT ERROR: Parse Error: Unexpected indentation.
+          at: GDScript::reload (built-in:2)
+SCRIPT ERROR: Invalid get index 'background_scale_factor' (on base: 'Node2D').
+          at: create_mock_district (res://src/unit_tests/coordinate_manager_test.gd:86)
+Created mock camera with position: (500, 500), zoom: (1, 1)
+Creating CoordinateManager instance
+CoordinateManager initialized
+CoordinateManager instance created and configured
+Starting CoordinateManager tests...
+===== TEST SUITE: District Management =====
+Running test: Set Current District
+SCRIPT ERROR: Parse Error: Unexpected indentation.
+          at: GDScript::reload (built-in:2)
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D').
+          at: set_current_district (res://src/core/coordinate_manager.gd:33)
+✓ PASS: Set Current District: set_current_district should update the current district reference
+SCRIPT ERROR: Invalid get index 'Set' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+Running test: Get Current District
+✓ PASS: Get Current District: get_current_district should return the current district reference
+SCRIPT ERROR: Invalid get index 'Get' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+Running test: Handle Null District
+ERROR: CoordinateManager: screen_to_world - No camera found
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+✓ PASS: Handle Null District: CoordinateManager should handle null district gracefully
+SCRIPT ERROR: Invalid get index 'Handle' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+SCRIPT ERROR: Invalid get index 'Handle' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/coordinate_manager_test.gd:777)
+===== TEST SUITE: View Mode Management =====
+Running test: Set View Mode
+CoordinateManager: View mode changed to WORLD_VIEW
+✓ PASS: Set View Mode: set_view_mode should update the current view mode
+SCRIPT ERROR: Invalid get index 'Set' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+Running test: Get View Mode
+✓ PASS: Get View Mode: get_view_mode should return the current view mode
+SCRIPT ERROR: Invalid get index 'Get' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+Running test: Detect View Mode
+✗ FAIL: Detect View Mode: detect_view_mode_from_debug should detect and set correct view mode
+SCRIPT ERROR: Invalid get index 'Detect' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:798)
+SCRIPT ERROR: Invalid get index 'Detect' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/coordinate_manager_test.gd:777)
+===== TEST SUITE: Coordinate Transformations =====
+Running test: Screen to World
+ERROR: CoordinateManager: screen_to_world - No camera found
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+✗ FAIL: Screen to World: screen_to_world should map viewport center to camera position
+SCRIPT ERROR: Invalid get index 'Screen' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:798)
+Running test: World to Screen
+ERROR: CoordinateManager: world_to_screen - No camera found
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+✗ FAIL: World to Screen: world_to_screen should map camera position to viewport center
+SCRIPT ERROR: Invalid get index 'World' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:798)
+Running test: Local to World
+✓ PASS: Local to World: local_to_world should correctly transform local coordinates to world coordinates
+SCRIPT ERROR: Invalid get index 'Local' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+Running test: World to Local
+✓ PASS: World to Local: world_to_local should correctly transform world coordinates to local coordinates
+SCRIPT ERROR: Invalid get index 'World' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+Running test: Transform Coordinates
+ERROR: CoordinateManager: screen_to_world - No camera found
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+ERROR: CoordinateManager: world_to_screen - No camera found
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+✓ PASS: Transform Coordinates: transform_coordinates should correctly handle coordinate space transformations
+SCRIPT ERROR: Invalid get index 'Transform' (on base: 'Dictionary').
+          at: end_test (res://src/unit_tests/coordinate_manager_test.gd:794)
+SCRIPT ERROR: Invalid get index 'Transform' (on base: 'Dictionary').
+          at: end_test_suite (res://src/unit_tests/coordinate_manager_test.gd:777)
+===== TEST SUITE: View Mode Transformations =====
+Running test: World to Game View
+SCRIPT ERROR: Invalid get index 'background_scale_factor' (on base: 'Node2D').
+          at: test_world_to_game_view (res://src/unit_tests/coordinate_manager_test.gd:525)
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: test_view_mode_transformations_suite (res://src/unit_tests/coordinate_manager_test.gd:192)
+

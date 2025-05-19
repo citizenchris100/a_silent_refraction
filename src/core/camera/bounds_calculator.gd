@@ -5,6 +5,25 @@ extends Reference
 # This class decouples the camera system from direct walkable area manipulation
 # By creating a buffer layer between these systems, we reduce coupling and improve maintainability
 
+# Helper method to safely get polygon data from a walkable area
+# This uses the interface-based approach to reduce coupling
+static func get_polygon_from_area(area) -> PoolVector2Array:
+	var polygon = null
+	
+	# First try to use the interface method if available
+	if area.has_method("get_polygon"):
+		polygon = area.get_polygon()
+		print("Using get_polygon() interface method")
+	# Fall back to direct property access for backward compatibility
+	elif "polygon" in area:
+		polygon = area.polygon
+		print("Using direct polygon property (legacy mode)")
+	else:
+		print("ERROR: Walkable area doesn't implement get_polygon() method or have polygon property")
+		return PoolVector2Array() # Return empty array to handle gracefully
+		
+	return polygon
+
 # Calculate camera bounds from walkable areas
 static func calculate_bounds_from_walkable_areas(walkable_areas: Array) -> Rect2:
 	var result_bounds = Rect2(0, 0, 0, 0)
@@ -16,16 +35,18 @@ static func calculate_bounds_from_walkable_areas(walkable_areas: Array) -> Rect2
 	
 	# Go through all walkable areas
 	for area in walkable_areas:
-		if area.polygon.size() == 0:
+		var polygon = get_polygon_from_area(area)
+		
+		if polygon.size() == 0:
 			print("WARNING: Empty polygon in walkable area")
 			continue
 			
-		print("Processing walkable area: " + area.name + " with " + str(area.polygon.size()) + " points")
+		print("Processing walkable area: " + area.name + " with " + str(polygon.size()) + " points")
 		print("Area transform: " + str(area.transform))
 		
 		# Process each point in the polygon
-		for i in range(area.polygon.size()):
-			var point = area.polygon[i]
+		for i in range(polygon.size()):
+			var point = polygon[i]
 			# Store local point for reference
 			all_points.append({"local": point, "index": i})
 			

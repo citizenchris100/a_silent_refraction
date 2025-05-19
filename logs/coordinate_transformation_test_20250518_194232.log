@@ -1,0 +1,5 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Invalid argument (#1) for 'log' intrinsic function.
+          at: GDScript::reload (res://src/unit_tests/coordinate_transformation_test.gd:40)

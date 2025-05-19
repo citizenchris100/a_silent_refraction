@@ -8,6 +8,11 @@ func _ready():
     color = Color(1.0, 0.0, 0.0, 0.5)
     modulate = Color(1, 1, 1, 1.0)
 
+# Interface method to provide polygon data for bounds calculation
+# This follows the interface-based design principle to reduce coupling
+func get_polygon() -> PoolVector2Array:
+    return polygon
+
 # Check if a point is inside this area
 func contains_point(point):
     var poly = polygon

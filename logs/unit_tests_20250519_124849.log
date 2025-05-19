@@ -1,0 +1,549 @@
+=== Test: camera_state_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1310
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Setting up camera state test...
+Calling get_or_create_camera helper method
+ScrollingCamera.get_or_create_camera() called
+Creating new ScrollingCamera
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1318
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Camera created/found successfully: ScrollingCamera
+Setting target_player to: MockPlayer:[Node2D:1320]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Created mock player at: (500, 500)
+Configuring camera for testing...
+Setting debug_draw to: True
+[OVERLAY DEBUG] Created debug overlay
+Camera bounds set to: (300, 300, 600, 600)
+Camera configured with position: (500, 500)
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: MockPlayer
+Using default camera bounds based on screen size
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Camera found player: MockPlayer
+Using default camera bounds based on screen size
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (500, 500)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1024, 768)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (512, 384)
+Camera bounds: (0, 0, 1024, 768)
+Background wide enough for scrolling: False
+Background width: 1024, Min width for scrolling: 1536
+Using RIGHT initial view setting
+Centering camera on walkable area: (512, 384)
+Setting camera position to: (512, 384)
+Camera position after setting: (512, 384)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (512, 384)
+View ratio: 100% of background is visible (1024 pixels of 1024 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Starting camera state tests...
+===== TEST SUITE: State Transitions =====
+Running test: Idle to Moving Transition
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Idle to Moving Transition: Camera should transition from IDLE to MOVING and emit signal
+Running test: Moving to Idle Transition
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Moving to Idle Transition: Camera should transition from MOVING to IDLE and emit signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Idle to Following Transition
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Idle to Following Transition: Camera should transition from IDLE to FOLLOWING_PLAYER and emit signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Following to Idle Transition
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Following to Idle Transition: Camera should transition from FOLLOWING_PLAYER to IDLE and emit signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 1/1 tests passed
+===== TEST SUITE: State Properties =====
+Running test: Idle State Properties
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Idle State Properties: IDLE state should have correct properties
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Moving State Properties
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Moving State Properties: MOVING state should have correct properties
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Following State Properties
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Following State Properties: FOLLOWING_PLAYER state should have correct properties
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 2/2 tests passed
+===== TEST SUITE: Player Following =====
+Running test: Camera Follows Player
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✗ FAIL: Camera Follows Player: Camera should move toward player when in FOLLOWING_PLAYER state
+Running test: Toggle Follow Player
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+ensure_valid_target called with position: (700, 421)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 421) -> (512, 384)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (512, 384)
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Toggle Follow Player: Camera should stop following player when follow_player is disabled
+Suite completed: 1/1 tests passed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+===== TEST SUITE: Movement Transitions =====
+Running test: Immediate Movement
+ensure_valid_target called with position: (700, 500)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 500) -> (512, 384)
+move_to_position called with pos=(700, 500), immediate=True
+Target position after validation: (512, 384)
+Immediate move from (512, 384) to (512, 384)
+Signal received: camera_move_started - (512, 384)
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✗ FAIL: Immediate Movement: Camera should move to target immediately and emit signals
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Animated Movement
+ensure_valid_target called with position: (700, 500)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 500) -> (512, 384)
+move_to_position called with pos=(700, 500), immediate=False
+Target position after validation: (512, 384)
+Starting animated movement to (512, 384)
+Signal received: camera_move_started - (512, 384)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (512, 384), Target (512, 384)
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (512, 384), took 0s
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✗ FAIL: Animated Movement: Camera should enter MOVING state for animated movement
+Running test: Movement Progress
+ensure_valid_target called with position: (700, 500)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 500) -> (512, 384)
+move_to_position called with pos=(700, 500), immediate=False
+Target position after validation: (512, 384)
+Starting animated movement to (512, 384)
+Signal received: camera_move_started - (512, 384)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (512, 384), Target (512, 384)
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (512, 384), took 0.001s
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Movement Progress: Movement progress should increase during animated movement
+Suite completed: 1/1 tests passed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+===== TEST SUITE: Signal Emission =====
+Running test: State Change Signal
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: State Change Signal: Camera should emit state_changed signal with correct parameters
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Move Started Signal
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Move Started Signal: Camera should emit move_started signal with correct parameters
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Move Completed Signal
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+ensure_valid_target called with position: (700, 500)
+Camera half size: (512, 384)
+Current bounds: (0, 0, 1024, 768)
+Bounds limits - x: [512, 512], y: [384, 384]
+Position adjusted by bounds: (700, 500) -> (512, 384)
+move_to_position called with pos=(700, 500), immediate=True
+Target position after validation: (512, 384)
+Immediate move from (512, 384) to (512, 384)
+Signal received: camera_move_started - (512, 384)
+Signal received: camera_move_completed - (512, 384)
+✓ PASS: Move Completed Signal: Camera should emit move_completed signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 2/2 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 15
+Passed: 12
+Failed: 3
+
+Failed Tests:
+- Camera: Camera Follows Player: Camera should move toward player when in FOLLOWING_PLAYER state
+- Immediate: Immediate Movement: Camera should move to target immediately and emit signals
+- Animated: Animated Movement: Camera should enter MOVING state for animated movement
+
