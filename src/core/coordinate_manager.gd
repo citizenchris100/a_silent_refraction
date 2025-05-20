@@ -231,3 +231,27 @@ func validate_coordinates_for_view_mode(points, expected_view_mode):
 		return false
 	
 	return true
+
+# Check if viewport coordinates are valid (within the viewport)
+# Returns true if the coordinates are within the viewport boundaries
+# include_boundary: If true, points exactly on the boundary are considered valid
+func validate_viewport_coordinates(screen_pos: Vector2, include_boundary: bool = false) -> bool:
+	# Get the current camera
+	var camera = _get_current_camera()
+	var viewport_size = Vector2.ZERO
+	
+	if camera != null:
+		# Get viewport size from current camera
+		viewport_size = camera.get_viewport_rect().size
+	else:
+		# Fallback to OS window size if no camera is available
+		viewport_size = OS.get_window_size()
+		push_warning("CoordinateManager: No camera found, using OS window size as fallback: " + str(viewport_size))
+	
+	# Check if the coordinates are within the viewport boundaries
+	if include_boundary:
+		return screen_pos.x >= 0 && screen_pos.x <= viewport_size.x && \
+			   screen_pos.y >= 0 && screen_pos.y <= viewport_size.y
+	else:
+		return screen_pos.x >= 0 && screen_pos.x < viewport_size.x && \
+			   screen_pos.y >= 0 && screen_pos.y < viewport_size.y
