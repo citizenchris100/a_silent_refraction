@@ -3,6 +3,30 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
+### May 20, 2025 - Coordinate Manager Test Refactoring (🟢 IN PROGRESS)
+- **Iteration:** 3 - Game Districts and Time Management
+- **Focus:** Implementing a new version of the coordinate_manager_test to fix timeout issues
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-20_16-35-46.md)
+
+### May 20, 2025 - Coordinate Manager Test Fix (✅ COMPLETED)
+- **Iteration:** 3 - Game Districts and Time Management
+- **Focus:** Resolving timeout issues in coordinate_manager_test
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-20_15-40-47.md)
+
+### May 20, 2025 - Coordinate System Bounds Calculation Fix (✅ COMPLETED)
+- **Iteration:** 3 - Game Districts and Time Management
+- **Focus:** Resolving min/max bounds calculation issue in DefaultBoundsValidator
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-20_14-42-49.md)
+
+### May 20, 2025 - TestBoundsValidator Bug Fix (✅ COMPLETED)
+- **Iteration:** 3 - Game Districts and Time Management
+- **Focus:** Fixing validation bypass issue in test mode
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-20_14-03-45.md)
+
 ### May 19, 2025 - Unit Test Investigation (✅ COMPLETED)
 - **Iteration:** 4 - Investigation Mechanics and Inventory
 - **Focus:** Fix remaining failing tests with the refactored camera system

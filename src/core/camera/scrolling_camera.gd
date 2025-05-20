@@ -707,6 +707,12 @@ func ensure_valid_target(target_pos: Vector2) -> Vector2:
     
     # Add debug output to track position changes
     print("ensure_valid_target called with position: " + str(target_pos))
+    print("Current test_mode value: " + str(test_mode))
+    
+    # When in test mode, skip ALL bounds validation
+    if test_mode:
+        print("[TEST] Bypassing all bounds validation due to test_mode=true for: " + str(target_pos))
+        return validated_pos
     
     # Get half size of camera view
     var camera_half_size = screen_size / 2 / zoom

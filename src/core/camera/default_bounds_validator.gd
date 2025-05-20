@@ -29,6 +29,21 @@ func validate_position(position: Vector2, camera_half_size: Vector2) -> Vector2:
     var min_y = camera_bounds.position.y + camera_half_size.y
     var max_y = camera_bounds.position.y + camera_bounds.size.y - camera_half_size.y
     
+    # Handle case where camera is larger than bounds (min > max)
+    if min_x > max_x:
+        # Center horizontally in the available area
+        var center_x = camera_bounds.position.x + (camera_bounds.size.x / 2)
+        min_x = center_x
+        max_x = center_x
+        print("WARNING: Camera width exceeds bounds width. Centering camera horizontally.")
+    
+    if min_y > max_y:
+        # Center vertically in the available area
+        var center_y = camera_bounds.position.y + (camera_bounds.size.y / 2)
+        min_y = center_y
+        max_y = center_y
+        print("WARNING: Camera height exceeds bounds height. Centering camera vertically.")
+    
     # Clamp position to bounds
     validated_pos.x = clamp(validated_pos.x, min_x, max_x)
     validated_pos.y = clamp(validated_pos.y, min_y, max_y)

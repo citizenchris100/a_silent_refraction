@@ -1,0 +1,54 @@
+=== Test: coordinate_manager_test_new ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+[COORD_TEST_NEW] Setting up CoordinateManager test (NEW VERSION)...
+[COORD_TEST_NEW] Creating mock district and camera
+MockDistrict.set_camera() called with: Camera2D:[Camera2D:1275]
+[COORD_TEST_NEW] Created mock district with camera reference
+[COORD_TEST_NEW] Creating CoordinateManager instance
+CoordinateManager: Current district set to Test District
+CoordinateManager initialized
+[COORD_TEST_NEW] CoordinateManager instance created and configured
+MockDistrict.get_camera() called, returning: Camera2D:[Camera2D:1275]
+[COORD_TEST_NEW] Mock district camera reference working correctly
+[COORD_TEST_NEW] Starting tests...
+[COORD_TEST_NEW] Starting CoordinateManager tests...
+[COORD_TEST_NEW] Running test: test_district_setup
+[COORD_TEST_NEW] Testing district setup
+[COORD_TEST_NEW] ✓ PASS: test_district_setup
+[COORD_TEST_NEW] Test completed: test_district_setup
+[COORD_TEST_NEW] Running test: test_camera_access
+[COORD_TEST_NEW] Testing camera access through district
+MockDistrict.get_camera() called, returning: Camera2D:[Camera2D:1275]
+MockDistrict.get_camera() called, returning: Camera2D:[Camera2D:1275]
+[COORD_TEST_NEW] ✓ PASS: test_camera_access
+[COORD_TEST_NEW] Test completed: test_camera_access
+[COORD_TEST_NEW] Running test: test_screen_to_world
+[COORD_TEST_NEW] Testing screen_to_world conversion
+MockDistrict.get_camera() called, returning: Camera2D:[Camera2D:1275]
+[COORD_TEST_NEW] ✓ PASS: test_screen_to_world
+[COORD_TEST_NEW] Test completed: test_screen_to_world
+[COORD_TEST_NEW] Running test: test_world_to_screen
+[COORD_TEST_NEW] Testing world_to_screen conversion
+MockDistrict.get_camera() called, returning: Camera2D:[Camera2D:1275]
+[COORD_TEST_NEW] ✓ PASS: test_world_to_screen
+[COORD_TEST_NEW] Test completed: test_world_to_screen
+[COORD_TEST_NEW] Running test: test_view_mode
+[COORD_TEST_NEW] Testing view mode switching
+CoordinateManager: View mode changed to WORLD_VIEW
+CoordinateManager: View mode changed to GAME_VIEW
+[COORD_TEST_NEW] ✓ PASS: test_view_mode
+[COORD_TEST_NEW] Test completed: test_view_mode
+[COORD_TEST_NEW] All tests completed.
+[COORD_TEST_NEW] 
+===== TEST RESULTS =====
+[COORD_TEST_NEW] Total Tests: 5
+[COORD_TEST_NEW] Passed: 5
+[COORD_TEST_NEW] Failed: 0
+[COORD_TEST_NEW] 
+All tests passed! 🎉
+

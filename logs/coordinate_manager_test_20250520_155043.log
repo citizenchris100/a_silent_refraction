@@ -1,0 +1,13 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up CoordinateManager test...
+Created mock district with scale factor: 2
+Created mock camera with position: (500, 500), zoom: (1, 1)
+Creating CoordinateManager instance
+CoordinateManager initialized
+CoordinateManager instance created and configured
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_camera' in base 'Node2D ()'.
+          at: _ready (res://src/unit_tests/coordinate_manager_test.gd:76)
