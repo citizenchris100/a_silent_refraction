@@ -116,3 +116,122 @@ I recommend a complete overhaul of the test file implementation with these chang
 6. Replace the original test file once the new one is working
 
 This solution completely rebuilds the test approach, focusing on simplicity and reliability rather than trying to patch the existing complex implementation.
+
+## Proposed Additional Tests for Future Enhancement
+
+The following tests would provide more robust validation while maintaining the clean structure:
+
+1. **Precise coordinate transformation tests**:
+   ```gdscript
+   func test_precise_coordinate_transformations():
+       # Test with known coordinate pairs and exact expected results
+       var screen_pos = Vector2(100, 100)
+       var expected_world_pos = Vector2(100 - get_viewport_rect().size.x/2, 100 - get_viewport_rect().size.y/2) * mock_camera.zoom + mock_camera.global_position
+       
+       var actual_world_pos = manager.screen_to_world(screen_pos)
+       
+       var precision_ok = actual_world_pos.distance_to(expected_world_pos) < 0.01
+       # Assert exact transformation results
+   ```
+
+2. **Scale factor tests**:
+   ```gdscript
+   func test_scale_factor_application():
+       # Setup a custom scale factor
+       mock_district.background_scale_factor = 3.0
+       
+       # Test point in world view
+       manager.set_view_mode(manager.ViewMode.WORLD_VIEW)
+       var point = Vector2(300, 300)
+       
+       # Transform from world view to game view
+       var game_view_point = manager.transform_view_mode_coordinates(
+           point,
+           manager.ViewMode.WORLD_VIEW,
+           manager.ViewMode.GAME_VIEW
+       )
+       
+       # Expected: divide by scale factor
+       var expected_point = Vector2(100, 100)  # 300 / 3.0
+       
+       # Verify correct transformation
+       var scale_ok = game_view_point.distance_to(expected_point) < 0.01
+   ```
+
+3. **Array transformation tests**:
+   ```gdscript
+   func test_coordinate_array_transformations():
+       # Test array of coordinates
+       var points = PoolVector2Array([
+           Vector2(100, 100),
+           Vector2(200, 200),
+           Vector2(300, 300)
+       ])
+       
+       # Set scale factor for testing
+       mock_district.background_scale_factor = 2.0
+       
+       # Transform array from game view to world view
+       var transformed = manager.transform_coordinate_array(
+           points,
+           manager.ViewMode.GAME_VIEW,
+           manager.ViewMode.WORLD_VIEW
+       )
+       
+       # Verify each point was correctly transformed
+       var expected = PoolVector2Array([
+           Vector2(200, 200),  # 100 * 2.0
+           Vector2(400, 400),  # 200 * 2.0
+           Vector2(600, 600)   # 300 * 2.0
+       ])
+       
+       var all_correct = true
+       for i in range(points.size()):
+           if transformed[i].distance_to(expected[i]) > 0.01:
+               all_correct = false
+               break
+   ```
+
+4. **Edge case tests**:
+   ```gdscript
+   func test_edge_cases():
+       # Test null district handling
+       var saved_district = manager._current_district
+       manager._current_district = null
+       
+       # Operations should gracefully handle null district
+       var screen_pos = Vector2(100, 100)
+       var result = manager.screen_to_world(screen_pos)
+       
+       # Should return something reasonable, not crash
+       var graceful_null_handling = result != null
+       
+       # Restore district
+       manager._current_district = saved_district
+       
+       # Test extreme coordinates
+       var extreme_pos = Vector2(9999999, 9999999)
+       var extreme_result = manager.screen_to_world(extreme_pos)
+       
+       # Should handle extreme values without crashing
+       var handles_extremes = extreme_result != null
+   ```
+
+5. **Validate for mismatched view modes**:
+   ```gdscript
+   func test_validation_for_view_modes():
+       # Set to game view
+       manager.set_view_mode(manager.ViewMode.GAME_VIEW)
+       
+       # Create test points
+       var points = PoolVector2Array([Vector2(100, 100), Vector2(200, 200)])
+       
+       # Validate for world view (should fail as we're in game view)
+       var validation_result = manager.validate_coordinates_for_view_mode(
+           points,
+           manager.ViewMode.WORLD_VIEW
+       )
+       
+       # Should correctly identify mismatch
+       var correctly_identified = !validation_result
+   ```

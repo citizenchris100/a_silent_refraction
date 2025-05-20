@@ -67,22 +67,25 @@ run_test() {
     if [ $exit_code -eq 0 ]; then
         echo -e "${GREEN}✓ Test process completed${NC}"
         
-        # Count passes and failures for different output formats
-        # Standard format "PASS:" and "FAIL:"
-        local std_passes=$(grep -c "PASS:" "$LOG_DIR/${test_name}_${TIMESTAMP}.log")
-        local std_fails=$(grep -c "FAIL:" "$LOG_DIR/${test_name}_${TIMESTAMP}.log")
+        # Extract and count unique test results to prevent double-counting
+        # First, identify all test results and save them to a temp file
+        local temp_file=$(mktemp)
         
-        # Alternative format "✓ PASS" and "✗ FAIL"
-        local alt_passes=$(grep -c "✓ PASS" "$LOG_DIR/${test_name}_${TIMESTAMP}.log")
-        local alt_fails=$(grep -c "✗ FAIL" "$LOG_DIR/${test_name}_${TIMESTAMP}.log")
+        # Use grep to extract lines containing test results
+        grep -E "PASS:|✓ PASS|PASS -" "$LOG_DIR/${test_name}_${TIMESTAMP}.log" > "${temp_file}_passes"
+        grep -E "FAIL:|✗ FAIL|FAIL -" "$LOG_DIR/${test_name}_${TIMESTAMP}.log" > "${temp_file}_fails"
         
-        # Another alternative format "PASS -" and "FAIL -"
-        local alt2_passes=$(grep -c "PASS -" "$LOG_DIR/${test_name}_${TIMESTAMP}.log")
-        local alt2_fails=$(grep -c "FAIL -" "$LOG_DIR/${test_name}_${TIMESTAMP}.log")
+        # Extract test names to get unique tests
+        # Parse lines like "[PREFIX] ✓ PASS: test_name" to extract "test_name"
+        cat "${temp_file}_passes" | sed -E 's/.*PASS:? +(test_[^ ,:].*)( .*)?$/\1/' | sort | uniq > "${temp_file}_unique_passes"
+        cat "${temp_file}_fails" | sed -E 's/.*FAIL:? +(test_[^ ,:].*)( .*)?$/\1/' | sort | uniq > "${temp_file}_unique_fails"
         
-        # Combine all formats
-        local passes=$((std_passes + alt_passes + alt2_passes))
-        failures=$((std_fails + alt_fails + alt2_fails))
+        # Count unique tests
+        local passes=$(wc -l < "${temp_file}_unique_passes")
+        local failures=$(wc -l < "${temp_file}_unique_fails")
+        
+        # Clean up temp files
+        rm "${temp_file}_passes" "${temp_file}_fails" "${temp_file}_unique_passes" "${temp_file}_unique_fails"
         local total=$((passes + failures))
         
         # Update global counters

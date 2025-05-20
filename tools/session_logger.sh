@@ -740,8 +740,50 @@ function complete_task() {
         fi
     fi
     
-    # Extract tasks
-    TASKS=$(grep -n "- \[ \]" "$SESSION_FILE" | sed 's/:.*//')
+    # Extract tasks using a more robust pattern-matching approach, focusing on Progress Tracking section
+    # Look for tasks in the Progress Tracking section
+    
+    # Find the line number where Progress Tracking section starts
+    PROGRESS_SECTION=$(grep -n "^## Progress Tracking" "$SESSION_FILE")
+    PROGRESS_SECTION_LINE=$(echo "$PROGRESS_SECTION" | cut -d':' -f1)
+    
+    # Use grep to find all section headers, then find the one after Progress Tracking
+    ALL_SECTIONS=$(grep -n "^## " "$SESSION_FILE")
+    
+    # Extract just the line numbers and find the next one after Progress Tracking
+    SECTION_NUMBERS=$(echo "$ALL_SECTIONS" | cut -d':' -f1)
+    
+    # Find the first section line number greater than Progress Tracking section
+    NEXT_SECTION_LINE=""
+    for line in $SECTION_NUMBERS; do
+        if [ "$line" -gt "$PROGRESS_SECTION_LINE" ]; then
+            NEXT_SECTION_LINE="$line"
+            break
+        fi
+    done
+    
+    # Now we have identified the Progress Tracking section from line $PROGRESS_SECTION_LINE to $NEXT_SECTION_LINE
+    
+    # If next section not found, set to end of file
+    if [ -z "$NEXT_SECTION_LINE" ]; then
+        NEXT_SECTION_LINE=$(wc -l "$SESSION_FILE" | awk '{print $1}')
+    fi
+    
+    # Extract all the lines in the Progress Tracking section
+    SECTION_CONTENT=$(sed -n "$((PROGRESS_SECTION_LINE+1)),$((NEXT_SECTION_LINE-1))p" "$SESSION_FILE")
+    
+    # Look for uncompleted tasks in this section
+    SECTION_START=$((PROGRESS_SECTION_LINE + 1))
+    TASK_LINES=$(echo "$SECTION_CONTENT" | grep -n -- "- \\[ \\]" | cut -d':' -f1)
+    
+    # Convert relative line numbers to absolute line numbers
+    TASKS=""
+    for line in $TASK_LINES; do
+        absolute_line=$((SECTION_START + line - 1))
+        TASKS="$TASKS $absolute_line"
+    done
+    
+    TASKS=$(echo "$TASKS" | tr -s ' ' '\n' | grep -v '^$')  # Clean up spaces and empty lines
     
     # Check if any tasks exist
     if [ -z "$TASKS" ]; then
@@ -756,7 +798,7 @@ function complete_task() {
         echo -e "${YELLOW}Available tasks:${NC}"
         i=1
         for task_line in $TASKS; do
-            task_desc=$(sed -n "${task_line}p" "$SESSION_FILE" | sed 's/- \[ \] //')
+            task_desc=$(sed -n "${task_line}p" "$SESSION_FILE" | sed 's/- \\[ \\] //')
             echo -e "  ${CYAN}$i${NC}. $task_desc"
             i=$((i + 1))
         done
@@ -767,17 +809,20 @@ function complete_task() {
     TASK_LINE=$(echo "$TASKS" | sed -n "${1}p")
     
     # Mark the task as completed
-    if ! sed -i "${TASK_LINE}s/- \[ \]/- \[x\]/" "$SESSION_FILE"; then
+    # Use proper escaping for sed as well
+    if ! sed -i "${TASK_LINE}s/- \\[ \\]/- \\[x\\]/" "$SESSION_FILE"; then
         echo -e "${RED}Error: Failed to mark task as completed.${NC}"
         return 1
     fi
+    
+    # Task has been successfully marked as completed
     
     echo -e "${GREEN}Task $1 marked as completed.${NC}"
     
     # Check if we should update the iteration progress file automatically
     if [ "$2" = "auto-update" ]; then
         # Get the task description
-        TASK_DESCRIPTION=$(sed -n "${TASK_LINE}p" "$SESSION_FILE" | sed 's/- \[x\] //')
+        TASK_DESCRIPTION=$(sed -n "${TASK_LINE}p" "$SESSION_FILE" | sed 's/- \\[x\\] //')
         echo -e "${BLUE}Automatically updating iteration progress for: '${TASK_DESCRIPTION}'${NC}"
         
         # Try to update the iteration progress file
@@ -788,7 +833,7 @@ function complete_task() {
         read -p "> " choice
         if [ "$choice" = "y" ]; then
             # Get the task description
-            TASK_DESCRIPTION=$(sed -n "${TASK_LINE}p" "$SESSION_FILE" | sed 's/- \[x\] //')
+            TASK_DESCRIPTION=$(sed -n "${TASK_LINE}p" "$SESSION_FILE" | sed 's/- \\[x\\] //')
             echo -e "${BLUE}Updating iteration progress for: '${TASK_DESCRIPTION}'${NC}"
             
             # Try to update the iteration progress file

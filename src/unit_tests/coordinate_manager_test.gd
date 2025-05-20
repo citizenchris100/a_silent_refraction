@@ -24,7 +24,7 @@ var log_debug_info = true      # Set to true for more verbose output
 var test_timeout = 2.0         # Maximum seconds to wait for a test to complete
 var debug_mode = true          # Enable extra debug logging
 var auto_quit = true           # Whether to automatically quit when tests are done
-var force_quit_timer = 3.0     # Time in seconds before forcing quit after tests complete
+var force_quit_timer = 5.0     # Time in seconds before forcing quit after tests complete
 
 # Test variables
 var manager                    # The CoordinateManager instance being tested
@@ -34,6 +34,7 @@ var tests_passed = 0           # Counter for passed tests
 var tests_failed = 0           # Counter for failed tests
 var failed_tests = []          # List of failed test names
 var tests_completed = false    # Flag to indicate if tests have completed
+var enhanced_tests_enabled = true # Flag to enable enhanced tests
 
 # ===== LIFECYCLE METHODS =====
 
@@ -115,12 +116,22 @@ func run_all_tests():
 	tests_failed = 0
 	failed_tests = []
 	
-	# Run all tests sequentially - no yields
+	# Run basic tests first to validate setup and basic functionality
+	debug_log("=== Running Basic Tests ===")
 	test_and_log("test_district_setup")
 	test_and_log("test_camera_access")
 	test_and_log("test_screen_to_world")
 	test_and_log("test_world_to_screen")
 	test_and_log("test_view_mode")
+	
+	if enhanced_tests_enabled:
+		# Run enhanced tests for more robust validation
+		debug_log("=== Running Enhanced Tests ===")
+		test_and_log("test_precise_coordinate_transformations")
+		test_and_log("test_scale_factor_application")
+		test_and_log("test_coordinate_array_transformations")
+		test_and_log("test_edge_cases")
+		test_and_log("test_validation_for_view_modes")
 	
 	# Report final results
 	debug_log("All tests completed.", true)
@@ -139,8 +150,9 @@ func run_all_tests():
 		quit_timer.connect("timeout", self, "_force_quit")
 		quit_timer.start()
 		
-		# Try quitting immediately too
-		_force_quit()
+		# Try quitting immediately too - this creates a racing condition
+		# but ensures we'll quit within a reasonable time
+		call_deferred("_force_quit")
 
 func _force_quit():
 	debug_log("Force quitting...")
@@ -285,6 +297,269 @@ func test_view_mode():
 	
 	# Restore original view mode
 	manager.set_view_mode(initial_mode)
+	
+	return all_ok
+
+# ===== ENHANCED TEST METHODS =====
+
+# Test 6: Test precise coordinate transformations with known values
+func test_precise_coordinate_transformations():
+	debug_log("Testing precise coordinate transformations")
+	
+	# Use fixed camera position and zoom for consistent testing
+	var original_position = mock_camera.global_position
+	var original_zoom = mock_camera.zoom
+	
+	mock_camera.global_position = Vector2(500, 500)
+	mock_camera.zoom = Vector2(1, 1)
+	
+	# Get viewport size for calculations
+	var viewport_size = get_viewport().get_size()
+	var viewport_center = viewport_size / 2
+	
+	# Test case 1: Screen center should map to camera position
+	var screen_center = viewport_center
+	var expected_world_center = mock_camera.global_position
+	var actual_world_center = manager.screen_to_world(screen_center)
+	
+	var center_ok = actual_world_center.distance_to(expected_world_center) < 1.0
+	debug_log("Screen center test: " + ("PASS" if center_ok else "FAIL - Expected " + str(expected_world_center) + ", got " + str(actual_world_center)))
+	
+	# Test case 2: Known offset from center (100, 100)
+	var screen_offset = viewport_center + Vector2(100, 100)
+	var expected_world_offset = mock_camera.global_position + Vector2(100, 100) * mock_camera.zoom
+	var actual_world_offset = manager.screen_to_world(screen_offset)
+	
+	var offset_ok = actual_world_offset.distance_to(expected_world_offset) < 1.0
+	debug_log("Screen offset test: " + ("PASS" if offset_ok else "FAIL - Expected " + str(expected_world_offset) + ", got " + str(actual_world_offset)))
+	
+	# Test round-trip conversion (world -> screen -> world)
+	var original_world_pos = Vector2(600, 600)
+	var screen_pos = manager.world_to_screen(original_world_pos)
+	var round_trip_pos = manager.screen_to_world(screen_pos)
+	
+	var round_trip_ok = round_trip_pos.distance_to(original_world_pos) < 1.0
+	debug_log("Round trip test: " + ("PASS" if round_trip_ok else "FAIL - Expected " + str(original_world_pos) + ", got " + str(round_trip_pos)))
+	
+	# Restore camera settings
+	mock_camera.global_position = original_position
+	mock_camera.zoom = original_zoom
+	
+	var all_ok = center_ok and offset_ok and round_trip_ok
+	
+	if all_ok:
+		report_test_success("test_precise_coordinate_transformations")
+	else:
+		report_test_failure("test_precise_coordinate_transformations", 
+			"Precision test failed. Check logs for details.")
+	
+	return all_ok
+
+# Test 7: Test scale factor application for view mode transformations
+func test_scale_factor_application():
+	debug_log("Testing scale factor application")
+	
+	# Save original scale factor
+	var original_scale_factor = mock_district.background_scale_factor
+	
+	# Set a known scale factor for testing
+	mock_district.background_scale_factor = 3.0
+	debug_log("Set test scale factor to 3.0")
+	
+	# Test point in game view
+	var game_view_point = Vector2(100, 100)
+	
+	# Transform from game view to world view (multiply by scale factor)
+	manager.set_view_mode(manager.ViewMode.GAME_VIEW)
+	var world_view_point = manager.transform_view_mode_coordinates(
+		game_view_point,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	# Expected: Scale factor of 3.0 applied
+	var expected_world_point = Vector2(300, 300)  # 100 * 3.0
+	
+	var world_transform_ok = world_view_point.distance_to(expected_world_point) < 0.01
+	debug_log("Game to World test: " + ("PASS" if world_transform_ok else "FAIL - Expected " + str(expected_world_point) + ", got " + str(world_view_point)))
+	
+	# Transform back from world view to game view (divide by scale factor)
+	var back_to_game_point = manager.transform_view_mode_coordinates(
+		world_view_point,
+		manager.ViewMode.WORLD_VIEW,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	var round_trip_ok = back_to_game_point.distance_to(game_view_point) < 0.01
+	debug_log("World to Game test: " + ("PASS" if round_trip_ok else "FAIL - Expected " + str(game_view_point) + ", got " + str(back_to_game_point)))
+	
+	# Restore original scale factor
+	mock_district.background_scale_factor = original_scale_factor
+	
+	var all_ok = world_transform_ok and round_trip_ok
+	
+	if all_ok:
+		report_test_success("test_scale_factor_application")
+	else:
+		report_test_failure("test_scale_factor_application", 
+			"Scale factor application failed. Check logs for details.")
+	
+	return all_ok
+
+# Test 8: Test coordinate array transformations
+func test_coordinate_array_transformations():
+	debug_log("Testing coordinate array transformations")
+	
+	# Save original scale factor
+	var original_scale_factor = mock_district.background_scale_factor
+	
+	# Set a known scale factor for testing
+	mock_district.background_scale_factor = 2.0
+	
+	# Create test array of points
+	var test_points = PoolVector2Array([
+		Vector2(100, 100),
+		Vector2(200, 200),
+		Vector2(300, 300)
+	])
+	
+	# Transform array from game view to world view
+	var transformed_points = manager.transform_coordinate_array(
+		test_points,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	# Verify each point was correctly transformed
+	var expected_points = PoolVector2Array([
+		Vector2(200, 200),  # 100 * 2.0
+		Vector2(400, 400),  # 200 * 2.0
+		Vector2(600, 600)   # 300 * 2.0
+	])
+	
+	var all_points_correct = true
+	for i in range(test_points.size()):
+		if transformed_points[i].distance_to(expected_points[i]) > 0.01:
+			all_points_correct = false
+			debug_log("Point " + str(i) + " transform failed: Expected " + 
+				str(expected_points[i]) + ", got " + str(transformed_points[i]))
+	
+	# Transform back to game view
+	var round_trip_points = manager.transform_coordinate_array(
+		transformed_points,
+		manager.ViewMode.WORLD_VIEW,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	# Verify round-trip conversion is accurate
+	var round_trip_correct = true
+	for i in range(test_points.size()):
+		if round_trip_points[i].distance_to(test_points[i]) > 0.01:
+			round_trip_correct = false
+			debug_log("Point " + str(i) + " round-trip failed: Expected " + 
+				str(test_points[i]) + ", got " + str(round_trip_points[i]))
+	
+	# Restore original scale factor
+	mock_district.background_scale_factor = original_scale_factor
+	
+	var all_ok = all_points_correct and round_trip_correct
+	
+	if all_ok:
+		report_test_success("test_coordinate_array_transformations")
+	else:
+		report_test_failure("test_coordinate_array_transformations", 
+			"Array transformation failed. Check logs for details.")
+	
+	return all_ok
+
+# Test 9: Test edge case handling
+func test_edge_cases():
+	debug_log("Testing edge case handling")
+	
+	# Test null district handling
+	var saved_district = manager._current_district
+	manager._current_district = null
+	
+	# Operations should gracefully handle null district
+	var screen_pos = Vector2(100, 100)
+	var result_with_null = manager.screen_to_world(screen_pos)
+	
+	# Should return something reasonable, not crash
+	var graceful_null_handling = result_with_null != null
+	debug_log("Null district test: " + ("PASS" if graceful_null_handling else "FAIL - Returned null"))
+	
+	# Restore district
+	manager._current_district = saved_district
+	
+	# Test extreme coordinates
+	var extreme_pos = Vector2(9999999, 9999999)
+	var extreme_result = manager.screen_to_world(extreme_pos)
+	
+	# Should handle extreme values without crashing
+	var handles_extremes = extreme_result != null
+	debug_log("Extreme coordinates test: " + ("PASS" if handles_extremes else "FAIL - Returned null"))
+	
+	# Test empty array
+	var empty_array = PoolVector2Array()
+	var empty_result = manager.transform_coordinate_array(
+		empty_array,
+		manager.ViewMode.GAME_VIEW,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	var handles_empty = empty_result.size() == 0
+	debug_log("Empty array test: " + ("PASS" if handles_empty else "FAIL - Didn't return empty array"))
+	
+	var all_ok = graceful_null_handling and handles_extremes and handles_empty
+	
+	if all_ok:
+		report_test_success("test_edge_cases")
+	else:
+		report_test_failure("test_edge_cases", 
+			"Edge case handling test failed. Check logs for details.")
+	
+	return all_ok
+
+# Test 10: Test validation for view mode mismatches
+func test_validation_for_view_modes():
+	debug_log("Testing view mode validation")
+	
+	# Get original view mode
+	var original_view_mode = manager._current_view_mode
+	
+	# Set to game view
+	manager.set_view_mode(manager.ViewMode.GAME_VIEW)
+	
+	# Create test points
+	var points = PoolVector2Array([Vector2(100, 100), Vector2(200, 200)])
+	
+	# Validate for game view (should pass)
+	var game_validation = manager.validate_coordinates_for_view_mode(
+		points,
+		manager.ViewMode.GAME_VIEW
+	)
+	
+	debug_log("Game view validation test: " + ("PASS" if game_validation else "FAIL - Should have validated"))
+	
+	# Validate for world view (should fail as we're in game view)
+	var world_validation = manager.validate_coordinates_for_view_mode(
+		points,
+		manager.ViewMode.WORLD_VIEW
+	)
+	
+	var mismatch_detected = !world_validation
+	debug_log("View mode mismatch test: " + ("PASS" if mismatch_detected else "FAIL - Should have failed validation"))
+	
+	# Restore original view mode
+	manager.set_view_mode(original_view_mode)
+	
+	var all_ok = game_validation and mismatch_detected
+	
+	if all_ok:
+		report_test_success("test_validation_for_view_modes")
+	else:
+		report_test_failure("test_validation_for_view_modes", 
+			"View mode validation test failed. Check logs for details.")
 	
 	return all_ok
 

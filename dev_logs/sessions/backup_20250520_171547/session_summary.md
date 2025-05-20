@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 20, 2025 - Enhanced Coordinate Manager Tests (✅ COMPLETED)
-- **Iteration:** 3 - Game Districts and Time Management
-- **Focus:** Adding more robust test cases to the coordinate_manager_test implementation
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-20_17-15-47.md)
-
 ### May 20, 2025 - Coordinate Manager Test Refactoring (✅ COMPLETED)
 - **Iteration:** 3 - Game Districts and Time Management
 - **Focus:** Implementing a new version of the coordinate_manager_test to fix timeout issues

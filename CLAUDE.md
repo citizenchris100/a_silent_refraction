@@ -174,6 +174,27 @@ The game follows a component-based design with clear separation of concerns:
 4. All interactive objects should implement the `interact(verb, item = null)` method
 5. Use state machines for complex entity behavior
 
+## Test-Driven Development Requirements
+
+1. **Verify Existing Tests Before Modifications**
+   - Before modifying any class, check if unit tests exist for it
+   - Run existing tests to ensure they pass before making any changes
+   - If tests fail, resolve the failures before proceeding with planned changes
+
+2. **Test-First Development**
+   - If a class lacks unit tests, write tests for it before making modifications
+   - Ensure new tests pass with the existing implementation before changing behavior
+   - For new classes, create comprehensive unit tests immediately after implementation
+
+3. **Maintain Test Coverage**
+   - All new functionality must be covered by unit tests
+   - Update tests when modifying existing code to maintain coverage
+   - Test both normal functionality and edge cases for robustness
+
+4. **Running Tests**
+   - Use `./tools/run_unit_tests.sh` to run specific or all unit tests
+   - When adding features to existing classes with tests, run tests frequently to catch regressions
+
 ## Development Approach
 
 1. **Step-by-Step Problem Solving**
