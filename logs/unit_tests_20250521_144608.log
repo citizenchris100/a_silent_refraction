@@ -1,0 +1,98 @@
+=== Test: coordinate_system_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up CoordinateSystem test...
+Created mock district with scale factor: 2
+Creating new Camera2D instance
+Configuring camera for testing...
+Camera configured with position: (500, 500), zoom: (1, 1)
+Starting CoordinateSystem tests...
+Running test suite: screen_to_world with timeout protection
+===== TEST SUITE: Screen to World =====
+Running test: Basic Screen to World
+✓ PASS: Basic Screen to World: Screen-to-world conversion should map viewport center to camera position
+Running test: Screen to World with Zoom
+✓ PASS: Screen to World with Zoom: Screen-to-world should properly account for zoom level
+Running test: Screen to World with Offset
+✓ PASS: Screen to World with Offset: Screen-to-world should properly account for camera position
+Suite completed: 3/3 tests passed
+Running test suite: world_to_screen with timeout protection
+===== TEST SUITE: World to Screen =====
+Running test: Basic World to Screen
+✓ PASS: Basic World to Screen: World-to-screen conversion should map camera position to viewport center
+Running test: World to Screen with Zoom
+✓ PASS: World to Screen with Zoom: World-to-screen should properly account for zoom level
+Running test: World to Screen with Offset
+✓ PASS: World to Screen with Offset: World-to-screen should properly account for camera position
+Suite completed: 3/3 tests passed
+Running test suite: scale_factor with timeout protection
+===== TEST SUITE: Scale Factor =====
+Running test: Apply Scale Factor
+✓ PASS: Apply Scale Factor: apply_scale_factor should multiply coordinates by scale factor
+Running test: Remove Scale Factor
+✓ PASS: Remove Scale Factor: remove_scale_factor should divide coordinates by scale factor
+Running test: Default Scale Factor
+✓ PASS: Default Scale Factor: Scale factor functions should not modify points when factor is 1.0
+Suite completed: 3/3 tests passed
+Running test suite: view_mode_conversions with timeout protection
+===== TEST SUITE: View Mode Conversions =====
+Running test: World View to Game View
+✓ PASS: World View to Game View: world_view_to_game_view should correctly transform coordinates
+Running test: Game View to World View
+✓ PASS: Game View to World View: game_view_to_world_view should correctly transform coordinates
+Running test: Bidirectional View Conversion
+✓ PASS: Bidirectional View Conversion: Bidirectional view conversions should return to original coordinates
+Suite completed: 3/3 tests passed
+Running test suite: has_property with timeout protection
+===== TEST SUITE: Has Property =====
+Running test: Has Property True
+✓ PASS: Has Property True: has_property should return true for existing property
+Running test: Has Property False
+✓ PASS: Has Property False: has_property should return false for non-existing property
+Running test: Has Property Null
+✓ PASS: Has Property Null: has_property should return false for null object
+Suite completed: 3/3 tests passed
+Running test suite: view_mode_detection with timeout protection
+===== TEST SUITE: View Mode Detection =====
+Running test: Detect Game View
+✓ PASS: Detect Game View: get_current_view_mode should detect game view
+Running test: Detect World View
+DEBUG: Detected World View mode via full_view_mode property
+✓ PASS: Detect World View: get_current_view_mode should detect world view
+Running test: Detect Null Debug Manager
+✓ PASS: Detect Null Debug Manager: get_current_view_mode should default to game view with null debug manager
+Suite completed: 3/3 tests passed
+Running test suite: convenience_methods with timeout protection
+===== TEST SUITE: Convenience Methods =====
+Running test: Convert for Game View
+Converting coordinates: pos=(100, 100), view_mode=GAME_VIEW
+No conversion needed in Game View mode
+✓ PASS: Convert for Game View: In game view, coordinates should remain unchanged
+Running test: Convert for World View
+DEBUG: Detected World View mode via full_view_mode property
+Converting coordinates: pos=(200, 200), view_mode=WORLD_VIEW
+Converted World View → Game View: (200, 200) → (100, 100)
+✓ PASS: Convert for World View: In world view, coordinates should be converted to game view
+Running test: Convenience Methods Edge Cases
+Converting coordinates: pos=(0, 0), view_mode=GAME_VIEW
+No conversion needed in Game View mode
+Converting coordinates: pos=(999999, 999999), view_mode=GAME_VIEW
+No conversion needed in Game View mode
+Converting coordinates: pos=(-100, -100), view_mode=GAME_VIEW
+No conversion needed in Game View mode
+WARNING: convert_coordinates_for_current_view received null district
+✓ PASS: Convenience Methods Edge Cases: Convenience methods should handle edge case parameters gracefully
+Suite completed: 3/3 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 21
+Passed: 21
+Failed: 0
+
+All tests passed! 🎉
+

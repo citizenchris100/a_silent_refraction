@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 21, 2025 - Fix coordinate_system_test Timeout (🟢 IN PROGRESS)
-- **Iteration:** 3 - Game Districts and Time Management
-- **Focus:** Resolving timeout issues in coordinate_system_test unit test
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-21_13-42-59.md)
-
 ### May 20, 2025 - Fix view_mode_transition_test Timeout (✅ COMPLETED)
 - **Iteration:** 3 - Game Districts and Time Management
 - **Focus:** Resolving timeout issues in view mode transition tests

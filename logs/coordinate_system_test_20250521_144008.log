@@ -1,0 +1,19 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up CoordinateSystem test...
+Created mock district with scale factor: 2
+Creating new Camera2D instance
+Configuring camera for testing...
+Camera configured with position: (500, 500), zoom: (1, 1)
+Starting CoordinateSystem tests...
+Running test suite: screen_to_world with timeout protection
+===== TEST SUITE: Screen to World =====
+Running test: Basic Screen to World
+✓ PASS: Basic Screen to World: Screen-to-world conversion should map viewport center to camera position
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: test_screen_to_world_suite (res://src/unit_tests/coordinate_system_test.gd:202)
+TIMEOUT: Test suite 'screen_to_world' exceeded 8 second limit
+✗ FAIL: Basic Screen to World: Suite timeout: screen_to_world

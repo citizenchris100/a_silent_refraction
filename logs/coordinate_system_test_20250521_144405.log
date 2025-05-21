@@ -1,0 +1,35 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up CoordinateSystem test...
+Created mock district with scale factor: 2
+Creating new Camera2D instance
+Configuring camera for testing...
+Camera configured with position: (500, 500), zoom: (1, 1)
+Starting CoordinateSystem tests...
+Running test suite: screen_to_world with timeout protection
+===== TEST SUITE: Screen to World =====
+Running test: Basic Screen to World
+✓ PASS: Basic Screen to World: Screen-to-world conversion should map viewport center to camera position
+Running test: Screen to World with Zoom
+✓ PASS: Screen to World with Zoom: Screen-to-world should properly account for zoom level
+Running test: Screen to World with Offset
+✓ PASS: Screen to World with Offset: Screen-to-world should properly account for camera position
+Suite completed: 3/3 tests passed
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: run_test_suite_with_timeout (res://src/unit_tests/coordinate_system_test.gd:183)
+TIMEOUT: Test suite 'screen_to_world' exceeded 8 second limit
+✗ FAIL: Screen to World with Offset: Suite timeout: screen_to_world
+TIMEOUT: Test suite exceeded 45 second limit - terminating
+✗ FAIL: Screen to World with Offset: Test suite timeout after 45 seconds
+
+===== TEST RESULTS =====
+Total Tests: 5
+Passed: 3
+Failed: 2
+
+Failed Tests:
+- Screen to World: Screen to World with Offset: Test suite timeout after 45 seconds
+- Screen to World: Screen to World with Offset: Test suite timeout after 45 seconds
