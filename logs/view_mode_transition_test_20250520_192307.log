@@ -1,0 +1,136 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up View Mode Transition test...
+Master timeout set for 30 seconds
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1305
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+ERROR: Can't add child 'MockDebugManager' to 'ViewModeTransitionTest', already has a parent 'ViewModeTransitionTest'.
+   at: add_child (scene/main/node.cpp:1282)
+Test scene created with district, camera, and debug manager
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (500, 300)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+Starting View Mode Transition tests...
+Running suite: View Mode Switching
+===== TEST SUITE: View Mode Switching =====
+Running test: Toggle World View Mode
+WARNING: Missing suite in test_results: Toggle. Creating it now.
+✓ PASS: Toggle World View Mode: Camera world_view_mode should be toggleable
+Running test: Game to World View Transition
+WARNING: Missing suite in test_results: Game. Creating it now.
+✗ FAIL: Game to World View Transition: Transitioning to world view should change camera zoom or position
+Running test: World to Game View Transition
+WARNING: Missing suite in test_results: World. Creating it now.
+✗ FAIL: World to Game View Transition: Transitioning to game view should change camera zoom or position
+Suite completed: 0/1 tests passed
+Running suite: Camera View Mode Behavior
+===== TEST SUITE: Camera View Mode Behavior =====
+Running test: Camera Zoom in World View
+WARNING: Missing suite in test_results: Camera. Creating it now.
+✗ FAIL: Camera Zoom in World View: Camera zoom should restore after switching from world view to game view
+Running test: Camera Bounds in World View
+✓ PASS: Camera Bounds in World View: Camera bounds behavior should be consistent in world view mode
+Running test: Player Following in World View
+Setting target_player to: MockPlayer:[Node2D:1340]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+WARNING: Missing suite in test_results: Player. Creating it now.
+✓ PASS: Player Following in World View: Camera should not follow player in world view mode
+Suite completed: 1/1 tests passed
+Running suite: Coordinate Transformations
+===== TEST SUITE: Coordinate Transformations =====
+Running test: Screen to World in View Modes
+WARNING: Missing suite in test_results: Screen. Creating it now.
+✗ FAIL: Screen to World in View Modes: Screen-to-world coordinates should differ between view modes
+Running test: World to Screen in View Modes
+✓ PASS: World to Screen in View Modes: World-to-screen coordinates should return valid results in both view modes
+Running test: Coordinate Transformations During Transition
+CoordinateManager initialized
+CoordinateManager: Applied scale factor 2 to world position: (-224, -152)
+WARNING: Missing suite in test_results: Coordinate. Creating it now.
+✓ PASS: Coordinate Transformations During Transition: Coordinate transformations should respect scale factor during view mode transitions
+Suite completed: 1/1 tests passed
+Running suite: View Mode Detection
+===== TEST SUITE: View Mode Detection =====
+Running test: Detect View Mode from Debug
+WARNING: CoordinateSystem class not found, skipping test
+WARNING: Missing suite in test_results: Detect. Creating it now.
+✓ PASS: Detect View Mode from Debug: CoordinateSystem should correctly detect world view mode from debug manager
+Running test: CoordinateSystem View Mode Detection
+WARNING: CoordinateSystem class not found, skipping test
+WARNING: Missing suite in test_results: CoordinateSystem. Creating it now.
+✓ PASS: CoordinateSystem View Mode Detection: CoordinateSystem should correctly detect view mode in all cases
+Running test: CoordinateManager View Mode Detection
+CoordinateManager initialized
+DEBUG: Detected World View mode via full_view_mode property
+CoordinateManager: View mode changed to WORLD_VIEW
+WARNING: Missing suite in test_results: CoordinateManager. Creating it now.
+✓ PASS: CoordinateManager View Mode Detection: CoordinateManager should correctly detect world view mode from debug manager
+Suite completed: 1/1 tests passed
+Running suite: Debug Manager Integration
+===== TEST SUITE: Debug Manager Integration =====
+Running test: Debug Manager Controls View Mode
+WARNING: Missing suite in test_results: Debug. Creating it now.
+✓ PASS: Debug Manager Controls View Mode: Camera view mode should be controllable by debug manager
+Running test: Debug Indicators in View Modes
+Setting debug_draw to: True
+[OVERLAY DEBUG] Created debug overlay
+Setting debug_draw to: False
+✓ PASS: Debug Indicators in View Modes: Debug indicators should handle view mode transitions without errors
+Running test: Debug Coordinate Picker in View Modes
+SCRIPT ERROR: Parse Error: Unexpected indentation.
+          at: GDScript::reload (built-in:2)
+SCRIPT ERROR: Invalid call. Nonexistent function 'record_coordinate' in base 'Node'.
+          at: test_debug_coordinate_picker_in_view_modes (res://src/unit_tests/view_mode_transition_test.gd:856)
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: test_debug_manager_integration_suite (res://src/unit_tests/view_mode_transition_test.gd:339)
+
+===== MASTER TIMEOUT TRIGGERED =====
+Test execution exceeded the 30 second time limit.
+Forcing test completion to prevent hanging.
+Current test 'Debug: Debug Coordinate Picker in View Modes' timed out
+✗ FAIL: Debug Coordinate Picker in View Modes: Test timed out
+
+===== TEST RESULTS =====
+Total Tests: 15
+Passed: 10
+Failed: 5
+
+Failed Tests:
+- Game: Game to World View Transition: Transitioning to world view should change camera zoom or position
+- World: World to Game View Transition: Transitioning to game view should change camera zoom or position
+- Camera: Camera Zoom in World View: Camera zoom should restore after switching from world view to game view
+- Screen: Screen to World in View Modes: Screen-to-world coordinates should differ between view modes
+- Debug: Debug Coordinate Picker in View Modes: Test timed out

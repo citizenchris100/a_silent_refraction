@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 20, 2025 - Fix view_mode_transition_test Timeout (🟢 IN PROGRESS)
-- **Iteration:** 3 - Game Districts and Time Management
-- **Focus:** Resolving timeout issues in view mode transition tests
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-20_18-54-14.md)
-
 ### May 20, 2025 - Unit Test Evaluation (✅ COMPLETED)
 - **Iteration:** 3 - Game Districts and Time Management
 - **Focus:** Identifying and fixing failing unit tests
