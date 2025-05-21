@@ -281,6 +281,12 @@ func test_convenience_methods_suite():
 	# Test 3: Handle edge cases in convenience methods
 	test_convenience_methods_edge_cases()
 	
+	# Test 4: Test NaN handling in CoordinateSystem
+	test_coordinate_system_nan_handling()
+	
+	# Test 5: Test infinity handling in CoordinateSystem
+	test_coordinate_system_infinity_handling()
+	
 	end_test_suite()
 
 # ===== INDIVIDUAL TESTS =====
@@ -744,6 +750,100 @@ func test_convenience_methods_edge_cases():
 	
 	var all_handled = handles_zero && handles_large && handles_negative && handles_null_district
 	end_test(all_handled, "Convenience methods should handle edge case parameters gracefully")
+
+func test_coordinate_system_nan_handling():
+	start_test("CoordinateSystem NaN Handling")
+	
+	# Create test nan points
+	var nan_x = Vector2(NAN, 100)
+	var nan_y = Vector2(100, NAN)
+	var nan_both = Vector2(NAN, NAN)
+	
+	# Test world_view_to_game_view
+	var wv_to_gv_result_x = CoordinateSystem.world_view_to_game_view(nan_x, mock_district)
+	var wv_to_gv_result_y = CoordinateSystem.world_view_to_game_view(nan_y, mock_district)
+	var wv_to_gv_result_both = CoordinateSystem.world_view_to_game_view(nan_both, mock_district)
+	
+	# Test game_view_to_world_view
+	var gv_to_wv_result_x = CoordinateSystem.game_view_to_world_view(nan_x, mock_district)
+	var gv_to_wv_result_y = CoordinateSystem.game_view_to_world_view(nan_y, mock_district)
+	var gv_to_wv_result_both = CoordinateSystem.game_view_to_world_view(nan_both, mock_district)
+	
+	# Test apply_scale_factor
+	var apply_result_x = CoordinateSystem.apply_scale_factor(nan_x, 2.0)
+	var apply_result_y = CoordinateSystem.apply_scale_factor(nan_y, 2.0)
+	var apply_result_both = CoordinateSystem.apply_scale_factor(nan_both, 2.0)
+	
+	# Test remove_scale_factor
+	var remove_result_x = CoordinateSystem.remove_scale_factor(nan_x, 2.0)
+	var remove_result_y = CoordinateSystem.remove_scale_factor(nan_y, 2.0)
+	var remove_result_both = CoordinateSystem.remove_scale_factor(nan_both, 2.0)
+	
+	# No result should contain NaN
+	var all_handled = true
+	
+	# Check all results
+	var results = [
+		wv_to_gv_result_x, wv_to_gv_result_y, wv_to_gv_result_both,
+		gv_to_wv_result_x, gv_to_wv_result_y, gv_to_wv_result_both,
+		apply_result_x, apply_result_y, apply_result_both,
+		remove_result_x, remove_result_y, remove_result_both
+	]
+	
+	for result in results:
+		if is_nan(result.x) or is_nan(result.y):
+			all_handled = false
+			debug_log("Found NaN in result: " + str(result), true)
+			break
+	
+	end_test(all_handled, "CoordinateSystem static methods should handle NaN values properly")
+
+func test_coordinate_system_infinity_handling():
+	start_test("CoordinateSystem Infinity Handling")
+	
+	# Create test infinity points
+	var inf_x = Vector2(INF, 100)
+	var inf_y = Vector2(100, INF)
+	var inf_both = Vector2(INF, INF)
+	
+	# Test world_view_to_game_view
+	var wv_to_gv_result_x = CoordinateSystem.world_view_to_game_view(inf_x, mock_district)
+	var wv_to_gv_result_y = CoordinateSystem.world_view_to_game_view(inf_y, mock_district)
+	var wv_to_gv_result_both = CoordinateSystem.world_view_to_game_view(inf_both, mock_district)
+	
+	# Test game_view_to_world_view
+	var gv_to_wv_result_x = CoordinateSystem.game_view_to_world_view(inf_x, mock_district)
+	var gv_to_wv_result_y = CoordinateSystem.game_view_to_world_view(inf_y, mock_district)
+	var gv_to_wv_result_both = CoordinateSystem.game_view_to_world_view(inf_both, mock_district)
+	
+	# Test apply_scale_factor
+	var apply_result_x = CoordinateSystem.apply_scale_factor(inf_x, 2.0)
+	var apply_result_y = CoordinateSystem.apply_scale_factor(inf_y, 2.0)
+	var apply_result_both = CoordinateSystem.apply_scale_factor(inf_both, 2.0)
+	
+	# Test remove_scale_factor
+	var remove_result_x = CoordinateSystem.remove_scale_factor(inf_x, 2.0)
+	var remove_result_y = CoordinateSystem.remove_scale_factor(inf_y, 2.0)
+	var remove_result_both = CoordinateSystem.remove_scale_factor(inf_both, 2.0)
+	
+	# No result should contain infinity
+	var all_handled = true
+	
+	# Check all results
+	var results = [
+		wv_to_gv_result_x, wv_to_gv_result_y, wv_to_gv_result_both,
+		gv_to_wv_result_x, gv_to_wv_result_y, gv_to_wv_result_both,
+		apply_result_x, apply_result_y, apply_result_both,
+		remove_result_x, remove_result_y, remove_result_both
+	]
+	
+	for result in results:
+		if is_inf(result.x) or is_inf(result.y):
+			all_handled = false
+			debug_log("Found infinity in result: " + str(result), true)
+			break
+	
+	end_test(all_handled, "CoordinateSystem static methods should handle infinity values properly")
 
 # ===== TEST UTILITIES =====
 

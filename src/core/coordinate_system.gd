@@ -30,12 +30,42 @@ static func world_to_screen(world_pos: Vector2, camera: Camera2D) -> Vector2:
 
 # Apply background scale factor to world coordinates
 static func apply_scale_factor(world_pos: Vector2, scale_factor: float) -> Vector2:
+	# Validate input
+	if world_pos == null:
+		print("WARNING: apply_scale_factor received null position")
+		return Vector2.ZERO
+		
+	# Check for NaN values
+	if is_nan(world_pos.x) or is_nan(world_pos.y):
+		print("WARNING: apply_scale_factor received NaN coordinates: " + str(world_pos))
+		return Vector2.ZERO
+		
+	# Check for infinite values
+	if is_inf(world_pos.x) or is_inf(world_pos.y):
+		print("WARNING: apply_scale_factor received infinite coordinates: " + str(world_pos))
+		return Vector2.ZERO
+	
 	if scale_factor == 1.0:
 		return world_pos
 	return world_pos * scale_factor
 
 # Remove background scale factor from world coordinates
 static func remove_scale_factor(world_pos: Vector2, scale_factor: float) -> Vector2:
+	# Validate input
+	if world_pos == null:
+		print("WARNING: remove_scale_factor received null position")
+		return Vector2.ZERO
+		
+	# Check for NaN values
+	if is_nan(world_pos.x) or is_nan(world_pos.y):
+		print("WARNING: remove_scale_factor received NaN coordinates: " + str(world_pos))
+		return Vector2.ZERO
+		
+	# Check for infinite values
+	if is_inf(world_pos.x) or is_inf(world_pos.y):
+		print("WARNING: remove_scale_factor received infinite coordinates: " + str(world_pos))
+		return Vector2.ZERO
+	
 	if scale_factor == 1.0:
 		return world_pos
 	return world_pos / scale_factor
@@ -46,6 +76,16 @@ static func world_view_to_game_view(world_view_pos: Vector2, district) -> Vector
 	# Validate input
 	if world_view_pos == null:
 		print("WARNING: world_view_to_game_view received null position")
+		return Vector2.ZERO
+		
+	# Check for NaN values
+	if is_nan(world_view_pos.x) or is_nan(world_view_pos.y):
+		print("WARNING: world_view_to_game_view received NaN coordinates: " + str(world_view_pos))
+		return Vector2.ZERO
+		
+	# Check for infinite values
+	if is_inf(world_view_pos.x) or is_inf(world_view_pos.y):
+		print("WARNING: world_view_to_game_view received infinite coordinates: " + str(world_view_pos))
 		return Vector2.ZERO
 		
 	if district == null:
@@ -66,6 +106,16 @@ static func game_view_to_world_view(game_view_pos: Vector2, district) -> Vector2
 	# Validate input
 	if game_view_pos == null:
 		print("WARNING: game_view_to_world_view received null position")
+		return Vector2.ZERO
+		
+	# Check for NaN values
+	if is_nan(game_view_pos.x) or is_nan(game_view_pos.y):
+		print("WARNING: game_view_to_world_view received NaN coordinates: " + str(game_view_pos))
+		return Vector2.ZERO
+		
+	# Check for infinite values
+	if is_inf(game_view_pos.x) or is_inf(game_view_pos.y):
+		print("WARNING: game_view_to_world_view received infinite coordinates: " + str(game_view_pos))
 		return Vector2.ZERO
 		
 	if district == null:

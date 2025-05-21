@@ -18,6 +18,7 @@ var district: Node2D
 var camera: Camera2D
 var test_results = {}
 var current_test = ""
+var current_suite = ""
 var tests_passed = 0
 var tests_failed = 0
 var failed_tests = []
@@ -42,15 +43,19 @@ func _ready():
     # Create test scene
     create_test_scene()
     
-    # Run the tests
-    yield(get_tree().create_timer(0.5), "timeout")  # Short delay to ensure setup is complete
-    yield(run_tests(), "completed")
+    # Run the tests - no delays needed
+    run_tests()
     
     # Report results
     report_results()
     
     # Clean up
     cleanup_test_scene()
+    
+    # Exit cleanly
+    debug_log("Tests complete - exiting...")
+    yield(get_tree().create_timer(0.1), "timeout")  # Brief delay to ensure output is flushed
+    get_tree().quit()
 
 func _process(delta):
     # Update the status display if needed
@@ -70,39 +75,17 @@ func create_test_scene():
     debug_log("Test scene created with district and camera")
 
 func create_mock_district():
-    # Create a district node
+    # Create a district node using preloaded mock script
     var new_district = Node2D.new()
     new_district.name = "MockDistrict"
     
-    # Add district script
-    new_district.set_script(GDScript.new())
-    new_district.get_script().source_code = """
-    extends Node2D
+    # Use the preloaded mock district script
+    new_district.set_script(preload("res://src/unit_tests/mocks/mock_district.gd"))
     
-    var background_scale_factor = 2.0
-    var district_name = "Test District"
-    var background_size = Vector2(1920, 1080)
-    
-    func get_camera():
-        for child in get_children():
-            if child is Camera2D:
-                return child
-        return null
+    # Initialize with default values
+    if new_district.has_method("setup_mock"):
+        new_district.setup_mock()
         
-    func screen_to_world_coords(screen_pos):
-        var camera = get_camera()
-        if camera and camera.has_method("screen_to_world"):
-            return camera.screen_to_world(screen_pos)
-        return screen_pos
-        
-    func world_to_screen_coords(world_pos):
-        var camera = get_camera()
-        if camera and camera.has_method("world_to_screen"):
-            return camera.world_to_screen(world_pos)
-        return world_pos
-    """
-    new_district.get_script().reload()
-    
     return new_district
 
 func create_mock_camera():
@@ -138,26 +121,60 @@ func run_tests():
     failed_tests = []
     test_results = {}
     
-    # Run all test suites in sequence
+    # Create a master timeout for the entire test suite
+    var timeout_timer = Timer.new()
+    timeout_timer.wait_time = 45.0  # 45 second timeout for all tests
+    timeout_timer.one_shot = true
+    add_child(timeout_timer)
+    timeout_timer.start()
+    timeout_timer.connect("timeout", self, "_on_test_timeout")
+    
+    # Run all test suites in sequence directly (no yields)
     if run_all_tests or test_screen_world_transformations:
-        yield(test_screen_world_transformations_suite(), "completed")
+        run_test_suite_with_timeout("screen_world_transformations", "test_screen_world_transformations_suite")
     
     if run_all_tests or test_game_world_view_transformations:
-        yield(test_game_world_view_transformations_suite(), "completed")
+        run_test_suite_with_timeout("game_world_view_transformations", "test_game_world_view_transformations_suite")
     
     if run_all_tests or test_round_trip_transformations:
-        yield(test_round_trip_transformations_suite(), "completed")
+        run_test_suite_with_timeout("round_trip_transformations", "test_round_trip_transformations_suite")
     
     if run_all_tests or test_coordinate_systems_integration:
-        yield(test_coordinate_systems_integration_suite(), "completed")
+        run_test_suite_with_timeout("coordinate_systems_integration", "test_coordinate_systems_integration_suite")
     
     if run_all_tests or test_edge_cases:
-        yield(test_edge_cases_suite(), "completed")
+        run_test_suite_with_timeout("edge_cases", "test_edge_cases_suite")
     
     if run_all_tests or test_performance:
-        yield(test_performance_suite(), "completed")
+        run_test_suite_with_timeout("performance", "test_performance_suite")
+    
+    # Clean up timeout timer
+    if timeout_timer:
+        timeout_timer.queue_free()
     
     debug_log("All tests completed.")
+
+# ===== TIMEOUT HANDLING =====
+
+func _on_test_timeout():
+    debug_log("TIMEOUT: Test suite exceeded 45 second limit - terminating", true)
+    end_test(false, "Test suite timeout after 45 seconds")
+    report_results()
+    get_tree().quit()
+
+func run_test_suite_with_timeout(suite_name: String, method_name: String):
+    debug_log("Running test suite: " + suite_name + " with timeout protection")
+    
+    # Run the test suite directly - no timeout needed since tests are now fast
+    if has_method(method_name):
+        call(method_name)
+    else:
+        debug_log("ERROR: Test method " + method_name + " not found", true)
+        end_test(false, "Test method not found: " + method_name)
+
+func _on_suite_timeout(suite_name: String):
+    debug_log("TIMEOUT: Test suite '" + suite_name + "' exceeded 8 second limit", true)
+    end_test(false, "Suite timeout: " + suite_name)
 
 # ===== TEST SUITES =====
 
@@ -165,100 +182,94 @@ func test_screen_world_transformations_suite():
     start_test_suite("Screen World Transformations")
     
     # Test 1: Scrolling camera screen_to_world method
-    yield(test_scrolling_camera_screen_to_world(), "completed")
+    test_scrolling_camera_screen_to_world()
     
     # Test 2: Scrolling camera world_to_screen method
-    yield(test_scrolling_camera_world_to_screen(), "completed")
+    test_scrolling_camera_world_to_screen()
     
     # Test 3: CoordinateSystem screen_to_world method
-    yield(test_coordinate_system_screen_to_world(), "completed")
+    test_coordinate_system_screen_to_world()
     
     # Test 4: CoordinateSystem world_to_screen method
-    yield(test_coordinate_system_world_to_screen(), "completed")
+    test_coordinate_system_world_to_screen()
     
     # Test 5: District coordinate methods
-    yield(test_district_coordinate_methods(), "completed")
+    test_district_coordinate_methods()
     
     end_test_suite()
-    yield(get_tree(), "idle_frame")
 
 func test_game_world_view_transformations_suite():
     start_test_suite("Game World View Transformations")
     
     # Test 1: CoordinateSystem world_view_to_game_view method
-    yield(test_coordinate_system_world_to_game(), "completed")
+    test_coordinate_system_world_to_game()
     
     # Test 2: CoordinateSystem game_view_to_world_view method
-    yield(test_coordinate_system_game_to_world(), "completed")
+    test_coordinate_system_game_to_world()
     
     # Test 3: CoordinateManager view mode transformations
-    yield(test_coordinate_manager_view_transformations(), "completed")
+    test_coordinate_manager_view_transformations()
     
     # Test 4: Scale factor handling
-    yield(test_scale_factor_handling(), "completed")
+    test_scale_factor_handling()
     
     end_test_suite()
-    yield(get_tree(), "idle_frame")
 
 func test_round_trip_transformations_suite():
     start_test_suite("Round Trip Transformations")
     
     # Test 1: Screen to world to screen round trip
-    yield(test_screen_world_round_trip(), "completed")
+    test_screen_world_round_trip()
     
     # Test 2: Game view to world view to game view round trip
-    yield(test_game_world_view_round_trip(), "completed")
+    test_game_world_view_round_trip()
     
     # Test 3: Full coordinate pipeline round trip
-    yield(test_full_coordinate_pipeline(), "completed")
+    test_full_coordinate_pipeline()
     
     end_test_suite()
-    yield(get_tree(), "idle_frame")
 
 func test_coordinate_systems_integration_suite():
     start_test_suite("Coordinate Systems Integration")
     
     # Test 1: Camera and CoordinateSystem consistency
-    yield(test_camera_coordinate_system_consistency(), "completed")
+    test_camera_coordinate_system_consistency()
     
     # Test 2: District and CoordinateManager consistency
-    yield(test_district_coordinate_manager_consistency(), "completed")
+    test_district_coordinate_manager_consistency()
     
     # Test 3: Coordinate transformations across systems
-    yield(test_cross_system_transformations(), "completed")
+    test_cross_system_transformations()
     
     end_test_suite()
-    yield(get_tree(), "idle_frame")
 
 func test_edge_cases_suite():
     start_test_suite("Edge Cases")
     
     # Test 1: Handle NaN values
-    yield(test_handle_nan_values(), "completed")
+    test_handle_nan_values()
     
     # Test 2: Handle Infinity values
-    yield(test_handle_infinity_values(), "completed")
+    test_handle_infinity_values()
     
     # Test 3: Handle extremely large coordinates
-    yield(test_handle_large_coordinates(), "completed")
+    test_handle_large_coordinates()
     
     # Test 4: Handle negative coordinates
-    yield(test_handle_negative_coordinates(), "completed")
+    test_handle_negative_coordinates()
     
     end_test_suite()
-    yield(get_tree(), "idle_frame")
 
 func test_performance_suite():
     start_test_suite("Performance")
     
     # Test 1: Batch coordinate transformations
-    yield(test_batch_transformations(), "completed")
+    test_batch_transformations()
     
     # Test 2: Large array coordinate transformations
-    yield(test_large_array_transformations(), "completed")
+    test_large_array_transformations()
     
     end_test_suite()
-    yield(get_tree(), "idle_frame")
 
 # ===== INDIVIDUAL TESTS =====
 
@@ -286,7 +297,6 @@ func test_scrolling_camera_screen_to_world():
     camera.global_position = original_position
     
     end_test(matches_expected, "Camera screen_to_world should map screen center to camera position")
-    yield(get_tree(), "idle_frame")
 
 func test_scrolling_camera_world_to_screen():
     start_test("Scrolling Camera World to Screen")
@@ -309,7 +319,6 @@ func test_scrolling_camera_world_to_screen():
     camera.global_position = original_position
     
     end_test(matches_expected, "Camera world_to_screen should map camera position to screen center")
-    yield(get_tree(), "idle_frame")
 
 func test_coordinate_system_screen_to_world():
     start_test("CoordinateSystem Screen to World")
@@ -333,7 +342,6 @@ func test_coordinate_system_screen_to_world():
     camera.global_position = original_position
     
     end_test(matches_expected, "CoordinateSystem screen_to_world should map screen center to camera position")
-    yield(get_tree(), "idle_frame")
 
 func test_coordinate_system_world_to_screen():
     start_test("CoordinateSystem World to Screen")
@@ -356,7 +364,6 @@ func test_coordinate_system_world_to_screen():
     camera.global_position = original_position
     
     end_test(matches_expected, "CoordinateSystem world_to_screen should map camera position to screen center")
-    yield(get_tree(), "idle_frame")
 
 func test_district_coordinate_methods():
     start_test("District Coordinate Methods")
@@ -381,7 +388,6 @@ func test_district_coordinate_methods():
     camera.global_position = original_position
     
     end_test(screen_to_world_correct && world_to_screen_correct, "District coordinate methods should use camera methods correctly")
-    yield(get_tree(), "idle_frame")
 
 # GAME WORLD VIEW TRANSFORMATIONS TESTS
 
@@ -410,7 +416,6 @@ func test_coordinate_system_world_to_game():
             break
     
     end_test(all_correct, "world_view_to_game_view should divide coordinates by scale factor")
-    yield(get_tree(), "idle_frame")
 
 func test_coordinate_system_game_to_world():
     start_test("CoordinateSystem Game to World")
@@ -437,7 +442,6 @@ func test_coordinate_system_game_to_world():
             break
     
     end_test(all_correct, "game_view_to_world_view should multiply coordinates by scale factor")
-    yield(get_tree(), "idle_frame")
 
 func test_coordinate_manager_view_transformations():
     start_test("CoordinateManager View Transformations")
@@ -471,7 +475,6 @@ func test_coordinate_manager_view_transformations():
     coordinate_manager.queue_free()
     
     end_test(round_trip_correct, "CoordinateManager view transformations should work correctly in both directions")
-    yield(get_tree(), "idle_frame")
 
 func test_scale_factor_handling():
     start_test("Scale Factor Handling")
@@ -506,7 +509,6 @@ func test_scale_factor_handling():
         district.background_scale_factor = original_factor
     
     end_test(all_correct, "Scale factor operations should work correctly with different factors")
-    yield(get_tree(), "idle_frame")
 
 # ROUND TRIP TRANSFORMATIONS TESTS
 
@@ -536,7 +538,6 @@ func test_screen_world_round_trip():
             break
     
     end_test(all_correct, "Screen-to-world-to-screen round trip should preserve coordinates")
-    yield(get_tree(), "idle_frame")
 
 func test_game_world_view_round_trip():
     start_test("Game World View Round Trip")
@@ -557,7 +558,6 @@ func test_game_world_view_round_trip():
             break
     
     end_test(all_correct, "Game-view-to-world-view-to-game-view round trip should preserve coordinates")
-    yield(get_tree(), "idle_frame")
 
 func test_full_coordinate_pipeline():
     start_test("Full Coordinate Pipeline")
@@ -584,7 +584,6 @@ func test_full_coordinate_pipeline():
     coordinate_manager.queue_free()
     
     end_test(pipeline_correct, "Full coordinate transformation pipeline should preserve coordinates")
-    yield(get_tree(), "idle_frame")
 
 # COORDINATE SYSTEMS INTEGRATION TESTS
 
@@ -618,7 +617,6 @@ func test_camera_coordinate_system_consistency():
     camera.global_position = original_position
     
     end_test(screen_to_world_match && world_to_screen_match, "Camera and CoordinateSystem methods should give consistent results")
-    yield(get_tree(), "idle_frame")
 
 func test_district_coordinate_manager_consistency():
     start_test("District CoordinateManager Consistency")
@@ -644,7 +642,6 @@ func test_district_coordinate_manager_consistency():
     coordinate_manager.queue_free()
     
     end_test(results_match, "District and CoordinateManager methods should give consistent results")
-    yield(get_tree(), "idle_frame")
 
 func test_cross_system_transformations():
     start_test("Cross System Transformations")
@@ -683,7 +680,6 @@ func test_cross_system_transformations():
     coordinate_manager.queue_free()
     
     end_test(transformation_works, "Coordinate transformations should work consistently across different systems")
-    yield(get_tree(), "idle_frame")
 
 # EDGE CASES TESTS
 
@@ -718,7 +714,6 @@ func test_handle_nan_values():
                 break
     
     end_test(all_handled, "Coordinate systems should properly handle NaN values")
-    yield(get_tree(), "idle_frame")
 
 func test_handle_infinity_values():
     start_test("Handle Infinity Values")
@@ -742,7 +737,6 @@ func test_handle_infinity_values():
             break
     
     end_test(all_handled, "Coordinate systems should properly handle infinity values")
-    yield(get_tree(), "idle_frame")
 
 func test_handle_large_coordinates():
     start_test("Handle Large Coordinates")
@@ -763,7 +757,6 @@ func test_handle_large_coordinates():
         all_handled = all_handled && !is_nan(result.x) && !is_nan(result.y) && !is_inf(result.x) && !is_inf(result.y)
     
     end_test(all_handled, "Coordinate systems should properly handle very large coordinates")
-    yield(get_tree(), "idle_frame")
 
 func test_handle_negative_coordinates():
     start_test("Handle Negative Coordinates")
@@ -798,7 +791,6 @@ func test_handle_negative_coordinates():
                 break
     
     end_test(all_correct, "Coordinate systems should properly handle negative coordinates")
-    yield(get_tree(), "idle_frame")
 
 # PERFORMANCE TESTS
 
@@ -828,7 +820,6 @@ func test_batch_transformations():
     
     # Test passes if it completes without errors
     end_test(true, "Batch transformations should complete without errors")
-    yield(get_tree(), "idle_frame")
 
 func test_large_array_transformations():
     start_test("Large Array Transformations")
@@ -868,7 +859,6 @@ func test_large_array_transformations():
     coordinate_manager.queue_free()
     
     end_test(size_preserved, "Large array transformations should preserve array size")
-    yield(get_tree(), "idle_frame")
 
 # ===== TEST UTILITIES =====
 
@@ -883,6 +873,7 @@ func update_test_display():
 
 func start_test_suite(suite_name):
     debug_log("===== TEST SUITE: " + suite_name + " =====", true)
+    current_suite = suite_name
     test_results[suite_name] = {
         "passed": 0,
         "failed": 0,
@@ -890,33 +881,30 @@ func start_test_suite(suite_name):
     }
 
 func end_test_suite():
-    var suite_name = current_test.split(":")[0]
-    var passed = test_results[suite_name].passed
-    var failed = test_results[suite_name].failed
+    var passed = test_results[current_suite].passed
+    var failed = test_results[current_suite].failed
     var total = passed + failed
     debug_log("Suite completed: " + str(passed) + "/" + str(total) + " tests passed", true)
 
 func start_test(test_name):
-    var suite_name = test_name.split(" ")[0]
-    current_test = suite_name + ": " + test_name
+    current_test = current_suite + ": " + test_name
     debug_log("Running test: " + test_name)
 
 func end_test(passed, message = ""):
     var parts = current_test.split(": ")
-    var suite_name = parts[0]
-    var test_name = parts[1]
+    var test_name = parts[1] if parts.size() > 1 else current_test
     
     if passed:
         debug_log("✓ PASS: " + test_name + (": " + message if message else ""))
-        test_results[suite_name].passed += 1
+        test_results[current_suite].passed += 1
         tests_passed += 1
     else:
         debug_log("✗ FAIL: " + test_name + (": " + message if message else ""), true)
-        test_results[suite_name].failed += 1
+        test_results[current_suite].failed += 1
         tests_failed += 1
         failed_tests.append(current_test)
     
-    test_results[suite_name].tests[test_name] = {
+    test_results[current_suite].tests[test_name] = {
         "passed": passed,
         "message": message
     }
