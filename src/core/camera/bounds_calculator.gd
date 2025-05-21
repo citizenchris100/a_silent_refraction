@@ -87,6 +87,12 @@ static func calculate_bounds_from_walkable_areas(walkable_areas: Array) -> Rect2
 	
 	print("Raw calculated bounds: " + str(result_bounds))
 	
+	# Add a small margin to ensure edge points are properly contained
+	# This is necessary because Rect2.has_point() excludes right and bottom edges
+	var margin = 1.0  # 1 pixel margin
+	result_bounds = result_bounds.grow(margin)
+	print("Bounds after margin adjustment: " + str(result_bounds))
+	
 	# Apply safety checks and corrections
 	result_bounds = apply_safety_corrections(result_bounds)
 	

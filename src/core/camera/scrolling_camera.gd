@@ -601,6 +601,9 @@ func _calculate_district_bounds(district) -> Rect2:
     print("Final district bounds: " + str(result_bounds))
     print("========== DISTRICT BOUNDS CALCULATION COMPLETED ==========\n")
     
+    # Store the calculated bounds in the camera_bounds property
+    camera_bounds = result_bounds
+    
     # Create a debug visualization in development builds
     if OS.is_debug_build() and debug_draw:
         if get_parent() and "add_child" in get_parent():

@@ -1,0 +1,212 @@
+=== Test: bounds_calculator_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up BoundsCalculator test...
+Starting BoundsCalculator tests...
+===== TEST SUITE: Bounds Calculation =====
+Running test: Calculate Bounds Simple
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (100, 0), Global: (100, 0)
+Point 2 - Local: (100, 100), Global: (100, 100)
+Point 3 - Local: (0, 100), Global: (0, 100)
+Note: Rect2.expand() did not change bounds for point (0, 100) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 100, 100)
+Bounds after margin adjustment: (-1, -1, 102, 102)
+Final corrected bounds: (-1, -1, 102, 102)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✗ FAIL: Calculate Bounds Simple: calculate_bounds_from_walkable_areas should compute correct bounds for simple rectangle
+Running test: Calculate Bounds Multiple
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 2
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (100, 0), Global: (100, 0)
+Point 2 - Local: (100, 100), Global: (100, 100)
+Point 3 - Local: (0, 100), Global: (0, 100)
+Note: Rect2.expand() did not change bounds for point (0, 100) - this is normal for some polygon arrangements
+Using get_polygon() interface method
+Processing walkable area: @TestPolygon@4 with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (200, 200), Global: (200, 200)
+Point 1 - Local: (300, 200), Global: (300, 200)
+Point 2 - Local: (300, 300), Global: (300, 300)
+Point 3 - Local: (200, 300), Global: (200, 300)
+Note: Rect2.expand() did not change bounds for point (200, 300) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 300, 300)
+Bounds after margin adjustment: (-1, -1, 302, 302)
+Final corrected bounds: (-1, -1, 302, 302)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Calculate Bounds Multiple: calculate_bounds_from_walkable_areas should compute bounds that contain all walkable areas
+Running test: Calculate Bounds Complex
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 6 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (100, 0), Global: (100, 0)
+Point 2 - Local: (100, 50), Global: (100, 50)
+Point 3 - Local: (50, 50), Global: (50, 50)
+Note: Rect2.expand() did not change bounds for point (50, 50) - this is normal for some polygon arrangements
+Point 4 - Local: (50, 100), Global: (50, 100)
+Point 5 - Local: (0, 100), Global: (0, 100)
+Note: Rect2.expand() did not change bounds for point (0, 100) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 100, 100)
+Bounds after margin adjustment: (-1, -1, 102, 102)
+Final corrected bounds: (-1, -1, 102, 102)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Calculate Bounds Complex: calculate_bounds_from_walkable_areas should compute correct bounds for complex shapes
+Suite completed: 0/1 tests passed
+===== TEST SUITE: Safety Corrections =====
+Running test: Small Height Correction
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (500, 0), Global: (500, 0)
+Point 2 - Local: (500, 20), Global: (500, 20)
+Point 3 - Local: (0, 20), Global: (0, 20)
+Note: Rect2.expand() did not change bounds for point (0, 20) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 500, 20)
+Bounds after margin adjustment: (-1, -1, 502, 22)
+INFO: Walkable area height is 22 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 200 pixels for better visibility
+This preserves the exact floor walkable area while improving camera view
+Final corrected bounds: (-1, -90, 502, 200)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Raw bounds: (-1, -90, 502, 200)
+Corrected bounds: (-1, -90, 502, 200)
+Height increased? False
+Height is at least 200? True
+✓ PASS: Small Height Correction: apply_safety_corrections should increase height to at least 200 pixels for floor-like walkable areas
+Running test: Small Width Correction
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (20, 0), Global: (20, 0)
+Point 2 - Local: (20, 500), Global: (20, 500)
+Point 3 - Local: (0, 500), Global: (0, 500)
+Note: Rect2.expand() did not change bounds for point (0, 500) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 20, 500)
+Bounds after margin adjustment: (-1, -1, 22, 502)
+ERROR: WARNING: Suspicious bounds width detected: 22
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Enforced minimum bounds width
+Final corrected bounds: (-90, -1, 200, 502)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Raw bounds: (-90, -1, 200, 502)
+Corrected bounds: (-90, -1, 200, 502)
+Width increased? False
+Width is at least 200? True
+✓ PASS: Small Width Correction: apply_safety_corrections should increase width to at least 200 pixels for very narrow walkable areas
+Running test: Background Size Consideration
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (200, 200), Global: (200, 200)
+Point 1 - Local: (300, 200), Global: (300, 200)
+Point 2 - Local: (300, 300), Global: (300, 300)
+Point 3 - Local: (200, 300), Global: (200, 300)
+Note: Rect2.expand() did not change bounds for point (200, 300) - this is normal for some polygon arrangements
+Raw calculated bounds: (200, 200, 100, 100)
+Bounds after margin adjustment: (199, 199, 102, 102)
+Final corrected bounds: (199, 199, 102, 102)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Background Size Consideration: apply_safety_corrections should respect background dimensions
+Suite completed: 0/1 tests passed
+===== TEST SUITE: Visualization =====
+Running test: Create Bounds Visualization
+Created bounds visualization
+✓ PASS: Create Bounds Visualization: create_bounds_visualization should create a visual representation with appropriate components
+Suite completed: 0/1 tests passed
+===== TEST SUITE: Edge Cases =====
+Running test: Handle Empty Walkable Areas
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 0
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Handle Empty Walkable Areas: calculate_bounds_from_walkable_areas should return a valid non-zero rectangle even with empty input
+Running test: Handle Empty Polygon
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+WARNING: Empty polygon in walkable area
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Handle Empty Polygon: calculate_bounds_from_walkable_areas should handle polygons with no points
+Running test: Handle Non-Rectangles
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 8 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (100, 0), Global: (100, 0)
+Point 2 - Local: (100, 25), Global: (100, 25)
+Point 3 - Local: (25, 25), Global: (25, 25)
+Note: Rect2.expand() did not change bounds for point (25, 25) - this is normal for some polygon arrangements
+Point 4 - Local: (25, 75), Global: (25, 75)
+Point 5 - Local: (100, 75), Global: (100, 75)
+Note: Rect2.expand() did not change bounds for point (100, 75) - this is normal for some polygon arrangements
+Point 6 - Local: (100, 100), Global: (100, 100)
+Point 7 - Local: (0, 100), Global: (0, 100)
+Note: Rect2.expand() did not change bounds for point (0, 100) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 100, 100)
+Bounds after margin adjustment: (-1, -1, 102, 102)
+Final corrected bounds: (-1, -1, 102, 102)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Handle Non-Rectangles: calculate_bounds_from_walkable_areas should correctly handle C-shaped polygons
+Suite completed: 0/1 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 10
+Passed: 9
+Failed: 1
+
+Failed Tests:
+- Default: Calculate Bounds Simple: calculate_bounds_from_walkable_areas should compute correct bounds for simple rectangle
+

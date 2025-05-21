@@ -19,6 +19,7 @@ var walkable_area: Polygon2D
 var player: Node2D
 var test_results = {}
 var current_test = ""
+var current_suite = ""
 var tests_passed = 0
 var tests_failed = 0
 var failed_tests = []
@@ -32,15 +33,19 @@ func _ready():
 	# Create test scene
 	create_test_scene()
 	
-	# Run the tests
-	yield(get_tree().create_timer(0.5), "timeout")  # Short delay to ensure setup is complete
-	yield(run_tests(), "completed")
+	# Run the tests - no delays needed
+	run_tests()
 	
 	# Report results
 	report_results()
 	
 	# Clean up
 	cleanup_test_scene()
+	
+	# Exit cleanly
+	debug_log("Tests complete - exiting...")
+	yield(get_tree().create_timer(0.1), "timeout")  # Brief delay to ensure output is flushed
+	get_tree().quit()
 
 func _process(delta):
 	# Update the status display if needed
@@ -56,7 +61,7 @@ func create_test_scene():
 	# Create a walkable area
 	walkable_area = create_walkable_area()
 	district.add_child(walkable_area)
-	district.walkable_areas.append(walkable_area)
+	district.add_walkable_area(walkable_area)
 	
 	# Create a camera
 	camera = create_scrolling_camera()
@@ -69,46 +74,16 @@ func create_test_scene():
 	debug_log("Test scene created with district, walkable area, camera, and player")
 
 func create_mock_district():
-	# Create a district node
+	# Create a district node using preloaded mock script
 	var new_district = Node2D.new()
 	new_district.name = "MockDistrict"
 	
-	# Add district script
-	new_district.set_script(GDScript.new())
-	new_district.get_script().source_code = """
-	extends Node2D
-	class_name BaseDistrict
+	# Use the preloaded mock district script with walkable areas support
+	new_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
 	
-	var background_scale_factor = 2.0
-	var district_name = "Test District"
-	var background_size = Vector2(1000, 600)
-	var walkable_areas = []
-	
-	func get_camera():
-		for child in get_children():
-			if child is Camera2D:
-				return child
-		return null
-		
-	func is_position_walkable(position):
-		for area in walkable_areas:
-			if Geometry.is_point_in_polygon(position, area.polygon):
-				return true
-		return false
-	
-	func screen_to_world_coords(screen_pos):
-		var camera = get_camera()
-		if camera and camera.has_method("screen_to_world"):
-			return camera.screen_to_world(screen_pos)
-		return screen_pos
-		
-	func world_to_screen_coords(world_pos):
-		var camera = get_camera()
-		if camera and camera.has_method("world_to_screen"):
-			return camera.world_to_screen(world_pos)
-		return world_pos
-	"""
-	new_district.get_script().reload()
+	# Initialize with default values
+	if new_district.has_method("setup_mock"):
+		new_district.setup_mock()
 	
 	return new_district
 
@@ -188,23 +163,57 @@ func run_tests():
 	failed_tests = []
 	test_results = {}
 	
-	# Run all test suites in sequence
+	# Create a master timeout for the entire test suite
+	var timeout_timer = Timer.new()
+	timeout_timer.wait_time = 45.0  # 45 second timeout for all tests
+	timeout_timer.one_shot = true
+	add_child(timeout_timer)
+	timeout_timer.start()
+	timeout_timer.connect("timeout", self, "_on_test_timeout")
+	
+	# Run all test suites in sequence directly (no yields)
 	if run_all_tests or test_bounds_calculation:
-		yield(test_bounds_calculation_suite(), "completed")
+		run_test_suite_with_timeout("bounds_calculation", "test_bounds_calculation_suite")
 	
 	if run_all_tests or test_camera_constraint:
-		yield(test_camera_constraint_suite(), "completed")
+		run_test_suite_with_timeout("camera_constraint", "test_camera_constraint_suite")
 	
 	if run_all_tests or test_coordinate_transformations:
-		yield(test_coordinate_transformations_suite(), "completed")
+		run_test_suite_with_timeout("coordinate_transformations", "test_coordinate_transformations_suite")
 	
 	if run_all_tests or test_view_modes:
-		yield(test_view_modes_suite(), "completed")
+		run_test_suite_with_timeout("view_modes", "test_view_modes_suite")
 	
 	if run_all_tests or test_player_movement:
-		yield(test_player_movement_suite(), "completed")
+		run_test_suite_with_timeout("player_movement", "test_player_movement_suite")
+	
+	# Clean up timeout timer
+	if timeout_timer:
+		timeout_timer.queue_free()
 	
 	debug_log("All tests completed.")
+
+# ===== TIMEOUT HANDLING =====
+
+func _on_test_timeout():
+	debug_log("TIMEOUT: Test suite exceeded 45 second limit - terminating", true)
+	end_test(false, "Test suite timeout after 45 seconds")
+	report_results()
+	get_tree().quit()
+
+func run_test_suite_with_timeout(suite_name: String, method_name: String):
+	debug_log("Running test suite: " + suite_name + " with timeout protection")
+	
+	# Run the test suite directly - no timeout needed since tests are now fast
+	if has_method(method_name):
+		call(method_name)
+	else:
+		debug_log("ERROR: Test method " + method_name + " not found", true)
+		end_test(false, "Test method not found: " + method_name)
+
+func _on_suite_timeout(suite_name: String):
+	debug_log("TIMEOUT: Test suite '" + suite_name + "' exceeded 8 second limit", true)
+	end_test(false, "Suite timeout: " + suite_name)
 
 # ===== TEST SUITES =====
 
@@ -212,76 +221,71 @@ func test_bounds_calculation_suite():
 	start_test_suite("Bounds Calculation")
 	
 	# Test 1: Camera calculates bounds from walkable areas
-	yield(test_camera_calculates_bounds(), "completed")
+	test_camera_calculates_bounds()
 	
 	# Test 2: Bounds contain all walkable areas
-	yield(test_bounds_contain_walkable_areas(), "completed")
+	test_bounds_contain_walkable_areas()
 	
 	# Test 3: Bounds updating when district changes
-	yield(test_bounds_update_on_district_change(), "completed")
+	test_bounds_update_on_district_change()
 	
 	end_test_suite()
-	yield(get_tree(), "idle_frame")
 
 func test_camera_constraint_suite():
 	start_test_suite("Camera Constraint")
 	
 	# Test 1: Camera stays within bounds while following player
-	yield(test_camera_stays_within_bounds(), "completed")
+	test_camera_stays_within_bounds()
 	
 	# Test 2: Camera handles movement to invalid targets
-	yield(test_camera_handles_invalid_targets(), "completed")
+	test_camera_handles_invalid_targets()
 	
 	# Test 3: Camera bounds calculation uses BoundsCalculator
-	yield(test_camera_uses_bounds_calculator(), "completed")
+	test_camera_uses_bounds_calculator()
 	
 	end_test_suite()
-	yield(get_tree(), "idle_frame")
 
 func test_coordinate_transformations_suite():
 	start_test_suite("Coordinate Transformations")
 	
 	# Test 1: Screen to world coordinates with camera
-	yield(test_screen_to_world_with_camera(), "completed")
+	test_screen_to_world_with_camera()
 	
 	# Test 2: World to screen coordinates with camera
-	yield(test_world_to_screen_with_camera(), "completed")
+	test_world_to_screen_with_camera()
 	
 	# Test 3: District and camera coordinate methods match
-	yield(test_district_camera_coordinate_methods_match(), "completed")
+	test_district_camera_coordinate_methods_match()
 	
 	end_test_suite()
-	yield(get_tree(), "idle_frame")
 
 func test_view_modes_suite():
 	start_test_suite("View Modes")
 	
 	# Test 1: World view mode affects coordinate transformations
-	yield(test_world_view_coordinate_transformations(), "completed")
+	test_world_view_coordinate_transformations()
 	
 	# Test 2: Game view mode affects coordinate transformations
-	yield(test_game_view_coordinate_transformations(), "completed")
+	test_game_view_coordinate_transformations()
 	
 	# Test 3: Transformations between view modes are consistent
-	yield(test_view_mode_transformation_consistency(), "completed")
+	test_view_mode_transformation_consistency()
 	
 	end_test_suite()
-	yield(get_tree(), "idle_frame")
 
 func test_player_movement_suite():
 	start_test_suite("Player Movement")
 	
 	# Test 1: Camera follows player movement
-	yield(test_camera_follows_player_movement(), "completed")
+	test_camera_follows_player_movement()
 	
 	# Test 2: Camera stops at boundaries when player approaches edge
-	yield(test_camera_stops_at_boundaries(), "completed")
+	test_camera_stops_at_boundaries()
 	
 	# Test 3: Player stays within walkable areas
-	yield(test_player_stays_within_walkable_areas(), "completed")
+	test_player_stays_within_walkable_areas()
 	
 	end_test_suite()
-	yield(get_tree(), "idle_frame")
 
 # ===== INDIVIDUAL TESTS =====
 
@@ -297,7 +301,6 @@ func test_camera_calculates_bounds():
 	var bounds_calculated = camera.camera_bounds.size != Vector2.ZERO
 	
 	end_test(bounds_calculated, "Camera should calculate bounds from walkable areas")
-	yield(get_tree(), "idle_frame")
 
 func test_bounds_contain_walkable_areas():
 	start_test("Bounds Contain Walkable Areas")
@@ -314,7 +317,6 @@ func test_bounds_contain_walkable_areas():
 			break
 	
 	end_test(all_contained, "Camera bounds should contain all walkable area points")
-	yield(get_tree(), "idle_frame")
 
 func test_bounds_update_on_district_change():
 	start_test("Bounds Update on District Change")
@@ -341,7 +343,6 @@ func test_bounds_update_on_district_change():
 	walkable_area.polygon = original_polygon
 	
 	end_test(bounds_changed, "Camera bounds should update when walkable areas change")
-	yield(get_tree(), "idle_frame")
 
 # CAMERA CONSTRAINT TESTS
 
@@ -365,7 +366,6 @@ func test_camera_stays_within_bounds():
 	camera.move_to_position(original_position, true)
 	
 	end_test(is_within_bounds, "Camera should stay within calculated bounds")
-	yield(get_tree(), "idle_frame")
 
 func test_camera_handles_invalid_targets():
 	start_test("Camera Handles Invalid Targets")
@@ -386,7 +386,6 @@ func test_camera_handles_invalid_targets():
 	camera.move_to_position(original_position, true)
 	
 	end_test(position_valid, "Camera should handle invalid target positions")
-	yield(get_tree(), "idle_frame")
 
 func test_camera_uses_bounds_calculator():
 	start_test("Camera Uses BoundsCalculator")
@@ -406,7 +405,7 @@ func test_camera_uses_bounds_calculator():
 		Vector2(0, 600)
 	])
 	district.add_child(new_walkable_area)
-	district.walkable_areas.append(new_walkable_area)
+	district.add_walkable_area(new_walkable_area)
 	
 	# Force bounds update
 	camera._calculate_district_bounds(district)
@@ -422,7 +421,6 @@ func test_camera_uses_bounds_calculator():
 	camera.camera_bounds = original_bounds
 	
 	end_test(bounds_updated, "Camera should use BoundsCalculator to calculate bounds")
-	yield(get_tree(), "idle_frame")
 
 # COORDINATE TRANSFORMATIONS TESTS
 
@@ -447,7 +445,6 @@ func test_screen_to_world_with_camera():
 	camera.global_position = original_position
 	
 	end_test(matches_camera_pos, "Screen-to-world conversion should map screen center to camera position")
-	yield(get_tree(), "idle_frame")
 
 func test_world_to_screen_with_camera():
 	start_test("World to Screen with Camera")
@@ -470,7 +467,6 @@ func test_world_to_screen_with_camera():
 	camera.global_position = original_position
 	
 	end_test(matches_screen_center, "World-to-screen conversion should map camera position to screen center")
-	yield(get_tree(), "idle_frame")
 
 func test_district_camera_coordinate_methods_match():
 	start_test("District Camera Coordinate Methods Match")
@@ -499,7 +495,6 @@ func test_district_camera_coordinate_methods_match():
 	camera.global_position = original_position
 	
 	end_test(world_to_screen_match && screen_to_world_match, "District and camera coordinate methods should give consistent results")
-	yield(get_tree(), "idle_frame")
 
 # VIEW MODES TESTS
 
@@ -516,7 +511,6 @@ func test_world_view_coordinate_transformations():
 	var test_point = Vector2(600, 400)
 	
 	# Convert using CoordinateManager via CoordinateSystem
-	var coords_system = CoordinateSystem.new()
 	var converted_point = CoordinateSystem.world_view_to_game_view(test_point, district)
 	
 	# Check if conversion is applied 
@@ -528,7 +522,6 @@ func test_world_view_coordinate_transformations():
 	camera.world_view_mode = original_world_view_mode
 	
 	end_test(correctly_scaled, "World view coordinates should be properly transformed to game view")
-	yield(get_tree(), "idle_frame")
 
 func test_game_view_coordinate_transformations():
 	start_test("Game View Coordinate Transformations")
@@ -543,7 +536,6 @@ func test_game_view_coordinate_transformations():
 	var test_point = Vector2(300, 200)
 	
 	# Convert using CoordinateManager via CoordinateSystem
-	var coords_system = CoordinateSystem.new()
 	var converted_point = CoordinateSystem.game_view_to_world_view(test_point, district)
 	
 	# Check if conversion is applied 
@@ -555,7 +547,6 @@ func test_game_view_coordinate_transformations():
 	camera.world_view_mode = original_world_view_mode
 	
 	end_test(correctly_scaled, "Game view coordinates should be properly transformed to world view")
-	yield(get_tree(), "idle_frame")
 
 func test_view_mode_transformation_consistency():
 	start_test("View Mode Transformation Consistency")
@@ -580,7 +571,6 @@ func test_view_mode_transformation_consistency():
 			break
 	
 	end_test(all_consistent, "View mode transformations should be consistent when applied bidirectionally")
-	yield(get_tree(), "idle_frame")
 
 # PLAYER MOVEMENT TESTS
 
@@ -612,7 +602,6 @@ func test_camera_follows_player_movement():
 	player.global_position = original_player_pos
 	
 	end_test(camera_moved && camera_following, "Camera should follow player movement when in FOLLOWING_PLAYER state")
-	yield(get_tree(), "idle_frame")
 
 func test_camera_stops_at_boundaries():
 	start_test("Camera Stops at Boundaries")
@@ -641,7 +630,6 @@ func test_camera_stops_at_boundaries():
 	player.global_position = original_player_pos
 	
 	end_test(within_bounds, "Camera should stop at boundaries even when following player")
-	yield(get_tree(), "idle_frame")
 
 func test_player_stays_within_walkable_areas():
 	start_test("Player Stays Within Walkable Areas")
@@ -661,7 +649,6 @@ func test_player_stays_within_walkable_areas():
 	player.global_position = original_position
 	
 	end_test(inside_is_walkable && !outside_is_walkable, "Walkable area detection should correctly identify valid positions")
-	yield(get_tree(), "idle_frame")
 
 # ===== TEST UTILITIES =====
 
@@ -676,6 +663,7 @@ func update_test_display():
 
 func start_test_suite(suite_name):
 	debug_log("===== TEST SUITE: " + suite_name + " =====", true)
+	current_suite = suite_name
 	test_results[suite_name] = {
 		"passed": 0,
 		"failed": 0,
@@ -683,21 +671,19 @@ func start_test_suite(suite_name):
 	}
 
 func end_test_suite():
-	var suite_name = current_test.split(":")[0]
+	var suite_name = current_suite
 	var passed = test_results[suite_name].passed
 	var failed = test_results[suite_name].failed
 	var total = passed + failed
 	debug_log("Suite completed: " + str(passed) + "/" + str(total) + " tests passed", true)
 
 func start_test(test_name):
-	var suite_name = test_name.split(" ")[0]
-	current_test = suite_name + ": " + test_name
+	current_test = test_name
 	debug_log("Running test: " + test_name)
 
 func end_test(passed, message = ""):
-	var parts = current_test.split(": ")
-	var suite_name = parts[0]
-	var test_name = parts[1]
+	var suite_name = current_suite
+	var test_name = current_test
 	
 	if passed:
 		debug_log("✓ PASS: " + test_name + (": " + message if message else ""))
@@ -723,10 +709,9 @@ func report_results():
 	if tests_failed > 0:
 		debug_log("\nFailed Tests:", true)
 		for test in failed_tests:
-			var parts = test.split(": ")
-			var suite_name = parts[0]
-			var test_name = parts[1]
-			var message = test_results[suite_name].tests[test_name].message
+			var suite_name = current_suite
+			var test_name = test
+			var message = test_results[suite_name].tests.get(test_name, {}).get("message", "")
 			debug_log("- " + test + (": " + message if message else ""), true)
 	
 	if tests_failed == 0:
