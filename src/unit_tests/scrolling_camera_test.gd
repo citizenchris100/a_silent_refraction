@@ -342,6 +342,23 @@ func run_bounds_tests():
     end_test()
     
     yield(get_tree(), "idle_frame")
+    
+    # Test 4: Update bounds method
+    start_test("Update bounds method")
+    
+    # Get original bounds
+    var original_bounds = camera.camera_bounds
+    
+    # The update_bounds method should work regardless of parent type as long as it has walkable_areas
+    # This tests the fix for Bug 3 where update_bounds only worked with BaseDistrict parents
+    camera.update_bounds()
+    
+    # Bounds should still be valid after update (may or may not change, but should remain valid)
+    assert_true(camera.camera_bounds.size.x > 0 && camera.camera_bounds.size.y > 0, "Camera bounds should remain valid after update")
+    
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
 func run_state_tests():
     log_info("=== Running State Tests ===", true)

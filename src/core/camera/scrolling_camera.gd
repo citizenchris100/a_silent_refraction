@@ -906,9 +906,11 @@ func _ensure_player_visible():
 
 # Update camera bounds when the district changes
 func update_bounds():
-    if get_parent() is BaseDistrict:
+    # Check if parent has walkable_areas property (works for both BaseDistrict and mock districts)
+    var parent = get_parent()
+    if parent and "walkable_areas" in parent:
         var old_bounds = camera_bounds
-        camera_bounds = _calculate_district_bounds(get_parent())
+        camera_bounds = _calculate_district_bounds(parent)
         
         # Register updated district with CoordinateManager
         register_with_coordinate_manager()
