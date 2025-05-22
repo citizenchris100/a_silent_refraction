@@ -8,11 +8,12 @@ This file tracks the progress of all iterations for the project.
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 3% (1/27) |
-| 4 | Game Districts and Time Management | Not started | 0% (0/12) |
-| 5 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
-| 6 | Coalition Building | Not started | 0% (0/8) |
-| 7 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 7% (2/27) |
+| 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/17) |
+| 5 | Game Districts and Time Management | Not started | 0% (0/12) |
+| 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
+| 7 | Coalition Building | Not started | 0% (0/8) |
+| 8 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
 
 ## Detailed Progress
 
@@ -159,7 +160,7 @@ This file tracks the progress of all iterations for the project.
 - **T1:** Maintain architectural principles while refactoring
 - **T2:** Implement flexible, configuration-driven system for perspectives
 - **T3:** All camera system enhancements must preserve background scaling visual correctness and pass both unit tests and visual validation using camera-system test scene
-- [ ] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
+- [x] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
 - [x] Task 2: Implement state signaling and synchronization for camera
 - [ ] Task 3: Create test scene for validating camera system improvements
 - [ ] Task 4: Enhance player controller for consistent physics behavior
@@ -208,7 +209,7 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)* | Pending | - |
+| Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)* | Complete | - |
 | Implement state signaling and synchronization for camera (As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.) | Complete | - |
 | Create test scene for validating camera system improvements | Pending | - |
 | Enhance player controller for consistent physics behavior (As a player, I want my character to move naturally with smooth acceleration and deceleration, so that navigation feels responsive and realistic.) | Pending | - |
@@ -264,7 +265,123 @@ This file tracks the progress of all iterations for the project.
 - Update camera targeting to prevent edge cases
 - Maintain alignment with signal-based architectural pattern
 
-### Iteration 4: Game Districts and Time Management
+### Iteration 4: Dialog and Verb UI System Refactoring
+
+**Goals:**
+- Refactor dialog system to comply with architectural principles
+- Refactor verb UI system to comply with architectural principles
+- Implement service-based architecture with dependency injection
+- Establish comprehensive unit testing for both systems
+- Maintain all existing functionality while improving maintainability
+- Create extensible foundation for future enhancements
+- **B1:** Eliminate technical debt in core interaction systems
+- **B2:** Establish sustainable development practices
+- **B3:** Maintain player experience continuity
+- **U1:** As a player, I want dialog interactions to work reliably and smoothly
+- **U2:** As a player, I want verb-based interactions to be responsive and intuitive
+- **U3:** As a player, I want the game to be stable and error-free
+- **T1:** Eliminate architectural violations in dialog and verb UI systems
+- **T2:** Implement service-based architecture with dependency injection
+- **T3:** Establish comprehensive unit testing infrastructure
+- [ ] Task 1: Implement dialog service interfaces and dependency injection
+- [ ] Task 2: Create dialog data abstraction layer (DialogData, DialogNode classes)
+- [ ] Task 3: Refactor dialog processing with validation pipeline
+- [ ] Task 4: Implement dialog UI factory and controller separation
+- [ ] Task 5: Establish dialog signal-based event system
+- [ ] Task 6: Create comprehensive dialog unit tests and mocks
+- [ ] Task 7: Implement progressive dialog system migration with adapters
+- [ ] Task 8: Implement verb service interfaces and configuration system
+- [ ] Task 9: Create interaction processing pipeline (validators/processors)
+- [ ] Task 10: Refactor verb UI with factory pattern and controller separation
+- [ ] Task 11: Establish verb interaction event bus and signal architecture
+- [ ] Task 12: Create comprehensive verb interaction unit tests and mocks
+- [ ] Task 13: Implement progressive verb system migration with adapters
+- [ ] Task 14: Integrate both refactored systems with ServiceRegistry
+- [ ] Task 15: Perform comprehensive integration testing
+- [ ] Task 16: Validate 100% functional parity with original systems
+- [ ] Task 17: Update system documentation for both refactored systems
+- All existing dialog functionality works identically to pre-refactoring behavior
+- All verb+object interactions produce identical responses to original system  
+- Dialog system achieves >90% unit test coverage with comprehensive mocks
+- Verb UI system achieves >90% unit test coverage with comprehensive mocks
+- Zero scene tree dependencies in core dialog and verb processing logic
+- Service-based architecture enables isolated component testing
+- Signal-based communication eliminates tight coupling between systems
+- Error handling provides structured context for all failure scenarios
+- Performance matches or exceeds original system response times
+- Start date: 2025-05-29
+- Target completion: 2025-06-12
+- Iteration 1 (Basic Environment and Navigation)
+- Iteration 2 (NPC Framework and Suspicion System)
+- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
+- No links yet
+
+**Key Requirements:**
+- **B1:** Eliminate technical debt in core interaction systems
+- **B2:** Establish sustainable development practices
+- **U1:** As a player, I want dialog interactions to work reliably and smoothly
+- **U2:** As a player, I want verb-based interactions to be responsive and intuitive
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Implement dialog service interfaces and dependency injection (As a developer, I want dialog services to use dependency injection instead of scene tree traversal, so that I can test dialog logic in isolation and eliminate tight coupling between systems.) | Pending | - |
+| Create dialog data abstraction layer (DialogData, DialogNode classes) (As a developer, I want dialog data separated from UI and processing logic, so that I can modify dialog content without affecting system behavior and test dialog logic with predictable data.) | Pending | - |
+| Refactor dialog processing with validation pipeline (As a developer, I want dialog processing to use a validation pipeline, so that I can catch errors early with structured context and extend validation rules without modifying core logic.) | Pending | - |
+| Implement dialog UI factory and controller separation (As a developer, I want dialog UI creation separated from business logic, so that I can test UI behavior independently and modify dialog presentation without affecting core dialog processing.) | Pending | - |
+| Establish dialog signal-based event system (As a developer, I want dialog system communication to use signals instead of direct method calls, so that I can decouple dialog components and enable extensible event handling.) | Pending | - |
+| Create comprehensive dialog unit tests and mocks (As a developer, I want comprehensive unit tests for the dialog system, so that I can prevent regressions and validate behavior changes during refactoring.) | Pending | - |
+| Implement progressive dialog system migration with adapters (As a developer, I want to migrate the dialog system gradually without breaking existing functionality, so that I can refactor safely while maintaining system stability.) | Pending | - |
+| Implement verb service interfaces and configuration system (As a developer, I want verb definitions to be configurable and verb processing to use service interfaces, so that I can add new verbs easily and test interaction logic without full UI dependencies.) | Pending | - |
+| Create interaction processing pipeline (validators/processors) (As a developer, I want verb interactions to use a validation and processing pipeline, so that I can add new interaction rules without modifying core logic and handle edge cases consistently.) | Pending | - |
+| Refactor verb UI with factory pattern and controller separation (As a developer, I want verb UI creation separated from interaction logic, so that I can test UI behavior independently and support different UI themes without affecting core interaction processing.) | Pending | - |
+| Establish verb interaction event bus and signal architecture (As a developer, I want verb system communication to use signals instead of direct method calls, so that I can decouple interaction components and enable extensible event handling for interactions.) | Pending | - |
+| Create comprehensive verb interaction unit tests and mocks (As a developer, I want comprehensive unit tests for the verb interaction system, so that I can prevent regressions and validate interaction behavior during refactoring.) | Pending | - |
+| Implement progressive verb system migration with adapters (As a developer, I want to migrate the verb system gradually without breaking existing interactions, so that I can refactor safely while maintaining player experience continuity.) | Pending | - |
+| Integrate both refactored systems with ServiceRegistry (As a developer, I want both dialog and verb systems to integrate cleanly with the ServiceRegistry, so that all game systems use consistent dependency injection patterns and can be tested in isolation.) | Pending | - |
+| Perform comprehensive integration testing (As a developer, I want comprehensive integration testing for both refactored systems, so that I can verify they work together correctly and catch any integration issues before deployment.) | Pending | - |
+| Validate 100% functional parity with original systems (As a player, I want all dialog and verb interactions to work exactly as they did before the refactoring, so that my gameplay experience is unaffected by internal system improvements.) | Pending | - |
+| Update system documentation for both refactored systems (As a developer, I want updated documentation for both refactored systems, so that I can understand the new architecture and maintain the systems effectively in the future.) | Pending | - |
+
+**Testing Criteria:**
+- All existing dialog functionality works identically to pre-refactoring behavior
+- All verb+object interactions produce identical responses to original system  
+- Dialog system achieves >90% unit test coverage with comprehensive mocks
+- Verb UI system achieves >90% unit test coverage with comprehensive mocks
+- Zero scene tree dependencies in core dialog and verb processing logic
+- Service-based architecture enables isolated component testing
+- Signal-based communication eliminates tight coupling between systems
+- Error handling provides structured context for all failure scenarios
+- Performance matches or exceeds original system response times
+- Start date: 2025-05-29
+- Target completion: 2025-06-12
+- Iteration 1 (Basic Environment and Navigation)
+- Iteration 2 (NPC Framework and Suspicion System)
+- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
+- No links yet
+- docs/design/dialog_system_refactoring_plan.md
+- docs/design/verb_ui_system_refactoring_plan.md
+- **⏳ PENDING** (05/22/25)
+- **Linked to:** B1, B2, T1, T2
+- **Acceptance Criteria:**
+- Follow established ServiceRegistry pattern from camera system refactoring
+- Create dialog service abstractions that can be mocked for testing
+- Implement adapter pattern for gradual migration from legacy system
+- **⏳ PENDING** (05/22/25)
+- **Linked to:** B1, T1, T3
+- **Acceptance Criteria:**
+- Extract dialog tree data structures from BaseNPC into dedicated classes
+- Create pure functions for text transformation and validation
+- Design for extensibility to support future dialog features
+- **⏳ PENDING** (05/22/25)
+- **Linked to:** B1, B2, T1, T3
+- **Acceptance Criteria:**
+- Follow validator pattern established in camera system architecture
+- Create priority-based validation pipeline for consistent error checking
+- Implement comprehensive error context for debugging support
+
+### Iteration 5: Game Districts and Time Management
 
 **Goals:**
 - Implement multiple station districts with transitions
@@ -298,11 +415,12 @@ This file tracks the progress of all iterations for the project.
 - Player has limited inventory space
 - NPC placeholder script successfully creates properly structured directories and registry entries
 - Multiple NPCs can be easily added across different districts using the script
-- Start date: 2025-06-01
-- Target completion: 2025-06-15
+- Start date: 2025-06-15
+- Target completion: 2025-06-29
 - Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
+- Iteration 4 (Dialog and Verb UI System Refactoring)
 - No links yet
 
 **Key Requirements:**
@@ -337,14 +455,15 @@ This file tracks the progress of all iterations for the project.
 - Player has limited inventory space
 - NPC placeholder script successfully creates properly structured directories and registry entries
 - Multiple NPCs can be easily added across different districts using the script
-- Start date: 2025-06-01
-- Target completion: 2025-06-15
+- Start date: 2025-06-15
+- Target completion: 2025-06-29
 - Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
+- Iteration 4 (Dialog and Verb UI System Refactoring)
 - No links yet
 
-### Iteration 5: Investigation Mechanics and Inventory
+### Iteration 6: Investigation Mechanics and Inventory
 
 **Goals:**
 - Implement investigation mechanics
@@ -382,11 +501,12 @@ This file tracks the progress of all iterations for the project.
 - Game runs stably at 30fps on Raspberry Pi 5 hardware
 - Complete POC playthrough completes without performance issues
 - Hardware validation documentation provides clear optimization roadmap
-- Start date: 2025-06-15
-- Target completion: 2025-06-29
+- Start date: 2025-06-29
+- Target completion: 2025-07-13
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Game Districts and Time Management)
+- Iteration 4 (Dialog and Verb UI System Refactoring)
+- Iteration 5 (Game Districts and Time Management)
 - Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
 - Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
 - Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
@@ -428,11 +548,12 @@ This file tracks the progress of all iterations for the project.
 - Game runs stably at 30fps on Raspberry Pi 5 hardware
 - Complete POC playthrough completes without performance issues
 - Hardware validation documentation provides clear optimization roadmap
-- Start date: 2025-06-15
-- Target completion: 2025-06-29
+- Start date: 2025-06-29
+- Target completion: 2025-07-13
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Game Districts and Time Management)
+- Iteration 4 (Dialog and Verb UI System Refactoring)
+- Iteration 5 (Game Districts and Time Management)
 - Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
 - Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
 - Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
@@ -455,7 +576,7 @@ This file tracks the progress of all iterations for the project.
 - **Acceptance Criteria:**
 - [Technical guidance or approach]
 
-### Iteration 6: Coalition Building
+### Iteration 7: Coalition Building
 
 **Goals:**
 - Implement recruiting NPCs to the coalition
@@ -476,10 +597,10 @@ This file tracks the progress of all iterations for the project.
 - Failed recruitment attempts have meaningful consequences
 - Coalition strength affects game progression
 - Coalition members provide tangible benefits
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
+- Start date: 2025-07-13
+- Target completion: 2025-07-27
 - Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 5 (Investigation Mechanics)
+- Iteration 6 (Investigation Mechanics)
 - No links yet
 
 **Key Requirements:**
@@ -504,13 +625,13 @@ This file tracks the progress of all iterations for the project.
 - Failed recruitment attempts have meaningful consequences
 - Coalition strength affects game progression
 - Coalition members provide tangible benefits
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
+- Start date: 2025-07-13
+- Target completion: 2025-07-27
 - Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 5 (Investigation Mechanics)
+- Iteration 6 (Investigation Mechanics)
 - No links yet
 
-### Iteration 7: Game Progression and Multiple Endings
+### Iteration 8: Game Progression and Multiple Endings
 
 **Goals:**
 - Implement game state progression
@@ -531,10 +652,10 @@ This file tracks the progress of all iterations for the project.
 - Narrative branches based on player choices
 - Game state properly tracks progress through the story
 - Complete game flow can be tested from start to finish
-- Start date: 2025-07-13
-- Target completion: 2025-07-27
-- Iteration 5 (Investigation Mechanics)
-- Iteration 6 (Coalition Building)
+- Start date: 2025-07-27
+- Target completion: 2025-08-10
+- Iteration 6 (Investigation Mechanics)
+- Iteration 7 (Coalition Building)
 - No links yet
 
 **Key Requirements:**
@@ -559,9 +680,9 @@ This file tracks the progress of all iterations for the project.
 - Narrative branches based on player choices
 - Game state properly tracks progress through the story
 - Complete game flow can be tested from start to finish
-- Start date: 2025-07-13
-- Target completion: 2025-07-27
-- Iteration 5 (Investigation Mechanics)
-- Iteration 6 (Coalition Building)
+- Start date: 2025-07-27
+- Target completion: 2025-08-10
+- Iteration 6 (Investigation Mechanics)
+- Iteration 7 (Coalition Building)
 - No links yet
 
