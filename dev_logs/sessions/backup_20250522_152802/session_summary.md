@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 22, 2025 - Iteration 3 Task 3: Dialog System Refactoring (🟢 IN PROGRESS)
-- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
-- **Focus:** Refactor dialog system for multi-perspective support
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-22_15-28-02.md)
-
 ### May 22, 2025 - Background Scaling Override Fix (✅ COMPLETED)
 - **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
 - **Focus:** Fix background scaling logic overriding viewport-aware bounds

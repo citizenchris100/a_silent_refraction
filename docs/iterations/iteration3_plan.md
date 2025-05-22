@@ -804,6 +804,12 @@ These systems provide the foundation for all future gameplay elements and will b
 - Include debug overlay for state and signal monitoring
 - Document test procedures for consistent verification
 
+**Design Documentation:**
+- See `docs/design/camera_test_scene_design.md` for comprehensive design specifications
+- Includes practical test backgrounds using in-game environments
+- Details UI panel architecture for different testing modes
+- Provides visual validation procedures for preventing regressions
+
 ### Task 5: Implement proper pathfinding with Navigation2D
 
 **User Story:** As a player, I want my character to intelligently navigate around obstacles, so that I don't have to micromanage movement through complex environments.
