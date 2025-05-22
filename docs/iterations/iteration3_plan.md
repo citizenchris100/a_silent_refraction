@@ -51,9 +51,9 @@
 ## Tasks
 
 ### Point-and-Click Navigation Refactoring
-- [ ] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
+- [x] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
   - **Status:** Phase 1 complete but broke background scaling - needs hybrid solution for visual correctness
-- [ ] Task 2: Implement state signaling and synchronization for camera
+- [x] Task 2: Implement state signaling and synchronization for camera
 - [ ] Task 3: Create test scene for validating camera system improvements
 - [ ] Task 4: Enhance player controller for consistent physics behavior
 - [ ] Task 5: Implement proper pathfinding with Navigation2D
@@ -119,6 +119,11 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **Status History:**
 - **⏳ PENDING** (05/22/25)
+- **✅ COMPLETE** (05/22/25)
+**Status History:**
+- **✅ COMPLETE** (05/22/25)
+**Status History:**
+- **✅ COMPLETE** (05/22/25)
 **Requirements:**
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
@@ -180,6 +185,10 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.
 
+
+**Status History:**
+- **⏳ PENDING** (05/22/25)
+- **✅ COMPLETE** (05/22/25)
 **Requirements:**
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**

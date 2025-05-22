@@ -699,8 +699,16 @@ function update_task {
         exit 1
     fi
     
-    # Calculate the line number for the specific task
-    task_line=$((tasks_line + task_number))
+    # Find the actual task line by searching for tasks after the Tasks section
+    # Get all task lines and find the Nth one
+    task_lines=($(grep -n "^- \[" "${iteration_file}" | cut -d: -f1))
+    if [ ${#task_lines[@]} -lt $task_number ]; then
+        echo -e "${RED}Error: Task ${task_number} not found. Only ${#task_lines[@]} tasks exist.${NC}"
+        exit 1
+    fi
+    
+    # Get the line number for the specific task (arrays are 0-indexed)
+    task_line=${task_lines[$((task_number - 1))]}
     
     # Get the task text to extract description (for task section update)
     task_text=$(sed -n "${task_line}p" "${iteration_file}")
@@ -760,19 +768,25 @@ function update_task {
         # Status history search complete
         
         if [ -z "${status_history_exists}" ]; then
-            # Create status history section after user story or requirements section
-            req_line=$(grep -n "^**Requirements:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
+            # Find where to insert status history within this task section
+            # Look for Requirements section within this task
+            if [ -z "${next_task_line}" ]; then
+                req_line=$(awk -v start="$task_section_exists" 'NR >= start && /^\*\*Requirements:\*\*/ {print NR; exit}' "${iteration_file}")
+            else
+                req_line=$(awk -v start="$task_section_exists" -v end="$next_task_line" 'NR >= start && NR < end && /^\*\*Requirements:\*\*/ {print NR; exit}' "${iteration_file}")
+            fi
             
             if [ ! -z "${req_line}" ]; then
+                # Insert before Requirements section
                 insert_line=$((req_line - 1))
             else
-                # If no requirements section, insert after user story
-                user_story_line=$(grep -n "^**User Story:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
-                insert_line=$((user_story_line + 1))
+                # If no requirements section, insert after user story line
+                insert_line=$((task_section_exists + 2))
             fi
             
             # Insert the status history section
             sed -i "${insert_line}a\\
+\\
 **Status History:**\\
 - ${status_md}" "${iteration_file}"
         else

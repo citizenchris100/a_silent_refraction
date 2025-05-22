@@ -158,8 +158,9 @@ This file tracks the progress of all iterations for the project.
 - **U3:** As a player, I want consistent gameplay mechanics regardless of visual perspective
 - **T1:** Maintain architectural principles while refactoring
 - **T2:** Implement flexible, configuration-driven system for perspectives
-- [x] Task 1: Enhance scrolling camera system with improved coordinate conversions
-- [ ] Task 2: Implement state signaling and synchronization for camera
+- **T3:** All camera system enhancements must preserve background scaling visual correctness and pass both unit tests and visual validation using camera-system test scene
+- [ ] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
+- [x] Task 2: Implement state signaling and synchronization for camera
 - [ ] Task 3: Create test scene for validating camera system improvements
 - [ ] Task 4: Enhance player controller for consistent physics behavior
 - [ ] Task 5: Implement proper pathfinding with Navigation2D
@@ -196,8 +197,6 @@ This file tracks the progress of all iterations for the project.
 - All debug tools work properly
 - Start date: 2025-05-18
 - Target completion: 2025-06-01
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
 
 **Key Requirements:**
 - **B1:** Create a more responsive and predictable navigation system
@@ -209,8 +208,8 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Enhance scrolling camera system with improved coordinate conversions (As a player, I want the game camera to track my character smoothly and accurately, so that I can focus on gameplay rather than managing my view of the action.) | Complete | - |
-| Implement state signaling and synchronization for camera (As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.) | Pending | - |
+| Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)* | Pending | - |
+| Implement state signaling and synchronization for camera (As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.) | Complete | - |
 | Create test scene for validating camera system improvements | Pending | - |
 | Enhance player controller for consistent physics behavior (As a player, I want my character to move naturally with smooth acceleration and deceleration, so that navigation feels responsive and realistic.) | Pending | - |
 | Implement proper pathfinding with Navigation2D | Pending | - |
@@ -255,6 +254,9 @@ This file tracks the progress of all iterations for the project.
 - docs/design/point_and_click_navigation_refactoring_plan.md
 - docs/design/multi_perspective_character_system_plan.md
 - **⏳ PENDING** (05/22/25)
+- **✅ COMPLETE** (05/22/25)
+- **✅ COMPLETE** (05/22/25)
+- **✅ COMPLETE** (05/22/25)
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
 - Refine coordinate handling in scrolling_camera.gd

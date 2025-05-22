@@ -1,0 +1,1084 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1317
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Setting up camera state test...
+Creating a new ScrollingCamera instance
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1325
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Camera created successfully: @TestCamera@2
+Setting target_player to: MockPlayer:[Node2D:1327]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Created mock player at: (500, 500)
+Configuring camera for testing...
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1328
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Setting debug_draw to: True
+[OVERLAY DEBUG] Created debug overlay
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+Test mode enabled: True
+Camera configured with position: (500, 500)
+Camera bounds set to: (200, 200, 800, 800)
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: MockPlayer
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:434
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+Camera found player: MockPlayer
+Using default camera bounds based on screen size
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (500, 500)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1024, 768)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (512, 384)
+Camera bounds: (0, 0, 1024, 768)
+Background wide enough for scrolling: False
+Background width: 1024, Min width for scrolling: 1536
+Using RIGHT initial view setting
+Centering camera on walkable area: (512, 384)
+Setting camera position to: (512, 384)
+Camera position after setting: (512, 384)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (512, 384)
+View ratio: 100% of background is visible (1024 pixels of 1024 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Starting camera state tests...
+===== TEST SUITE: State Transitions =====
+Running test: Idle to Moving Transition
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Idle to Moving Transition: Camera should transition from IDLE to MOVING and emit signal
+Running test: Moving to Idle Transition
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Moving to Idle Transition: Camera should transition from MOVING to IDLE and emit signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Idle to Following Transition
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Idle to Following Transition: Camera should transition from IDLE to FOLLOWING_PLAYER and emit signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Following to Idle Transition
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Following to Idle Transition: Camera should transition from FOLLOWING_PLAYER to IDLE and emit signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 1/1 tests passed
+===== TEST SUITE: State Properties =====
+Running test: Idle State Properties
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Idle State Properties: IDLE state should have correct properties
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Moving State Properties
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Moving State Properties: MOVING state should have correct properties
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Following State Properties
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Following State Properties: FOLLOWING_PLAYER state should have correct properties
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 2/2 tests passed
+===== TEST SUITE: Player Following =====
+Running test: Camera Follows Player
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (536.53894, 388.829468)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (557.874878, 393.028564)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (576.425903, 396.679565)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (592.555542, 399.854034)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (606.579834, 402.614136)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (618.773621, 405.013977)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (629.375793, 407.100586)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (638.594116, 408.914825)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (646.609192, 410.492249)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (653.578064, 411.8638)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (659.637329, 413.056305)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (664.905701, 414.09317)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (669.48645, 414.99469)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (673.469238, 415.778534)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (676.93219, 416.460083)
+Signal received: camera_move_completed - (676.93219, 416.460083)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Camera Follows Player: Camera should move toward player when in FOLLOWING_PLAYER state
+Running test: Toggle Follow Player
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (536.53894, 388.829468)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (557.874878, 393.028564)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (576.425903, 396.679565)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (592.555542, 399.854034)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (606.579834, 402.614136)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (618.773621, 405.013977)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (629.375793, 407.100586)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (638.594116, 408.914825)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (646.609192, 410.492249)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (653.578064, 411.8638)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (659.637329, 413.056305)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (664.905701, 414.09317)
+ensure_valid_target called with position: (700, 421)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 421)
+[CAMERA DEBUG] Camera following player: (700, 700) -> (669.48645, 414.99469)
+Signal received: camera_move_completed - (669.48645, 414.99469)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Toggle Follow Player: Camera should stop following player when follow_player is disabled
+Suite completed: 1/1 tests passed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+===== TEST SUITE: Movement Transitions =====
+Running test: Immediate Movement
+ensure_valid_target called with position: (700, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 500)
+move_to_position called with pos=(700, 500), immediate=True
+Target position after validation: (700, 500)
+Immediate move from (512, 384) to (700, 500)
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Immediate Movement: Camera should move to target immediately and emit signals
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Animated Movement
+ensure_valid_target called with position: (700, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 500)
+move_to_position called with pos=(700, 500), immediate=False
+Target position after validation: (700, 500)
+Starting animated movement to (700, 500)
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (536.53894, 399.141052), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.166667, Position (578.845764, 425.24527), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.25, Position (625.209473, 453.852661), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.333333, Position (662.604736, 476.926331), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.416667, Position (685.369507, 490.972687), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (695.714844, 497.355957), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.583333, Position (699.114502, 499.453613), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.666667, Position (699.881348, 499.926788), Target (700, 500)
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (700, 500), took 0.116s
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Animated Movement: Camera should enter MOVING state for animated movement
+Running test: Movement Progress
+ensure_valid_target called with position: (700, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 500)
+move_to_position called with pos=(700, 500), immediate=False
+Target position after validation: (700, 500)
+Starting animated movement to (700, 500)
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (536.53894, 399.141052), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.166667, Position (578.845764, 425.24527), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.25, Position (625.209473, 453.852661), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.333333, Position (662.604736, 476.926331), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.416667, Position (685.369507, 490.972687), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (695.714844, 497.355957), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.583333, Position (699.114502, 499.453613), Target (700, 500)
+[CAMERA DEBUG] Camera transition: Progress 0.666667, Position (699.881348, 499.926788), Target (700, 500)
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (700, 500), took 0.117s
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Movement Progress: Movement progress should increase during animated movement
+Suite completed: 1/1 tests passed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+===== TEST SUITE: Signal Emission =====
+Running test: State Change Signal
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: State Change Signal: Camera should emit state_changed signal with correct parameters
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Move Started Signal
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Move Started Signal: Camera should emit move_started signal with correct parameters
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Move Completed Signal
+Signal received: camera_move_completed - (512, 384)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+ensure_valid_target called with position: (700, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (700, 500)
+move_to_position called with pos=(700, 500), immediate=True
+Target position after validation: (700, 500)
+Immediate move from (512, 384) to (700, 500)
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_move_completed - (700, 500)
+✓ PASS: Move Completed Signal: Camera should emit move_completed signal
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 2/2 tests passed
+===== TEST SUITE: Signal Connection Helper Methods =====
+Running test: Connect State Listener Helper
+[CAMERA DEBUG] Connected state listener: MockStateListener:[Node:1398] -> _on_camera_state_changed
+Signal received: camera_move_started - (700, 500)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (700, 500), Target (700, 500)
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (700, 500), took 0.001s
+[CAMERA DEBUG] Disconnected all listeners for: MockStateListener:[Node:1398]
+Signal received: camera_move_completed - (700, 500)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Connect State Listener Helper: connect_state_listener should connect signals and support method chaining
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Connect Move Started Listener Helper
+[CAMERA DEBUG] Connected move_started listener: MockMoveStartedListener:[Node:1403] -> _on_camera_move_started
+ensure_valid_target called with position: (100, 100)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (100, 100)
+move_to_position called with pos=(100, 100), immediate=False
+Target position after validation: (100, 100)
+Starting animated movement to (100, 100)
+Signal received: camera_move_started - (100, 100)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (621.684265, 447.78952), Target (100, 100)
+[CAMERA DEBUG] Disconnected all listeners for: MockMoveStartedListener:[Node:1403]
+Signal received: camera_move_completed - (621.684265, 447.78952)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Connect Move Started Listener Helper: connect_move_started_listener should connect movement signals
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Connect Move Completed Listener Helper
+[CAMERA DEBUG] Connected move_completed listener: MockMoveCompletedListener:[Node:1407] -> _on_camera_move_completed
+ensure_valid_target called with position: (100, 100)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (100, 100)
+move_to_position called with pos=(100, 100), immediate=True
+Target position after validation: (100, 100)
+Immediate move from (621.684265, 447.78952) to (100, 100)
+Signal received: camera_move_started - (100, 100)
+Signal received: camera_move_completed - (100, 100)
+Signal received: camera_move_completed - (100, 100)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Disconnected all listeners for: MockMoveCompletedListener:[Node:1407]
+Signal received: camera_move_completed - (100, 100)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Connect Move Completed Listener Helper: connect_move_completed_listener should connect completion signals
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Connect View Bounds Listener Helper
+[CAMERA DEBUG] Connected view_bounds listener: MockViewBoundsListener:[Node:1411] -> _on_view_bounds_changed
+ensure_valid_target called with position: (143, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (143, 221)
+[CAMERA DEBUG] Player outside camera view - adjusting camera position
+ensure_valid_target called with position: (105.612625, 136)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (105.612625, 136)
+[CAMERA DEBUG] Camera repositioned to: (105.612625, 136) to keep player in view
+[CAMERA DEBUG] Camera following player: (500, 500) -> (105.612625, 136)
+[CAMERA DEBUG] Disconnected all listeners for: MockViewBoundsListener:[Node:1411]
+✓ PASS: Connect View Bounds Listener Helper: connect_view_bounds_listener should connect bounds change signals
+ensure_valid_target called with position: (143.000015, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (143.000015, 221)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (110.492661, 147.094727)
+Running test: Disconnect Listener Cleanup
+[CAMERA DEBUG] Connected state listener: MockDisconnectListener:[Node:1415] -> _on_camera_state_changed
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_started listener: MockDisconnectListener:[Node:1415] -> _on_camera_move_started
+[CAMERA DEBUG] Disconnected all listeners for: MockDisconnectListener:[Node:1415]
+Signal received: camera_move_started - (100, 100)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+ensure_valid_target called with position: (100, 100)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (100, 100)
+move_to_position called with pos=(100, 100), immediate=False
+Target position after validation: (100, 100)
+Starting animated movement to (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (109.123093, 140.947632), Target (100, 100)
+Signal received: camera_move_completed - (109.123093, 140.947632)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+✓ PASS: Disconnect Listener Cleanup: disconnect_listener should remove all signal connections
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 1/1 tests passed
+ensure_valid_target called with position: (142.999985, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (142.999985, 221)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (113.544914, 151.396561)
+===== TEST SUITE: UI Element Synchronization System =====
+Running test: Register UI Element
+WARNING: ScrollingCamera: UI element doesn't implement any of the required synchronization methods
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Registered UI element: MockUIElement:[Node:1420]
+[CAMERA DEBUG] Disconnected all listeners for: MockUIElement:[Node:1420]
+[CAMERA DEBUG] Unregistered UI element: MockUIElement:[Node:1420]
+✓ PASS: Register UI Element: register_ui_element should register elements and support method chaining
+ensure_valid_target called with position: (143, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (143, 221)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (117.389572, 160.481628)
+Running test: UI Element Callback Invocation
+[CAMERA DEBUG] Registered UI element: MockUIElementWithCallbacks:[Node:1424]
+[CAMERA DEBUG] Connected state listener: MockUIElementWithCallbacks:[Node:1424] -> on_camera_state_changed
+ERROR: Signal 'tree_exiting' is already connected to given method '_on_listener_freed' in that object.
+   at: connect (core/object.cpp:1480)
+[CAMERA DEBUG] Connected move_completed listener: MockUIElementWithCallbacks:[Node:1424] -> on_camera_move_completed
+ensure_valid_target called with position: (100, 100)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (100, 100)
+move_to_position called with pos=(100, 100), immediate=False
+Target position after validation: (100, 100)
+Starting animated movement to (100, 100)
+Signal received: camera_move_started - (100, 100)
+Signal received: camera_state_changed - 1
+ERROR: Error calling method from signal 'camera_state_changed': 'Node(mock_ui_element.gd)::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (115.119774, 152.587189), Target (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.166667, Position (111.20649, 138.976624), Target (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.25, Position (106.917953, 124.060913), Target (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.333333, Position (103.458977, 112.030457), Target (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.416667, Position (101.353287, 104.706779), Target (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (100.39637, 101.378586), Target (100, 100)
+[CAMERA DEBUG] Camera transition: Progress 0.583333, Position (100.081909, 100.284882), Target (100, 100)
+Signal received: camera_move_completed - (100, 100)
+ERROR: Error calling method from signal 'camera_move_completed': 'Node(mock_ui_element.gd)::on_camera_move_completed': Method expected 0 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+Signal received: camera_state_changed - 2
+ERROR: Error calling method from signal 'camera_state_changed': 'Node(mock_ui_element.gd)::on_camera_state_changed': Method expected 2 arguments, but called with 3..
+   at: emit_signal (core/object.cpp:1242)
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (100, 100), took 0.099s
+[CAMERA DEBUG] Disconnected all listeners for: MockUIElementWithCallbacks:[Node:1424]
+[CAMERA DEBUG] Unregistered UI element: MockUIElementWithCallbacks:[Node:1424]
+Signal received: camera_move_completed - (100, 100)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: UI Element Callback Invocation: UI elements should receive movement callbacks during camera transitions
+Running test: UI Element Auto-Cleanup on Freed
+WARNING: ScrollingCamera: UI element doesn't implement any of the required synchronization methods
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Registered UI element: MockUIElementForCleanup:[Node:1429]
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Disconnected all listeners for: MockUIElementForCleanup:[Node:1429]
+[CAMERA DEBUG] Unregistered UI element: MockUIElementForCleanup:[Node:1429]
+✓ PASS: UI Element Auto-Cleanup on Freed: UI elements should be auto-cleaned up when freed
+ensure_valid_target called with position: (143, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (143, 221)
+[CAMERA DEBUG] Player outside camera view - adjusting camera position
+ensure_valid_target called with position: (105.612625, 136)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (105.612625, 136)
+[CAMERA DEBUG] Camera repositioned to: (105.612625, 136) to keep player in view
+[CAMERA DEBUG] Camera following player: (500, 500) -> (105.612625, 136)
+Running test: Unregister UI Element
+WARNING: ScrollingCamera: UI element doesn't implement any of the required synchronization methods
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Registered UI element: MockUIElementForUnregister:[Node:1433]
+[CAMERA DEBUG] Disconnected all listeners for: MockUIElementForUnregister:[Node:1433]
+[CAMERA DEBUG] Unregistered UI element: MockUIElementForUnregister:[Node:1433]
+✓ PASS: Unregister UI Element: unregister_ui_element should support method chaining
+ensure_valid_target called with position: (143.000015, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (143.000015, 221)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (110.492661, 147.094727)
+Suite completed: 1/1 tests passed
+ensure_valid_target called with position: (142.999985, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (142.999985, 221)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (114.735718, 156.741302)
+===== TEST SUITE: Transition Callback System =====
+Running test: Register Transition Callback
+[CAMERA DEBUG] Registered transition callback at point 0.5: MockCallbackObject:[Node:1437] -> _on_transition_point
+[CAMERA DEBUG] Unregistered transition callback at point 0.5: MockCallbackObject:[Node:1437]
+✓ PASS: Register Transition Callback: register_transition_callback should support method chaining
+ensure_valid_target called with position: (143, 221)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (143, 221)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (118.42495, 165.128754)
+Running test: Transition Callback Invocation at Progress Points
+[CAMERA DEBUG] Registered transition callback at point 0.5: MockCallbackInvocation:[Node:1441] -> _on_transition_point
+ensure_valid_target called with position: (1000, 1000)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (1000, 1000)
+move_to_position called with pos=(1000, 1000), immediate=False
+Target position after validation: (1000, 1000)
+Starting animated movement to (1000, 1000)
+Signal received: camera_move_started - (1000, 1000)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (233.493591, 274.101318), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.166667, Position (431.880066, 461.977722), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.25, Position (649.290161, 667.869934), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.333333, Position (824.645081, 833.934937), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.416667, Position (931.394409, 935.028931), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (979.905884, 980.970398), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.583333, Position (995.847595, 996.067627), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.666667, Position (999.443665, 999.473145), Target (1000, 1000)
+Signal received: camera_move_completed - (1000, 1000)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (1000, 1000), took 0.116s
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Player outside camera view - adjusting camera position
+ensure_valid_target called with position: (981.334778, 864)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (981.334778, 864)
+[CAMERA DEBUG] Camera repositioned to: (981.334778, 864) to keep player in view
+[CAMERA DEBUG] Camera following player: (500, 500) -> (981.334778, 864)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (965.105835, 852.905273)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (950.995178, 843.258728)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (938.726318, 834.871277)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (928.058899, 827.578613)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (918.783875, 821.237854)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (910.719482, 815.724731)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (903.707703, 810.931213)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (897.611145, 806.763367)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (892.310303, 803.139526)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (887.701355, 799.988708)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (883.694031, 797.249146)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (880.209778, 794.867126)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (877.180298, 792.796021)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (874.546265, 790.9953)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (872.256042, 789.429626)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (870.264709, 788.068298)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (868.533325, 786.884644)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (867.027954, 785.855469)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (865.719055, 784.960632)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (864.580994, 784.182617)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (863.591492, 783.506165)
+ensure_valid_target called with position: (857, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 500)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (862.73114, 746.50116)
+ensure_valid_target called with position: (857, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 500)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (861.983093, 714.326294)
+[CAMERA DEBUG] Unregistered transition callback at point 0.5: MockCallbackInvocation:[Node:1441]
+Signal received: camera_move_completed - (861.983093, 714.326294)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Transition Callback Invocation at Progress Points: Transition callbacks should be invoked at specified progress points
+Running test: Multiple Callbacks Per Progress Point
+[CAMERA DEBUG] Registered transition callback at point 0.5: MockCallback1:[Node:1446] -> _on_transition_point
+[CAMERA DEBUG] Registered transition callback at point 0.5: MockCallback2:[Node:1447] -> _on_transition_point
+ensure_valid_target called with position: (1000, 1000)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (1000, 1000)
+move_to_position called with pos=(1000, 1000), immediate=False
+Target position after validation: (1000, 1000)
+Starting animated movement to (1000, 1000)
+Signal received: camera_move_started - (1000, 1000)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (879.997925, 751.614197), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.166667, Position (911.056763, 815.901184), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.25, Position (945.093872, 886.352783), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.333333, Position (972.546936, 943.176392), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.416667, Position (989.259277, 977.768433), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (996.854126, 993.488525), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.583333, Position (999.349915, 998.654419), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.666667, Position (999.912903, 999.819702), Target (1000, 1000)
+Signal received: camera_move_completed - (1000, 1000)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (1000, 1000), took 0.115s
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Player outside camera view - adjusting camera position
+ensure_valid_target called with position: (981.334778, 864)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (981.334778, 864)
+[CAMERA DEBUG] Camera repositioned to: (981.334778, 864) to keep player in view
+[CAMERA DEBUG] Camera following player: (500, 500) -> (981.334778, 864)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (965.105835, 852.905273)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (950.995178, 843.258728)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (938.726318, 834.871277)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (928.058899, 827.578613)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (918.783875, 821.237854)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (910.719482, 815.724731)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (903.707703, 810.931213)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (897.611145, 806.763367)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (892.310303, 803.139526)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (887.701355, 799.988708)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (883.694031, 797.249146)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (880.209778, 794.867126)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (877.180298, 792.796021)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (874.546265, 790.9953)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (872.256042, 789.429626)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (870.264709, 788.068298)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (868.533325, 786.884644)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (867.027954, 785.855469)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (865.719055, 784.960632)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (864.580994, 784.182617)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (863.591492, 783.506165)
+ensure_valid_target called with position: (857, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 500)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (862.73114, 746.50116)
+ensure_valid_target called with position: (857, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 500)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (861.983093, 714.326294)
+[CAMERA DEBUG] Unregistered transition callback at point 0.5: MockCallback1:[Node:1446]
+[CAMERA DEBUG] Unregistered transition callback at point 0.5: MockCallback2:[Node:1447]
+Signal received: camera_move_completed - (861.983093, 714.326294)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Multiple Callbacks Per Progress Point: Multiple callbacks should be supported at the same progress point
+Running test: Unregister Transition Callback
+[CAMERA DEBUG] Registered transition callback at point 0.5: MockUnregisterCallback:[Node:1452] -> _on_transition_point
+[CAMERA DEBUG] Unregistered transition callback at point 0.5: MockUnregisterCallback:[Node:1452] -> _on_transition_point
+ensure_valid_target called with position: (1000, 1000)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (1000, 1000)
+move_to_position called with pos=(1000, 1000), immediate=False
+Target position after validation: (1000, 1000)
+Starting animated movement to (1000, 1000)
+Signal received: camera_move_started - (1000, 1000)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (879.997925, 751.614197), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.166667, Position (911.056763, 815.901184), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.25, Position (945.093872, 886.352783), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.333333, Position (972.546936, 943.176392), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.416667, Position (989.259277, 977.768433), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (996.854126, 993.488525), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.583333, Position (999.349915, 998.654419), Target (1000, 1000)
+[CAMERA DEBUG] Camera transition: Progress 0.666667, Position (999.912903, 999.819702), Target (1000, 1000)
+Signal received: camera_move_completed - (1000, 1000)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (1000, 1000), took 0.115s
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Player outside camera view - adjusting camera position
+ensure_valid_target called with position: (981.334778, 864)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (981.334778, 864)
+[CAMERA DEBUG] Camera repositioned to: (981.334778, 864) to keep player in view
+[CAMERA DEBUG] Camera following player: (500, 500) -> (981.334778, 864)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (965.105835, 852.905273)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (950.995178, 843.258728)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (938.726318, 834.871277)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (928.058899, 827.578613)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (918.783875, 821.237854)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (910.719482, 815.724731)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (903.707703, 810.931213)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (897.611145, 806.763367)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (892.310303, 803.139526)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (887.701355, 799.988708)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (883.694031, 797.249146)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (880.209778, 794.867126)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (877.180298, 792.796021)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (874.546265, 790.9953)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (872.256042, 789.429626)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (870.264709, 788.068298)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (868.533325, 786.884644)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (867.034851, 785.860229)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (865.725037, 784.964783)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (864.586182, 784.186218)
+ensure_valid_target called with position: (857, 779)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 779)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (863.596008, 783.509277)
+ensure_valid_target called with position: (857, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 500)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (862.735046, 746.503906)
+ensure_valid_target called with position: (857, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (857, 500)
+[CAMERA DEBUG] Camera following player: (500, 500) -> (861.98645, 714.328674)
+Signal received: camera_move_completed - (861.98645, 714.328674)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Unregister Transition Callback: unregister_transition_callback should remove callbacks and support method chaining
+Suite completed: 2/2 tests passed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+===== TEST SUITE: Advanced Signal Emissions =====
+Running test: View Bounds Changed Signal
+✓ PASS: View Bounds Changed Signal: view_bounds_changed signal should be emitted when bounds change
+Running test: Transition Progress Signal
+ensure_valid_target called with position: (300, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (300, 300)
+move_to_position called with pos=(300, 300), immediate=False
+Target position after validation: (300, 300)
+Starting animated movement to (300, 300)
+Signal received: camera_move_started - (300, 300)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (788.632507, 660.247925), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.166135, Position (662.559326, 567.299561), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.249468, Position (524.093689, 465.214722), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.33251, Position (412.297913, 382.79248), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.41511, Position (344.15332, 332.552368), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.498443, Position (313.008636, 309.590729), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.581777, Position (302.707581, 301.996185), Target (300, 300)
+[CAMERA DEBUG] Camera transition: Progress 0.66511, Position (300.366058, 300.269897), Target (300, 300)
+Signal received: camera_move_completed - (300, 300)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (300, 300), took 0.116s
+Signal received: camera_move_completed - (300, 300)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Transition Progress Signal: camera_transition_progress signal should be emitted during movement
+Running test: Transition Point Reached Signal
+ensure_valid_target called with position: (600, 600)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (600, 600)
+move_to_position called with pos=(600, 600), immediate=False
+Target position after validation: (600, 600)
+Starting animated movement to (600, 600)
+Signal received: camera_move_started - (600, 600)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (339.157867, 339.157867), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.16649, Position (406.598846, 406.598846), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.249823, Position (480.560669, 480.560669), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.333157, Position (540.251648, 540.251648), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.41649, Position (576.610962, 576.610962), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.499823, Position (593.144897, 593.144897), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.583157, Position (598.582275, 598.582275), Target (600, 600)
+[CAMERA DEBUG] Camera transition: Progress 0.665015, Position (599.808228, 599.808228), Target (600, 600)
+Signal received: camera_move_completed - (600, 600)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (600, 600), took 0.115s
+Signal received: camera_move_completed - (600, 600)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Transition Point Reached Signal: camera_transition_point_reached signal should be emitted at progress milestones
+Running test: Auto-Disconnection on Object Freed
+[CAMERA DEBUG] Connected state listener: TempListener:[Node:1470] -> _on_camera_state_changed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Auto-removed state listener with ID: 1470
+Signal received: camera_move_started - (600, 600)
+Signal received: camera_state_changed - 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.082485, Position (600, 600), Target (600, 600)
+Signal received: camera_move_completed - (600, 600)
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (600, 600), took 0s
+Signal received: camera_move_completed - (600, 600)
+Signal received: camera_state_changed - 0
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+✓ PASS: Auto-Disconnection on Object Freed: Signal connections should be auto-cleaned when objects are freed
+Signal received: camera_state_changed - 2
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Suite completed: 1/1 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 32
+Passed: 32
+Failed: 0
+
+All tests passed! 🎉
