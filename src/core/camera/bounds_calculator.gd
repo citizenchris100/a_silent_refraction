@@ -149,6 +149,18 @@ static func apply_safety_corrections(bounds: Rect2, district = null) -> Rect2:
 static func create_bounds_visualization(bounds: Rect2, parent_node):
 	if not OS.is_debug_build():
 		return null
+	
+	# Clean up any existing bounds visualizations to prevent memory leaks
+	# Use a more thorough approach that handles nodes scheduled for deletion
+	var children_to_remove = []
+	for child in parent_node.get_children():
+		if child.name == "BoundsVisualization":
+			children_to_remove.append(child)
+	
+	# Remove all existing visualizations immediately
+	for child in children_to_remove:
+		parent_node.remove_child(child)
+		child.queue_free()  # Still queue_free for proper cleanup, but remove from tree immediately
 		
 	var visualization = Node2D.new()
 	visualization.name = "BoundsVisualization"

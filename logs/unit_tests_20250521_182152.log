@@ -1,0 +1,10 @@
+=== Test: bounds_calculator_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Expected ',' or ')'
+          at: GDScript::reload (res://src/unit_tests/bounds_calculator_test.gd:401)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+

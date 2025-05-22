@@ -99,6 +99,9 @@ func test_visualization_suite():
 	# Test 1: Create bounds visualization
 	yield(test_create_bounds_visualization(), "completed")
 	
+	# Test 2: Visualization cleanup prevents memory leaks
+	yield(test_visualization_cleanup(), "completed")
+	
 	end_test_suite()
 	yield(get_tree(), "idle_frame")
 
@@ -380,6 +383,61 @@ func test_create_bounds_visualization():
 	temp_parent.queue_free() # This will also free the visualization
 	
 	end_test(is_correct_type && has_children, "create_bounds_visualization should create a visual representation with appropriate components")
+	yield(get_tree(), "idle_frame")
+
+func test_visualization_cleanup():
+	start_test("Visualization Cleanup")
+	
+	# Create a temporary parent node
+	var temp_parent = Node2D.new()
+	temp_parent.name = "TempCleanupTestParent"
+	add_child(temp_parent)
+	
+	# Create first visualization
+	var bounds1 = Rect2(100, 100, 500, 300)
+	var viz1 = BoundsCalculator.create_bounds_visualization(bounds1, temp_parent)
+	
+	# Verify we have exactly one visualization
+	var viz_count_after_first = 0
+	for child in temp_parent.get_children():
+		if child.name == "BoundsVisualization":
+			viz_count_after_first += 1
+	
+	# Create second visualization (should clean up the first)
+	var bounds2 = Rect2(200, 200, 400, 250) 
+	var viz2 = BoundsCalculator.create_bounds_visualization(bounds2, temp_parent)
+	
+	# Give time for queue_free to process
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	
+	# Verify we still have exactly one visualization (not two)
+	var viz_count_after_second = 0
+	for child in temp_parent.get_children():
+		if child.name == "BoundsVisualization":
+			viz_count_after_second += 1
+	
+	# Create third visualization to verify cleanup is consistent
+	var bounds3 = Rect2(300, 300, 350, 200)
+	var viz3 = BoundsCalculator.create_bounds_visualization(bounds3, temp_parent)
+	
+	# Give time for queue_free to process
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	
+	# Final verification
+	var final_viz_count = 0
+	for child in temp_parent.get_children():
+		if child.name == "BoundsVisualization":
+			final_viz_count += 1
+	
+	# Clean up
+	temp_parent.queue_free()
+	
+	# Test passes if we always have exactly one visualization node
+	var cleanup_working = (viz_count_after_first == 1) && (viz_count_after_second == 1) && (final_viz_count == 1)
+	
+	end_test(cleanup_working, "Visualization cleanup should prevent memory leaks by removing old visualizations")
 	yield(get_tree(), "idle_frame")
 
 # EDGE CASES TESTS
