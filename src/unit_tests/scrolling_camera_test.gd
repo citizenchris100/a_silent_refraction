@@ -416,6 +416,91 @@ func run_bounds_tests():
     end_test()
     
     yield(get_tree(), "idle_frame")
+    
+    # Test 6: Background scaling override prevention
+    start_test("Background scaling override prevention")
+    
+    # Create a mock district with background for scaling test
+    var scaling_district = Node2D.new()
+    scaling_district.name = "ScalingTestDistrict"
+    
+    # Set up background size to match scaling scenario (original background size)
+    scaling_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
+    scaling_district.background_size = Vector2(2448, 496)  # Original background size
+    
+    # Create a mock background sprite for calculate_optimal_zoom to find
+    var background = Sprite.new()
+    background.name = "Background"
+    
+    # Create a mock texture with the original size
+    var mock_texture = ImageTexture.new()
+    var image = Image.new()
+    image.create(2448, 496, false, Image.FORMAT_RGB8)
+    mock_texture.create_from_image(image)
+    background.texture = mock_texture
+    background.centered = false
+    
+    scaling_district.add_child(background)
+    add_child(scaling_district)
+    
+    # Create floor-like walkable area that produces viewport-aware bounds
+    var scaling_walkable = Polygon2D.new()
+    scaling_walkable.name = "ScalingWalkableArea"
+    var scaling_polygon = PoolVector2Array([
+        Vector2(0, 822),     # Floor level
+        Vector2(4691, 822),  # Floor level (wide)
+        Vector2(4691, 947),  # Bottom edge
+        Vector2(0, 947)      # Bottom edge
+    ])
+    scaling_walkable.polygon = scaling_polygon
+    scaling_walkable.set_script(preload("res://src/unit_tests/mocks/mock_district.gd"))
+    
+    scaling_district.walkable_areas = [scaling_walkable]
+    scaling_district.add_child(scaling_walkable)
+    
+    # Step 1: Calculate viewport-aware bounds using _calculate_district_bounds
+    var expected_bounds = camera._calculate_district_bounds(scaling_district)
+    
+    log_info("Expected viewport-aware bounds: " + str(expected_bounds))
+    log_info("Expected bounds height: " + str(expected_bounds.size.y))
+    
+    # Step 2: Move camera to the scaling district to trigger background scaling
+    var original_parent = camera.get_parent()
+    if original_parent:
+        original_parent.remove_child(camera)
+    scaling_district.add_child(camera)
+    
+    # Step 3: Call calculate_optimal_zoom (this should NOT override the bounds)
+    camera.screen_size = Vector2(1424, 952)  # Set viewport size
+    camera.bounds_enabled = true
+    camera.calculate_optimal_zoom()
+    
+    # Step 4: Verify that bounds were NOT overridden by background scaling
+    var bounds_after_scaling = camera.camera_bounds
+    
+    log_info("Bounds after background scaling: " + str(bounds_after_scaling))
+    log_info("Bounds height after scaling: " + str(bounds_after_scaling.size.y))
+    
+    # THE CRITICAL TEST: Verify bounds were preserved, not overridden
+    var bounds_preserved = (bounds_after_scaling.size.y == expected_bounds.size.y)
+    var bounds_not_full_background = (bounds_after_scaling.size.y < 952)  # Should not be full viewport height
+    
+    log_info("Bounds preserved: " + str(bounds_preserved))
+    log_info("Bounds not full background: " + str(bounds_not_full_background))
+    
+    assert_true(bounds_preserved, "calculate_optimal_zoom() should preserve viewport-aware bounds, not override them")
+    assert_true(bounds_not_full_background, "Bounds should not be set to full background size (would cause grey bar issue)")
+    
+    # Step 5: Restore camera to original parent
+    scaling_district.remove_child(camera)
+    if original_parent:
+        original_parent.add_child(camera)
+    
+    # Clean up
+    scaling_district.queue_free()
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
 func run_state_tests():
     log_info("=== Running State Tests ===", true)

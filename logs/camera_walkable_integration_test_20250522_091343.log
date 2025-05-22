@@ -1,0 +1,231 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Camera-Walkable Area Integration test...
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 0, 0)
+BoundsValidator initialized: Reference
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1305
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Test scene created with district, walkable area, camera, and player
+Starting Camera-Walkable Area Integration tests...
+Running test suite: bounds_calculation with timeout protection
+===== TEST SUITE: Bounds Calculation =====
+Running test: Camera Calculates Bounds
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (900, 100), Global: (900, 100)
+Point 2 - Local: (900, 500), Global: (900, 500)
+Point 3 - Local: (100, 500), Global: (100, 500)
+Note: Rect2.expand() did not change bounds for point (100, 500) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 100, 800, 400)
+Bounds after margin adjustment: (99, 99, 802, 402)
+Final corrected bounds: (99, 99, 802, 402)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 99, 802, 402)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Camera Calculates Bounds: Camera should calculate bounds from walkable areas
+Running test: Bounds Contain Walkable Areas
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (900, 100), Global: (900, 100)
+Point 2 - Local: (900, 500), Global: (900, 500)
+Point 3 - Local: (100, 500), Global: (100, 500)
+Note: Rect2.expand() did not change bounds for point (100, 500) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 100, 800, 400)
+Bounds after margin adjustment: (99, 99, 802, 402)
+Final corrected bounds: (99, 99, 802, 402)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 99, 802, 402)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Bounds Contain Walkable Areas: Camera bounds should contain all walkable area points
+Running test: Bounds Update on District Change
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (200, 200), Global: (200, 200)
+Point 1 - Local: (800, 200), Global: (800, 200)
+Point 2 - Local: (800, 400), Global: (800, 400)
+Point 3 - Local: (200, 400), Global: (200, 400)
+Note: Rect2.expand() did not change bounds for point (200, 400) - this is normal for some polygon arrangements
+Raw calculated bounds: (200, 200, 600, 200)
+Bounds after margin adjustment: (199, 199, 602, 202)
+Final corrected bounds: (199, 199, 602, 202)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+INFO: Walkable area height is 202 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 285.6 pixels for better visibility
+Height-to-viewport ratio: 0.3 (30%)
+This preserves the exact floor walkable area while improving camera view
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+Final district bounds: (199, 157.199997, 602, 285.600006)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+✓ PASS: Bounds Update on District Change: Camera bounds should update when walkable areas change
+Suite completed: 3/3 tests passed
+Running test suite: camera_constraint with timeout protection
+===== TEST SUITE: Camera Constraint =====
+Running test: Camera Stays Within Bounds
+ensure_valid_target called with position: (2000, 2000)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+Position adjusted by bounds: (2000, 2000) -> (500, 300)
+Position adjusted by bounds validator: (2000, 2000) -> (500, 300)
+move_to_position called with pos=(2000, 2000), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+ensure_valid_target called with position: (500, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+move_to_position called with pos=(500, 300), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+✓ PASS: Camera Stays Within Bounds: Camera should stay within calculated bounds
+Running test: Camera Handles Invalid Targets
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+ensure_valid_target called with position: (nan, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+move_to_position called with pos=(nan, 100), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+ensure_valid_target called with position: (500, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+move_to_position called with pos=(500, 300), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+✓ PASS: Camera Handles Invalid Targets: Camera should handle invalid target positions
+Running test: Camera Uses BoundsCalculator
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 2
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 2
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (900, 100), Global: (900, 100)
+Point 2 - Local: (900, 500), Global: (900, 500)
+Point 3 - Local: (100, 500), Global: (100, 500)
+Note: Rect2.expand() did not change bounds for point (100, 500) - this is normal for some polygon arrangements
+Using get_polygon() interface method
+Processing walkable area: @WalkableArea@3 with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (1000, 0), Global: (1000, 0)
+Point 2 - Local: (1000, 600), Global: (1000, 600)
+Point 3 - Local: (0, 600), Global: (0, 600)
+Note: Rect2.expand() did not change bounds for point (0, 600) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 1000, 600)
+Bounds after margin adjustment: (-1, -1, 1002, 602)
+Final corrected bounds: (-1, -1, 1002, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (-1, -1, 1002, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Camera Uses BoundsCalculator: Camera should use BoundsCalculator to calculate bounds
+Suite completed: 3/3 tests passed
+Running test suite: coordinate_transformations with timeout protection
+===== TEST SUITE: Coordinate Transformations =====
+Running test: Screen to World with Camera
+✓ PASS: Screen to World with Camera: Screen-to-world conversion should map screen center to camera position
+Running test: World to Screen with Camera
+✓ PASS: World to Screen with Camera: World-to-screen conversion should map camera position to screen center
+Running test: District Camera Coordinate Methods Match
+✓ PASS: District Camera Coordinate Methods Match: District and camera coordinate methods should give consistent results
+Suite completed: 3/3 tests passed
+Running test suite: view_modes with timeout protection
+===== TEST SUITE: View Modes =====
+Running test: World View Coordinate Transformations
+✓ PASS: World View Coordinate Transformations: World view coordinates should be properly transformed to game view
+Running test: Game View Coordinate Transformations
+✓ PASS: Game View Coordinate Transformations: Game view coordinates should be properly transformed to world view
+Running test: View Mode Transformation Consistency
+✓ PASS: View Mode Transformation Consistency: View mode transformations should be consistent when applied bidirectionally
+Suite completed: 3/3 tests passed
+Running test suite: player_movement with timeout protection
+===== TEST SUITE: Player Movement =====
+Running test: Camera Follows Player Movement
+Setting target_player to: MockPlayer:[Node2D:1310]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Camera Stops at Boundaries
+Setting target_player to: MockPlayer:[Node2D:1310]
+Running test: Player Stays Within Walkable Areas
+✓ PASS: Player Stays Within Walkable Areas: Walkable area detection should correctly identify valid positions
+Suite completed: 1/1 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 13
+Passed: 13
+Failed: 0
+
+All tests passed! 🎉
+Tests complete - exiting...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/camera/scrolling_camera.gd:434
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)

@@ -1035,10 +1035,11 @@ func calculate_optimal_zoom():
             district.background_size = effective_bg_size
             print("Updated district.background_size to " + str(effective_bg_size))
         
-        # Update camera bounds if needed
+        # Note: We do NOT override camera_bounds here as they should be calculated
+        # by _calculate_district_bounds() using viewport-aware algorithms.
+        # Overriding here would undo the viewport-aware bounds calculation.
         if bounds_enabled and district is BaseDistrict:
-            camera_bounds = Rect2(0, 0, effective_bg_size.x, effective_bg_size.y)
-            print("Updated camera bounds to match scaled background: " + str(camera_bounds))
+            print("Camera bounds preserved (not overridden by background scaling): " + str(camera_bounds))
             
         # Store scaled size in the district if possible
         if district and "background_size" in district:

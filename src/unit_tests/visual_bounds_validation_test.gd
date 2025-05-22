@@ -29,13 +29,13 @@ func run_tests():
 	debug_log("Starting Visual Bounds Validation tests...")
 	
 	# Test suite 1: Bounds-to-Viewport Ratio Validation
-	yield(test_viewport_bounds_ratio_suite(), "completed")
+	test_viewport_bounds_ratio_suite()
 	
 	# Test suite 2: Background Positioning Validation  
-	yield(test_background_positioning_suite(), "completed")
+	test_background_positioning_suite()
 	
 	# Test suite 3: Background Scaling Override Detection
-	yield(test_background_scaling_override_suite(), "completed")
+	test_background_scaling_override_suite()
 
 # ===== TEST SUITES =====
 
@@ -57,10 +57,10 @@ func test_background_positioning_suite():
 	start_test_suite("Background Positioning Validation")
 	
 	# Test 1: Camera bounds should prevent background clipping
-	yield(test_camera_bounds_prevent_clipping(), "completed")
+	test_camera_bounds_prevent_clipping()
 	
 	# Test 2: Background scaling should maintain proper positioning
-	yield(test_background_scaling_positioning(), "completed")
+	test_background_scaling_positioning()
 	
 	end_test_suite()
 
@@ -68,10 +68,10 @@ func test_background_scaling_override_suite():
 	start_test_suite("Background Scaling Override Detection")
 	
 	# Test 1: Verify viewport-aware bounds are preserved after background scaling
-	yield(test_viewport_bounds_preserved_after_scaling(), "completed")
+	test_viewport_bounds_preserved_after_scaling()
 	
 	# Test 2: Verify calculate_optimal_zoom doesn't override bounds
-	yield(test_calculate_optimal_zoom_preserves_bounds(), "completed")
+	test_calculate_optimal_zoom_preserves_bounds()
 	
 	end_test_suite()
 
