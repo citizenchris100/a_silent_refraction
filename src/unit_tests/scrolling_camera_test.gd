@@ -417,8 +417,8 @@ func run_bounds_tests():
     
     yield(get_tree(), "idle_frame")
     
-    # Test 6: Background scaling override prevention
-    start_test("Background scaling override prevention")
+    # Test 6: Background scaling hybrid architecture validation
+    start_test("Background scaling hybrid architecture validation")
     
     # Create a mock district with background for scaling test
     var scaling_district = Node2D.new()
@@ -481,15 +481,15 @@ func run_bounds_tests():
     log_info("Bounds after background scaling: " + str(bounds_after_scaling))
     log_info("Bounds height after scaling: " + str(bounds_after_scaling.size.y))
     
-    # THE CRITICAL TEST: Verify bounds were preserved, not overridden
-    var bounds_preserved = (bounds_after_scaling.size.y == expected_bounds.size.y)
-    var bounds_not_full_background = (bounds_after_scaling.size.y < 952)  # Should not be full viewport height
+    # THE CRITICAL TEST: Verify hybrid architecture - bounds should be overridden for visual correctness
+    var bounds_were_overridden = (bounds_after_scaling.size.y != expected_bounds.size.y)
+    var bounds_match_scaled_background = (abs(bounds_after_scaling.size.y - 952.0) < 10.0)  # Should match viewport height
     
-    log_info("Bounds preserved: " + str(bounds_preserved))
-    log_info("Bounds not full background: " + str(bounds_not_full_background))
+    log_info("Bounds were overridden: " + str(bounds_were_overridden))
+    log_info("Bounds match scaled background: " + str(bounds_match_scaled_background))
     
-    assert_true(bounds_preserved, "calculate_optimal_zoom() should preserve viewport-aware bounds, not override them")
-    assert_true(bounds_not_full_background, "Bounds should not be set to full background size (would cause grey bar issue)")
+    assert_true(bounds_were_overridden, "calculate_optimal_zoom() should override viewport-aware bounds for visual correctness")
+    assert_true(bounds_match_scaled_background, "Bounds should be set to scaled background size to prevent grey bar visual artifacts")
     
     # Step 5: Restore camera to original parent
     scaling_district.remove_child(camera)
@@ -498,6 +498,103 @@ func run_bounds_tests():
     
     # Clean up
     scaling_district.queue_free()
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 7: Background scaling requires bounds override for proper visual display
+    start_test("Background scaling visual requirement")
+    
+    # This test captures the ACTUAL requirement: background scaling needs bounds override 
+    # to prevent grey bars, even though it conflicts with viewport-aware bounds logic
+    
+    # Create a mock district with realistic background scaling scenario
+    var visual_district = Node2D.new()
+    visual_district.name = "VisualTestDistrict" 
+    
+    # Set up original background size (before scaling)
+    visual_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
+    visual_district.background_size = Vector2(2448, 496)  # Original size
+    
+    # Create mock background sprite
+    var visual_background = Sprite.new()
+    visual_background.name = "Background"
+    
+    # Create texture with original dimensions
+    var visual_texture = ImageTexture.new()
+    var visual_image = Image.new()
+    visual_image.create(2448, 496, false, Image.FORMAT_RGB8)
+    visual_texture.create_from_image(visual_image)
+    visual_background.texture = visual_texture
+    visual_background.centered = false
+    
+    visual_district.add_child(visual_background)
+    add_child(visual_district)
+    
+    # Create floor walkable area that would cause viewport-aware bounds
+    var visual_walkable = Polygon2D.new()
+    visual_walkable.name = "VisualWalkableArea"
+    var visual_polygon = PoolVector2Array([
+        Vector2(0, 822),     # Floor level  
+        Vector2(4691, 822),  # Floor level (wide)
+        Vector2(4691, 947),  # Bottom edge
+        Vector2(0, 947)      # Bottom edge
+    ])
+    visual_walkable.polygon = visual_polygon
+    visual_walkable.set_script(preload("res://src/unit_tests/mocks/mock_district.gd"))
+    
+    visual_district.walkable_areas = [visual_walkable]
+    visual_district.add_child(visual_walkable)
+    
+    # Move camera to the visual district 
+    var visual_original_parent = camera.get_parent()
+    if visual_original_parent:
+        visual_original_parent.remove_child(camera)
+    visual_district.add_child(camera)
+    
+    # Set realistic viewport size that triggers the scaling issue
+    camera.screen_size = Vector2(1424, 952)  # Viewport size
+    camera.bounds_enabled = true
+    
+    # Call calculate_optimal_zoom to trigger background scaling
+    camera.calculate_optimal_zoom()
+    
+    # Get the background's scale after calculate_optimal_zoom
+    var background_scale_after = visual_background.scale
+    var expected_scale = 952.0 / 496.0  # viewport_height / original_height = ~1.92
+    
+    log_info("Background scale after calculate_optimal_zoom: " + str(background_scale_after))
+    log_info("Expected scale for viewport fill: " + str(expected_scale))
+    
+    # Verify background was scaled to fill viewport height
+    var scale_correct = abs(background_scale_after.y - expected_scale) < 0.1
+    assert_true(scale_correct, "Background should be scaled to fill viewport height exactly")
+    
+    # THE CRITICAL TEST: With proper background scaling, bounds must allow full camera movement
+    # to prevent grey bars from viewport clipping
+    var final_bounds = camera.camera_bounds
+    var scaled_bg_size = Vector2(2448 * background_scale_after.x, 496 * background_scale_after.y)
+    
+    log_info("Final camera bounds: " + str(final_bounds))
+    log_info("Scaled background size: " + str(scaled_bg_size))
+    
+    # For proper visual display WITHOUT grey bars, camera bounds must match scaled background
+    # This allows camera to move across the full scaled background area
+    var bounds_match_background = (abs(final_bounds.size.x - scaled_bg_size.x) < 10.0 and 
+                                  abs(final_bounds.size.y - scaled_bg_size.y) < 10.0)
+    
+    log_info("Bounds match scaled background: " + str(bounds_match_background))
+    
+    # This should FAIL with current implementation (bounds preserved instead of overridden)
+    assert_true(bounds_match_background, "Camera bounds must match scaled background size to prevent grey bar visual artifacts")
+    
+    # Restore camera to original parent
+    visual_district.remove_child(camera)
+    if visual_original_parent:
+        visual_original_parent.add_child(camera)
+    
+    # Clean up
+    visual_district.queue_free()
     end_test()
     
     yield(get_tree(), "idle_frame")

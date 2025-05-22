@@ -29,22 +29,20 @@ func _ready():
 	background.texture = load(background_path)
 	background.centered = false  # Required for Wide 2D Scrolling type
 	
-	# Calculate background dimensions to ensure it fills the screen height
+	# Let the camera system handle background scaling - don't pre-scale here
 	var viewport_size = get_viewport().get_size()
 	var texture_size = background.texture.get_size()
-	var scale_factor = viewport_size.y / texture_size.y
 	
 	print("Background dimensions: Width=" + str(texture_size.x) + ", Height=" + str(texture_size.y))
 	print("Viewport dimensions: Width=" + str(viewport_size.x) + ", Height=" + str(viewport_size.y))
-	print("Scale factor: " + str(scale_factor))
+	print("Camera system will handle background scaling automatically")
 	
-	# Apply scaling to fill the viewport height
-	background.scale = Vector2(scale_factor, scale_factor)
+	# Add background without scaling - let camera system handle it
 	add_child(background)
 	
-	# Store the scaled background size in district properties
-	background_size = Vector2(texture_size.x * scale_factor, texture_size.y * scale_factor)
-	print("Scaled background size: " + str(background_size))
+	# Store the original background size - camera system will update this
+	background_size = texture_size
+	print("Original background size: " + str(background_size))
 	
 	# Create walkable area
 	create_walkable_area()

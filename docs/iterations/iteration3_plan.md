@@ -44,10 +44,15 @@
   - **Rationale:** Facilitate easy addition of new perspectives and characters
   - **Constraints:** Performance must remain optimal with multiple perspectives
 
+- **T3:** All camera system enhancements must preserve background scaling visual correctness and pass both unit tests and visual validation using camera-system test scene
+  - **Rationale:** Phase 1 implementation broke background scaling by prioritizing architectural purity over visual correctness
+  - **Constraints:** Visual display requirements take precedence over internal architectural elegance
+
 ## Tasks
 
 ### Point-and-Click Navigation Refactoring
-- [x] Task 1: Enhance scrolling camera system with improved coordinate conversions
+- [ ] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
+  - **Status:** Phase 1 complete but broke background scaling - needs hybrid solution for visual correctness
 - [ ] Task 2: Implement state signaling and synchronization for camera
 - [ ] Task 3: Create test scene for validating camera system improvements
 - [ ] Task 4: Enhance player controller for consistent physics behavior
@@ -110,8 +115,10 @@ These systems provide the foundation for all future gameplay elements and will b
 
 ### Task 1: Enhance scrolling camera system with improved coordinate conversions
 
-**User Story:** As a player, I want the game camera to track my character smoothly and accurately, so that I can focus on gameplay rather than managing my view of the action.
+**User Story:** As a player, I want the game camera to track my character smoothly and accurately with proper visual display (no grey bars or visual artifacts), so that I can focus on gameplay rather than managing my view of the action.
 
+**Status History:**
+- **⏳ PENDING** (05/22/25)
 **Requirements:**
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**

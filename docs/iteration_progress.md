@@ -254,6 +254,7 @@ This file tracks the progress of all iterations for the project.
 - No links yet
 - docs/design/point_and_click_navigation_refactoring_plan.md
 - docs/design/multi_perspective_character_system_plan.md
+- **⏳ PENDING** (05/22/25)
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
 - Refine coordinate handling in scrolling_camera.gd
@@ -444,15 +445,9 @@ This file tracks the progress of all iterations for the project.
 - Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
 - Link with existing suspicion and NPC state systems from Iteration 2
 - **⏳ PENDING** (05/22/25)
-- **⏳ PENDING** (05/22/25)
-- **🔄 IN PROGRESS** (05/22/25)
-- **⏳ PENDING** (05/22/25)
-- **🔄 IN PROGRESS** (05/22/25)
-- **✅ COMPLETE** (05/22/25)
 - **Linked to:** [List related Epic-level requirements]
 - **Acceptance Criteria:**
 - [Technical guidance or approach]
-- **⏳ PENDING** (05/22/25)
 - **⏳ PENDING** (05/22/25)
 - **Linked to:** [List related Epic-level requirements]
 - **Acceptance Criteria:**

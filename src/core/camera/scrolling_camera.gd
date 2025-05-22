@@ -1035,11 +1035,18 @@ func calculate_optimal_zoom():
             district.background_size = effective_bg_size
             print("Updated district.background_size to " + str(effective_bg_size))
         
-        # Note: We do NOT override camera_bounds here as they should be calculated
-        # by _calculate_district_bounds() using viewport-aware algorithms.
-        # Overriding here would undo the viewport-aware bounds calculation.
-        if bounds_enabled and district is BaseDistrict:
-            print("Camera bounds preserved (not overridden by background scaling): " + str(camera_bounds))
+        # HYBRID ARCHITECTURE: Visual correctness wins over architectural purity
+        # Background scaling requires bounds override for proper visual display without grey bars
+        # This conflicts with viewport-aware bounds but visual requirements take precedence
+        # Check for district compatibility - either BaseDistrict or mock with background_size
+        var is_district_compatible = (district is BaseDistrict) or (district != null and "background_size" in district)
+        if bounds_enabled and is_district_compatible:
+            camera_bounds = Rect2(0, 0, effective_bg_size.x, effective_bg_size.y)
+            print("Updated camera bounds to match scaled background for visual correctness: " + str(camera_bounds))
+            # CRITICAL: Update bounds validator with new bounds
+            if _bounds_validator != null and _bounds_validator.has_method("set_bounds"):
+                _bounds_validator.set_bounds(camera_bounds)
+                print("Updated bounds validator with new camera bounds")
             
         # Store scaled size in the district if possible
         if district and "background_size" in district:

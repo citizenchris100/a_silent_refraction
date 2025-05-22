@@ -1,6 +1,6 @@
 # Point-and-Click Navigation System Refactoring Plan
 
-**Status: **🔄 IN PROGRESS**
+**Status: **🔄 IN PROGRESS** *(Phase 1 Complete - Visual Correctness Issues Identified)*
 
 ## Purpose Statement
 
@@ -37,9 +37,36 @@ This refactoring will adhere to the following architectural principles:
 4. Refine walkable area detection and boundaries
 5. Implement proper path-finding for obstacle avoidance
 
+## Phase 1 Retrospective: Visual Correctness Lessons
+
+**Status: ✅ COMPLETE** *(with critical findings)*
+
+Phase 1 implementation revealed a fundamental architectural conflict between sophisticated bounds validation and visual display requirements. Key findings:
+
+### What Was Implemented
+- ✅ Enhanced coordinate transformations and validation
+- ✅ Sophisticated viewport-aware bounds calculation 
+- ✅ State management and signal-based communication
+- ✅ Comprehensive bounds validation system
+
+### Critical Issue Discovered
+**Background Scaling Regression**: The sophisticated bounds validation system broke background scaling by removing necessary bounds overrides. This caused grey bar visual artifacts.
+
+**Root Cause**: Prioritizing "architecturally pure" bounds preservation over visual display requirements.
+
+**Solution Adopted**: Hybrid architecture where visual correctness wins - use sophisticated validation for testing/coordinates but override for visual display when needed.
+
+### Architectural Principle Established
+**Visual Correctness Priority**: When sophisticated architecture conflicts with proper visual display, visual correctness takes precedence. This prevents future "improvements" from breaking user-visible behavior.
+
+### Required for All Future Phases
+1. **Visual Validation**: All camera changes must include visual testing, not just unit tests
+2. **Background Scaling Compatibility**: Preserve bounds override capability for visual correctness
+3. **Hybrid Pattern Documentation**: Clearly document when and why architectural compromises are necessary
+
 ## Implementation Plan
 
-### Phase 1: Camera System Refinements
+### Phase 1: Camera System Refinements *(COMPLETED - REQUIRES VISUAL FIXES)*
 
 1. **Enhance the scrolling camera system**
    - Refine camera targeting logic to eliminate edge case issues
@@ -158,12 +185,18 @@ func ensure_valid_target(target_pos: Vector2) -> Vector2:
    - Track camera movement state to prevent conflicting movements
    - Implement state-specific behavior and transitions
 
-### Phase 2: Player Movement Refinements
+### Phase 2: Player Movement Refinements *(MODIFIED FOR VISUAL CORRECTNESS)*
+
+**Pre-Phase 2 Requirements**: 
+- Verify Phase 1 visual fixes are complete (background scaling working)
+- Confirm camera-system test passes visual validation
+- Ensure bounds validation hybrid architecture is documented
 
 1. **Enhance player controller for consistent physics behavior**
    - Refine acceleration/deceleration constants for smoother movement
    - Improve boundary handling to prevent "sticking" at edges
    - Add movement state machine for clearer state transitions
+   - **CRITICAL**: Preserve camera bounds override capability for background scaling
 
 ```gdscript
 # Enhancements to player.gd
@@ -279,6 +312,8 @@ func _draw_debug_click():
    - Test coordinate conversions with various zoom levels and positions
    - Verify camera boundaries are respected in different scenarios
    - Test camera movement with different easing functions
+   - **CRITICAL**: Test bounds validation AND background scaling compatibility
+   - **REQUIRED**: Visual validation using camera-system test scene
 
 2. **Player Movement Tests**
    - Test acceleration and deceleration with different parameters
@@ -296,10 +331,20 @@ func _draw_debug_click():
    - Include complex walkable areas with obstacles
    - Test different background sizes and camera configurations
    - Verify proper interaction between all components
+   - **REQUIRED**: Visual verification of background scaling (no grey bars)
 
 2. **Runtime verification tools**
    - Add debug overlay for real-time system state visualization
    - Implement performance tracking for optimization
+   - **ADDED**: Visual regression testing for background display
+
+### Visual Validation Protocol
+
+All camera-related changes must pass:
+1. **Unit Tests**: Bounds validation, coordinate conversion, state management
+2. **Visual Tests**: Run camera-system test to verify no grey bars or visual artifacts
+3. **Integration Tests**: Verify camera movement doesn't break background scaling
+4. **Regression Prevention**: Document any architectural compromises made for visual correctness
 
 ## Implementation Timeline
 

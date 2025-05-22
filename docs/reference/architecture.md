@@ -59,6 +59,11 @@ NPCs utilize a state machine with the following primary states:
 14. **Debug-Friendly Design**: Systems provide tools and interfaces for runtime inspection and manipulation
 15. **Self-Documentation**: Code uses consistent naming conventions and patterns to aid understanding
 
+### Visual Correctness and User Experience
+16. **Visual Correctness Priority**: When architectural purity conflicts with proper visual display, visual correctness takes precedence
+17. **Hybrid Architecture Pattern**: Systems may use sophisticated algorithms for validation/testing while overriding for visual requirements
+18. **User Experience First**: Player-visible behavior (proper rendering, smooth gameplay) overrides internal architectural elegance when they conflict
+
 ## Implementation Guidelines
 
 When implementing or modifying game components:
@@ -71,6 +76,30 @@ When implementing or modifying game components:
 - Add appropriate documentation for public interfaces
 - Maintain backward compatibility when modifying existing features
 - Implement debug visualizations and tools for complex systems
+
+### Visual Correctness Implementation Pattern
+
+When architectural improvements conflict with visual display requirements:
+
+1. **Acknowledge the Conflict**: Document when "architecturally pure" solutions produce wrong visual results
+2. **Implement Hybrid Solutions**: Use sophisticated algorithms for validation/testing, override for visual correctness
+3. **Document Overrides Clearly**: Explain why visual requirements necessitate architectural compromises
+4. **Test Both Aspects**: Verify both architectural correctness (unit tests) AND visual behavior (integration tests)
+5. **Prevent Regression**: Document visual requirements to prevent future "improvements" from breaking display
+
+### Example: Background Scaling vs Bounds Validation
+
+```gdscript
+// Default: Use viewport-aware bounds for validation/testing
+camera_bounds = calculate_viewport_aware_bounds()
+
+// Visual override: Background scaling requires full bounds access
+if background_scaling_active:
+    camera_bounds = Rect2(0, 0, scaled_background_size.x, scaled_background_size.y)
+    // Override necessary for proper visual display - prevents grey bars
+```
+
+**Rationale**: Sophisticated bounds validation is excellent for coordinate validation and testing, but background scaling needs full background access to prevent visual artifacts. Visual correctness wins.
 
 ## File Organization
 ```
