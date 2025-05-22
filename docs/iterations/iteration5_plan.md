@@ -10,11 +10,19 @@
 ## Requirements
 
 ### Business Requirements
+
+- **B2:** Validate game performance on target hardware platform to ensure viability of purpose-built gaming appliance distribution strategy
+  - **Rationale:** [Add rationale here]
+  - **Success Metric/Constraints:** [Add metric or constraints here]
 - **B1:** Implement core investigation mechanics that drive main storyline
   - **Rationale:** Investigation is the primary gameplay loop for narrative progression
   - **Success Metric:** Players can advance the story through evidence collection and analysis
 
 ### User Requirements
+
+- **U2:** As a potential customer, I want assurance that the gaming appliance will run smoothly and provide a premium experience when I receive it
+  - **Rationale:** [Add rationale here]
+  - **User Value:** [Add user value here]
 - **U1:** As a player, I want to collect and analyze evidence
   - **User Value:** Creates detective gameplay satisfaction
   - **Acceptance Criteria:** Evidence can be found, stored, examined, and combined to progress
@@ -36,6 +44,9 @@
 - [ ] Task 9: Implement overflow inventory storage in player's room
 - [ ] Task 10: Create UI for transferring items between personal inventory and room storage
 - [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
+- [ ] Task 12: Set up Raspberry Pi 5 hardware validation environment
+- [ ] Task 13: Conduct POC performance testing on target hardware
+- [ ] Task 14: Document hardware requirements and optimization roadmap
 
 ## Testing Criteria
 - Quest log accurately tracks active and completed quests
@@ -46,6 +57,9 @@
 - Inventory management creates meaningful gameplay decisions
 - Observation mechanics allow players to detect assimilated NPCs
 - Different observation intensities reveal appropriate information
+- Game runs stably at 30fps on Raspberry Pi 5 hardware
+- Complete POC playthrough completes without performance issues
+- Hardware validation documentation provides clear optimization roadmap
 
 ## Timeline
 - Start date: 2025-06-15
@@ -57,7 +71,9 @@
 - Iteration 4 (Game Districts and Time Management)
 
 ## Code Links
-- No links yet
+- Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
+- Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
+- Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
 
 ## Notes
 Add any additional notes or considerations here.
@@ -66,6 +82,14 @@ Add any additional notes or considerations here.
 
 **User Story:** As a player, I want to carefully observe NPCs for subtle clues that indicate they have been assimilated, so that I can identify threats and make informed decisions about whom to trust and recruit.
 
+**Status History:**
+- **✅ COMPLETE** (05/22/25)
+**Status History:**
+- **🔄 IN PROGRESS** (05/22/25)
+**Status History:**
+- **✅ COMPLETE** (05/22/25)
+**Status History:**
+- **⏳ PENDING** (05/22/25)
 **Requirements:**
 - **Linked to:** B1, U1
 - **Acceptance Criteria:**
@@ -82,3 +106,48 @@ Add any additional notes or considerations here.
 - Design subtle visual cues that fit the game's aesthetic (slight color shifts, animation differences)
 - Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
 - Link with existing suspicion and NPC state systems from Iteration 2
+
+### Task 12: Set up Raspberry Pi 5 hardware validation environment
+
+**User Story:** As a developer, I want to set up a complete Raspberry Pi 5 testing environment, so that I can validate our game's performance on the actual target hardware before committing to the gaming appliance distribution strategy
+
+**Status History:**
+- **⏳ PENDING** (05/22/25)
+
+**Requirements:**
+- **Linked to:** [List related Epic-level requirements]
+- **Acceptance Criteria:**
+  1. [Specific condition that must be met]
+
+**Implementation Notes:**
+- [Technical guidance or approach]
+
+### Task 13: Conduct POC performance testing on target hardware
+
+**User Story:** As a developer, I want to conduct comprehensive performance testing of the complete POC on Raspberry Pi 5 hardware, so that I can identify any optimization needs and confirm the viability of our gaming appliance approach
+
+**Status History:**
+- **⏳ PENDING** (05/22/25)
+
+**Requirements:**
+- **Linked to:** [List related Epic-level requirements]
+- **Acceptance Criteria:**
+  1. [Specific condition that must be met]
+
+**Implementation Notes:**
+- [Technical guidance or approach]
+
+### Task 14: Document hardware requirements and optimization roadmap
+
+**User Story:** As a project stakeholder, I want detailed documentation of hardware requirements and performance characteristics, so that I can make informed decisions about manufacturing and distribution of the gaming appliance
+
+**Status History:**
+- **⏳ PENDING** (05/22/25)
+
+**Requirements:**
+- **Linked to:** [List related Epic-level requirements]
+- **Acceptance Criteria:**
+  1. [Specific condition that must be met]
+
+**Implementation Notes:**
+- [Technical guidance or approach]

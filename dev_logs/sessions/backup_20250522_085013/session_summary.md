@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 22, 2025 - Background Scaling Override Fix (🟢 IN PROGRESS)
-- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
-- **Focus:** Fix background scaling logic overriding viewport-aware bounds
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-22_08-50-12.md)
-
 ### May 21, 2025 - Visual Bounds Bug Fix (✅ COMPLETED)
 - **Iteration:** 3 - Game Districts and Time Management
 - **Focus:** Fix camera bounds calculation causing visual positioning issues using TDD approach

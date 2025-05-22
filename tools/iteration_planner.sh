@@ -706,6 +706,9 @@ function update_task {
     task_text=$(sed -n "${task_line}p" "${iteration_file}")
     task_desc=$(echo "${task_text}" | sed -n 's/^- \[[xX~ ]\] \(.*\)/\1/p')
     
+    # Extract just the task description without "Task N:" prefix for section matching
+    task_desc_clean=$(echo "${task_desc}" | sed -n 's/^Task [0-9]*: \(.*\)/\1/p')
+    
     # Define status emojis and markdown formatting
     case "$status" in
         "pending")
@@ -731,11 +734,30 @@ function update_task {
     # Update the checkbox in the task list
     sed -i "${task_line}s/- \[[xX~ ]\]/- \[${checkbox}\]/g" "${iteration_file}"
     
-    # Update the task section if it exists
-    task_section_exists=$(grep -n "^### Task ${task_number}: ${task_desc}" "${iteration_file}" | cut -d: -f1)
+    # Update the task section if it exists (use clean description if available, otherwise full description)
+    if [ ! -z "${task_desc_clean}" ]; then
+        task_section_exists=$(grep -n "^### Task ${task_number}: ${task_desc_clean}" "${iteration_file}" | cut -d: -f1)
+    else
+        task_section_exists=$(grep -n "^### Task ${task_number}: ${task_desc}" "${iteration_file}" | cut -d: -f1)
+    fi
     if [ ! -z "${task_section_exists}" ]; then
-        # Check if status history section already exists
-        status_history_exists=$(grep -n "^**Status History:**" "${iteration_file}" | head -n 1 | cut -d: -f1)
+        # Check if status history section already exists within this task section
+        # Search for Status History within the current task section
+        # First, find the next task section to limit our search scope
+        next_task_line=$(awk -v start="$task_section_exists" 'NR > start && /^### Task/ {print NR; exit}' "${iteration_file}")
+        
+        if [ -z "${next_task_line}" ]; then
+            # No next task section, search to end of file
+            search_end='$'
+        else
+            # Limit search to before next task section
+            search_end=$((next_task_line - 1))
+        fi
+        
+        # Look for Status History within this task's section
+        status_history_exists=$(awk -v start="$task_section_exists" -v end="$search_end" 'NR >= start && (end == "$" || NR <= end) && /^\*\*Status History:\*\*/ {print NR; exit}' "${iteration_file}")
+        
+        # Status history search complete
         
         if [ -z "${status_history_exists}" ]; then
             # Create status history section after user story or requirements section
@@ -1094,12 +1116,14 @@ function update_progress_file {
                 
                 # Check for user story (NEW)
                 user_story=""
-                task_section=$(grep -n "^### Task ${task_num}: ${task_desc}" "${iter_file}" | cut -d: -f1)
-                if [ ! -z "${task_section}" ]; then
-                    user_story_line=$((task_section + 2))
-                    user_story=$(sed -n "${user_story_line}p" "${iter_file}" | sed -n 's/^\*\*User Story:\*\* \(.*\)/\1/p')
-                    if [ ! -z "${user_story}" ]; then
-                        task_desc="${task_desc} (${user_story})"
+                if [ ! -z "${task_desc}" ]; then
+                    task_section=$(grep -n "^### Task ${task_num}: ${task_desc}" "${iter_file}" | cut -d: -f1)
+                    if [ ! -z "${task_section}" ] && [ "${task_section}" -gt 0 ] 2>/dev/null; then
+                        user_story_line=$((task_section + 2))
+                        user_story=$(sed -n "${user_story_line}p" "${iter_file}" | sed -n 's/^\*\*User Story:\*\* \(.*\)/\1/p')
+                        if [ ! -z "${user_story}" ]; then
+                            task_desc="${task_desc} (${user_story})"
+                        fi
                     fi
                 fi
                 
