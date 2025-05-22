@@ -237,7 +237,7 @@ func test_small_height_correction():
 	var raw_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
 	
 	# Apply safety corrections
-	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds)
+	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds, null, Vector2.ZERO)
 	
 	# We know from the logs the height gets increased to 200 
 	# (hardcoded in apply_safety_corrections)
@@ -271,7 +271,7 @@ func test_small_width_correction():
 	var raw_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
 	
 	# Apply safety corrections
-	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds)
+	var corrected_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds, null, Vector2.ZERO)
 	
 	# We know from the implementation the width gets increased to 200 
 	# (hardcoded in apply_safety_corrections)
@@ -315,7 +315,7 @@ func test_background_size_consideration():
 	var bounds = BoundsCalculator.calculate_bounds_from_walkable_areas([walkable_area])
 	
 	# Apply safety corrections with district
-	var corrected_bounds = BoundsCalculator.apply_safety_corrections(bounds, mock_district)
+	var corrected_bounds = BoundsCalculator.apply_safety_corrections(bounds, mock_district, Vector2.ZERO)
 	
 	# Bounds should be constrained by background size
 	var respects_background = corrected_bounds.size.x <= 1920 && corrected_bounds.size.y <= 1080

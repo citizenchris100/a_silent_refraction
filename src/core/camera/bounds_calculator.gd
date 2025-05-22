@@ -94,7 +94,7 @@ static func calculate_bounds_from_walkable_areas(walkable_areas: Array) -> Rect2
 	print("Bounds after margin adjustment: " + str(result_bounds))
 	
 	# Apply safety checks and corrections
-	result_bounds = apply_safety_corrections(result_bounds)
+	result_bounds = apply_safety_corrections(result_bounds, null, Vector2.ZERO)
 	
 	print("Final corrected bounds: " + str(result_bounds))
 	print("========== BOUNDS CALCULATION COMPLETED ==========\n")
@@ -102,24 +102,49 @@ static func calculate_bounds_from_walkable_areas(walkable_areas: Array) -> Rect2
 	return result_bounds
 
 # Apply safety checks and corrections to the calculated bounds
-static func apply_safety_corrections(bounds: Rect2, district = null) -> Rect2:
+static func apply_safety_corrections(bounds: Rect2, district = null, viewport_size = Vector2.ZERO) -> Rect2:
 	var corrected_bounds = bounds
 	
 	# SAFETY CHECKS AND CORRECTIONS
 	
 	# Check 1: Very small height (normal for floor walkable areas)
-	if corrected_bounds.size.y < 100:
+	var needs_height_expansion = false
+	var target_height = 200  # Default minimum height
+	var use_viewport_aware_expansion = false
+	
+	# If viewport size is provided, calculate viewport-aware target height
+	if viewport_size != Vector2.ZERO:
+		var viewport_based_minimum = viewport_size.y * 0.3  # At least 30% of viewport height
+		target_height = max(target_height, viewport_based_minimum)
+		use_viewport_aware_expansion = true
+		print("Viewport-aware height calculation: " + str(viewport_size.y) + " * 0.3 = " + str(viewport_based_minimum))
+	
+	# Apply different expansion logic based on whether we have viewport context
+	var should_expand = false
+	if use_viewport_aware_expansion:
+		# With viewport context, expand more aggressively for better visual results
+		should_expand = corrected_bounds.size.y < target_height
+	else:
+		# Without viewport context, only expand very small heights (original logic)
+		should_expand = corrected_bounds.size.y < 100
+		target_height = 200  # Use original conservative target
+	
+	if should_expand:
+		needs_height_expansion = true
 		# Log the info message - small heights are expected for floor walkable areas
 		print("INFO: Walkable area height is " + str(corrected_bounds.size.y) + " pixels")
 		print("This is normal for floor-based walkable areas")
 		
-		# Expand the height slightly for better camera behavior
-		# Add some pixels above and below the walkable area for better visibility
+		# Expand the height for better camera behavior
+		# Add space above and below the walkable area for better visibility
 		var center_y = corrected_bounds.position.y + corrected_bounds.size.y / 2
-		var expanded_height = 200 # Enough to show some space above and below the floor
+		var expanded_height = target_height
 		corrected_bounds.position.y = center_y - expanded_height / 2
 		corrected_bounds.size.y = expanded_height
 		print("Adjusting camera height bounds to " + str(expanded_height) + " pixels for better visibility")
+		if viewport_size != Vector2.ZERO:
+			var ratio = expanded_height / viewport_size.y
+			print("Height-to-viewport ratio: " + str(ratio) + " (" + str(ratio * 100) + "%)")
 		print("This preserves the exact floor walkable area while improving camera view")
 	
 	# Check 2: Very small width (indicates possible calculation error)

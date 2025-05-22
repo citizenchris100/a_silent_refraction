@@ -359,6 +359,63 @@ func run_bounds_tests():
     end_test()
     
     yield(get_tree(), "idle_frame")
+    
+    # Test 5: Viewport-aware bounds calculation
+    start_test("Viewport-aware bounds calculation")
+    
+    # Create a mock district with floor-like walkable area (reproduces the visual bug)
+    var mock_district = Node2D.new()
+    mock_district.name = "MockDistrict"
+    
+    # Create a floor-like walkable area that causes the visual positioning bug
+    var walkable_area = Polygon2D.new()
+    walkable_area.name = "FloorWalkableArea"
+    
+    # Use the exact problematic polygon from camera-system test
+    var floor_polygon = PoolVector2Array([
+        Vector2(0, 822),     # Floor level
+        Vector2(4691, 822),  # Floor level (wide)
+        Vector2(4691, 947),  # Bottom edge
+        Vector2(0, 947)      # Bottom edge
+    ])
+    walkable_area.polygon = floor_polygon
+    
+    # Add the interface method for compatibility
+    walkable_area.set_script(preload("res://src/unit_tests/mocks/mock_district.gd"))
+    
+    # Set up the mock district - use set_script first to add the walkable_areas property
+    mock_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
+    mock_district.walkable_areas = [walkable_area]
+    mock_district.background_size = Vector2(4698, 952)  # Scaled background size from camera-system
+    add_child(mock_district)
+    mock_district.add_child(walkable_area)
+    
+    # Calculate bounds using the camera's method
+    var calculated_bounds = camera._calculate_district_bounds(mock_district)
+    
+    # Get camera screen size (viewport size)
+    var viewport_size = camera.screen_size
+    log_info("Viewport size: " + str(viewport_size))
+    log_info("Calculated bounds: " + str(calculated_bounds))
+    log_info("Bounds height: " + str(calculated_bounds.size.y))
+    log_info("Viewport height: " + str(viewport_size.y))
+    
+    # THE CRITICAL TEST: Bounds height should be reasonable relative to viewport
+    var height_ratio = calculated_bounds.size.y / viewport_size.y
+    var acceptable_height_ratio = height_ratio >= 0.3  # At least 30% of viewport height
+    
+    log_info("Height ratio (bounds/viewport): " + str(height_ratio))
+    log_info("Is height ratio acceptable (>=0.3): " + str(acceptable_height_ratio))
+    
+    # This test should FAIL with current implementation
+    # Current bounds height ~127px, viewport ~952px = ratio ~0.13 (13%)
+    assert_true(acceptable_height_ratio, "ScrollingCamera bounds height should be at least 30% of viewport height to prevent visual positioning issues")
+    
+    # Clean up
+    mock_district.queue_free()
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
 func run_state_tests():
     log_info("=== Running State Tests ===", true)

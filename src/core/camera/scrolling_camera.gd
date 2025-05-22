@@ -579,7 +579,10 @@ func _calculate_district_bounds(district) -> Rect2:
     print("Number of walkable areas: " + str(district.walkable_areas.size()))
     
     # Use the BoundsCalculator service to calculate bounds
-    var result_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas(district.walkable_areas)
+    var raw_bounds = BoundsCalculator.calculate_bounds_from_walkable_areas(district.walkable_areas)
+    
+    # Apply viewport-aware safety corrections using the camera's screen size
+    var result_bounds = BoundsCalculator.apply_safety_corrections(raw_bounds, district, screen_size)
     
     # If the calculation returned a zero-size rectangle, use default values
     if result_bounds.size == Vector2.ZERO:
