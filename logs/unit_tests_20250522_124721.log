@@ -1,0 +1,257 @@
+=== Test: visual_bounds_validation_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Visual Bounds Validation test...
+Starting Visual Bounds Validation tests...
+===== TEST SUITE: Bounds-to-Viewport Ratio Validation =====
+Running test: Bounds Height Accommodates Viewport
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: TestPolygon with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 822), Global: (0, 822)
+Point 1 - Local: (4691, 822), Global: (4691, 822)
+Point 2 - Local: (4691, 947), Global: (4691, 947)
+Point 3 - Local: (0, 947), Global: (0, 947)
+Note: Rect2.expand() did not change bounds for point (0, 947) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 822, 4691, 125)
+Bounds after margin adjustment: (-1, 821, 4693, 127)
+Final corrected bounds: (-1, 821, 4693, 127)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+INFO: Walkable area height is 127 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 285.6 pixels for better visibility
+Height-to-viewport ratio: 0.3 (30%)
+This preserves the exact floor walkable area while improving camera view
+Calculated bounds: (-1, 741.700012, 4693, 285.600006)
+Mock viewport size: (1424, 952)
+Bounds height: 285.600006
+Viewport height: 952
+Height ratio (bounds/viewport): 0.3
+Is height ratio acceptable (>=0.3): True
+✓ PASS: Bounds Height Accommodates Viewport: Bounds height should be at least 30% of viewport height to prevent visual positioning issues
+Running test: Floor Walkable Bounds Expansion
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: @TestPolygon@2 with 14 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (4684, 843), Global: (4684, 843)
+Point 1 - Local: (3731, 864), Global: (3731, 864)
+Point 2 - Local: (3260, 822), Global: (3260, 822)
+Point 3 - Local: (4396, 877), Global: (4396, 877)
+Point 4 - Local: (693, 860), Global: (693, 860)
+Point 5 - Local: (523, 895), Global: (523, 895)
+Point 6 - Local: (398, 895), Global: (398, 895)
+Point 7 - Local: (267, 870), Global: (267, 870)
+Point 8 - Local: (215, 822), Global: (215, 822)
+Point 9 - Local: (3, 850), Global: (3, 850)
+Point 10 - Local: (0, 947), Global: (0, 947)
+Point 11 - Local: (4691, 943), Global: (4691, 943)
+Point 12 - Local: (4677, 843), Global: (4677, 843)
+Note: Rect2.expand() did not change bounds for point (4677, 843) - this is normal for some polygon arrangements
+Point 13 - Local: (3707, 860), Global: (3707, 860)
+Note: Rect2.expand() did not change bounds for point (3707, 860) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 822, 4691, 125)
+Bounds after margin adjustment: (-1, 821, 4693, 127)
+Final corrected bounds: (-1, 821, 4693, 127)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Problematic polygon bounds: (-1, 821, 4693, 127)
+Bounds height: 127
+50% of viewport height: 476
+Has reasonable height: False
+✗ FAIL: Floor Walkable Bounds Expansion: Floor-like walkable areas should expand bounds to at least 50% of viewport height
+Running test: Narrow Bounds Correction
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: @TestPolygon@3 with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 900), Global: (0, 900)
+Point 1 - Local: (4000, 900), Global: (4000, 900)
+Point 2 - Local: (4000, 950), Global: (4000, 950)
+Point 3 - Local: (0, 950), Global: (0, 950)
+Note: Rect2.expand() did not change bounds for point (0, 950) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 900, 4000, 50)
+Bounds after margin adjustment: (-1, 899, 4002, 52)
+INFO: Walkable area height is 52 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 200 pixels for better visibility
+This preserves the exact floor walkable area while improving camera view
+Final corrected bounds: (-1, 825, 4002, 200)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Narrow bounds test - calculated bounds: (-1, 825, 4002, 200)
+Bounds height: 200
+20% of viewport: 190.4
+Bounds too narrow: False
+✓ PASS: Narrow Bounds Correction: System should expand bounds that are too narrow relative to viewport size
+Suite completed: 2/3 tests passed
+===== TEST SUITE: Background Positioning Validation =====
+Running test: Camera Bounds Prevent Clipping
+Background size: (4698, 952)
+Calculated bounds: (-1, 821, 4693, 127)
+Camera center Y: 884.5
+Visible top: 408.5
+Visible bottom: 1360.5
+Background top: 0, Background bottom: 952
+Clips above background: False
+Clips below background: True
+Causes clipping: True
+✗ FAIL: Camera Bounds Prevent Clipping: Camera bounds should prevent background clipping issues
+Running test: Background Scaling Positioning
+Original background: (2448, 496)
+Scaled background: (4698, 952)
+Bounds: (-1, 821, 4693, 127)
+Bounds height vs background height ratio: 0.133403
+Is ratio reasonable (>=0.5): False
+✗ FAIL: Background Scaling Positioning: Bounds height should be at least 50% of scaled background height
+Suite completed: 2/5 tests passed
+===== TEST SUITE: Background Scaling Override Detection =====
+Running test: Background Scaling Bounds Override For Visual Correctness
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1310
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+Found existing camera in district
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (2448, 496)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: @TestPolygon@4 with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 822), Global: (0, 822)
+Point 1 - Local: (4691, 822), Global: (4691, 822)
+Point 2 - Local: (4691, 947), Global: (4691, 947)
+Point 3 - Local: (0, 947), Global: (0, 947)
+Note: Rect2.expand() did not change bounds for point (0, 947) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 822, 4691, 125)
+Bounds after margin adjustment: (-1, 821, 4693, 127)
+Final corrected bounds: (-1, 821, 4693, 127)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+INFO: Walkable area height is 127 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 285.6 pixels for better visibility
+Height-to-viewport ratio: 0.3 (30%)
+This preserves the exact floor walkable area while improving camera view
+Final district bounds: (-1, 741.700012, 4693, 285.600006)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Expected viewport-aware bounds: (-1, 741.700012, 4693, 285.600006)
+Expected bounds height: 285.600006
+Expected height ratio: 0.3
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2448, 496)
+Current background scale: (1, 1)
+Effective background size with current scale: (2448, 496)
+Scale needed to fill viewport height: 1.919355
+Applied new scale to background: (1.919355, 1.919355)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (4698.580566, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (4698.580566, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 4698.580566, 952)
+===== ZOOM CALCULATION COMPLETE =====
+
+Bounds after background scaling: (0, 0, 4698.580566, 952)
+Bounds height after scaling: 952
+Height ratio after scaling: 1
+Were bounds overridden: True
+Do bounds match background size: True
+SUCCESS: Background scaling correctly overrode bounds for visual correctness!
+  - Original bounds height: 285.600006
+  - New bounds height: 952
+  - This prevents grey bar visual issue!
+✓ PASS: Background Scaling Bounds Override For Visual Correctness: Background scaling should override viewport-aware bounds to prevent grey bar visual artifacts
+Running test: Calculate Optimal Zoom Overrides Bounds For Visual Correctness
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1321
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+Found existing camera in district
+Initial bounds (viewport-aware): (0, 741.700012, 4693, 285.600006)
+Initial bounds height: 285.600006
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2448, 496)
+Current background scale: (1, 1)
+Effective background size with current scale: (2448, 496)
+Scale needed to fill viewport height: 1.919355
+Applied new scale to background: (1.919355, 1.919355)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (4698.580566, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (4698.580566, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 4698.580566, 952)
+===== ZOOM CALCULATION COMPLETE =====
+
+Final bounds after calculate_optimal_zoom: (0, 0, 4698.580566, 952)
+Final bounds height: 952
+Bounds were overridden: True
+Bounds match background: True
+SUCCESS: calculate_optimal_zoom() correctly overrode bounds!
+  - Original bounds height: 285.600006
+  - New bounds height: 952
+  - This enables proper background scaling without grey bars
+✓ PASS: Calculate Optimal Zoom Overrides Bounds For Visual Correctness: calculate_optimal_zoom() should override bounds when background scaling requires it for visual correctness
+Suite completed: 4/7 tests passed
+
+===== TEST RESULTS =====
+Total Tests: 7
+Passed: 4
+Failed: 3
+
+Failed Tests:
+- Bounds-to-Viewport Ratio Validation::Floor Walkable Bounds Expansion: Floor-like walkable areas should expand bounds to at least 50% of viewport height
+- Background Positioning Validation::Camera Bounds Prevent Clipping: Camera bounds should prevent background clipping issues
+- Background Positioning Validation::Background Scaling Positioning: Bounds height should be at least 50% of scaled background height
+Visual bounds validation tests complete - exiting...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:434
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:434
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)
+

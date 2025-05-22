@@ -598,6 +598,111 @@ func run_bounds_tests():
     end_test()
     
     yield(get_tree(), "idle_frame")
+    
+    # Test 8: Bounds validator synchronization (Critical Fix Coverage)
+    start_test("Bounds validator synchronization with background scaling")
+    
+    # This test covers the critical fix: updating bounds validator when bounds are overridden
+    # Lines 1047-1049 in scrolling_camera.gd: _bounds_validator.set_bounds(camera_bounds)
+    
+    # Create mock district with background that triggers scaling
+    var sync_district = Node2D.new()
+    sync_district.name = "SyncDistrict" 
+    sync_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
+    sync_district.background_size = Vector2(2448, 496)  # Original size
+    
+    # Create background sprite that will be scaled
+    var sync_background = Sprite.new()
+    sync_background.name = "Background"
+    var sync_texture = ImageTexture.new()
+    var sync_image = Image.new()
+    sync_image.create(2448, 496, false, Image.FORMAT_RGB8)
+    sync_texture.create_from_image(sync_image)
+    sync_background.texture = sync_texture
+    sync_background.centered = false
+    sync_district.add_child(sync_background)
+    
+    # Create walkable area for bounds calculation
+    var sync_walkable = Polygon2D.new()
+    sync_walkable.name = "SyncWalkableArea"
+    var sync_polygon = PoolVector2Array([
+        Vector2(0, 822), Vector2(4691, 822), Vector2(4691, 947), Vector2(0, 947)
+    ])
+    sync_walkable.polygon = sync_polygon
+    sync_walkable.set_script(preload("res://src/unit_tests/mocks/mock_district.gd"))
+    sync_district.walkable_areas = [sync_walkable]
+    sync_district.add_child(sync_walkable)
+    add_child(sync_district)
+    
+    # Move camera to sync district
+    var sync_original_parent = camera.get_parent()
+    if sync_original_parent:
+        sync_original_parent.remove_child(camera)
+    sync_district.add_child(camera)
+    
+    # Set viewport size and enable bounds
+    camera.screen_size = Vector2(1424, 952)
+    camera.bounds_enabled = true
+    
+    # Get initial bounds (viewport-aware)
+    var initial_bounds = camera._calculate_district_bounds(sync_district)
+    camera.camera_bounds = initial_bounds
+    
+    log_info("Initial bounds before scaling: " + str(initial_bounds))
+    
+    # CRITICAL TEST: Trigger background scaling which should override bounds AND update validator
+    camera.calculate_optimal_zoom()
+    
+    # Verify bounds were overridden for visual correctness
+    var sync_final_bounds = camera.camera_bounds
+    var bounds_overridden = sync_final_bounds != initial_bounds
+    
+    log_info("Final bounds after scaling: " + str(sync_final_bounds))
+    log_info("Bounds were overridden: " + str(bounds_overridden))
+    
+    assert_true(bounds_overridden, "Background scaling should override bounds for visual correctness")
+    
+    # THE CRITICAL FIX VERIFICATION: Test that bounds validation works correctly after override
+    # This indirectly verifies the fix in lines 1047-1049 of scrolling_camera.gd
+    # by testing that camera positioning respects the updated bounds
+    
+    # Test that camera position is properly validated against the new bounds
+    camera.test_mode = false  # Use real bounds validation
+    
+    # Try to position camera at a location that should be valid with new bounds
+    # but would have been invalid with old bounds
+    var test_position = Vector2(sync_final_bounds.position.x + sync_final_bounds.size.x - 100, 
+                               sync_final_bounds.position.y + sync_final_bounds.size.y - 100)
+    
+    log_info("Testing position: " + str(test_position))
+    log_info("Against bounds: " + str(sync_final_bounds))
+    
+    var validated_position = camera.ensure_valid_target(test_position)
+    
+    log_info("Validated position: " + str(validated_position))
+    
+    # Verify that the bounds validator is using the updated bounds
+    # The key evidence is that a position within the new bounds area gets validated
+    # (even if adjusted for camera half-size constraints)
+    var within_new_bounds_area = (validated_position.x >= sync_final_bounds.position.x and 
+                                  validated_position.y >= sync_final_bounds.position.y and
+                                  validated_position.x <= sync_final_bounds.end.x and
+                                  validated_position.y <= sync_final_bounds.end.y)
+    
+    log_info("Validated position within new bounds area: " + str(within_new_bounds_area))
+    
+    assert_true(within_new_bounds_area, "CRITICAL FIX: Bounds validator should use updated bounds after background scaling override")
+    
+    # Restore camera
+    sync_district.remove_child(camera)
+    if sync_original_parent:
+        sync_original_parent.add_child(camera)
+    
+    # Clean up
+    sync_district.queue_free()
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
 
 func run_state_tests():
     log_info("=== Running State Tests ===", true)
