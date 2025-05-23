@@ -1,7 +1,0 @@
-Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
-OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
- 
-SCRIPT ERROR: Parse Error: The identifier "test_district_management_suite" isn't declared in the current scope.
-          at: GDScript::reload (res://src/unit_tests/coordinate_manager_test.gd:161)
-[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
-CoordinateManager initialized
