@@ -6,17 +6,180 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
+| 10 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
+| 11 | Full Sprite Perspective Scaling System | Not started | 0% (0/3) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 5% (2/36) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 4% (2/41) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
 | 5 | Game Districts and Time Management | Not started | 0% (0/12) |
 | 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
 | 7 | Coalition Building | Not started | 0% (0/8) |
 | 8 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
-| 9 | Full Audio System Implementation | Not started | 0% (0/3) |
+| 9 | Full Audio System Implementation | Not started | 0% (0/24) |
 
 ## Detailed Progress
+
+### Iteration 10: Full Foreground Occlusion System Implementation
+
+**Goals:**
+- Expand the MVP foreground occlusion system into a comprehensive visual depth solution
+- Implement polygon-based occlusion zones with arbitrary shapes and behaviors
+- Create automated asset extraction and processing tools
+- Add support for animated foreground elements and multi-layer rendering
+- Build visual editing tools for efficient content creation
+- Optimize performance for complex scenes with many occlusion zones
+- **B6:** Ensure the occlusion system scales to support complex environments without impacting game performance
+- **B5:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise
+- **B4:** Deliver a visually rich environment where depth perception enhances the adventure game experience through sophisticated layering and occlusion effects
+- **B1:** Deliver a visually rich environment where depth perception enhances the adventure game experience through sophisticated layering and occlusion effects.
+- **B2:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise.
+- **B3:** Ensure the occlusion system scales to support complex environments without impacting game performance.
+- **U6:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game
+- **U5:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate
+- **U4:** As a player, I want my character to naturally move behind and in front of objects based on realistic spatial relationships, so the game world feels authentic and three-dimensional
+- **U1:** As a player, I want my character to naturally move behind and in front of objects based on realistic spatial relationships, so the game world feels authentic and three-dimensional.
+- **U2:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate.
+- **U3:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game.
+- **T1:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
+- **T2:** Implement efficient spatial data structures to handle complex polygon calculations at 60 FPS.
+- **T3:** Create modular, extensible architecture that supports future enhancements like dynamic occlusion and lighting integration.
+- [ ] Task 1: Implement polygon-based OcclusionZone resource class
+- [ ] Task 2: Create advanced OcclusionZoneManager with spatial indexing
+- [ ] Task 3: Build multi-layer foreground rendering system
+- [ ] Task 4: Add perspective-aware occlusion rules and configurations
+- [ ] Task 5: Create automated foreground extraction tool with UI
+- [ ] Task 6: Build batch processing scripts for foreground sprites
+- [ ] Task 7: Implement asset validation and optimization system
+- [ ] Task 8: Create foreground element template library
+- [ ] Task 9: Develop visual occlusion zone editor plugin
+- [ ] Task 10: Create zone testing and preview tools
+- [ ] Task 11: Build property inspectors for occlusion zones
+- [ ] Task 12: Implement zone library and preset system
+
+**Key Requirements:**
+- **B6:** Ensure the occlusion system scales to support complex environments without impacting game performance
+- **B5:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise
+- **U6:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game
+- **U5:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Implement polygon-based OcclusionZone resource class (As a developer, I want to define complex occlusion shapes using polygons, so that I can create realistic occlusion for irregularly shaped objects and environments.) | Pending | - |
+| Create advanced OcclusionZoneManager with spatial indexing (As a developer, I want the occlusion system to efficiently handle many zones without performance degradation, so that I can create rich, complex environments.) | Pending | - |
+| Build multi-layer foreground rendering system (As a player, I want to see multiple layers of foreground depth (near, mid, far), so that environments feel rich and spatially complex.) | Pending | - |
+| Add perspective-aware occlusion rules and configurations (As a developer, I want occlusion behavior to adapt to different perspective types, so that each district can have appropriate depth rendering.) | Pending | - |
+| Create automated foreground extraction tool with UI (As an artist, I want to easily extract foreground elements from background images using a visual tool, so that I can quickly create occlusion sprites without manual editing.) | Pending | - |
+| Build batch processing scripts for foreground sprites (As a developer, I want to process multiple foreground sprites consistently, so that all assets maintain the same visual style and optimization.) | Pending | - |
+| Implement asset validation and optimization system (As a developer, I want to ensure all foreground assets meet quality standards, so that the game maintains consistent performance and visual quality.) | Pending | - |
+| Create foreground element template library (As a developer, I want reusable foreground element templates, so that I can quickly add common occlusion objects to new scenes.) | Pending | - |
+| Develop visual occlusion zone editor plugin (As a level designer, I want to visually create and edit occlusion zones directly in the scene, so that I can see immediate results without editing data files.) | Pending | - |
+| Create zone testing and preview tools (As a developer, I want to test occlusion zones with simulated player movement, so that I can verify correct behavior before runtime.) | Pending | - |
+| Build property inspectors for occlusion zones (As a developer, I want detailed property editors for occlusion zones, so that I can fine-tune behavior without editing code.) | Pending | - |
+| Implement zone library and preset system (As a developer, I want to save and reuse occlusion zone configurations, so that I can maintain consistency across similar objects.) | Pending | - |
+| Create animated foreground element system (As a player, I want to see foreground elements that animate naturally (swaying plants, flickering signs), so that the environment feels alive and dynamic.) | Pending | - |
+| Build state machine for foreground animations (As a developer, I want foreground animations to respond to game states, so that the environment reacts appropriately to story events.) | Pending | - |
+| Implement trigger system for context-aware animations (As a player, I want foreground elements to react to my presence and actions, so that the world feels responsive and interactive.) | Pending | - |
+| Add particle effect support for atmospheric elements (As a player, I want to see atmospheric particle effects integrated with foreground elements (steam, sparks, dust), so that environments feel more dynamic and lived-in.) | Pending | - |
+| Implement QuadTree spatial indexing for zones (As a developer, I want efficient spatial queries for occlusion zones, so that the system scales to complex scenes without performance issues.) | Pending | - |
+| Add LOD system for distant foreground elements (As a player, I want consistent performance even in complex scenes, so that gameplay remains smooth regardless of environmental complexity.) | Pending | - |
+| Create update throttling and batching system (As a developer, I want occlusion updates to be efficient and batched, so that the system maintains high performance even with many active zones.) | Pending | - |
+| Build performance profiler and optimization tools (As a developer, I want detailed performance metrics for the occlusion system, so that I can identify and fix bottlenecks.) | Pending | - |
+| Complete integration with all perspective types (As a player, I want occlusion to work correctly in all visual perspectives, so that each area of the game feels polished and complete.) | Pending | - |
+| Add smooth transitions and visual effects (As a player, I want smooth visual transitions when moving through occlusion zones, so that the experience feels polished and professional.) | Pending | - |
+| Create comprehensive documentation and tutorials (As a developer, I want clear documentation and tutorials for the occlusion system, so that I can effectively use all features.) | Pending | - |
+| Build example implementations for each district type (As a developer, I want example occlusion setups for different district types, so that I have templates to build from.) | Pending | - |
+
+**Testing Criteria:**
+- Polygon-based occlusion zones correctly determine player visibility
+- Multi-layer system creates proper depth ordering
+- Performance maintains 60 FPS with 50+ zones
+- Editor tools are intuitive and stable
+- Animated elements sync correctly with game state
+- All perspective types handle occlusion appropriately
+- Asset pipeline produces consistent, optimized results
+- Debug tools provide clear visualization
+- System handles edge cases gracefully
+- Migration from MVP is smooth and documented
+- Start date: TBD (After core game systems complete)
+- Target completion: 3 weeks
+- Phase 1-2: Week 1
+- Phase 3-4: Week 2
+- Phase 5-6: Week 3
+- Iteration 3 (Foreground Occlusion MVP)
+- Iteration 3 (Multi-Perspective Character System)
+- Iteration 9 (Full Audio System) - For integration examples
+- To be added during implementation
+- QuadTree spatial indexing for efficient polygon queries
+- Perspective-aware rendering rules
+- Automated asset extraction pipeline
+- Visual zone editing tools
+- **Linked to:** B1, U1, T2
+- **Acceptance Criteria:**
+- Create src/core/rendering/occlusion_zone.gd as Resource
+- Implement Geometry.is_point_in_polygon for detection
+- Add properties for soft edges and fade distance
+- Support perspective-specific rule overrides
+- Include height_offset for pseudo-3D effects
+- Reference: docs/design/foreground_occlusion_full_plan.md - OcclusionZone Resource
+- **Linked to:** B3, T2
+- **Acceptance Criteria:**
+- Implement QuadTree data structure
+- Query zones within player vicinity
+- Cache zone calculations where possible
+- Update throttling based on player movement
+- Profile with 50+ zones active
+- Reference: docs/design/foreground_occlusion_full_plan.md - Spatial Indexing
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+- Create layer management in OcclusionZoneManager
+- Define Z-index ranges for each layer
+- Support fade effects between layers
+- Configure through district JSON
+- Test with complex multi-layer scenes
+
+### Iteration 11: Full Sprite Perspective Scaling System
+
+**Goals:**
+- Goal 1
+- Goal 2
+- Goal 3
+- **B1:** Business requirement placeholder
+- **U1:** As a player, I want to do something
+- **T1:** Technical requirement placeholder
+- [ ] Task 1: Description of task 1
+- [ ] Task 2: Description of task 2
+- [ ] Task 3: Description of task 3
+- Criterion 1
+- Criterion 2
+- Criterion 3
+- Start date: 2025-05-23
+- Target completion: 2025-06-06
+- List any dependencies here
+- No links yet
+
+**Key Requirements:**
+- **B1:** Business requirement placeholder
+- **U1:** As a player, I want to do something
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Description of task 1 | Pending | - |
+| Description of task 2 | Pending | - |
+| Description of task 3 | Pending | - |
+
+**Testing Criteria:**
+- Criterion 1
+- Criterion 2
+- Criterion 3
+- Start date: 2025-05-23
+- Target completion: 2025-06-06
+- List any dependencies here
+- No links yet
 
 ### Iteration 1: Basic Environment and Navigation
 
@@ -191,10 +354,10 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 28: Create simple POC test sprites for perspective scaling validation
 - [ ] Task 29: Implement basic sprite perspective scaling system
 - [ ] Task 30: Create sprite scaling test scene for validation
-- [ ] Task 31: Implement diegetic audio scaling system for perspective immersion
-- [ ] Task 32: Create audio system directory structure and core architecture
-- [ ] Task 33: Implement basic AudioManager singleton
-- [ ] Task 34: Create simplified DiegeticAudioController component
+- [ ] Task 31: Create audio system directory structure and core architecture
+- [ ] Task 32: Implement basic AudioManager singleton
+- [ ] Task 33: Create simplified DiegeticAudioController component
+- [ ] Task 34: Implement diegetic audio scaling system for perspective immersion
 - [ ] Task 35: Integrate audio with perspective scaling system
 - [ ] Task 36: Create audio foundation test scene and verify integration
 
@@ -238,12 +401,17 @@ This file tracks the progress of all iterations for the project.
 | Create simple POC test sprites for perspective scaling validation (As a developer, I want simple geometric test sprites at multiple scales, so that I can validate the perspective scaling system without complex art assets.) | Pending | - |
 | Implement basic sprite perspective scaling system (As a developer, I want sprites to scale based on Y-position in perspective backgrounds, so that depth illusion is maintained in scenes with visual perspective.) | Pending | - |
 | Create sprite scaling test scene for validation (As a developer, I want a dedicated test scene for sprite scaling, so that I can validate perspective effects work correctly with different backgrounds and movement patterns.) | Pending | - |
-| Implement diegetic audio scaling system for perspective immersion (As a player, I want environmental sounds to naturally fade and pan based on my position and distance, so that the game world feels spatially realistic and immersive.) | Pending | - |
 | Create audio system directory structure and core architecture (As a developer, I want to establish the foundational audio system architecture and file structure, so that all future audio development builds on a solid, well-organized base.) | Pending | - |
 | Implement basic AudioManager singleton (As a developer, I want a central AudioManager singleton that tracks the player's position and manages all diegetic audio sources, so that audio can respond dynamically to player movement.) | Pending | - |
 | Create simplified DiegeticAudioController component (As a developer, I want a reusable audio component that automatically adjusts volume based on distance from the player, so that we can easily add spatial audio to any game object.) | Pending | - |
+| Implement diegetic audio scaling system for perspective immersion (As a player, I want environmental sounds to naturally fade and pan based on my position and distance, so that the game world feels spatially realistic and immersive.) | Pending | - |
 | Integrate audio with perspective scaling system (As a player, I want audio volume to reflect not just distance but also the visual perspective scale, so that sounds feel naturally integrated with the visual depth of the scene.) | Pending | - |
 | Create audio foundation test scene and verify integration (As a developer, I want a comprehensive test scene for the audio MVP, so that I can verify all audio systems work correctly and establish a testing baseline for future development.) | Pending | - |
+| Create ForegroundOcclusionManager singleton for Y-position based sprite layering (As a player, I want to see my character naturally pass behind objects in the environment, so that the game world feels more three-dimensional and immersive.) | Pending | - |
+| Implement basic foreground element loading in base_district.gd (As a developer, I want districts to automatically load and manage foreground elements, so that adding visual depth to new areas is straightforward and consistent.) | Pending | - |
+| Extend district JSON configuration for foreground elements (As a developer, I want a simple configuration format for foreground elements, so that I can quickly add occlusion objects without writing code.) | Pending | - |
+| Create test foreground sprites for camera test backgrounds (As a developer, I want test foreground sprites for the camera test backgrounds, so that I can validate the occlusion system works correctly in various scenarios.) | Pending | - |
+| Build foreground occlusion test scene with debug visualization (As a developer, I want a dedicated test scene for the foreground occlusion system, so that I can verify correct behavior and debug issues efficiently.) | Pending | - |
 
 **Testing Criteria:**
 - Camera system properly handles coordinate conversions
@@ -263,6 +431,10 @@ This file tracks the progress of all iterations for the project.
 - DiegeticAudioController components update efficiently
 - Audio integrates seamlessly with perspective scaling
 - Test scene validates all audio MVP functionality
+- Foreground elements correctly occlude player based on Y-position
+- Foreground system integrates cleanly with existing coordinate system
+- No performance impact from foreground occlusion updates
+- Debug visualization clearly shows occlusion thresholds
 - Start date: 2025-05-18
 - Target completion: 2025-06-01
 - Iteration 1 (Basic Environment and Navigation)
@@ -270,6 +442,8 @@ This file tracks the progress of all iterations for the project.
 - No links yet
 - docs/design/point_and_click_navigation_refactoring_plan.md
 - docs/design/multi_perspective_character_system_plan.md
+- docs/design/sprite_perspective_scaling_plan.md
+- docs/design/foreground_occlusion_mvp_plan.md
 
 ### Iteration 4: Dialog and Verb UI System Refactoring
 
@@ -700,41 +874,136 @@ This file tracks the progress of all iterations for the project.
 ### Iteration 9: Full Audio System Implementation
 
 **Goals:**
-- Goal 1
-- Goal 2
-- Goal 3
-- **B1:** Business requirement placeholder
-- **U1:** As a player, I want to do something
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Description of task 1
-- [ ] Task 2: Description of task 2
-- [ ] Task 3: Description of task 3
-- Criterion 1
-- Criterion 2
-- Criterion 3
-- Start date: 2025-05-23
-- Target completion: 2025-06-06
-- List any dependencies here
-- No links yet
+- Complete the comprehensive diegetic audio system building on Iteration 3's MVP foundation
+- Implement district-specific audio environments with smooth transitions
+- Add advanced spatial audio features including stereo panning and environmental effects
+- Create interactive audio elements and atmospheric sound design
+- Establish production pipeline for audio content creation and management
+- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
+- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
+- **B3:** Implement audio as a gameplay element where sound provides narrative context, environmental storytelling, and subtle cues about the assimilation threat.
+- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
+- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
+- **U3:** As a player, I want the audio atmosphere to subtly change as more of the station becomes assimilated, creating an increasingly unsettling soundscape.
+- **T1:** Maintain 60 FPS performance with 20+ simultaneous audio sources using efficient LOD and pooling systems.
+- **T2:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
+- [ ] Task 1: Expand audio bus structure for district-specific routing
+- [ ] Task 2: Enhance AudioManager with district switching and fade functionality
+- [ ] Task 3: Add advanced spatial features to DiegeticAudioController
+- [ ] Task 4: Implement comprehensive unit tests for audio systems
+- [ ] Task 5: Implement custom attenuation curves and distance calculations
+- [ ] Task 6: Create stereo panning system using AudioEffectPanner
+- [ ] Task 7: Build audio debug visualization tools
+- [ ] Task 8: Performance profiling and optimization for multiple sources
+- [ ] Task 9: Create DistrictAudioConfig resource system
+- [ ] Task 10: Implement smooth district audio transitions
+- [ ] Task 11: Design district-specific audio configurations
+- [ ] Task 12: Create audio source spawning and management system
+- [ ] Task 13: Connect audio volume to visual perspective scale
+- [ ] Task 14: Implement interactive audio objects (radios, PA systems)
+- [ ] Task 15: Create assimilation-based audio degradation system
+- [ ] Task 16: Design silence and tension mechanics
+- [ ] Task 17: Implement audio LOD system for performance
+- [ ] Task 18: Add environmental reverb zones and effects
+- [ ] Task 19: Create audio settings UI and player preferences
+- [ ] Task 20: Final balancing and polish pass
+- [ ] Task 21: Create audio asset conversion and import pipeline
+- [ ] Task 22: Establish audio style guide and naming conventions
+- [ ] Task 23: Build placeholder audio library
+- [ ] Task 24: Document audio implementation for future content creators
+- All audio is purely diegetic with clear in-world sources
+- Spatial positioning feels natural and accurate with proper stereo panning
+- Performance maintains 60 FPS with 20+ simultaneous audio sources
+- District transitions are smooth and atmospheric
+- Audio reinforces the corporate banality aesthetic
+- Silence and sound create appropriate tension
+- Players can identify audio source locations
+- Audio enhances rather than distracts from gameplay
+- Interactive audio objects respond correctly to player input
+- Assimilation affects audio atmosphere progressively
+- All districts have unique and appropriate soundscapes
+- Audio settings provide adequate player control
 
 **Key Requirements:**
-- **B1:** Business requirement placeholder
-- **U1:** As a player, I want to do something
+- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
+- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
+- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
+- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Description of task 1 | Pending | - |
-| Description of task 2 | Pending | - |
-| Description of task 3 | Pending | - |
+| Expand audio bus structure for district-specific routing (As a developer, I want a comprehensive audio bus hierarchy that supports district-specific mixing and effects, so that each area can have its unique sonic character.) | Pending | - |
+| Enhance AudioManager with district switching and fade functionality | Pending | - |
+| Add advanced spatial features to DiegeticAudioController | Pending | - |
+| Implement comprehensive unit tests for audio systems | Pending | - |
+| Implement custom attenuation curves and distance calculations | Pending | - |
+| Create stereo panning system using AudioEffectPanner (As a player, I want sounds to pan left and right based on their position relative to me, so that I can spatially locate audio sources in the game world.) | Pending | - |
+| Build audio debug visualization tools | Pending | - |
+| Performance profiling and optimization for multiple sources | Pending | - |
+| Create DistrictAudioConfig resource system (As a developer, I want a resource-based configuration system for district audio, so that sound designers can easily customize each area without code changes.) | Pending | - |
+| Implement smooth district audio transitions | Pending | - |
+| Design district-specific audio configurations | Pending | - |
+| Create audio source spawning and management system | Pending | - |
+| Connect audio volume to visual perspective scale | Pending | - |
+| Implement interactive audio objects (radios, PA systems) (As a player, I want to interact with audio sources like radios and PA systems, so that I have control over the soundscape and can discover audio-based secrets.) | Pending | - |
+| Create assimilation-based audio degradation system (As a player, I want the audio atmosphere to subtly degrade as assimilation spreads, so that I can feel the station's decline through sound.) | Pending | - |
+| Design silence and tension mechanics | Pending | - |
+| Implement audio LOD system for performance | Pending | - |
+| Add environmental reverb zones and effects | Pending | - |
+| Create audio settings UI and player preferences | Pending | - |
+| Final balancing and polish pass | Pending | - |
+| Create audio asset conversion and import pipeline | Pending | - |
+| Establish audio style guide and naming conventions | Pending | - |
+| Build placeholder audio library | Pending | - |
+| Document audio implementation for future content creators | Pending | - |
 
 **Testing Criteria:**
-- Criterion 1
-- Criterion 2
-- Criterion 3
-- Start date: 2025-05-23
-- Target completion: 2025-06-06
-- List any dependencies here
+- All audio is purely diegetic with clear in-world sources
+- Spatial positioning feels natural and accurate with proper stereo panning
+- Performance maintains 60 FPS with 20+ simultaneous audio sources
+- District transitions are smooth and atmospheric
+- Audio reinforces the corporate banality aesthetic
+- Silence and sound create appropriate tension
+- Players can identify audio source locations
+- Audio enhances rather than distracts from gameplay
+- Interactive audio objects respond correctly to player input
+- Assimilation affects audio atmosphere progressively
+- All districts have unique and appropriate soundscapes
+- Audio settings provide adequate player control
+- Start date: TBD (After Iteration 8 completion)
+- Target completion: Start date + 25 days
+- Duration: 20-25 days total
+- Iteration 3: Audio MVP foundation (AudioManager, DiegeticAudioController)
+- Iteration 4: District system and transitions
+- Iteration 5: Investigation mechanics (for audio-based clues)
+- Iteration 7: Game state progression (for assimilation-based audio changes)
 - No links yet
+- docs/design/audio_system_technical_implementation.md (Full implementation plan)
+- docs/design/audio_system_iteration3_mvp.md (MVP foundation reference)
+- docs/reference/game_design_document.md (Audio Design section)
+- All audio must be diegetic (Design Pillar #13)
+- Music aesthetic should be "corporate banality" (Mallsoft/Vaporwave inspired)
+- District-specific ambience creates unique atmospheres
+- Performance optimization is critical for lower-spec hardware
+- System builds on MVP without breaking existing functionality
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+- Build on MVP's basic bus structure (Master -> Music, Ambience, SFX)
+- Add per-district sub-buses under Music and Ambience
+- Configure reverb, EQ, and compression per district
+- Reference: docs/design/audio_system_technical_implementation.md - Section 1
+- **Linked to:** U2, B1
+- **Acceptance Criteria:**
+- Godot 3.5.2 lacks built-in 2D panning, must implement via AudioEffectPanner
+- Calculate pan value from relative X position
+- Apply to appropriate audio buses dynamically
+- Reference: docs/design/audio_system_technical_implementation.md - DiegeticAudioController
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+- Create custom resource classes extending Resource
+- Include properties for sources, volumes, effects parameters
+- Design for visual editing in Godot
+- Reference: docs/design/audio_system_technical_implementation.md - Section 4
 

@@ -97,6 +97,13 @@
 - [ ] Task 35: Integrate audio with perspective scaling system
 - [ ] Task 36: Create audio foundation test scene and verify integration
 
+### Foreground Occlusion MVP
+- [ ] Task 37: Create ForegroundOcclusionManager singleton for Y-position based sprite layering
+- [ ] Task 38: Implement basic foreground element loading in base_district.gd
+- [ ] Task 39: Extend district JSON configuration for foreground elements
+- [ ] Task 40: Create test foreground sprites for camera test backgrounds
+- [ ] Task 41: Build foreground occlusion test scene with debug visualization
+
 ## Testing Criteria
 - Camera system properly handles coordinate conversions
 - Player movement is smooth with proper acceleration/deceleration
@@ -115,6 +122,10 @@
 - DiegeticAudioController components update efficiently
 - Audio integrates seamlessly with perspective scaling
 - Test scene validates all audio MVP functionality
+- Foreground elements correctly occlude player based on Y-position
+- Foreground system integrates cleanly with existing coordinate system
+- No performance impact from foreground occlusion updates
+- Debug visualization clearly shows occlusion thresholds
 
 ## Timeline
 - Start date: 2025-05-18
@@ -131,6 +142,8 @@
 This iteration implements the plans in the following design documents:
 - docs/design/point_and_click_navigation_refactoring_plan.md
 - docs/design/multi_perspective_character_system_plan.md
+- docs/design/sprite_perspective_scaling_plan.md
+- docs/design/foreground_occlusion_mvp_plan.md
 
 These systems provide the foundation for all future gameplay elements and will be extended in subsequent iterations.
 
@@ -1383,3 +1396,104 @@ These systems provide the foundation for all future gameplay elements and will b
 - Test with player movement and perspective changes
 - Document testing procedures for future use
 - Reference: docs/design/audio_system_iteration3_mvp.md - Phase 3
+
+### Task 37: Create ForegroundOcclusionManager singleton for Y-position based sprite layering
+
+**User Story:** As a player, I want to see my character naturally pass behind objects in the environment, so that the game world feels more three-dimensional and immersive.
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Singleton manager tracks player position and foreground elements
+  2. Z-index updates based on Y-position comparison
+  3. Smooth transitions when crossing occlusion thresholds
+  4. Minimal performance impact (< 0.1ms per frame)
+  5. Clean integration with existing coordinate system
+
+**Implementation Notes:**
+- Create src/core/rendering/foreground_occlusion_manager.gd
+- Use simple Y-position comparison for MVP
+- Update only when player Y changes significantly
+- Leverage existing coordinate transformations
+- Reference: docs/design/foreground_occlusion_mvp_plan.md
+
+### Task 38: Implement basic foreground element loading in base_district.gd
+
+**User Story:** As a developer, I want districts to automatically load and manage foreground elements, so that adding visual depth to new areas is straightforward and consistent.
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Districts load foreground elements from JSON configuration
+  2. Elements are properly positioned and initialized
+  3. Registration with ForegroundOcclusionManager works correctly
+  4. Unloading/cleanup happens on district exit
+  5. Error handling for missing assets
+
+**Implementation Notes:**
+- Extend base_district.gd with load_foreground_elements()
+- Create ForegroundLayer node structure
+- Register elements with occlusion manager
+- Follow existing animated_elements pattern
+- Reference: docs/design/foreground_occlusion_mvp_plan.md - District Integration
+
+### Task 39: Extend district JSON configuration for foreground elements
+
+**User Story:** As a developer, I want a simple configuration format for foreground elements, so that I can quickly add occlusion objects without writing code.
+
+**Requirements:**
+- **Linked to:** T2
+- **Acceptance Criteria:**
+  1. JSON schema supports foreground_elements array
+  2. Each element has sprite_path, position, and occlusion_y
+  3. Configuration validates on load
+  4. Clear error messages for invalid configurations
+  5. Documentation includes examples
+
+**Implementation Notes:**
+- Extend existing district JSON format
+- Add foreground_elements section
+- Support position and occlusion_y properties
+- Create validation helper functions
+- Update district configuration documentation
+
+### Task 40: Create test foreground sprites for camera test backgrounds
+
+**User Story:** As a developer, I want test foreground sprites for the camera test backgrounds, so that I can validate the occlusion system works correctly in various scenarios.
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Extract 2-3 foreground elements from each test background
+  2. Apply consistent 32-bit styling
+  3. Transparent backgrounds with clean edges
+  4. Appropriate occlusion Y-values set
+  5. Test various object sizes and shapes
+
+**Implementation Notes:**
+- Use ImageMagick to extract elements
+- Apply existing 32-bit processing pipeline
+- Create foreground/ subdirectory for each background
+- Document extraction process
+- Reference: Trading floor annotated example
+
+### Task 41: Build foreground occlusion test scene with debug visualization
+
+**User Story:** As a developer, I want a dedicated test scene for the foreground occlusion system, so that I can verify correct behavior and debug issues efficiently.
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Test scene includes multiple foreground elements
+  2. Debug overlay shows Y-thresholds and Z-indices
+  3. Player movement controls for testing
+  4. Performance metrics displayed
+  5. Easy to add new test cases
+
+**Implementation Notes:**
+- Create src/test/foreground_occlusion_test.tscn
+- Include debug visualization toggles
+- Show occlusion thresholds as horizontal lines
+- Display current Z-indices for all elements
+- Test with camera test backgrounds
+- Reference: docs/design/foreground_occlusion_mvp_plan.md - Testing Strategy
