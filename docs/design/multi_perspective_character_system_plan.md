@@ -234,6 +234,22 @@ While primarily focused on backgrounds,  provides valuable patterns that we appl
 
 The background and character systems work together to create a cohesive visual experience, with characters properly integrated into each perspective type.
 
+### Audio Integration with Perspective System
+
+The multi-perspective system integrates with the diegetic audio scaling system as defined in **Iteration 3, Task 34: Implement diegetic audio scaling system for perspective immersion**:
+
+- Audio volume scaling considers both distance and visual perspective scale
+- Sounds naturally attenuate based on the player's position in different perspective types
+- Stereo panning adjusts appropriately for each perspective orientation
+- Audio ranges are calculated considering the perspective's depth representation
+
+The integration ensures that:
+1. **Isometric perspectives**: Audio distance calculations account for the pseudo-3D depth
+2. **Side-scrolling perspectives**: Audio panning is more pronounced horizontally
+3. **Top-down perspectives**: Audio distance is calculated using true 2D distances
+
+This audio-visual integration enhances immersion by ensuring sounds feel naturally integrated with the visual depth of each scene type. See `docs/iterations/iteration3_plan.md` Task 34 for implementation details.
+
 ## Testing the System
 
 To ensure the system works correctly, we define a testing approach for each component:

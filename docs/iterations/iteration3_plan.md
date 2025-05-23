@@ -88,7 +88,14 @@
 - [ ] Task 28: Create simple POC test sprites for perspective scaling validation
 - [ ] Task 29: Implement basic sprite perspective scaling system
 - [ ] Task 30: Create sprite scaling test scene for validation
-- [ ] Task 31: Implement diegetic audio scaling system for perspective immersion
+
+### Audio System MVP Foundation
+- [ ] Task 31: Create audio system directory structure and core architecture
+- [ ] Task 32: Implement basic AudioManager singleton
+- [ ] Task 33: Create simplified DiegeticAudioController component
+- [ ] Task 34: Implement diegetic audio scaling system for perspective immersion
+- [ ] Task 35: Integrate audio with perspective scaling system
+- [ ] Task 36: Create audio foundation test scene and verify integration
 
 ## Testing Criteria
 - Camera system properly handles coordinate conversions
@@ -104,6 +111,10 @@
 - Audio sources scale volume based on distance and perspective
 - Stereo panning creates spatial audio effect
 - Diegetic audio enhances environmental immersion
+- AudioManager singleton properly tracks player position
+- DiegeticAudioController components update efficiently
+- Audio integrates seamlessly with perspective scaling
+- Test scene validates all audio MVP functionality
 
 ## Timeline
 - Start date: 2025-05-18
@@ -1252,7 +1263,65 @@ These systems provide the foundation for all future gameplay elements and will b
 - Document test procedures for validation
 
 
-### Task 31: Implement diegetic audio scaling system for perspective immersion
+### Task 31: Create audio system directory structure and core architecture
+
+**User Story:** As a developer, I want to establish the foundational audio system architecture and file structure, so that all future audio development builds on a solid, well-organized base.
+
+**Requirements:**
+- **Linked to:** B2, B3, T2
+- **Acceptance Criteria:**
+  1. Directory structure created at src/core/audio/ with proper organization
+  2. Asset directories established at src/assets/audio/ with subdirectories
+  3. Basic audio bus hierarchy configured in Godot project settings
+  4. Architecture follows singleton and component patterns from docs/design/audio_system_iteration3_mvp.md
+  5. All structures align with the full implementation plan in docs/design/audio_system_technical_implementation.md
+
+**Implementation Notes:**
+- Create directories: src/core/audio/, src/assets/audio/test/, src/assets/audio/placeholder/
+- Set up basic bus structure: Master -> Music, Ambience, SFX
+- Follow architectural principles from existing systems
+- Reference: docs/design/audio_system_iteration3_mvp.md - Phase 1
+
+### Task 32: Implement basic AudioManager singleton
+
+**User Story:** As a developer, I want a central AudioManager singleton that tracks the player's position and manages all diegetic audio sources, so that audio can respond dynamically to player movement.
+
+**Requirements:**
+- **Linked to:** B2, B3, T1, T2
+- **Acceptance Criteria:**
+  1. AudioManager singleton implemented following existing singleton patterns
+  2. Tracks listener position and scale from player updates
+  3. Updates all registered diegetic audio sources efficiently
+  4. Integrates cleanly with existing game systems
+  5. Provides foundation for future district audio features
+
+**Implementation Notes:**
+- Implement src/core/audio/audio_manager.gd as described in docs/design/audio_system_iteration3_mvp.md
+- Follow singleton pattern from CoordinateManager
+- Keep implementation simple but extensible
+- Add to autoload in project settings
+
+### Task 33: Create simplified DiegeticAudioController component
+
+**User Story:** As a developer, I want a reusable audio component that automatically adjusts volume based on distance from the player, so that we can easily add spatial audio to any game object.
+
+**Requirements:**
+- **Linked to:** B2, B3, U2
+- **Acceptance Criteria:**
+  1. DiegeticAudioController extends AudioStreamPlayer2D
+  2. Implements distance-based volume attenuation
+  3. Integrates with perspective scaling for volume adjustment
+  4. Automatically registers/unregisters with AudioManager
+  5. Performance-optimized for multiple simultaneous sources
+
+**Implementation Notes:**
+- Create src/core/audio/diegetic_audio_controller.gd per docs/design/audio_system_iteration3_mvp.md
+- Use Godot's built-in attenuation as base
+- Add perspective scale influence as multiplier
+- Include min/max distance configuration
+- Optimize for ~10-20 simultaneous sources
+
+### Task 34: Implement diegetic audio scaling system for perspective immersion
 
 **User Story:** As a player, I want environmental sounds to naturally fade and pan based on my position and distance, so that the game world feels spatially realistic and immersive.
 
@@ -1273,3 +1342,44 @@ These systems provide the foundation for all future gameplay elements and will b
 - Consider perspective scale as secondary factor in volume calculation
 - Implement audio source grouping for efficient updates
 - Test with various ambient sounds (machinery, crowds, computers, etc.)
+
+### Task 35: Integrate audio with perspective scaling system
+
+**User Story:** As a player, I want audio volume to reflect not just distance but also the visual perspective scale, so that sounds feel naturally integrated with the visual depth of the scene.
+
+**Requirements:**
+- **Linked to:** B2, B3, U2, U3
+- **Acceptance Criteria:**
+  1. Audio volume scales with both distance AND visual perspective scale
+  2. Integration works seamlessly with Task 29's perspective system
+  3. Audio maintains proper volume relationships at different scales
+  4. Player's current scale affects how they hear the environment
+  5. Debug visualization shows audio influence of perspective
+
+**Implementation Notes:**
+- Modify DiegeticAudioController to read perspective scale
+- Connect with PerspectiveController from Task 29
+- Use scale as secondary factor (not primary) in volume calculation
+- Test with different perspective backgrounds
+- Reference: docs/design/sprite_perspective_scaling_plan.md - Audio Requirements
+
+### Task 36: Create audio foundation test scene and verify integration
+
+**User Story:** As a developer, I want a comprehensive test scene for the audio MVP, so that I can verify all audio systems work correctly and establish a testing baseline for future development.
+
+**Requirements:**
+- **Linked to:** B2, B3, T1
+- **Acceptance Criteria:**
+  1. Test scene includes multiple DiegeticAudioController instances
+  2. Integrates with existing camera test backgrounds
+  3. UI controls for testing audio parameters
+  4. Debug overlay shows audio source states
+  5. Performance metrics displayed for optimization
+
+**Implementation Notes:**
+- Create src/test/audio_foundation_test.tscn
+- Place 3-4 audio sources at different positions
+- Include controls for volume, distance parameters
+- Test with player movement and perspective changes
+- Document testing procedures for future use
+- Reference: docs/design/audio_system_iteration3_mvp.md - Phase 3

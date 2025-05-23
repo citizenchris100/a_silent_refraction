@@ -1,7 +1,73 @@
 # A Silent Refraction: Game Design Document
 **Status: 📚 REFERENCE**
 
-I want this game to be very similar to the SCUMM Lucas Arts point & click adventure games. The fidelity and level of complexity for these graphics can be on par with those early games such as 1990 The Secret of Monkey Island.
+## Design Pillars
+
+1. **You should feel like you're trying to join a functioning little society**
+   - The station must feel alive with NPCs going about their daily routines
+   - Each district has its own culture and social dynamics
+   - Your actions impact how this society perceives and accepts you
+
+2. **The effects of Assimilation should be palpable to the player**
+   - Visual and behavioral changes in assimilated NPCs
+   - Gradual deterioration of station normalcy
+   - Environmental storytelling showing the spread of assimilation
+
+3. **There needs to be a sense of finite time**
+   - Time progression system with meaningful consequences
+   - NPCs get assimilated as days pass
+   - Limited opportunities to complete objectives
+
+4. **The player can be a passive part of the game's story or active**
+   - **Example of passive**: choosing to spend all your time doing "job quests" like working in the mall to earn money
+   - **Example of active**: choosing to participate in quests that lead to getting people to join the coalition
+   - **The passive choice has the consequences in witnessing the negative results of assimilation**
+
+5. **There should be a feeling of a struggle to balance how you choose to spend your time**
+   - Every action costs time
+   - Multiple competing priorities
+   - No perfect path through the game
+
+6. **Everything costs money**
+   - Station economy is integral to gameplay
+   - Need money for basic necessities and quest items
+   - Economic pressure adds to time management challenges
+
+7. **Both passive and active routes through the game should yield monetary rewards**
+   - Job quests provide steady income
+   - Coalition quests offer rewards for success
+   - Multiple viable economic strategies
+
+8. **Players should feel they have agency**
+   - Multiple solutions to problems
+   - Meaningful choices with real consequences
+   - Player actions shape the story outcome
+
+9. **No combat**
+   - Focus on dialogue, puzzle-solving, and social navigation
+   - Tension comes from suspicion and discovery, not violence
+   - Conflicts resolved through wit and strategy
+
+10. **No aliens beside the goo and assimilated**
+    - The horror is human transformation, not monsters
+    - Focus on psychological rather than creature horror
+    - The threat comes from within the community
+
+11. **Needs to look like an authentic early 90's 32 bit era game**
+    - Limited color palette (16 colors)
+    - Pixel art with appropriate resolution constraints
+    - UI design consistent with era limitations
+
+12. **Needs to feel like an authentic SCUMM Point & Click Adventure game that you somehow have never heard of**
+    - Verb-based interaction system
+    - Inventory puzzles
+    - The fidelity and level of complexity for graphics on par with early games such as 1990's The Secret of Monkey Island
+    - Classic adventure game pacing and humor where appropriate
+
+13. **All music is Diegetic**
+    - Music comes from in-world sources (radios, PA systems, etc.)
+    - No traditional soundtrack overlay
+    - Audio design reinforces the reality of the station environment
 
 ## Backstory
 
@@ -525,3 +591,102 @@ The game uses the following 16-color palette throughout all environments and UI:
 * The alien "goo" uses `#a9c2a4` (pale green) with dithered animation patterns
 * Computer screens primarily use `#7b8e95` (blue gray) with `#f3e9c4` (pale yellow) for text
 * Warning indicators use `#907577` (rusty pink) contrasted with `#f3e9c4` (pale yellow)
+
+## Audio Design
+
+### Core Audio Philosophy - Purely Diegetic Sound
+
+All audio in A Silent Refraction must originate from within the game world itself. There is no non-diegetic soundtrack, no ambient music overlay, and no sound effects that don't have a visible or logical source within the station. This design pillar reinforces the game's commitment to immersion and the feeling of being trapped in a real, functioning space station.
+
+#### Implementation of Diegetic Audio
+
+* **Music Sources**: All music comes from identifiable in-world sources such as:
+  * PA system announcements and background music
+  * Radios in various locations (offices, shops, common areas)
+  * Muzak speakers in elevators and trams
+  * TVs playing in waiting areas or bars
+  * Arcade machines and jukeboxes
+  * Personal music players carried by NPCs
+
+* **Sound Propagation**: Audio should realistically attenuate with distance and be muffled by walls/barriers
+* **Player Control**: Players can interact with some audio sources (turning radios on/off, changing stations)
+* **Environmental Storytelling**: Audio sources can provide narrative context (news broadcasts about the lockdown, corporate propaganda, etc.)
+
+### Musical Aesthetic - Corporate Banality
+
+The music within the station should evoke a sense of corporate sterility and artificial comfort, drawing inspiration from:
+
+#### Primary Influences
+
+* **Mallsoft/Vaporwave**: That specific subgenre that captures the hollow, consumerist atmosphere of shopping centers
+* **MUZAK**: The infamous "elevator music" designed to be pleasant but forgettable
+* **Portal's Radio Music**: The eerily cheerful, looping music from Valve's Portal that hints at something sinister beneath the corporate veneer
+
+#### Musical Characteristics
+
+* **Generic and Inoffensive**: Music should feel like it was chosen by committee to offend no one
+* **Repetitive but Not Memorable**: Short loops that blend into the background
+* **Artificially Upbeat**: Forced cheerfulness that becomes unsettling over time
+* **Corporate Identity**: Each district might have its own "branded" musical style:
+  * Mall: Upbeat retail muzak with subtle product placement jingles
+  * Trading Floor: "Sophisticated" jazz-fusion suggesting prosperity
+  * Medical: Calming, new-age inspired loops
+  * Barracks: Soft rock and "family-friendly" pop
+  * Engineering: Industrial ambient with safety reminder jingles
+  * Security: Authoritative orchestral themes mixed with procedural announcements
+  * Spaceport: Travel-themed easy listening with departure/arrival chimes
+
+### Ambient Sound Design
+
+Each district has location-specific ambient white noise that grounds the player in the environment:
+
+#### District-Specific Ambience
+
+* **Spaceport**: 
+  * Distant engine hums
+  * Pressurization hisses
+  * Muffled announcements
+  * Cargo loading sounds
+
+* **Mall**: 
+  * Crowd chatter
+  * Cash registers
+  * Footsteps on polished floors
+  * Distant arcade sounds
+
+* **Medical**: 
+  * Ventilation systems
+  * Medical equipment beeps
+  * Distant PA pages
+  * Fluorescent light buzz
+
+* **Trading Floor**: 
+  * Computer terminals clicking
+  * Phone conversations
+  * Printer sounds
+  * HVAC systems
+
+* **Barracks**: 
+  * Muffled TV sounds through walls
+  * Plumbing noises
+  * Elevator motors
+  * Domestic sounds (doors, footsteps)
+
+* **Engineering**: 
+  * Heavy machinery drones
+  * Steam releases
+  * Metal clanking
+  * Warning alarms
+
+* **Security**: 
+  * Radio chatter
+  * Cell door mechanisms
+  * Fluorescent buzz
+  * Boot steps on metal
+
+### Audio as Gameplay Element
+
+* **Suspicion Through Sound**: Assimilated NPCs might react differently to certain music or sounds
+* **Audio Puzzles**: Some puzzles might require listening for specific sounds or manipulating audio sources
+* **Atmospheric Degradation**: As more of the station becomes assimilated, the cheerful muzak might skip, distort, or stop entirely in certain areas
+* **Silence as Horror**: The sudden absence of familiar ambient sounds can signal danger

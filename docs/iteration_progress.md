@@ -8,12 +8,13 @@ This file tracks the progress of all iterations for the project.
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 6% (2/30) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 5% (2/36) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
 | 5 | Game Districts and Time Management | Not started | 0% (0/12) |
 | 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
 | 7 | Coalition Building | Not started | 0% (0/8) |
 | 8 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
+| 9 | Full Audio System Implementation | Not started | 0% (0/3) |
 
 ## Detailed Progress
 
@@ -190,15 +191,12 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 28: Create simple POC test sprites for perspective scaling validation
 - [ ] Task 29: Implement basic sprite perspective scaling system
 - [ ] Task 30: Create sprite scaling test scene for validation
-- Camera system properly handles coordinate conversions
-- Player movement is smooth with proper acceleration/deceleration
-- Pathfinding correctly navigates around obstacles
-- Walkable areas are properly respected with accurate boundaries
-- Characters display correctly in each perspective
-- Animation transitions are smooth in all perspectives
-- Character movement adapts correctly to each perspective type
-- Performance remains optimal across all test cases
-- All debug tools work properly
+- [ ] Task 31: Implement diegetic audio scaling system for perspective immersion
+- [ ] Task 32: Create audio system directory structure and core architecture
+- [ ] Task 33: Implement basic AudioManager singleton
+- [ ] Task 34: Create simplified DiegeticAudioController component
+- [ ] Task 35: Integrate audio with perspective scaling system
+- [ ] Task 36: Create audio foundation test scene and verify integration
 
 **Key Requirements:**
 - **B1:** Create a more responsive and predictable navigation system
@@ -240,6 +238,12 @@ This file tracks the progress of all iterations for the project.
 | Create simple POC test sprites for perspective scaling validation (As a developer, I want simple geometric test sprites at multiple scales, so that I can validate the perspective scaling system without complex art assets.) | Pending | - |
 | Implement basic sprite perspective scaling system (As a developer, I want sprites to scale based on Y-position in perspective backgrounds, so that depth illusion is maintained in scenes with visual perspective.) | Pending | - |
 | Create sprite scaling test scene for validation (As a developer, I want a dedicated test scene for sprite scaling, so that I can validate perspective effects work correctly with different backgrounds and movement patterns.) | Pending | - |
+| Implement diegetic audio scaling system for perspective immersion (As a player, I want environmental sounds to naturally fade and pan based on my position and distance, so that the game world feels spatially realistic and immersive.) | Pending | - |
+| Create audio system directory structure and core architecture (As a developer, I want to establish the foundational audio system architecture and file structure, so that all future audio development builds on a solid, well-organized base.) | Pending | - |
+| Implement basic AudioManager singleton (As a developer, I want a central AudioManager singleton that tracks the player's position and manages all diegetic audio sources, so that audio can respond dynamically to player movement.) | Pending | - |
+| Create simplified DiegeticAudioController component (As a developer, I want a reusable audio component that automatically adjusts volume based on distance from the player, so that we can easily add spatial audio to any game object.) | Pending | - |
+| Integrate audio with perspective scaling system (As a player, I want audio volume to reflect not just distance but also the visual perspective scale, so that sounds feel naturally integrated with the visual depth of the scene.) | Pending | - |
+| Create audio foundation test scene and verify integration (As a developer, I want a comprehensive test scene for the audio MVP, so that I can verify all audio systems work correctly and establish a testing baseline for future development.) | Pending | - |
 
 **Testing Criteria:**
 - Camera system properly handles coordinate conversions
@@ -251,6 +255,14 @@ This file tracks the progress of all iterations for the project.
 - Character movement adapts correctly to each perspective type
 - Performance remains optimal across all test cases
 - All debug tools work properly
+- Sprites scale appropriately based on Y-position
+- Audio sources scale volume based on distance and perspective
+- Stereo panning creates spatial audio effect
+- Diegetic audio enhances environmental immersion
+- AudioManager singleton properly tracks player position
+- DiegeticAudioController components update efficiently
+- Audio integrates seamlessly with perspective scaling
+- Test scene validates all audio MVP functionality
 - Start date: 2025-05-18
 - Target completion: 2025-06-01
 - Iteration 1 (Basic Environment and Navigation)
@@ -258,16 +270,6 @@ This file tracks the progress of all iterations for the project.
 - No links yet
 - docs/design/point_and_click_navigation_refactoring_plan.md
 - docs/design/multi_perspective_character_system_plan.md
-- **⏳ PENDING** (05/22/25)
-- **✅ COMPLETE** (05/22/25)
-- **✅ COMPLETE** (05/22/25)
-- **✅ COMPLETE** (05/22/25)
-- **Linked to:** B1, U1, T1
-- **Acceptance Criteria:**
-- Refine coordinate handling in scrolling_camera.gd
-- Add validation methods to ensure coordinates are always valid
-- Update camera targeting to prevent edge cases
-- Maintain alignment with signal-based architectural pattern
 
 ### Iteration 4: Dialog and Verb UI System Refactoring
 
@@ -693,5 +695,46 @@ This file tracks the progress of all iterations for the project.
 - Target completion: 2025-08-10
 - Iteration 6 (Investigation Mechanics)
 - Iteration 7 (Coalition Building)
+- No links yet
+
+### Iteration 9: Full Audio System Implementation
+
+**Goals:**
+- Goal 1
+- Goal 2
+- Goal 3
+- **B1:** Business requirement placeholder
+- **U1:** As a player, I want to do something
+- **T1:** Technical requirement placeholder
+- [ ] Task 1: Description of task 1
+- [ ] Task 2: Description of task 2
+- [ ] Task 3: Description of task 3
+- Criterion 1
+- Criterion 2
+- Criterion 3
+- Start date: 2025-05-23
+- Target completion: 2025-06-06
+- List any dependencies here
+- No links yet
+
+**Key Requirements:**
+- **B1:** Business requirement placeholder
+- **U1:** As a player, I want to do something
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Description of task 1 | Pending | - |
+| Description of task 2 | Pending | - |
+| Description of task 3 | Pending | - |
+
+**Testing Criteria:**
+- Criterion 1
+- Criterion 2
+- Criterion 3
+- Start date: 2025-05-23
+- Target completion: 2025-06-06
+- List any dependencies here
 - No links yet
 
