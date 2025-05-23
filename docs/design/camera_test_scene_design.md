@@ -124,6 +124,13 @@ Features:
 - Container labels test text readability at various zoom levels
 - Safety stripes help identify transformation accuracy
 
+**Diegetic Audio Elements**:
+- Cargo loader machinery hum near loading bays
+- Ship engine idle sounds from docked vessels
+- Hydraulic hiss from crane operations
+- Distant PA system announcements
+- Forklift beeping in background
+
 **Color Implementation** (using canonical palette):
 - Dark Brown (#3c3537): Base floor material
 - Medium Brown (#494543): Cargo containers
@@ -183,6 +190,14 @@ Features:
 - "Nebula Electronics" (product displays)
 - "Red Planet Books" (book spine text detail)
 
+**Diegetic Audio Elements**:
+- Multiple shop music sources (different genres per store)
+- Fountain water sounds at center
+- Crowd chatter and footsteps
+- Elevator mechanical sounds
+- Cash register beeps from various shops
+- Arcade game sounds from entertainment zone
+
 ### 4. Trading Floor - Movement Path Testing
 
 **Purpose**: Natural pathways for camera movement and pathfinding validation
@@ -234,6 +249,14 @@ Features:
 - Rotating turbine components
 - Pressure gauge animations
 - Warning light sequences
+
+**Diegetic Audio Elements**:
+- Deep turbine hum as ambient base layer
+- Rhythmic steam releases creating percussion
+- Electrical buzzing from power systems
+- Cooling fan drone
+- Pipe groaning and metallic creaks
+- Warning klaxon for critical systems
 
 ### 6. Medical Bay - Aspect Ratio Testing
 
@@ -356,6 +379,25 @@ var test_backgrounds = {
     "tram": preload("res://src/assets/test_backgrounds/tram_platform.png")
 }
 
+# Audio configurations per environment
+var test_audio_configs = {
+    "spaceport": [
+        {"pos": Vector2(200, 400), "sound": "machinery_hum.ogg", "volume": 0, "distance": 800},
+        {"pos": Vector2(800, 300), "sound": "ship_engine.ogg", "volume": -5, "distance": 600},
+        {"pos": Vector2(1200, 500), "sound": "hydraulic_hiss.ogg", "volume": -3, "distance": 400}
+    ],
+    "mall": [
+        {"pos": Vector2(400, 400), "sound": "crowd_chatter.ogg", "volume": -2, "distance": 1000},
+        {"pos": Vector2(600, 300), "sound": "fountain.ogg", "volume": -5, "distance": 500},
+        {"pos": Vector2(300, 200), "sound": "shop_music.ogg", "volume": -8, "distance": 400}
+    ],
+    "engineering": [
+        {"pos": Vector2(500, 400), "sound": "turbine_hum.ogg", "volume": 0, "distance": 1200},
+        {"pos": Vector2(300, 300), "sound": "steam_release.ogg", "volume": -2, "distance": 600},
+        {"pos": Vector2(700, 350), "sound": "electrical_buzz.ogg", "volume": -10, "distance": 300}
+    ]
+}
+
 # Test modes
 enum TestMode {
     MOVEMENT,
@@ -367,6 +409,23 @@ enum TestMode {
 
 var current_mode = TestMode.MOVEMENT
 var current_background = "spaceport"
+
+# Setup audio sources for current environment
+func setup_audio_environment(env_name: String):
+    # Clear existing audio sources
+    for child in $AudioSources.get_children():
+        child.queue_free()
+    
+    # Add new audio sources
+    if env_name in test_audio_configs:
+        for config in test_audio_configs[env_name]:
+            var audio_source = preload("res://src/core/perspective/diegetic_audio_source.gd").new()
+            audio_source.position = config.pos
+            audio_source.stream = load("res://src/assets/test_audio/" + config.sound)
+            audio_source.base_volume_db = config.volume
+            audio_source.max_distance = config.distance
+            audio_source.play()
+            $AudioSources.add_child(audio_source)
 ```
 
 ## Testing Procedures

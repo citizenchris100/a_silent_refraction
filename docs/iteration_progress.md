@@ -8,8 +8,8 @@ This file tracks the progress of all iterations for the project.
 |-----------|------|--------|----------|
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 7% (2/27) |
-| 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/17) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 6% (2/30) |
+| 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
 | 5 | Game Districts and Time Management | Not started | 0% (0/12) |
 | 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
 | 7 | Coalition Building | Not started | 0% (0/8) |
@@ -187,6 +187,9 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 25: Create comprehensive documentation for both systems
 - [ ] Task 26: Perform code review and optimization
 - [ ] Task 27: Update existing documentation to reflect new systems
+- [ ] Task 28: Create simple POC test sprites for perspective scaling validation
+- [ ] Task 29: Implement basic sprite perspective scaling system
+- [ ] Task 30: Create sprite scaling test scene for validation
 - Camera system properly handles coordinate conversions
 - Player movement is smooth with proper acceleration/deceleration
 - Pathfinding correctly navigates around obstacles
@@ -196,8 +199,6 @@ This file tracks the progress of all iterations for the project.
 - Character movement adapts correctly to each perspective type
 - Performance remains optimal across all test cases
 - All debug tools work properly
-- Start date: 2025-05-18
-- Target completion: 2025-06-01
 
 **Key Requirements:**
 - **B1:** Create a more responsive and predictable navigation system
@@ -236,6 +237,9 @@ This file tracks the progress of all iterations for the project.
 | Create comprehensive documentation for both systems (As a developer, I want clear documentation for both the navigation and multi-perspective systems, so that I can understand, maintain, and extend these systems effectively.) | Pending | - |
 | Perform code review and optimization | Pending | - |
 | Update existing documentation to reflect new systems | Pending | - |
+| Create simple POC test sprites for perspective scaling validation (As a developer, I want simple geometric test sprites at multiple scales, so that I can validate the perspective scaling system without complex art assets.) | Pending | - |
+| Implement basic sprite perspective scaling system (As a developer, I want sprites to scale based on Y-position in perspective backgrounds, so that depth illusion is maintained in scenes with visual perspective.) | Pending | - |
+| Create sprite scaling test scene for validation (As a developer, I want a dedicated test scene for sprite scaling, so that I can validate perspective effects work correctly with different backgrounds and movement patterns.) | Pending | - |
 
 **Testing Criteria:**
 - Camera system properly handles coordinate conversions
@@ -314,7 +318,9 @@ This file tracks the progress of all iterations for the project.
 - Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- No links yet
+- [Dialog System Refactoring Plan](docs/design/dialog_system_refactoring_plan.md)
+- [Verb UI System Refactoring Plan](docs/design/verb_ui_system_refactoring_plan.md)
+- [Project Architecture Reference](docs/reference/architecture.md)
 
 **Key Requirements:**
 - **B1:** Eliminate technical debt in core interaction systems
@@ -359,7 +365,9 @@ This file tracks the progress of all iterations for the project.
 - Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- No links yet
+- [Dialog System Refactoring Plan](docs/design/dialog_system_refactoring_plan.md)
+- [Verb UI System Refactoring Plan](docs/design/verb_ui_system_refactoring_plan.md)
+- [Project Architecture Reference](docs/reference/architecture.md)
 - docs/design/dialog_system_refactoring_plan.md
 - docs/design/verb_ui_system_refactoring_plan.md
 - **⏳ PENDING** (05/22/25)
@@ -368,6 +376,7 @@ This file tracks the progress of all iterations for the project.
 - Follow established ServiceRegistry pattern from camera system refactoring
 - Create dialog service abstractions that can be mocked for testing
 - Implement adapter pattern for gradual migration from legacy system
+- **Reference:** See Phase 1 of docs/design/dialog_system_refactoring_plan.md
 - **⏳ PENDING** (05/22/25)
 - **Linked to:** B1, T1, T3
 - **Acceptance Criteria:**

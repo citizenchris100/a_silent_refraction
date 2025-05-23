@@ -14,13 +14,9 @@ NC='\033[0m' # No Color
 PROJECT_ROOT=$(pwd)
 GODOT_CMD="godot"
 MAIN_SCENE="res://src/core/main.tscn"
-TEST_SCENE="res://src/test/npc_system_test.tscn"
-NAVIGATION_TEST_SCENE="res://src/test/navigation_test.tscn"
-DIALOG_TEST_SCENE="res://src/test/dialog_test.tscn"
-DEBUG_TOOLS_TEST_SCENE="res://src/test/debug_tools_test.tscn"
-UNIVERSAL_DEBUG_SCENE="res://src/test/universal_debug.tscn"
 CAMERA_TEST_SCENE="res://src/test/clean_camera_test.tscn"
 CAMERA_SYSTEM_TEST_SCENE="res://src/test/clean_camera_test2.tscn"
+CAMERA_VALIDATION_TEST_SCENE="res://src/test/camera_system_test.tscn"
 
 # Function to display help
 function show_help {
@@ -30,14 +26,9 @@ function show_help {
     echo ""
     echo "Commands:"
     echo "  run                  - Run the main game"
-    echo "  test                 - Run the NPC test scene"
-    echo "  navigation           - Run the navigation test scene"
-    echo "  dialog               - Run the dialog test scene"
     echo "  camera               - Run the scrolling camera test scene"
     echo "  camera-system        - Run the district template with enhanced camera system"
-    echo "  debug                - Run the debug tools test scene"
-    echo "  debug-universal      - Run the universal debug scene"
-    echo "  debug-district NAME  - Debug a specific district (e.g. shipping)"
+    echo "  camera-test          - Run the comprehensive camera validation test"
     echo "  clean                - Clean up redundant files"
     echo "  build                - Build the game for distribution"
     echo "  check                - Check project for errors"
@@ -55,29 +46,6 @@ function run_game {
     $GODOT_CMD --path $PROJECT_ROOT $MAIN_SCENE
 }
 
-# Function to run the test scene
-function run_test {
-    echo -e "${GREEN}Running NPC test scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $TEST_SCENE
-}
-
-# Function to run the navigation test scene
-function run_navigation_test {
-    echo -e "${GREEN}Running navigation test scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $NAVIGATION_TEST_SCENE
-}
-
-# Function to run the dialog test scene
-function run_dialog_test {
-    echo -e "${GREEN}Running dialog test scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $DIALOG_TEST_SCENE
-}
-
-# Function to run the debug tools test scene
-function run_debug_tools_test {
-    echo -e "${GREEN}Running debug tools test scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $DEBUG_TOOLS_TEST_SCENE
-}
 
 # Function to run the scrolling camera test scene
 function run_camera_test {
@@ -93,38 +61,12 @@ function run_camera_system_test {
     $GODOT_CMD --path $PROJECT_ROOT $CAMERA_SYSTEM_TEST_SCENE
 }
 
-# Function to run the universal debug scene
-function run_universal_debug {
-    echo -e "${GREEN}Running universal debug scene...${NC}"
-    $GODOT_CMD --path $PROJECT_ROOT $UNIVERSAL_DEBUG_SCENE
-}
-
-# Function to debug a specific district
-function debug_district {
-    if [ -z "$1" ]; then
-        echo -e "${RED}Error: No district name provided.${NC}"
-        echo "Usage: ./a_silent_refraction.sh debug-district <district_name>"
-        exit 1
-    fi
-
-    district_name=$1
-    district_scene="res://src/districts/${district_name}/${district_name}_district.tscn"
-
-    # Check if district exists
-    if [ ! -f "${PROJECT_ROOT}/src/districts/${district_name}/${district_name}_district.tscn" ]; then
-        echo -e "${RED}Error: District '${district_name}' not found.${NC}"
-        echo "Available districts:"
-        for dir in $(find ${PROJECT_ROOT}/src/districts -mindepth 1 -maxdepth 1 -type d); do
-            basename=$(basename $dir)
-            echo "  - $basename"
-        done
-        exit 1
-    fi
-
-    echo -e "${GREEN}Debugging ${district_name} district...${NC}"
-
-    # Run with the universal debug scene and target district
-    $GODOT_CMD --path $PROJECT_ROOT $UNIVERSAL_DEBUG_SCENE --target-scene=$district_scene
+# Function to run the camera validation test
+function run_camera_validation_test {
+    echo -e "${GREEN}Running comprehensive camera validation test...${NC}"
+    echo -e "${YELLOW}Use number keys 1-8 to switch between test backgrounds${NC}"
+    echo -e "${YELLOW}Press ESC to exit${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT $CAMERA_VALIDATION_TEST_SCENE
 }
 
 # Function to clean up redundant files
@@ -352,29 +294,14 @@ case "$1" in
     run)
         run_game
         ;;
-    test)
-        run_test
-        ;;
-    navigation)
-        run_navigation_test
-        ;;
-    dialog)
-        run_dialog_test
-        ;;
     camera)
         run_camera_test
         ;;
     camera-system)
         run_camera_system_test
         ;;
-    debug)
-        run_debug_tools_test
-        ;;
-    debug-universal)
-        run_universal_debug
-        ;;
-    debug-district)
-        debug_district "$2"
+    camera-test)
+        run_camera_validation_test
         ;;
     clean)
         clean_project

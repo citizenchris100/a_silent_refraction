@@ -84,6 +84,12 @@
 - [ ] Task 26: Perform code review and optimization
 - [ ] Task 27: Update existing documentation to reflect new systems
 
+### Sprite Perspective Scaling System
+- [ ] Task 28: Create simple POC test sprites for perspective scaling validation
+- [ ] Task 29: Implement basic sprite perspective scaling system
+- [ ] Task 30: Create sprite scaling test scene for validation
+- [ ] Task 31: Implement diegetic audio scaling system for perspective immersion
+
 ## Testing Criteria
 - Camera system properly handles coordinate conversions
 - Player movement is smooth with proper acceleration/deceleration
@@ -94,6 +100,10 @@
 - Character movement adapts correctly to each perspective type
 - Performance remains optimal across all test cases
 - All debug tools work properly
+- Sprites scale appropriately based on Y-position
+- Audio sources scale volume based on distance and perspective
+- Stereo panning creates spatial audio effect
+- Diegetic audio enhances environmental immersion
 
 ## Timeline
 - Start date: 2025-05-18
@@ -1179,3 +1189,87 @@ These systems provide the foundation for all future gameplay elements and will b
 - Add multi-perspective system to relevant docs
 - Update code examples to use new functionality
 - Ensure cross-referencing between related documentation
+
+
+### Task 28: Create simple POC test sprites for perspective scaling validation
+
+**User Story:** As a developer, I want simple geometric test sprites at multiple scales, so that I can validate the perspective scaling system without complex art assets.
+
+**Requirements:**
+- **Linked to:** B2, B3, T2
+- **Acceptance Criteria:**
+  1. Test sprites created as simple colored shapes (squares/rectangles)
+  2. Multiple sizes available (32x32, 48x48, 64x64, 96x96) for scale testing
+  3. Each sprite includes directional indicator (arrow) for rotation validation
+  4. Distinct colors used for easy visual tracking during tests
+  5. Sprites generated via script for reproducibility
+
+**Implementation Notes:**
+- Create generate_poc_sprites.sh script using ImageMagick
+- Generate sprites in standard sizes with arrow indicators
+- Use high-contrast colors from the canonical palette
+- Store in src/assets/test_sprites/ directory
+- Document sprite generation process for future reference
+
+### Task 29: Implement basic sprite perspective scaling system
+
+**User Story:** As a developer, I want sprites to scale based on Y-position in perspective backgrounds, so that depth illusion is maintained in scenes with visual perspective.
+
+**Requirements:**
+- **Linked to:** B2, B3, U2, T2
+- **Acceptance Criteria:**
+  1. Sprites scale smaller when positioned higher in scene (further away)
+  2. Scaling transitions smoothly as sprites move vertically
+  3. Movement speed adjusts proportionally with sprite scale
+  4. Z-index properly sorts sprites by depth (Y-position)
+  5. System integrates cleanly with existing coordinate and camera systems
+
+**Implementation Notes:**
+- Implement simplified Y-position based scaling for initial POC
+- Create PerspectiveController component attachable to any Node2D
+- Add scaling configuration to district/scene settings
+- Ensure compatibility with both GAME_VIEW and WORLD_VIEW modes
+- Follow architectural principles with minimal coupling
+
+### Task 30: Create sprite scaling test scene for validation
+
+**User Story:** As a developer, I want a dedicated test scene for sprite scaling, so that I can validate perspective effects work correctly with different backgrounds and movement patterns.
+
+**Requirements:**
+- **Linked to:** B2, B3, T2
+- **Acceptance Criteria:**
+  1. Test scene allows loading different camera test backgrounds
+  2. Multiple test sprites can be placed and moved interactively
+  3. Debug overlay shows current scale, z-index, and speed values
+  4. Controls allow toggling scaling on/off for comparison
+  5. Scene validates scaling with all 8 camera test backgrounds
+
+**Implementation Notes:**
+- Create dedicated test scene src/test/sprite_scaling_test.tscn
+- Include UI controls for background switching
+- Add debug visualization for scaling zones/gradients
+- Implement movement controls for testing dynamic scaling
+- Document test procedures for validation
+
+
+### Task 31: Implement diegetic audio scaling system for perspective immersion
+
+**User Story:** As a player, I want environmental sounds to naturally fade and pan based on my position and distance, so that the game world feels spatially realistic and immersive.
+
+**Requirements:**
+- **Linked to:** B2, B3, U2, U3
+- **Acceptance Criteria:**
+  1. Audio sources in game world scale volume based on distance from player
+  2. Volume scaling considers both distance and perspective scale
+  3. Stereo panning reflects horizontal position relative to player
+  4. Distant audio sources stop playing for performance optimization
+  5. Audio ranges are visually indicated in debug/editor mode
+
+**Implementation Notes:**
+- Create DiegeticAudioSource component extending AudioStreamPlayer2D
+- Integrate with PerspectiveController to update audio based on player position
+- Support custom falloff curves for different audio types
+- Add min/max distance parameters for audio range
+- Consider perspective scale as secondary factor in volume calculation
+- Implement audio source grouping for efficient updates
+- Test with various ambient sounds (machinery, crowds, computers, etc.)
