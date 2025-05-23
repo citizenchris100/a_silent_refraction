@@ -30,16 +30,46 @@ _global_script_classes=[ {
 "path": "res://src/core/camera/bounds_calculator.gd"
 }, {
 "base": "Reference",
+"class": "BoundsValidator",
+"language": "GDScript",
+"path": "res://src/core/camera/bounds_validator.gd"
+}, {
+"base": "Reference",
 "class": "CoordinateSystem",
 "language": "GDScript",
 "path": "res://src/core/coordinate_system.gd"
+}, {
+"base": "Node",
+"class": "DebugManager",
+"language": "GDScript",
+"path": "res://src/core/debug/debug_manager.gd"
+}, {
+"base": "Reference",
+"class": "DefaultBoundsValidator",
+"language": "GDScript",
+"path": "res://src/core/camera/default_bounds_validator.gd"
+}, {
+"base": "Camera2D",
+"class": "ScrollingCamera",
+"language": "GDScript",
+"path": "res://src/core/camera/scrolling_camera.gd"
+}, {
+"base": "Reference",
+"class": "TestBoundsValidator",
+"language": "GDScript",
+"path": "res://src/core/camera/test_bounds_validator.gd"
 } ]
 _global_script_class_icons={
 "AnimatedBackgroundManager": "",
 "BaseDistrict": "",
 "BaseNPC": "",
 "BoundsCalculator": "",
-"CoordinateSystem": ""
+"BoundsValidator": "",
+"CoordinateSystem": "",
+"DebugManager": "",
+"DefaultBoundsValidator": "",
+"ScrollingCamera": "",
+"TestBoundsValidator": ""
 }
 
 [application]

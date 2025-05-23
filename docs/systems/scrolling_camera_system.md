@@ -42,6 +42,27 @@ This document provides a comprehensive understanding of the system, its current 
 5. Player movement remains consistent across screen transitions
 6. Visual style follows the game's aesthetic guidelines
 
+## Critical Requirements for Implementation
+
+### Must Extend Base District
+
+**IMPORTANT**: Any scene using the ScrollingCamera system MUST extend `base_district.gd`. This is a hard requirement - the camera system will not function correctly without it.
+
+### Required Node Structure
+
+```
+YourDistrict (extends base_district.gd)
+├── Background (Sprite) - MUST be named "Background"
+├── ScrollingCamera (created by base_district)
+├── Player (KinematicBody2D)
+└── WalkableAreas (Node2D)
+```
+
+**Why This Matters**:
+- `calculate_optimal_zoom()` looks for Background as a sibling node
+- Base district handles camera creation and configuration
+- The node structure enables proper visual scaling
+
 ## Current Implementation
 
 ### Core Components
@@ -93,11 +114,12 @@ This document provides a comprehensive understanding of the system, its current 
    - Signal emission for state changes to notify other systems
    - World View mode detection to prevent inappropriate player following
 
-3. **Automatic Background Scaling**
-   - Automatically scales background to fill viewport height
+3. **Automatic Background Scaling (Visual Correctness Priority)**
+   - `calculate_optimal_zoom()` automatically scales background to fill viewport height
+   - Prevents grey bars by ensuring full viewport coverage
    - Preserves aspect ratio while ensuring screen coverage
-   - Handles large backgrounds efficiently
-   - Proper coordinate adjustment based on scaling
+   - Implements hybrid architecture: sophisticated bounds for logic, visual overrides for display
+   - **Requires proper node structure**: Background must be sibling of camera under district
 
 4. **Intelligent Boundary Management**
    - Uses walkable area polygons to define camera movement boundaries
@@ -415,6 +437,38 @@ Potential improvements for the scrolling camera system:
 6. **Performance optimizations** for large districts with complex walkable areas
 7. **Animation enhancements** for smoother view transitions between perspectives
 
+## Troubleshooting Guide
+
+### Grey Bars Issue
+
+**Problem**: Grey bars appear at top/bottom of screen instead of background filling viewport
+
+**Most Common Cause**: Scene doesn't extend base_district or has wrong node structure
+
+**Quick Fix Checklist**:
+1. ✓ Scene extends `base_district.gd`
+2. ✓ Background is direct child named "Background"
+3. ✓ No wrapper nodes (like TestEnvironment)
+4. ✓ `auto_adjust_zoom = true` (default)
+
+**Diagnostic Test**:
+```gdscript
+# In your scene's _ready():
+print("Parent type: ", get_class())  # Should show your district class
+print("Background node: ", get_node_or_null("Background"))  # Should not be null
+```
+
+### Camera Not Working At All
+
+**Problem**: Camera doesn't move, follow player, or respond to input
+
+**Common Causes**:
+1. Not using base_district's camera setup
+2. Manually creating camera instead of letting base_district handle it
+3. Missing required properties in district setup
+
+**Solution**: Use clean_camera_test2.gd as template
+
 ## Conclusion
 
-The enhanced Scrolling Camera System with improved coordinate conversions is a critical component for creating immersive, expansive environments in A Silent Refraction. The addition of proper coordinate validation, state management, and robust visualization tools makes the system more reliable and easier to work with for developers. The clear separation of camera states and improved signal communication also aligns with the project's architectural principles, ensuring that the system remains maintainable and extensible as the game continues to evolve.
+The enhanced Scrolling Camera System with improved coordinate conversions is a critical component for creating immersive, expansive environments in A Silent Refraction. The system's dependency on base_district architecture ensures consistent behavior across all game scenes. The Visual Correctness Priority implementation through `calculate_optimal_zoom()` prevents visual artifacts like grey bars, while the clear node structure requirements make the system predictable and maintainable.

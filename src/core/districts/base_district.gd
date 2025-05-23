@@ -228,6 +228,40 @@ func setup_scrolling_camera():
     else:
         push_error("Failed to load ScrollingCamera scene!")
 
+# Setup player character with the standard point-and-click navigation system
+# This method implements the DRY principle by providing reusable player setup for all districts
+func setup_player_and_controller(start_position = Vector2.ZERO):
+    # Default player position if not specified
+    if start_position == Vector2.ZERO:
+        start_position = Vector2(400, 300)
+    
+    # Add the player character from the standard player scene
+    var player_scene = load("res://src/characters/player/player.tscn")
+    if player_scene:
+        var player = player_scene.instance()
+        player.position = start_position
+        add_child(player)
+        print("Added standard player character at position " + str(start_position))
+        
+        # Make the camera follow the player
+        if camera:
+            camera.follow_player = true
+            camera.target_player = player
+            print("Camera set to follow player")
+        
+        # Add the player controller to handle point-and-click navigation
+        var controller_scene = load("res://src/core/player_controller.gd")
+        if controller_scene:
+            var controller = Node.new()
+            controller.name = "PlayerController"
+            controller.set_script(controller_scene)
+            add_child(controller)
+            print("Added standard player controller for point-and-click navigation")
+        else:
+            print("WARNING: Could not load player controller script")
+    else:
+        print("WARNING: Could not load player scene")
+
 # Exit this district
 func exit_district():
     # Clean up animated elements

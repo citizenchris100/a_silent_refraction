@@ -6,6 +6,30 @@ The Camera System in A Silent Refraction enables players to explore environments
 
 This document provides a comprehensive understanding of the system's architecture, implementation details, and integration with other game systems.
 
+## Critical Requirements
+
+### Base District Extension Requirement
+
+**IMPORTANT**: All scenes using the ScrollingCamera system MUST extend `base_district.gd`. This is not optional - the camera system depends on the district architecture for proper functionality.
+
+### Required Node Structure
+
+The following node structure is mandatory for the camera system to function correctly:
+
+```
+YourDistrict (extends base_district.gd)
+├── Background (Sprite) - MUST be named "Background"
+├── ScrollingCamera (created automatically by base_district)
+├── Player (KinematicBody2D)
+└── WalkableAreas (Node2D)
+```
+
+**Critical Notes:**
+- The Background node MUST be a direct child of the district
+- The Background node MUST be named exactly "Background" 
+- Do NOT wrap these nodes in container nodes (e.g., TestEnvironment)
+- The camera expects to find Background as a sibling node
+
 ## Architecture
 
 The camera system follows a layered architecture with clear separation of concerns:
@@ -150,6 +174,38 @@ func _ensure_player_visible():
     # Rest of the player visibility logic
     # ...
 ```
+
+### Automatic Background Scaling (Visual Correctness Priority)
+
+The camera system implements the Visual Correctness Priority principle through the `calculate_optimal_zoom()` function, which ensures backgrounds fill the viewport to prevent grey bars:
+
+```gdscript
+# Called automatically during _ready() if auto_adjust_zoom is true
+func calculate_optimal_zoom():
+    # Get the district (parent) which has background information
+    var district = get_parent()
+    
+    # Find the background sprite - MUST be named "Background" and be a sibling
+    var background_node = district.get_node_or_null("Background")
+    
+    if background_node and background_node is Sprite and background_node.texture:
+        # Calculate scale to fill viewport height
+        var height_scale = screen_size.y / background_node.texture.get_size().y
+        
+        # Apply scale to background sprite
+        background_node.scale = Vector2(height_scale, height_scale)
+        
+        # Update camera bounds to match scaled background
+        var scaled_width = background_node.texture.get_size().x * height_scale
+        camera_bounds = Rect2(0, 0, scaled_width, screen_size.y)
+```
+
+**Important Implementation Details:**
+- This function is called automatically if `auto_adjust_zoom = true` (default)
+- It scales the background sprite directly to fill the viewport height
+- It overrides viewport-aware bounds with visual-correct bounds
+- It implements the hybrid architecture: sophisticated bounds for logic, overrides for visuals
+- If the Background node isn't found, the function fails silently (no error)
 
 ### Intelligent Boundary Management
 The camera uses walkable area polygons to define its movement boundaries. The BoundsCalculator service processes these polygons to create a bounding rectangle:
@@ -460,25 +516,25 @@ Other systems can connect to these signals to synchronize their behavior with ca
 
 Multiple test scenes are available to verify camera functionality:
 
-1. **Camera System Test (`src/test/camera_system_test.tscn`)**
-   - Verify camera state transitions
-   - Validate coordinate transformations
-   - Test coordinate validation and error handling
-   - Test smooth camera movement between positions
-   - Verify CoordinateManager integration
+1. **Camera System Test (`src/test/camera_system_test.tscn`)** ⚠️ **NEEDS REFACTORING**
+   - Currently has incorrect node structure (uses TestEnvironment wrapper)
+   - Does NOT extend base_district (causes grey bars)
+   - Scheduled for refactoring to follow correct architecture
+   - Until fixed, use clean_camera_test2 as reference
 
 2. **Clean Camera Test (`src/test/clean_camera_test.tscn`)**
    - Basic camera functionality with standard walkable areas
    - Test viewport-scale considerations
 
-3. **Clean Camera Test 2 (`src/test/clean_camera_test2.tscn`)**
-   - Enhanced template for new districts
-   - Demonstrates coordinate transformation between view modes
-   - Shows marker-based walkable area visualization
+3. **Clean Camera Test 2 (`src/test/clean_camera_test2.tscn`)** ✅ **RECOMMENDED PATTERN**
+   - Correctly extends base_district
+   - Demonstrates proper node structure
+   - Shows coordinate transformation between view modes
+   - Includes marker-based walkable area visualization
    - Provides proper player positioning with coordinate transformation
-   - Serves as a starting point for new districts
+   - **USE THIS AS A TEMPLATE FOR NEW DISTRICTS AND TEST SCENES**
    
-These test scenes provide comprehensive coverage of camera functionality in different scenarios and configurations.
+**Important**: Always use clean_camera_test2.gd as your reference for creating new test scenes. It follows the correct architecture that prevents issues like grey bars.
 
 ## Best Practices
 
@@ -547,6 +603,92 @@ var game_view_coords = CoordinateManager.transform_coordinate_array(
    - Verify camera constraints at boundaries of walkable areas
    - Check camera response when player approaches screen edges
 
+## Common Pitfalls and Solutions
+
+### 1. Grey Bars Appearing (Background Not Filling Viewport)
+
+**Cause**: Scene doesn't extend base_district or has incorrect node structure
+
+**Solution**: 
+- Ensure your scene extends `base_district.gd`
+- Verify Background is a direct child named "Background"
+- Check that `auto_adjust_zoom` is true (default)
+- Don't wrap nodes in extra containers
+
+### 2. calculate_optimal_zoom() Not Working
+
+**Cause**: Background node not found due to incorrect structure
+
+**Symptoms**: 
+- Grey bars at top/bottom of screen
+- Background doesn't scale to fill viewport
+- No error messages (fails silently)
+
+**Solution**:
+```gdscript
+# WRONG - Background is not a sibling of camera
+TestScene (Node2D)
+└── TestEnvironment
+    ├── Background
+    └── Camera
+
+# CORRECT - Background is sibling of camera under district
+YourDistrict (extends base_district)
+├── Background
+└── Camera
+```
+
+### 3. Test Scenes Not Working Like Game Scenes
+
+**Cause**: Test scenes using different architecture than game
+
+**Solution**: 
+- Test scenes MUST use the same architecture as game scenes
+- Always extend base_district for camera test scenes
+- Use clean_camera_test2.gd as a template
+
+### 4. Camera Not Following Player
+
+**Cause**: Multiple possible issues
+
+**Checklist**:
+- Verify `follow_player = true`
+- Check `target_player` is set correctly
+- Ensure not in world_view_mode
+- Verify camera state is FOLLOWING_PLAYER
+
+### 5. Coordinate Transformation Issues
+
+**Cause**: Not using proper view mode transformations
+
+**Solution**: Always use CoordinateManager for transformations between World View and Game View
+
+## Test Scene Guidelines
+
+### Creating Camera Test Scenes
+
+1. **Always extend base_district**:
+```gdscript
+extends "res://src/core/districts/base_district.gd"
+```
+
+2. **Follow the required node structure**:
+- No wrapper nodes
+- Background as direct child
+- Let base_district create the camera
+
+3. **Use clean_camera_test2.gd as reference**:
+- It demonstrates the correct pattern
+- Shows proper coordinate transformation
+- Includes debug visualization
+
+### Test Scene Anti-Patterns to Avoid
+
+1. **DON'T create custom node structures**
+2. **DON'T manually create cameras** (let base_district handle it)
+3. **DON'T wrap everything in a TestEnvironment node**
+4. **DON'T ignore the established architecture**
+
 ## Related Documentation
 
 - [Coordinate System](coordinate_system.md): Details on coordinate spaces and transformations
@@ -554,3 +696,4 @@ var game_view_coords = CoordinateManager.transform_coordinate_array(
 - [Debug Tools](debug_tools.md): Documentation for the debug tools and visualization options
 - [Scrolling Camera System](scrolling_camera_system.md): Comprehensive documentation for scrolling camera implementation
 - [Background Dimensions](../reference/background_dimensions.md): Standard dimensions and camera behavior for different view types
+- [Architecture](../reference/architecture.md): Visual Correctness Priority and hybrid architecture principles

@@ -28,13 +28,11 @@ Following the game design document's vision:
 
 ### Scene Structure
 ```
-CameraSystemTest (Node2D)
-├── TestEnvironment (Node2D)
-│   ├── Background (Sprite) - Swappable test backgrounds
-│   ├── Camera (ScrollingCamera)
-│   ├── Player (KinematicBody2D)
-│   ├── TestObjects (Node2D)
-│   └── WalkableAreas (Node2D)
+CameraSystemTest (extends base_district.gd)
+├── Background (Sprite) - Swappable test backgrounds (MUST be direct child)
+├── ScrollingCamera (created automatically by base_district)
+├── Player (KinematicBody2D) - Created by setup_player_and_controller()
+├── WalkableAreas (Node2D) - Contains test walkable areas
 └── UI (CanvasLayer)
     ├── ControlPanel (TabContainer)
     │   ├── MovementPanel
@@ -44,6 +42,8 @@ CameraSystemTest (Node2D)
     │   └── ScalingPanel
     └── OutputDisplay (RichTextLabel)
 ```
+
+**CRITICAL**: The scene MUST extend base_district.gd and follow the base district architecture. Do NOT use wrapper nodes like TestEnvironment as this breaks camera functionality.
 
 ### UI Panel Specifications
 
@@ -365,7 +365,7 @@ Features:
 
 ```gdscript
 # Example structure for camera test scene controller
-extends Node2D
+extends "res://src/core/districts/base_district.gd"
 
 # Test environments
 var test_backgrounds = {

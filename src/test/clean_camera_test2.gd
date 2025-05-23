@@ -56,8 +56,15 @@ func _ready():
 		print("Camera edge margins set to: " + str(camera.edge_margin))
 	
 	# Setup standard player and navigation controller from main game system
-	# Using Vector2.ZERO will make it use the default position in the walkable square
-	setup_player_and_controller(Vector2.ZERO)
+	# Transform the specific world view position this template uses
+	var world_view_player_pos = Vector2(4396, 877)  # User-selected position from coordinate capture
+	var game_view_player_pos = CoordinateManager.transform_view_mode_coordinates(
+		world_view_player_pos,
+		CoordinateManager.ViewMode.WORLD_VIEW,
+		CoordinateManager.ViewMode.GAME_VIEW
+	)
+	print("Using player start position: " + str(world_view_player_pos) + " (WORLD_VIEW) -> " + str(game_view_player_pos) + " (GAME_VIEW)")
+	setup_player_and_controller(game_view_player_pos)
 	
 	# Add simple UI
 	add_test_ui()
@@ -67,50 +74,6 @@ func _ready():
 	
 	print("District Template initialized - use Alt+W to capture coordinates")
 
-# Setup player character with the standard point-and-click navigation system
-func setup_player_and_controller(start_position):
-	# Default player position to within our walkable area if not specified
-	if start_position == Vector2.ZERO:
-		# TEMPLATE STEP 4: Position player within the walkable area
-		# This world view coordinate will be transformed by the same mechanism as the walkable area
-		var world_view_player_pos = Vector2(4396, 877)  # User-selected position from coordinate capture
-		
-		# Transform to game view coordinates using the CoordinateManager
-		var game_view_player_pos = CoordinateManager.transform_view_mode_coordinates(
-			world_view_player_pos,
-			CoordinateManager.ViewMode.WORLD_VIEW,
-			CoordinateManager.ViewMode.GAME_VIEW
-		)
-		
-		start_position = game_view_player_pos
-		print("Using player start position: " + str(world_view_player_pos) + " (WORLD_VIEW) -> " + str(game_view_player_pos) + " (GAME_VIEW)")
-	
-	# 1. Add the player character from the standard player scene
-	var player_scene = load("res://src/characters/player/player.tscn")
-	if player_scene:
-		var player = player_scene.instance()
-		player.position = start_position
-		add_child(player)
-		print("Added standard player character at position", start_position)
-		
-		# Make the camera follow the player
-		if camera:
-			camera.follow_player = true
-			camera.target_player = player
-			print("Camera set to follow player")
-		
-		# 2. Add the player controller to handle point-and-click navigation
-		var controller_scene = load("res://src/core/player_controller.gd")
-		if controller_scene:
-			var controller = Node.new()
-			controller.name = "PlayerController"
-			controller.set_script(controller_scene)
-			add_child(controller)
-			print("Added standard player controller for point-and-click navigation")
-		else:
-			print("WARNING: Could not load player controller script")
-	else:
-		print("WARNING: Could not load player scene")
 
 # Create a walkable area with designer-selected coordinates
 func create_walkable_area():
