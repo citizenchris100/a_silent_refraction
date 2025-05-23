@@ -7,10 +7,10 @@ This file tracks the progress of all iterations for the project.
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
 | 10 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
-| 11 | Full Sprite Perspective Scaling System | Not started | 0% (0/3) |
+| 11 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 4% (2/41) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 7% (3/41) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
 | 5 | Game Districts and Time Management | Not started | 0% (0/12) |
 | 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
@@ -112,6 +112,7 @@ This file tracks the progress of all iterations for the project.
 - Iteration 3 (Multi-Perspective Character System)
 - Iteration 9 (Full Audio System) - For integration examples
 - To be added during implementation
+- docs/design/foreground_occlusion_full_plan.md
 - QuadTree spatial indexing for efficient polygon queries
 - Perspective-aware rendering rules
 - Automated asset extraction pipeline
@@ -132,54 +133,153 @@ This file tracks the progress of all iterations for the project.
 - Update throttling based on player movement
 - Profile with 50+ zones active
 - Reference: docs/design/foreground_occlusion_full_plan.md - Spatial Indexing
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-- Create layer management in OcclusionZoneManager
-- Define Z-index ranges for each layer
-- Support fade effects between layers
-- Configure through district JSON
-- Test with complex multi-layer scenes
 
 ### Iteration 11: Full Sprite Perspective Scaling System
 
 **Goals:**
-- Goal 1
-- Goal 2
-- Goal 3
-- **B1:** Business requirement placeholder
-- **U1:** As a player, I want to do something
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Description of task 1
-- [ ] Task 2: Description of task 2
-- [ ] Task 3: Description of task 3
-- Criterion 1
-- Criterion 2
-- Criterion 3
-- Start date: 2025-05-23
-- Target completion: 2025-06-06
-- List any dependencies here
-- No links yet
+- Transform the MVP perspective scaling into an intelligent, automated system
+- Implement advanced visual effects including LOD, deformation, and dynamic shadows
+- Create sophisticated movement prediction and group coordination systems
+- Build professional content creation tools for rapid iteration
+- Optimize performance for complex scenes with many scaled entities
+- Establish the definitive 2D perspective solution for adventure games
+- **B6:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance
+- **B5:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%
+- **B4:** Deliver industry-leading visual depth that sets a new standard for 2D adventure games through intelligent perspective scaling and effects
+- **B1:** Deliver industry-leading visual depth that sets a new standard for 2D adventure games through intelligent perspective scaling and effects.
+- **B2:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%.
+- **B3:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance.
+- **U1:** As a player, I want characters and objects to scale naturally with sophisticated visual effects, so the 2D world feels genuinely three-dimensional.
+- **U2:** As a player, I want perspective effects to enhance gameplay clarity rather than obscure it, with intelligent adjustments that maintain visibility.
+- **U3:** As a player, I want consistent performance regardless of scene complexity, so gameplay remains smooth throughout my adventure.
+- **T1:** Build upon the MVP foundation from Iteration 3, extending all systems while maintaining backwards compatibility.
+- **T2:** Implement intelligent systems that automate complex tasks while providing manual overrides for artistic control.
+- **T3:** Create modular architecture that supports future enhancements without major refactoring.
+- [ ] Task 1: Implement IntelligentZoneGenerator with background analysis
+- [ ] Task 2: Create PerspectiveAnalyzer for vanishing point detection
+- [ ] Task 3: Build automated zone optimization algorithms
+- [ ] Task 4: Develop adaptive scaling system with performance monitoring
+- [ ] Task 5: Create movement prediction and anticipation system
+- [ ] Task 6: Implement zone transition smoothing algorithms
+- [ ] Task 7: Build multi-level sprite LOD system with smooth transitions
+- [ ] Task 8: Create perspective deformation engine for sprite skewing
+- [ ] Task 9: Implement dynamic shadow system with perspective scaling
+- [ ] Task 10: Develop particle scaling system for environmental effects
+- [ ] Task 11: Create visual effects manager with quality presets
+- [ ] Task 12: Build shader-based optimization for batch rendering
+- [ ] Task 13: Implement group movement coordination system
+- [ ] Task 14: Create physics integration for perspective-aware behaviors
+- [ ] Task 15: Build path prediction and visualization system
+- [ ] Task 16: Develop momentum-based scaling adjustments
+- [ ] Task 17: Create diagonal movement compensation algorithms
+- [ ] Task 18: Implement crowd simulation with perspective awareness
+- [ ] Task 19: Develop visual zone editor plugin for Godot
+- [ ] Task 20: Create interactive curve designer for scaling behaviors
+- [ ] Task 21: Build real-time preview system with hot reload
+- [ ] Task 22: Implement batch processing tools for multiple scenes
+- [ ] Task 23: Create preset library system with sharing
+- [ ] Task 24: Develop performance profiler with optimization suggestions
 
 **Key Requirements:**
-- **B1:** Business requirement placeholder
-- **U1:** As a player, I want to do something
+- **B6:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance
+- **B5:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%
+- **U1:** As a player, I want characters and objects to scale naturally with sophisticated visual effects, so the 2D world feels genuinely three-dimensional.
+- **U2:** As a player, I want perspective effects to enhance gameplay clarity rather than obscure it, with intelligent adjustments that maintain visibility.
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Description of task 1 | Pending | - |
-| Description of task 2 | Pending | - |
-| Description of task 3 | Pending | - |
+| Implement IntelligentZoneGenerator with background analysis (As a developer, I want the system to automatically generate perspective zones by analyzing background images, so I can create depth without manual zone creation.) | Pending | - |
+| Create PerspectiveAnalyzer for vanishing point detection (As a developer, I want automatic detection of vanishing points in background art, so perspective zones align with the visual perspective.) | Pending | - |
+| Build automated zone optimization algorithms (As a developer, I want zones to be automatically optimized for performance and visual quality, so I get the best results without manual tweaking.) | Pending | - |
+| Develop adaptive scaling system with performance monitoring (As a player, I want consistent performance regardless of scene complexity, so my gameplay experience remains smooth.) | Pending | - |
+| Create movement prediction and anticipation system (As a player, I want character scaling to feel smooth and natural during movement, so the perspective changes don't feel jarring.) | Pending | - |
+| Implement zone transition smoothing algorithms (As a player, I want seamless transitions between perspective zones, so movement through the environment feels continuous.) | Pending | - |
+| Build multi-level sprite LOD system with smooth transitions (As a player, I want sprites to maintain visual quality at their current scale while optimizing performance for distant objects.) | Pending | - |
+| Create perspective deformation engine for sprite skewing (As a player, I want sprites to subtly deform based on their position relative to the vanishing point, enhancing the 3D illusion.) | Pending | - |
+| Implement dynamic shadow system with perspective scaling (As a player, I want characters to cast shadows that scale and position correctly with perspective, enhancing the sense of depth.) | Pending | - |
+| Develop particle scaling system for environmental effects (As a player, I want environmental particles (dust, steam, sparks) to respect perspective scaling, creating a cohesive visual experience.) | Pending | - |
+| Create visual effects manager with quality presets (As a developer, I want centralized control over all perspective visual effects with quality presets for different hardware.) | Pending | - |
+| Build shader-based optimization for batch rendering (As a developer, I want perspective calculations optimized through GPU shaders for maximum performance.) | Pending | - |
+| Implement group movement coordination system (As a player, I want groups of characters to maintain formation while respecting perspective scaling, so crowds look natural.) | Pending | - |
+| Create physics integration for perspective-aware behaviors (As a player, I want physics behaviors (jumping, falling) to respect perspective scaling for consistent gameplay.) | Pending | - |
+| Build path prediction and visualization system (As a developer, I want to see predicted movement paths with perspective scaling for debugging and design.) | Pending | - |
+| Develop momentum-based scaling adjustments (As a player, I want scaling to account for movement momentum, so fast movement feels smooth through perspective changes.) | Pending | - |
+| Create diagonal movement compensation algorithms (As a player, I want diagonal movement to feel natural in perspective, compensating for the visual distortion.) | Pending | - |
+| Implement crowd simulation with perspective awareness (As a player, I want crowds of NPCs to move naturally through perspective, creating believable populated environments.) | Pending | - |
+| Develop visual zone editor plugin for Godot (As an artist, I want to paint perspective zones directly on backgrounds in the editor for intuitive setup.) | Pending | - |
+| Create interactive curve designer for scaling behaviors (As a designer, I want to visually design scaling curves to fine-tune how perspective affects sprites.) | Pending | - |
+| Build real-time preview system with hot reload (As an artist, I want changes to perspective settings to update immediately in the game for rapid iteration.) | Pending | - |
+| Implement batch processing tools for multiple scenes (As a developer, I want to apply perspective settings across multiple scenes efficiently for consistency.) | Pending | - |
+| Create preset library system with sharing (As a team, we want to share and reuse perspective presets across projects for consistency and efficiency.) | Pending | - |
+| Develop performance profiler with optimization suggestions (As a developer, I want detailed performance analysis of perspective systems with actionable optimization suggestions.) | Pending | - |
+| Implement advanced 3D audio simulation in 2D (As a player, I want audio to create a convincing 3D soundscape that matches the visual perspective for full immersion.) | Pending | - |
+| Create environmental reverb system based on perspective (As a player, I want environmental audio to reflect the space I'm in, with appropriate reverb in large or small areas.) | Pending | - |
+| Build dynamic audio occlusion for realistic sound (As a player, I want sounds to be naturally muffled when sources are behind objects, enhancing realism.) | Pending | - |
+| Develop perspective-aware ambient soundscapes (As a player, I want ambient sounds to change naturally based on my position and the visual perspective.) | Pending | - |
+| Create audio visualization tools for debugging (As a developer, I want to visualize audio propagation and effects for debugging and tuning.) | Pending | - |
+| Implement audio LOD system for performance (As a player, I want consistent performance even with many audio sources by intelligently managing audio complexity.) | Pending | - |
+| Create intelligent performance optimization manager (As a player, I want the game to automatically maintain smooth performance by adjusting quality settings intelligently.) | Pending | - |
+| Implement advanced culling for off-screen entities (As a developer, I want efficient culling of off-screen entities to maximize performance in complex scenes.) | Pending | - |
+| Build frame rate targeting with dynamic quality (As a player, I want consistent frame rates through dynamic quality adjustment that prioritizes gameplay smoothness.) | Pending | - |
+| Develop memory optimization for mobile platforms (As a mobile player, I want the perspective system optimized for limited memory without sacrificing visual quality.) | Pending | - |
+| Create comprehensive profiling and analytics (As a developer, I want detailed analytics on perspective system usage to guide optimization efforts.) | Pending | - |
+| Polish all visual effects and transitions (As a player, I want all perspective effects to feel polished and professional with smooth transitions.) | Pending | - |
+| Complete integration with all game systems (As a developer, I want the perspective system fully integrated with all game systems for seamless functionality.) | Pending | - |
+| Create migration tools from MVP system (As a developer, I want automated tools to migrate from the MVP perspective system to the full version.) | Pending | - |
+| Build example implementations for each use case (As a developer, I want comprehensive examples showing how to use the perspective system in various scenarios.) | Pending | - |
+| Write comprehensive developer documentation (As a developer, I want complete documentation to understand and extend the perspective system.) | Pending | - |
+| Create video tutorials for artists and designers (As an artist, I want video tutorials showing how to use the perspective tools effectively.) | Pending | - |
+| Develop automated testing suite for regression prevention (As a developer, I want comprehensive automated tests to prevent regressions in the perspective system.) | Pending | - |
 
 **Testing Criteria:**
-- Criterion 1
-- Criterion 2
-- Criterion 3
-- Start date: 2025-05-23
-- Target completion: 2025-06-06
-- List any dependencies here
-- No links yet
+- Intelligent zone generation correctly identifies perspective from backgrounds
+- LOD transitions are smooth without visual popping
+- Deformation and shadow effects enhance depth perception
+- Movement prediction accurately anticipates player paths
+- Group coordination maintains formation through perspective changes
+- Performance optimizer maintains target FPS in all scenarios
+- Editor tools are intuitive for non-technical users
+- Audio spatialization creates believable 3D soundscape
+- Migration from MVP preserves all functionality
+- System handles edge cases gracefully
+- Visual quality exceeds industry standards
+- Documentation enables new team members to contribute quickly
+- Start date: TBD (After core systems mature)
+- Target completion: 6-7 weeks
+- Phase 1: Week 1 - Intelligent systems foundation
+- Phase 2: Week 2 - Visual effects implementation
+- Phase 3: Week 3 - Movement and physics
+- Phase 4: Week 4 - Tool development
+- Phase 5: Week 5 - Audio systems
+- Phase 6-7: Weeks 6-7 - Optimization and integration
+- Iteration 3 (Sprite Perspective Scaling MVP)
+- Iteration 3 (Multi-Perspective Character System)
+- Iteration 10 (Foreground Occlusion System) - For depth integration
+- Iteration 9 (Audio System) - For spatial audio features
+- To be added during implementation
+- docs/design/sprite_perspective_scaling_full_plan.md
+- AI-powered zone generation from background art
+- Predictive scaling for ultra-smooth movement
+- Multi-level LOD with seamless transitions
+- Professional tools rivaling 3D game engines
+- Performance optimization that scales from mobile to high-end PCs
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+- Create src/core/perspective/intelligent_zone_generator.gd
+- Use image analysis to detect convergence lines
+- Implement pattern recognition for repeated objects
+- Generate zones based on perspective grid detection
+- Support multiple vanishing points
+- Reference: docs/design/sprite_perspective_scaling_full_plan.md
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+- Implement line detection algorithms
+- Find convergence points of detected lines
+- Calculate perspective transformation matrix
+- Support one, two, and three-point perspective
+- Create debug visualization overlay
 
 ### Iteration 1: Basic Environment and Navigation
 
@@ -326,7 +426,7 @@ This file tracks the progress of all iterations for the project.
 - **T3:** All camera system enhancements must preserve background scaling visual correctness and pass both unit tests and visual validation using camera-system test scene
 - [x] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
 - [x] Task 2: Implement state signaling and synchronization for camera
-- [ ] Task 3: Create test scene for validating camera system improvements
+- [x] Task 3: Create test scene for validating camera system improvements
 - [ ] Task 4: Enhance player controller for consistent physics behavior
 - [ ] Task 5: Implement proper pathfinding with Navigation2D
 - [ ] Task 6: Create test scene for player movement validation
@@ -373,7 +473,7 @@ This file tracks the progress of all iterations for the project.
 |------|--------|--------------|
 | Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)* | Complete | - |
 | Implement state signaling and synchronization for camera (As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.) | Complete | - |
-| Create test scene for validating camera system improvements | Pending | - |
+| Create test scene for validating camera system improvements | Complete | - |
 | Enhance player controller for consistent physics behavior (As a player, I want my character to move naturally with smooth acceleration and deceleration, so that navigation feels responsive and realistic.) | Pending | - |
 | Implement proper pathfinding with Navigation2D | Pending | - |
 | Create test scene for player movement validation | Pending | - |

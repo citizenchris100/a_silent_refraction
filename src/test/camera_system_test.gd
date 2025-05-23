@@ -60,6 +60,10 @@ func _ready():
 	camera_follow_smoothing = 5.0
 	camera_edge_margin = Vector2(150, 100)
 	
+	# Enable pixel-perfect rendering to prevent distortion
+	OS.vsync_enabled = true
+	get_viewport().usage = Viewport.USAGE_2D_NO_SAMPLING
+	
 	# Load initial background
 	load_test_background(current_background)
 	

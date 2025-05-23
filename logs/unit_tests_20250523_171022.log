@@ -1,0 +1,96 @@
+=== Test: player_controller_test ===
+Exit code: 6
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYER CONTROLLER TEST SUITE
+==================================================
+
+
+[TEST] test_player_uses_physics_process_for_movement
+  ✗ Player should have _physics_process method
+    in: test_player_uses_physics_process_for_movement
+Cannot move to: (500, 100) - not in walkable area
+SCRIPT ERROR: Invalid call. Nonexistent function '_physics_process' in base 'Node2D (player.gd)'.
+          at: test_player_uses_physics_process_for_movement (res://src/unit_tests/player_controller_test.gd:192)
+
+[TEST] test_movement_states_exist
+  ✗ Player should have MovementState enum - Object missing property: MovementState
+    in: test_movement_states_exist
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node2D (player.gd)'.
+          at: test_movement_states_exist (res://src/unit_tests/player_controller_test.gd:201)
+
+[TEST] test_movement_state_transitions
+  ✗ Player should track movement state - Object missing property: current_movement_state
+    in: test_movement_state_transitions
+  ✗ Player should emit state change signal - Object missing signal: movement_state_changed
+    in: test_movement_state_transitions
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node2D (player.gd)'.
+          at: test_movement_state_transitions (res://src/unit_tests/player_controller_test.gd:215)
+
+[TEST] test_acceleration_behavior
+Cannot move to: (500, 100) - not in walkable area
+SCRIPT ERROR: Invalid call. Nonexistent function '_physics_process' in base 'Node2D (player.gd)'.
+          at: test_acceleration_behavior (res://src/unit_tests/player_controller_test.gd:238)
+
+[TEST] test_deceleration_behavior
+Cannot move to: (150, 100) - not in walkable area
+  ✓ Should arrive at destination
+  ✗ Should have multiple frames of movement - Expected > 3, Got: 0
+    in: test_deceleration_behavior
+
+[TEST] test_arrival_precision
+Cannot move to: (500, 100) - not in walkable area
+  ✓ Should have stopped moving
+  ✗ Should arrive exactly at target position - Expected: (500, 100), Got: (100, 100)
+    in: test_arrival_precision
+  ✓ Velocity should be zero when arrived
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node2D (player.gd)'.
+          at: test_arrival_precision (res://src/unit_tests/player_controller_test.gd:291)
+
+[TEST] test_movement_interruption
+Cannot move to: (500, 100) - not in walkable area
+SCRIPT ERROR: Invalid call. Nonexistent function '_physics_process' in base 'Node2D (player.gd)'.
+          at: test_movement_interruption (res://src/unit_tests/player_controller_test.gd:306)
+
+[TEST] test_visual_update_in_process
+  ✓ Player should have _process for visuals
+  ✓ Player should have visual update method
+
+[TEST] test_movement_constants
+  ✓ Should have movement_speed
+  ✓ Should have acceleration
+  ✓ Should have deceleration
+  ✓ Movement speed should be positive
+  ✓ Acceleration should be positive
+  ✓ Deceleration should be positive
+  ✓ Deceleration should be >= acceleration
+
+==================================================
+ SUMMARY: 12 passed, 6 failed
+==================================================
+
+[FAIL] Some tests failed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:17
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
