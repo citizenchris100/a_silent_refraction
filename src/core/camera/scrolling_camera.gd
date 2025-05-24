@@ -397,6 +397,13 @@ func setup_debug_overlay():
     
     debug_log("overlay", "Created debug overlay")
 
+# Ensure the camera position is pixel-aligned
+func ensure_pixel_perfect():
+    var current = global_position
+    var rounded = current.round()
+    if current != rounded:
+        global_position = rounded
+
 func _ready():
     # Add diagnostics to help troubleshoot property access issues
     print("ScrollingCamera._ready() called - Script Path: " + get_script().get_path())
@@ -478,6 +485,27 @@ func _ready():
         debug_log("camera", "Camera initialized in IDLE state")
 
 func _process(delta):
+    # Always ensure pixel-perfect positioning
+    ensure_pixel_perfect()
+    
+    # Only handle non-movement updates in _process
+    # Movement is now handled in _physics_process for synchronization
+    
+    # Only draw debug in editor or debug builds
+    if OS.is_debug_build():
+        if debug_draw:
+            # Update visual debug elements
+            update_debug_markers()
+            update()
+        
+        # If using UI labels instead of direct font rendering
+        _update_debug_labels()
+
+func _physics_process(delta):
+    # HYBRID ARCHITECTURE: Camera movement synchronized with player physics
+    # This prevents screen tearing by ensuring camera updates happen in the same
+    # frame timing as player movement (Visual Correctness Priority)
+    
     if !target_player:
         return
         
@@ -499,16 +527,6 @@ func _process(delta):
             # Don't switch to FOLLOWING_PLAYER when in world view mode
             if follow_player and target_player and !world_view_mode:
                 set_camera_state(CameraState.FOLLOWING_PLAYER)
-    
-    # Only draw debug in editor or debug builds
-    if OS.is_debug_build():
-        if debug_draw:
-            # Update visual debug elements
-            update_debug_markers()
-            update()
-        
-        # If using UI labels instead of direct font rendering
-        _update_debug_labels()
 
 # Update positions of all debug markers
 func update_debug_markers():
@@ -831,7 +849,10 @@ func _handle_camera_movement(delta):
         
         # Smoothly move camera with selected easing function
         var weight = follow_smoothing * delta
-        global_position = _apply_easing(global_position, target_pos, weight)
+        var new_pos = _apply_easing(global_position, target_pos, weight)
+        
+        # Round to nearest pixel for pixel-perfect rendering
+        global_position = new_pos.round()
         
         # Only call _ensure_player_visible if our target wasn't significantly clamped
         # This avoids camera oscillation when player is at the edges of bounds
@@ -896,14 +917,14 @@ func _ensure_player_visible():
         # Apply the position immediately to avoid oscillation
         var original_smoothing = smoothing_enabled
         smoothing_enabled = false
-        global_position = new_camera_pos
+        global_position = new_camera_pos.round()
         smoothing_enabled = original_smoothing
         
         # Verify player is now within view after adjustment
         if !is_point_in_view(player_pos):
             push_warning("Player still outside camera view after adjustment - centering on player")
             # Last resort: center directly on player
-            global_position = ensure_valid_target(player_pos) # Ensure valid target position
+            global_position = ensure_valid_target(player_pos).round() # Ensure valid target position
         
         debug_log("camera", "Camera repositioned to: " + str(global_position) + " to keep player in view")
 
@@ -952,7 +973,7 @@ func force_update_scroll():
         if not test_mode:
             set_test_mode(true)
             
-        global_position = validate_coordinates(initial_position) # Validate the position
+        global_position = validate_coordinates(initial_position).round() # Validate the position
         debug_log("camera", "Respecting explicit initial camera position: " + str(initial_position))
         
         # Restore original test mode
@@ -1099,7 +1120,7 @@ func _set_initial_camera_position():
     # If an explicit initial position is set, use that
     if initial_position != Vector2.ZERO:
         print("Using explicit initial position: " + str(initial_position))
-        global_position = initial_position
+        global_position = initial_position.round()
         print("Camera positioned at custom initial position: " + str(initial_position))
         print("Final camera position after setting: " + str(global_position))
         print("===== CAMERA INITIAL POSITION SETUP COMPLETE =====\n")
@@ -1237,7 +1258,7 @@ func _set_initial_camera_position():
     
     # Apply the position
     print("Setting camera position to: " + str(new_position))
-    global_position = new_position
+    global_position = new_position.round()
     print("Camera position after setting: " + str(global_position))
     
     # Safety check: Make sure camera isn't too far from reasonable bounds
@@ -1265,7 +1286,7 @@ func _set_initial_camera_position():
                 print("[CAMERA DEBUG] WARNING: Camera positioned too far from walkable area center.")
                 print("[CAMERA DEBUG] Camera: " + str(global_position) + ", Walkable center: " + str(center))
                 print("[CAMERA DEBUG] Adjusting camera to use walkable area center")
-                global_position = center
+                global_position = center.round()
                 print("[CAMERA DEBUG] Camera position adjusted to: " + str(global_position))
             elif initial_view == "right" or initial_view == "left":
                 print("[CAMERA DEBUG] Maintaining edge view position despite distance from walkable area")
@@ -1573,7 +1594,7 @@ func move_to_position(pos: Vector2, immediate: bool = false) -> void:
         smoothing_enabled = false
         var old_position = global_position
         print("Immediate move from " + str(old_position) + " to " + str(target_position))
-        global_position = target_position
+        global_position = target_position.round()  # Pixel-perfect positioning
         smoothing_enabled = original_smoothing
         
         # Emit signals directly for immediate moves
@@ -2246,7 +2267,8 @@ func _handle_transition_movement(delta):
     # Calculate new position using easing
     var start_position = global_position
     var initial_position = target_position - (target_position - start_position) / movement_progress if movement_progress > 0 else start_position
-    global_position = _apply_easing(start_position, target_position, movement_progress)
+    var new_pos = _apply_easing(start_position, target_position, movement_progress)
+    global_position = new_pos.round()  # Round for pixel-perfect rendering
     
     # Notify UI elements of progress
     _notify_ui_elements_of_progress(movement_progress, initial_position, target_position)
@@ -2281,7 +2303,7 @@ func _handle_transition_movement(delta):
     if movement_progress >= 1.0 or global_position.distance_to(target_position) < 1.0:
         # Transition complete - snap to exact target position
         var actual_duration = OS.get_ticks_msec() / 1000.0 - movement_start_time
-        global_position = target_position
+        global_position = target_position.round()  # Ensure final position is pixel-perfect
         is_transition_active = false
         
         # Final notification to UI elements with progress = 1.0

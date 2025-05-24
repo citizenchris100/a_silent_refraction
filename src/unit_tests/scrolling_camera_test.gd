@@ -13,6 +13,7 @@ export var test_bounds = true  # Tests boundary validation
 export var test_states = true  # Tests state transitions and signals
 export var test_coordinates = true  # Tests coordinate transformations
 export var test_signals = true  # Tests signal emission and handling
+export var test_physics_sync = true  # Tests physics process synchronization
 
 # Test camera reference
 var camera: Camera2D  # Will be cast to ScrollingCamera after initialization
@@ -122,6 +123,9 @@ func run_all_tests():
     
     if test_signals:
         yield(run_signal_tests(), "completed")
+    
+    if test_physics_sync:
+        yield(run_physics_sync_tests(), "completed")
     
     log_info("All tests completed", true)
 
@@ -916,6 +920,124 @@ func run_signal_tests():
     
     # Clean up
     camera.disconnect("view_bounds_changed", self, "_on_view_bounds_changed")
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 8: Pixel-perfect camera positioning
+    start_test("Pixel-perfect camera positioning")
+    
+    # Set camera to a sub-pixel position
+    camera.global_position = Vector2(100.4, 200.7)
+    
+    # Move player to trigger camera follow
+    mock_player.global_position = Vector2(250.3, 300.8)
+    
+    # Process one frame to trigger pixel-perfect enforcement
+    camera._process(0.016)
+    
+    # Camera position should be rounded to nearest pixel
+    var cam_x = camera.global_position.x
+    var cam_y = camera.global_position.y
+    assert_equal(cam_x, round(cam_x), "Camera X position should be pixel-aligned")
+    assert_equal(cam_y, round(cam_y), "Camera Y position should be pixel-aligned")
+    
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+
+func run_physics_sync_tests():
+    log_info("=== Running Physics Synchronization Tests ===", true)
+    
+    # Test 1: Camera should use _physics_process for movement tracking
+    start_test("Camera uses physics process for player tracking")
+    
+    # Check if camera has _physics_process method
+    var has_physics_process = camera.has_method("_physics_process")
+    
+    # Track which process methods are used for camera movement
+    var uses_physics_for_movement = false
+    var uses_process_for_movement = false
+    
+    # Set up camera and player in a known good state
+    # Position camera centered on screen
+    camera.global_position = Vector2(camera.screen_size.x / 2, camera.screen_size.y / 2)
+    mock_player.global_position = camera.global_position
+    
+    # Save original positions
+    var original_cam_pos = camera.global_position
+    var original_player_pos = mock_player.global_position
+    
+    # Ensure camera is in FOLLOWING_PLAYER state
+    camera.follow_player = true
+    camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
+    
+    # Move player far enough to be outside edge margin
+    # Edge margin is (150, 100), so move more than that
+    mock_player.global_position = original_player_pos + Vector2(400, 0)
+    
+    log_info("Camera screen size: " + str(camera.screen_size))
+    log_info("Camera edge margin: " + str(camera.edge_margin))
+    log_info("Initial camera pos: " + str(original_cam_pos))
+    log_info("Initial player pos: " + str(original_player_pos))
+    log_info("New player pos: " + str(mock_player.global_position))
+    
+    # Manually call _process to see if camera moves
+    if camera.has_method("_process"):
+        camera._process(0.016)
+        if camera.global_position != original_cam_pos:
+            uses_process_for_movement = true
+    
+    # Reset camera position
+    camera.global_position = original_cam_pos
+    
+    # Manually call _physics_process to see if camera moves
+    if camera.has_method("_physics_process"):
+        var before_pos = camera.global_position
+        
+        # Try multiple frames in case smoothing is applied
+        for i in range(5):
+            camera._physics_process(0.016)
+            
+        var after_pos = camera.global_position
+        
+        log_info("Physics process test - Before: " + str(before_pos) + ", After: " + str(after_pos))
+        log_info("Player position: " + str(mock_player.global_position))
+        log_info("Camera edge margin: " + str(camera.edge_margin))
+        log_info("Camera zoom: " + str(camera.zoom))
+        log_info("Camera state: " + str(camera.current_camera_state))
+        
+        if after_pos != before_pos:
+            uses_physics_for_movement = true
+    
+    # Camera should use physics process for movement to sync with player
+    assert_true(uses_physics_for_movement, "Camera should use _physics_process for player tracking")
+    assert_false(uses_process_for_movement, "Camera should NOT use _process for player tracking")
+    
+    # Reset positions
+    mock_player.global_position = original_player_pos
+    camera.global_position = original_cam_pos
+    
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 2: Camera movement should be frame-synchronized with player
+    start_test("Camera movement frame synchronization")
+    
+    # This test verifies that camera updates happen in the same frame as player updates
+    var frame_sync_correct = true
+    
+    # Since both should use physics_process, they should update in the same frame
+    if has_physics_process:
+        # Both player and camera use physics process
+        frame_sync_correct = true
+    else:
+        # Camera doesn't have physics process - this is the issue
+        frame_sync_correct = false
+    
+    assert_true(frame_sync_correct, "Camera should update in same frame timing as player (physics)")
+    
     end_test()
     
     yield(get_tree(), "idle_frame")

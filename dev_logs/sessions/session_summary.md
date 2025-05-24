@@ -3,7 +3,19 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 23, 2025 - Iteration 3 Task 3: Camera Test Scene Validation and Background Creation (🟢 IN PROGRESS)
+### May 23, 2025 - Iteration 3 Task 4 - Screen Tearing Issue (🟢 IN PROGRESS)
+- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
+- **Focus:** Debug screen tearing with passing unit tests
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-23_19-38-13.md)
+
+### May 23, 2025 - Iteration 3 Task 4: Enhance Player Controller (✅ COMPLETED)
+- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
+- **Focus:** Fix failing player controller unit tests and enhance physics behavior
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-23_18-30-30.md)
+
+### May 23, 2025 - Iteration 3 Task 3: Camera Test Scene Validation and Background Creation (✅ COMPLETED)
 - **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
 - **Focus:** Complete camera test scene implementation and begin navigation refactoring
 - **Summary:** No summary provided

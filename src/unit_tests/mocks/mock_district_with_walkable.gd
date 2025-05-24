@@ -8,6 +8,15 @@ var district_name = "Test District"
 var background_size = Vector2(1000, 600)
 var walkable_areas = []
 
+func _ready():
+    # Simulate base_district's walkable area detection
+    walkable_areas.clear()
+    
+    # Look for walkable areas in children, just like base_district does
+    for child in get_children():
+        if child.is_in_group("designer_walkable_area") or child.is_in_group("walkable_area"):
+            walkable_areas.append(child)
+
 func setup_mock(scale_factor: float = 2.0, name: String = "Test District"):
     background_scale_factor = scale_factor
     district_name = name
@@ -23,8 +32,11 @@ func get_camera():
     
 func is_position_walkable(position):
     for area in walkable_areas:
-        if area and "polygon" in area and Geometry.is_point_in_polygon(position, area.polygon):
-            return true
+        if area and area.polygon != null and area.polygon.size() > 0:
+            # Convert global position to area's local coordinates
+            var local_pos = area.to_local(position)
+            if Geometry.is_point_in_polygon(local_pos, area.polygon):
+                return true
     return false
 
 func screen_to_world_coords(screen_pos):

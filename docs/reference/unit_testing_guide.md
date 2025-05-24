@@ -415,6 +415,125 @@ func test_suite_new_feature():
 	end_test(condition, "New behavior works correctly")
 ```
 
+## Testing Player Movement and Districts
+
+### Overview
+
+Testing player movement often requires simulating districts and walkable areas. This section covers patterns specific to these tests.
+
+### District and Player Dependencies
+
+The player controller has these key dependencies:
+1. Searches for districts in the "district" group
+2. Expects districts to have `is_position_walkable(position)` method
+3. Won't move if the target position isn't walkable
+
+### Test Isolation vs Integration
+
+#### Isolated Physics Testing
+When testing only physics behavior (acceleration, deceleration, states):
+```gdscript
+# Bypass walkable area validation
+player.position = Vector2(100, 100)
+player.target_position = Vector2(500, 100)
+player.is_moving = true
+player._set_movement_state(player.MovementState.ACCELERATING)
+
+# Now test physics
+player._physics_process(0.016)
+assert_ne(player.position.x, 100, "Player should move")
+```
+
+#### Integration Testing with Walkable Areas
+When testing the full movement system:
+```gdscript
+# Set up mock district with walkable areas
+mock_district = Node2D.new()
+mock_district.add_to_group("district")
+mock_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
+add_child(mock_district)
+
+# Create walkable area
+var walkable = Polygon2D.new()
+walkable.polygon = PoolVector2Array([...])
+mock_district.add_child(walkable)
+mock_district.add_walkable_area(walkable)
+
+# Create player - will find district automatically
+player = Player.new()
+player.position = Vector2(100, 100)
+add_child(player)
+yield(get_tree(), "idle_frame")
+
+# Test movement through normal API
+player.move_to(Vector2(500, 100))
+```
+
+### Mock District Patterns
+
+#### Minimal Mock (for non-movement tests)
+```gdscript
+# In mock_district_minimal.gd
+extends Node2D
+
+var district_name = "Test District"
+
+func is_position_walkable(pos):
+    return true  # Always walkable for simple tests
+```
+
+#### Full Mock (for movement validation)
+```gdscript
+# In mock_district_with_walkable.gd
+extends Node2D
+
+var district_name = "Test District"
+var walkable_areas = []
+
+func add_walkable_area(area):
+    walkable_areas.append(area)
+
+func is_position_walkable(position):
+    for area in walkable_areas:
+        if area.polygon and Geometry.is_point_in_polygon(position, area.polygon):
+            return true
+    return false
+```
+
+### Common Issues and Solutions
+
+1. **"Cannot move to: (x,y) - not in walkable area"**
+   - Ensure target position is within walkable polygon
+   - Check that walkable area was added to mock district
+   - Verify coordinate spaces match
+
+2. **"Freed instance" errors**
+   - Store mock district as instance variable, not local
+   - Clean up in teardown: `mock_district = null`
+
+3. **Player not finding district**
+   - Ensure mock is in "district" group
+   - Add yields after creating nodes for initialization
+
+### Best Practices
+
+1. **Choose the right level of mocking**
+   - Use minimal mocks when testing unrelated features
+   - Use full integration when testing movement system
+
+2. **Document test dependencies**
+   ```gdscript
+   # This test requires:
+   # - Mock district with walkable areas
+   # - Player to find district in "district" group
+   ```
+
+3. **Reference working examples**
+   - See `camera_walkable_integration_test.gd` for integration patterns
+   - See `player_controller_test.gd` for physics isolation patterns
+
+For more details on the walkable area system, see [Walkable Area Workflow Guide](../systems/walkable_area_workflow.md).
+
 ## Summary
 
 The unit testing system provides:

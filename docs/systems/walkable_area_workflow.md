@@ -263,9 +263,97 @@ func setup_walkable_area():
 
 Always refer to this implementation when setting up new walkable areas for districts.
 
+## Unit Testing with Walkable Areas
+
+### Overview
+
+When writing unit tests that involve player movement or districts, understanding the walkable area system's requirements is crucial for proper test setup.
+
+### Key Requirements for Test Mocks
+
+1. **District Mock Requirements**
+   - Must be added to the "district" group: `mock_district.add_to_group("district")`
+   - Must have a `district_name` property
+   - Must implement `is_position_walkable(position)` method
+   - Should have a `walkable_areas` array
+
+2. **Player-District Relationship**
+   - Player searches for districts using: `get_tree().get_nodes_in_group("district")`
+   - Player expects to call `current_district.is_position_walkable(pos)`
+   - Player will refuse to move if position is not walkable
+
+3. **Coordinate System in Tests**
+   - Polygon coordinates are local to the Polygon2D node
+   - The `is_position_walkable()` method expects positions in the district's coordinate space
+   - When creating test walkable areas, ensure coordinates match the test's coordinate space
+
+### Common Test Patterns
+
+#### Pattern 1: Simple Mock (Minimal Testing)
+For tests that don't need actual walkable area validation:
+```gdscript
+# Create minimal mock district
+var mock_district = Node2D.new()
+mock_district.add_to_group("district")
+mock_district.set("district_name", "Test District")
+mock_district.set_script(preload("res://src/unit_tests/mocks/mock_district_minimal.gd"))
+```
+
+#### Pattern 2: Full Mock (Integration Testing)
+For tests that need walkable area validation:
+```gdscript
+# Create district with walkable areas
+var mock_district = Node2D.new()
+mock_district.add_to_group("district")
+mock_district.set_script(preload("res://src/unit_tests/mocks/mock_district_with_walkable.gd"))
+
+# Create and configure walkable area
+var walkable_area = Polygon2D.new()
+walkable_area.add_to_group("walkable_area")
+walkable_area.polygon = PoolVector2Array([...])
+mock_district.add_child(walkable_area)
+mock_district.add_walkable_area(walkable_area)
+```
+
+### Test Isolation Strategies
+
+1. **Testing Player Physics Only**
+   - Bypass walkable area checks by directly setting player state
+   - Set `player.is_moving = true` and `player.target_position` directly
+   - Useful for testing acceleration, deceleration, and state transitions
+
+2. **Testing with Walkable Areas**
+   - Ensure mock district properly implements `is_position_walkable()`
+   - Add walkable areas to both scene tree and district's array
+   - Verify coordinates are in correct space
+
+### Common Pitfalls
+
+1. **Freed Instance Errors**
+   - Store mock districts as instance variables, not local variables
+   - Clean up properly in teardown: `mock_district = null`
+
+2. **Player Won't Move**
+   - Check debug output: "Cannot move to: (x, y) - not in walkable area"
+   - Verify walkable area contains the target position
+   - Ensure district mock implements `is_position_walkable()` correctly
+
+3. **Coordinate Mismatches**
+   - Remember polygon coordinates are local to the Polygon2D
+   - Player position and target positions are in world space
+   - Transform coordinates appropriately when needed
+
+### Reference Implementation
+
+See `src/unit_tests/camera_walkable_integration_test.gd` for a working example of:
+- Proper mock district setup
+- Walkable area creation and configuration
+- Coordinate handling in test environment
+
 ## Related Documentation
 
 - [Camera System](camera_system.md): Details on camera bounds calculation
 - [Walkable Area System](walkable_area_system.md): Information on the walkable area implementation
 - [Coordinate System](coordinate_system.md): Documentation on coordinate spaces and transformations
 - [Debug Tools](debug_tools.md): Information on the debug tools for walkable areas
+- [Unit Testing Guide](../reference/unit_testing_guide.md): General unit testing patterns and practices

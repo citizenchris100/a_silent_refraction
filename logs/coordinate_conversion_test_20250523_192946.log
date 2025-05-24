@@ -1,0 +1,200 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1300
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Setting up coordinate conversion test...
+Creating new Camera2D with ScrollingCamera script
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1309
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Configuring camera for testing...
+Setting debug_draw to: True
+[OVERLAY DEBUG] Created debug overlay
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+Test mode enabled: True
+Camera configured with position: (500, 500)
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (500, 500)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+Starting coordinate conversion tests...
+===== TEST SUITE: Screen to World =====
+Running test: Screen to World Center
+✓ PASS: Screen to World Center: screen_to_world should convert viewport center to camera position
+Running test: Screen to World Corners
+✓ PASS: Screen to World Corners: screen_to_world should convert all corners of viewport to world coordinates
+Running test: Screen to World with Zoom
+✓ PASS: Screen to World with Zoom: screen_to_world should handle different zoom levels correctly
+Suite completed: 3/3 tests passed
+===== TEST SUITE: World to Screen =====
+Running test: World to Screen Center
+✓ PASS: World to Screen Center: world_to_screen should convert camera position to viewport center
+Running test: World to Screen Points
+✓ PASS: World to Screen Points: world_to_screen should preserve directional relationships
+Running test: World to Screen with Zoom
+✓ PASS: World to Screen with Zoom: world_to_screen should handle different zoom levels correctly
+Suite completed: 3/3 tests passed
+===== TEST SUITE: World to Local =====
+Running test: World to Local Origin
+✓ PASS: World to Local Origin: world_to_local should correctly convert world origin to local coordinates
+Running test: World to Local Points
+✓ PASS: World to Local Points: world_to_local should correctly convert various world points to local coordinates
+Suite completed: 5/5 tests passed
+===== TEST SUITE: Local to World =====
+Running test: Local to World Origin
+✓ PASS: Local to World Origin: local_to_world should correctly convert local origin to world coordinates
+Running test: Local to World Points
+✓ PASS: Local to World Points: local_to_world should correctly convert various local points to world coordinates
+Suite completed: 2/2 tests passed
+===== TEST SUITE: Validation =====
+Running test: Validate Viewport Coordinates
+WARNING: CoordinateManager: No camera found, using OS window size as fallback: (1424, 952)
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: CoordinateManager: No camera found, using OS window size as fallback: (1424, 952)
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: CoordinateManager: No camera found, using OS window size as fallback: (1424, 952)
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+✓ PASS: Validate Viewport Coordinates: validate_viewport_coordinates should correctly classify points
+Running test: Is Point In View
+✓ PASS: Is Point In View: is_point_in_view should correctly identify points in view
+Running test: Ensure Valid Target
+ensure_valid_target called with position: (500, 500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (500, 500)
+TEST MODE - within bounds: input=(500, 500), output=(500, 500), equal=True
+ensure_valid_target called with position: (2000, 2000)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (2000, 2000)
+TEST MODE - outside bounds: input=(2000, 2000), output=(2000, 2000), equal=True
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1000, 1000)
+BoundsValidator initialized: Reference
+ensure_valid_target called with position: (500, 500)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+NORMAL MODE - within bounds: input=(500, 500), output=(500, 500), equal=True
+ensure_valid_target called with position: (2000, 2000)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+Position adjusted by bounds: (2000, 2000) -> (500, 524)
+Position adjusted by bounds validator: (2000, 2000) -> (500, 524)
+NORMAL MODE - outside bounds: input=(2000, 2000), output=(500, 524), within bounds=True
+Test mode behavior: Valid
+Normal mode behavior: Valid
+✓ PASS: Ensure Valid Target: ensure_valid_target should bypass bounds in test mode and enforce bounds in normal mode
+Suite completed: 1/1 tests passed
+===== TEST SUITE: Boundaries =====
+Running test: Boundary Limiting
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ensure_valid_target called with position: (1500, 1500)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (1500, 1500)
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1000, 1000)
+BoundsValidator initialized: Reference
+ensure_valid_target called with position: (1500, 1500)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+Position adjusted by bounds: (1500, 1500) -> (500, 524)
+Position adjusted by bounds validator: (1500, 1500) -> (500, 524)
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+Test mode boundary limiting: Valid
+Normal mode boundary limiting: Valid
+✓ PASS: Boundary Limiting: Boundary limiting should bypass constraints in test mode and enforce them in normal mode
+Running test: Edge Boundaries
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+Test mode boundary detection: Not expected to work correctly in test mode
+Normal mode boundary detection: Valid
+✓ PASS: Edge Boundaries: Boundary detection acknowledged in test mode and works correctly in normal mode
+Suite completed: 1/1 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 15
+Passed: 15
+Failed: 0
+
+All tests passed! 🎉
+
+Tests completed, exiting cleanly...
