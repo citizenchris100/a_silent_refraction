@@ -8,11 +8,13 @@ This file tracks the progress of all iterations for the project.
 |-----------|------|--------|----------|
 | 10 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
 | 11 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
+| 12 | Living World Event System - Full Implementation | Not started | 0% (0/20) |
+| 13 | Time Management System - Full Implementation | Not started | 0% (0/20) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
 | 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 7% (3/41) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
-| 5 | Game Districts and Time Management | Not started | 0% (0/12) |
+| 5 | Game Districts and Time Management | Not started | 0% (0/17) |
 | 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
 | 7 | Coalition Building | Not started | 0% (0/8) |
 | 8 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
@@ -280,6 +282,242 @@ This file tracks the progress of all iterations for the project.
 - Calculate perspective transformation matrix
 - Support one, two, and three-point perspective
 - Create debug visualization overlay
+
+### Iteration 12: Living World Event System - Full Implementation
+
+**Goals:**
+- Build upon the MVP foundation to create a deeply reactive and dynamic world
+- Implement conditional event chains and rumor propagation system
+- Create sophisticated NPC state management for 100+ NPCs
+- Add evidence mechanics and environmental storytelling
+- Optimize performance for complex world simulation
+- Enable emergent storytelling through event interactions
+- **B1:** Create unique experiences in each playthrough through dynamic events
+- **B2:** Deepen immersion through believable NPC behaviors and information flow
+- **B3:** Support emergent storytelling through system interactions
+- **U1:** As a player, I want NPCs to react to events realistically
+- **U2:** As a player, I want to uncover information through investigation
+- **U3:** As a player, I want my choices to cascade through the world
+- **T1:** Maintain performance with 100+ simulated NPCs
+- **T2:** Implement scalable event architecture
+- [ ] Task 1: Implement AdvancedEventScheduler with conditional events
+- [ ] Task 2: Create NPCStateMachine for complex NPC state management
+- [ ] Task 3: Implement RumorSystem for information propagation
+- [ ] Task 4: Create EvidenceSystem for physical traces of events
+- [ ] Task 5: Implement DynamicEventGenerator for reactive events
+- [ ] Task 6: Create WorldSimulationOptimizer for performance
+- [ ] Task 7: Implement 20-30 key NPCs with full behavioral complexity
+- [ ] Task 8: Create 30-40 supporting NPCs with simplified routines
+- [ ] Task 9: Implement 40-50 background NPCs with quantum states
+- [ ] Task 10: Create relationship dynamics between NPCs
+- [ ] Task 11: Implement information warfare mechanics
+- [ ] Task 12: Add environmental storytelling elements
+- [ ] Task 13: Create complex conditional event chains
+- [ ] Task 14: Implement event visualization debug tools
+- [ ] Task 15: Create scenario testing system
+- [ ] Task 16: Optimize save/load for complex world state
+- [ ] Task 17: Implement event cascade prevention
+- [ ] Task 18: Create rumor distortion mechanics
+- [ ] Task 19: Add NPC group behavior systems
+- [ ] Task 20: Performance profiling and optimization
+- 100+ NPCs active without frame drops
+- Rumors spread and distort believably through NPC networks
+- Evidence appears and decays appropriately
+- Conditional events trigger based on complex world states
+- Event chains create emergent stories
+- NPCs form and break relationships dynamically
+- Performance maintains 60 FPS throughout gameplay
+- Save files remain under 5MB with full state
+- No infinite event loops or cascades
+- Debug tools provide clear visibility into world state
+- Start date: 2025-12-01
+- Target completion: 2025-12-22
+- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
+- Iteration 6 (Investigation Mechanics)
+- Iteration 7 (Coalition Building)
+- Iteration 8 (Game Progression and Multiple Endings)
+- Living World Event System Full Design: docs/design/living_world_event_system_full.md
+- AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
+- NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
+- RumorSystem: src/core/systems/rumor_system.gd (to be created)
+- EvidenceSystem: src/core/systems/evidence_system.gd (to be created)
+- DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
+- WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
+
+**Key Requirements:**
+- **B1:** Create unique experiences in each playthrough through dynamic events
+- **B2:** Deepen immersion through believable NPC behaviors and information flow
+- **U1:** As a player, I want NPCs to react to events realistically
+- **U2:** As a player, I want to uncover information through investigation
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Implement AdvancedEventScheduler with conditional events | Pending | - |
+| Create NPCStateMachine for complex NPC state management | Pending | - |
+| Implement RumorSystem for information propagation | Pending | - |
+| Create EvidenceSystem for physical traces of events | Pending | - |
+| Implement DynamicEventGenerator for reactive events | Pending | - |
+| Create WorldSimulationOptimizer for performance | Pending | - |
+| Implement 20-30 key NPCs with full behavioral complexity | Pending | - |
+| Create 30-40 supporting NPCs with simplified routines | Pending | - |
+| Implement 40-50 background NPCs with quantum states | Pending | - |
+| Create relationship dynamics between NPCs | Pending | - |
+| Implement information warfare mechanics | Pending | - |
+| Add environmental storytelling elements | Pending | - |
+| Create complex conditional event chains | Pending | - |
+| Implement event visualization debug tools | Pending | - |
+| Create scenario testing system | Pending | - |
+| Optimize save/load for complex world state | Pending | - |
+| Implement event cascade prevention | Pending | - |
+| Create rumor distortion mechanics | Pending | - |
+| Add NPC group behavior systems | Pending | - |
+| Performance profiling and optimization | Pending | - |
+
+**Testing Criteria:**
+- 100+ NPCs active without frame drops
+- Rumors spread and distort believably through NPC networks
+- Evidence appears and decays appropriately
+- Conditional events trigger based on complex world states
+- Event chains create emergent stories
+- NPCs form and break relationships dynamically
+- Performance maintains 60 FPS throughout gameplay
+- Save files remain under 5MB with full state
+- No infinite event loops or cascades
+- Debug tools provide clear visibility into world state
+- Start date: 2025-12-01
+- Target completion: 2025-12-22
+- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
+- Iteration 6 (Investigation Mechanics)
+- Iteration 7 (Coalition Building)
+- Iteration 8 (Game Progression and Multiple Endings)
+- Living World Event System Full Design: docs/design/living_world_event_system_full.md
+- AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
+- NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
+- RumorSystem: src/core/systems/rumor_system.gd (to be created)
+- EvidenceSystem: src/core/systems/evidence_system.gd (to be created)
+- DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
+- WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
+
+### Iteration 13: Time Management System - Full Implementation
+
+**Goals:**
+- Build upon the MVP foundation to create a sophisticated temporal framework
+- Implement deadline management and scheduling conflict systems
+- Create advanced fatigue mechanics that affect gameplay
+- Add time-based narrative branching and consequences
+- Develop temporal reputation system affecting NPC relationships
+- Enable multiple time management strategies for different playstyles
+- **B1:** Create escalating time pressure that drives narrative tension
+- **B2:** Support multiple playstyles through flexible time management
+- **B3:** Make time choices create unique narrative experiences
+- **U1:** As a player, I want to juggle multiple deadlines and priorities
+- **U2:** As a player, I want my punctuality to affect relationships
+- **U3:** As a player, I want to feel the effects of exhaustion
+- **T1:** Implement efficient deadline tracking and conflict detection
+- **T2:** Create flexible narrative branching based on temporal choices
+- [ ] Task 1: Implement DeadlineManager with conflict detection
+- [ ] Task 2: Create complex fatigue system with gameplay effects
+- [ ] Task 3: Implement temporal narrative branching system
+- [ ] Task 4: Create scheduling conflict resolution mechanics
+- [ ] Task 5: Develop temporal reputation tracking
+- [ ] Task 6: Implement advanced time UI with planning tools
+- [ ] Task 7: Create predictive scheduling assistant
+- [ ] Task 8: Add dynamic time costs based on context
+- [ ] Task 9: Implement time-gated content system
+- [ ] Task 10: Create fatigue mitigation mechanics (stimulants, power naps)
+- [ ] Task 11: Add hallucination effects for extreme exhaustion
+- [ ] Task 12: Implement cascade analysis for missed deadlines
+- [ ] Task 13: Create time-based dialog variations
+- [ ] Task 14: Add deadline warning and notification system
+- [ ] Task 15: Implement save system extensions for complex time state
+- [ ] Task 16: Create difficulty scaling for time pressure
+- [ ] Task 17: Add time manipulation debug tools
+- [ ] Task 18: Implement performance optimizations for time calculations
+- [ ] Task 19: Create comprehensive time analytics system
+- [ ] Task 20: Balance testing and tuning framework
+- Multiple conflicting deadlines can be tracked simultaneously
+- Fatigue accumulation feels realistic and impacts gameplay
+- Temporal narrative branches activate correctly based on conditions
+- Scheduling conflicts present meaningful choices to players
+- NPCs react appropriately to temporal reputation
+- UI clearly communicates all time pressures and options
+- Performance maintains 60 FPS with complex time calculations
+- Save/load preserves all temporal state correctly
+- Difficulty scaling provides appropriate challenge progression
+- Debug tools allow rapid testing of time scenarios
+- Start date: 2026-01-05
+- Target completion: 2026-01-26
+- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
+- Iteration 6 (Investigation Mechanics)
+- Iteration 7 (Coalition Building)
+- Iteration 8 (Game Progression and Multiple Endings)
+- Iteration 12 (Living World Event System - Full Implementation)
+- Time Management System Full Design: docs/design/time_management_system_full.md
+- DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
+- FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
+- TemporalNarrativeManager: src/core/systems/temporal_narrative_manager.gd (to be created)
+- ScheduleConflictManager: src/core/systems/schedule_conflict_manager.gd (to be created)
+- TemporalReputation: src/core/systems/temporal_reputation.gd (to be created)
+- AdvancedTimeDisplay: src/ui/time_display/advanced_time_display.gd (to be created)
+
+**Key Requirements:**
+- **B1:** Create escalating time pressure that drives narrative tension
+- **B2:** Support multiple playstyles through flexible time management
+- **U1:** As a player, I want to juggle multiple deadlines and priorities
+- **U2:** As a player, I want my punctuality to affect relationships
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Implement DeadlineManager with conflict detection | Pending | - |
+| Create complex fatigue system with gameplay effects | Pending | - |
+| Implement temporal narrative branching system | Pending | - |
+| Create scheduling conflict resolution mechanics | Pending | - |
+| Develop temporal reputation tracking | Pending | - |
+| Implement advanced time UI with planning tools | Pending | - |
+| Create predictive scheduling assistant | Pending | - |
+| Add dynamic time costs based on context | Pending | - |
+| Implement time-gated content system | Pending | - |
+| Create fatigue mitigation mechanics (stimulants, power naps) | Pending | - |
+| Add hallucination effects for extreme exhaustion | Pending | - |
+| Implement cascade analysis for missed deadlines | Pending | - |
+| Create time-based dialog variations | Pending | - |
+| Add deadline warning and notification system | Pending | - |
+| Implement save system extensions for complex time state | Pending | - |
+| Create difficulty scaling for time pressure | Pending | - |
+| Add time manipulation debug tools | Pending | - |
+| Implement performance optimizations for time calculations | Pending | - |
+| Create comprehensive time analytics system | Pending | - |
+| Balance testing and tuning framework | Pending | - |
+
+**Testing Criteria:**
+- Multiple conflicting deadlines can be tracked simultaneously
+- Fatigue accumulation feels realistic and impacts gameplay
+- Temporal narrative branches activate correctly based on conditions
+- Scheduling conflicts present meaningful choices to players
+- NPCs react appropriately to temporal reputation
+- UI clearly communicates all time pressures and options
+- Performance maintains 60 FPS with complex time calculations
+- Save/load preserves all temporal state correctly
+- Difficulty scaling provides appropriate challenge progression
+- Debug tools allow rapid testing of time scenarios
+- Start date: 2026-01-05
+- Target completion: 2026-01-26
+- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
+- Iteration 6 (Investigation Mechanics)
+- Iteration 7 (Coalition Building)
+- Iteration 8 (Game Progression and Multiple Endings)
+- Iteration 12 (Living World Event System - Full Implementation)
+- Time Management System Full Design: docs/design/time_management_system_full.md
+- DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
+- FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
+- TemporalNarrativeManager: src/core/systems/temporal_narrative_manager.gd (to be created)
+- ScheduleConflictManager: src/core/systems/schedule_conflict_manager.gd (to be created)
+- TemporalReputation: src/core/systems/temporal_reputation.gd (to be created)
+- AdvancedTimeDisplay: src/ui/time_display/advanced_time_display.gd (to be created)
 
 ### Iteration 1: Basic Environment and Navigation
 
@@ -672,41 +910,52 @@ This file tracks the progress of all iterations for the project.
 - Implement multiple station districts with transitions
 - Create detailed time management system (Persona-style)
 - Develop day/night cycle and time progression
-- Implement random NPC assimilation tied to time
+- **NEW:** Implement Living World Event System MVP for scheduled events and NPC routines
+- Implement random NPC assimilation tied to scheduled events
 - Implement single-slot save system
 - Create basic limited inventory system
 - **B1:** Create a sense of progression and urgency through time management
 - **B2:** Expand game world with multiple distinct areas
+- **B3:** Make the station feel alive with NPCs following schedules
 - **U1:** As a player, I want to manage my time to prioritize activities
 - **U2:** As a player, I want to explore distinct areas of the station
+- **U3:** As a player, I want to discover events I missed through investigation
 - **T1:** Implement robust scene transition system
+- **T2:** Create event scheduling architecture that scales
 - [ ] Task 1: Create at least one additional district besides Shipping
 - [ ] Task 2: Create bash script for generating NPC placeholders
 - [ ] Task 3: Implement district transitions via tram system
 - [ ] Task 4: Develop in-game clock and calendar system
 - [ ] Task 5: Create time progression through player actions
-- [ ] Task 6: Implement day cycle with sleep mechanics
-- [ ] Task 7: Design and implement time UI indicators
-- [ ] Task 8: Create system for random NPC assimilation over time
-- [ ] Task 9: Add time-based events and triggers
-- [ ] Task 10: Implement player bedroom as save point location
-- [ ] Task 11: Create single-slot save system with confirmation UI
-- [ ] Task 12: Create basic inventory system with size limitations
+- [ ] Task 6: Create SimpleEventScheduler for managing time-based events
+- [ ] Task 7: Implement NPCScheduleManager for basic NPC routines
+- [ ] Task 8: Create EventDiscovery system for learning about missed events
+- [ ] Task 9: Implement day cycle with sleep mechanics
+- [ ] Task 10: Design and implement time UI indicators
+- [ ] Task 11: Convert random assimilation to scheduled event system
+- [ ] Task 12: Add scheduled story events (security sweeps, meetings)
+- [ ] Task 13: Create NPC schedule data files for 5-10 key NPCs
+- [ ] Task 14: Implement contextual dialog based on recent events
+- [ ] Task 15: Implement player bedroom as save point location
+- [ ] Task 16: Create single-slot save system with event state persistence
+- [ ] Task 17: Create basic inventory system with size limitations
 - Player can travel between at least two districts
 - Time advances through specific actions (tram travel, conversations, etc.)
 - Day advances when player sleeps
-- NPCs change status (assimilated/not) over time
-- Player can save game by returning to their room
+- NPCs follow daily schedules and appear in correct locations at correct times
+- Events trigger at scheduled times whether player witnesses them or not
+- Player can discover missed events through clues and NPC dialog
+- Assimilation events leave evidence in the world
+- Save system preserves complete event history and NPC states
 - Player has limited inventory space
 - NPC placeholder script successfully creates properly structured directories and registry entries
-- Multiple NPCs can be easily added across different districts using the script
+- Performance maintains 60 FPS with event system active
 - Start date: 2025-06-15
-- Target completion: 2025-06-29
+- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
 - Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
 - Iteration 4 (Dialog and Verb UI System Refactoring)
-- No links yet
 
 **Key Requirements:**
 - **B1:** Create a sense of progression and urgency through time management
@@ -719,34 +968,52 @@ This file tracks the progress of all iterations for the project.
 | Task | Status | Linked Files |
 |------|--------|--------------|
 | Create at least one additional district besides Shipping | Pending | - |
-| Create bash script for generating NPC placeholders (As a developer, I want a bash script that manages the NPC registry and creates appropriate directory structures for NPC sprites, so that I can easily add new characters to the game with proper integration into the existing systems without manual configuration.) | Pending | - |
+| Create bash script for generating NPC placeholders | Pending | - |
 | Implement district transitions via tram system | Pending | - |
 | Develop in-game clock and calendar system | Pending | - |
 | Create time progression through player actions | Pending | - |
+| Create SimpleEventScheduler for managing time-based events | Pending | - |
+| Implement NPCScheduleManager for basic NPC routines | Pending | - |
+| Create EventDiscovery system for learning about missed events | Pending | - |
 | Implement day cycle with sleep mechanics | Pending | - |
 | Design and implement time UI indicators | Pending | - |
-| Create system for random NPC assimilation over time | Pending | - |
-| Add time-based events and triggers | Pending | - |
+| Convert random assimilation to scheduled event system | Pending | - |
+| Add scheduled story events (security sweeps, meetings) | Pending | - |
+| Create NPC schedule data files for 5-10 key NPCs | Pending | - |
+| Implement contextual dialog based on recent events | Pending | - |
 | Implement player bedroom as save point location | Pending | - |
-| Create single-slot save system with confirmation UI | Pending | - |
+| Create single-slot save system with event state persistence | Pending | - |
 | Create basic inventory system with size limitations | Pending | - |
 
 **Testing Criteria:**
 - Player can travel between at least two districts
 - Time advances through specific actions (tram travel, conversations, etc.)
 - Day advances when player sleeps
-- NPCs change status (assimilated/not) over time
-- Player can save game by returning to their room
+- NPCs follow daily schedules and appear in correct locations at correct times
+- Events trigger at scheduled times whether player witnesses them or not
+- Player can discover missed events through clues and NPC dialog
+- Assimilation events leave evidence in the world
+- Save system preserves complete event history and NPC states
 - Player has limited inventory space
 - NPC placeholder script successfully creates properly structured directories and registry entries
-- Multiple NPCs can be easily added across different districts using the script
+- Performance maintains 60 FPS with event system active
 - Start date: 2025-06-15
-- Target completion: 2025-06-29
+- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
 - Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
 - Iteration 4 (Dialog and Verb UI System Refactoring)
-- No links yet
+- Time Management System MVP Design: docs/design/time_management_system_mvp.md
+- Living World Event System MVP Design: docs/design/living_world_event_system_mvp.md
+- GameClock: src/core/systems/game_clock.gd (to be created)
+- TimeCostManager: src/core/systems/time_cost_manager.gd (to be created)
+- DayCycleController: src/core/systems/day_cycle_controller.gd (to be created)
+- SimpleEventScheduler: src/core/systems/simple_event_scheduler.gd (to be created)
+- NPCScheduleManager: src/core/systems/npc_schedule_manager.gd (to be created)
+- EventDiscovery: src/core/systems/event_discovery.gd (to be created)
+- TimeDisplay: src/ui/time_display/time_display.gd (to be created)
+- NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
+- Scheduled Events: src/data/events/scheduled_events.json (to be created)
 
 ### Iteration 6: Investigation Mechanics and Inventory
 
