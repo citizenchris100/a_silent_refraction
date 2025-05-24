@@ -373,7 +373,65 @@ func _draw():
         draw_circle(Vector2.ZERO, max_distance, Color(1, 1, 0, 0.2))
 ```
 
-### 7. District Integration
+### 7. Serialization Integration
+
+Following `docs/design/modular_serialization_architecture.md`, perspective scaling states that affect gameplay or visual consistency need persistence:
+
+```gdscript
+# src/core/serializers/perspective_serializer.gd
+extends BaseSerializer
+
+class_name PerspectiveSerializer
+
+func _ready():
+    # Medium priority - after core game state but before cosmetic systems
+    SaveManager.register_serializer("perspective", self, 45)
+
+func serialize() -> Dictionary:
+    var data = {}
+    
+    # Save entity-specific scale overrides
+    var scaled_entities = get_tree().get_nodes_in_group("perspective_scaled")
+    for entity in scaled_entities:
+        if entity.has_node("PerspectiveController"):
+            var controller = entity.get_node("PerspectiveController")
+            if controller.current_scale != controller.target_scale:
+                # Save transitioning scales for smooth continuation
+                data[entity.get_path()] = {
+                    "current_scale": controller.current_scale,
+                    "target_scale": controller.target_scale,
+                    "z_index": entity.z_index
+                }
+    
+    # Save audio source states
+    data["audio_volumes"] = serialize_audio_states()
+    
+    # Save any debug/performance settings
+    data["lod_overrides"] = serialize_lod_states()
+    
+    return data
+
+func deserialize(data: Dictionary) -> void:
+    # Restore entity scales
+    for entity_path in data:
+        if entity_path in ["audio_volumes", "lod_overrides"]:
+            continue
+            
+        var entity = get_node_or_null(entity_path)
+        if entity and entity.has_node("PerspectiveController"):
+            var controller = entity.get_node("PerspectiveController")
+            controller.current_scale = data[entity_path].current_scale
+            controller.target_scale = data[entity_path].target_scale
+            entity.z_index = data[entity_path].z_index
+    
+    # Restore audio states
+    if "audio_volumes" in data:
+        restore_audio_states(data.audio_volumes)
+```
+
+This ensures smooth visual continuity when loading saves, preventing jarring scale jumps or audio volume spikes.
+
+### 8. District Integration
 
 Modifications to: `src/core/districts/base_district.gd`
 

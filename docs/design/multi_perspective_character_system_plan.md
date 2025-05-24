@@ -250,6 +250,75 @@ The integration ensures that:
 
 This audio-visual integration enhances immersion by ensuring sounds feel naturally integrated with the visual depth of each scene type. See `docs/iterations/iteration3_plan.md` Task 34 for implementation details.
 
+## Save System Considerations
+
+Character perspective states must persist across save/load cycles to maintain visual consistency. Following the modular serialization architecture from `docs/design/modular_serialization_architecture.md`, the multi-perspective system implements its own serializer to handle perspective-specific state.
+
+### Serialization Requirements
+
+The MultiPerspectiveSerializer handles:
+- **Current Perspective Settings**: Active perspective type per district
+- **Character States**: Current direction and animation state for each perspective
+- **District-specific Navigation**: Walkable area references per perspective
+- **Custom Perspective Overrides**: Any player or NPC-specific perspective modifications
+
+### Implementation Example
+
+```gdscript
+# src/core/serializers/multi_perspective_serializer.gd
+extends BaseSerializer
+
+class_name MultiPerspectiveSerializer
+
+func _ready():
+    # Register with medium priority
+    SaveManager.register_serializer("perspectives", self, 40)
+
+func serialize() -> Dictionary:
+    var data = {}
+    
+    # Save current perspective per character
+    for character in get_all_perspective_characters():
+        data[character.get_path()] = {
+            "current_perspective": character.current_perspective,
+            "facing_direction": character.facing_direction,
+            "animation_state": character.current_animation,
+            "custom_overrides": character.perspective_overrides
+        }
+    
+    # Save district perspective settings if modified
+    data["district_perspectives"] = serialize_district_overrides()
+    
+    return data
+
+func deserialize(data: Dictionary) -> void:
+    # Restore character perspectives
+    for character_path in data:
+        if character_path == "district_perspectives":
+            continue
+        
+        var character = get_node(character_path)
+        if character and character.has_method("set_perspective"):
+            character.set_perspective(data[character_path].current_perspective)
+            character.facing_direction = data[character_path].facing_direction
+            character.play_animation(data[character_path].animation_state)
+            character.perspective_overrides = data[character_path].custom_overrides
+    
+    # Restore district settings
+    if "district_perspectives" in data:
+        restore_district_overrides(data.district_perspectives)
+
+func serialize_district_overrides() -> Dictionary:
+    # Only save if districts have non-default perspective settings
+    var overrides = {}
+    for district in DistrictManager.get_all_districts():
+        if district.perspective_type != district.default_perspective_type:
+            overrides[district.name] = district.perspective_type
+    return overrides
+```
+
+This approach ensures that characters maintain their correct appearance when loading a save, preventing jarring visual transitions or incorrect sprite displays. The serializer uses differential saving to only store non-default values, keeping save files efficient even with many characters.
+
 ## Testing the System
 
 To ensure the system works correctly, we define a testing approach for each component:

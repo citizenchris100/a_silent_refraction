@@ -263,6 +263,62 @@ func update_quantum_npc(npc_id: String, time_delta: float):
         apply_random_state_change(npc_id)
 ```
 
+## Save System Integration
+
+The full Living World implementation creates massive amounts of persistent state that must be efficiently serialized. Building upon the MVP EventSerializer, the full system extends serialization capabilities while maintaining the modular architecture defined in `docs/design/modular_serialization_architecture.md`.
+
+### Extended Serialization Requirements
+
+The enhanced EventSerializer handles:
+- **Rumor Network State**: Tracking which of 100+ NPCs know which rumors, with accuracy and distortion levels
+- **Evidence Decay Timers**: Active evidence items with remaining lifespans
+- **Coalition Strength Matrices**: Complex relationship networks between NPCs
+- **Temporal Reputation**: How NPCs' opinions change over time based on events
+- **Quantum NPC States**: Efficient storage of background NPC positions without full state
+
+### Differential Serialization Strategy
+
+```gdscript
+# src/core/serializers/event_serializer_v2.gd
+extends BaseSerializer
+
+func get_version() -> int:
+    return 2  # Upgraded from MVP version
+
+func serialize() -> Dictionary:
+    var data = .serialize()  # Get base data from v1
+    
+    # Add full system data with aggressive compression
+    data["rumors"] = serialize_rumor_network()  # Only active rumors
+    data["evidence"] = serialize_active_evidence()  # Skip decayed items
+    data["npc_states"] = serialize_npc_states_differential()  # Only non-default
+    data["world_state"] = world_state  # Critical for conditional events
+    
+    return data
+
+func serialize_rumor_network() -> Array:
+    # Compress 100+ NPCs × N rumors into efficient structure
+    var compressed = []
+    for rumor in RumorSystem.active_rumors:
+        compressed.append({
+            "id": rumor.event_id,
+            "acc": int(rumor.accuracy * 100),  # Store as 0-100 int
+            "dist": rumor.distortion_level,
+            "known": compress_npc_list(rumor.known_by)  # Bit flags
+        })
+    return compressed
+
+func compress_npc_list(npc_ids: Array) -> int:
+    # Convert list of NPC IDs to bit flags for space efficiency
+    var flags = 0
+    for id in npc_ids:
+        var index = NPCRegistry.get_npc_index(id)
+        flags |= (1 << index)
+    return flags
+```
+
+This approach ensures save files remain manageable even with 100+ NPCs and complex event histories, while the modular architecture allows the serializer to evolve independently as new features are added.
+
 ## Complex Event Examples
 
 ### Conditional Event: Security Lockdown

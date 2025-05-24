@@ -83,7 +83,57 @@ func evaluate_deadline_chains():
     return impact_analysis
 ```
 
-### 2. Complex Fatigue System
+### 2. Serialization Requirements
+
+The full time system adds complex persistent state requiring careful version management. Building on the MVP TimeSerializer, the full implementation extends serialization while following the modular architecture from `docs/design/modular_serialization_architecture.md`.
+
+#### Extended Save Data
+
+The enhanced TimeSerializer must handle:
+- **Active/Missed/Completed Deadlines**: Complex deadline objects with cascading consequences
+- **Fatigue Accumulation**: Current fatigue level, multipliers, and stimulant resistance  
+- **Temporal Lock Arrays**: Which narrative branches are no longer accessible due to time
+- **Schedule Flexibility**: Modified time costs and schedule overrides
+- **Microsleep History**: Recent fatigue-induced blackouts affecting player trust
+
+#### Version Migration Strategy
+
+```gdscript
+# src/core/serializers/time_serializer_v2.gd
+extends BaseSerializer
+
+func get_version() -> int:
+    return 2  # Upgraded from MVP
+
+func serialize() -> Dictionary:
+    var data = .serialize()  # Get base MVP data
+    
+    # Add full system data
+    data["deadlines"] = serialize_deadlines()
+    data["fatigue"] = {
+        "value": FatigueSystem.fatigue_value,
+        "multiplier": FatigueSystem.fatigue_multiplier,
+        "resistance": FatigueSystem.stimulant_resistance,
+        "last_stimulant_time": FatigueSystem.last_stimulant_time
+    }
+    data["narrative_locks"] = TemporalNarrativeManager.locked_out_content
+    data["time_flexibility"] = serialize_schedule_modifications()
+    
+    return data
+
+func migrate(data: Dictionary, from_version: int, to_version: int) -> Dictionary:
+    if from_version == 1 and to_version == 2:
+        # Add default values for new systems
+        data["deadlines"] = {"active": {}, "completed": [], "missed": []}
+        data["fatigue"] = {"value": 0.0, "multiplier": 1.0, "resistance": 0.0}
+        data["narrative_locks"] = []
+        print("Migrated time save from v1 to v2")
+    return data
+```
+
+This approach ensures save compatibility when upgrading from MVP to full implementation, with the modular architecture allowing the time serializer to evolve independently.
+
+### 3. Complex Fatigue System
 
 ```gdscript
 # src/core/systems/fatigue_system.gd

@@ -88,6 +88,45 @@ func discover_event_through_dialog(event_id: String, source_npc: String):
     pass
 ```
 
+## Serialization Architecture Integration
+
+The Living World Event System maintains significant persistent state that must survive save/load cycles. Following the modular serialization pattern defined in `docs/design/modular_serialization_architecture.md`, this system implements its own EventSerializer that plugs into the SaveManager without requiring modifications to the core save system.
+
+### Key Serialization Requirements
+
+The EventSerializer must handle:
+- **Event History**: Compressed log of all triggered events (using RLE compression for similar consecutive events)
+- **NPC Locations**: Current position of each scheduled NPC (only saved if different from scheduled location)
+- **Discovered Events**: Dictionary of events the player has learned about through clues or dialog
+- **Available Clues**: Active clues in the world waiting to be discovered
+
+### Implementation Example
+
+```gdscript
+# src/core/serializers/event_serializer.gd
+extends BaseSerializer
+
+func _ready():
+    # Self-register when event system initializes
+    SaveManager.register_serializer("events", self, 20)
+
+func serialize() -> Dictionary:
+    return {
+        "history": compress_event_history(),  # Custom compression
+        "scheduled": SimpleEventScheduler.get_pending_events(),
+        "discovered": EventDiscovery.discovered_events,
+        "npc_locations": get_non_default_npc_locations()  # Differential save
+    }
+
+func deserialize(data: Dictionary) -> void:
+    SimpleEventScheduler.load_event_history(decompress_events(data.history))
+    SimpleEventScheduler.reschedule_pending_events(data.scheduled)
+    EventDiscovery.discovered_events = data.discovered
+    restore_npc_locations(data.npc_locations)
+```
+
+This approach ensures that as the event system grows in complexity (adding rumors, evidence, etc.), the serialization can evolve independently without touching the core save system.
+
 ## Data Structures
 
 ### NPC Schedule Format

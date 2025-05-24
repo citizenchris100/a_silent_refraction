@@ -1,87 +1,69 @@
-# Iteration 5: Game Districts and Time Management
-**Updated to include Living World Event System MVP**
+# Iteration 5: Save System Foundation
 
 ## Goals
-- Implement multiple station districts with transitions
-- Create detailed time management system (Persona-style)
-- Develop day/night cycle and time progression
-- **NEW:** Implement Living World Event System MVP for scheduled events and NPC routines
-- Implement random NPC assimilation tied to scheduled events
-- Implement single-slot save system
-- Create basic limited inventory system
+- Implement single-slot save system inspired by Dead Rising
+- Create robust serialization architecture that can grow with the game
+- Build atomic save operations to prevent corruption
+- Develop save/load UI with clear progress indication
+- Establish version migration framework for future updates
+- Create modular serialization system to minimize future refactoring
 
 ## Requirements
 
 ### Business Requirements
-- **B1:** Create a sense of progression and urgency through time management
-  - **Rationale:** Time-based gameplay creates strategic choices and replay value
-  - **Success Metric:** Players report making meaningful time allocation decisions in test sessions
+- **B1:** Implement save system that reinforces permanent consequences
+  - **Rationale:** Single-slot saves create tension and meaningful choices
+  - **Success Metric:** Players report feeling weight of their decisions
 
-- **B2:** Expand game world with multiple distinct areas
-  - **Rationale:** Diverse environments increase perceived game size and exploration value
-  - **Success Metric:** Each district has unique visual identity and gameplay purpose
-
-- **B3:** Make the station feel alive with NPCs following schedules
-  - **Rationale:** Living world increases immersion and creates emergent gameplay
-  - **Success Metric:** Players report feeling the world continues without them
+- **B2:** Ensure save system reliability and corruption resistance
+  - **Rationale:** Single slot means corruption is catastrophic
+  - **Success Metric:** <0.001% corruption rate in production
 
 ### User Requirements
-- **U1:** As a player, I want to manage my time to prioritize activities
-  - **User Value:** Creates strategic decision-making and consequences
-  - **Acceptance Criteria:** Different actions consume varying amounts of in-game time
+- **U1:** As a player, I want to save my progress when sleeping
+  - **User Value:** Natural save points integrated with time management
+  - **Acceptance Criteria:** Saving advances time to next day
 
-- **U2:** As a player, I want to explore distinct areas of the station
-  - **User Value:** Provides variety and discovery
-  - **Acceptance Criteria:** Each district has unique visuals, NPCs, and activities
-
-- **U3:** As a player, I want to discover events I missed through investigation
-  - **User Value:** Rewards exploration and attention to detail
-  - **Acceptance Criteria:** Clues and dialog reveal information about past events
+- **U2:** As a player, I want clear feedback during save/load operations
+  - **User Value:** Understanding system state during critical operations
+  - **Acceptance Criteria:** Progress indicators and success confirmations
 
 ### Technical Requirements
-- **T1:** Implement robust scene transition system
-  - **Rationale:** District loading and transitions must be seamless
-  - **Constraints:** Must preserve game state across transitions
+- **T1:** Implement atomic file operations for save integrity
+  - **Rationale:** Prevent partial writes during crashes/power loss
+  - **Constraints:** Must use temp file + atomic rename pattern
 
-- **T2:** Create event scheduling architecture that scales
-  - **Rationale:** Foundation for full living world implementation
-  - **Constraints:** Must maintain 60 FPS with event processing
+- **T2:** Design extensible serialization architecture
+  - **Rationale:** Future systems need easy integration
+  - **Constraints:** Modular design with version support from day 1
 
 ## Tasks
-- [ ] Task 1: Create at least one additional district besides Shipping
-- [ ] Task 2: Create bash script for generating NPC placeholders
-- [ ] Task 3: Implement district transitions via tram system
-- [ ] Task 4: Develop in-game clock and calendar system
-- [ ] Task 5: Create time progression through player actions
-- [ ] Task 6: Create SimpleEventScheduler for managing time-based events
-- [ ] Task 7: Implement NPCScheduleManager for basic NPC routines
-- [ ] Task 8: Create EventDiscovery system for learning about missed events
-- [ ] Task 9: Implement day cycle with sleep mechanics
-- [ ] Task 10: Design and implement time UI indicators
-- [ ] Task 11: Convert random assimilation to scheduled event system
-- [ ] Task 12: Add scheduled story events (security sweeps, meetings)
-- [ ] Task 13: Create NPC schedule data files for 5-10 key NPCs
-- [ ] Task 14: Implement contextual dialog based on recent events
-- [ ] Task 15: Implement player bedroom as save point location
-- [ ] Task 16: Create single-slot save system with event state persistence
-- [ ] Task 17: Create basic inventory system with size limitations
+- [ ] Task 1: Implement core SaveManager with atomic file operations
+- [ ] Task 2: Create modular serialization architecture
+- [ ] Task 3: Implement player data serialization (position, stats, inventory)
+- [ ] Task 4: Implement NPC state serialization (simple version)
+- [ ] Task 5: Create world state serialization (districts, doors, etc.)
+- [ ] Task 6: Implement save/load UI flow with progress indication
+- [ ] Task 7: Create corruption detection and recovery system
+- [ ] Task 8: Implement version migration framework
+- [ ] Task 9: Add save file compression (Zstandard)
+- [ ] Task 10: Create save system unit tests
+- [ ] Task 11: Implement backup save management
+- [ ] Task 12: Add save analytics for debugging
 
 ## Testing Criteria
-- Player can travel between at least two districts
-- Time advances through specific actions (tram travel, conversations, etc.)
-- Day advances when player sleeps
-- NPCs follow daily schedules and appear in correct locations at correct times
-- Events trigger at scheduled times whether player witnesses them or not
-- Player can discover missed events through clues and NPC dialog
-- Assimilation events leave evidence in the world
-- Save system preserves complete event history and NPC states
-- Player has limited inventory space
-- NPC placeholder script successfully creates properly structured directories and registry entries
-- Performance maintains 60 FPS with event system active
+- Save/load cycle preserves all game state correctly
+- Save operations complete in <1 second for current game state
+- Load operations complete in <2 seconds
+- Corruption detection catches all test cases
+- Version migration handles all upgrade paths
+- UI provides clear feedback during operations
+- Atomic operations prevent partial saves
+- Backup system maintains previous save automatically
 
 ## Timeline
-- Start date: 2025-06-15
-- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
+- Start date: 2025-05-15
+- Target completion: 2025-05-22
 
 ## Dependencies
 - Iteration 1 (Basic Environment and Navigation)
@@ -90,88 +72,66 @@
 - Iteration 4 (Dialog and Verb UI System Refactoring)
 
 ## Code Links
-- Time Management System MVP Design: docs/design/time_management_system_mvp.md
-- Living World Event System MVP Design: docs/design/living_world_event_system_mvp.md
-- GameClock: src/core/systems/game_clock.gd (to be created)
-- TimeCostManager: src/core/systems/time_cost_manager.gd (to be created)
-- DayCycleController: src/core/systems/day_cycle_controller.gd (to be created)
-- SimpleEventScheduler: src/core/systems/simple_event_scheduler.gd (to be created)
-- NPCScheduleManager: src/core/systems/npc_schedule_manager.gd (to be created)
-- EventDiscovery: src/core/systems/event_discovery.gd (to be created)
-- TimeDisplay: src/ui/time_display/time_display.gd (to be created)
-- NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
-- Scheduled Events: src/data/events/scheduled_events.json (to be created)
+- Serialization System Design: docs/design/serialization_system.md
+- SaveManager: src/core/systems/save_manager.gd (to be created)
+- PlayerSerializer: src/core/serializers/player_serializer.gd (to be created)
+- NPCSerializer: src/core/serializers/npc_serializer.gd (to be created)
+- WorldSerializer: src/core/serializers/world_serializer.gd (to be created)
+- SaveData: src/core/data/save_data.gd (to be created)
 
 ## User Stories
 
-### Task 1: Create at least one additional district besides Shipping
-**User Story:** As a player, I want to explore different areas of the station, so that I can discover new characters, items, and story elements.
+### Task 1: Implement core SaveManager with atomic file operations
+**User Story:** As a developer, I want atomic save operations, so that saves never corrupt even during power loss.
+**Reference:** See docs/design/serialization_system.md Section "Atomic Save Process"
 
-### Task 2: Create bash script for generating NPC placeholders
-**User Story:** As a developer, I want a bash script that manages the NPC registry and creates appropriate directory structures for NPC sprites, so that I can easily add new characters to the game with proper integration into the existing systems without manual configuration.
+### Task 2: Create modular serialization architecture
+**User Story:** As a developer, I want modular serializers, so that new systems can be added without refactoring.
+**Reference:** See docs/design/serialization_system.md Section "Serialization Strategy"
 
-### Task 3: Implement district transitions via tram system
-**User Story:** As a player, I want to travel between districts using the tram system, so that I can explore the station while experiencing time passing during travel.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Time Cost Manager" - Travel actions
+### Task 3: Implement player data serialization
+**User Story:** As a player, I want my character's state preserved, so that I continue exactly where I left off.
+**Reference:** See docs/design/serialization_system.md Section "Player Data Serialization"
 
-### Task 4: Develop in-game clock and calendar system
-**User Story:** As a player, I want to see the current time and day, so that I can plan my activities and understand when events might occur.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Game Clock System"
+### Task 4: Implement NPC state serialization (simple version)
+**User Story:** As a player, I want NPC positions and states preserved, so that the world remains consistent.
+**Reference:** See docs/design/serialization_system.md Section "NPC State Compression"
 
-### Task 5: Create time progression through player actions
-**User Story:** As a player, I want my actions to consume time, so that I must make strategic choices about how to spend my limited time.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Time Cost Manager"
+### Task 5: Create world state serialization
+**User Story:** As a player, I want environmental changes preserved, so that my actions have lasting impact.
+**Reference:** See docs/design/serialization_system.md Section "Hierarchical Data Organization"
 
-### Task 6: Create SimpleEventScheduler for managing time-based events
-**User Story:** As a developer, I want a system that triggers events at specific times, so that the world feels alive and dynamic even when the player isn't present.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Core Components"
+### Task 6: Implement save/load UI flow with progress indication
+**User Story:** As a player, I want to see save/load progress, so that I know the operation is working.
+**Reference:** See docs/design/serialization_system.md Section "Progressive Loading"
 
-### Task 7: Implement NPCScheduleManager for basic NPC routines
-**User Story:** As a player, I want NPCs to follow daily routines, so that the station feels like a real place with people living their lives.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "NPC Schedule Manager"
+### Task 7: Create corruption detection and recovery system
+**User Story:** As a player, I want automatic recovery from corruption, so that I don't lose all progress.
+**Reference:** See docs/design/serialization_system.md Section "Corruption Detection"
 
-### Task 8: Create EventDiscovery system for learning about missed events
-**User Story:** As a player, I want to discover clues about events I missed, so that I can piece together what happened while I was elsewhere.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Discovery System"
+### Task 8: Implement version migration framework
+**User Story:** As a player, I want my saves to work after updates, so that I can continue my playthrough.
+**Reference:** See docs/design/serialization_system.md Section "Version Migration"
 
-### Task 9: Implement day cycle with sleep mechanics
-**User Story:** As a player, I want to rest and advance to the next day, so that I can manage my time and see how the station changes overnight.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Day Cycle Controller"
+### Task 9: Add save file compression
+**User Story:** As a developer, I want compressed saves, so that file sizes remain manageable.
+**Reference:** See docs/design/serialization_system.md Section "File Format"
 
-### Task 10: Design and implement time UI indicators
-**User Story:** As a player, I want clear visual indicators of time passing, so that I can make informed decisions about my activities.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Time UI System"
+### Task 10: Create save system unit tests
+**User Story:** As a developer, I want comprehensive save testing, so that we catch issues before release.
+**Reference:** See docs/design/serialization_system.md Section "Testing Framework"
 
-### Task 11: Convert random assimilation to scheduled event system
-**User Story:** As a player, I want assimilation to happen at specific times and places, so that I might witness or investigate these events.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Types in MVP"
+### Task 11: Implement backup save management
+**User Story:** As a player, I want automatic backups, so that corruption doesn't mean total loss.
+**Reference:** See docs/design/serialization_system.md Section "Save File Structure"
 
-### Task 12: Add scheduled story events (security sweeps, meetings)
-**User Story:** As a player, I want major story events to occur at specific times, so that I must choose which events to witness or investigate.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Types in MVP"
-
-### Task 13: Create NPC schedule data files for 5-10 key NPCs
-**User Story:** As a player, I want important NPCs to have detailed daily routines, so that I can learn their patterns and plan my interactions.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "5-10 Key NPCs with Full Routines"
-
-### Task 14: Implement contextual dialog based on recent events
-**User Story:** As a player, I want NPCs to reference recent events in dialog, so that the world feels reactive and interconnected.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Dialog System Integration"
-
-### Task 15: Implement player bedroom as save point location
-**User Story:** As a player, I want a personal space where I can save my progress, so that I have a safe location to plan my next moves.
-
-### Task 16: Create single-slot save system with event state persistence
-**User Story:** As a player, I want to save my game including all event history, so that I can continue my unique playthrough later.
-
-### Task 17: Create basic inventory system with size limitations
-**User Story:** As a player, I want to collect and carry items with limited space, so that I must make choices about what to keep.
+### Task 12: Add save analytics for debugging
+**User Story:** As a developer, I want save file analytics, so that I can optimize performance.
+**Reference:** See docs/design/serialization_system.md Section "Save File Analytics"
 
 ## Notes
-- Time Management System MVP provides the core temporal framework for the entire game
-- Living World Event System MVP provides foundation for Iteration 12 full implementation
-- These two systems work together: Time Manager handles player resource allocation, Event System handles world simulation
-- Focus on making 5-10 NPCs feel truly alive rather than many shallow NPCs
-- Event discovery through clues and dialog is key to making missed events meaningful
-- Performance testing critical with event system running continuously
-- Time costs should feel intuitive - players should be able to estimate action costs without constantly checking
+- This iteration creates the foundation for all future save functionality
+- Focus on extensibility - future systems will add significant complexity
+- Single-slot design means reliability is paramount
+- Dead Rising inspiration: saves should feel weighty and consequential
+- Modular architecture will minimize refactoring as new systems are added

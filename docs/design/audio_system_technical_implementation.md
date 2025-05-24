@@ -863,6 +863,100 @@ func _draw():
 - Performance profiling tools
 - Test hardware (min spec machine)
 
+## Serialization and Save System Integration
+
+Following the modular architecture from `docs/design/modular_serialization_architecture.md`, the audio system implements its own serializer to handle persistent audio state. This ensures audio settings and preferences survive save/load cycles without coupling to the core save system.
+
+### Persistent Audio State
+
+The AudioSerializer handles:
+- **Volume Settings**: Master, music, SFX, and ambience levels per player preference
+- **Mute States**: Which audio categories the player has disabled
+- **Current Music/Ambience**: Active tracks per district (restart from beginning on load)
+- **PA Announcement State**: Last announcement time and queue position
+- **Audio Debug Settings**: Whether audio visualization is enabled
+
+### Implementation
+
+```gdscript
+# src/core/serializers/audio_serializer.gd
+extends BaseSerializer
+
+class_name AudioSerializer
+
+func _ready():
+    # Low priority - audio preferences can load after gameplay
+    SaveManager.register_serializer("audio", self, 60)
+
+func serialize() -> Dictionary:
+    return {
+        "volume_settings": {
+            "master": AudioServer.get_bus_volume_db(0),
+            "music": AudioManager.get_bus_group_volume("music"),
+            "ambience": AudioManager.get_bus_group_volume("ambience"),
+            "sfx": AudioManager.get_bus_group_volume("sfx"),
+            "announcements": AudioManager.get_bus_group_volume("announcements")
+        },
+        "mute_states": AudioManager.get_mute_states(),
+        "current_tracks": {
+            "music": AudioManager.current_music_id,
+            "ambience": AudioManager.current_ambience_id,
+            "district": AudioManager.current_district_name
+        },
+        "pa_state": {
+            "last_announcement_time": AudioManager.last_pa_time,
+            "announcement_index": AudioManager.current_pa_index
+        },
+        "debug_enabled": AudioManager.debug_visualization_enabled
+    }
+
+func deserialize(data: Dictionary) -> void:
+    # Restore volume settings
+    if "volume_settings" in data:
+        for bus_name in data.volume_settings:
+            AudioManager.set_bus_volume(bus_name, data.volume_settings[bus_name])
+    
+    # Restore mute states
+    if "mute_states" in data:
+        AudioManager.restore_mute_states(data.mute_states)
+    
+    # Note: We don't restore track positions - audio restarts fresh
+    # This prevents sync issues and provides consistent experience
+    
+    # Restore PA timing
+    if "pa_state" in data:
+        AudioManager.last_pa_time = data.pa_state.last_announcement_time
+        AudioManager.current_pa_index = data.pa_state.announcement_index
+    
+    # Restore debug state
+    if "debug_enabled" in data:
+        AudioManager.debug_visualization_enabled = data.debug_enabled
+
+func get_version() -> int:
+    return 1
+
+func migrate(data: Dictionary, from_version: int, to_version: int) -> Dictionary:
+    # Future: Handle audio system upgrades
+    return data
+```
+
+### Design Decisions
+
+1. **No Position Saving**: Audio tracks restart rather than resume from saved positions
+   - Prevents synchronization issues with ambience/music
+   - Simpler implementation with better reliability
+   - Consistent experience on load
+
+2. **Preference Persistence**: Player audio preferences always persist
+   - Volume levels are critical for accessibility
+   - Mute states must be respected across sessions
+
+3. **Debug State**: Audio debug visualization persists for development
+   - Helps developers maintain context across sessions
+   - Can be stripped in release builds
+
+This approach ensures the audio system integrates cleanly with saves while maintaining its independence and avoiding common audio state bugs.
+
 ## Success Criteria
 
 The audio system will be considered successful when:

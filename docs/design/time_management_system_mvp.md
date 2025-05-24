@@ -13,6 +13,54 @@ The Time Management System MVP establishes time as both a strategic resource and
 4. **World Integration**: Time progression triggers Living World events
 5. **Save Integration**: Time provides natural save points through sleep mechanics
 
+## Save/Load Integration
+
+Time is fundamental to all game systems and must be serialized with the highest priority. Following the modular serialization architecture defined in `docs/design/modular_serialization_architecture.md`, the Time Management System implements its own TimeSerializer that ensures time state is always loaded first, before any time-dependent systems.
+
+### Key Serialization Points
+
+The TimeSerializer handles:
+- **GameClock State**: Current time and day (loaded first to establish temporal context)
+- **DayCycleController**: Last sleep day and exhaustion tracking
+- **Time Cost Modifiers**: Any active modifiers affecting action costs
+- **Forced Awake Status**: Whether player is being kept awake by events
+
+### Implementation Approach
+
+```gdscript
+# src/core/serializers/time_serializer.gd
+extends BaseSerializer
+
+func _ready():
+    # Register with high priority - time loads before events
+    SaveManager.register_serializer("time", self, 10)
+
+func serialize() -> Dictionary:
+    return {
+        "current_time": GameClock.current_time,
+        "current_day": GameClock.current_day,
+        "last_sleep_day": DayCycleController.last_sleep_day,
+        "exhaustion_level": DayCycleController.exhaustion_level,
+        "sleep_location": DayCycleController.sleep_location,
+        "time_cost_modifiers": TimeCostManager.get_active_modifiers()
+    }
+
+func deserialize(data: Dictionary) -> void:
+    # Restore time first - critical for all other systems
+    GameClock.current_time = data.current_time
+    GameClock.current_day = data.current_day
+    
+    # Restore sleep/exhaustion state
+    DayCycleController.last_sleep_day = data.last_sleep_day
+    DayCycleController.exhaustion_level = data.exhaustion_level
+    
+    # Apply any saved modifiers
+    if "time_cost_modifiers" in data:
+        TimeCostManager.restore_modifiers(data.time_cost_modifiers)
+```
+
+The high priority (10) ensures time is restored before the event system (priority 20) or NPC systems, preventing temporal inconsistencies during load.
+
 ## Core Components
 
 ### 1. Game Clock System

@@ -211,6 +211,45 @@ Extend existing district JSON configuration:
 - Foreground elements don't affect navigation
 - Visual-only system
 
+## Save/Load Considerations
+
+Occlusion zones are largely static configuration, but certain dynamic states need persistence. Following `docs/design/modular_serialization_architecture.md`, the foreground occlusion system tracks minimal state:
+
+### Serializable State
+
+The ForegroundSerializer (when needed) will handle:
+- **Player Occlusion State**: Current occlusion zone the player is in
+- **Dynamic Z-indices**: Any runtime-modified Z-index values
+- **Disabled Elements**: Foreground elements temporarily hidden
+- **Debug Settings**: Whether debug visualization is enabled
+
+### Implementation Note
+
+```gdscript
+# src/core/serializers/foreground_serializer.gd (future)
+extends BaseSerializer
+
+func serialize() -> Dictionary:
+    var dynamic_state = {}
+    
+    # Only save elements with non-default state
+    for element_id in ForegroundOcclusionManager.foreground_elements:
+        var element = ForegroundOcclusionManager.foreground_elements[element_id]
+        if element.sprite.z_index != element.original_z_index:
+            dynamic_state[element_id] = {
+                "z_index": element.sprite.z_index,
+                "visible": element.sprite.visible
+            }
+    
+    return {
+        "player_occlusion_zone": ForegroundOcclusionManager.current_player_zone,
+        "dynamic_elements": dynamic_state,
+        "debug_enabled": ForegroundOcclusionManager.debug_mode
+    }
+```
+
+Most foreground data comes from district configuration and doesn't need serialization. Only runtime state that affects visual consistency is saved.
+
 ## Testing Strategy
 
 ### Test Scenarios

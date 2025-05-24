@@ -779,11 +779,105 @@ func _create_test_configuration() -> VerbConfiguration:
     return config
 ```
 
-### Phase 7: Progressive Integration and Migration
+### Phase 7: State Management and Serialization
+
+**Goal**: Implement clean state management to support save/load functionality.
+
+#### 7.1 Verb State Management
+
+```gdscript
+# src/core/interaction/state/VerbStateManager.gd
+class_name VerbStateManager
+extends Reference
+
+var current_verb: String = "Look at"
+var verb_history: Array = []  # Last N verbs used
+var custom_verb_settings: Dictionary = {}  # User preferences
+var verb_statistics: Dictionary = {}  # Usage tracking
+
+func get_save_data() -> Dictionary:
+    return {
+        "current_verb": current_verb,
+        "verb_history": verb_history.duplicate(),
+        "custom_settings": custom_verb_settings.duplicate(),
+        "statistics": verb_statistics.duplicate()
+    }
+
+func load_save_data(data: Dictionary) -> void:
+    current_verb = data.get("current_verb", "Look at")
+    verb_history = data.get("verb_history", [])
+    custom_verb_settings = data.get("custom_settings", {})
+    verb_statistics = data.get("statistics", {})
+```
+
+#### 7.2 Serialization Integration
+
+Following the modular architecture from `docs/design/modular_serialization_architecture.md`, the verb system implements its own serializer:
+
+```gdscript
+# src/core/serializers/verb_serializer.gd
+extends BaseSerializer
+
+class_name VerbSerializer
+
+func _ready():
+    # Medium priority - UI state loads after core game state
+    SaveManager.register_serializer("verb_ui", self, 50)
+
+func serialize() -> Dictionary:
+    return {
+        "current_verb": VerbStateManager.current_verb,
+        "verb_preferences": serialize_preferences(),
+        "custom_themes": serialize_custom_themes(),
+        "ui_enabled": VerbUIController.is_enabled()
+    }
+
+func deserialize(data: Dictionary) -> void:
+    # Restore current verb selection
+    if "current_verb" in data:
+        VerbService.set_current_verb(data.current_verb)
+        VerbUIController.update_verb_selection(data.current_verb)
+    
+    # Restore user preferences
+    if "verb_preferences" in data:
+        restore_preferences(data.verb_preferences)
+    
+    # Restore custom themes
+    if "custom_themes" in data:
+        restore_custom_themes(data.custom_themes)
+    
+    # Restore UI state
+    if "ui_enabled" in data:
+        VerbUIController.set_enabled(data.ui_enabled)
+
+func serialize_preferences() -> Dictionary:
+    # Save any user-modified verb settings
+    return {
+        "hotkeys": VerbConfiguration.get_custom_hotkeys(),
+        "verb_order": VerbConfiguration.get_custom_verb_order(),
+        "hidden_verbs": VerbConfiguration.get_hidden_verbs()
+    }
+
+func serialize_custom_themes() -> Dictionary:
+    # Save any UI customizations
+    return {
+        "button_size": VerbUITheme.button_size,
+        "selected_color": VerbUITheme.selected_color.to_html(),
+        "font_size": VerbUITheme.font_size
+    }
+```
+
+This approach ensures that:
+- The player's selected verb persists across saves
+- Any UI customizations are preserved
+- User preferences (hotkeys, verb order) are maintained
+- The system remains decoupled from the core save system
+
+### Phase 8: Progressive Integration and Migration
 
 **Goal**: Gradually replace the existing system without breaking functionality.
 
-#### 7.1 Adapter Pattern for Backward Compatibility
+#### 8.1 Adapter Pattern for Backward Compatibility
 ```gdscript
 # src/core/interaction/adapters/LegacyVerbAdapter.gd
 class_name LegacyVerbAdapter

@@ -6,23 +6,160 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 10 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
-| 11 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
-| 12 | Living World Event System - Full Implementation | Not started | 0% (0/20) |
-| 13 | Time Management System - Full Implementation | Not started | 0% (0/20) |
+| 10 | Full Audio System Implementation | Not started | 0% (0/24) |
+| 11 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
+| 12 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
+| 13 | Living World Event System - Full Implementation | Not started | 0% (0/20) |
+| 14 | Time Management System - Full Implementation | Not started | 0% (0/20) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
 | 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 7% (3/41) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
-| 5 | Game Districts and Time Management | Not started | 0% (0/17) |
-| 6 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
-| 7 | Coalition Building | Not started | 0% (0/8) |
-| 8 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
-| 9 | Full Audio System Implementation | Not started | 0% (0/24) |
+| 5 | Save System Foundation | Not started | 0% (0/11) |
+| 6 | Game Districts and Time Management | Not started | 0% (0/17) |
+| 7 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
+| 8 | Coalition Building | Not started | 0% (0/8) |
+| 9 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
 
 ## Detailed Progress
 
-### Iteration 10: Full Foreground Occlusion System Implementation
+### Iteration 10: Full Audio System Implementation
+
+**Goals:**
+- Complete the comprehensive diegetic audio system building on Iteration 3's MVP foundation
+- Implement district-specific audio environments with smooth transitions
+- Add advanced spatial audio features including stereo panning and environmental effects
+- Create interactive audio elements and atmospheric sound design
+- Establish production pipeline for audio content creation and management
+- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
+- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
+- **B3:** Implement audio as a gameplay element where sound provides narrative context, environmental storytelling, and subtle cues about the assimilation threat.
+- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
+- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
+- **U3:** As a player, I want the audio atmosphere to subtly change as more of the station becomes assimilated, creating an increasingly unsettling soundscape.
+- **T1:** Maintain 60 FPS performance with 20+ simultaneous audio sources using efficient LOD and pooling systems.
+- **T2:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
+- [ ] Task 1: Expand audio bus structure for district-specific routing
+- [ ] Task 2: Enhance AudioManager with district switching and fade functionality
+- [ ] Task 3: Add advanced spatial features to DiegeticAudioController
+- [ ] Task 4: Implement comprehensive unit tests for audio systems
+- [ ] Task 5: Implement custom attenuation curves and distance calculations
+- [ ] Task 6: Create stereo panning system using AudioEffectPanner
+- [ ] Task 7: Build audio debug visualization tools
+- [ ] Task 8: Performance profiling and optimization for multiple sources
+- [ ] Task 9: Create DistrictAudioConfig resource system
+- [ ] Task 10: Implement smooth district audio transitions
+- [ ] Task 11: Design district-specific audio configurations
+- [ ] Task 12: Create audio source spawning and management system
+- [ ] Task 13: Connect audio volume to visual perspective scale
+- [ ] Task 14: Implement interactive audio objects (radios, PA systems)
+- [ ] Task 15: Create assimilation-based audio degradation system
+- [ ] Task 16: Design silence and tension mechanics
+- [ ] Task 17: Implement audio LOD system for performance
+- [ ] Task 18: Add environmental reverb zones and effects
+- [ ] Task 19: Create audio settings UI and player preferences
+- [ ] Task 20: Final balancing and polish pass
+- [ ] Task 21: Create audio asset conversion and import pipeline
+- [ ] Task 22: Establish audio style guide and naming conventions
+- [ ] Task 23: Build placeholder audio library
+- [ ] Task 24: Document audio implementation for future content creators
+- All audio is purely diegetic with clear in-world sources
+- Spatial positioning feels natural and accurate with proper stereo panning
+- Performance maintains 60 FPS with 20+ simultaneous audio sources
+- District transitions are smooth and atmospheric
+- Audio reinforces the corporate banality aesthetic
+- Silence and sound create appropriate tension
+- Players can identify audio source locations
+- Audio enhances rather than distracts from gameplay
+- Interactive audio objects respond correctly to player input
+- Assimilation affects audio atmosphere progressively
+- All districts have unique and appropriate soundscapes
+- Audio settings provide adequate player control
+
+**Key Requirements:**
+- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
+- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
+- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
+- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Expand audio bus structure for district-specific routing (As a developer, I want a comprehensive audio bus hierarchy that supports district-specific mixing and effects, so that each area can have its unique sonic character.) | Pending | - |
+| Enhance AudioManager with district switching and fade functionality | Pending | - |
+| Add advanced spatial features to DiegeticAudioController | Pending | - |
+| Implement comprehensive unit tests for audio systems | Pending | - |
+| Implement custom attenuation curves and distance calculations | Pending | - |
+| Create stereo panning system using AudioEffectPanner (As a player, I want sounds to pan left and right based on their position relative to me, so that I can spatially locate audio sources in the game world.) | Pending | - |
+| Build audio debug visualization tools | Pending | - |
+| Performance profiling and optimization for multiple sources | Pending | - |
+| Create DistrictAudioConfig resource system (As a developer, I want a resource-based configuration system for district audio, so that sound designers can easily customize each area without code changes.) | Pending | - |
+| Implement smooth district audio transitions | Pending | - |
+| Design district-specific audio configurations | Pending | - |
+| Create audio source spawning and management system | Pending | - |
+| Connect audio volume to visual perspective scale | Pending | - |
+| Implement interactive audio objects (radios, PA systems) (As a player, I want to interact with audio sources like radios and PA systems, so that I have control over the soundscape and can discover audio-based secrets.) | Pending | - |
+| Create assimilation-based audio degradation system (As a player, I want the audio atmosphere to subtly degrade as assimilation spreads, so that I can feel the station's decline through sound.) | Pending | - |
+| Design silence and tension mechanics | Pending | - |
+| Implement audio LOD system for performance | Pending | - |
+| Add environmental reverb zones and effects | Pending | - |
+| Create audio settings UI and player preferences | Pending | - |
+| Final balancing and polish pass | Pending | - |
+| Create audio asset conversion and import pipeline | Pending | - |
+| Establish audio style guide and naming conventions | Pending | - |
+| Build placeholder audio library | Pending | - |
+| Document audio implementation for future content creators | Pending | - |
+
+**Testing Criteria:**
+- All audio is purely diegetic with clear in-world sources
+- Spatial positioning feels natural and accurate with proper stereo panning
+- Performance maintains 60 FPS with 20+ simultaneous audio sources
+- District transitions are smooth and atmospheric
+- Audio reinforces the corporate banality aesthetic
+- Silence and sound create appropriate tension
+- Players can identify audio source locations
+- Audio enhances rather than distracts from gameplay
+- Interactive audio objects respond correctly to player input
+- Assimilation affects audio atmosphere progressively
+- All districts have unique and appropriate soundscapes
+- Audio settings provide adequate player control
+- Start date: TBD (After Iteration 8 completion)
+- Target completion: Start date + 25 days
+- Duration: 20-25 days total
+- Iteration 3: Audio MVP foundation (AudioManager, DiegeticAudioController)
+- Iteration 4: District system and transitions
+- Iteration 5: Investigation mechanics (for audio-based clues)
+- Iteration 7: Game state progression (for assimilation-based audio changes)
+- No links yet
+- docs/design/audio_system_technical_implementation.md (Full implementation plan)
+- docs/design/audio_system_iteration3_mvp.md (MVP foundation reference)
+- docs/reference/game_design_document.md (Audio Design section)
+- All audio must be diegetic (Design Pillar #13)
+- Music aesthetic should be "corporate banality" (Mallsoft/Vaporwave inspired)
+- District-specific ambience creates unique atmospheres
+- Performance optimization is critical for lower-spec hardware
+- System builds on MVP without breaking existing functionality
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+- Build on MVP's basic bus structure (Master -> Music, Ambience, SFX)
+- Add per-district sub-buses under Music and Ambience
+- Configure reverb, EQ, and compression per district
+- Reference: docs/design/audio_system_technical_implementation.md - Section 1
+- **Linked to:** U2, B1
+- **Acceptance Criteria:**
+- Godot 3.5.2 lacks built-in 2D panning, must implement via AudioEffectPanner
+- Calculate pan value from relative X position
+- Apply to appropriate audio buses dynamically
+- Reference: docs/design/audio_system_technical_implementation.md - DiegeticAudioController
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+- Create custom resource classes extending Resource
+- Include properties for sources, volumes, effects parameters
+- Design for visual editing in Godot
+- Reference: docs/design/audio_system_technical_implementation.md - Section 4
+
+### Iteration 11: Full Foreground Occlusion System Implementation
 
 **Goals:**
 - Expand the MVP foreground occlusion system into a comprehensive visual depth solution
@@ -136,7 +273,7 @@ This file tracks the progress of all iterations for the project.
 - Profile with 50+ zones active
 - Reference: docs/design/foreground_occlusion_full_plan.md - Spatial Indexing
 
-### Iteration 11: Full Sprite Perspective Scaling System
+### Iteration 12: Full Sprite Perspective Scaling System
 
 **Goals:**
 - Transform the MVP perspective scaling into an intelligent, automated system
@@ -283,7 +420,7 @@ This file tracks the progress of all iterations for the project.
 - Support one, two, and three-point perspective
 - Create debug visualization overlay
 
-### Iteration 12: Living World Event System - Full Implementation
+### Iteration 13: Living World Event System - Full Implementation
 
 **Goals:**
 - Build upon the MVP foundation to create a deeply reactive and dynamic world
@@ -332,10 +469,10 @@ This file tracks the progress of all iterations for the project.
 - Debug tools provide clear visibility into world state
 - Start date: 2025-12-01
 - Target completion: 2025-12-22
-- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 6 (Investigation Mechanics)
-- Iteration 7 (Coalition Building)
-- Iteration 8 (Game Progression and Multiple Endings)
+- Iteration 6 (Game Districts and Time Management - includes Living World MVP)
+- Iteration 7 (Investigation Mechanics)
+- Iteration 8 (Coalition Building)
+- Iteration 9 (Game Progression and Multiple Endings)
 - Living World Event System Full Design: docs/design/living_world_event_system_full.md
 - AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
 - NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
@@ -388,10 +525,10 @@ This file tracks the progress of all iterations for the project.
 - Debug tools provide clear visibility into world state
 - Start date: 2025-12-01
 - Target completion: 2025-12-22
-- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 6 (Investigation Mechanics)
-- Iteration 7 (Coalition Building)
-- Iteration 8 (Game Progression and Multiple Endings)
+- Iteration 6 (Game Districts and Time Management - includes Living World MVP)
+- Iteration 7 (Investigation Mechanics)
+- Iteration 8 (Coalition Building)
+- Iteration 9 (Game Progression and Multiple Endings)
 - Living World Event System Full Design: docs/design/living_world_event_system_full.md
 - AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
 - NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
@@ -400,7 +537,7 @@ This file tracks the progress of all iterations for the project.
 - DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
 - WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
 
-### Iteration 13: Time Management System - Full Implementation
+### Iteration 14: Time Management System - Full Implementation
 
 **Goals:**
 - Build upon the MVP foundation to create a sophisticated temporal framework
@@ -449,11 +586,11 @@ This file tracks the progress of all iterations for the project.
 - Debug tools allow rapid testing of time scenarios
 - Start date: 2026-01-05
 - Target completion: 2026-01-26
-- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 6 (Investigation Mechanics)
-- Iteration 7 (Coalition Building)
-- Iteration 8 (Game Progression and Multiple Endings)
-- Iteration 12 (Living World Event System - Full Implementation)
+- Iteration 6 (Game Districts and Time Management - includes Time Management MVP)
+- Iteration 7 (Investigation Mechanics)
+- Iteration 8 (Coalition Building)
+- Iteration 9 (Game Progression and Multiple Endings)
+- Iteration 13 (Living World Event System - Full Implementation)
 - Time Management System Full Design: docs/design/time_management_system_full.md
 - DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
 - FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
@@ -506,11 +643,11 @@ This file tracks the progress of all iterations for the project.
 - Debug tools allow rapid testing of time scenarios
 - Start date: 2026-01-05
 - Target completion: 2026-01-26
-- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 6 (Investigation Mechanics)
-- Iteration 7 (Coalition Building)
-- Iteration 8 (Game Progression and Multiple Endings)
-- Iteration 12 (Living World Event System - Full Implementation)
+- Iteration 6 (Game Districts and Time Management - includes Time Management MVP)
+- Iteration 7 (Investigation Mechanics)
+- Iteration 8 (Coalition Building)
+- Iteration 9 (Game Progression and Multiple Endings)
+- Iteration 13 (Living World Event System - Full Implementation)
 - Time Management System Full Design: docs/design/time_management_system_full.md
 - DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
 - FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
@@ -904,7 +1041,80 @@ This file tracks the progress of all iterations for the project.
 - Create priority-based validation pipeline for consistent error checking
 - Implement comprehensive error context for debugging support
 
-### Iteration 5: Game Districts and Time Management
+### Iteration 5: Save System Foundation
+
+**Goals:**
+- Implement investigation mechanics
+- Create quest log system for tracking progress
+- Develop advanced inventory system for collecting evidence
+- Add system for logging known assimilated NPCs
+- Implement overflow storage in player's room
+- **B1:** Implement core investigation mechanics that drive main storyline
+- **U1:** As a player, I want to collect and analyze evidence
+- **T1:** Technical requirement placeholder
+- [ ] Task 1: Create quest data structure and manager
+- [ ] Task 2: Implement quest log UI
+- [ ] Task 3: Develop advanced inventory features including categorization
+- [ ] Task 4: Create puzzles for accessing restricted areas
+- [ ] Task 5: Implement clue discovery and collection system
+- [ ] Task 6: Create assimilated NPC tracking log
+- [ ] Task 7: Develop investigation progress tracking
+- [ ] Task 8: Add quest state persistence
+- [ ] Task 9: Implement overflow inventory storage in player's room
+- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
+- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
+- Quest log accurately tracks active and completed quests
+- Player can collect and use items/evidence
+- Puzzles can be solved to progress investigation
+- Player can track which NPCs are known to be assimilated
+- Player can store extra items in their room
+- Inventory management creates meaningful gameplay decisions
+- Observation mechanics allow players to detect assimilated NPCs
+- Different observation intensities reveal appropriate information
+- Start date: 2025-06-26
+- Target completion: 2025-07-10
+- Iteration 2 (NPC Framework and Suspicion System)
+- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
+- Iteration 4 (Game Districts and Time Management)
+- No links yet
+
+**Key Requirements:**
+- **B1:** Implement core investigation mechanics that drive main storyline
+- **U1:** As a player, I want to collect and analyze evidence
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Create quest data structure and manager | Pending | - |
+| Implement quest log UI | Pending | - |
+| Develop advanced inventory features including categorization | Pending | - |
+| Create puzzles for accessing restricted areas | Pending | - |
+| Implement clue discovery and collection system | Pending | - |
+| Create assimilated NPC tracking log | Pending | - |
+| Develop investigation progress tracking | Pending | - |
+| Add quest state persistence | Pending | - |
+| Implement overflow inventory storage in player's room | Pending | - |
+| Create UI for transferring items between personal inventory and room storage | Pending | - |
+| Implement observation mechanics for detecting assimilated NPCs | Pending | - |
+
+**Testing Criteria:**
+- Quest log accurately tracks active and completed quests
+- Player can collect and use items/evidence
+- Puzzles can be solved to progress investigation
+- Player can track which NPCs are known to be assimilated
+- Player can store extra items in their room
+- Inventory management creates meaningful gameplay decisions
+- Observation mechanics allow players to detect assimilated NPCs
+- Different observation intensities reveal appropriate information
+- Start date: 2025-06-26
+- Target completion: 2025-07-10
+- Iteration 2 (NPC Framework and Suspicion System)
+- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
+- Iteration 4 (Game Districts and Time Management)
+- No links yet
+
+### Iteration 6: Game Districts and Time Management
 
 **Goals:**
 - Implement multiple station districts with transitions
@@ -1015,7 +1225,7 @@ This file tracks the progress of all iterations for the project.
 - NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
 - Scheduled Events: src/data/events/scheduled_events.json (to be created)
 
-### Iteration 6: Investigation Mechanics and Inventory
+### Iteration 7: Investigation Mechanics and Inventory
 
 **Goals:**
 - Implement investigation mechanics
@@ -1128,7 +1338,7 @@ This file tracks the progress of all iterations for the project.
 - **Acceptance Criteria:**
 - [Technical guidance or approach]
 
-### Iteration 7: Coalition Building
+### Iteration 8: Coalition Building
 
 **Goals:**
 - Implement recruiting NPCs to the coalition
@@ -1183,7 +1393,7 @@ This file tracks the progress of all iterations for the project.
 - Iteration 6 (Investigation Mechanics)
 - No links yet
 
-### Iteration 8: Game Progression and Multiple Endings
+### Iteration 9: Game Progression and Multiple Endings
 
 **Goals:**
 - Implement game state progression
@@ -1237,140 +1447,4 @@ This file tracks the progress of all iterations for the project.
 - Iteration 6 (Investigation Mechanics)
 - Iteration 7 (Coalition Building)
 - No links yet
-
-### Iteration 9: Full Audio System Implementation
-
-**Goals:**
-- Complete the comprehensive diegetic audio system building on Iteration 3's MVP foundation
-- Implement district-specific audio environments with smooth transitions
-- Add advanced spatial audio features including stereo panning and environmental effects
-- Create interactive audio elements and atmospheric sound design
-- Establish production pipeline for audio content creation and management
-- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
-- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
-- **B3:** Implement audio as a gameplay element where sound provides narrative context, environmental storytelling, and subtle cues about the assimilation threat.
-- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
-- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
-- **U3:** As a player, I want the audio atmosphere to subtly change as more of the station becomes assimilated, creating an increasingly unsettling soundscape.
-- **T1:** Maintain 60 FPS performance with 20+ simultaneous audio sources using efficient LOD and pooling systems.
-- **T2:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
-- [ ] Task 1: Expand audio bus structure for district-specific routing
-- [ ] Task 2: Enhance AudioManager with district switching and fade functionality
-- [ ] Task 3: Add advanced spatial features to DiegeticAudioController
-- [ ] Task 4: Implement comprehensive unit tests for audio systems
-- [ ] Task 5: Implement custom attenuation curves and distance calculations
-- [ ] Task 6: Create stereo panning system using AudioEffectPanner
-- [ ] Task 7: Build audio debug visualization tools
-- [ ] Task 8: Performance profiling and optimization for multiple sources
-- [ ] Task 9: Create DistrictAudioConfig resource system
-- [ ] Task 10: Implement smooth district audio transitions
-- [ ] Task 11: Design district-specific audio configurations
-- [ ] Task 12: Create audio source spawning and management system
-- [ ] Task 13: Connect audio volume to visual perspective scale
-- [ ] Task 14: Implement interactive audio objects (radios, PA systems)
-- [ ] Task 15: Create assimilation-based audio degradation system
-- [ ] Task 16: Design silence and tension mechanics
-- [ ] Task 17: Implement audio LOD system for performance
-- [ ] Task 18: Add environmental reverb zones and effects
-- [ ] Task 19: Create audio settings UI and player preferences
-- [ ] Task 20: Final balancing and polish pass
-- [ ] Task 21: Create audio asset conversion and import pipeline
-- [ ] Task 22: Establish audio style guide and naming conventions
-- [ ] Task 23: Build placeholder audio library
-- [ ] Task 24: Document audio implementation for future content creators
-- All audio is purely diegetic with clear in-world sources
-- Spatial positioning feels natural and accurate with proper stereo panning
-- Performance maintains 60 FPS with 20+ simultaneous audio sources
-- District transitions are smooth and atmospheric
-- Audio reinforces the corporate banality aesthetic
-- Silence and sound create appropriate tension
-- Players can identify audio source locations
-- Audio enhances rather than distracts from gameplay
-- Interactive audio objects respond correctly to player input
-- Assimilation affects audio atmosphere progressively
-- All districts have unique and appropriate soundscapes
-- Audio settings provide adequate player control
-
-**Key Requirements:**
-- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
-- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
-- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
-- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
-
-**Tasks:**
-
-| Task | Status | Linked Files |
-|------|--------|--------------|
-| Expand audio bus structure for district-specific routing (As a developer, I want a comprehensive audio bus hierarchy that supports district-specific mixing and effects, so that each area can have its unique sonic character.) | Pending | - |
-| Enhance AudioManager with district switching and fade functionality | Pending | - |
-| Add advanced spatial features to DiegeticAudioController | Pending | - |
-| Implement comprehensive unit tests for audio systems | Pending | - |
-| Implement custom attenuation curves and distance calculations | Pending | - |
-| Create stereo panning system using AudioEffectPanner (As a player, I want sounds to pan left and right based on their position relative to me, so that I can spatially locate audio sources in the game world.) | Pending | - |
-| Build audio debug visualization tools | Pending | - |
-| Performance profiling and optimization for multiple sources | Pending | - |
-| Create DistrictAudioConfig resource system (As a developer, I want a resource-based configuration system for district audio, so that sound designers can easily customize each area without code changes.) | Pending | - |
-| Implement smooth district audio transitions | Pending | - |
-| Design district-specific audio configurations | Pending | - |
-| Create audio source spawning and management system | Pending | - |
-| Connect audio volume to visual perspective scale | Pending | - |
-| Implement interactive audio objects (radios, PA systems) (As a player, I want to interact with audio sources like radios and PA systems, so that I have control over the soundscape and can discover audio-based secrets.) | Pending | - |
-| Create assimilation-based audio degradation system (As a player, I want the audio atmosphere to subtly degrade as assimilation spreads, so that I can feel the station's decline through sound.) | Pending | - |
-| Design silence and tension mechanics | Pending | - |
-| Implement audio LOD system for performance | Pending | - |
-| Add environmental reverb zones and effects | Pending | - |
-| Create audio settings UI and player preferences | Pending | - |
-| Final balancing and polish pass | Pending | - |
-| Create audio asset conversion and import pipeline | Pending | - |
-| Establish audio style guide and naming conventions | Pending | - |
-| Build placeholder audio library | Pending | - |
-| Document audio implementation for future content creators | Pending | - |
-
-**Testing Criteria:**
-- All audio is purely diegetic with clear in-world sources
-- Spatial positioning feels natural and accurate with proper stereo panning
-- Performance maintains 60 FPS with 20+ simultaneous audio sources
-- District transitions are smooth and atmospheric
-- Audio reinforces the corporate banality aesthetic
-- Silence and sound create appropriate tension
-- Players can identify audio source locations
-- Audio enhances rather than distracts from gameplay
-- Interactive audio objects respond correctly to player input
-- Assimilation affects audio atmosphere progressively
-- All districts have unique and appropriate soundscapes
-- Audio settings provide adequate player control
-- Start date: TBD (After Iteration 8 completion)
-- Target completion: Start date + 25 days
-- Duration: 20-25 days total
-- Iteration 3: Audio MVP foundation (AudioManager, DiegeticAudioController)
-- Iteration 4: District system and transitions
-- Iteration 5: Investigation mechanics (for audio-based clues)
-- Iteration 7: Game state progression (for assimilation-based audio changes)
-- No links yet
-- docs/design/audio_system_technical_implementation.md (Full implementation plan)
-- docs/design/audio_system_iteration3_mvp.md (MVP foundation reference)
-- docs/reference/game_design_document.md (Audio Design section)
-- All audio must be diegetic (Design Pillar #13)
-- Music aesthetic should be "corporate banality" (Mallsoft/Vaporwave inspired)
-- District-specific ambience creates unique atmospheres
-- Performance optimization is critical for lower-spec hardware
-- System builds on MVP without breaking existing functionality
-- **Linked to:** B2, T1
-- **Acceptance Criteria:**
-- Build on MVP's basic bus structure (Master -> Music, Ambience, SFX)
-- Add per-district sub-buses under Music and Ambience
-- Configure reverb, EQ, and compression per district
-- Reference: docs/design/audio_system_technical_implementation.md - Section 1
-- **Linked to:** U2, B1
-- **Acceptance Criteria:**
-- Godot 3.5.2 lacks built-in 2D panning, must implement via AudioEffectPanner
-- Calculate pan value from relative X position
-- Apply to appropriate audio buses dynamically
-- Reference: docs/design/audio_system_technical_implementation.md - DiegeticAudioController
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-- Create custom resource classes extending Resource
-- Include properties for sources, volumes, effects parameters
-- Design for visual editing in Godot
-- Reference: docs/design/audio_system_technical_implementation.md - Section 4
 

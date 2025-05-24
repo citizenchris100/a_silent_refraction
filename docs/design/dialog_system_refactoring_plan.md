@@ -162,11 +162,90 @@ func process_option_selection(option_index: int) -> bool:
     # Pure logic processing, returns whether dialog continues
 ```
 
-### Phase 3: Signal-Based Communication Architecture
+### Phase 3: State Management and Serialization
+
+**Goal**: Refactor dialog progress tracking to support clean serialization.
+
+#### 3.1 Dialog Progress Tracker
+```gdscript
+# src/core/dialog/state/DialogProgressTracker.gd
+class_name DialogProgressTracker
+extends Reference
+
+# Track dialog progress per NPC
+var npc_dialog_states: Dictionary = {}  # {npc_id: DialogState}
+
+class DialogState:
+    var current_node: String = "root"
+    var visited_nodes: Array = []
+    var chosen_options: Dictionary = {}  # {node_id: [chosen_indices]}
+    var flags: Dictionary = {}  # Custom dialog flags
+    
+func get_save_data() -> Dictionary:
+    # Clean data structure for serialization
+    var data = {}
+    for npc_id in npc_dialog_states:
+        var state = npc_dialog_states[npc_id]
+        data[npc_id] = {
+            "node": state.current_node,
+            "visited": state.visited_nodes,
+            "choices": state.chosen_options,
+            "flags": state.flags
+        }
+    return data
+
+func load_save_data(data: Dictionary) -> void:
+    npc_dialog_states.clear()
+    for npc_id in data:
+        var state = DialogState.new()
+        state.current_node = data[npc_id].node
+        state.visited_nodes = data[npc_id].visited
+        state.chosen_options = data[npc_id].choices
+        state.flags = data[npc_id].flags
+        npc_dialog_states[npc_id] = state
+```
+
+#### 3.2 Serialization Integration
+
+Following the modular serialization architecture from `docs/design/modular_serialization_architecture.md`, the dialog system implements its own serializer that handles all dialog-related persistent state:
+
+```gdscript
+# src/core/serializers/dialog_serializer.gd
+extends BaseSerializer
+
+class_name DialogSerializer
+
+func _ready():
+    # Self-register with medium priority
+    SaveManager.register_serializer("dialog", self, 30)
+
+func serialize() -> Dictionary:
+    return {
+        "progress": DialogProgressTracker.get_save_data(),
+        "active_dialog": get_active_dialog_state(),
+        "suspicion_changes": get_recent_suspicion_changes()
+    }
+
+func deserialize(data: Dictionary) -> void:
+    DialogProgressTracker.load_save_data(data.progress)
+    restore_active_dialog(data.active_dialog)
+    apply_suspicion_changes(data.suspicion_changes)
+
+func get_version() -> int:
+    return 1
+
+func migrate(data: Dictionary, from_version: int, to_version: int) -> Dictionary:
+    # Handle future dialog system upgrades
+    return data
+```
+
+This approach ensures dialog state persists correctly across save/load cycles while maintaining clean separation between the dialog system and save system. The refactored DialogProgressTracker provides clean data structures that are easy to serialize, avoiding the pitfalls of trying to serialize complex node references or UI state.
+
+### Phase 4: Signal-Based Communication Architecture
 
 **Goal**: Replace direct method calls with proper signal-driven communication.
 
-#### 3.1 Dialog Event System
+#### 4.1 Dialog Event System
 ```gdscript
 # src/core/dialog/events/DialogEventBus.gd
 class_name DialogEventBus
@@ -183,7 +262,7 @@ signal dialog_node_changed(npc_id: String, node_id: String)
 signal dialog_text_transformed(npc_id: String, original_text: String, transformed_text: String)
 ```
 
-#### 3.2 Refactor BaseNPC Integration
+#### 4.2 Refactor BaseNPC Integration
 ```gdscript
 # src/characters/npc/base_npc.gd (refactored sections)
 class_name BaseNPC
@@ -212,11 +291,11 @@ func _on_dialog_option_chosen(requesting_npc_id: String, option_index: int):
         _dialog_controller.process_option_selection(option_index)
 ```
 
-### Phase 4: Error Handling and Validation
+### Phase 5: Error Handling and Validation
 
 **Goal**: Implement structured error handling with proper context preservation.
 
-#### 4.1 Dialog Validation System
+#### 5.1 Dialog Validation System
 ```gdscript
 # src/core/dialog/validation/DialogValidator.gd
 class_name DialogValidator
@@ -264,7 +343,7 @@ func _validate_node(node: Dictionary, node_id: String, npc_id: String) -> Array:
     return errors
 ```
 
-#### 4.2 Error Context Service
+#### 5.2 Error Context Service
 ```gdscript
 # src/core/debug/ErrorContextService.gd
 class_name ErrorContextService
@@ -285,11 +364,11 @@ func report_dialog_error(error: DialogValidator.DialogValidationError) -> void:
     emit_signal("dialog_error_occurred", error)
 ```
 
-### Phase 5: Testing Infrastructure
+### Phase 6: Testing Infrastructure
 
 **Goal**: Enable comprehensive unit testing through dependency injection and interface abstraction.
 
-#### 5.1 Mock Service Implementations
+#### 6.1 Mock Service Implementations
 ```gdscript
 # src/test/mocks/MockDialogService.gd
 class_name MockDialogService
@@ -314,7 +393,7 @@ func is_dialog_active() -> bool:
     return is_active
 ```
 
-#### 5.2 Unit Test Examples
+#### 6.2 Unit Test Examples
 ```gdscript
 # src/test/unit_tests/dialog_controller_test.gd
 extends "res://addons/gut/test.gd"
@@ -345,11 +424,11 @@ func test_process_option_with_suspicion_change():
     assert_eq(mock_suspicion_service.last_suspicion_change, suspicion_change)
 ```
 
-### Phase 6: Progressive Integration
+### Phase 7: Progressive Integration
 
 **Goal**: Gradually replace the existing system without breaking functionality.
 
-#### 6.1 Adapter Pattern for Backward Compatibility
+#### 7.1 Adapter Pattern for Backward Compatibility
 ```gdscript
 # src/core/dialog/adapters/LegacyDialogAdapter.gd
 class_name LegacyDialogAdapter
@@ -372,7 +451,7 @@ func _forward_to_legacy(dialog_data: DialogData):
         _legacy_dialog_manager.show_dialog(dialog_data.to_legacy_npc())
 ```
 
-#### 6.2 Feature Flag System
+#### 7.2 Feature Flag System
 ```gdscript
 # src/core/debug/FeatureFlags.gd
 class_name FeatureFlags

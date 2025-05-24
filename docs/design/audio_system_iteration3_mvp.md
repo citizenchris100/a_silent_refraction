@@ -171,6 +171,52 @@ This MVP implementation:
 - ✅ Maintains separation of concerns
 - ✅ Is fully extensible for future phases
 
+## Serialization Notes
+
+Audio state persistence follows the modular pattern in `docs/design/modular_serialization_architecture.md`. While most audio properties are transient (volumes, playback positions), certain states need serialization:
+
+### Persistent Audio State
+
+The AudioSerializer (to be implemented when needed) will handle:
+- **Current Ambient Track**: Which ambient loop is playing per district
+- **Music State**: Current music track and whether it's enabled
+- **Volume Settings**: Player's audio preferences (master, music, sfx, ambience)
+- **Muted Sources**: Any audio sources the player has manually disabled
+
+### Implementation Approach
+
+```gdscript
+# src/core/serializers/audio_serializer.gd (future)
+extends BaseSerializer
+
+func _ready():
+    # Low priority - audio can be restored after gameplay elements
+    SaveManager.register_serializer("audio", self, 60)
+
+func serialize() -> Dictionary:
+    return {
+        "ambient_track": AudioManager.current_ambient,
+        "music_track": AudioManager.current_music,
+        "volume_settings": AudioManager.get_volume_settings(),
+        "muted_sources": AudioManager.get_muted_sources()
+    }
+
+func deserialize(data: Dictionary) -> void:
+    # Restore volume settings first
+    AudioManager.set_volume_settings(data.volume_settings)
+    
+    # Resume ambient/music from saved position
+    if data.ambient_track:
+        AudioManager.play_ambient(data.ambient_track)
+    if data.music_track:
+        AudioManager.play_music(data.music_track)
+    
+    # Apply muted states
+    AudioManager.restore_muted_sources(data.muted_sources)
+```
+
+Note: Audio playback positions are not saved - tracks restart from the beginning on load. This prevents synchronization issues and maintains a consistent audio experience.
+
 ## Success Criteria for Iteration 3
 
 1. AudioManager singleton functional and integrated

@@ -1,1012 +1,638 @@
-# Iteration 11: Full Sprite Perspective Scaling System
+# Iteration 11: Full Foreground Occlusion System Implementation
 
 ## Goals
-- Transform the MVP perspective scaling into an intelligent, automated system
-- Implement advanced visual effects including LOD, deformation, and dynamic shadows
-- Create sophisticated movement prediction and group coordination systems
-- Build professional content creation tools for rapid iteration
-- Optimize performance for complex scenes with many scaled entities
-- Establish the definitive 2D perspective solution for adventure games
+- Expand the MVP foreground occlusion system into a comprehensive visual depth solution
+- Implement polygon-based occlusion zones with arbitrary shapes and behaviors
+- Create automated asset extraction and processing tools
+- Add support for animated foreground elements and multi-layer rendering
+- Build visual editing tools for efficient content creation
+- Optimize performance for complex scenes with many occlusion zones
 
 ## Requirements
 
 ### Business Requirements
 
-- **B6:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance
+- **B6:** Ensure the occlusion system scales to support complex environments without impacting game performance
   - **Rationale:** [Add rationale here]
   - **Success Metric/Constraints:** [Add metric or constraints here]
 
-- **B5:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%
+- **B5:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise
   - **Rationale:** [Add rationale here]
   - **Success Metric/Constraints:** [Add metric or constraints here]
 
-- **B4:** Deliver industry-leading visual depth that sets a new standard for 2D adventure games through intelligent perspective scaling and effects
+- **B4:** Deliver a visually rich environment where depth perception enhances the adventure game experience through sophisticated layering and occlusion effects
   - **Rationale:** [Add rationale here]
   - **Success Metric/Constraints:** [Add metric or constraints here]
 
-- **B1:** Deliver industry-leading visual depth that sets a new standard for 2D adventure games through intelligent perspective scaling and effects.
-  - **Rationale:** Visual excellence differentiates the game and enhances player immersion
-  - **Success Metric:** Players and critics praise the visual depth; comparison videos show clear superiority
+- **B1:** Deliver a visually rich environment where depth perception enhances the adventure game experience through sophisticated layering and occlusion effects.
+  - **Rationale:** Visual depth is crucial for creating an immersive world that feels three-dimensional despite being 2D
+  - **Success Metric:** Players naturally understand spatial relationships; environments feel layered and deep
 
-- **B2:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%.
-  - **Rationale:** Faster iteration enables more content and higher quality within budget constraints
-  - **Success Metric:** Artists create perspective scenes 10x faster; non-technical team members can use tools
+- **B2:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise.
+  - **Rationale:** Artist-friendly tools accelerate content creation and reduce technical barriers
+  - **Success Metric:** New occlusion zones can be created and tested within minutes; non-programmers can use tools effectively
 
-- **B3:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance.
-  - **Rationale:** Visual richness must not sacrifice gameplay smoothness on target hardware
-  - **Success Metric:** Maintain 60 FPS with 50+ entities; dynamic optimization prevents frame drops
+- **B3:** Ensure the occlusion system scales to support complex environments without impacting game performance.
+  - **Rationale:** Rich environments shouldn't come at the cost of smooth gameplay
+  - **Success Metric:** Maintain 60 FPS with 50+ active occlusion zones; no noticeable performance degradation
 
 ### User Requirements
 
-- **U1:** As a player, I want characters and objects to scale naturally with sophisticated visual effects, so the 2D world feels genuinely three-dimensional.
-  - **User Value:** Enhanced immersion through believable depth and movement
-  - **Acceptance Criteria:** Scaling includes LOD, shadows, and deformation; movement feels natural at all scales
+- **U6:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game
+  - **Rationale:** [Add rationale here]
+  - **User Value:** [Add user value here]
 
-- **U2:** As a player, I want perspective effects to enhance gameplay clarity rather than obscure it, with intelligent adjustments that maintain visibility.
+- **U5:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate
+  - **Rationale:** [Add rationale here]
+  - **User Value:** [Add user value here]
+
+- **U4:** As a player, I want my character to naturally move behind and in front of objects based on realistic spatial relationships, so the game world feels authentic and three-dimensional
+  - **Rationale:** [Add rationale here]
+  - **User Value:** [Add user value here]
+
+- **U1:** As a player, I want my character to naturally move behind and in front of objects based on realistic spatial relationships, so the game world feels authentic and three-dimensional.
+  - **User Value:** Enhanced immersion through believable spatial interactions
+  - **Acceptance Criteria:** Character occlusion feels natural from all angles; no visual glitches or z-fighting
+
+- **U2:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate.
   - **User Value:** Visual richness without gameplay frustration
-  - **Acceptance Criteria:** Critical elements remain visible; perspective enhances spatial understanding
+  - **Acceptance Criteria:** Occlusion never blocks critical gameplay elements; navigation remains clear
 
-- **U3:** As a player, I want consistent performance regardless of scene complexity, so gameplay remains smooth throughout my adventure.
-  - **User Value:** Uninterrupted gameplay experience
-  - **Acceptance Criteria:** No frame drops in complex scenes; seamless quality adjustments
+- **U3:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game.
+  - **User Value:** Consistent experience regardless of district perspective
+  - **Acceptance Criteria:** Occlusion rules adapt correctly to each perspective type; transitions feel smooth
 
 ### Technical Requirements
 
-- **T1:** Build upon the MVP foundation from Iteration 3, extending all systems while maintaining backwards compatibility.
-  - **Rationale:** Preserve existing work while adding advanced features
-  - **Constraints:** MVP configurations must continue working; migration path required
+- **T1:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
+  - **Rationale:** Ensures continuity and prevents regression of working features
+  - **Constraints:** Must maintain compatibility with existing ForegroundOcclusionManager
 
-- **T2:** Implement intelligent systems that automate complex tasks while providing manual overrides for artistic control.
-  - **Rationale:** Balance automation efficiency with creative flexibility
-  - **Constraints:** All automated decisions must be overridable; clear visual feedback
+- **T2:** Implement efficient spatial data structures to handle complex polygon calculations at 60 FPS.
+  - **Rationale:** Polygon-based occlusion requires optimized collision detection
+  - **Constraints:** Target hardware includes lower-spec machines; Godot 3.5.2 limitations
 
-- **T3:** Create modular architecture that supports future enhancements without major refactoring.
-  - **Rationale:** System must grow with game needs over multi-year development
-  - **Constraints:** Clean interfaces; extensive documentation; plugin architecture
+- **T3:** Create modular, extensible architecture that supports future enhancements like dynamic occlusion and lighting integration.
+  - **Rationale:** System should grow with game needs without major refactoring
+  - **Constraints:** Follow established architectural patterns; maintain clean interfaces
 
 ## Tasks
 
-### Phase 1: Intelligent Core Systems
-- [ ] Task 1: Implement IntelligentZoneGenerator with background analysis
-- [ ] Task 2: Create PerspectiveAnalyzer for vanishing point detection
-- [ ] Task 3: Build automated zone optimization algorithms
-- [ ] Task 4: Develop adaptive scaling system with performance monitoring
-- [ ] Task 5: Create movement prediction and anticipation system
-- [ ] Task 6: Implement zone transition smoothing algorithms
+### Phase 1: Enhanced Core System
+- [ ] Task 1: Implement polygon-based OcclusionZone resource class
+- [ ] Task 2: Create advanced OcclusionZoneManager with spatial indexing
+- [ ] Task 3: Build multi-layer foreground rendering system
+- [ ] Task 4: Add perspective-aware occlusion rules and configurations
 
-### Phase 2: Advanced Visual Effects
-- [ ] Task 7: Build multi-level sprite LOD system with smooth transitions
-- [ ] Task 8: Create perspective deformation engine for sprite skewing
-- [ ] Task 9: Implement dynamic shadow system with perspective scaling
-- [ ] Task 10: Develop particle scaling system for environmental effects
-- [ ] Task 11: Create visual effects manager with quality presets
-- [ ] Task 12: Build shader-based optimization for batch rendering
+### Phase 2: Asset Pipeline and Tools
+- [ ] Task 5: Create automated foreground extraction tool with UI
+- [ ] Task 6: Build batch processing scripts for foreground sprites
+- [ ] Task 7: Implement asset validation and optimization system
+- [ ] Task 8: Create foreground element template library
 
-### Phase 3: Movement and Physics
-- [ ] Task 13: Implement group movement coordination system
-- [ ] Task 14: Create physics integration for perspective-aware behaviors
-- [ ] Task 15: Build path prediction and visualization system
-- [ ] Task 16: Develop momentum-based scaling adjustments
-- [ ] Task 17: Create diagonal movement compensation algorithms
-- [ ] Task 18: Implement crowd simulation with perspective awareness
+### Phase 3: Editor Integration
+- [ ] Task 9: Develop visual occlusion zone editor plugin
+- [ ] Task 10: Create zone testing and preview tools
+- [ ] Task 11: Build property inspectors for occlusion zones
+- [ ] Task 12: Implement zone library and preset system
 
-### Phase 4: Content Creation Tools
-- [ ] Task 19: Develop visual zone editor plugin for Godot
-- [ ] Task 20: Create interactive curve designer for scaling behaviors
-- [ ] Task 21: Build real-time preview system with hot reload
-- [ ] Task 22: Implement batch processing tools for multiple scenes
-- [ ] Task 23: Create preset library system with sharing
-- [ ] Task 24: Develop performance profiler with optimization suggestions
+### Phase 4: Animation Support
+- [ ] Task 13: Create animated foreground element system
+- [ ] Task 14: Build state machine for foreground animations
+- [ ] Task 15: Implement trigger system for context-aware animations
+- [ ] Task 16: Add particle effect support for atmospheric elements
 
-### Phase 5: Audio and Environmental Systems
-- [ ] Task 25: Implement advanced 3D audio simulation in 2D
-- [ ] Task 26: Create environmental reverb system based on perspective
-- [ ] Task 27: Build dynamic audio occlusion for realistic sound
-- [ ] Task 28: Develop perspective-aware ambient soundscapes
-- [ ] Task 29: Create audio visualization tools for debugging
-- [ ] Task 30: Implement audio LOD system for performance
+### Phase 5: Performance Optimization
+- [ ] Task 17: Implement QuadTree spatial indexing for zones
+- [ ] Task 18: Add LOD system for distant foreground elements
+- [ ] Task 19: Create update throttling and batching system
+- [ ] Task 20: Build performance profiler and optimization tools
 
-### Phase 6: Optimization and Polish
-- [ ] Task 31: Create intelligent performance optimization manager
-- [ ] Task 32: Implement advanced culling for off-screen entities
-- [ ] Task 33: Build frame rate targeting with dynamic quality
-- [ ] Task 34: Develop memory optimization for mobile platforms
-- [ ] Task 35: Create comprehensive profiling and analytics
-- [ ] Task 36: Polish all visual effects and transitions
-
-### Phase 7: Integration and Documentation
-- [ ] Task 37: Complete integration with all game systems
-- [ ] Task 38: Create migration tools from MVP system
-- [ ] Task 39: Build example implementations for each use case
-- [ ] Task 40: Write comprehensive developer documentation
-- [ ] Task 41: Create video tutorials for artists and designers
-- [ ] Task 42: Develop automated testing suite for regression prevention
+### Phase 6: Integration and Polish
+- [ ] Task 21: Complete integration with all perspective types
+- [ ] Task 22: Add smooth transitions and visual effects
+- [ ] Task 23: Create comprehensive documentation and tutorials
+- [ ] Task 24: Build example implementations for each district type
 
 ## Testing Criteria
-- Intelligent zone generation correctly identifies perspective from backgrounds
-- LOD transitions are smooth without visual popping
-- Deformation and shadow effects enhance depth perception
-- Movement prediction accurately anticipates player paths
-- Group coordination maintains formation through perspective changes
-- Performance optimizer maintains target FPS in all scenarios
-- Editor tools are intuitive for non-technical users
-- Audio spatialization creates believable 3D soundscape
-- Migration from MVP preserves all functionality
+- Polygon-based occlusion zones correctly determine player visibility
+- Multi-layer system creates proper depth ordering
+- Performance maintains 60 FPS with 50+ zones
+- Editor tools are intuitive and stable
+- Animated elements sync correctly with game state
+- All perspective types handle occlusion appropriately
+- Asset pipeline produces consistent, optimized results
+- Debug tools provide clear visualization
 - System handles edge cases gracefully
-- Visual quality exceeds industry standards
-- Documentation enables new team members to contribute quickly
+- Migration from MVP is smooth and documented
 
 ## Timeline
-- Start date: TBD (After core systems mature)
-- Target completion: 6-7 weeks
-- Phase 1: Week 1 - Intelligent systems foundation
-- Phase 2: Week 2 - Visual effects implementation
-- Phase 3: Week 3 - Movement and physics
-- Phase 4: Week 4 - Tool development
-- Phase 5: Week 5 - Audio systems
-- Phase 6-7: Weeks 6-7 - Optimization and integration
+- Start date: TBD (After core game systems complete)
+- Target completion: 3 weeks
+- Phase 1-2: Week 1
+- Phase 3-4: Week 2
+- Phase 5-6: Week 3
 
 ## Dependencies
-- Iteration 3 (Sprite Perspective Scaling MVP)
+- Iteration 3 (Foreground Occlusion MVP)
 - Iteration 3 (Multi-Perspective Character System)
-- Iteration 10 (Foreground Occlusion System) - For depth integration
-- Iteration 9 (Audio System) - For spatial audio features
+- Iteration 9 (Full Audio System) - For integration examples
 
 ## Code Links
 - To be added during implementation
 
 ## Notes
-This iteration represents the full realization of the perspective scaling vision, transforming the functional MVP into a best-in-class system that sets new standards for 2D game presentation. The intelligent automation reduces content creation time dramatically while the advanced visual effects create unprecedented depth in 2D environments.
+This iteration transforms the simple MVP occlusion system into a comprehensive visual depth solution. The polygon-based approach allows for complex, realistic occlusion shapes while the multi-layer system creates rich, layered environments. The visual editing tools ensure that content creators can efficiently build and test occlusion zones without technical expertise.
 
 This iteration implements the complete design outlined in:
-- docs/design/sprite_perspective_scaling_full_plan.md
+- docs/design/foreground_occlusion_full_plan.md
 
-Key innovations include:
-- AI-powered zone generation from background art
-- Predictive scaling for ultra-smooth movement
-- Multi-level LOD with seamless transitions
-- Professional tools rivaling 3D game engines
-- Performance optimization that scales from mobile to high-end PCs
+Key technical innovations include:
+- QuadTree spatial indexing for efficient polygon queries
+- Perspective-aware rendering rules
+- Automated asset extraction pipeline
+- Visual zone editing tools
 
-The system is designed to be the definitive solution for 2D perspective, supporting everything from subtle depth enhancement to dramatic perspective effects that enhance storytelling and gameplay.
+The system is designed to be the definitive solution for 2D depth rendering in the game, supporting everything from simple Y-based sorting to complex polygon occlusion with animated elements.
 
-### Task 1: Implement IntelligentZoneGenerator with background analysis
+### Task 1: Implement polygon-based OcclusionZone resource class
 
-**User Story:** As a developer, I want the system to automatically generate perspective zones by analyzing background images, so I can create depth without manual zone creation.
-
-**Requirements:**
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-  1. Analyzes background images for perspective cues
-  2. Detects vanishing points and horizon lines
-  3. Generates optimal scaling zones automatically
-  4. Provides confidence scores for generated zones
-  5. Allows manual override and adjustment
-
-**Implementation Notes:**
-- Create src/core/perspective/intelligent_zone_generator.gd
-- Use image analysis to detect convergence lines
-- Implement pattern recognition for repeated objects
-- Generate zones based on perspective grid detection
-- Support multiple vanishing points
-- Reference: docs/design/sprite_perspective_scaling_full_plan.md
-
-### Task 2: Create PerspectiveAnalyzer for vanishing point detection
-
-**User Story:** As a developer, I want automatic detection of vanishing points in background art, so perspective zones align with the visual perspective.
+**User Story:** As a developer, I want to define complex occlusion shapes using polygons, so that I can create realistic occlusion for irregularly shaped objects and environments.
 
 **Requirements:**
-- **Linked to:** B1, T2
+- **Linked to:** B1, U1, T2
 - **Acceptance Criteria:**
-  1. Detects primary vanishing points in images
-  2. Identifies horizon line position
-  3. Calculates perspective grid from detected points
-  4. Handles multiple perspective types
-  5. Provides visual feedback on detection
+  1. OcclusionZone resource supports arbitrary polygon shapes
+  2. Efficient point-in-polygon detection implemented
+  3. Soft edge support for gradual occlusion
+  4. Serialization/deserialization works correctly
+  5. Resource can be created and edited in Godot editor
 
 **Implementation Notes:**
-- Implement line detection algorithms
-- Find convergence points of detected lines
-- Calculate perspective transformation matrix
-- Support one, two, and three-point perspective
-- Create debug visualization overlay
+- Create src/core/rendering/occlusion_zone.gd as Resource
+- Implement Geometry.is_point_in_polygon for detection
+- Add properties for soft edges and fade distance
+- Support perspective-specific rule overrides
+- Include height_offset for pseudo-3D effects
+- Reference: docs/design/foreground_occlusion_full_plan.md - OcclusionZone Resource
 
-### Task 3: Build automated zone optimization algorithms
+### Task 2: Create advanced OcclusionZoneManager with spatial indexing
 
-**User Story:** As a developer, I want zones to be automatically optimized for performance and visual quality, so I get the best results without manual tweaking.
+**User Story:** As a developer, I want the occlusion system to efficiently handle many zones without performance degradation, so that I can create rich, complex environments.
 
 **Requirements:**
 - **Linked to:** B3, T2
 - **Acceptance Criteria:**
-  1. Merges similar adjacent zones
-  2. Simplifies complex polygons
-  3. Balances zone count with accuracy
-  4. Optimizes for rendering performance
-  5. Maintains visual quality thresholds
+  1. QuadTree implementation for spatial queries
+  2. Only nearby zones are processed each frame
+  3. Efficient batch updates for multiple zones
+  4. Performance scales linearly with visible zones
+  5. Memory usage remains reasonable
 
 **Implementation Notes:**
-- Implement polygon simplification algorithms
-- Create zone merging heuristics
-- Balance zone complexity with performance
-- Use quadtree for spatial optimization
-- Profile rendering impact of zones
+- Implement QuadTree data structure
+- Query zones within player vicinity
+- Cache zone calculations where possible
+- Update throttling based on player movement
+- Profile with 50+ zones active
+- Reference: docs/design/foreground_occlusion_full_plan.md - Spatial Indexing
 
-### Task 4: Develop adaptive scaling system with performance monitoring
+### Task 3: Build multi-layer foreground rendering system
 
-**User Story:** As a player, I want consistent performance regardless of scene complexity, so my gameplay experience remains smooth.
-
-**Requirements:**
-- **Linked to:** B3, U3, T2
-- **Acceptance Criteria:**
-  1. Monitors frame rate in real-time
-  2. Adjusts quality settings dynamically
-  3. Prioritizes gameplay elements
-  4. Smooth quality transitions
-  5. Configurable performance targets
-
-**Implementation Notes:**
-- Create performance monitoring system
-- Implement quality level presets
-- Dynamic LOD distance adjustment
-- Effect toggling based on performance
-- Smooth transitions between quality levels
-
-### Task 5: Create movement prediction and anticipation system
-
-**User Story:** As a player, I want character scaling to feel smooth and natural during movement, so the perspective changes don't feel jarring.
+**User Story:** As a player, I want to see multiple layers of foreground depth (near, mid, far), so that environments feel rich and spatially complex.
 
 **Requirements:**
 - **Linked to:** B1, U1
 - **Acceptance Criteria:**
-  1. Predicts movement path 0.5 seconds ahead
-  2. Pre-calculates scaling along path
-  3. Smooths scaling transitions
-  4. Handles sudden direction changes
-  5. Minimal performance overhead
+  1. Support for at least 3 foreground layers
+  2. Each layer has independent Z-index range
+  3. Smooth transitions between layers
+  4. Per-layer configuration options
+  5. Visual separation is clear and effective
 
 **Implementation Notes:**
-- Track movement history for prediction
-- Calculate acceleration and momentum
-- Interpolate between current and predicted scale
-- Handle edge cases (walls, obstacles)
-- Optimize for common movement patterns
+- Create layer management in OcclusionZoneManager
+- Define Z-index ranges for each layer
+- Support fade effects between layers
+- Configure through district JSON
+- Test with complex multi-layer scenes
 
-### Task 6: Implement zone transition smoothing algorithms
+### Task 4: Add perspective-aware occlusion rules and configurations
 
-**User Story:** As a player, I want seamless transitions between perspective zones, so movement through the environment feels continuous.
+**User Story:** As a developer, I want occlusion behavior to adapt to different perspective types, so that each district can have appropriate depth rendering.
 
 **Requirements:**
-- **Linked to:** B1, U1
+- **Linked to:** U3, T1
 - **Acceptance Criteria:**
-  1. No visual jumps at zone boundaries
-  2. Smooth interpolation between zones
-  3. Configurable transition distances
-  4. Handles overlapping zones
-  5. Maintains performance
+  1. Per-perspective rule definitions in zones
+  2. Smooth transitions when changing perspectives
+  3. Isometric, side-scrolling, and top-down support
+  4. Override system for special cases
+  5. Configuration through both code and data
 
 **Implementation Notes:**
-- Create transition zone detection
-- Implement smooth interpolation curves
-- Handle multi-zone overlaps
-- Cache transition calculations
-- Test with rapid movement
+- Add perspective_rules to OcclusionZone
+- Implement rule application in manager
+- Support Z-offset modifications per perspective
+- Test transitions between districts
+- Reference: Multi-perspective character system
 
-### Task 7: Build multi-level sprite LOD system with smooth transitions
+### Task 5: Create automated foreground extraction tool with UI
 
-**User Story:** As a player, I want sprites to maintain visual quality at their current scale while optimizing performance for distant objects.
+**User Story:** As an artist, I want to easily extract foreground elements from background images using a visual tool, so that I can quickly create occlusion sprites without manual editing.
 
 **Requirements:**
-- **Linked to:** B1, B3, U1
+- **Linked to:** B2
 - **Acceptance Criteria:**
-  1. Multiple detail levels per sprite
-  2. Seamless transitions between LODs
-  3. Automatic LOD generation tools
-  4. Memory efficient texture management
-  5. Configurable LOD distances
+  1. Visual polygon selection interface
+  2. Preview extraction before saving
+  3. Batch extraction support
+  4. Automatic transparency handling
+  5. Integration with Godot editor
 
 **Implementation Notes:**
-- Create LOD texture loading system
-- Implement smooth crossfade transitions
-- Build LOD generation tools
-- Optimize texture memory usage
-- Support animated sprite LODs
+- Create editor plugin with extraction UI
+- Use polygon selection for extraction area
+- Preview with transparency
+- Export with proper settings
+- Save to correct directory structure
 
-### Task 8: Create perspective deformation engine for sprite skewing
+### Task 6: Build batch processing scripts for foreground sprites
 
-**User Story:** As a player, I want sprites to subtly deform based on their position relative to the vanishing point, enhancing the 3D illusion.
+**User Story:** As a developer, I want to process multiple foreground sprites consistently, so that all assets maintain the same visual style and optimization.
 
 **Requirements:**
-- **Linked to:** B1, U1
+- **Linked to:** B2
 - **Acceptance Criteria:**
-  1. Subtle skewing based on position
-  2. Maintains sprite readability
-  3. Smooth deformation transitions
-  4. Configurable deformation strength
-  5. Performance optimized
+  1. Process entire directories of sprites
+  2. Apply consistent 32-bit styling
+  3. Optimize file sizes
+  4. Generate import files
+  5. Validation and error reporting
 
 **Implementation Notes:**
-- Implement sprite skewing mathematics
-- Calculate deformation from vanishing points
-- Ensure character recognition maintained
-- Create deformation presets
-- Optimize transform calculations
+- Extend existing sprite processing pipeline
+- Apply ImageMagick optimizations
+- Maintain artistic style consistency
+- Generate Godot import files
+- Create processing report
 
-### Task 9: Implement dynamic shadow system with perspective scaling
+### Task 7: Implement asset validation and optimization system
 
-**User Story:** As a player, I want characters to cast shadows that scale and position correctly with perspective, enhancing the sense of depth.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Shadows scale with character perspective
-  2. Shadow direction based on light sources
-  3. Soft shadow edges
-  4. Performance optimized
-  5. Configurable shadow quality
-
-**Implementation Notes:**
-- Create shadow sprite generation
-- Calculate shadow transforms from scale
-- Implement soft shadow rendering
-- Optimize for multiple shadows
-- Support dynamic light sources
-
-### Task 10: Develop particle scaling system for environmental effects
-
-**User Story:** As a player, I want environmental particles (dust, steam, sparks) to respect perspective scaling, creating a cohesive visual experience.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Particles scale based on emission position
-  2. Particle count adjusts with distance
-  3. Maintains visual density
-  4. Performance scales with complexity
-  5. Integrates with existing particles
-
-**Implementation Notes:**
-- Extend CPUParticles2D for perspective
-- Scale emission rates with distance
-- Adjust particle size dynamically
-- Optimize particle culling
-- Create perspective particle presets
-
-### Task 11: Create visual effects manager with quality presets
-
-**User Story:** As a developer, I want centralized control over all perspective visual effects with quality presets for different hardware.
+**User Story:** As a developer, I want to ensure all foreground assets meet quality standards, so that the game maintains consistent performance and visual quality.
 
 **Requirements:**
 - **Linked to:** B3, T2
 - **Acceptance Criteria:**
-  1. Centralized effect configuration
-  2. Quality presets (Low/Medium/High/Ultra)
-  3. Runtime quality switching
-  4. Performance impact preview
-  5. Custom preset creation
+  1. Validate sprite dimensions and format
+  2. Check transparency and edges
+  3. Optimize file sizes automatically
+  4. Report validation issues
+  5. Suggest fixes for common problems
 
 **Implementation Notes:**
-- Create effect registry system
-- Define quality level specifications
-- Implement smooth quality transitions
-- Build performance profiling
-- Save/load custom presets
+- Create validation checklist
+- Implement automated checks
+- Optimize PNG compression
+- Check for common issues
+- Generate validation reports
 
-### Task 12: Build shader-based optimization for batch rendering
+### Task 8: Create foreground element template library
 
-**User Story:** As a developer, I want perspective calculations optimized through GPU shaders for maximum performance.
+**User Story:** As a developer, I want reusable foreground element templates, so that I can quickly add common occlusion objects to new scenes.
 
 **Requirements:**
-- **Linked to:** B3, T3
+- **Linked to:** B2
 - **Acceptance Criteria:**
-  1. Perspective calculations in shaders
-  2. Batched sprite rendering
-  3. Reduced CPU overhead
-  4. Maintains visual quality
-  5. Fallback for older hardware
+  1. Library of common foreground elements
+  2. Categorized by type (furniture, machinery, etc.)
+  3. Easy browsing and insertion
+  4. Customizable properties
+  5. Documentation for each template
 
 **Implementation Notes:**
-- Create perspective vertex shaders
-- Implement sprite batching system
-- Move calculations to GPU
-- Profile performance gains
-- Create compatibility fallbacks
+- Create template scene files
+- Organize by category
+- Include configuration presets
+- Build template browser UI
+- Document usage patterns
 
-### Task 13: Implement group movement coordination system
+### Task 9: Develop visual occlusion zone editor plugin
 
-**User Story:** As a player, I want groups of characters to maintain formation while respecting perspective scaling, so crowds look natural.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Groups maintain relative positions
-  2. Formation adapts to perspective
-  3. Natural crowd movement
-  4. Collision avoidance
-  5. Performance with large groups
-
-**Implementation Notes:**
-- Create formation manager
-- Implement flocking behaviors
-- Adjust spacing for perspective
-- Handle path conflicts
-- Optimize for many entities
-
-### Task 14: Create physics integration for perspective-aware behaviors
-
-**User Story:** As a player, I want physics behaviors (jumping, falling) to respect perspective scaling for consistent gameplay.
+**User Story:** As a level designer, I want to visually create and edit occlusion zones directly in the scene, so that I can see immediate results without editing data files.
 
 **Requirements:**
-- **Linked to:** B1, U1
+- **Linked to:** B2, U2
 - **Acceptance Criteria:**
-  1. Jump height scales with perspective
-  2. Fall speed appears consistent
-  3. Projectiles follow perspective rules
-  4. Physics remains predictable
-  5. Gameplay balance maintained
-
-**Implementation Notes:**
-- Modify physics calculations for scale
-- Adjust gravity based on position
-- Scale velocities appropriately
-- Maintain gameplay consistency
-- Test with various mechanics
-
-### Task 15: Build path prediction and visualization system
-
-**User Story:** As a developer, I want to see predicted movement paths with perspective scaling for debugging and design.
-
-**Requirements:**
-- **Linked to:** T2
-- **Acceptance Criteria:**
-  1. Visualizes predicted paths
-  2. Shows scale changes along path
-  3. Interactive path editing
-  4. Performance overlay
-  5. Export path data
-
-**Implementation Notes:**
-- Create path visualization overlay
-- Show scale gradient along paths
-- Interactive path adjustment
-- Performance metrics display
-- Path data serialization
-
-### Task 16: Develop momentum-based scaling adjustments
-
-**User Story:** As a player, I want scaling to account for movement momentum, so fast movement feels smooth through perspective changes.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Momentum affects scaling smoothness
-  2. Fast movement = smoother transitions
-  3. Sudden stops handled gracefully
-  4. Natural deceleration
-  5. Configurable momentum influence
-
-**Implementation Notes:**
-- Track velocity and acceleration
-- Calculate momentum-based smoothing
-- Handle direction changes
-- Test with various speeds
-- Create tuning interface
-
-### Task 17: Create diagonal movement compensation algorithms
-
-**User Story:** As a player, I want diagonal movement to feel natural in perspective, compensating for the visual distortion.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Diagonal speed appears consistent
-  2. Movement angle adjusted for perspective
-  3. Smooth transitions
-  4. Maintains responsiveness
-  5. Works with pathfinding
-
-**Implementation Notes:**
-- Calculate perspective distortion
-- Adjust movement vectors
-- Compensate input for perspective
-- Test with various angles
-- Integrate with pathfinding
-
-### Task 18: Implement crowd simulation with perspective awareness
-
-**User Story:** As a player, I want crowds of NPCs to move naturally through perspective, creating believable populated environments.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Crowds respect perspective scaling
-  2. Natural movement patterns
-  3. Performance with 50+ NPCs
-  4. Collision avoidance
-  5. Varied behaviors
-
-**Implementation Notes:**
-- Create crowd AI system
-- Implement LOD for distant crowds
-- Optimize pathfinding for groups
-- Add behavior variety
-- Performance profiling
-
-### Task 19: Develop visual zone editor plugin for Godot
-
-**User Story:** As an artist, I want to paint perspective zones directly on backgrounds in the editor for intuitive setup.
-
-**Requirements:**
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-  1. Visual zone painting interface
-  2. Real-time preview
-  3. Zone property editing
-  4. Undo/redo support
-  5. Template system
+  1. Click-to-create polygon zones
+  2. Visual zone preview in editor
+  3. Property panel for zone settings
+  4. Copy/paste zone support
+  5. Undo/redo functionality
 
 **Implementation Notes:**
 - Create Godot editor plugin
-- Implement painting tools
-- Real-time zone preview
-- Property inspector integration
-- Save/load zone templates
+- Implement polygon drawing tools
+- Show zone properties in inspector
+- Preview occlusion in real-time
+- Save zones to resources
 
-### Task 20: Create interactive curve designer for scaling behaviors
+### Task 10: Create zone testing and preview tools
 
-**User Story:** As a designer, I want to visually design scaling curves to fine-tune how perspective affects sprites.
-
-**Requirements:**
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-  1. Visual curve editor
-  2. Real-time preview on sprites
-  3. Preset curve library
-  4. Import/export curves
-  5. Multi-curve comparison
-
-**Implementation Notes:**
-- Build curve editor UI
-- Live preview system
-- Curve preset management
-- Mathematical curve types
-- A/B testing support
-
-### Task 21: Build real-time preview system with hot reload
-
-**User Story:** As an artist, I want changes to perspective settings to update immediately in the game for rapid iteration.
+**User Story:** As a developer, I want to test occlusion zones with simulated player movement, so that I can verify correct behavior before runtime.
 
 **Requirements:**
-- **Linked to:** B2
+- **Linked to:** B2, U1
 - **Acceptance Criteria:**
-  1. Instant setting updates
-  2. No restart required
-  3. Preview in game context
-  4. Before/after comparison
-  5. Performance impact display
+  1. Simulate player path through zones
+  2. Preview occlusion changes
+  3. Highlight problem areas
+  4. Export test results
+  5. Integration with editor
 
 **Implementation Notes:**
-- Implement hot reload system
-- File watcher for changes
-- Seamless setting updates
-- Comparison mode
-- Performance monitoring
+- Create path simulation system
+- Animate test character
+- Show occlusion state changes
+- Identify edge cases
+- Generate test reports
 
-### Task 22: Implement batch processing tools for multiple scenes
+### Task 11: Build property inspectors for occlusion zones
 
-**User Story:** As a developer, I want to apply perspective settings across multiple scenes efficiently for consistency.
+**User Story:** As a developer, I want detailed property editors for occlusion zones, so that I can fine-tune behavior without editing code.
 
 **Requirements:**
 - **Linked to:** B2
 - **Acceptance Criteria:**
-  1. Multi-scene selection
-  2. Batch apply settings
-  3. Validation reports
-  4. Rollback capability
-  5. Progress tracking
+  1. Custom inspector for OcclusionZone
+  2. Visual property editors
+  3. Preset system for common configs
+  4. Real-time preview of changes
+  5. Validation of property values
 
 **Implementation Notes:**
-- Create batch processor
-- Scene analysis tools
-- Setting propagation
-- Validation system
-- Undo functionality
+- Extend Godot's inspector
+- Create custom property editors
+- Add visual previews
+- Implement preset system
+- Validate input ranges
 
-### Task 23: Create preset library system with sharing
+### Task 12: Implement zone library and preset system
 
-**User Story:** As a team, we want to share and reuse perspective presets across projects for consistency and efficiency.
+**User Story:** As a developer, I want to save and reuse occlusion zone configurations, so that I can maintain consistency across similar objects.
 
 **Requirements:**
-- **Linked to:** B2, T3
+- **Linked to:** B2
 - **Acceptance Criteria:**
-  1. Preset creation and naming
-  2. Categorized library
-  3. Import/export presets
-  4. Version control friendly
-  5. Preview thumbnails
+  1. Save zones as reusable presets
+  2. Categorize presets by type
+  3. Apply presets to new zones
+  4. Share presets between projects
+  5. Version control friendly
 
 **Implementation Notes:**
-- Design preset format
-- Build library UI
-- Implement sharing system
-- Version compatibility
-- Thumbnail generation
+- Create preset resource format
+- Build preset browser
+- Support inheritance/overrides
+- Export/import functionality
+- Document preset creation
 
-### Task 24: Develop performance profiler with optimization suggestions
+### Task 13: Create animated foreground element system
 
-**User Story:** As a developer, I want detailed performance analysis of perspective systems with actionable optimization suggestions.
+**User Story:** As a player, I want to see foreground elements that animate naturally (swaying plants, flickering signs), so that the environment feels alive and dynamic.
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Support for AnimatedSprite in foreground
+  2. State-based animation system
+  3. Sync with game events
+  4. Performance optimization
+  5. Easy animation assignment
+
+**Implementation Notes:**
+- Extend ForegroundElement to support animation
+- Create animation state machine
+- Support multiple animation tracks
+- Optimize animation updates
+- Reference: Animated background workflow
+
+### Task 14: Build state machine for foreground animations
+
+**User Story:** As a developer, I want foreground animations to respond to game states, so that the environment reacts appropriately to story events.
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Define animation states and transitions
+  2. Connect to game event system
+  3. Support complex state logic
+  4. Debugging visualization
+  5. Performance monitoring
+
+**Implementation Notes:**
+- Create animation state machine
+- Define standard states (idle, alert, broken)
+- Connect to game manager events
+- Add debug visualization
+- Profile state transitions
+
+### Task 15: Implement trigger system for context-aware animations
+
+**User Story:** As a player, I want foreground elements to react to my presence and actions, so that the world feels responsive and interactive.
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Proximity triggers for animations
+  2. Action-based triggers
+  3. Time-based triggers
+  4. Combinatorial logic support
+  5. Visual feedback for triggers
+
+**Implementation Notes:**
+- Create trigger component system
+- Support multiple trigger types
+- Implement trigger visualization
+- Connect to animation states
+- Test with player interactions
+
+### Task 16: Add particle effect support for atmospheric elements
+
+**User Story:** As a player, I want to see atmospheric particle effects integrated with foreground elements (steam, sparks, dust), so that environments feel more dynamic and lived-in.
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Particle emitters on foreground elements
+  2. Proper depth sorting with particles
+  3. Performance-optimized rendering
+  4. Integration with occlusion zones
+  5. Configuration through element properties
+
+**Implementation Notes:**
+- Add particle support to ForegroundElement
+- Ensure correct Z-ordering
+- Optimize particle count
+- Support CPUParticles2D
+- Configure through JSON
+
+### Task 17: Implement QuadTree spatial indexing for zones
+
+**User Story:** As a developer, I want efficient spatial queries for occlusion zones, so that the system scales to complex scenes without performance issues.
 
 **Requirements:**
 - **Linked to:** B3, T2
 - **Acceptance Criteria:**
-  1. Detailed performance metrics
-  2. Bottleneck identification
-  3. Optimization suggestions
-  4. Historical tracking
-  5. Export reports
+  1. QuadTree implementation handles 100+ zones
+  2. O(log n) query performance
+  3. Dynamic rebalancing support
+  4. Memory-efficient storage
+  5. Debug visualization available
 
 **Implementation Notes:**
-- Create profiling framework
-- Identify performance markers
-- Build suggestion engine
-- Historical data storage
-- Report generation
+- Implement QuadTree data structure
+- Support dynamic insertion/removal
+- Optimize node capacity
+- Add performance metrics
+- Create debug visualization
 
-### Task 25: Implement advanced 3D audio simulation in 2D
+### Task 18: Add LOD system for distant foreground elements
 
-**User Story:** As a player, I want audio to create a convincing 3D soundscape that matches the visual perspective for full immersion.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Height simulation from Y-position
-  2. Accurate stereo panning
-  3. Distance attenuation
-  4. Environmental reverb
-  5. Occlusion simulation
-
-**Implementation Notes:**
-- Create 3D audio math in 2D
-- Implement HRTF simulation
-- Build reverb system
-- Audio occlusion detection
-- Performance optimization
-
-### Task 26: Create environmental reverb system based on perspective
-
-**User Story:** As a player, I want environmental audio to reflect the space I'm in, with appropriate reverb in large or small areas.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Zone-based reverb settings
-  2. Smooth reverb transitions
-  3. Multiple reverb types
-  4. Performance optimized
-  5. Realistic acoustic modeling
-
-**Implementation Notes:**
-- Define reverb zones
-- Implement reverb effects
-- Smooth zone transitions
-- Optimize DSP usage
-- Create reverb presets
-
-### Task 27: Build dynamic audio occlusion for realistic sound
-
-**User Story:** As a player, I want sounds to be naturally muffled when sources are behind objects, enhancing realism.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Detects audio occlusion
-  2. Natural muffling effect
-  3. Line-of-sight calculation
-  4. Performance efficient
-  5. Smooth transitions
-
-**Implementation Notes:**
-- Implement occlusion detection
-- Create muffling filters
-- Optimize raycasting
-- Handle moving sources
-- Test various scenarios
-
-### Task 28: Develop perspective-aware ambient soundscapes
-
-**User Story:** As a player, I want ambient sounds to change naturally based on my position and the visual perspective.
-
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. Position-based ambience
-  2. Smooth ambient transitions
-  3. Layered soundscapes
-  4. Dynamic mixing
-  5. Memory efficient
-
-**Implementation Notes:**
-- Create ambient zone system
-- Layer multiple ambiences
-- Smooth crossfading
-- Dynamic level adjustment
-- Optimize memory usage
-
-### Task 29: Create audio visualization tools for debugging
-
-**User Story:** As a developer, I want to visualize audio propagation and effects for debugging and tuning.
-
-**Requirements:**
-- **Linked to:** T2
-- **Acceptance Criteria:**
-  1. Visual audio range display
-  2. Propagation visualization
-  3. Effect indicators
-  4. Performance metrics
-  5. Real-time updates
-
-**Implementation Notes:**
-- Build audio visualizer
-- Show propagation paths
-- Display active effects
-- Performance overlay
-- Interactive debugging
-
-### Task 30: Implement audio LOD system for performance
-
-**User Story:** As a player, I want consistent performance even with many audio sources by intelligently managing audio complexity.
-
-**Requirements:**
-- **Linked to:** B3, U3
-- **Acceptance Criteria:**
-  1. Distance-based audio LOD
-  2. Automatic quality adjustment
-  3. Priority system
-  4. Smooth transitions
-  5. Configurable limits
-
-**Implementation Notes:**
-- Create audio LOD levels
-- Implement priority system
-- Distance-based culling
-- Quality degradation
-- Performance monitoring
-
-### Task 31: Create intelligent performance optimization manager
-
-**User Story:** As a player, I want the game to automatically maintain smooth performance by adjusting quality settings intelligently.
-
-**Requirements:**
-- **Linked to:** B3, U3
-- **Acceptance Criteria:**
-  1. Real-time performance monitoring
-  2. Intelligent quality adjustment
-  3. Predictive optimization
-  4. User preference respect
-  5. Detailed logging
-
-**Implementation Notes:**
-- Build performance monitor
-- Create optimization rules
-- Implement prediction system
-- User preference system
-- Performance logging
-
-### Task 32: Implement advanced culling for off-screen entities
-
-**User Story:** As a developer, I want efficient culling of off-screen entities to maximize performance in complex scenes.
-
-**Requirements:**
-- **Linked to:** B3, T3
-- **Acceptance Criteria:**
-  1. Efficient visibility testing
-  2. Predictive pre-culling
-  3. Smooth activation
-  4. Memory optimization
-  5. Debug visualization
-
-**Implementation Notes:**
-- Create visibility system
-- Implement spatial partitioning
-- Predictive algorithms
-- Memory pooling
-- Debug overlay
-
-### Task 33: Build frame rate targeting with dynamic quality
-
-**User Story:** As a player, I want consistent frame rates through dynamic quality adjustment that prioritizes gameplay smoothness.
-
-**Requirements:**
-- **Linked to:** B3, U3
-- **Acceptance Criteria:**
-  1. Target FPS maintenance
-  2. Smooth quality changes
-  3. Priority preservation
-  4. Multiple target options
-  5. Manual override
-
-**Implementation Notes:**
-- Create FPS targeting system
-- Quality adjustment logic
-- Priority definitions
-- User configuration
-- Override controls
-
-### Task 34: Develop memory optimization for mobile platforms
-
-**User Story:** As a mobile player, I want the perspective system optimized for limited memory without sacrificing visual quality.
-
-**Requirements:**
-- **Linked to:** B3, T3
-- **Acceptance Criteria:**
-  1. Reduced memory footprint
-  2. Texture compression
-  3. Dynamic loading
-  4. Quality scaling
-  5. Crash prevention
-
-**Implementation Notes:**
-- Implement texture compression
-- Dynamic asset loading
-- Memory pooling
-- Quality presets for mobile
-- Memory monitoring
-
-### Task 35: Create comprehensive profiling and analytics
-
-**User Story:** As a developer, I want detailed analytics on perspective system usage to guide optimization efforts.
+**User Story:** As a player, I want consistent performance even in complex scenes, so that gameplay remains smooth regardless of environmental complexity.
 
 **Requirements:**
 - **Linked to:** B3, T2
 - **Acceptance Criteria:**
-  1. Detailed metrics collection
-  2. Performance analytics
-  3. Usage patterns
-  4. Bottleneck identification
-  5. Export capabilities
+  1. Distant elements reduce update frequency
+  2. Far elements can be culled entirely
+  3. Smooth LOD transitions
+  4. Configurable LOD distances
+  5. No visual popping
 
 **Implementation Notes:**
-- Build metrics system
-- Create analytics dashboard
-- Pattern analysis
-- Performance tracking
-- Data export tools
+- Implement distance-based LOD
+- Reduce update frequency for far elements
+- Cull invisible elements
+- Smooth transition system
+- Profile performance gains
 
-### Task 36: Polish all visual effects and transitions
+### Task 19: Create update throttling and batching system
 
-**User Story:** As a player, I want all perspective effects to feel polished and professional with smooth transitions.
+**User Story:** As a developer, I want occlusion updates to be efficient and batched, so that the system maintains high performance even with many active zones.
+
+**Requirements:**
+- **Linked to:** B3, T2
+- **Acceptance Criteria:**
+  1. Updates throttled to 30 FPS
+  2. Batch process similar zones
+  3. Prioritize nearby zones
+  4. Smooth visual updates
+  5. Configurable throttle rates
+
+**Implementation Notes:**
+- Implement update queue system
+- Batch zones by proximity
+- Priority system for updates
+- Interpolate visual changes
+- Add performance settings
+
+### Task 20: Build performance profiler and optimization tools
+
+**User Story:** As a developer, I want detailed performance metrics for the occlusion system, so that I can identify and fix bottlenecks.
+
+**Requirements:**
+- **Linked to:** B3, T2
+- **Acceptance Criteria:**
+  1. Real-time performance metrics
+  2. Identify slow zones/operations
+  3. Memory usage tracking
+  4. Historical performance data
+  5. Optimization suggestions
+
+**Implementation Notes:**
+- Create performance HUD
+- Track frame times per operation
+- Monitor memory allocation
+- Log performance history
+- Suggest optimizations
+
+### Task 21: Complete integration with all perspective types
+
+**User Story:** As a player, I want occlusion to work correctly in all visual perspectives, so that each area of the game feels polished and complete.
+
+**Requirements:**
+- **Linked to:** U3, T1
+- **Acceptance Criteria:**
+  1. Test in isometric perspectives
+  2. Verify side-scrolling behavior
+  3. Validate top-down occlusion
+  4. Smooth perspective transitions
+  5. Document perspective rules
+
+**Implementation Notes:**
+- Test with each perspective type
+- Create perspective test scenes
+- Document rule differences
+- Fix perspective-specific issues
+- Update configuration examples
+
+### Task 22: Add smooth transitions and visual effects
+
+**User Story:** As a player, I want smooth visual transitions when moving through occlusion zones, so that the experience feels polished and professional.
 
 **Requirements:**
 - **Linked to:** B1, U1
 - **Acceptance Criteria:**
-  1. Smooth all transitions
-  2. Eliminate visual artifacts
-  3. Consistent quality
-  4. Professional polish
-  5. Performance maintained
+  1. Fade effects for soft edges
+  2. Smooth Z-order transitions
+  3. Optional blur/transparency effects
+  4. No visual popping
+  5. Configurable effect parameters
 
 **Implementation Notes:**
-- Review all transitions
-- Fix visual artifacts
-- Smooth edge cases
-- Polish effect timing
-- Final optimization pass
+- Implement transition effects
+- Add fade/blur shaders
+- Smooth Z-order changes
+- Test with rapid movement
+- Profile effect performance
 
-### Task 37: Complete integration with all game systems
+### Task 23: Create comprehensive documentation and tutorials
 
-**User Story:** As a developer, I want the perspective system fully integrated with all game systems for seamless functionality.
-
-**Requirements:**
-- **Linked to:** T1, T3
-- **Acceptance Criteria:**
-  1. All systems integrated
-  2. No conflicts
-  3. Clean interfaces
-  4. Documented APIs
-  5. Example usage
-
-**Implementation Notes:**
-- Integrate with each system
-- Resolve conflicts
-- Clean up interfaces
-- Document integration
-- Create examples
-
-### Task 38: Create migration tools from MVP system
-
-**User Story:** As a developer, I want automated tools to migrate from the MVP perspective system to the full version.
-
-**Requirements:**
-- **Linked to:** T1
-- **Acceptance Criteria:**
-  1. Automatic migration
-  2. Setting preservation
-  3. Validation system
-  4. Rollback capability
-  5. Migration report
-
-**Implementation Notes:**
-- Build migration tool
-- Parse MVP configs
-- Convert to full system
-- Validate results
-- Generate reports
-
-### Task 39: Build example implementations for each use case
-
-**User Story:** As a developer, I want comprehensive examples showing how to use the perspective system in various scenarios.
-
-**Requirements:**
-- **Linked to:** T3
-- **Acceptance Criteria:**
-  1. Multiple examples
-  2. Common use cases
-  3. Best practices
-  4. Performance tips
-  5. Troubleshooting
-
-**Implementation Notes:**
-- Create example scenes
-- Document use cases
-- Show best practices
-- Include performance tips
-- Common problems/solutions
-
-### Task 40: Write comprehensive developer documentation
-
-**User Story:** As a developer, I want complete documentation to understand and extend the perspective system.
-
-**Requirements:**
-- **Linked to:** T3
-- **Acceptance Criteria:**
-  1. Complete API docs
-  2. Architecture overview
-  3. Extension guide
-  4. Performance guide
-  5. Troubleshooting
-
-**Implementation Notes:**
-- Document all APIs
-- Create architecture diagrams
-- Write extension guides
-- Performance documentation
-- FAQ section
-
-### Task 41: Create video tutorials for artists and designers
-
-**User Story:** As an artist, I want video tutorials showing how to use the perspective tools effectively.
+**User Story:** As a developer, I want clear documentation and tutorials for the occlusion system, so that I can effectively use all features.
 
 **Requirements:**
 - **Linked to:** B2
 - **Acceptance Criteria:**
-  1. Tool walkthroughs
-  2. Best practices
-  3. Common workflows
-  4. Tips and tricks
-  5. Troubleshooting
+  1. API documentation complete
+  2. Visual tutorials created
+  3. Best practices guide
+  4. Troubleshooting section
+  5. Example implementations
 
 **Implementation Notes:**
-- Script tutorials
-- Record tool usage
-- Show workflows
-- Include tips
-- Upload to platform
+- Document all classes/methods
+- Create video tutorials
+- Write best practices guide
+- Include common solutions
+- Provide code examples
 
-### Task 42: Develop automated testing suite for regression prevention
+### Task 24: Build example implementations for each district type
 
-**User Story:** As a developer, I want comprehensive automated tests to prevent regressions in the perspective system.
+**User Story:** As a developer, I want example occlusion setups for different district types, so that I have templates to build from.
 
 **Requirements:**
-- **Linked to:** T3
+- **Linked to:** B2, U3
 - **Acceptance Criteria:**
-  1. Unit test coverage
-  2. Integration tests
-  3. Performance tests
-  4. Visual regression tests
-  5. Continuous integration
+  1. Example for each perspective type
+  2. Showcase different techniques
+  3. Performance-optimized examples
+  4. Well-commented configurations
+  5. Reusable templates
 
 **Implementation Notes:**
-- Create test framework
-- Write comprehensive tests
-- Set up CI pipeline
-- Visual regression tools
-- Performance benchmarks
+- Create district examples
+- Show various techniques
+- Optimize for performance
+- Comment thoroughly
+- Package as templates

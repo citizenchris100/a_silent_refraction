@@ -1,154 +1,177 @@
-# Iteration 6: Investigation Mechanics and Inventory
+# Iteration 6: Game Districts and Time Management
+**Updated to include Living World Event System MVP**
 
 ## Goals
-- Implement investigation mechanics
-- Create quest log system for tracking progress
-- Develop advanced inventory system for collecting evidence
-- Add system for logging known assimilated NPCs
-- Implement overflow storage in player's room
+- Implement multiple station districts with transitions
+- Create detailed time management system (Persona-style)
+- Develop day/night cycle and time progression
+- **NEW:** Implement Living World Event System MVP for scheduled events and NPC routines
+- Implement random NPC assimilation tied to scheduled events
+- Implement single-slot save system
+- Create basic limited inventory system
 
 ## Requirements
 
 ### Business Requirements
+- **B1:** Create a sense of progression and urgency through time management
+  - **Rationale:** Time-based gameplay creates strategic choices and replay value
+  - **Success Metric:** Players report making meaningful time allocation decisions in test sessions
 
-- **B2:** Validate game performance on target hardware platform to ensure viability of purpose-built gaming appliance distribution strategy
-  - **Rationale:** [Add rationale here]
-  - **Success Metric/Constraints:** [Add metric or constraints here]
-- **B1:** Implement core investigation mechanics that drive main storyline
-  - **Rationale:** Investigation is the primary gameplay loop for narrative progression
-  - **Success Metric:** Players can advance the story through evidence collection and analysis
+- **B2:** Expand game world with multiple distinct areas
+  - **Rationale:** Diverse environments increase perceived game size and exploration value
+  - **Success Metric:** Each district has unique visual identity and gameplay purpose
+
+- **B3:** Make the station feel alive with NPCs following schedules
+  - **Rationale:** Living world increases immersion and creates emergent gameplay
+  - **Success Metric:** Players report feeling the world continues without them
 
 ### User Requirements
+- **U1:** As a player, I want to manage my time to prioritize activities
+  - **User Value:** Creates strategic decision-making and consequences
+  - **Acceptance Criteria:** Different actions consume varying amounts of in-game time
 
-- **U2:** As a potential customer, I want assurance that the gaming appliance will run smoothly and provide a premium experience when I receive it
-  - **Rationale:** [Add rationale here]
-  - **User Value:** [Add user value here]
-- **U1:** As a player, I want to collect and analyze evidence
-  - **User Value:** Creates detective gameplay satisfaction
-  - **Acceptance Criteria:** Evidence can be found, stored, examined, and combined to progress
+- **U2:** As a player, I want to explore distinct areas of the station
+  - **User Value:** Provides variety and discovery
+  - **Acceptance Criteria:** Each district has unique visuals, NPCs, and activities
 
-### Technical Requirements (Optional)
-- **T1:** Technical requirement placeholder
-  - **Rationale:** Why this is technically important
-  - **Constraints:** Any limitations to be aware of
+- **U3:** As a player, I want to discover events I missed through investigation
+  - **User Value:** Rewards exploration and attention to detail
+  - **Acceptance Criteria:** Clues and dialog reveal information about past events
+
+### Technical Requirements
+- **T1:** Implement robust scene transition system
+  - **Rationale:** District loading and transitions must be seamless
+  - **Constraints:** Must preserve game state across transitions
+
+- **T2:** Create event scheduling architecture that scales
+  - **Rationale:** Foundation for full living world implementation
+  - **Constraints:** Must maintain 60 FPS with event processing
 
 ## Tasks
-- [ ] Task 1: Create quest data structure and manager
-- [ ] Task 2: Implement quest log UI
-- [ ] Task 3: Develop advanced inventory features including categorization
-- [ ] Task 4: Create puzzles for accessing restricted areas
-- [ ] Task 5: Implement clue discovery and collection system
-- [ ] Task 6: Create assimilated NPC tracking log
-- [ ] Task 7: Develop investigation progress tracking
-- [ ] Task 8: Add quest state persistence
-- [ ] Task 9: Implement overflow inventory storage in player's room
-- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
-- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
-- [ ] Task 12: Set up Raspberry Pi 5 hardware validation environment
-- [ ] Task 13: Conduct POC performance testing on target hardware
-- [ ] Task 14: Document hardware requirements and optimization roadmap
+- [ ] Task 1: Create at least one additional district besides Shipping
+- [ ] Task 2: Create bash script for generating NPC placeholders
+- [ ] Task 3: Implement district transitions via tram system
+- [ ] Task 4: Develop in-game clock and calendar system
+- [ ] Task 5: Create time progression through player actions
+- [ ] Task 6: Create SimpleEventScheduler for managing time-based events
+- [ ] Task 7: Implement NPCScheduleManager for basic NPC routines
+- [ ] Task 8: Create EventDiscovery system for learning about missed events
+- [ ] Task 9: Implement day cycle with sleep mechanics
+- [ ] Task 10: Design and implement time UI indicators
+- [ ] Task 11: Convert random assimilation to scheduled event system
+- [ ] Task 12: Add scheduled story events (security sweeps, meetings)
+- [ ] Task 13: Create NPC schedule data files for 5-10 key NPCs
+- [ ] Task 14: Implement contextual dialog based on recent events
+- [ ] Task 15: Implement player bedroom as save point location
+- [ ] Task 16: Create single-slot save system with event state persistence
+- [ ] Task 17: Create basic inventory system with size limitations
 
 ## Testing Criteria
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Game runs stably at 30fps on Raspberry Pi 5 hardware
-- Complete POC playthrough completes without performance issues
-- Hardware validation documentation provides clear optimization roadmap
+- Player can travel between at least two districts
+- Time advances through specific actions (tram travel, conversations, etc.)
+- Day advances when player sleeps
+- NPCs follow daily schedules and appear in correct locations at correct times
+- Events trigger at scheduled times whether player witnesses them or not
+- Player can discover missed events through clues and NPC dialog
+- Assimilation events leave evidence in the world
+- Save system preserves complete event history and NPC states
+- Player has limited inventory space
+- NPC placeholder script successfully creates properly structured directories and registry entries
+- Performance maintains 60 FPS with event system active
 
 ## Timeline
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
+- Start date: 2025-06-15
+- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
 
 ## Dependencies
+- Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
 - Iteration 4 (Dialog and Verb UI System Refactoring)
-- Iteration 5 (Game Districts and Time Management)
 
 ## Code Links
-- Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
+- Time Management System MVP Design: docs/design/time_management_system_mvp.md
+- Living World Event System MVP Design: docs/design/living_world_event_system_mvp.md
+- GameClock: src/core/systems/game_clock.gd (to be created)
+- TimeCostManager: src/core/systems/time_cost_manager.gd (to be created)
+- DayCycleController: src/core/systems/day_cycle_controller.gd (to be created)
+- SimpleEventScheduler: src/core/systems/simple_event_scheduler.gd (to be created)
+- NPCScheduleManager: src/core/systems/npc_schedule_manager.gd (to be created)
+- EventDiscovery: src/core/systems/event_discovery.gd (to be created)
+- TimeDisplay: src/ui/time_display/time_display.gd (to be created)
+- NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
+- Scheduled Events: src/data/events/scheduled_events.json (to be created)
+
+## User Stories
+
+### Task 1: Create at least one additional district besides Shipping
+**User Story:** As a player, I want to explore different areas of the station, so that I can discover new characters, items, and story elements.
+
+### Task 2: Create bash script for generating NPC placeholders
+**User Story:** As a developer, I want a bash script that manages the NPC registry and creates appropriate directory structures for NPC sprites, so that I can easily add new characters to the game with proper integration into the existing systems without manual configuration.
+
+### Task 3: Implement district transitions via tram system
+**User Story:** As a player, I want to travel between districts using the tram system, so that I can explore the station while experiencing time passing during travel.
+**Reference:** See docs/design/time_management_system_mvp.md Section "Time Cost Manager" - Travel actions
+
+### Task 4: Develop in-game clock and calendar system
+**User Story:** As a player, I want to see the current time and day, so that I can plan my activities and understand when events might occur.
+**Reference:** See docs/design/time_management_system_mvp.md Section "Game Clock System"
+
+### Task 5: Create time progression through player actions
+**User Story:** As a player, I want my actions to consume time, so that I must make strategic choices about how to spend my limited time.
+**Reference:** See docs/design/time_management_system_mvp.md Section "Time Cost Manager"
+
+### Task 6: Create SimpleEventScheduler for managing time-based events
+**User Story:** As a developer, I want a system that triggers events at specific times, so that the world feels alive and dynamic even when the player isn't present.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "Core Components"
+
+### Task 7: Implement NPCScheduleManager for basic NPC routines
+**User Story:** As a player, I want NPCs to follow daily routines, so that the station feels like a real place with people living their lives.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "NPC Schedule Manager"
+
+### Task 8: Create EventDiscovery system for learning about missed events
+**User Story:** As a player, I want to discover clues about events I missed, so that I can piece together what happened while I was elsewhere.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Discovery System"
+
+### Task 9: Implement day cycle with sleep mechanics
+**User Story:** As a player, I want to rest and advance to the next day, so that I can manage my time and see how the station changes overnight.
+**Reference:** See docs/design/time_management_system_mvp.md Section "Day Cycle Controller"
+
+### Task 10: Design and implement time UI indicators
+**User Story:** As a player, I want clear visual indicators of time passing, so that I can make informed decisions about my activities.
+**Reference:** See docs/design/time_management_system_mvp.md Section "Time UI System"
+
+### Task 11: Convert random assimilation to scheduled event system
+**User Story:** As a player, I want assimilation to happen at specific times and places, so that I might witness or investigate these events.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Types in MVP"
+
+### Task 12: Add scheduled story events (security sweeps, meetings)
+**User Story:** As a player, I want major story events to occur at specific times, so that I must choose which events to witness or investigate.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Types in MVP"
+
+### Task 13: Create NPC schedule data files for 5-10 key NPCs
+**User Story:** As a player, I want important NPCs to have detailed daily routines, so that I can learn their patterns and plan my interactions.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "5-10 Key NPCs with Full Routines"
+
+### Task 14: Implement contextual dialog based on recent events
+**User Story:** As a player, I want NPCs to reference recent events in dialog, so that the world feels reactive and interconnected.
+**Reference:** See docs/design/living_world_event_system_mvp.md Section "Dialog System Integration"
+
+### Task 15: Implement player bedroom as save point location
+**User Story:** As a player, I want a personal space where I can save my progress, so that I have a safe location to plan my next moves.
+
+### Task 16: Create single-slot save system with event state persistence
+**User Story:** As a player, I want to save my game including all event history, so that I can continue my unique playthrough later.
+
+### Task 17: Create basic inventory system with size limitations
+**User Story:** As a player, I want to collect and carry items with limited space, so that I must make choices about what to keep.
 
 ## Notes
-Add any additional notes or considerations here.
-
-### Task 11: Implement observation mechanics for detecting assimilated NPCs
-
-**User Story:** As a player, I want to carefully observe NPCs for subtle clues that indicate they have been assimilated, so that I can identify threats and make informed decisions about whom to trust and recruit.
-
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **🔄 IN PROGRESS** (05/22/25)
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. NPCs exhibit different subtle behavioral cues based on assimilation status
-  2. Assimilated NPCs have visual tells that are discoverable through careful observation
-  3. Player can access a dedicated "observe" mode that enables closer inspection of NPCs
-  4. Different observation levels reveal different levels of information (casual glance vs. intense scrutiny)
-  5. Successful observation adds information to the assimilated NPC tracking log
-  6. False positives are possible to create tension and uncertainty
-  7. Observation mechanics integrate with the suspicion system (being caught observing raises suspicion)
-
-**Implementation Notes:**
-- Create a sliding scale of observation intensity with corresponding information reveals
-- Design subtle visual cues that fit the game's aesthetic (slight color shifts, animation differences)
-- Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
-- Link with existing suspicion and NPC state systems from Iteration 2
-
-### Task 12: Set up Raspberry Pi 5 hardware validation environment
-
-**User Story:** As a developer, I want to set up a complete Raspberry Pi 5 testing environment, so that I can validate our game's performance on the actual target hardware before committing to the gaming appliance distribution strategy
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
-
-### Task 13: Conduct POC performance testing on target hardware
-
-**User Story:** As a developer, I want to conduct comprehensive performance testing of the complete POC on Raspberry Pi 5 hardware, so that I can identify any optimization needs and confirm the viability of our gaming appliance approach
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
-
-### Task 14: Document hardware requirements and optimization roadmap
-
-**User Story:** As a project stakeholder, I want detailed documentation of hardware requirements and performance characteristics, so that I can make informed decisions about manufacturing and distribution of the gaming appliance
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
+- Time Management System MVP provides the core temporal framework for the entire game
+- Living World Event System MVP provides foundation for Iteration 12 full implementation
+- These two systems work together: Time Manager handles player resource allocation, Event System handles world simulation
+- Focus on making 5-10 NPCs feel truly alive rather than many shallow NPCs
+- Event discovery through clues and dialog is key to making missed events meaningful
+- Performance testing critical with event system running continuously
+- Time costs should feel intuitive - players should be able to estimate action costs without constantly checking

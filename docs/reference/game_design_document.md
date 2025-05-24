@@ -69,6 +69,12 @@
     - No traditional soundtrack overlay
     - Audio design reinforces the reality of the station environment
 
+14. **Every choice is permanent (Single Save Slot)**
+    - One save slot enforces living with consequences
+    - No save scumming or trying different approaches
+    - Inspired by Dead Rising's punishing save system
+    - Saving requires returning to bed and advances time
+
 ## Backstory
 
 One of the largest conglomerates on earth 'Aether Corp' has been at the forefront of Mars colonization. A colonist from one of Aether Corps colonial cities on the outskirts of the populated area of mars comes into contact with the remnants of a life form. This life comes in the form of a plasma or goo. This goo is a kind of extraterrestrial collective consciousness. When a sentient life form such as a human comes into contact with the "goo" it is absorbed into the human. The human at this point is now a host to the goo which overcomes the consciousness of the host with its own thus assimilating the host.
@@ -413,6 +419,22 @@ The coalition admitting defeat and having to escape the Station
 ### Gameplay Mechanics
 
 We need to implement a time passage system similar to Shin Megami Tensei Persona 3 & 4\. Where the player starts and ends each day from their bed or place of rest should they have not been able to make it home. With the understanding that going to sleep will pass the time into the next day. This will inform the importance of time management. The player can only do so much in a day.
+
+#### Save System - Single Slot Design
+
+The game features a **single save slot system** inspired by the original Dead Rising. This deliberate design choice creates several important gameplay dynamics:
+
+1. **No Save Scumming**: Players must live with the consequences of their choices. Once you sleep and save, there's no going back to try a different approach.
+
+2. **Permanent Consequences**: If an NPC gets assimilated or you miss a critical event, that's permanent for this playthrough. This reinforces the game's themes of time pressure and meaningful choices.
+
+3. **Heightened Tension**: Knowing you can't reload an earlier save makes every decision weightier. Approaching a potentially assimilated NPC becomes genuinely nerve-wracking.
+
+4. **Save Location**: Saves occur when sleeping in Alex's room (Room 306 in the Barracks) or designated rest areas. The act of saving advances time, integrating the save system with the time management mechanics.
+
+5. **Backup Save**: The system maintains one backup of the previous save in case of corruption, but players cannot manually access it - it's purely for technical safety.
+
+This punishing save system is core to the experience - every day matters, every choice is permanent, and players must carefully consider when to return to their room to save, as doing so advances time and potentially allows more assimilation to occur.
 I don't know the exact math but a certain number of random NPCs will be assimilated each day. Your actions can potentially lower that number.
 Actions such as riding the tram, or moving forward with quests will progress time forward. We need a graphical way to not only allow the player to consent to this time commitment but to also display the progression not only within the Days clock. But the day to day progression.
 
