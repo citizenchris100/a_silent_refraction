@@ -1,0 +1,7 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Invalid operands for operator
+          at: GDScript::reload (res://src/unit_tests/vsync_settings_test.gd:17)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized

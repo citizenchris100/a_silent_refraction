@@ -57,7 +57,7 @@ func _ready():
 	# Configure camera system for proper base_district setup
 	use_scrolling_camera = true
 	initial_camera_view = "center"
-	camera_follow_smoothing = 5.0
+	camera_follow_smoothing = 50.0  # Higher value to reduce screen tearing
 	camera_edge_margin = Vector2(150, 100)
 	
 	# Enable pixel-perfect rendering to prevent distortion

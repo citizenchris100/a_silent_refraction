@@ -87,6 +87,24 @@ sudo apt-get install imagemagick jq
 
 
 
+## Development Commands
+
+### Using the `asr` Alias (Linux Development)
+
+For Linux developers experiencing screen tearing with Intel graphics, use the `asr` alias instead of the standard script:
+
+```bash
+# Instead of: ./a_silent_refraction.sh camera-system
+# Use: asr camera-system
+
+asr run          # Run the main game
+asr test         # Run test scenes
+asr debug        # Run debug tools
+# etc.
+```
+
+The `asr` alias applies software rendering to bypass Intel graphics screen tearing issues during development. This is only needed on Linux systems with Intel graphics - the final game will run on Raspberry Pi hardware without this issue.
+
 ## Game Management Script
 
 The project includes a management script (`a_silent_refraction.sh`) to streamline development:

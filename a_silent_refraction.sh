@@ -69,6 +69,7 @@ function run_camera_validation_test {
     $GODOT_CMD --path $PROJECT_ROOT $CAMERA_VALIDATION_TEST_SCENE
 }
 
+
 # Function to clean up redundant files
 function clean_project {
     echo -e "${YELLOW}Cleaning up redundant files...${NC}"

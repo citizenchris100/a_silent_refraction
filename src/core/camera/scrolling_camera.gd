@@ -155,7 +155,7 @@ export var signal_debug_mode: bool = false # Enables more detailed signal inform
 
 # Camera properties
 export var follow_player: bool = true
-export var follow_smoothing: float = 5.0
+export var follow_smoothing: float = 5.0  # Default smoothing value
 export var edge_margin: Vector2 = Vector2(150, 100) # Distance from edge that triggers scrolling
 export var bounds_enabled: bool = true setget set_bounds_enabled
 export var initial_position: Vector2 = Vector2.ZERO # Initial camera position (if Vector2.ZERO, will be centered)
@@ -485,11 +485,8 @@ func _ready():
         debug_log("camera", "Camera initialized in IDLE state")
 
 func _process(delta):
-    # Always ensure pixel-perfect positioning
-    ensure_pixel_perfect()
-    
     # Only handle non-movement updates in _process
-    # Movement is now handled in _physics_process for synchronization
+    # Movement and pixel-perfect positioning are now handled in _physics_process for synchronization
     
     # Only draw debug in editor or debug builds
     if OS.is_debug_build():
@@ -505,6 +502,10 @@ func _physics_process(delta):
     # HYBRID ARCHITECTURE: Camera movement synchronized with player physics
     # This prevents screen tearing by ensuring camera updates happen in the same
     # frame timing as player movement (Visual Correctness Priority)
+    
+    # Always ensure pixel-perfect positioning, even without a target player
+    # This prevents screen tearing by aligning positions in the same frame as movement
+    ensure_pixel_perfect()
     
     if !target_player:
         return
@@ -849,10 +850,21 @@ func _handle_camera_movement(delta):
         
         # Smoothly move camera with selected easing function
         var weight = follow_smoothing * delta
-        var new_pos = _apply_easing(global_position, target_pos, weight)
         
-        # Round to nearest pixel for pixel-perfect rendering
-        global_position = new_pos.round()
+        # Debug logging
+        debug_log("camera", "Smoothing value: " + str(follow_smoothing) + ", weight: " + str(weight))
+        
+        # If smoothing is very high, bypass interpolation entirely
+        if follow_smoothing > 1000:
+            # Direct positioning without interpolation
+            debug_log("camera", "BYPASSING interpolation - jumping directly to target")
+            global_position = target_pos.round()
+        else:
+            # Normal smoothed movement
+            debug_log("camera", "Using normal interpolation")
+            var new_pos = _apply_easing(global_position, target_pos, weight)
+            # Round to nearest pixel for pixel-perfect rendering
+            global_position = new_pos.round()
         
         # Only call _ensure_player_visible if our target wasn't significantly clamped
         # This avoids camera oscillation when player is at the edges of bounds

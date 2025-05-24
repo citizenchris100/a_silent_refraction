@@ -933,8 +933,12 @@ func run_signal_tests():
     # Move player to trigger camera follow
     mock_player.global_position = Vector2(250.3, 300.8)
     
-    # Process one frame to trigger pixel-perfect enforcement
-    camera._process(0.016)
+    # Ensure camera has target_player set
+    camera.target_player = mock_player
+    
+    # Process one physics frame to trigger pixel-perfect enforcement
+    # (ensure_pixel_perfect is now called in _physics_process)
+    camera._physics_process(0.016)
     
     # Camera position should be rounded to nearest pixel
     var cam_x = camera.global_position.x
@@ -995,6 +999,13 @@ func run_physics_sync_tests():
     if camera.has_method("_physics_process"):
         var before_pos = camera.global_position
         
+        # Debug info before calling physics process
+        log_info("Before physics process:")
+        log_info("  - target_player: " + str(camera.target_player))
+        log_info("  - follow_player: " + str(camera.follow_player))
+        log_info("  - world_view_mode: " + str(camera.world_view_mode))
+        log_info("  - current_camera_state: " + str(camera.current_camera_state))
+        
         # Try multiple frames in case smoothing is applied
         for i in range(5):
             camera._physics_process(0.016)
@@ -1037,6 +1048,83 @@ func run_physics_sync_tests():
         frame_sync_correct = false
     
     assert_true(frame_sync_correct, "Camera should update in same frame timing as player (physics)")
+    
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 3: Pixel-perfect positioning should happen in physics process
+    start_test("Pixel-perfect positioning in physics process")
+    
+    # This test verifies that ensure_pixel_perfect is called after movement in physics process
+    # not in the regular _process function which could cause timing issues
+    
+    # Check the camera's source code to verify pixel-perfect is called correctly
+    # For now, we'll test that positions are properly rounded after physics movement
+    
+    # Move player to a sub-pixel position
+    mock_player.global_position = Vector2(100.7, 200.3)
+    
+    # Wait for physics frame
+    yield(get_tree(), "physics_frame")
+    yield(get_tree(), "physics_frame")  # Extra frame for camera to catch up
+    
+    # Camera position should be pixel-perfect (rounded)
+    var cam_x_is_whole = abs(camera.global_position.x - round(camera.global_position.x)) < 0.001
+    var cam_y_is_whole = abs(camera.global_position.y - round(camera.global_position.y)) < 0.001
+    
+    assert_true(cam_x_is_whole and cam_y_is_whole, 
+                "Camera position should be pixel-perfect after physics update: " + str(camera.global_position))
+    
+    end_test()
+    
+    yield(get_tree(), "idle_frame")
+    
+    # Test 4: Camera should bypass smoothing when value is very high
+    start_test("Camera instant positioning with high smoothing value")
+    
+    # Set extremely high smoothing value
+    var original_smoothing = camera.follow_smoothing
+    camera.follow_smoothing = 10000.0
+    
+    # Ensure camera is following player
+    camera.follow_player = true
+    camera.set_camera_state(camera.CameraState.FOLLOWING_PLAYER)
+    
+    # Position camera at a known location
+    camera.global_position = Vector2(500, 300)
+    
+    # Calculate where to place player to ensure they're outside inner margin
+    # Camera view is centered at (500, 300) with screen_size/2 = (712, 476)
+    # So view extends from roughly (-212, -176) to (1212, 776)
+    # Inner margin with edge_margin (150, 100) would be from (-62, -76) to (1062, 676)
+    # Place player well outside this range
+    mock_player.global_position = Vector2(2500, 300)  # Far to the right
+    
+    # Log initial state
+    log_info("Initial camera position: " + str(camera.global_position))
+    log_info("Player position: " + str(mock_player.global_position))
+    log_info("Camera follow_smoothing: " + str(camera.follow_smoothing))
+    log_info("Camera state: " + str(camera.current_camera_state))
+    
+    # Process one physics frame
+    yield(get_tree(), "physics_frame")
+    
+    # Log state after frame
+    log_info("After physics frame - Camera position: " + str(camera.global_position))
+    
+    # With very high smoothing, camera should jump directly to target position
+    # The camera should center on the player (minus edge adjustments)
+    # Since player is far to the right, camera should have moved significantly
+    var distance_moved = abs(camera.global_position.x - 500)  # Distance from initial position
+    
+    # Camera should have moved significantly (at least 1500 pixels)
+    # If interpolation is bypassed, it should jump close to the player
+    assert_true(distance_moved > 1500, 
+                "Camera should jump significantly with high smoothing value. Distance moved: " + str(distance_moved))
+    
+    # Restore original smoothing
+    camera.follow_smoothing = original_smoothing
     
     end_test()
     
