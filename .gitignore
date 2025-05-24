@@ -26,3 +26,16 @@ Thumbs.db
 
 # Ignore build artifacts
 build/
+
+# Ignore large video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.flv
+*.wmv
+
+# Ignore debug videos specifically
+src/assets/debug/*screen_tear*.mp4
+src/assets/debug/*.mp4
