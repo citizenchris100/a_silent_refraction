@@ -104,6 +104,12 @@
 - [ ] Task 40: Create test foreground sprites for camera test backgrounds
 - [ ] Task 41: Build foreground occlusion test scene with debug visualization
 
+### Player Character Sprite Creation
+- [ ] Task 42: Create male Alex character sprites following sprite workflow
+- [ ] Task 43: Create female Alex character sprites following sprite workflow
+- [ ] Task 44: Generate character portraits for gender selection screen
+- [ ] Task 45: Validate both sprite sets work with multi-perspective system
+
 ## Testing Criteria
 - Camera system properly handles coordinate conversions
 - Player movement is smooth with proper acceleration/deceleration
@@ -126,6 +132,10 @@
 - Foreground system integrates cleanly with existing coordinate system
 - No performance impact from foreground occlusion updates
 - Debug visualization clearly shows occlusion thresholds
+- Both male and female Alex sprites are created following the sprite workflow
+- Character portraits display correctly on gender selection screen
+- Both sprite sets work identically in all perspective types
+- Sprite animations are smooth and consistent for both genders
 
 ## Timeline
 - Start date: 2025-05-18
@@ -1501,5 +1511,97 @@ These systems provide the foundation for all future gameplay elements and will b
 - Include debug visualization toggles
 - Show occlusion thresholds as horizontal lines
 - Display current Z-indices for all elements
+
+### Task 42: Create male Alex character sprites following sprite workflow
+
+**User Story:** As a player, I want to see a well-designed male version of Alex the courier with appropriate animations, so that my character feels authentic and matches the game's visual style.
+
+**Status History:**
+- **⏳ PENDING** (05/25/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Full sprite sheet created following docs/workflow/sprite_workflow.md
+  2. Includes all required animations: idle, walk (8 directions), talk, interact
+  3. Sprites match the established 32-bit era aesthetic (64x96 base size)
+  4. Character design reflects "space courier" role with utility jumpsuit and tool belt
+  5. All sprites work correctly with the multi-perspective system
+  6. Uses the canonical 16-color palette defined in the style guide
+
+**Implementation Notes:**
+- Follow the Midjourney prompts in sprite_workflow.md for "Player Character (Alex - The Courier)"
+- Use RunwayML for animation generation as documented
+- Process through the master_sprite_pipeline.sh for consistent styling
+- Test sprites in all three perspective types (isometric, side-scrolling, top-down)
+
+### Task 43: Create female Alex character sprites following sprite workflow
+
+**User Story:** As a player, I want to see a well-designed female version of Alex the courier with appropriate animations, so that I can choose a character that I identify with while maintaining the game's narrative integrity.
+
+**Status History:**
+- **⏳ PENDING** (05/25/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Full sprite sheet created following docs/workflow/sprite_workflow.md
+  2. Includes all required animations: idle, walk (8 directions), talk, interact
+  3. Maintains the "space courier" aesthetic while being clearly distinguishable
+  4. Same practical clothing style (utility jumpsuit, tool belt) as male version
+  5. All sprites work correctly with the multi-perspective system
+  6. Uses the canonical 16-color palette defined in the style guide
+
+**Implementation Notes:**
+- Adapt the Midjourney prompts for female version while maintaining courier aesthetic
+- Ensure character is professional and practical, avoiding stereotypical gendering
+- Use same RunwayML and processing pipeline for consistency
+- Both versions should feel equally valid as the protagonist
+
+### Task 44: Generate character portraits for gender selection screen
+
+**User Story:** As a player, I want clear character portraits on the gender selection screen, so that I can make an informed choice about my character before starting the game.
+
+**Status History:**
+- **⏳ PENDING** (05/25/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Two portraits at 64x64 pixels (matching UI scale)
+  2. Both portraits follow the same art style and quality
+  3. Portraits clearly show character differences while maintaining courier theme
+  4. Background is transparent or uses simple gradient
+  5. Portraits match the sprite art style (32-bit era pixel art)
+  6. Files properly formatted for Godot import
+
+**Implementation Notes:**
+- Extract portraits from character sprite sheets or generate separately
+- Follow portrait specifications in character_gender_selection_system.md
+- Ensure portraits work well with selection UI (highlight/border effects)
+- Test portraits at different UI scales
+
+### Task 45: Validate both sprite sets work with multi-perspective system
+
+**User Story:** As a developer, I want to ensure both gender sprite sets work correctly with all perspective types, so that players have a consistent experience regardless of their character choice.
+
+**Status History:**
+- **⏳ PENDING** (05/25/25)
+
+**Requirements:**
+- **Linked to:** B3, U3, T2
+- **Acceptance Criteria:**
+  1. Both sprite sets load correctly in isometric perspective
+  2. Both sprite sets load correctly in side-scrolling perspective
+  3. Both sprite sets load correctly in top-down perspective
+  4. Animation transitions work smoothly for both genders
+  5. Sprite scaling behaves identically for both versions
+  6. No performance difference between gender options
+
+**Implementation Notes:**
+- Create test scene that allows switching between both sprite sets
+- Test all animations in each perspective type
+- Verify character controller properly loads gender-specific sprites
+- Document any gender-specific configuration requirements
 - Test with camera test backgrounds
 - Reference: docs/design/foreground_occlusion_mvp_plan.md - Testing Strategy

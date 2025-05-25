@@ -6,24 +6,80 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 10 | Full Audio System Implementation | Not started | 0% (0/24) |
-| 11 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
-| 12 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
-| 13 | Living World Event System - Full Implementation | Not started | 0% (0/20) |
-| 14 | Time Management System - Full Implementation | Not started | 0% (0/20) |
+| 10 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
+| 11 | Full Audio System Implementation | Not started | 0% (0/24) |
+| 12 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
+| 13 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
+| 14 | Living World Event System - Full Implementation | Not started | 0% (0/20) |
+| 15 | Time Management System - Full Implementation | Not started | 0% (0/20) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 9% (4/41) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 8% (4/45) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
 | 5 | Save System Foundation | Not started | 0% (0/12) |
 | 6 | Game Districts and Time Management | Not started | 0% (0/17) |
-| 7 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
-| 8 | Coalition Building | Not started | 0% (0/8) |
-| 9 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
+| 7 | Character Gender Selection System | Not started | 0% (0/12) |
+| 8 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
+| 9 | Coalition Building | Not started | 0% (0/8) |
 
 ## Detailed Progress
 
-### Iteration 10: Full Audio System Implementation
+### Iteration 10: Game Progression and Multiple Endings
+
+**Goals:**
+- Implement game state progression
+- Add multiple endings
+- Create transition between narrative branches
+- **B1:** Deliver multiple game endings based on player choices
+- **U1:** As a player, I want my choices to affect the game's outcome
+- **T1:** Technical requirement placeholder
+- [ ] Task 1: Implement game state manager
+- [ ] Task 2: Create win/lose conditions
+- [ ] Task 3: Develop multiple ending scenarios
+- [ ] Task 4: Add narrative branching system
+- [ ] Task 5: Implement final confrontation sequence
+- [ ] Task 6: Create ending cinematics
+- [ ] Task 7: Add game over screens
+- [ ] Task 8: Implement statistics tracking for playthrough
+- Game can be completed with multiple different outcomes
+- Narrative branches based on player choices
+- Game state properly tracks progress through the story
+- Complete game flow can be tested from start to finish
+- Start date: 2025-07-27
+- Target completion: 2025-08-10
+- Iteration 8 (Investigation Mechanics)
+- Iteration 9 (Coalition Building)
+- No links yet
+
+**Key Requirements:**
+- **B1:** Deliver multiple game endings based on player choices
+- **U1:** As a player, I want my choices to affect the game's outcome
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Implement game state manager | Pending | - |
+| Create win/lose conditions | Pending | - |
+| Develop multiple ending scenarios | Pending | - |
+| Add narrative branching system | Pending | - |
+| Implement final confrontation sequence | Pending | - |
+| Create ending cinematics | Pending | - |
+| Add game over screens | Pending | - |
+| Implement statistics tracking for playthrough | Pending | - |
+
+**Testing Criteria:**
+- Game can be completed with multiple different outcomes
+- Narrative branches based on player choices
+- Game state properly tracks progress through the story
+- Complete game flow can be tested from start to finish
+- Start date: 2025-07-27
+- Target completion: 2025-08-10
+- Iteration 8 (Investigation Mechanics)
+- Iteration 9 (Coalition Building)
+- No links yet
+
+### Iteration 11: Full Audio System Implementation
 
 **Goals:**
 - Complete the comprehensive diegetic audio system building on Iteration 3's MVP foundation
@@ -124,13 +180,13 @@ This file tracks the progress of all iterations for the project.
 - Assimilation affects audio atmosphere progressively
 - All districts have unique and appropriate soundscapes
 - Audio settings provide adequate player control
-- Start date: TBD (After Iteration 8 completion)
+- Start date: TBD (After Iteration 10 completion)
 - Target completion: Start date + 25 days
 - Duration: 20-25 days total
 - Iteration 3: Audio MVP foundation (AudioManager, DiegeticAudioController)
-- Iteration 4: District system and transitions
-- Iteration 5: Investigation mechanics (for audio-based clues)
-- Iteration 7: Game state progression (for assimilation-based audio changes)
+- Iteration 5: District system and transitions
+- Iteration 8: Investigation mechanics (for audio-based clues)
+- Iteration 10: Game state progression (for assimilation-based audio changes)
 - No links yet
 - docs/design/audio_system_technical_implementation.md (Full implementation plan)
 - docs/design/audio_system_iteration3_mvp.md (MVP foundation reference)
@@ -159,7 +215,7 @@ This file tracks the progress of all iterations for the project.
 - Design for visual editing in Godot
 - Reference: docs/design/audio_system_technical_implementation.md - Section 4
 
-### Iteration 11: Full Foreground Occlusion System Implementation
+### Iteration 12: Full Foreground Occlusion System Implementation
 
 **Goals:**
 - Expand the MVP foreground occlusion system into a comprehensive visual depth solution
@@ -249,7 +305,7 @@ This file tracks the progress of all iterations for the project.
 - Phase 5-6: Week 3
 - Iteration 3 (Foreground Occlusion MVP)
 - Iteration 3 (Multi-Perspective Character System)
-- Iteration 9 (Full Audio System) - For integration examples
+- Iteration 11 (Full Audio System) - For integration examples
 - To be added during implementation
 - docs/design/foreground_occlusion_full_plan.md
 - QuadTree spatial indexing for efficient polygon queries
@@ -273,7 +329,7 @@ This file tracks the progress of all iterations for the project.
 - Profile with 50+ zones active
 - Reference: docs/design/foreground_occlusion_full_plan.md - Spatial Indexing
 
-### Iteration 12: Full Sprite Perspective Scaling System
+### Iteration 13: Full Sprite Perspective Scaling System
 
 **Goals:**
 - Transform the MVP perspective scaling into an intelligent, automated system
@@ -395,8 +451,8 @@ This file tracks the progress of all iterations for the project.
 - Phase 6-7: Weeks 6-7 - Optimization and integration
 - Iteration 3 (Sprite Perspective Scaling MVP)
 - Iteration 3 (Multi-Perspective Character System)
-- Iteration 10 (Foreground Occlusion System) - For depth integration
-- Iteration 9 (Audio System) - For spatial audio features
+- Iteration 12 (Foreground Occlusion System) - For depth integration
+- Iteration 11 (Audio System) - For spatial audio features
 - To be added during implementation
 - docs/design/sprite_perspective_scaling_full_plan.md
 - AI-powered zone generation from background art
@@ -420,7 +476,7 @@ This file tracks the progress of all iterations for the project.
 - Support one, two, and three-point perspective
 - Create debug visualization overlay
 
-### Iteration 13: Living World Event System - Full Implementation
+### Iteration 14: Living World Event System - Full Implementation
 
 **Goals:**
 - Build upon the MVP foundation to create a deeply reactive and dynamic world
@@ -469,10 +525,10 @@ This file tracks the progress of all iterations for the project.
 - Debug tools provide clear visibility into world state
 - Start date: 2025-12-01
 - Target completion: 2025-12-22
-- Iteration 6 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 7 (Investigation Mechanics)
-- Iteration 8 (Coalition Building)
-- Iteration 9 (Game Progression and Multiple Endings)
+- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
+- Iteration 8 (Investigation Mechanics)
+- Iteration 9 (Coalition Building)
+- Iteration 10 (Game Progression and Multiple Endings)
 - Living World Event System Full Design: docs/design/living_world_event_system_full.md
 - AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
 - NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
@@ -525,10 +581,10 @@ This file tracks the progress of all iterations for the project.
 - Debug tools provide clear visibility into world state
 - Start date: 2025-12-01
 - Target completion: 2025-12-22
-- Iteration 6 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 7 (Investigation Mechanics)
-- Iteration 8 (Coalition Building)
-- Iteration 9 (Game Progression and Multiple Endings)
+- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
+- Iteration 8 (Investigation Mechanics)
+- Iteration 9 (Coalition Building)
+- Iteration 10 (Game Progression and Multiple Endings)
 - Living World Event System Full Design: docs/design/living_world_event_system_full.md
 - AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
 - NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
@@ -537,7 +593,7 @@ This file tracks the progress of all iterations for the project.
 - DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
 - WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
 
-### Iteration 14: Time Management System - Full Implementation
+### Iteration 15: Time Management System - Full Implementation
 
 **Goals:**
 - Build upon the MVP foundation to create a sophisticated temporal framework
@@ -586,11 +642,11 @@ This file tracks the progress of all iterations for the project.
 - Debug tools allow rapid testing of time scenarios
 - Start date: 2026-01-05
 - Target completion: 2026-01-26
-- Iteration 6 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 7 (Investigation Mechanics)
-- Iteration 8 (Coalition Building)
-- Iteration 9 (Game Progression and Multiple Endings)
-- Iteration 13 (Living World Event System - Full Implementation)
+- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
+- Iteration 8 (Investigation Mechanics)
+- Iteration 9 (Coalition Building)
+- Iteration 10 (Game Progression and Multiple Endings)
+- Iteration 14 (Living World Event System - Full Implementation)
 - Time Management System Full Design: docs/design/time_management_system_full.md
 - DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
 - FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
@@ -643,11 +699,11 @@ This file tracks the progress of all iterations for the project.
 - Debug tools allow rapid testing of time scenarios
 - Start date: 2026-01-05
 - Target completion: 2026-01-26
-- Iteration 6 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 7 (Investigation Mechanics)
-- Iteration 8 (Coalition Building)
-- Iteration 9 (Game Progression and Multiple Endings)
-- Iteration 13 (Living World Event System - Full Implementation)
+- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
+- Iteration 8 (Investigation Mechanics)
+- Iteration 9 (Coalition Building)
+- Iteration 10 (Game Progression and Multiple Endings)
+- Iteration 14 (Living World Event System - Full Implementation)
 - Time Management System Full Design: docs/design/time_management_system_full.md
 - DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
 - FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
@@ -887,6 +943,10 @@ This file tracks the progress of all iterations for the project.
 | Extend district JSON configuration for foreground elements (As a developer, I want a simple configuration format for foreground elements, so that I can quickly add occlusion objects without writing code.) | Pending | - |
 | Create test foreground sprites for camera test backgrounds (As a developer, I want test foreground sprites for the camera test backgrounds, so that I can validate the occlusion system works correctly in various scenarios.) | Pending | - |
 | Build foreground occlusion test scene with debug visualization (As a developer, I want a dedicated test scene for the foreground occlusion system, so that I can verify correct behavior and debug issues efficiently.) | Pending | - |
+| Create male Alex character sprites following sprite workflow (As a player, I want to see a well-designed male version of Alex the courier with appropriate animations, so that my character feels authentic and matches the game's visual style.) | Pending | - |
+| Create female Alex character sprites following sprite workflow (As a player, I want to see a well-designed female version of Alex the courier with appropriate animations, so that I can choose a character that I identify with while maintaining the game's narrative integrity.) | Pending | - |
+| Generate character portraits for gender selection screen (As a player, I want clear character portraits on the gender selection screen, so that I can make an informed choice about my character before starting the game.) | Pending | - |
+| Validate both sprite sets work with multi-perspective system (As a developer, I want to ensure both gender sprite sets work correctly with all perspective types, so that players have a consistent experience regardless of their character choice.) | Pending | - |
 
 **Testing Criteria:**
 - Camera system properly handles coordinate conversions
@@ -910,6 +970,10 @@ This file tracks the progress of all iterations for the project.
 - Foreground system integrates cleanly with existing coordinate system
 - No performance impact from foreground occlusion updates
 - Debug visualization clearly shows occlusion thresholds
+- Both male and female Alex sprites are created following the sprite workflow
+- Character portraits display correctly on gender selection screen
+- Both sprite sets work identically in all perspective types
+- Sprite animations are smooth and consistent for both genders
 - Start date: 2025-05-18
 - Target completion: 2025-06-01
 - Iteration 1 (Basic Environment and Navigation)
@@ -1245,7 +1309,100 @@ This file tracks the progress of all iterations for the project.
 - NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
 - Scheduled Events: src/data/events/scheduled_events.json (to be created)
 
-### Iteration 7: Investigation Mechanics and Inventory
+### Iteration 7: Character Gender Selection System
+
+**Goals:**
+- Implement character gender selection at game start
+- Integrate gender data with save system and dialog system
+- Create UI for gender selection matching 90s aesthetic
+- Ensure all game systems work correctly with both gender options
+- Enable pronoun substitution throughout all dialog
+- **B1:** Provide character choice to increase player identification and broaden appeal
+- **B2:** Maintain narrative integrity while supporting player choice
+- **U1:** As a player, I want to choose my character's gender at the start of the game
+- **U2:** As a player, I want NPCs to address me correctly based on my gender choice
+- **U3:** As a player, I want the game to remember my choice across sessions
+- **T1:** Extend save system to support gender data with version migration
+- **T2:** Implement pronoun substitution system for dialog
+- [ ] Task 1: Design and implement gender selection UI scene
+- [ ] Task 2: Create gender selection screen with character portraits
+- [ ] Task 3: Implement gender data persistence in PlayerController
+- [ ] Task 4: Extend PlayerSerializer for gender data (version 2)
+- [ ] Task 5: Implement pronoun substitution in DialogManager
+- [ ] Task 6: Update all NPC dialog to use pronoun markers
+- [ ] Task 7: Create gender-specific sprite loading system
+- [ ] Task 8: Test both gender options through complete game flow
+- [ ] Task 9: Add gender selection to new game flow
+- [ ] Task 10: Implement save migration for existing saves
+- [ ] Task 11: Update main menu to show selected character portrait
+- [ ] Task 12: Create comprehensive tests for gender system
+- Gender selection screen appears after "New Game" selection
+- Both character portraits display correctly at 64x64 resolution
+- Selected gender persists through save/load cycles
+- All NPC dialog uses correct pronouns and titles
+- Both sprite sets load and animate correctly
+- Dialog substitution has no noticeable performance impact
+- Old saves migrate to default gender without errors
+- Gender selection integrates smoothly with existing game flow
+- All existing functionality works identically for both genders
+- Start date: 2025-07-07
+- Target completion: 2025-07-14
+- Iteration 3 (Multi-Perspective Character System) - Sprites must be created first
+- Iteration 4 (Dialog and Verb UI System Refactoring) - Need refactored dialog system
+- Iteration 5 (Save System Foundation) - Need modular serialization in place
+- Iteration 6 (Game Districts and Time Management) - Complete before major content
+- Character Gender Selection System Design: docs/design/character_gender_selection_system.md
+- GenderSelectionUI: src/ui/gender_selection/gender_selection_ui.gd (to be created)
+- Extended PlayerController: src/core/player_controller.gd (to be modified)
+- Extended PlayerSerializer: src/core/serializers/player_serializer.gd (to be modified)
+- Extended DialogManager: src/core/dialog/dialog_manager.gd (to be modified)
+
+**Key Requirements:**
+- **B1:** Provide character choice to increase player identification and broaden appeal
+- **B2:** Maintain narrative integrity while supporting player choice
+- **U1:** As a player, I want to choose my character's gender at the start of the game
+- **U2:** As a player, I want NPCs to address me correctly based on my gender choice
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Design and implement gender selection UI scene | Pending | - |
+| Create gender selection screen with character portraits | Pending | - |
+| Implement gender data persistence in PlayerController | Pending | - |
+| Extend PlayerSerializer for gender data (version 2) | Pending | - |
+| Implement pronoun substitution in DialogManager | Pending | - |
+| Update all NPC dialog to use pronoun markers | Pending | - |
+| Create gender-specific sprite loading system | Pending | - |
+| Test both gender options through complete game flow | Pending | - |
+| Add gender selection to new game flow | Pending | - |
+| Implement save migration for existing saves | Pending | - |
+| Update main menu to show selected character portrait | Pending | - |
+| Create comprehensive tests for gender system | Pending | - |
+
+**Testing Criteria:**
+- Gender selection screen appears after "New Game" selection
+- Both character portraits display correctly at 64x64 resolution
+- Selected gender persists through save/load cycles
+- All NPC dialog uses correct pronouns and titles
+- Both sprite sets load and animate correctly
+- Dialog substitution has no noticeable performance impact
+- Old saves migrate to default gender without errors
+- Gender selection integrates smoothly with existing game flow
+- All existing functionality works identically for both genders
+- Start date: 2025-07-07
+- Target completion: 2025-07-14
+- Iteration 3 (Multi-Perspective Character System) - Sprites must be created first
+- Iteration 4 (Dialog and Verb UI System Refactoring) - Need refactored dialog system
+- Iteration 5 (Save System Foundation) - Need modular serialization in place
+- Iteration 6 (Game Districts and Time Management) - Complete before major content
+- Character Gender Selection System Design: docs/design/character_gender_selection_system.md
+- GenderSelectionUI: src/ui/gender_selection/gender_selection_ui.gd (to be created)
+- Extended PlayerController: src/core/player_controller.gd (to be modified)
+- Extended PlayerSerializer: src/core/serializers/player_serializer.gd (to be modified)
+- Extended DialogManager: src/core/dialog/dialog_manager.gd (to be modified)
+
+### Iteration 8: Investigation Mechanics and Inventory
 
 **Goals:**
 - Implement investigation mechanics
@@ -1358,7 +1515,7 @@ This file tracks the progress of all iterations for the project.
 - **Acceptance Criteria:**
 - [Technical guidance or approach]
 
-### Iteration 8: Coalition Building
+### Iteration 9: Coalition Building
 
 **Goals:**
 - Implement recruiting NPCs to the coalition
@@ -1382,7 +1539,7 @@ This file tracks the progress of all iterations for the project.
 - Start date: 2025-07-13
 - Target completion: 2025-07-27
 - Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 6 (Investigation Mechanics)
+- Iteration 8 (Investigation Mechanics)
 - No links yet
 
 **Key Requirements:**
@@ -1410,61 +1567,6 @@ This file tracks the progress of all iterations for the project.
 - Start date: 2025-07-13
 - Target completion: 2025-07-27
 - Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 6 (Investigation Mechanics)
-- No links yet
-
-### Iteration 9: Game Progression and Multiple Endings
-
-**Goals:**
-- Implement game state progression
-- Add multiple endings
-- Create transition between narrative branches
-- **B1:** Deliver multiple game endings based on player choices
-- **U1:** As a player, I want my choices to affect the game's outcome
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Implement game state manager
-- [ ] Task 2: Create win/lose conditions
-- [ ] Task 3: Develop multiple ending scenarios
-- [ ] Task 4: Add narrative branching system
-- [ ] Task 5: Implement final confrontation sequence
-- [ ] Task 6: Create ending cinematics
-- [ ] Task 7: Add game over screens
-- [ ] Task 8: Implement statistics tracking for playthrough
-- Game can be completed with multiple different outcomes
-- Narrative branches based on player choices
-- Game state properly tracks progress through the story
-- Complete game flow can be tested from start to finish
-- Start date: 2025-07-27
-- Target completion: 2025-08-10
-- Iteration 6 (Investigation Mechanics)
-- Iteration 7 (Coalition Building)
-- No links yet
-
-**Key Requirements:**
-- **B1:** Deliver multiple game endings based on player choices
-- **U1:** As a player, I want my choices to affect the game's outcome
-
-**Tasks:**
-
-| Task | Status | Linked Files |
-|------|--------|--------------|
-| Implement game state manager | Pending | - |
-| Create win/lose conditions | Pending | - |
-| Develop multiple ending scenarios | Pending | - |
-| Add narrative branching system | Pending | - |
-| Implement final confrontation sequence | Pending | - |
-| Create ending cinematics | Pending | - |
-| Add game over screens | Pending | - |
-| Implement statistics tracking for playthrough | Pending | - |
-
-**Testing Criteria:**
-- Game can be completed with multiple different outcomes
-- Narrative branches based on player choices
-- Game state properly tracks progress through the story
-- Complete game flow can be tested from start to finish
-- Start date: 2025-07-27
-- Target completion: 2025-08-10
-- Iteration 6 (Investigation Mechanics)
-- Iteration 7 (Coalition Building)
+- Iteration 8 (Investigation Mechanics)
 - No links yet
 

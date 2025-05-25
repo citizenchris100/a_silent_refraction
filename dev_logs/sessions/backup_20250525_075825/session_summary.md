@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 25, 2025 - District and NPC Creation Gap Analysis (🟢 IN PROGRESS)
-- **Iteration:** 2 - NPC Framework and Suspicion System
-- **Focus:** Identifying missing tasks for location and character implementation
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-25_07-58-25.md)
-
 ### May 24, 2025 - Fix Failing Unit Tests and Movement Offset Bug (✅ COMPLETED)
 - **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
 - **Focus:** Fix 2 failing scrolling_camera_test tests then address click position offset issue

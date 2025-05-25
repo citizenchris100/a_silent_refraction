@@ -1,154 +1,93 @@
-# Iteration 7: Investigation Mechanics and Inventory
+# Iteration 7: Character Gender Selection System
 
 ## Goals
-- Implement investigation mechanics
-- Create quest log system for tracking progress
-- Develop advanced inventory system for collecting evidence
-- Add system for logging known assimilated NPCs
-- Implement overflow storage in player's room
+- Implement character gender selection at game start
+- Integrate gender data with save system and dialog system
+- Create UI for gender selection matching 90s aesthetic
+- Ensure all game systems work correctly with both gender options
+- Enable pronoun substitution throughout all dialog
 
 ## Requirements
 
 ### Business Requirements
+- **B1:** Provide character choice to increase player identification and broaden appeal
+  - **Rationale:** Gender selection allows more players to connect with the protagonist, potentially expanding the audience
+  - **Success Metric:** Both gender options feel equally polished and integrated into the narrative
 
-- **B2:** Validate game performance on target hardware platform to ensure viability of purpose-built gaming appliance distribution strategy
-  - **Rationale:** [Add rationale here]
-  - **Success Metric/Constraints:** [Add metric or constraints here]
-- **B1:** Implement core investigation mechanics that drive main storyline
-  - **Rationale:** Investigation is the primary gameplay loop for narrative progression
-  - **Success Metric:** Players can advance the story through evidence collection and analysis
+- **B2:** Maintain narrative integrity while supporting player choice
+  - **Rationale:** The core story and themes must work regardless of gender selection
+  - **Success Metric:** All dialog and story beats work naturally with either gender choice
 
 ### User Requirements
+- **U1:** As a player, I want to choose my character's gender at the start of the game
+  - **User Value:** Increased connection to the protagonist and personal representation
+  - **Acceptance Criteria:** Clear gender selection screen appears after "New Game" with visual representation of both options
 
-- **U2:** As a potential customer, I want assurance that the gaming appliance will run smoothly and provide a premium experience when I receive it
-  - **Rationale:** [Add rationale here]
-  - **User Value:** [Add user value here]
-- **U1:** As a player, I want to collect and analyze evidence
-  - **User Value:** Creates detective gameplay satisfaction
-  - **Acceptance Criteria:** Evidence can be found, stored, examined, and combined to progress
+- **U2:** As a player, I want NPCs to address me correctly based on my gender choice
+  - **User Value:** Immersive experience that respects player choice
+  - **Acceptance Criteria:** All NPC dialog uses correct pronouns and titles (Mr./Ms.) consistently
 
-### Technical Requirements (Optional)
-- **T1:** Technical requirement placeholder
-  - **Rationale:** Why this is technically important
-  - **Constraints:** Any limitations to be aware of
+- **U3:** As a player, I want the game to remember my choice across sessions
+  - **User Value:** Continuity of experience without having to reselect
+  - **Acceptance Criteria:** Gender choice is saved and restored correctly with game saves
+
+### Technical Requirements
+- **T1:** Extend save system to support gender data with version migration
+  - **Rationale:** Gender must persist across save/load cycles following modular serialization architecture
+  - **Constraints:** Must follow established serialization patterns; old saves default to male
+
+- **T2:** Implement pronoun substitution system for dialog
+  - **Rationale:** Dialog must dynamically adjust based on player gender without duplicating content
+  - **Constraints:** Performance impact must be minimal; substitution happens at runtime
 
 ## Tasks
-- [ ] Task 1: Create quest data structure and manager
-- [ ] Task 2: Implement quest log UI
-- [ ] Task 3: Develop advanced inventory features including categorization
-- [ ] Task 4: Create puzzles for accessing restricted areas
-- [ ] Task 5: Implement clue discovery and collection system
-- [ ] Task 6: Create assimilated NPC tracking log
-- [ ] Task 7: Develop investigation progress tracking
-- [ ] Task 8: Add quest state persistence
-- [ ] Task 9: Implement overflow inventory storage in player's room
-- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
-- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
-- [ ] Task 12: Set up Raspberry Pi 5 hardware validation environment
-- [ ] Task 13: Conduct POC performance testing on target hardware
-- [ ] Task 14: Document hardware requirements and optimization roadmap
+- [ ] Task 1: Design and implement gender selection UI scene
+- [ ] Task 2: Create gender selection screen with character portraits
+- [ ] Task 3: Implement gender data persistence in PlayerController
+- [ ] Task 4: Extend PlayerSerializer for gender data (version 2)
+- [ ] Task 5: Implement pronoun substitution in DialogManager
+- [ ] Task 6: Update all NPC dialog to use pronoun markers
+- [ ] Task 7: Create gender-specific sprite loading system
+- [ ] Task 8: Test both gender options through complete game flow
+- [ ] Task 9: Add gender selection to new game flow
+- [ ] Task 10: Implement save migration for existing saves
+- [ ] Task 11: Update main menu to show selected character portrait
+- [ ] Task 12: Create comprehensive tests for gender system
 
 ## Testing Criteria
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Game runs stably at 30fps on Raspberry Pi 5 hardware
-- Complete POC playthrough completes without performance issues
-- Hardware validation documentation provides clear optimization roadmap
+- Gender selection screen appears after "New Game" selection
+- Both character portraits display correctly at 64x64 resolution
+- Selected gender persists through save/load cycles
+- All NPC dialog uses correct pronouns and titles
+- Both sprite sets load and animate correctly
+- Dialog substitution has no noticeable performance impact
+- Old saves migrate to default gender without errors
+- Gender selection integrates smoothly with existing game flow
+- All existing functionality works identically for both genders
 
 ## Timeline
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
+- Start date: 2025-07-07
+- Target completion: 2025-07-14
 
 ## Dependencies
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Iteration 5 (Game Districts and Time Management)
+- Iteration 3 (Multi-Perspective Character System) - Sprites must be created first
+- Iteration 4 (Dialog and Verb UI System Refactoring) - Need refactored dialog system
+- Iteration 5 (Save System Foundation) - Need modular serialization in place
+- Iteration 6 (Game Districts and Time Management) - Complete before major content
 
 ## Code Links
-- Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
+- Character Gender Selection System Design: docs/design/character_gender_selection_system.md
+- GenderSelectionUI: src/ui/gender_selection/gender_selection_ui.gd (to be created)
+- Extended PlayerController: src/core/player_controller.gd (to be modified)
+- Extended PlayerSerializer: src/core/serializers/player_serializer.gd (to be modified)
+- Extended DialogManager: src/core/dialog/dialog_manager.gd (to be modified)
 
 ## Notes
-Add any additional notes or considerations here.
+This iteration implements the character gender selection system as designed in docs/design/character_gender_selection_system.md. The system allows players to choose between male and female versions of Alex at game start, with full integration into all game systems including saves, dialog, and sprites.
 
-### Task 11: Implement observation mechanics for detecting assimilated NPCs
-
-**User Story:** As a player, I want to carefully observe NPCs for subtle clues that indicate they have been assimilated, so that I can identify threats and make informed decisions about whom to trust and recruit.
-
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **🔄 IN PROGRESS** (05/22/25)
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. NPCs exhibit different subtle behavioral cues based on assimilation status
-  2. Assimilated NPCs have visual tells that are discoverable through careful observation
-  3. Player can access a dedicated "observe" mode that enables closer inspection of NPCs
-  4. Different observation levels reveal different levels of information (casual glance vs. intense scrutiny)
-  5. Successful observation adds information to the assimilated NPC tracking log
-  6. False positives are possible to create tension and uncertainty
-  7. Observation mechanics integrate with the suspicion system (being caught observing raises suspicion)
-
-**Implementation Notes:**
-- Create a sliding scale of observation intensity with corresponding information reveals
-- Design subtle visual cues that fit the game's aesthetic (slight color shifts, animation differences)
-- Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
-- Link with existing suspicion and NPC state systems from Iteration 2
-
-### Task 12: Set up Raspberry Pi 5 hardware validation environment
-
-**User Story:** As a developer, I want to set up a complete Raspberry Pi 5 testing environment, so that I can validate our game's performance on the actual target hardware before committing to the gaming appliance distribution strategy
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
-
-### Task 13: Conduct POC performance testing on target hardware
-
-**User Story:** As a developer, I want to conduct comprehensive performance testing of the complete POC on Raspberry Pi 5 hardware, so that I can identify any optimization needs and confirm the viability of our gaming appliance approach
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
-
-### Task 14: Document hardware requirements and optimization roadmap
-
-**User Story:** As a project stakeholder, I want detailed documentation of hardware requirements and performance characteristics, so that I can make informed decisions about manufacturing and distribution of the gaming appliance
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
+Key implementation notes:
+- Gender selection happens immediately after "New Game" selection
+- The system follows the modular serialization architecture for save compatibility
+- Dialog uses runtime pronoun substitution to avoid content duplication
+- Both sprite sets must be created in Iteration 3 before this can be implemented
+- The feature is designed to feel like it was always part of the game

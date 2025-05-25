@@ -402,13 +402,21 @@ This is to be a point and click adventure game.
 
 The player is essentially in an Invasion of the Body Snatchers like scenario where they are trying to navigate who is assimilated and who isn't.
 
-The player assumes the role of the aforementioned courier, Alex. Per the backstory setup Alex nor the recipients of the goo are aware of its true nature nor the goal of Aether Corp in introducing the good on the outpost station.
+### Character Selection
 
-Soon after arriving at the station he discovers a resistance group that is trying to stop the Assimilated on the station
+Upon starting a new game, players are presented with a choice between playing as a male or female version of Alex, the courier. This choice affects:
+- The player character's appearance and animations
+- How NPCs address and refer to the player (pronouns, titles)
+- Certain character interactions and story branches
+- The overall experience while maintaining the core narrative
+
+The player assumes the role of the courier, Alex. Per the backstory setup, Alex nor the recipients of the goo are aware of its true nature nor the goal of Aether Corp in introducing the goo on the outpost station.
+
+Soon after arriving at the station, Alex discovers a resistance group that is trying to stop the Assimilated on the station
 
 Their are fundamentally two competing goals for the player
 
-1) Discover and convince "unassimilated" to join the resistance. The gameplay here is focused on figuring out who is and isn't assimilated. Trying to convince those that aren't assimilated of what is going on and to join him and his coalition. All the while not being detected or turned into the faction of assimilated.
+1) Discover and convince "unassimilated" to join the resistance. The gameplay here is focused on figuring out who is and isn't assimilated. Trying to convince those that aren't assimilated of what is going on and to join them and their coalition. All the while not being detected or turned into the faction of assimilated.
 2) To investigate why and how this is happening on the station to begin with. This path is more to do with puzzle solving. Piecing together clues to gain access to certain location that will yield information to what is going on. Knowing this information can help with the goal of stopping the "invasion" plot
 
 Their are fundamentally two options or paths for game completion.
@@ -463,14 +471,14 @@ The game begins in a fairly linear fashion. In that you have to complete the Int
 
 deliver the case / goo to Science Lead 01 on the Science Deck
 
-Alex (the player character) arrives at the station. He has in his inventory a case that contains the vial of "goo"
+Alex (the player character) arrives at the station. They have in their inventory a case that contains the vial of "goo"
 
 ##### Event 1
 
 The Stewardess reminds you that the case is to be delivered to the Science Deck within Engineering.
 
-Once it has been delivered it is inferred to Alex he can check into his room.
-His ship won't depart until the morning.
+Once it has been delivered it is inferred to Alex they can check into their room.
+Their ship won't depart until the morning.
 
 ##### Quest completion Criteria
 
