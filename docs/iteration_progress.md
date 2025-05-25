@@ -13,9 +13,9 @@ This file tracks the progress of all iterations for the project.
 | 14 | Time Management System - Full Implementation | Not started | 0% (0/20) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 7% (3/41) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 9% (4/41) |
 | 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
-| 5 | Save System Foundation | Not started | 0% (0/11) |
+| 5 | Save System Foundation | Not started | 0% (0/12) |
 | 6 | Game Districts and Time Management | Not started | 0% (0/17) |
 | 7 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
 | 8 | Coalition Building | Not started | 0% (0/8) |
@@ -802,7 +802,7 @@ This file tracks the progress of all iterations for the project.
 - [x] Task 1: Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)*
 - [x] Task 2: Implement state signaling and synchronization for camera
 - [x] Task 3: Create test scene for validating camera system improvements
-- [ ] Task 4: Enhance player controller for consistent physics behavior
+- [x] Task 4: Enhance player controller for consistent physics behavior
 - [ ] Task 5: Implement proper pathfinding with Navigation2D
 - [ ] Task 6: Create test scene for player movement validation
 - [ ] Task 7: Enhance walkable area system with improved polygon algorithms
@@ -849,7 +849,7 @@ This file tracks the progress of all iterations for the project.
 | Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)* | Complete | - |
 | Implement state signaling and synchronization for camera (As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.) | Complete | - |
 | Create test scene for validating camera system improvements | Complete | - |
-| Enhance player controller for consistent physics behavior (As a player, I want my character to move naturally with smooth acceleration and deceleration, so that navigation feels responsive and realistic.) | Pending | - |
+| Enhance player controller for consistent physics behavior (As a player, I want my character to move naturally with smooth acceleration and deceleration, so that navigation feels responsive and realistic.) | Complete | - |
 | Implement proper pathfinding with Navigation2D | Pending | - |
 | Create test scene for player movement validation | Pending | - |
 | Enhance walkable area system with improved polygon algorithms (As a player, I want clear boundaries for where my character can walk, so that I don't experience frustration from attempting to navigate to inaccessible areas.) | Pending | - |
@@ -1044,75 +1044,95 @@ This file tracks the progress of all iterations for the project.
 ### Iteration 5: Save System Foundation
 
 **Goals:**
-- Implement investigation mechanics
-- Create quest log system for tracking progress
-- Develop advanced inventory system for collecting evidence
-- Add system for logging known assimilated NPCs
-- Implement overflow storage in player's room
-- **B1:** Implement core investigation mechanics that drive main storyline
-- **U1:** As a player, I want to collect and analyze evidence
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Create quest data structure and manager
-- [ ] Task 2: Implement quest log UI
-- [ ] Task 3: Develop advanced inventory features including categorization
-- [ ] Task 4: Create puzzles for accessing restricted areas
-- [ ] Task 5: Implement clue discovery and collection system
-- [ ] Task 6: Create assimilated NPC tracking log
-- [ ] Task 7: Develop investigation progress tracking
-- [ ] Task 8: Add quest state persistence
-- [ ] Task 9: Implement overflow inventory storage in player's room
-- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
-- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Start date: 2025-06-26
-- Target completion: 2025-07-10
+- Implement single-slot save system inspired by Dead Rising
+- Create robust serialization architecture that can grow with the game
+- Build atomic save operations to prevent corruption
+- Develop save/load UI with clear progress indication
+- Establish version migration framework for future updates
+- Create modular serialization system to minimize future refactoring
+- **B1:** Implement save system that reinforces permanent consequences
+- **B2:** Ensure save system reliability and corruption resistance
+- **U1:** As a player, I want to save my progress when sleeping
+- **U2:** As a player, I want clear feedback during save/load operations
+- **T1:** Implement atomic file operations for save integrity
+- **T2:** Design extensible serialization architecture
+- [ ] Task 1: Implement core SaveManager with atomic file operations
+- [ ] Task 2: Create modular serialization architecture
+- [ ] Task 3: Implement player data serialization (position, stats, inventory)
+- [ ] Task 4: Implement NPC state serialization (simple version)
+- [ ] Task 5: Create world state serialization (districts, doors, etc.)
+- [ ] Task 6: Implement save/load UI flow with progress indication
+- [ ] Task 7: Create corruption detection and recovery system
+- [ ] Task 8: Implement version migration framework
+- [ ] Task 9: Add save file compression (Zstandard)
+- [ ] Task 10: Create save system unit tests
+- [ ] Task 11: Implement backup save management
+- [ ] Task 12: Add save analytics for debugging
+- Save/load cycle preserves all game state correctly
+- Save operations complete in <1 second for current game state
+- Load operations complete in <2 seconds
+- Corruption detection catches all test cases
+- Version migration handles all upgrade paths
+- UI provides clear feedback during operations
+- Atomic operations prevent partial saves
+- Backup system maintains previous save automatically
+- Start date: 2025-05-15
+- Target completion: 2025-05-22
+- Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Game Districts and Time Management)
-- No links yet
+- Iteration 4 (Dialog and Verb UI System Refactoring)
+- Serialization System Design: docs/design/serialization_system.md
+- SaveManager: src/core/systems/save_manager.gd (to be created)
+- PlayerSerializer: src/core/serializers/player_serializer.gd (to be created)
+- NPCSerializer: src/core/serializers/npc_serializer.gd (to be created)
+- WorldSerializer: src/core/serializers/world_serializer.gd (to be created)
+- SaveData: src/core/data/save_data.gd (to be created)
 
 **Key Requirements:**
-- **B1:** Implement core investigation mechanics that drive main storyline
-- **U1:** As a player, I want to collect and analyze evidence
+- **B1:** Implement save system that reinforces permanent consequences
+- **B2:** Ensure save system reliability and corruption resistance
+- **U1:** As a player, I want to save my progress when sleeping
+- **U2:** As a player, I want clear feedback during save/load operations
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create quest data structure and manager | Pending | - |
-| Implement quest log UI | Pending | - |
-| Develop advanced inventory features including categorization | Pending | - |
-| Create puzzles for accessing restricted areas | Pending | - |
-| Implement clue discovery and collection system | Pending | - |
-| Create assimilated NPC tracking log | Pending | - |
-| Develop investigation progress tracking | Pending | - |
-| Add quest state persistence | Pending | - |
-| Implement overflow inventory storage in player's room | Pending | - |
-| Create UI for transferring items between personal inventory and room storage | Pending | - |
-| Implement observation mechanics for detecting assimilated NPCs | Pending | - |
+| Implement core SaveManager with atomic file operations | Pending | - |
+| Create modular serialization architecture | Pending | - |
+| Implement player data serialization (position, stats, inventory) | Pending | - |
+| Implement NPC state serialization (simple version) | Pending | - |
+| Create world state serialization (districts, doors, etc.) | Pending | - |
+| Implement save/load UI flow with progress indication | Pending | - |
+| Create corruption detection and recovery system | Pending | - |
+| Implement version migration framework | Pending | - |
+| Add save file compression (Zstandard) | Pending | - |
+| Create save system unit tests | Pending | - |
+| Implement backup save management | Pending | - |
+| Add save analytics for debugging | Pending | - |
 
 **Testing Criteria:**
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Start date: 2025-06-26
-- Target completion: 2025-07-10
+- Save/load cycle preserves all game state correctly
+- Save operations complete in <1 second for current game state
+- Load operations complete in <2 seconds
+- Corruption detection catches all test cases
+- Version migration handles all upgrade paths
+- UI provides clear feedback during operations
+- Atomic operations prevent partial saves
+- Backup system maintains previous save automatically
+- Start date: 2025-05-15
+- Target completion: 2025-05-22
+- Iteration 1 (Basic Environment and Navigation)
 - Iteration 2 (NPC Framework and Suspicion System)
 - Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Game Districts and Time Management)
-- No links yet
+- Iteration 4 (Dialog and Verb UI System Refactoring)
+- Serialization System Design: docs/design/serialization_system.md
+- SaveManager: src/core/systems/save_manager.gd (to be created)
+- PlayerSerializer: src/core/serializers/player_serializer.gd (to be created)
+- NPCSerializer: src/core/serializers/npc_serializer.gd (to be created)
+- WorldSerializer: src/core/serializers/world_serializer.gd (to be created)
+- SaveData: src/core/data/save_data.gd (to be created)
 
 ### Iteration 6: Game Districts and Time Management
 

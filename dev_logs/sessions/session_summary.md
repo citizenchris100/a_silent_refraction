@@ -3,7 +3,13 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 24, 2025 - Fix Screen Tearing Bug - Root Cause Analysis (🟢 IN PROGRESS)
+### May 24, 2025 - Fix Failing Unit Tests and Movement Offset Bug (✅ COMPLETED)
+- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
+- **Focus:** Fix 2 failing scrolling_camera_test tests then address click position offset issue
+- **Summary:** No summary provided
+- [Session Log](session_2025-05-24_18-34-16.md)
+
+### May 24, 2025 - Fix Screen Tearing Bug - Root Cause Analysis (✅ COMPLETED)
 - **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
 - **Focus:** Debug persistent screen tearing issue
 - **Summary:** No summary provided

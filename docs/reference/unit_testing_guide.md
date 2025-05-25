@@ -340,6 +340,18 @@ func test_performance():
 
 ## Common Issues and Solutions
 
+### Issue: String Multiplication Parse Error
+
+**Problem**: Parse error with string multiplication like `"="*50`
+**Solution**: GDScript doesn't support string multiplication. Use explicit strings instead:
+```gdscript
+# ❌ WRONG - Will cause parse error
+print("="*50)
+
+# ✅ CORRECT - Use explicit string
+print("==================================================")
+```
+
 ### Issue: Test Timeout
 
 **Problem**: Test exceeds 60-second timeout
@@ -414,6 +426,115 @@ func test_suite_new_feature():
 	# Test implementation
 	end_test(condition, "New behavior works correctly")
 ```
+
+## Testing Within the District Architecture
+
+### When to Use Base District in Tests
+
+According to the base district system documentation, certain systems MUST be tested within the proper district architecture:
+
+1. **Camera System Tests** - The ScrollingCamera depends on base_district
+2. **Coordinate Conversion Tests** - CoordinateManager expects a current district
+3. **Player Input Tests** - Input handling uses CoordinateManager which needs district context
+4. **Walkable Area Tests** - These are inherently part of the district system
+
+For these tests, your test file should extend base_district rather than Node2D:
+
+```gdscript
+# ✅ CORRECT - Testing camera/coordinate systems
+extends "res://src/core/districts/base_district.gd"
+
+# ❌ WRONG - Will cause issues with camera and coordinate systems
+extends Node2D
+```
+
+### Creating District-Based Unit Tests
+
+When your test requires the district architecture:
+
+```gdscript
+extends "res://src/core/districts/base_district.gd"
+# Test Name: Description of what's being tested
+
+# Test state variables
+var test_name = "DistrictBasedTest"
+var tests_passed = 0
+var tests_failed = 0
+# ... other test variables ...
+
+func _ready():
+    # Set up the district first
+    district_name = "Test District"
+    district_description = "Unit test district"
+    
+    # Create minimal required nodes
+    setup_test_district()
+    
+    # Call parent _ready() - This sets up camera and systems
+    ._ready()
+    
+    # Wait for initialization
+    yield(get_tree().create_timer(0.2), "timeout")
+    
+    # Run tests
+    yield(run_tests(), "completed")
+    
+    # Exit with test results
+    get_tree().quit(tests_failed)
+
+func setup_test_district():
+    # Create background (required by base_district)
+    var background = Sprite.new()
+    background.name = "Background"
+    
+    # Create a minimal texture
+    var image = Image.new()
+    image.create(1920, 1080, false, Image.FORMAT_RGB8)
+    image.fill(Color(0.2, 0.2, 0.2))
+    var texture = ImageTexture.new()
+    texture.create_from_image(image)
+    background.texture = texture
+    background.centered = false
+    add_child(background)
+    
+    # Set background size for camera
+    background_size = background.texture.get_size()
+    
+    # Create walkable areas if needed
+    create_test_walkable_areas()
+
+func create_test_walkable_areas():
+    var walkable_container = Node2D.new()
+    walkable_container.name = "WalkableAreas"
+    add_child(walkable_container)
+    
+    # Add test walkable area
+    var area = Polygon2D.new()
+    area.polygon = PoolVector2Array([
+        Vector2(0, 400),
+        Vector2(1920, 400),
+        Vector2(1920, 800),
+        Vector2(0, 800)
+    ])
+    area.add_to_group("walkable_area")
+    walkable_container.add_child(area)
+```
+
+### Benefits of District-Based Testing
+
+1. **Proper System Integration** - Camera, coordinates, and input work as in the actual game
+2. **CoordinateManager Access** - The singleton can find the camera through the district
+3. **Realistic Testing** - Tests the actual architecture, not artificial scenarios
+4. **Automatic Setup** - Base district handles camera creation and configuration
+
+### When NOT to Use District-Based Tests
+
+Simple unit tests that don't involve camera, coordinates, or district-specific features should still use the standard Node2D approach:
+
+- Pure logic tests (calculations, data structures)
+- Signal emission tests
+- Simple state machine tests
+- Mock-based interaction tests
 
 ## Testing Player Movement and Districts
 

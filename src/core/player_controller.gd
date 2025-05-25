@@ -23,6 +23,9 @@ func _input(event):
         
     if event is InputEventMouseButton:
         if event.button_index == BUTTON_LEFT and event.pressed:
-            # Command player to move to the clicked position
-            player.move_to(event.global_position)
-            print("Player moving to: ", event.global_position)
+            # Convert screen coordinates to world coordinates using CoordinateManager
+            var world_pos = CoordinateManager.screen_to_world(event.position)
+            
+            # Command player to move to the world position
+            player.move_to(world_pos)
+            print("Player moving to: ", world_pos)
