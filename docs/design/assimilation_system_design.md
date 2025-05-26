@@ -925,13 +925,23 @@ func _decompress_assimilation_data(compressed: Dictionary) -> AssimilationManage
     return data
 ```
 
+## Template Compliance
+
+### NPC Template Integration
+This system integrates with NPCs following the structure defined in `template_npc_design.md`:
+- Utilizes the NPC state machine by adding assimilation-specific states
+- Modifies NPC personality parameters to reflect assimilation
+- Integrates with the observation mechanics defined in the template
+- Extends the procedural dialog generation for assimilated speech patterns
+- Leverages the memory system to track pre/post-assimilation behaviors
+
 ## Integration with Other Systems
 
 ### BaseNPC Integration
-- Extends existing `is_assimilated` flag
-- Adds `assimilation_type` property
-- Modifies personality based on type
-- Integrates with observation mechanics
+- Extends existing `is_assimilated` flag from `template_npc_design.md`
+- Adds `assimilation_type` property to NPC data structure
+- Modifies personality parameters based on assimilation type
+- Integrates with observation mechanics from the NPC template
 
 ### Suspicion System
 - Drone behavior increases area suspicion

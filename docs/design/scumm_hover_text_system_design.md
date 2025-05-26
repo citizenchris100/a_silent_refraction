@@ -539,6 +539,23 @@ func add_coalition_info(base_text: String, npc: BaseNPC) -> String:
     return base_text
 ```
 
+## Template Compliance
+
+### Interactive Object Template Integration
+The hover text system integrates with `template_interactive_object_design.md`:
+- Reads object display names from the template structure
+- Respects object states when generating descriptions
+- Uses the template's state machine for dynamic text
+- Integrates with object observation mechanics
+- Handles special states (locked, broken, etc.) from templates
+
+The system ensures:
+- All interactive objects provide hover text
+- State changes are reflected in descriptions
+- Object categories determine text formatting
+- Verb availability influences text hints
+- Proper integration with object groups
+
 ## Conclusion
 
 The SCUMM-style Hover Text System serves as the primary method for players to understand and interact with the game world. By providing dynamic, context-sensitive descriptions that integrate with all game systems, it creates an information-rich environment that rewards observation and experimentation. The progressive revelation of information and state-aware descriptions support both the adventure game puzzle-solving and the deeper narrative of uncovering the assimilation threat.

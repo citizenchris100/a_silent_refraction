@@ -195,36 +195,23 @@ class CoalitionSafeHouse:
 ### Save Progress Indicator
 ```gdscript
 func show_save_progress():
-    var indicator = SaveProgressUI.instance()
-    UI.add_child(indicator)
+    # Use prompt notification for save progress
+    PromptNotificationSystem.show_info(
+        "save_in_progress",
+        "Saving game...\n\nPlease do not close the application.",
+        "Saving"
+    )
     
-    # Show modular save progress
-    SaveManager.connect("module_save_start", indicator, "_on_module_start")
-    SaveManager.connect("module_save_complete", indicator, "_on_module_complete")
-    
-    # Visual feedback for each system being saved
-    # "Saving player data..."
-    # "Saving NPC states..."
-    # "Saving economy data..."
-    # etc.
+    # Connect to save completion
+    SaveManager.connect("save_completed", self, "_on_save_completed")
+    SaveManager.connect("save_failed", self, "_on_save_failed")
 ```
 
-### Save Confirmation with Overnight Report
-```
-┌─────────────────────────────────────────────────┐
-│ MORNING REPORT - Day 13, 6:00 AM                │
-├─────────────────────────────────────────────────┤
-│                                                 │
-│ Game Saved Successfully                         │
-│                                                 │
-│ While you slept:                                │
-│ • 2 NPCs were assimilated (44% total)          │
-│ • Coalition completed dead drop mission         │
-│ • Shop prices increased due to scarcity        │
-│ • Your exhaustion has been reset               │
-│                                                 │
-│                              [Continue]         │
-└─────────────────────────────────────────────────┘
+### Save Confirmation
+```gdscript
+# Save confirmation is now handled by MorningReportManager
+# which displays a unified morning report including save status
+MorningReportManager.show_morning_report()
 ```
 
 ## Loading System
@@ -313,26 +300,28 @@ func save_game() -> Dictionary:
 
 ### System-Specific Serializer Registration
 ```gdscript
-# Each system self-registers on initialization
-func _ready():
-    # Core systems (high priority)
-    SaveManager.register_serializer("player", PlayerSerializer.new(), 10)
-    SaveManager.register_serializer("time", TimeSerializer.new(), 15)
-    SaveManager.register_serializer("economy", EconomySerializer.new(), 20)
-    
-    # Game systems (medium priority)
-    SaveManager.register_serializer("inventory", InventorySerializer.new(), 25)
-    SaveManager.register_serializer("npcs", NPCSerializer.new(), 30)
-    SaveManager.register_serializer("assimilation", AssimilationSerializer.new(), 35)
-    SaveManager.register_serializer("coalition", CoalitionSerializer.new(), 40)
-    SaveManager.register_serializer("quests", QuestSerializer.new(), 45)
-    SaveManager.register_serializer("trust", TrustSerializer.new(), 50)
-    
-    # World state (lower priority)
-    SaveManager.register_serializer("districts", DistrictSerializer.new(), 55)
-    SaveManager.register_serializer("detection", DetectionSerializer.new(), 60)
-    SaveManager.register_serializer("puzzles", PuzzleSerializer.new(), 65)
-    SaveManager.register_serializer("events", EventSerializer.new(), 70)
+# Each system self-registers its serializer during initialization
+# This follows the modular serialization architecture pattern
+
+# Example from PlayerSystem:
+class PlayerSystem:
+    func _ready():
+        # Self-register serializer
+        SaveManager.register_serializer("player", PlayerSerializer.new(), 10)
+
+# Example from NPCManager:
+class NPCManager:
+    func _ready():
+        # Self-register serializer
+        SaveManager.register_serializer("npcs", NPCSerializer.new(), 30)
+
+# Priority Guidelines:
+# 0-20: Core systems (player, time, economy)
+# 21-50: Game systems (npcs, assimilation, coalition, quests)
+# 51-80: World state (districts, detection, puzzles)
+# 81-100: UI/Utility systems (prompt notifications, settings)
+
+# See modular_serialization_architecture.md for full pattern
 ```
 
 ## Overnight Event Processing
@@ -346,16 +335,16 @@ func _process_overnight_events():
     TimeManager.advance_to_next_day()
     
     # 2. Assimilation spreads
-    var spread_report = AssimilationManager.process_overnight_spread()
-    overnight_reports["assimilation"] = spread_report
+    AssimilationManager.process_overnight_spread()
+    # Results are reported to MorningReportManager
     
     # 3. Coalition acts (may be affected by new assimilations)
-    var coalition_report = CoalitionManager.process_overnight_actions()
-    overnight_reports["coalition"] = coalition_report
+    CoalitionManager.process_overnight_actions()
+    # Results are reported to MorningReportManager
     
     # 4. Economy updates (rent, market changes)
-    var economy_report = EconomyManager.process_overnight_economy()
-    overnight_reports["economy"] = economy_report
+    EconomyManager.process_overnight_economy()
+    # Results are reported to MorningReportManager
     
     # 5. NPC schedules update
     NPCManager.process_overnight_movements()
@@ -372,42 +361,13 @@ func _process_overnight_events():
 
 ### Overnight Report Generation
 ```gdscript
-func generate_overnight_report() -> Array:
-    var report_items = []
-    
-    # Assimilation spread (most critical)
-    if overnight_reports.assimilation.new_infections > 0:
-        report_items.append({
-            "priority": "critical",
-            "text": "%d NPCs were assimilated (%d%% total)" % [
-                overnight_reports.assimilation.new_infections,
-                AssimilationManager.get_station_ratio() * 100
-            ]
-        })
-    
-    # Coalition actions
-    for action in overnight_reports.coalition.completed_actions:
-        report_items.append({
-            "priority": "high",
-            "text": "Coalition: " + action.description
-        })
-    
-    # Economic changes
-    if overnight_reports.economy.market_event:
-        report_items.append({
-            "priority": "medium",
-            "text": overnight_reports.economy.market_event
-        })
-    
-    # Quest deadlines
-    var approaching_deadlines = QuestManager.get_deadlines_within_days(2)
-    for quest in approaching_deadlines:
-        report_items.append({
-            "priority": "high",
-            "text": "Quest deadline approaching: " + quest.name
-        })
-    
-    return report_items
+# Overnight report generation is now handled by MorningReportManager
+# Each system reports its events directly to the manager:
+# - AssimilationManager.process_overnight_spread() calls MorningReportManager.report_assimilation_spread()
+# - CoalitionManager.process_overnight_actions() calls MorningReportManager.report_coalition_activities()
+# - EconomyManager.process_overnight_economy() calls MorningReportManager.report_economic_events()
+# - QuestManager reports quest updates
+# See morning_report_manager_design.md for implementation details
 ```
 
 ## Error Handling
@@ -416,7 +376,11 @@ func generate_overnight_report() -> Array:
 ```gdscript
 func handle_save_failure(error: String):
     # Never lose progress due to save failure
-    var dialog = SaveErrorDialog.instance()
+    PromptNotificationSystem.show_critical(
+        "save_failure",
+        "Failed to save game!\n\nError: %s\n\nYour progress has not been lost. Please try saving again." % error,
+        "Save Error"
+    )
     dialog.set_message("Failed to save game: " + error)
     
     # Offer recovery options
@@ -444,32 +408,36 @@ func detect_corruption_on_load():
     var validation = SaveManager.validate_save_file()
     
     if not validation.valid:
-        var dialog = CorruptionDialog.instance()
-        dialog.set_title("Save File Issue Detected")
+        # Build corruption message
+        var message_parts = ["Save file issue detected!\n"]
         
         # Specific corruption feedback
         if validation.missing_modules.size() > 0:
-            dialog.add_info("Missing data: " + str(validation.missing_modules))
+            message_parts.append("Missing data: %s" % str(validation.missing_modules))
         
         if validation.checksum_mismatch:
-            dialog.add_info("Save file may have been modified")
+            message_parts.append("Save file may have been modified")
         
-        # Recovery options
+        # Recovery options info
+        message_parts.append("\nRecovery options:")
+        
         if SaveManager.backup_exists():
             var backup_info = SaveManager.get_backup_info()
-            dialog.add_option(
-                "Restore from backup (Day %d)" % backup_info.day,
-                "_restore_backup"
-            )
+            message_parts.append("• Backup available (Day %d)" % backup_info.day)
         
         if validation.partial_recovery_possible:
-            dialog.add_option(
-                "Attempt partial recovery",
-                "_partial_recovery"
-            )
+            message_parts.append("• Partial recovery may be possible")
         
-        dialog.add_option("Start New Game", "_new_game")
-        dialog.show()
+        message_parts.append("• Start a new game")
+        
+        # Show notification
+        PromptNotificationSystem.show_critical(
+            "save_corruption",
+            message_parts.join("\n"),
+            "Save File Corrupted"
+        )
+        
+        # TODO: When multi-choice prompts are implemented, offer recovery options
 ```
 
 ## Platform-Specific Implementation

@@ -609,9 +609,23 @@ func archive_old_quests():
 ```gdscript
 func add_quest(quest_data: QuestData):
     active_quests.append(quest_data)
-    UI.show_notification("New Quest: " + quest_data.name)
+    
+    # Build quest notification message
+    var message = "New Quest: %s\n\n%s" % [quest_data.name, quest_data.description]
+    
     if quest_data.timed:
-        UI.flash_notification("TIME SENSITIVE!")
+        message += "\n\n⏰ TIME SENSITIVE - Complete by Day %d" % quest_data.time_limit
+        PromptNotificationSystem.show_critical(
+            "new_quest_timed_%s" % quest_data.id,
+            message,
+            "Urgent Quest!"
+        )
+    else:
+        PromptNotificationSystem.show_info(
+            "new_quest_%s" % quest_data.id,
+            message,
+            "New Quest"
+        )
 ```
 
 ### Progress Updates
@@ -619,13 +633,81 @@ func add_quest(quest_data: QuestData):
 signal objective_completed(quest_id, objective_index)
 signal quest_completed(quest_id)
 signal quest_failed(quest_id, reason)
+
+func _on_objective_completed(quest_id: String, objective_index: int):
+    var quest = get_quest(quest_id)
+    var objective = quest.objectives[objective_index]
+    
+    PromptNotificationSystem.show_info(
+        "objective_complete_%s_%d" % [quest_id, objective_index],
+        "Objective Complete!\n\n%s\n✓ %s" % [quest.name, objective.text],
+        "Progress"
+    )
+
+func _on_quest_completed(quest_id: String):
+    var quest = get_quest(quest_id)
+    var rewards_text = _format_rewards(quest.rewards)
+    
+    PromptNotificationSystem.show_info(
+        "quest_complete_%s" % quest_id,
+        "Quest Completed!\n\n%s\n\nRewards:\n%s" % [quest.name, rewards_text],
+        "Success!"
+    )
+
+func _on_quest_failed(quest_id: String, reason: String):
+    var quest = get_quest(quest_id)
+    
+    PromptNotificationSystem.show_warning(
+        "quest_failed_%s" % quest_id,
+        "Quest Failed!\n\n%s\n\nReason: %s" % [quest.name, reason],
+        "Failed"
+    )
 ```
 
 ### Reminder System
-- Daily summary of active quests
-- Deadline warnings
-- Stalled quest notifications
-- Location-based reminders
+```gdscript
+func show_daily_quest_summary():
+    var summary_lines = ["Daily Quest Summary - Day %d" % TimeManager.current_day]
+    summary_lines.append("")
+    
+    # Time-sensitive quests
+    var urgent_quests = get_quests_expiring_soon(2)  # Within 2 days
+    if urgent_quests.size() > 0:
+        summary_lines.append("⏰ URGENT QUESTS:")
+        for quest in urgent_quests:
+            var days_left = quest.time_limit - TimeManager.current_day
+            summary_lines.append("• %s - %d days left" % [quest.name, days_left])
+        summary_lines.append("")
+    
+    # Active quests summary
+    summary_lines.append("Active Quests: %d" % active_quests.size())
+    summary_lines.append("Potential Earnings: %d credits" % calculate_total_rewards())
+    
+    PromptNotificationSystem.show_info(
+        "daily_quest_summary",
+        summary_lines.join("\n"),
+        "Quest Summary"
+    )
+
+func show_deadline_warning(quest: QuestData):
+    var days_left = quest.time_limit - TimeManager.current_day
+    
+    PromptNotificationSystem.show_warning(
+        "quest_deadline_%s" % quest.id,
+        "Quest Deadline Approaching!\n\n%s\n\nOnly %d days remaining!" % [
+            quest.name,
+            days_left
+        ],
+        "Deadline Warning"
+    )
+
+func show_location_reminder(quest: QuestData):
+    PromptNotificationSystem.show_info(
+        "quest_location_%s" % quest.id,
+        "Quest Available Here\n\n%s\n\nYou're at the right location to progress this quest." % quest.name,
+        "Quest Reminder"
+    )
+```
 
 ## Debug Features
 
@@ -895,3 +977,31 @@ func show_time_investment():
 ## Conclusion
 
 The Quest Log UI serves as the player's strategic command center, surfacing critical information from all game systems in a unified interface. By deeply integrating with the economy, time management, coalition building, trust networks, detection risks, and assimilation spread, it transforms from a simple task list into an essential planning tool. The modular serialization ensures the system can evolve without breaking saves, while the comprehensive system integration provides players with all the information needed to navigate the game's interconnected challenges and make meaningful decisions about their path to either escape or control of the station.
+
+## System Dependencies
+
+### Required Systems
+- **PromptNotificationSystem**: All quest notifications, updates, and warnings
+- **QuestManager**: Core quest data and state management
+- **TimeManager**: Quest deadlines and time tracking
+- **EconomyManager**: Cost calculations and reward processing
+- **AssimilationManager**: Assimilation impact and NPC status
+- **CoalitionManager**: Network effects and member requirements
+- **NPCTrustManager**: Trust requirements and gains
+- **SaveManager**: Quest state serialization
+
+### Optional Integrations
+- **DistrictManager**: Location-based quest filtering
+- **TramSystem**: Travel route optimization
+- **DisguiseManager**: Infiltration quest requirements
+- **DetectionManager**: Risk assessment display
+- **InventoryManager**: Item requirement checking
+- **PuzzleManager**: Investigation chain visualization
+
+### Signal Connections
+- Emits: `quest_selected`, `quest_tracked`, `filter_changed`
+- Listens to: Quest state changes, objective progress, time updates
+
+### Template References
+- Uses **template_quest_design.md** for quest data structures
+- References **template_dialog_design.md** for quest-related dialogs

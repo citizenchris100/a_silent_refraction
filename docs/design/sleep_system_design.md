@@ -50,7 +50,11 @@ class BarracksSleepHandler:
             return false
             
         if DetectionManager.get_state() == DetectionState.PURSUING:
-            show_message("You can't sleep while being pursued!")
+            PromptNotificationSystem.show_warning(
+                "cannot_sleep_pursued",
+                "You can't sleep while being pursued!\n\nLose your pursuers first.",
+                "Too Dangerous"
+            )
             return false
             
         return true
@@ -59,12 +63,20 @@ class BarracksSleepHandler:
         if not can_sleep_in_barracks():
             return
             
-        # Show sleep dialog
-        var dialog = SleepConfirmDialog.instance()
-        dialog.set_location("Barracks")
-        dialog.set_wake_time(WAKE_TIME_BARRACKS)
-        dialog.show_overnight_preview()  # Assimilation spread, etc.
-        dialog.connect("confirmed", self, "_on_sleep_confirmed")
+        # Show sleep confirmation
+        # Note: This requires a confirm dialog with Yes/No options
+        # For now, using info prompt - TODO: Update when confirm dialogs are implemented
+        PromptNotificationSystem.show_info(
+            "sleep_confirm_barracks",
+            "Sleep until %d:00 AM?\n\nCurrent time: %s (Day %d)\n\nWhile you sleep:\n• Assimilation will spread\n• Your game will be saved" % [
+                WAKE_TIME_BARRACKS,
+                TimeManager.get_time_string(),
+                TimeManager.current_day
+            ],
+            "Rest in Barracks"
+        )
+        # TODO: Connect to confirmation when multi-button prompts are added
+        _on_sleep_confirmed()  # Temporary direct call
     
     func _on_sleep_confirmed():
         # Process overnight events
@@ -80,8 +92,8 @@ class BarracksSleepHandler:
         FatigueSystem.apply_quality_rest(1.0)  # Full recovery
         PlayerStats.adjust_morale(5)
         
-        # Show morning report
-        show_morning_report()
+        # Morning report is handled by MorningReportManager
+        MorningReportManager.show_morning_report()
 ```
 
 ### Forced Return at Midnight
@@ -111,16 +123,18 @@ class MidnightEnforcer:
             force_return_to_barracks()
     
     func show_return_warning():
-        var dialog = NotificationDialog.instance()
-        dialog.set_message("You're getting tired. You should return to your barracks soon.")
-        dialog.set_timer(5.0)  # Auto-dismiss
-        dialog.show()
+        PromptNotificationSystem.show_warning(
+            "sleep_warning_30min",
+            "You're getting tired. You should return to your barracks soon.\n\nTram service ends at midnight.",
+            "Rest Needed"
+        )
     
     func show_final_warning():
-        var dialog = UrgentDialog.instance()
-        dialog.set_message("You must return to your barracks immediately!")
-        dialog.add_button("OK", "_acknowledge")
-        dialog.show()
+        PromptNotificationSystem.show_critical(
+            "sleep_warning_final",
+            "You must return to your barracks immediately!\n\nYou're about to collapse from exhaustion.",
+            "Urgent: Return Now!"
+        )
     
     func force_return_to_barracks():
         # Check if player can afford tram
@@ -136,10 +150,12 @@ class MidnightEnforcer:
 ### Forced Return Execution
 ```gdscript
 func execute_forced_return(tram_cost: int):
-    # Show forced return dialog
-    var dialog = ForcedReturnDialog.instance()
-    dialog.set_message("You're too exhausted to continue. Returning to barracks...")
-    dialog.show()
+    # Show forced return notification
+    PromptNotificationSystem.show_critical(
+        "forced_return_barracks",
+        "You're too exhausted to continue.\n\nReturning to barracks...\n\nTram fare: %d credits" % tram_cost,
+        "Exhaustion"
+    )
     
     # Deduct tram fare
     EconomyManager.deduct_credits(tram_cost)
@@ -179,9 +195,17 @@ class SquatDwellerManager:
         # Show notification based on reason
         match reason:
             "eviction":
-                show_eviction_notice()
+                PromptNotificationSystem.show_critical(
+                    "barracks_eviction",
+                    "EVICTION NOTICE\n\nYou have been evicted from the barracks.\n\nFind alternative accommodation.",
+                    "Evicted"
+                )
             "insufficient_funds":
-                show_broke_notice()
+                PromptNotificationSystem.show_warning(
+                    "barracks_broke",
+                    "You cannot afford the tram fare home.\n\nYou'll have to find somewhere else to sleep.",
+                    "No Funds"
+                )
         
         # Update player status
         PlayerStats.add_status("homeless")
@@ -202,9 +226,11 @@ class SquatSleepEnforcer:
     
     func force_mall_squat_sleep(trigger: String):
         # No choice - must sleep
-        var dialog = ForcedSquatDialog.instance()
-        dialog.set_message("Exhausted, you find a hidden corner in the Mall...")
-        dialog.show()
+        PromptNotificationSystem.show_info(
+            "forced_sleep_mall",
+            "Exhausted, you find a hidden corner in the Mall...\n\nYou'll wake at 5:00 AM.",
+            "Makeshift Rest"
+        )
         
         # Process overnight events with penalties
         process_overnight_events_squat()
@@ -243,14 +269,13 @@ func spawn_on_mall_floor():
     var spawn = spawn_points[randi() % spawn_points.size()]
     PlayerLocation.set_position(spawn)
     
-    # Show wake-up dialog
-    var dialog = WakeUpDialog.instance()
-    dialog.set_message("You wake up stiff and tired. A security guard eyes you suspiciously.")
-    dialog.add_status_summary(get_squat_sleep_summary())
-    dialog.show()
-    
-    # Morning save confirmation
-    show_save_confirmation()
+    # Show wake-up notification with status
+    var summary = get_squat_sleep_summary()
+    PromptNotificationSystem.show_info(
+        "wake_up_mall",
+        "You wake up stiff and tired. A security guard eyes you suspiciously.\n\n%s" % summary,
+        "Morning - Day %d" % TimeManager.current_day
+    )
 ```
 
 ## Integration with Game Systems

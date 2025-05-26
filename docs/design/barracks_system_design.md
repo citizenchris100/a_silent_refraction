@@ -76,7 +76,15 @@ func process_rent_collection():
         grace_period_active = false
         last_payment_day = TimeManager.current_day
         
-        show_payment_confirmation(rent_due)
+        PromptNotificationSystem.show_info(
+            "rent_payment_success",
+            "Rent paid successfully!\n\nAmount: %d credits\nNext payment due: %s\nRemaining balance: %d credits" % [
+                rent_due,
+                get_next_rent_date_string(),
+                EconomyManager.get_credits()
+            ],
+            "Payment Confirmed"
+        )
         
         # Log transaction
         EconomyManager.log_transaction({
@@ -128,17 +136,15 @@ func check_payment_warnings():
 ### Warning Notifications
 ```gdscript
 func show_insufficient_funds_warning(shortfall: int):
-    var notification = NotificationSystem.create_notification({
-        "type": "warning",
-        "title": "Rent Payment Due Soon",
-        "message": "Rent of %d credits due in 2 days. You need %d more credits." % [
+    PromptNotificationSystem.show_warning(
+        "rent_due_insufficient_funds",
+        "Rent Payment Due Soon!\n\nRent due: %d credits\nYour balance: %d credits\nShortfall: %d credits\n\nPayment due in 2 days (Friday)" % [
             calculate_total_owed(),
+            EconomyManager.get_credits(),
             shortfall
         ],
-        "duration": 10.0,
-        "priority": "high",
-        "icon": "credit_warning"
-    })
+        "Rent Warning"
+    )
     
     # Add to quest log as reminder
     QuestManager.add_reminder({
@@ -154,14 +160,14 @@ func show_insufficient_funds_warning(shortfall: int):
 func show_grace_period_notice():
     var total_owed = WEEKLY_RENT * 2  # This week + next week
     
-    var notification = NotificationSystem.create_notification({
-        "type": "critical",
-        "title": "RENT PAYMENT MISSED",
-        "message": "You have one week to pay %d credits (2 weeks rent) or face eviction." % total_owed,
-        "duration": 15.0,
-        "priority": "critical",
-        "sticky": true  # Requires manual dismissal
-    })
+    PromptNotificationSystem.show_critical(
+        "rent_grace_period",
+        "RENT PAYMENT MISSED!\n\nYou have entered a grace period.\n\nTotal owed: %d credits (2 weeks rent)\nDays until eviction: %d\n\nPay the full amount to the Concierge or face eviction!" % [
+            total_owed,
+            GRACE_PERIOD_DAYS
+        ],
+        "Payment Overdue!"
+    )
     
     # Update time display to show critical deadline
     TimeDisplayUI.add_critical_deadline({
@@ -205,19 +211,14 @@ func execute_eviction():
 ### Eviction Notice
 ```gdscript
 func show_eviction_notice():
-    var dialog = EvictionDialog.instance()
-    dialog.set_title("EVICTION NOTICE")
-    dialog.set_message(
-        "You have been evicted from your barracks room for non-payment of rent.\n\n" +
-        "Amount owed: %d credits\n\n" % calculate_total_owed() +
-        "To regain access:\n" +
-        "1. Collect %d credits\n" % calculate_total_owed() +
-        "2. Visit the Concierge in the Barracks Lobby\n" +
-        "3. Pay the full amount owed\n\n" +
-        "Until then, you must find alternative sleeping arrangements."
+    PromptNotificationSystem.show_critical(
+        "barracks_eviction",
+        "EVICTION NOTICE\n\nYou have been evicted from your barracks room for non-payment of rent.\n\nAmount owed: %d credits\n\nTo regain access:\n1. Collect %d credits\n2. Visit the Concierge in the Barracks Lobby\n3. Pay the full amount owed\n\nUntil then, you must find alternative sleeping arrangements." % [
+            calculate_total_owed(),
+            calculate_total_owed()
+        ],
+        "Evicted!"
     )
-    dialog.add_button("I understand", "_acknowledge")
-    dialog.show()
     
     # Log for player reference
     add_to_journal({
@@ -279,6 +280,18 @@ func handle_rent_repayment():
     
     # Notify systems
     emit_signal("player_readmitted", TimeManager.current_day)
+
+### Readmittance Confirmation
+```gdscript
+func show_readmittance_confirmation():
+    PromptNotificationSystem.show_info(
+        "barracks_readmittance",
+        "Welcome back!\n\nYour barracks access has been restored.\n\nNext rent payment due: %s\nAmount: %d credits\n\nYour belongings in storage are now accessible again." % [
+            get_next_rent_date_string(),
+            WEEKLY_RENT
+        ],
+        "Access Restored"
+    )
 ```
 
 ## System Integration
@@ -526,14 +539,22 @@ func check_hardship_events():
     # Rare chance of rent reduction
     if EventManager.should_trigger("economic_crisis"):
         WEEKLY_RENT = int(WEEKLY_RENT * 0.8)  # 20% reduction
-        show_notification("Station-wide rent reduction due to economic crisis")
+        PromptNotificationSystem.show_info(
+            "rent_reduction_crisis",
+            "Station-wide rent reduction due to economic crisis",
+            "Economic Update"
+        )
     
     # Coalition assistance
     if weeks_owed > 0 and randf() < 0.1:  # 10% chance
         if CoalitionManager.get_network_size() >= 5:
             var assistance = randi() % 200 + 100  # 100-300 credits
             EconomyManager.add_credits(assistance)
-            show_notification("Coalition members pooled %d credits to help with rent" % assistance)
+            PromptNotificationSystem.show_info(
+                "coalition_rent_assistance",
+                "Coalition members pooled %d credits to help with rent" % assistance,
+                "Coalition Support"
+            )
 ```
 
 ### Barracks Events
@@ -581,6 +602,28 @@ class BarracksDebugCommands:
 - Partial rent payments
 - Rent forgiveness
 - Property ownership
+
+## System Dependencies
+
+The Barracks System integrates with the following systems:
+
+### Required Systems
+- **PromptNotificationSystem**: All player notifications and warnings
+- **EconomyManager**: Credit transactions and economic tracking
+- **TimeManager**: Day tracking and weekly rent cycles
+- **SaveManager**: Save location management and data persistence
+- **SleepSystem**: Sleep location validation and comfort levels
+- **InventoryManager**: Storage access control
+- **NPCManager**: Concierge interactions for re-admittance
+- **QuestManager**: Rent payment reminders and implicit quests
+
+### Optional Integrations
+- **CoalitionManager**: Assistance events and alternative housing
+- **DetectionManager**: Homelessness suspicion modifiers
+- **AssimilationManager**: Vulnerability modifiers when evicted
+- **EventManager**: Special economic events and assistance
+- **CalendarUI**: Visual rent due dates
+- **TimeDisplayUI**: Critical deadline warnings
 
 ## Conclusion
 

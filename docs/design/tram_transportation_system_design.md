@@ -933,4 +933,22 @@ func _animate_transit():
    - In-transit saves
    - Multiple passes
 
+## Template Compliance
+
+### District Template Integration
+Tram stations follow `template_district_design.md`:
+- Each station is a mini-district with its own walkable areas
+- Platforms have defined boundaries and interaction points
+- Entry/exit points connect to main districts
+- Background art follows district visual standards
+- Save/load preserves station states
+
+### Interactive Object Template Integration
+Tram system elements follow `template_interactive_object_design.md`:
+- Ticket machines are interactive objects with purchase states
+- Route maps support EXAMINE verb for schedule info
+- Tram cars have boarding interaction points
+- Pass readers show visual feedback on use
+- All elements properly serialize their states
+
 This system creates meaningful travel decisions where every trip must be carefully considered against time and money constraints, reinforcing the game's economic pressure and time management themes.

@@ -711,4 +711,20 @@ func _format_statistics(stats: Dictionary) -> String:
    - Time advances properly
    - All systems remain functional
 
+## Template Compliance
+
+### Quest Template Integration
+Ending sequences follow `template_quest_design.md`:
+- Each ending path is a complete quest with objectives
+- Uses multi-part quest structure for complex endings
+- Time-sensitive objectives create urgency
+- Branching paths based on player choices
+- Quest completion triggers ending cinematics
+
+The ending quests leverage:
+- Dynamic objectives based on game state
+- Failure conditions that lead to bad endings
+- Optional objectives that enhance ending quality
+- Quest serialization for save/load during endings
+
 This system creates meaningful endings based on player performance throughout the game, with the assimilation ratio driving a clear fork between fighting for control or accepting defeat and escaping.

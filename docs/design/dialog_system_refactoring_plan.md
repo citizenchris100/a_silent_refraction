@@ -1,11 +1,12 @@
 # Dialog System Architectural Refactoring Plan
 
 **Status: 📋 PLAN**  
-**Target: Iteration 3.5 (Post-Navigation)**
+**Target: Iteration 3.5 (Post-Navigation)**  
+**Updated: May 26, 2025 - Added UI consolidation requirements**
 
 ## Executive Summary
 
-The current dialog system, while functionally complete, violates several key architectural principles outlined in `docs/reference/architecture.md`. This plan details a comprehensive refactoring to bring the system into full compliance while maintaining all existing functionality.
+The current dialog system, while functionally complete, violates several key architectural principles outlined in `docs/reference/architecture.md`. Additionally, multiple systems (Sleep, Save, Detection) implement their own dialog/notification UIs, creating redundancy. This plan details a comprehensive refactoring to bring the system into full compliance while consolidating all UI notifications through the `prompt_notification_system`.
 
 ## Current State Analysis
 
@@ -30,6 +31,13 @@ The current dialog system, while functionally complete, violates several key arc
    - Hard scene tree dependencies
    - No dependency injection
    - Monolithic component design
+
+5. **UI Redundancy Issues**
+   - Multiple systems implementing custom dialogs
+   - Sleep system: Custom warning dialogs, confirmation dialogs
+   - Save system: Custom progress dialogs, error dialogs
+   - Detection system: Custom alert dialogs
+   - Inconsistent UI/UX across systems
 
 ## Refactoring Strategy
 
@@ -490,12 +498,66 @@ func is_enabled(flag_name: String) -> bool:
 - [ ] Write comprehensive unit tests
 - [ ] Implement adapter pattern for legacy support
 - [ ] Progressive rollout with feature flags
+- [ ] Migrate all custom dialogs to PromptNotificationSystem
+- [ ] Integrate MorningReportManager
 
 ### Week 5: Documentation and Cleanup
 - [ ] Update system documentation
 - [ ] Remove legacy code
 - [ ] Performance optimization
 - [ ] Final integration testing
+
+## UI Consolidation Requirements
+
+### Systems to Migrate
+
+All custom dialog implementations must be replaced with calls to `PromptNotificationSystem`:
+
+1. **Sleep System**
+   - Replace `NotificationDialog`, `UrgentDialog`, `ForcedReturnDialog`
+   - Replace `SleepConfirmDialog`, `WakeUpDialog`
+   - Use prompt types: WARNING, CRITICAL, INFO
+
+2. **Save System**
+   - Replace `SaveProgressUI`, `SaveErrorDialog`
+   - Replace `CorruptionDialog`, loading dialogs
+   - Use prompt types: INFO, CRITICAL
+
+3. **Detection System**
+   - Replace custom alert dialogs
+   - Replace lockdown announcements
+   - Use prompt types: CRITICAL, WARNING
+
+4. **Morning Reports**
+   - Centralize through `MorningReportManager`
+   - Remove duplicate implementations from Sleep and Save systems
+   - Use prompt type: INFO
+
+### Migration Strategy
+
+```gdscript
+# Example: Migrating Sleep System warnings
+# OLD:
+var dialog = NotificationDialog.instance()
+dialog.set_message("You're getting tired...")
+dialog.show()
+
+# NEW:
+PromptNotificationSystem.show_warning(
+    "sleep_warning_30min",
+    "You're getting tired. You should return to your barracks soon.\n\nTram service ends at midnight.",
+    "Rest Needed"
+)
+```
+
+### Future Multi-Choice Dialog Support
+
+Some scenarios require multi-choice dialogs (not yet supported by prompt system):
+- Security confrontations with multiple response options
+- Save corruption recovery options
+- Complex NPC interactions
+
+These will be addressed when `PromptNotificationSystem` adds multi-button support.
 
 ## Success Criteria
 
@@ -504,12 +566,15 @@ func is_enabled(flag_name: String) -> bool:
 - ✅ **Single Responsibility**: Each class has one clear purpose
 - ✅ **Testability**: All components can be unit tested in isolation
 - ✅ **Error Handling**: Structured error reporting with context preservation
+- ✅ **UI Consistency**: All notifications use centralized prompt system
 
 ### Functional Preservation
 - ✅ All existing dialog functionality maintained
 - ✅ Suspicion system integration preserved  
 - ✅ Assimilation text transformation working
 - ✅ UI behavior identical to current system
+- ✅ All notifications consolidated through prompt system
+- ✅ Morning reports unified through MorningReportManager
 
 ### Quality Improvements
 - ✅ Unit test coverage > 90%
@@ -537,5 +602,24 @@ func is_enabled(flag_name: String) -> bool:
 4. **Reliability**: Structured error handling prevents silent failures
 5. **Performance**: Reduced coupling enables better optimization
 6. **Developer Experience**: Clear interfaces and documentation
+7. **UI Consistency**: Single source of truth for all notifications
+8. **Reduced Redundancy**: No duplicate dialog implementations
 
-This refactoring aligns the dialog system with the architectural principles while maintaining all existing functionality and setting the foundation for future enhancements.
+## Template Compliance
+
+### Dialog Template Integration
+This refactoring ensures all dialogs follow `template_dialog_design.md`:
+- Implements the personality-driven dialog generation system
+- Uses the context-aware dialog selection mechanisms
+- Maintains dialog state tracking and memory
+- Integrates properly with suspicion and assimilation systems
+- Follows the template's procedural generation patterns
+
+The refactored system enforces:
+- Consistent dialog tree structure across all NPCs
+- Standard personality parameter usage
+- Proper context integration (time, location, events)
+- Template-based response generation
+- Correct assimilation speech pattern modifications
+
+This refactoring aligns the dialog system with the architectural principles while consolidating all UI notifications, maintaining existing functionality, and setting the foundation for future enhancements.

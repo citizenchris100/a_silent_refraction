@@ -1007,4 +1007,21 @@ func should_debug_performance() -> bool:
 6. **Developer Experience**: Clear interfaces and configuration-driven system
 7. **Customization**: Configurable verb definitions, UI themes, and interaction behaviors
 
+## Template Compliance
+
+### Interactive Object Template Integration
+The refactored Verb UI system ensures proper integration with `template_interactive_object_design.md`:
+- All verb interactions follow the standard `interact(verb, item)` interface
+- Validates verb support before passing to interactive objects
+- Respects object state machines for available verbs
+- Integrates with visual/audio feedback from objects
+- Properly handles item combination through the template interface
+
+The system enforces:
+- Consistent verb handling across all interactive objects
+- Standard response patterns for unsupported verbs
+- Proper state-based verb availability
+- Correct item combination validation
+- Integration with object serialization for verb states
+
 This refactoring brings the Verb UI system into full compliance with the architectural principles while maintaining all existing functionality and providing a foundation for future enhancements like custom verbs, themed UIs, and advanced interaction mechanics.

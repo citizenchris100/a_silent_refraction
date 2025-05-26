@@ -696,6 +696,22 @@ func update_crime_stats(crime: CrimeEvent) -> void:
    - Check district value changes
    - Verify price modifications
 
+## Template Compliance
+
+### NPC Template Integration
+Security NPCs and criminals follow `template_npc_design.md`:
+- Security guards use the full NPC state machine with patrol states
+- Criminal NPCs (especially drones) use modified behavioral states
+- All NPCs maintain schedules that integrate with patrol/crime timing
+- Dialog generation reflects their security role or criminal behavior
+- Assimilation states properly affect security/criminal behaviors
+
+Security-specific extensions:
+- Additional states for PATROLLING, INVESTIGATING, PURSUING
+- Enhanced observation mechanics for detecting crimes
+- Memory system tracks witnessed crimes and known criminals
+- Personality affects enforcement style (strict vs lenient)
+
 ## Implementation Notes
 
 The Crime/Security Event System creates a living world where:

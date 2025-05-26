@@ -299,6 +299,21 @@ This MVP provides clear upgrade paths to the full system:
 - Add relationship effects by tracking NPC interactions
 - Add performance optimizations without changing API
 
+## Template Compliance
+
+### NPC Template Integration
+This system manages NPCs following the structure defined in `template_npc_design.md`:
+- Uses the NPC schedule system from the template for daily routines
+- Integrates with NPC state machines for location-based behaviors
+- Respects NPC personality parameters when determining schedule variations
+- Leverages the template's observation mechanics for event discovery
+
+NPCs managed by this system maintain full compatibility with:
+- State-based behaviors defined in the template
+- Memory systems for tracking where they've been
+- Dialog generation based on recent activities
+- Assimilation states affecting their schedules
+
 ## Risk Mitigation
 
 1. **Save System Compatibility**: All event data must be serializable

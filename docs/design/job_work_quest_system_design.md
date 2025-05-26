@@ -989,6 +989,29 @@ const SHIFT_EXHAUSTION = 0.3  # Can't work multiple jobs same day
 - Suspension forces job diversity
 - Reputation affects NPC trust
 
+## Template Compliance
+
+### Quest Template Integration
+This system follows the quest structure defined in `template_quest_design.md`:
+- Uses the Quest/Part/Objective hierarchy for job quest lines
+- Implements linear progression for intro quests, branching for shift variants
+- Leverages time-sensitive objectives for shift deadlines
+- Follows modular quest structure with self-contained job types
+
+### NPC Template Integration
+Job quest givers and coworkers follow `template_npc_design.md`:
+- Quest givers are full NPCs with schedules and personality traits
+- Integrate with NPC trust and relationship systems
+- Use procedural dialog generation for work-related conversations
+- Support assimilation states affecting workplace behavior
+
+### District Template Integration
+Jobs are tied to districts following `template_district_design.md`:
+- Each job type belongs to a specific district
+- Workplaces are interactive areas within districts
+- Job locations integrate with district walkable areas
+- Access permissions tied to district security systems
+
 ## Implementation Notes
 
 The Job/Work Quest System creates:

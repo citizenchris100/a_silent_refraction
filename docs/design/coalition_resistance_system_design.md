@@ -806,4 +806,20 @@ func refresh_intel():
    - Test both victory conditions achievable
    - Verify no soft-locks from low coalition
 
+## Template Compliance
+
+### NPC Template Integration
+Coalition members and recruits follow `template_npc_design.md`:
+- Trust-building integrates with NPC relationship systems
+- Recruitment dialog uses procedural generation based on personality
+- Members maintain schedules and can be tracked/observed
+- Assimilated infiltrators use the NPC assimilation states
+
+### Quest Template Integration
+Coalition activities follow `template_quest_design.md`:
+- Verification quests use the modular quest structure
+- Trust-building missions follow objective hierarchies
+- Heist planning uses multi-part quest system
+- Time-sensitive operations use quest deadlines
+
 This system creates a meaningful resistance narrative where every recruitment matters, intelligence networks provide tangible benefits, and the constant threat of infiltration maintains tension throughout the game.

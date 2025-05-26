@@ -991,4 +991,22 @@ func setup_investigation(puzzle_id: String):
    - No soft-locks in chains
    - Progress saves correctly
 
+## Template Compliance
+
+### Interactive Object Template Integration
+Puzzle elements follow `template_interactive_object_design.md`:
+- All puzzle components are interactive objects
+- Support full verb interactions (USE, EXAMINE, COMBINE, etc.)
+- State machines track puzzle progress
+- Visual/audio feedback for state changes
+- Proper save/load support for puzzle states
+
+### Quest Template Integration
+Puzzle sequences follow `template_quest_design.md`:
+- Puzzles integrated as quest objectives
+- Multi-part puzzles use quest part structure
+- Optional puzzle objectives for alternative solutions
+- Time-sensitive puzzles use quest deadlines
+- Puzzle hints delivered through quest system
+
 This system creates engaging puzzles that leverage all game systems while maintaining logical, space station-appropriate solutions that respect player intelligence and time.

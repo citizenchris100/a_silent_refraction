@@ -468,4 +468,20 @@ Quantum simulation with:
 - Black market emerges during lockdowns
 - Resource scarcity from disrupted routines
 
+## Template Compliance
+
+### NPC Template Integration
+This system extends NPCs from `template_npc_design.md` with advanced behaviors:
+- Complex state machines with 20+ states for key NPCs
+- Extended memory systems tracking long-term relationships and events
+- Personality-driven variations in schedule adherence
+- Advanced dialog generation incorporating recent events and relationships
+- Full integration with assimilation behavior modifications
+
+The system ensures all NPCs:
+- Maintain compatibility with base NPC template structure
+- Use standardized observation and detection mechanics
+- Follow consistent state transition patterns
+- Integrate properly with save/load systems
+
 This full implementation transforms the MVP's foundation into a living, breathing world where every playthrough tells a unique story shaped by the intersection of player choices and dynamic world events.

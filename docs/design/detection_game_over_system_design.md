@@ -166,7 +166,11 @@ func _handle_pursuit():
     
     if escape_routes.size() > 0:
         emit_signal("escape_window_opened", pursuit_timer)
-        UI.show_urgent_message("RUN! Find a safe house!")
+        PromptNotificationSystem.show_critical(
+            "detection_pursuit_started",
+            "RUN! Find a safe house!\n\nTime to escape: %d seconds\n\nSafe houses available: %d" % [pursuit_timer, escape_routes.size()],
+            "DANGER!"
+        )
     else:
         # No escape routes - skip to cornering
         current_stage = DetectionStage.CORNERING
@@ -180,13 +184,23 @@ func _handle_cornering():
     if CoalitionManager.members.size() >= 5:
         var rescue = CoalitionManager.attempt_rescue()
         if rescue:
-            UI.show_message("Coalition members create a distraction!")
+            PromptNotificationSystem.show_info(
+                "coalition_rescue",
+                "Coalition members create a distraction!\n\nYou manage to slip away in the chaos.",
+                "Rescued"
+            )
             _escape_successful()
             return
     
     # Check for last-ditch items
     if InventoryManager.has_item("smoke_bomb"):
-        UI.show_prompt("Use smoke bomb to escape?")
+        # TODO: When multi-choice prompts are implemented
+        # For now, show info about smoke bomb usage
+        PromptNotificationSystem.show_info(
+            "smoke_bomb_available",
+            "You have a smoke bomb!\n\nUsing it to escape...",
+            "Escape Item"
+        )
         # Wait for player input
     else:
         yield(get_tree().create_timer(3.0), "timeout")
@@ -436,7 +450,11 @@ func attempt_bribe(npc_id: String) -> bool:
     
     # Leaders can't be bribed
     if npc_data.assimilation_type == "leader":
-        UI.show_message("Their eyes are cold. Money means nothing to them.")
+        PromptNotificationSystem.show_warning(
+            "bribe_failed_leader",
+            "Their eyes are cold. Money means nothing to them.\n\nThe assimilated leader ignores your offer.",
+            "Bribe Failed"
+        )
         return false
     
     # Drones might be distracted by money
@@ -446,7 +464,11 @@ func attempt_bribe(npc_id: String) -> bool:
         if randf() < 0.4:  # 40% chance
             EconomyManager.spend_credits(bribe_amount, "desperation_bribe")
             current_stage = max(current_stage - 2, DetectionStage.NONE)
-            UI.show_message("The drone takes your credits and wanders off...")
+            PromptNotificationSystem.show_info(
+                "bribe_success",
+                "The drone takes your credits and wanders off...\n\nYou've bought some time.",
+                "Bribe Accepted"
+            )
             return true
     
     return false
@@ -785,3 +807,25 @@ func show_escape_routes(routes: Array):
    - Save/load during detection
 
 This system creates a tense but fair failure state that reinforces the game's themes while providing players with meaningful ways to avoid or escape detection through careful play and smart use of game systems.
+
+## System Dependencies
+
+### Required Systems
+- **PromptNotificationSystem**: All warnings and alerts
+- **AssimilationManager**: Check NPC assimilation status
+- **NPCRegistry**: Get NPC data and states
+- **DistrictManager**: Current location context
+- **CoalitionManager**: Escape routes and rescue mechanics
+- **TimeManager**: Time progression during detection
+- **SaveManager**: Serialization of detection state
+- **DialogManager**: Forced dialog sequences
+
+### Optional Integrations
+- **DisguiseManager**: Reduce detection chances
+- **InventoryManager**: Escape items (smoke bombs)
+- **EconomyManager**: Bribery attempts
+- **SecuritySystem**: Camera detection events
+
+### Signal Connections
+- Emits: `detection_stage_changed`, `pursuit_started`, `escape_window_opened`, `capture_imminent`, `game_over_triggered`
+- Listens to: NPC interaction events, area entry events, dialog choice events

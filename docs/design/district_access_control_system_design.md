@@ -807,4 +807,22 @@ func show_replacement_options(lost_item: ItemData):
    - Borrowed items returned
    - Save/load with revoked access
 
+## Template Compliance
+
+### NPC Template Integration
+Security personnel follow `template_npc_design.md`:
+- Gate guards use full NPC state machine with security-specific states
+- Personality affects enforcement strictness
+- Memory system tracks who they've allowed through
+- Dialog generation includes access-related topics
+- Assimilation affects security behavior
+
+### District Template Integration
+Access points follow `template_district_design.md`:
+- Each district defines its own access requirements
+- Entry/exit points integrated with walkable areas
+- Security checkpoints are interactive areas
+- Access state persists with district data
+- Emergency overrides tied to district alert levels
+
 This system creates meaningful consequences for access management while ensuring players always have some path forward, even if it's expensive or dangerous.

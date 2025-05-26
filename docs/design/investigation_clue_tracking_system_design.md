@@ -599,6 +599,24 @@ func share_investigation_with_coalition(quest_id: String) -> void:
    - Load and continue
    - Verify narrative preservation
 
+## Template Compliance
+
+### Interactive Object Template Integration
+Clue objects follow `template_interactive_object_design.md`:
+- All clues are interactive objects with standard verb interactions
+- EXAMINE verb reveals clue details and triggers discovery
+- USE verb may reveal additional information with proper tools
+- State tracking for discovered/undiscovered clues
+- Visual feedback changes after discovery
+
+### Quest Template Integration  
+Investigation quests follow `template_quest_design.md`:
+- Uses modular quest structure with clue collection objectives
+- Dynamic objective updates as clues are discovered
+- Branching paths based on evidence found
+- Time-sensitive clues that may disappear
+- Quest completion varies based on evidence quality
+
 ## Implementation Notes
 
 The Investigation/Clue Tracking System enhances investigation quests by:

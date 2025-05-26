@@ -88,10 +88,31 @@ func purchase_item(item_id: String, quantity: int = 1) -> bool:
     )
     
     if not EconomyManager.can_afford(total_cost):
+        PromptNotificationSystem.show_warning(
+            "insufficient_funds_%s" % shop_id,
+            "Insufficient funds!\n\nRequired: %d credits\nAvailable: %d credits" % [
+                total_cost,
+                EconomyManager.player_credits
+            ],
+            "Transaction Failed"
+        )
         return false
     
     if item.stock != -1 and item.stock < quantity:
+        PromptNotificationSystem.show_info(
+            "out_of_stock_%s" % item_id,
+            "%s is out of stock!\n\nRequested: %d\nAvailable: %d" % [
+                item.name,
+                quantity,
+                item.stock
+            ],
+            "Stock Shortage"
+        )
         return false
+    
+    # Show purchase confirmation
+    # TODO: When multi-choice prompts are available, ask for confirmation
+    # For now, proceed with purchase
     
     # Process purchase
     if EconomyManager.spend_credits(total_cost, "purchase_%s" % item_id):
@@ -104,6 +125,18 @@ func purchase_item(item_id: String, quantity: int = 1) -> bool:
         
         # Log purchase for suspicion system
         _log_purchase(item_id, quantity, total_cost)
+        
+        # Show success notification
+        PromptNotificationSystem.show_info(
+            "purchase_success_%s" % shop_id,
+            "Purchase complete!\n\nBought: %s x%d\nCost: %d credits\nRemaining: %d credits" % [
+                item.name,
+                quantity,
+                total_cost,
+                EconomyManager.player_credits
+            ],
+            "Transaction Successful"
+        )
         
         EconomyManager.emit_signal("purchase_made", item_id, quantity, shop_id)
         return true
@@ -127,6 +160,11 @@ var completed_jobs: Array = []
 
 func start_job(job_id: String) -> bool:
     if active_job != null:
+        PromptNotificationSystem.show_warning(
+            "job_already_active",
+            "You're already working!\n\nFinish your current job first.",
+            "Busy"
+        )
         return false
     
     var job_data = JobRegistry.get_job(job_id)
@@ -135,6 +173,11 @@ func start_job(job_id: String) -> bool:
     
     # Check requirements
     if not _check_job_requirements(job_data):
+        PromptNotificationSystem.show_warning(
+            "job_requirements_not_met",
+            "You don't meet the requirements for this job.\n\n%s" % _get_missing_requirements_text(job_data),
+            "Unqualified"
+        )
         return false
     
     active_job = job_data
@@ -156,6 +199,17 @@ func _on_job_timer_complete():
     
     var payment = _calculate_payment(active_job)
     EconomyManager.add_credits(payment, "job_%s" % active_job.id)
+    
+    # Show completion notification
+    PromptNotificationSystem.show_info(
+        "job_completed_%s" % active_job.id,
+        "Job completed!\n\n%s\nEarned: %d credits\nNew balance: %d credits" % [
+            active_job.name,
+            payment,
+            EconomyManager.player_credits
+        ],
+        "Payment Received"
+    )
     
     completed_jobs.append(active_job.id)
     emit_signal("job_completed", active_job.id, payment)
@@ -525,3 +579,34 @@ func _populate_items():
 5. **Crafting Economy**: Combine items to create valuable goods
 
 This system provides the economic pressure that drives player choices while integrating seamlessly with the game's other systems and narrative themes.
+
+## System Dependencies
+
+### Required Systems
+- **PromptNotificationSystem**: All transaction feedback, warnings, and confirmations
+- **InventoryManager**: Item delivery after purchases
+- **TimeManager**: Job duration tracking and scheduling
+- **AssimilationManager**: Economic corruption factor for pricing
+- **SaveManager**: Serialization of economic state
+
+### Optional Integrations
+- **NPCRegistry**: Shop owner trust requirements
+- **DistrictManager**: Location-based shops and jobs
+- **SuspicionSystem**: Purchase tracking for suspicious items
+- **QuestManager**: Economic objectives and rewards
+
+### Signal Connections
+- Emits: `credits_changed`, `purchase_made`, `payment_received`, `price_changed`, `job_started`, `job_completed`, `job_failed`
+- Listens to: Time advancement events, assimilation spread events
+
+### Template References
+- Uses **template_npc_design.md** for merchant NPCs and shop owners
+- Uses **template_interactive_object_design.md** for shop implementations
+- Uses **template_quest_design.md** for job quest structures
+
+Merchant NPCs follow the NPC template with:
+- Personality traits affecting pricing and negotiation
+- Trust relationships influencing available items
+- Schedules determining shop hours
+- Dialog generation for transaction conversations
+- Assimilation states affecting business practices

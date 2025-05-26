@@ -763,4 +763,19 @@ func get_combination_hint(item1: ItemData, verb: String) -> String:
    - Economic transactions
    - Security scans
 
+## Template Compliance
+
+### Interactive Object Template Integration
+All inventory items follow the structure defined in `template_interactive_object_design.md`:
+- Items implement the standard `interact(verb, item)` interface
+- Support verb-based interactions (USE, EXAMINE, COMBINE)
+- Include state persistence for items with multiple states
+- Integrate with the observation and examination systems
+
+Items created by this system are interactive objects that can be:
+- Examined for detailed descriptions
+- Combined with other items or environment objects
+- Used in specific contexts based on their properties
+- Properly serialized/deserialized through the save system
+
 This system creates meaningful inventory decisions while supporting classic adventure game puzzles and integrating with the game's time/economic pressure mechanics.
