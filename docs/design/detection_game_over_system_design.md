@@ -326,6 +326,9 @@ func trigger_assimilation_ending(primary_assimilator: String,
     # Show what player missed
     _show_post_game_revelations()
     
+    # Delete save file - brutal consequence for failure
+    yield(_delete_save_file(), "completed")
+    
     # Return to main menu
     emit_signal("game_over_complete")
 
@@ -356,6 +359,41 @@ func _show_post_game_revelations():
         "hidden_leaders": AssimilationManager.get_hidden_leaders(),
         "unsolved_mysteries": QuestManager.get_incomplete_investigations()
     })
+
+func _delete_save_file():
+    # Show brutal warning to player
+    PromptNotificationSystem.show_critical(
+        "save_deletion_warning",
+        "You have been assimilated.\n\nYour consciousness fades into the collective.\nYour identity is lost forever.\n\nSave file will be deleted.",
+        "ASSIMILATION COMPLETE",
+        5.0  # Show for 5 seconds
+    )
+    
+    # Wait for player to absorb the message
+    yield(get_tree().create_timer(5.0), "timeout")
+    
+    # Actually delete the save file
+    var save_deleted = SaveManager.delete_current_save()
+    
+    if save_deleted:
+        # Confirm deletion
+        PromptNotificationSystem.show_info(
+            "save_deleted",
+            "Your journey has ended.\n\nThere is no going back.\nThe station's fate is sealed.\n\nStart a new game to try again.",
+            "SAVE DELETED",
+            3.0
+        )
+    else:
+        # Fallback if deletion fails
+        PromptNotificationSystem.show_warning(
+            "save_deletion_failed",
+            "Save corruption detected.\n\nThe collective's influence persists...",
+            "ERROR",
+            2.0
+        )
+    
+    # Wait for final message
+    yield(get_tree().create_timer(3.0), "timeout")
 ```
 
 ### Integration Systems
@@ -807,6 +845,132 @@ func show_escape_routes(routes: Array):
    - Save/load during detection
 
 This system creates a tense but fair failure state that reinforces the game's themes while providing players with meaningful ways to avoid or escape detection through careful play and smart use of game systems.
+
+## Save File Deletion on Game Over
+
+### Design Philosophy
+Following the brutal tradition of classic games and modern titles like Dark Souls, A Silent Refraction implements permanent save deletion upon assimilation. This design choice:
+- **Eliminates save scumming**: No loading after failure preserves consequence
+- **Creates genuine tension**: Every encounter could be your last
+- **Reinforces theme**: Assimilation is permanent and irreversible
+- **Respects player time**: One save slot is more than many classics offered
+
+### Implementation
+
+#### Save Manager Extension
+```gdscript
+# src/core/systems/save_manager.gd
+func delete_current_save() -> bool:
+    # Get current save file path
+    var save_path = get_save_file_path()
+    
+    # Create backup for crash recovery only
+    var backup_path = save_path + ".assimilated"
+    var dir = Directory.new()
+    
+    # Move current save to backup
+    if dir.file_exists(save_path):
+        dir.rename(save_path, backup_path)
+        
+        # Verify deletion
+        if not dir.file_exists(save_path):
+            print("Save file deleted: Player assimilated")
+            
+            # Clear in-memory save data
+            _clear_save_cache()
+            
+            # Mark this installation as having experienced failure
+            _mark_assimilation_history()
+            
+            return true
+    
+    return false
+
+func _mark_assimilation_history():
+    # Track player failures for potential achievements/unlocks
+    var history_file = "user://assimilation_history.dat"
+    var file = File.new()
+    
+    if file.open(history_file, File.READ_WRITE) == OK:
+        var history = file.get_var()
+        if not history:
+            history = {"failures": 0, "last_failure": ""}
+        
+        history.failures += 1
+        history.last_failure = OS.get_datetime()
+        history.days_survived = TimeManager.current_day
+        history.closest_to_truth = GameOverManager._calculate_investigation_progress()
+        
+        file.store_var(history)
+        file.close()
+```
+
+### Player Communication
+
+The system uses the PromptNotificationSystem to clearly communicate the consequences:
+
+1. **Pre-Deletion Warning** (5 seconds)
+   - "You have been assimilated."
+   - "Your consciousness fades into the collective."
+   - "Your identity is lost forever."
+   - "Save file will be deleted."
+
+2. **Post-Deletion Confirmation** (3 seconds)
+   - "Your journey has ended."
+   - "There is no going back."
+   - "The station's fate is sealed."
+   - "Start a new game to try again."
+
+3. **Error Handling** (if deletion fails)
+   - "Save corruption detected."
+   - "The collective's influence persists..."
+
+### Integration with Game Over Flow
+
+```gdscript
+# Complete game over sequence
+1. Detection reaches CAPTURING stage
+2. Assimilation cinematic plays
+3. Post-game revelations shown
+4. Save deletion warning displayed
+5. Save file deleted
+6. Confirmation message shown
+7. Return to main menu
+8. Only "New Game" option available
+```
+
+### Edge Cases and Safeguards
+
+1. **Crash During Deletion**
+   - Backup file (.assimilated) exists temporarily
+   - On next launch, game detects incomplete deletion
+   - Completes deletion process before main menu
+
+2. **File System Permissions**
+   - If deletion fails due to permissions, game continues
+   - Player warned about "corrupted" save
+   - Save treated as unusable
+
+3. **Cloud Saves**
+   - Document clearly states cloud saves incompatible
+   - Steam Cloud must be disabled for this game
+   - Local saves only to maintain consequence
+
+### Player Expectations
+
+To ensure players understand this mechanic:
+
+1. **Main Menu Warning**
+   - "WARNING: Death is permanent. Save files are deleted upon assimilation."
+
+2. **First Save Reminder**
+   - When first sleeping: "Remember: If you are assimilated, this save will be permanently deleted."
+
+3. **Options Menu Notice**
+   - Save system explanation in game options
+   - Cannot be disabled - core to experience
+
+This brutal consequence ensures every decision matters and creates the authentic tension that modern gaming often lacks. There is no safety net - only survival or deletion.
 
 ## System Dependencies
 

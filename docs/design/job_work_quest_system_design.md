@@ -46,7 +46,8 @@ enum JobType {
     SECURITY_PATROL,  # Security - Mall patrol (First Quest)
     MEDICAL_COURIER,  # Medical - Supply runs
     RETAIL_CLERK,     # Mall - Customer service & loss prevention
-    JANITOR          # Barracks - Cleaning & maintenance
+    JANITOR,         # Barracks - Cleaning & maintenance
+    TRADER           # Financial - Trading floor mini-game
 }
 
 # Job quest data
@@ -562,6 +563,153 @@ var janitor_job = {
 }
 ```
 
+### Financial District - Trader
+
+```gdscript
+var trader_job = {
+    "id": "trader",
+    "job_type": JobType.TRADER,
+    "district": "financial",
+    "quest_name": "High Stakes Trading",
+    "quest_giver": "floor_manager_stevens",
+    
+    "intro_quest": {
+        "id": "trader_intro",
+        "name": "Trading Floor Tryout",
+        "description": "Prove you can handle the pressure of high-stakes trading",
+        "objectives": [
+            "Report to Floor Manager Stevens at the Exchange",
+            "Pass the aptitude test (score 500+ on practice game)",
+            "Handle a mock trading session",
+            "Don't crack under pressure"
+        ],
+        "special_requirements": {
+            "male": {
+                "trust_needed": 30,
+                "education_check": true,
+                "rejection_message": "You need proper credentials, son."
+            },
+            "female": {
+                "trust_needed": 60,  # Double the requirement
+                "education_check": true,
+                "additional_test": "prove_mathematical_competence",
+                "rejection_message": "The trading floor is no place for a lady. Perhaps try secretarial work?"
+            }
+        },
+        "rewards": {
+            "job_unlock": "trader",
+            "credits": 100,
+            "item": "trader_badge",
+            "trust": {"floor_manager_stevens": 20}
+        }
+    },
+    
+    "shift_variants": [
+        {
+            "id": "standard_trading",
+            "name": "Regular Trading Session",
+            "frequency": 0.7,
+            "objectives": [
+                "Launch trading terminal",
+                "Play trading game (mini-game)",
+                "Score determines pay"
+            ],
+            "mini_game": {
+                "type": "block_trader",
+                "minimum_score": 1000,  # Configurable minimum
+                "score_to_credits": 0.1,  # 1 credit per 10 points
+                "time_per_round": 180  # 3 minutes real-time
+            }
+        },
+        {
+            "id": "high_pressure_session",
+            "name": "Market Volatility",
+            "frequency": 0.2,
+            "objectives": [
+                "Handle volatile market conditions",
+                "Achieve higher minimum score",
+                "Bonus for beating daily record"
+            ],
+            "mini_game": {
+                "type": "block_trader",
+                "minimum_score": 1500,
+                "score_to_credits": 0.15,
+                "difficulty_modifier": 1.2
+            },
+            "pay_modifier": 1.5
+        },
+        {
+            "id": "after_hours_trading",
+            "name": "After Hours Session",
+            "frequency": 0.1,
+            "time_restriction": "evening",
+            "objectives": [
+                "Work late shift",
+                "Less supervision",
+                "Investigation opportunity"
+            ],
+            "mini_game": {
+                "type": "block_trader",
+                "minimum_score": 800,
+                "score_to_credits": 0.12
+            },
+            "incidents": [
+                {
+                    "chance": 0.3,
+                    "type": "suspicious_trades",
+                    "description": "Unusual trading patterns in the system",
+                    "clue": "financial_manipulation"
+                }
+            ]
+        }
+    ],
+    
+    "requirements": {
+        "education": "high_school_diploma",
+        "math_aptitude": true,
+        "clean_financial_record": true
+    },
+    
+    "base_pay": 0,  # All pay from mini-game performance
+    "time_per_shift": 240,  # 4 hours
+    
+    "gender_specific_incidents": {
+        "female": [
+            {
+                "chance": 0.4,
+                "type": "patronizing_explanation",
+                "description": "Male colleague explains basic math to you",
+                "response_options": [
+                    {"text": "Smile and nod", "reputation": -5},
+                    {"text": "Correct his error", "reputation": 10, "suspicion": 5},
+                    {"text": "Report to manager", "reputation": -10, "labeled": "troublemaker"}
+                ]
+            },
+            {
+                "chance": 0.3,
+                "type": "credit_stealing",
+                "description": "Male colleague takes credit for your trade",
+                "affects_pay": -0.2  # 20% pay reduction
+            }
+        ],
+        "male": [
+            {
+                "chance": 0.2,
+                "type": "competition_challenge",
+                "description": "Colleague challenges you to beat their score",
+                "bonus_if_win": 1.2  # 20% pay bonus
+            }
+        ]
+    },
+    
+    "special_features": {
+        "leaderboard_access": "Can view trading floor leaderboard",
+        "practice_mode": "Can practice mini-game without time passing",
+        "floor_access": "Access to exclusive Financial District areas"
+    }
+}
+```
+
 ## Gender-Based Difficulty System
 
 The 1950s-era station culture affects job performance based on gender:
@@ -615,6 +763,18 @@ func _calculate_gender_modifier(job_type: int, variant: String = "") -> float:
             # But different social interactions
             if player_gender == "female" and randf() < 0.1:
                 _trigger_harassment_event("cornered_alone")
+        
+        JobType.TRADER:
+            # Financial world - extreme male dominance
+            if player_gender == "male":
+                modifier = 1.2   # 20% easier (boys' club advantage)
+            else:
+                modifier = 0.6   # 40% harder (glass ceiling)
+                # Multiple harassment types on trading floor
+                if randf() < 0.4:
+                    _trigger_harassment_event("doubting_competence")
+                elif randf() < 0.2:
+                    _trigger_harassment_event("credit_theft")
     
     # Variant-specific adjustments
     if variant == "night_shift":
@@ -659,6 +819,23 @@ func _trigger_harassment_event(type: String) -> void:
                 "Safety Concern"
             )
             incident.stress_increase = 0.2
+        
+        "doubting_competence":
+            PromptNotificationSystem.show_warning(
+                "competence_questioned",
+                "Male colleagues openly doubt your mathematical abilities.",
+                "Sexist Doubt"
+            )
+            incident.performance_penalty = 0.2
+            # Mini-game scores reduced by 20% this shift
+        
+        "credit_theft":
+            PromptNotificationSystem.show_warning(
+                "credit_stolen",
+                "A male colleague claims your successful trade as his own.",
+                "Credit Stolen"
+            )
+            incident.pay_penalty = 0.3  # 30% of pay stolen
     
     current_shift.incidents.append(incident)
 ```
@@ -694,6 +871,26 @@ func check_gender_specific_requirements(job_id: String) -> bool:
             if player_gender == "male":
                 # Manager surprised but not blocking
                 DialogManager.add_context_flag("male_in_retail_unusual")
+        
+        "trader":
+            if player_gender == "female":
+                # Extreme skepticism and additional barriers
+                if job.requirements.trust["floor_manager_stevens"] < 60:  # vs 30 for male
+                    PromptNotificationSystem.show_dialog(
+                        "gender_bias",
+                        "Floor Manager Stevens: 'The trading floor is no place for a woman. " +
+                        "Have you considered our secretarial pool?'"
+                    )
+                    return false
+                
+                # Additional math test for women only
+                var test_passed = MiniGameSystem.launch_math_test()
+                if not test_passed:
+                    PromptNotificationSystem.show_dialog(
+                        "failed_test",
+                        "Stevens: 'As I suspected, you lack the mathematical aptitude.'"
+                    )
+                    return false
     
     return true
 ```
@@ -1176,6 +1373,12 @@ func get_job_access_benefits(job_id: String) -> Array:
             benefits.append("cargo_bay_access")
             benefits.append("shipping_manifest_access")
             benefits.append("customs_bypass")
+        
+        "trader":
+            benefits.append("trading_floor_access")
+            benefits.append("financial_records_access")
+            benefits.append("executive_lounge_access")
+            benefits.append("practice_terminal_access")
     
     return benefits
 ```
@@ -1226,6 +1429,130 @@ const SHIFT_EXHAUSTION = 0.3  # Can't work multiple jobs same day
 - Excellent performance unlocks special opportunities
 - Suspension forces job diversity
 - Reputation affects NPC trust
+
+## Trading Floor Mini-Game Integration
+
+The trader job uniquely uses a mini-game for its core mechanic:
+
+### Mini-Game Launch
+```gdscript
+func start_trader_shift(shift: ShiftData) -> void:
+    # Standard shift start
+    _start_standard_shift(shift)
+    
+    # Launch trading terminal UI
+    var terminal = preload("res://src/minigame/trading_terminal.tscn").instance()
+    terminal.shift_data = shift
+    terminal.gender_modifiers = _get_gender_performance_modifiers()
+    
+    # Connect completion signal
+    terminal.connect("game_completed", self, "_on_trading_game_completed")
+    terminal.connect("round_completed", self, "_on_trading_round_completed")
+    
+    # Show terminal (replaces normal game UI)
+    UI.show_fullscreen(terminal)
+    
+    # Time passes while playing
+    TimeManager.set_time_scale(TIME_SCALE_WORKING)
+
+func _on_trading_round_completed(score: int, time_elapsed: float) -> void:
+    # Each round consumes game time
+    var game_minutes = time_elapsed * TRADING_TIME_MULTIPLIER
+    TimeManager.advance_time(game_minutes)
+    
+    # Update shift progress
+    current_shift.rounds_played += 1
+    current_shift.scores.append(score)
+    
+    # Gender incidents can occur between rounds
+    if GameManager.player_gender == "female" and randf() < 0.3:
+        _trigger_trading_floor_incident()
+
+func _on_trading_game_completed(total_score: int, rounds_played: int) -> void:
+    # Calculate pay based on performance
+    var shift = current_shift
+    var base_pay = 0
+    
+    for score in shift.scores:
+        if score >= shift.minimum_score:
+            base_pay += score * shift.score_to_credits
+    
+    # Apply gender modifiers to final pay
+    if shift.incidents.has("credit_theft"):
+        base_pay *= 0.7  # 30% stolen
+    
+    # Complete shift with calculated pay
+    var performance = {
+        "performance_score": _calculate_performance_rating(total_score),
+        "total_pay": int(base_pay),
+        "gender_modifier": shift.gender_modifier
+    }
+    
+    complete_shift_with_performance(shift, performance)
+```
+
+### Leaderboard System
+```gdscript
+class TradingLeaderboard:
+    var entries: Array = []  # Sorted by score
+    const MAX_ENTRIES = 10
+    
+    func _ready():
+        # Generate initial NPC scores
+        _generate_npc_traders()
+    
+    func _generate_npc_traders():
+        var trader_names = [
+            "R. Morrison", "J. Fitzgerald", "W. Sterling",
+            "H. Rothschild", "T. Vanderbilt", "C. Morgan",
+            "D. Rockefeller", "E. Carnegie", "A. Astor"
+        ]
+        
+        # 90% male names for 1950s authenticity
+        if randf() < 0.1:
+            trader_names.append("M. Hamilton")  # Token woman
+        
+        for name in trader_names:
+            entries.append({
+                "name": name,
+                "score": randi() % 5000 + 2000,  # 2000-7000 range
+                "date": TimeManager.current_day - randi() % 30
+            })
+        
+        entries.sort_custom(self, "_sort_by_score")
+    
+    func add_player_score(score: int) -> int:
+        var entry = {
+            "name": GameManager.player_name,
+            "score": score,
+            "date": TimeManager.current_day,
+            "is_player": true
+        }
+        
+        entries.append(entry)
+        entries.sort_custom(self, "_sort_by_score")
+        
+        # Trim to max entries
+        if entries.size() > MAX_ENTRIES:
+            entries.resize(MAX_ENTRIES)
+        
+        # Return player's position (1-indexed)
+        for i in range(entries.size()):
+            if entries[i].is_player:
+                return i + 1
+        
+        return -1  # Not on board
+    
+    func evolve_npc_scores():
+        # NPCs slowly improve over time
+        for entry in entries:
+            if not entry.get("is_player", false):
+                # Small chance of improvement
+                if randf() < 0.1:
+                    entry.score += randi() % 200 + 50
+        
+        entries.sort_custom(self, "_sort_by_score")
+```
 
 ## Integration with Gender System
 
