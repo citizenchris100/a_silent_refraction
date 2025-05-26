@@ -97,6 +97,56 @@ func _apply_personality_modifiers(npc_id: String, dimension: String, base_amount
             # Larger swings both ways
             modified *= 1.4 if abs(base_amount) > 10 else 1.0
     
+    # Apply gender-based modifiers
+    modified = _apply_gender_trust_modifiers(npc_id, dimension, modified)
+    
+    return modified
+
+func _apply_gender_trust_modifiers(npc_id: String, dimension: String, base_amount: float) -> float:
+    var npc = NPCRegistry.get_npc(npc_id)
+    var player_gender = GameManager.player_gender
+    var npc_gender = npc.gender
+    var modified = base_amount
+    
+    # Get NPC's gender-aware personality traits
+    var progressiveness = npc.personality.get("progressiveness", 0.5)
+    var sexism_level = npc.personality.get("sexism_level", 0.3)
+    var competitiveness = npc.personality.get("competitiveness", 0.5)
+    var gender_comfort = npc.personality.get("gender_comfort", 0.7)
+    
+    if player_gender == npc_gender:
+        # Same gender interactions
+        if dimension == "professional" and competitiveness > 0.6:
+            # High competition reduces professional trust gains
+            if base_amount > 0:
+                modified *= (1.0 - competitiveness * 0.3)
+        elif dimension == "personal" and progressiveness > 0.6:
+            # Progressive NPCs bond easier with same gender
+            if base_amount > 0:
+                modified *= 1.2
+    else:
+        # Opposite gender interactions
+        if sexism_level > 0.5:
+            # Sexist NPCs have trust barriers
+            if player_gender == "female" and dimension == "professional":
+                # Less likely to respect professional competence
+                if base_amount > 0:
+                    modified *= (1.0 - sexism_level * 0.4)
+            elif player_gender == "male" and npc_gender == "female":
+                # Female NPC with high sexism might overcompensate
+                if dimension == "personal":
+                    modified *= 1.1  # Easier personal trust
+        
+        # Gender comfort affects all opposite-gender trust building
+        if dimension in ["personal", "emotional"]:
+            modified *= gender_comfort
+    
+    # Traditional values create additional barriers
+    if progressiveness < 0.3:
+        if player_gender != npc_gender and dimension == "professional":
+            # Traditional NPCs struggle with non-traditional roles
+            modified *= 0.7
+    
     return modified
 
 func _process_trust_ripples(source_npc: String, dimension: String, amount: float):
@@ -252,7 +302,14 @@ const TRUST_ACTIONS = {
     # Major events
     "save_their_life": {"personal": 30, "emotional": 25, "professional": 20},
     "trust_with_secret": {"personal": 20, "emotional": 15},
-    "coalition_recruitment": {"ideological": 20, "personal": 15}
+    "coalition_recruitment": {"ideological": 20, "personal": 15},
+    
+    # Gender-specific positive actions
+    "prove_competence_despite_bias": {"professional": 20, "personal": 10},
+    "stand_up_to_harassment": {"personal": 15, "emotional": 10},
+    "break_gender_expectations_positively": {"personal": 12, "professional": 8},
+    "show_solidarity_same_gender": {"personal": 10, "emotional": 8},
+    "respectful_opposite_gender": {"personal": 8, "professional": 5}
 }
 
 # Actions that damage trust
@@ -263,7 +320,14 @@ const TRUST_DAMAGE = {
     "caught_lying": {"personal": -30, "professional": -20},
     "harm_their_friend": {"emotional": -25, "personal": -20},
     "oppose_ideology": {"ideological": -20},
-    "threaten": {"fear": 20, "personal": -30, "emotional": -40}
+    "threaten": {"fear": 20, "personal": -30, "emotional": -40},
+    
+    # Gender-specific negative actions
+    "sexist_comment": {"personal": -15, "professional": -10, "emotional": -8},
+    "unwanted_advances": {"personal": -25, "emotional": -20, "fear": 10},
+    "dismiss_due_to_gender": {"professional": -20, "personal": -15},
+    "competitive_undermining": {"professional": -15, "personal": -10},
+    "patronizing_behavior": {"professional": -12, "personal": -8}
 }
 
 static func calculate_trust_change(action: String, npc_personality: String) -> Dictionary:
@@ -604,9 +668,40 @@ class TrustBarriers:
         "maintenance_everyone": 5       # Maintenance generally trusted
     }
     
+    const GENDER_PROFESSION_BARRIERS = {
+        # Additional barriers for non-traditional gender roles
+        "female_security": -15,         # Female in authority faces skepticism
+        "female_dock_worker": -20,      # Female in physical labor
+        "male_nurse": -10,              # Male in caregiving role
+        "female_corporate_exec": -15,   # Glass ceiling effect
+        "male_secretary": -12           # Male in support role
+    }
+    
     static func get_initial_trust_modifier(player_background: String, npc_faction: String) -> float:
         var key = player_background + "_" + npc_faction
-        return FACTION_BARRIERS.get(key, 0.0)
+        var base_modifier = FACTION_BARRIERS.get(key, 0.0)
+        
+        # Add gender-profession barriers
+        var player_gender = GameManager.player_gender
+        var gender_key = player_gender + "_" + player_background
+        var gender_modifier = GENDER_PROFESSION_BARRIERS.get(gender_key, 0.0)
+        
+        return base_modifier + gender_modifier
+    
+    static func get_gender_barrier_modifier(player_gender: String, profession: String, 
+                                          npc_progressiveness: float) -> float:
+        var gender_key = player_gender + "_" + profession
+        var base_barrier = GENDER_PROFESSION_BARRIERS.get(gender_key, 0.0)
+        
+        # Progressive NPCs have reduced gender barriers
+        if npc_progressiveness > 0.7:
+            base_barrier *= 0.3  # 70% reduction
+        elif npc_progressiveness > 0.5:
+            base_barrier *= 0.6  # 40% reduction
+        elif npc_progressiveness < 0.3:
+            base_barrier *= 1.3  # 30% increase for traditional NPCs
+        
+        return base_barrier
     
     static func get_barrier_breaking_actions(player_background: String, npc_faction: String) -> Array:
         # Special actions that break down barriers
@@ -639,8 +734,36 @@ class RomanceSystem:
         if relationship.personal_trust < 60:
             return false
         
+        # Check gender preferences and era constraints
+        if not _check_gender_romance_compatibility(npc_id):
+            return false
+        
         # Check compatibility
         return _check_romantic_compatibility(npc_id)
+    
+    func _check_gender_romance_compatibility(npc_id: String) -> bool:
+        var npc = NPCRegistry.get_npc(npc_id)
+        var player_gender = GameManager.player_gender
+        
+        # 1950s setting - heteronormative constraints for most NPCs
+        var npc_progressiveness = npc.personality.get("progressiveness", 0.5)
+        
+        # Most NPCs only pursue opposite-gender romance
+        if npc.gender == player_gender:
+            # Same-gender romance only for very progressive NPCs
+            if npc_progressiveness < 0.9:
+                return false
+            # Even then, it's secret/hidden
+            npc.romance_flags["secret_relationship"] = true
+        
+        # Additional barriers based on gender dynamics
+        if player_gender == "female":
+            # Some male NPCs won't date women who work in "men's jobs"
+            if GameManager.player_job in ["dock_worker", "security"]:
+                if npc.personality.get("sexism_level", 0.3) > 0.6:
+                    return false
+        
+        return true
     
     func initiate_romance(npc_id: String) -> Dictionary:
         if not check_romance_potential(npc_id):
@@ -715,7 +838,8 @@ func serialize() -> Dictionary:
         "npc_connections": RelationshipManager.npc_connections,
         "faction_standings": RelationshipManager.faction_standings,
         "interaction_history": _compress_interaction_history(),
-        "romance_data": _serialize_romance_data()
+        "romance_data": _serialize_romance_data(),
+        "gender_trust_events": _serialize_gender_events()
     }
 
 func _serialize_relationships() -> Dictionary:
@@ -874,6 +998,66 @@ func _populate_npc_list():
                 var npc = NPCRegistry.get_npc(npc_id)
                 var trust = RelationshipManager.get_relationship(npc_id).get_total_trust()
                 npc_list.add_item("  %s (Trust: %d)" % [npc.name, trust])
+```
+
+## Gender-Aware Trust Display
+
+The UI should reflect gender dynamics affecting relationships:
+
+```gdscript
+func get_trust_barrier_description(npc_id: String) -> String:
+    var npc = NPCRegistry.get_npc(npc_id)
+    var barriers = []
+    
+    # Check for gender-based professional barriers
+    var player_job = GameManager.player_job
+    var player_gender = GameManager.player_gender
+    var gender_barrier = TrustBarriers.get_gender_barrier_modifier(
+        player_gender, player_job, npc.personality.progressiveness
+    )
+    
+    if gender_barrier < -10:
+        match player_job:
+            "dock_worker":
+                if player_gender == "female":
+                    barriers.append("Skeptical of women in physical labor")
+            "security":
+                if player_gender == "female":
+                    barriers.append("Doubts female authority")
+            "nurse":
+                if player_gender == "male":
+                    barriers.append("Suspicious of men in caregiving")
+    
+    # Check for gender personality conflicts
+    if npc.personality.sexism_level > 0.6:
+        if player_gender == "female":
+            barriers.append("Traditional views on women's roles")
+    
+    if npc.personality.competitiveness > 0.7 and npc.gender == player_gender:
+        barriers.append("Sees you as competition")
+    
+    return "\n".join(barriers) if barriers.size() > 0 else ""
+
+func show_relationship_tooltip(npc_id: String):
+    var tooltip = ""
+    var relationship = RelationshipManager.get_relationship(npc_id)
+    var npc = NPCRegistry.get_npc(npc_id)
+    
+    # Show base trust info
+    tooltip += "Trust: %d/100\n" % relationship.get_total_trust()
+    
+    # Show gender dynamics if relevant
+    if abs(1.0 - npc.personality.gender_comfort) > 0.3:
+        if npc.personality.gender_comfort < 0.5:
+            tooltip += "[color=yellow]Uncomfortable around %s gender[/color]\n" % \
+                ("opposite" if npc.gender != GameManager.player_gender else "same")
+    
+    # Show barriers
+    var barriers = get_trust_barrier_description(npc_id)
+    if barriers:
+        tooltip += "\n[color=red]Trust Barriers:[/color]\n" + barriers
+    
+    UI.show_tooltip(tooltip)
 ```
 
 ## Balance Considerations

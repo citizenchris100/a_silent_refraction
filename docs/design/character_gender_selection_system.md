@@ -217,15 +217,198 @@ This feature should be implemented early in development to avoid:
 - Before player animations are finalized
 - After basic movement system is proven
 
-## Future Considerations
+## Meaningful Gender Dynamics
 
-### Potential Deeper Ramifications
+### Core Concept: 1950s Social Dynamics
 
-Areas where gender choice might affect gameplay:
-1. **NPC Interactions**: Different initial suspicion levels or trust
-2. **District Access**: Certain areas might have different entry requirements
-3. **Quest Variations**: Some quests might have alternate paths
-4. **Coalition Building**: Different NPCs might be more/less receptive
+The space station society reflects decidedly 1950s-era social attitudes toward gender, creating meaningful gameplay differences based on the player's gender choice. This isn't just cosmetic - it affects dialog, quest difficulty, and social navigation.
+
+### Social Behavior Patterns
+
+#### Male NPCs toward Female Alex:
+- **Condescension**: Some male NPCs speak down to female Alex, explaining things unnecessarily
+- **Unwanted Advances**: Certain male NPCs will flirt or make inappropriate comments
+- **Professional Dismissal**: In male-dominated fields (Engineering, Security), gaining respect is harder
+- **"Protective" Attitudes**: Some will try to "shield" female Alex from "dangerous" work
+
+#### Female NPCs toward Female Alex:
+- **Competitive Behavior**: Especially in female-dominated fields (Medical, Administrative)
+- **Gatekeeping**: Some women who've "made it" are hostile to other women
+- **Solidarity**: Progressive female NPCs may offer hidden support
+- **Queen Bee Syndrome**: Established women may see female Alex as a threat
+
+#### Male NPCs toward Male Alex:
+- **Machismo Competition**: In male-dominated fields, proving masculinity is expected
+- **"Old Boys Club"**: Easier initial acceptance but must maintain the facade
+- **Physical Challenges**: More likely to face direct confrontation
+- **Bro Culture**: Expected to participate in crude humor and posturing
+
+### Implementation Through Existing Systems
+
+#### 1. Dialog System Extensions
+
+The procedural dialog system already supports contextual generation. Add to `DialogContext`:
+
+```gdscript
+class DialogContext:
+    var player_gender: String  # "male" or "female"
+    var npc_gender: String
+    var location_type: String  # "workplace", "social", "private"
+    var job_field_gender_bias: String  # "male_dominated", "female_dominated", "neutral"
+```
+
+Gender-aware dialog templates:
+```gdscript
+const GENDER_DYNAMICS_TEMPLATES = {
+    "condescending_male_to_female": [
+        "Let me explain how this actually works, {PLAYER_TITLE}...",
+        "Don't worry your pretty head about the technical details.",
+        "Maybe you should find someone to help you with this, dear."
+    ],
+    "competitive_female_to_female": [
+        "Oh, another woman trying to make it in {DEPARTMENT}. Good luck.",
+        "I've been the only competent woman here for years.",
+        "Interesting that they're hiring more... 'diversity' these days."
+    ],
+    "flirtatious_male_to_female": [
+        "Well hello there, beautiful. New to the station?",
+        "A pretty thing like you shouldn't be in a place like this.",
+        "How about dinner after your shift, sweetheart?"
+    ],
+    "macho_male_to_male": [
+        "Hope you can handle real man's work, rookie.",
+        "We don't coddle weaklings in {DEPARTMENT}.",
+        "Prove you've got what it takes or get out."
+    ]
+}
+```
+
+#### 2. NPC Personality Traits
+
+Extend NPC personality system with new traits:
+
+```gdscript
+"personality": {
+    # Existing traits...
+    "progressiveness": 0.3,      # 0 = very traditional, 1 = very progressive
+    "sexism_level": 0.7,         # 0 = egalitarian, 1 = highly sexist
+    "competitiveness": 0.5,       # General competitive nature
+    "gender_secure": 0.4,        # How threatened by same-gender competition
+    "romantic_aggression": 0.6,  # Likelihood of unwanted advances
+    "paternalism": 0.8          # "Protective" attitude toward women
+}
+```
+
+#### 3. Trust System Modifiers
+
+Gender affects initial trust and trust gain rates:
+
+```gdscript
+# In TrustBarriers configuration
+const GENDER_TRUST_MODIFIERS = {
+    "female_in_male_field": {
+        "professional": -15,      # Harder to gain professional respect
+        "personal": -5,          # Some personal barriers
+        "ideological": -10       # Assumptions about capabilities
+    },
+    "male_in_male_field_competitive": {
+        "professional": -5,      # Must prove masculinity
+        "physical": -10         # Expected to be "tough"
+    },
+    "female_to_female_competitive": {
+        "professional": -10,     # Competition in same field
+        "emotional": -5         # Less emotional support
+    }
+}
+```
+
+#### 4. Job System Difficulty
+
+Gender affects job performance evaluation:
+
+```gdscript
+# In job_work_quest_system.gd
+func calculate_gender_modifier(job_type: String, player_gender: String) -> float:
+    var field_bias = get_field_gender_bias(job_type)
+    
+    if field_bias == "male_dominated" and player_gender == "female":
+        return 0.75  # 25% harder to succeed
+    elif field_bias == "female_dominated" and player_gender == "female":
+        return 0.9   # 10% harder due to competition
+    elif field_bias == "male_dominated" and player_gender == "male":
+        return 0.95  # 5% harder due to machismo pressure
+    else:
+        return 1.0   # No modifier
+
+# Gender-biased job fields
+const JOB_GENDER_BIAS = {
+    "engineering": "male_dominated",
+    "security": "male_dominated",
+    "dock_work": "male_dominated",
+    "medical": "female_dominated",
+    "administration": "female_dominated",
+    "hospitality": "female_dominated",
+    "research": "neutral",
+    "maintenance": "neutral"
+}
+```
+
+### Deeper Ramifications
+
+Areas where gender choice affects gameplay:
+1. **Quest Accessibility**: Some quests may be harder/easier to obtain based on gender
+2. **Information Gathering**: Different NPCs share different information based on gender dynamics
+3. **Coalition Building**: Gender affects which NPCs are naturally allied or opposed
+4. **Workplace Events**: Different random events occur based on gender in different jobs
+5. **Suspicion Patterns**: Traditional NPCs may find gender-role-breaking behavior suspicious
+
+### Gameplay Impact Examples
+
+#### Security District as Female Alex:
+- Guards make dismissive comments about "lady couriers"
+- Harder to get information from male officers (-15% trust gain)
+- Female security chief either supportive (progressive) or hostile (queen bee)
+- May face unwanted advances from lonely night shift guards
+
+#### Medical District as Female Alex:
+- Female nurses competitive and gossipy
+- Male doctors condescending but potentially flirtatious
+- Easier time with progressive female researchers
+- Competition for advancement more cutthroat
+
+#### Engineering District as Male Alex:
+- Expected to prove physical capability immediately
+- Hazing rituals and machismo tests
+- Failure seen as "weakness" with harsh social penalties
+- Success earns grudging respect but ongoing competition
+
+### Mechanical Benefits and Drawbacks
+
+#### Female Alex:
+**Advantages:**
+- Progressive NPCs more likely to share sensitive information
+- Can leverage sexist assumptions to seem "harmless"
+- Solidarity network among progressive women
+- Some male NPCs easier to manipulate through flirtation
+
+**Disadvantages:**
+- Professional advancement harder in male-dominated fields
+- Constant unwanted attention drains time/energy
+- Must work harder for same recognition
+- Some NPCs simply won't take her seriously
+
+#### Male Alex:
+**Advantages:**
+- Easier initial acceptance in male-dominated fields
+- Taken more seriously in professional contexts
+- Old boys' network provides some benefits
+- Less sexual harassment to navigate
+
+**Disadvantages:**
+- Must constantly prove masculinity
+- Emotional vulnerability seen as weakness
+- More likely to face physical confrontations
+- Progressive NPCs may be more suspicious
 
 ### Localization Considerations
 
@@ -243,12 +426,23 @@ The pronoun system must be flexible enough to handle:
 5. All cutscenes work with both models
 6. No gender blocks access to critical path
 
-## Questions for Further Discussion
+## Design Validation
 
-1. Should there be any mechanical differences between choices?
-2. How should romantic subplots (if any) be handled?
-3. Should some NPCs react differently based on gender?
-4. What are the specific "deeper ramifications" envisioned?
+This gender dynamics system creates meaningful player choice by:
+
+1. **Affecting Core Gameplay**: Job difficulty, trust building, and information access all change
+2. **Creating Different Experiences**: Each playthrough offers unique social navigation challenges
+3. **Supporting Narrative Themes**: Reinforces the game's themes of conformity vs. resistance
+4. **Using Existing Systems**: Leverages dialog, trust, and job systems without redundancy
+5. **Adding Replay Value**: Players will want to experience both perspectives
+
+## Balance Considerations
+
+To ensure both paths remain viable:
+- Critical path must be completable regardless of gender
+- Each gender gets unique advantages, not just disadvantages
+- Progressive NPCs provide alternative routes for both genders
+- Time pressure prevents players from grinding past social barriers
 
 ## Next Steps
 

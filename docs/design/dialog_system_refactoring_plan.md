@@ -614,6 +614,7 @@ This refactoring ensures all dialogs follow `template_dialog_design.md`:
 - Maintains dialog state tracking and memory
 - Integrates properly with suspicion and assimilation systems
 - Follows the template's procedural generation patterns
+- **NEW**: Supports gender-aware dialog generation
 
 The refactored system enforces:
 - Consistent dialog tree structure across all NPCs
@@ -621,5 +622,178 @@ The refactored system enforces:
 - Proper context integration (time, location, events)
 - Template-based response generation
 - Correct assimilation speech pattern modifications
+- **NEW**: Gender-based dialog variations based on NPC personality
+
+### Gender-Aware Dialog Generation
+
+The dialog system now supports meaningful gender dynamics through contextual dialog generation:
+
+#### 1. Extended Dialog Context
+```gdscript
+# src/core/dialog/data/DialogContext.gd
+class DialogContext:
+    # Existing context
+    var npc_id: String
+    var location: String
+    var time_of_day: String
+    var recent_events: Array
+    
+    # Gender-aware additions
+    var player_gender: String  # "male" or "female"
+    var npc_gender: String
+    var job_field_bias: String  # "male_dominated", "female_dominated", "neutral"
+    var workplace_context: bool  # Whether this is a professional interaction
+```
+
+#### 2. Gender-Aware Personality Traits
+```gdscript
+# Extended NPC personality parameters
+"personality": {
+    # Existing traits
+    "friendliness": 0.5,
+    "formality": 0.7,
+    "suspicion": 0.3,
+    
+    # Gender dynamics traits
+    "progressiveness": 0.3,      # 0 = traditional views, 1 = progressive
+    "sexism_level": 0.7,        # 0 = egalitarian, 1 = highly sexist
+    "competitiveness": 0.5,      # General competitive nature
+    "gender_secure": 0.4,        # Security in own gender role
+    "romantic_aggression": 0.6,  # Likelihood of flirtation
+    "paternalism": 0.8          # "Protective" attitude toward women
+}
+```
+
+#### 3. Gender-Based Dialog Templates
+```gdscript
+# src/core/dialog/templates/GenderDynamicsTemplates.gd
+const GENDER_TEMPLATES = {
+    "condescending_male_to_female": {
+        "high_sexism": [
+            "Let me explain how this actually works, {PLAYER_TITLE}...",
+            "Don't worry your pretty head about the technical details.",
+            "Maybe you should find someone to help you with this, dear."
+        ],
+        "medium_sexism": [
+            "Are you sure you understand what you're getting into?",
+            "This might be a bit complex for... some people.",
+            "I'll try to explain it simply."
+        ]
+    },
+    
+    "competitive_female_to_female": {
+        "high_competition": [
+            "Oh, another woman trying to make it in {DEPARTMENT}. Good luck.",
+            "I've been the only competent woman here for years.",
+            "Interesting that they're hiring more... 'diversity' these days."
+        ],
+        "medium_competition": [
+            "It's nice to see another woman, I suppose.",
+            "Just don't expect any special treatment.",
+            "We all have to prove ourselves here."
+        ]
+    },
+    
+    "flirtatious_male_to_female": {
+        "high_aggression": [
+            "Well hello there, beautiful. New to the station?",
+            "A pretty thing like you shouldn't be in a place like this.",
+            "How about dinner after your shift, sweetheart?"
+        ],
+        "low_aggression": [
+            "Haven't seen you around before. Welcome.",
+            "Nice to meet someone new on the station.",
+            "If you need anything, just let me know."
+        ]
+    },
+    
+    "macho_male_to_male": {
+        "high_machismo": [
+            "Hope you can handle real man's work, rookie.",
+            "We don't coddle weaklings in {DEPARTMENT}.",
+            "Prove you've got what it takes or get out."
+        ],
+        "medium_machismo": [
+            "Let's see what you're made of.",
+            "Everyone has to earn their place here.",
+            "Don't expect any hand-holding."
+        ]
+    }
+}
+```
+
+#### 4. Dialog Generation Logic
+```gdscript
+# src/core/dialog/generation/GenderAwareDialogGenerator.gd
+func generate_greeting(context: DialogContext, personality: NPCPersonality) -> String:
+    # Check for gender-based dialog patterns
+    if should_use_gender_dynamics(context, personality):
+        return generate_gender_aware_greeting(context, personality)
+    else:
+        return generate_standard_greeting(context, personality)
+
+func should_use_gender_dynamics(context: DialogContext, personality: NPCPersonality) -> bool:
+    # Progressive NPCs less likely to use gendered language
+    if personality.progressiveness > 0.7:
+        return false
+    
+    # More likely in workplace contexts
+    if context.workplace_context and personality.sexism_level > 0.5:
+        return true
+    
+    # Romantic interest triggers gender dynamics
+    if personality.romantic_aggression > 0.6 and is_opposite_gender(context):
+        return true
+    
+    return rand_range(0, 1) < personality.sexism_level * 0.5
+
+func generate_gender_aware_greeting(context: DialogContext, personality: NPCPersonality) -> String:
+    var template_key = get_gender_template_key(context, personality)
+    var intensity = get_gender_intensity(personality)
+    
+    if GENDER_TEMPLATES.has(template_key) and GENDER_TEMPLATES[template_key].has(intensity):
+        var templates = GENDER_TEMPLATES[template_key][intensity]
+        var template = templates[randi() % templates.size()]
+        return substitute_variables(template, context)
+    
+    return generate_standard_greeting(context, personality)
+```
+
+#### 5. Integration with Dialog Flow
+```gdscript
+# In NPCDialogController
+func process_dialog_node(node: DialogNode, context: DialogContext) -> void:
+    # Apply gender dynamics to dialog text
+    var processed_text = node.text
+    
+    if context.player_gender and _personality.sexism_level > 0.3:
+        processed_text = apply_gender_modifiers(processed_text, context)
+    
+    # Apply assimilation modifications if needed
+    if is_assimilated:
+        processed_text = apply_assimilation_transform(processed_text)
+    
+    _dialog_service.display_text(processed_text)
+```
+
+#### 6. Testing Gender Dynamics
+```gdscript
+# src/test/unit_tests/gender_aware_dialog_test.gd
+func test_sexist_npc_condescends_to_female_player():
+    var context = create_test_context("female", "male", "engineering")
+    var personality = create_test_personality(sexism_level = 0.8)
+    
+    var greeting = generator.generate_greeting(context, personality)
+    
+    assert_true(greeting in GENDER_TEMPLATES.condescending_male_to_female.high_sexism)
+
+func test_progressive_npc_uses_neutral_language():
+    var context = create_test_context("female", "male", "engineering")
+    var personality = create_test_personality(progressiveness = 0.9)
+    
+    var greeting = generator.generate_greeting(context, personality)
+    
+    assert_false(greeting in GENDER_TEMPLATES.condescending_male_to_female.high_sexism)
+```
 
 This refactoring aligns the dialog system with the architectural principles while consolidating all UI notifications, maintaining existing functionality, and setting the foundation for future enhancements.

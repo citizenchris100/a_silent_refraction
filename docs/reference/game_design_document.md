@@ -75,6 +75,12 @@
     - Inspired by Dead Rising's punishing save system
     - Saving requires returning to bed and advances time
 
+15. **Gender selection creates meaningfully different experiences**
+    - Station society reflects 1950s-era gender dynamics
+    - Each gender faces unique social challenges and advantages
+    - Core gameplay mechanics (trust, jobs, dialog) adapt to gender
+    - Enhances replayability through genuinely different perspectives
+
 ## Backstory
 
 One of the largest conglomerates on earth 'Aether Corp' has been at the forefront of Mars colonization. A colonist from one of Aether Corps colonial cities on the outskirts of the populated area of mars comes into contact with the remnants of a life form. This life comes in the form of a plasma or goo. This goo is a kind of extraterrestrial collective consciousness. When a sentient life form such as a human comes into contact with the "goo" it is absorbed into the human. The human at this point is now a host to the goo which overcomes the consciousness of the host with its own thus assimilating the host.
@@ -404,11 +410,36 @@ The player is essentially in an Invasion of the Body Snatchers like scenario whe
 
 ### Character Selection
 
-Upon starting a new game, players are presented with a choice between playing as a male or female version of Alex, the courier. This choice affects:
-- The player character's appearance and animations
-- How NPCs address and refer to the player (pronouns, titles)
-- Certain character interactions and story branches
-- The overall experience while maintaining the core narrative
+Upon starting a new game, players are presented with a choice between playing as a male or female version of Alex, the courier. This choice has meaningful gameplay impact due to the station's 1950s-era social dynamics.
+
+#### Gender Choice Impact
+
+The station society reflects decidedly "Mad Men" era attitudes toward gender, creating different gameplay experiences:
+
+**Playing as Female Alex:**
+- Face condescension and dismissive attitudes from traditional male NPCs
+- Deal with unwanted romantic advances and inappropriate comments
+- Experience heightened competition from women in female-dominated fields (Medical, Administrative)
+- Work harder for professional recognition in male-dominated fields (Engineering, Security)
+- Can leverage sexist assumptions to appear "harmless" when investigating
+- Find allies among progressive women who form solidarity networks
+
+**Playing as Male Alex:**
+- Face machismo competitions and physical challenges in male-dominated fields
+- Must constantly prove masculinity to gain acceptance
+- Experience "old boys club" dynamics - easier initial acceptance but ongoing pressure
+- Deal with competitive hostility from other men protecting their status
+- Expected to participate in crude humor and posturing
+- Progressive NPCs may be more suspicious of male privilege
+
+#### Mechanical Differences
+
+Gender affects core gameplay systems:
+- **Trust Building**: Different rates and barriers based on gender dynamics
+- **Job Performance**: Gender-appropriate fields are easier, opposite fields have difficulty penalties
+- **Dialog Options**: Different conversation paths and responses based on NPC personalities
+- **Information Access**: Some NPCs share different secrets based on gender
+- **Quest Availability**: Certain opportunities open or close based on gender
 
 The player assumes the role of the courier, Alex. Per the backstory setup, Alex nor the recipients of the goo are aware of its true nature nor the goal of Aether Corp in introducing the goo on the outpost station.
 

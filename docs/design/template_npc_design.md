@@ -133,7 +133,9 @@ func handle_dialog_choice(choice: String):
     "role": "Station Resident",
     "location": "test_district",
     "personality": {
-        "friendliness": 0.7
+        "friendliness": 0.7,
+        "progressiveness": 0.5,
+        "gender_comfort": 0.7
     },
     "dialog": {
         "greeting": "Hello there.",
@@ -219,7 +221,12 @@ export var personality: Dictionary = {
     "verbosity": 0.5,
     "job_focus": 0.8,
     "loyalty": 0.6,
-    "curiosity": 0.4
+    "curiosity": 0.4,
+    # Gender dynamics traits
+    "progressiveness": 0.5,  # 0.0 = very traditional, 1.0 = very progressive
+    "sexism_level": 0.3,     # 0.0 = no sexism, 1.0 = highly sexist
+    "competitiveness": 0.5,   # Affects same-gender competition dynamics
+    "gender_comfort": 0.7     # Comfort interacting with opposite gender
 }
 
 # Memory system
@@ -292,7 +299,9 @@ func _handle_talk_interaction():
         "player_reputation": interaction_memory.player_reputation,
         "is_assimilated": is_assimilated,
         "suspicion_level": suspicion_level,
-        "current_events": EventManager.get_active_events()
+        "current_events": EventManager.get_active_events(),
+        "player_gender": GameManager.player_gender,
+        "npc_gender": npc_gender
     }
     
     var response = dialog_generator.generate_dialog(dialog_context, interaction_memory)
@@ -539,7 +548,11 @@ func _generate_dialog_options(context: Dictionary) -> Array:
         "verbosity": 0.5,
         "job_focus": 0.9,
         "loyalty": 0.7,
-        "curiosity": 0.3
+        "curiosity": 0.3,
+        "progressiveness": 0.2,
+        "sexism_level": 0.6,
+        "competitiveness": 0.8,
+        "gender_comfort": 0.4
     },
     "schedule": [
         {
@@ -582,7 +595,24 @@ func _generate_dialog_options(context: Dictionary) -> Array:
             "Why are you asking so many questions?",
             "That's none of your business.",
             "I think you should leave."
-        ]
+        ],
+        "gender_aware": {
+            "male_to_female": {
+                "progressive": ["How can I help you, miss?", "What brings you here?"],
+                "traditional": ["Shouldn't you be in the clerical section?", "This is men's work area."],
+                "sexist": ["Don't worry your pretty head about it.", "Let me handle this, sweetheart."]
+            },
+            "female_to_male": {
+                "progressive": ["Good to see you.", "How's your shift going?"],
+                "traditional": ["Yes, sir.", "I'll get someone to help you."],
+                "flirtatious": ["Well hello there, handsome.", "Fancy seeing you here."]
+            },
+            "same_gender_competitive": [
+                "I've been doing this longer than you.",
+                "You trying to show me up?",
+                "I don't need your help."
+            ]
+        }
     },
     "quest_participation": {
         "can_give_quests": true,
@@ -598,6 +628,55 @@ func _generate_dialog_options(context: Dictionary) -> Array:
         "target_priority": ["coworkers", "friends", "strangers"]
     }
 }
+```
+
+### Gender-Aware Personality Traits
+
+The template NPC includes gender dynamics traits that reflect the 1950s-era social attitudes of the station:
+
+- **Progressiveness** (0.0-1.0): Determines how traditional or progressive the NPC's gender attitudes are
+  - 0.0: Very traditional - expects rigid gender roles
+  - 0.5: Moderate - some flexibility but still influenced by norms
+  - 1.0: Very progressive - treats all genders equally
+
+- **Sexism Level** (0.0-1.0): Degree of sexist behavior/attitudes
+  - 0.0: No sexism - respectful to all
+  - 0.5: Casual sexism - occasional inappropriate comments
+  - 1.0: Openly sexist - discriminatory behavior
+
+- **Competitiveness** (0.0-1.0): How competitive with same-gender individuals
+  - Affects trust building with same gender
+  - High values create rivalry dynamics
+  - Low values enable easier same-gender friendships
+
+- **Gender Comfort** (0.0-1.0): Comfort level with opposite gender
+  - 0.0: Very uncomfortable - awkward interactions
+  - 0.5: Normal comfort - professional but cautious
+  - 1.0: Very comfortable - natural interactions
+
+These traits interact with the player's chosen gender to create varied social dynamics:
+
+```gdscript
+func get_gender_modifier(player_gender: String, npc_gender: String) -> float:
+    var modifier = 1.0
+    
+    # Same gender interactions
+    if player_gender == npc_gender:
+        # Competition affects same-gender trust
+        modifier -= personality.competitiveness * 0.2
+        
+        # Progressive NPCs are more collaborative
+        modifier += personality.progressiveness * 0.1
+    else:
+        # Opposite gender interactions
+        # Gender comfort affects ease of interaction
+        modifier *= personality.gender_comfort
+        
+        # Sexism creates negative modifiers
+        if personality.sexism_level > 0.5:
+            modifier -= (personality.sexism_level - 0.5) * 0.3
+    
+    return clamp(modifier, 0.3, 1.5)
 ```
 
 ### Procedural Dialog Generation
@@ -622,7 +701,31 @@ class DialogGenerator:
         if is_assimilated:
             final_text = _add_assimilation_tells(final_text)
         
+        # Apply gender-based modifications
+        final_text = _apply_gender_dynamics(final_text, context)
+        
         return final_text
+    
+    func _apply_gender_dynamics(text: String, context: Dictionary) -> String:
+        var result = text
+        
+        # Apply gender-specific language patterns
+        if context.has("player_gender") and context.has("npc_gender"):
+            var is_same_gender = context.player_gender == context.npc_gender
+            
+            # Traditional NPCs use more formal/distant language with opposite gender
+            if not is_same_gender and personality.progressiveness < 0.3:
+                result = _make_formal(result)
+            
+            # Sexist NPCs may add condescending elements
+            if personality.sexism_level > 0.6 and context.player_gender == "female":
+                result = _add_condescension(result)
+            
+            # Competitive NPCs assert dominance with same gender
+            if is_same_gender and personality.competitiveness > 0.7:
+                result = _add_competitive_edge(result)
+        
+        return result
     
     func _get_template_category(context: Dictionary, memory: Dictionary) -> String:
         # Determine appropriate response category
@@ -744,6 +847,54 @@ class TemplateNPCTest:
         # ... more schedule tests
 ```
 
+## Serialization Considerations
+
+The gender-aware personality traits integrate seamlessly with the modular serialization architecture:
+
+### NPC Serializer Extensions
+
+The NPC serializer will handle personality traits efficiently by only saving non-default values:
+
+```gdscript
+# In npc_serializer.gd
+func serialize_npc_personality(npc: BaseNPC) -> Dictionary:
+    var default_personality = get_default_personality(npc.npc_id)
+    var personality_delta = {}
+    
+    # Only save personality values that differ from defaults
+    for trait in npc.personality:
+        if npc.personality[trait] != default_personality[trait]:
+            personality_delta[trait] = npc.personality[trait]
+    
+    return personality_delta if personality_delta.size() > 0 else {}
+
+func deserialize_npc_personality(npc: BaseNPC, data: Dictionary) -> void:
+    # Start with default personality
+    var default_personality = get_default_personality(npc.npc_id)
+    npc.personality = default_personality.duplicate()
+    
+    # Apply saved deltas
+    for trait in data:
+        npc.personality[trait] = data[trait]
+```
+
+### Memory Efficiency
+
+Gender-aware dialog history can be compressed:
+
+```gdscript
+# Compress gender-specific interactions
+func compress_gender_interactions(memory: Dictionary) -> Dictionary:
+    return {
+        "g_mod": memory.get("gender_modifiers_applied", 0),  # Counter
+        "g_flags": compress_bool_flags({
+            "sexist_encounter": memory.get("experienced_sexism", false),
+            "competitive": memory.get("same_gender_competition", false),
+            "flirtation": memory.get("opposite_gender_flirtation", false)
+        })
+    }
+```
+
 ## Implementation Guidelines
 
 ### MVP Phase Guidelines
@@ -790,11 +941,16 @@ class TemplateNPCTest:
 ## Integration Points
 
 - **DialogManager**: Handles UI display of generated dialog
+  - Fully integrated with gender-aware dialog generation from `dialog_system_refactoring_plan.md`
+  - Uses extended DialogContext with player_gender and npc_gender fields
+  - Leverages GenderDynamicsTemplates for contextual responses
 - **QuestManager**: Tracks NPC involvement in quests
 - **TimeManager**: Drives schedule updates
 - **EventManager**: Notifies NPCs of world events
 - **AssimilationManager**: Coordinates spread mechanics
 - **SaveManager**: Persists NPC state between sessions
+  - Gender-aware personality traits serialize efficiently via delta compression
+  - Only non-default personality values are saved
 
 ## Future Considerations
 

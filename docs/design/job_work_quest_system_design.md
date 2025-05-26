@@ -562,6 +562,228 @@ var janitor_job = {
 }
 ```
 
+## Gender-Based Difficulty System
+
+The 1950s-era station culture affects job performance based on gender:
+
+### Gender Difficulty Modifiers
+
+```gdscript
+func _calculate_gender_modifier(job_type: int, variant: String = "") -> float:
+    var player_gender = GameManager.player_gender
+    var modifier = 1.0
+    
+    # Base modifiers by job type
+    match job_type:
+        JobType.DOCK_WORKER:
+            # Physical labor - male advantage
+            if player_gender == "male":
+                modifier = 1.1  # 10% easier
+            else:
+                modifier = 0.85  # 15% harder
+                # Additional harassment events for female workers
+                if randf() < 0.3:
+                    _trigger_harassment_event("catcalling")
+        
+        JobType.SECURITY_PATROL:
+            # Authority position - significant male bias
+            if player_gender == "male":
+                modifier = 1.15  # 15% easier (respect)
+            else:
+                modifier = 0.75  # 25% harder (disrespect)
+                # People less likely to comply with female security
+        
+        JobType.MEDICAL_COURIER:
+            # Caregiving role - slight female advantage
+            if player_gender == "male":
+                modifier = 0.95  # 5% harder (suspicion)
+            else:
+                modifier = 1.05  # 5% easier (expected)
+        
+        JobType.RETAIL_CLERK:
+            # Service role - female expected
+            if player_gender == "male":
+                modifier = 0.9   # 10% harder (customer skepticism)
+            else:
+                modifier = 1.0   # Normal (but more harassment)
+                if randf() < 0.2:
+                    _trigger_harassment_event("unwanted_advances")
+        
+        JobType.JANITOR:
+            # Invisible role - minimal gender impact
+            modifier = 1.0  # Equal difficulty
+            # But different social interactions
+            if player_gender == "female" and randf() < 0.1:
+                _trigger_harassment_event("cornered_alone")
+    
+    # Variant-specific adjustments
+    if variant == "night_shift":
+        if player_gender == "female":
+            modifier *= 0.9  # More dangerous at night
+    
+    return modifier
+
+func _trigger_harassment_event(type: String) -> void:
+    # Create workplace harassment incidents
+    var incident = {
+        "type": "harassment",
+        "subtype": type,
+        "affects_performance": true
+    }
+    
+    match type:
+        "catcalling":
+            PromptNotificationSystem.show_warning(
+                "workplace_harassment",
+                "Coworkers make inappropriate comments about your appearance.",
+                "Harassment"
+            )
+            incident.performance_penalty = 0.1
+        
+        "unwanted_advances":
+            var choices = [
+                {"text": "Firmly reject", "consequence": "reputation_loss"},
+                {"text": "Politely deflect", "consequence": "continued_harassment"},
+                {"text": "Report to manager", "consequence": "labeled_troublemaker"}
+            ]
+            DialogManager.show_choice_dialog(
+                "A customer is making unwanted advances.",
+                choices
+            )
+            incident.performance_penalty = 0.15
+        
+        "cornered_alone":
+            PromptNotificationSystem.show_warning(
+                "safety_concern",
+                "You feel unsafe working alone in isolated areas.",
+                "Safety Concern"
+            )
+            incident.stress_increase = 0.2
+    
+    current_shift.incidents.append(incident)
+```
+
+### Gender-Specific Job Requirements
+
+Some jobs have different requirements based on gender:
+
+```gdscript
+func check_gender_specific_requirements(job_id: String) -> bool:
+    var player_gender = GameManager.player_gender
+    var job = get_job_data(job_id)
+    
+    # Some positions have "unofficial" gender preferences
+    match job_id:
+        "dock_worker":
+            if player_gender == "female":
+                # Foreman more skeptical, needs higher trust
+                if job.requirements.trust["foreman_chen"] < 40:  # vs 20 for male
+                    PromptNotificationSystem.show_dialog(
+                        "gender_bias",
+                        "Foreman Chen: 'This ain't work for a lady. " +
+                        "Prove yourself elsewhere first.'"
+                    )
+                    return false
+        
+        "security_patrol":
+            if player_gender == "female":
+                # Chief questions your authority
+                DialogManager.add_context_flag("chief_doubts_female_security")
+        
+        "retail_clerk":
+            if player_gender == "male":
+                # Manager surprised but not blocking
+                DialogManager.add_context_flag("male_in_retail_unusual")
+    
+    return true
+```
+
+### Performance Impact Display
+
+```gdscript
+func show_shift_summary(performance: Dictionary) -> void:
+    var summary = "SHIFT COMPLETE\n\n"
+    
+    summary += "Base Performance: %d%%\n" % [performance.base_score * 100]
+    
+    # Show gender modifier if significant
+    if abs(performance.gender_modifier - 1.0) > 0.05:
+        var modifier_text = ""
+        if performance.gender_modifier > 1.0:
+            modifier_text = "[color=green]+%d%% (gender advantage)[/color]" 
+        else:
+            modifier_text = "[color=red]-%d%% (gender discrimination)[/color]"
+        
+        summary += "Gender Modifier: %s\n" % [
+            modifier_text % [abs((performance.gender_modifier - 1.0) * 100)]
+        ]
+    
+    # Show harassment incidents
+    var harassment_count = 0
+    for incident in current_shift.incidents:
+        if incident.type == "harassment":
+            harassment_count += 1
+    
+    if harassment_count > 0:
+        summary += "[color=yellow]Harassment Incidents: %d[/color]\n" % harassment_count
+        summary += "  Performance Impact: -%d%%\n" % [harassment_count * 10]
+    
+    summary += "\nFinal Score: %d%%\n" % [performance.performance_score * 100]
+    summary += "Pay: %d credits\n" % performance.total_pay
+    
+    UI.show_shift_summary(summary)
+```
+
+### Coworker Gender Dynamics
+
+```gdscript
+func generate_coworker_interactions(job_type: int) -> Array:
+    var interactions = []
+    var player_gender = GameManager.player_gender
+    
+    # Generate coworkers with gender-aware personalities
+    for i in range(randi() % 3 + 2):  # 2-4 coworkers
+        var coworker = {
+            "name": NameGenerator.generate(),
+            "gender": ["male", "female"][randi() % 2],
+            "personality": NPCPersonalityGenerator.generate()
+        }
+        
+        # Adjust coworker behavior based on gender dynamics
+        if coworker.gender == player_gender:
+            # Same gender - potential competition or solidarity
+            if coworker.personality.competitiveness > 0.7:
+                interactions.append({
+                    "type": "competition",
+                    "description": "%s tries to outperform you" % coworker.name
+                })
+            elif coworker.personality.progressiveness > 0.6:
+                interactions.append({
+                    "type": "support",
+                    "description": "%s offers helpful advice" % coworker.name
+                })
+        else:
+            # Opposite gender - various dynamics
+            if coworker.personality.sexism_level > 0.6:
+                if player_gender == "female":
+                    interactions.append({
+                        "type": "condescension",
+                        "description": "%s explains things you already know" % coworker.name
+                    })
+                else:
+                    interactions.append({
+                        "type": "bravado",
+                        "description": "%s tries to impress you" % coworker.name
+                    })
+            elif coworker.personality.romantic_aggression > 0.7:
+                interactions.append({
+                    "type": "flirtation",
+                    "description": "%s makes romantic overtures" % coworker.name
+                })
+    
+    return interactions
+```
+
 ## Job Mechanics
 
 ### Shift System
@@ -625,6 +847,7 @@ func evaluate_shift_performance(shift: ShiftData) -> Dictionary:
         "base_score": 1.0,
         "bonuses": {},
         "penalties": {},
+        "gender_modifier": 1.0,
         "total_pay": 0
     }
     
@@ -653,12 +876,18 @@ func evaluate_shift_performance(shift: ShiftData) -> Dictionary:
         else:
             performance.penalties["incident_" + incident.type] = -0.2
     
+    # Apply gender-based difficulty modifier
+    performance.gender_modifier = _calculate_gender_modifier(job.job_type, shift.variant)
+    
     # Calculate total score
     var total_score = performance.base_score
     for bonus in performance.bonuses.values():
         total_score += bonus
     for penalty in performance.penalties.values():
         total_score += penalty
+    
+    # Apply gender modifier to final score
+    total_score *= performance.gender_modifier
     
     total_score = clamp(total_score, 0.0, 1.5)
     performance.performance_score = total_score
@@ -877,7 +1106,8 @@ func serialize() -> Dictionary:
         "shift_history": _serialize_shift_history(),
         "current_shift": _serialize_current_shift(),
         "lifetime_earnings": JobWorkQuestSystem.lifetime_earnings,
-        "workplace_discoveries": JobWorkQuestSystem.workplace_discoveries
+        "workplace_discoveries": JobWorkQuestSystem.workplace_discoveries,
+        "gender_statistics": _serialize_gender_stats()
     }
 
 func deserialize(data: Dictionary) -> void:
@@ -909,6 +1139,14 @@ func _serialize_all_jobs() -> Dictionary:
         }
     
     return serialized
+
+func _serialize_gender_stats() -> Dictionary:
+    return {
+        "harassment_incidents": JobWorkQuestSystem.harassment_incidents,
+        "gender_penalties_total": JobWorkQuestSystem.gender_penalties_total,
+        "gender_bonuses_total": JobWorkQuestSystem.gender_bonuses_total,
+        "jobs_rejected_gender": JobWorkQuestSystem.jobs_rejected_gender
+    }
 ```
 
 ## Special Job Mechanics
@@ -988,6 +1226,30 @@ const SHIFT_EXHAUSTION = 0.3  # Can't work multiple jobs same day
 - Excellent performance unlocks special opportunities
 - Suspension forces job diversity
 - Reputation affects NPC trust
+
+## Integration with Gender System
+
+The job system integrates with the gender dynamics throughout the game:
+
+### NPC Gender Personality Integration
+Job quest givers and coworkers use the gender-aware personality traits from `template_npc_design.md`:
+- Progressiveness affects how they treat opposite-gender workers
+- Sexism level determines harassment frequency
+- Competitiveness creates same-gender rivalries
+- Gender comfort affects workplace interactions
+
+### Dialog System Integration
+Gender-aware dialog from `dialog_system_refactoring_plan.md` is used for:
+- Job interview conversations reflecting bias
+- Coworker interactions based on gender dynamics
+- Customer service scenarios with gender-specific challenges
+- Harassment incident dialog trees
+
+### Trust System Integration
+Gender affects trust building with job-related NPCs:
+- Some NPCs trust same-gender workers more readily
+- Others may be more trusting of traditional gender roles
+- Breaking gender expectations can either build or damage trust
 
 ## Template Compliance
 
