@@ -1,223 +1,216 @@
-# Iteration 11: Full Audio System Implementation
+# Iteration 11: Quest and Progression Systems
+
+## Epic Description
+**Phase**: 2 - Full Systems  
+**Cohesive Goal**: "I can accept, track, and complete quests"
+
+As a player, I need structured objectives that guide my investigation while allowing freedom to pursue leads in my own way, with job opportunities providing both income and access to restricted areas of the station.
 
 ## Goals
-- Complete the comprehensive diegetic audio system building on Iteration 3's MVP foundation
-- Implement district-specific audio environments with smooth transitions
-- Add advanced spatial audio features including stereo panning and environmental effects
-- Create interactive audio elements and atmospheric sound design
-- Establish production pipeline for audio content creation and management
+- Build comprehensive Quest System Framework
+- Implement Job/Work Quest System for economic gameplay
+- Create Quest Log UI for tracking progress
+- Develop First Quest as Phase 2 validation
+- Establish progression mechanics
+- Create quest template system for content creation
 
 ## Requirements
 
 ### Business Requirements
+- **B1:** Implement comprehensive quest and job systems
+  - **Rationale:** Structured progression keeps players engaged and provides clear goals
+  - **Success Metric:** Players can track and complete multiple quest types
 
-- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
-  - **Rationale:** Audio is crucial for establishing the game's unique atmosphere and supporting the narrative themes
-  - **Success Metric:** All audio sources are visually identifiable or logically placed within the game world
+- **B2:** Validate Phase 2 systems with First Quest implementation
+  - **Rationale:** Integration testing ensures all systems work together
+  - **Success Metric:** First Quest exercises all major game systems successfully
 
-- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
-  - **Rationale:** Each district needs a distinct audio identity to aid navigation and reinforce its purpose
-  - **Success Metric:** Players can identify districts by audio cues alone; each district feels sonically unique
-
-- **B3:** Implement audio as a gameplay element where sound provides narrative context, environmental storytelling, and subtle cues about the assimilation threat.
-  - **Rationale:** Audio should not just be atmospheric but actively contribute to gameplay and storytelling
-  - **Success Metric:** Players report using audio cues for gameplay decisions; audio enhances narrative immersion
+- **B3:** Create economic progression through jobs
+  - **Rationale:** Jobs provide income and narrative opportunities
+  - **Success Metric:** Players use jobs strategically for access and income
 
 ### User Requirements
+- **U1:** As a player, I want to track my quests and objectives
+  - **User Value:** Clear goals and progress tracking
+  - **Acceptance Criteria:** Quest log shows current objectives and completion status
 
-- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
-  - **User Value:** Enhances immersion and makes the station feel lived-in and authentic
-  - **Acceptance Criteria:** Every sound has a visible or logical source; players can interact with some audio sources
+- **U2:** As a player, I want meaningful job opportunities
+  - **User Value:** Economic gameplay provides progression path
+  - **Acceptance Criteria:** Jobs provide income and advance the story
 
-- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
-  - **User Value:** Creates realistic spatial awareness and enables audio-based gameplay
-  - **Acceptance Criteria:** Audio pans correctly left/right; volume attenuates naturally with distance
-
-- **U3:** As a player, I want the audio atmosphere to subtly change as more of the station becomes assimilated, creating an increasingly unsettling soundscape.
-  - **User Value:** Audio reinforces the narrative tension and provides feedback on game state
-  - **Acceptance Criteria:** Cheerful muzak degrades over time; silence becomes more prevalent in assimilated areas
+- **U3:** As a player, I want freedom in how I complete objectives
+  - **User Value:** Player agency increases satisfaction
+  - **Acceptance Criteria:** Multiple solutions available for most quests
 
 ### Technical Requirements
-- **T1:** Maintain 60 FPS performance with 20+ simultaneous audio sources using efficient LOD and pooling systems.
-  - **Rationale:** Audio system must not impact gameplay performance
-  - **Constraints:** Target hardware includes lower-spec machines; Godot 3.5.2 audio limitations
+- **T1:** Design flexible quest state machine
+  - **Rationale:** Complex quests need clear state management
+  - **Constraints:** Must support branching and parallel objectives
 
-- **T2:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
-  - **Rationale:** Ensures continuity and prevents regression of working features
-  - **Constraints:** Must maintain compatibility with existing AudioManager and DiegeticAudioController
+- **T2:** Create data-driven quest system
+  - **Rationale:** Content creators need easy quest creation
+  - **Constraints:** Quest files should be human-readable
+
+- **T3:** Implement robust quest tracking
+  - **Rationale:** Players need clear progress indicators
+  - **Constraints:** Must handle 20+ active quests
 
 ## Tasks
 
-### Phase 1: Complete Foundation and Basic Audio
-- [ ] Task 1: Expand audio bus structure for district-specific routing
-- [ ] Task 2: Enhance AudioManager with district switching and fade functionality
-- [ ] Task 3: Add advanced spatial features to DiegeticAudioController
-- [ ] Task 4: Implement comprehensive unit tests for audio systems
+### Quest Framework
+- [ ] Task 1: Create QuestManager singleton
+- [ ] Task 2: Implement quest state machine
+- [ ] Task 3: Build quest prerequisite system
+- [ ] Task 4: Create quest reward system
+- [ ] Task 5: Add quest save/load integration
 
-### Phase 2: Spatial Audio and 2D Positioning  
-- [ ] Task 5: Implement custom attenuation curves and distance calculations
-- [ ] Task 6: Create stereo panning system using AudioEffectPanner
-- [ ] Task 7: Build audio debug visualization tools
-- [ ] Task 8: Performance profiling and optimization for multiple sources
+### Job System
+- [ ] Task 6: Create JobManager system
+- [ ] Task 7: Implement job board UI
+- [ ] Task 8: Build work shift mechanics
+- [ ] Task 9: Create job performance evaluation
+- [ ] Task 10: Add job-specific access permissions
 
-### Phase 3: District Audio System
-- [ ] Task 9: Create DistrictAudioConfig resource system
-- [ ] Task 10: Implement smooth district audio transitions
-- [ ] Task 11: Design district-specific audio configurations
-- [ ] Task 12: Create audio source spawning and management system
+### Quest UI
+- [ ] Task 11: Design quest log interface
+- [ ] Task 12: Implement quest tracking HUD
+- [ ] Task 13: Create quest detail view
+- [ ] Task 14: Add quest filtering/sorting
+- [ ] Task 15: Build quest notification system
 
-### Phase 4: Audio-Gameplay Integration
-- [ ] Task 13: Connect audio volume to visual perspective scale
-- [ ] Task 14: Implement interactive audio objects (radios, PA systems)
-- [ ] Task 15: Create assimilation-based audio degradation system
-- [ ] Task 16: Design silence and tension mechanics
+### Quest Templates
+- [ ] Task 16: Create quest data format
+- [ ] Task 17: Build quest template types
+- [ ] Task 18: Implement quest scripting system
+- [ ] Task 19: Add quest validation tools
+- [ ] Task 20: Create quest debug commands
 
-### Phase 5: Polish and Optimization
-- [ ] Task 17: Implement audio LOD system for performance
-- [ ] Task 18: Add environmental reverb zones and effects
-- [ ] Task 19: Create audio settings UI and player preferences
-- [ ] Task 20: Final balancing and polish pass
+### First Quest Implementation
+- [ ] Task 21: Design First Quest narrative
+- [ ] Task 22: Implement all quest objectives
+- [ ] Task 23: Create quest-specific content
+- [ ] Task 24: Add multiple solution paths
+- [ ] Task 25: Full integration testing
 
-### Phase 6: Content Production Pipeline
-- [ ] Task 21: Create audio asset conversion and import pipeline
-- [ ] Task 22: Establish audio style guide and naming conventions
-- [ ] Task 23: Build placeholder audio library
-- [ ] Task 24: Document audio implementation for future content creators
+## User Stories
+
+### Task 2: Implement quest state machine
+**User Story:** As a developer, I want quests to have clear states and transitions, so that complex quest logic remains manageable and bug-free.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. States: INACTIVE, AVAILABLE, ACTIVE, COMPLETED, FAILED
+  2. Clear transition conditions between states
+  3. Support for branching quest paths
+  4. Parallel objective tracking
+  5. State persistence through save/load
+
+**Implementation Notes:**
+- Reference: docs/design/template_quest_design.md
+- Use state pattern for clean implementation
+- Consider quest chains and dependencies
+- Support optional objectives
+
+### Task 8: Build work shift mechanics
+**User Story:** As a player, I want to work scheduled shifts at various jobs, so that I can earn credits while gaining access to restricted areas and information.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Jobs have specific shift times
+  2. Must arrive on time or face penalties
+  3. Work activities vary by job type
+  4. Performance affects payment
+  5. Jobs grant temporary access permissions
+
+**Implementation Notes:**
+- Reference: docs/design/job_work_quest_system_design.md
+- Shift durations: 2-4 hours game time
+- Jobs: Janitor, Clerk, Technician, Security
+- Performance mini-games for some jobs
+
+### Task 11: Design quest log interface
+**User Story:** As a player, I want an intuitive quest log that helps me track multiple objectives, so that I always know what I can do next without feeling overwhelmed.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T3
+- **Acceptance Criteria:**
+  1. Categorized quests (Main, Side, Jobs, Personal)
+  2. Progress bars for multi-part quests
+  3. Map markers for quest locations
+  4. Priority/recommendation system
+  5. Completed quest archive
+
+**Implementation Notes:**
+- Reference: docs/design/quest_log_ui_design.md
+- Consider color coding by quest type
+- Quick access hotkey (J for Journal)
+- Search/filter functionality
+
+### Task 22: Implement all quest objectives
+**User Story:** As a player, I want to experience a complex quest that uses all game systems, so that I understand the full depth of gameplay possibilities.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Uses investigation mechanics
+  2. Requires social interactions
+  3. Includes economic elements
+  4. Features time pressure
+  5. Multiple completion methods
+
+**Implementation Notes:**
+- First Quest: "The Missing Researcher"
+- Tests all Phase 2 systems
+- 45-60 minutes completion time
+- At least 3 different endings
 
 ## Testing Criteria
-- All audio is purely diegetic with clear in-world sources
-- Spatial positioning feels natural and accurate with proper stereo panning
-- Performance maintains 60 FPS with 20+ simultaneous audio sources
-- District transitions are smooth and atmospheric
-- Audio reinforces the corporate banality aesthetic
-- Silence and sound create appropriate tension
-- Players can identify audio source locations
-- Audio enhances rather than distracts from gameplay
-- Interactive audio objects respond correctly to player input
-- Assimilation affects audio atmosphere progressively
-- All districts have unique and appropriate soundscapes
-- Audio settings provide adequate player control
+- Quest states transition correctly
+- Jobs function with proper schedules
+- Quest log displays accurate information
+- Save/load preserves quest progress
+- First Quest completable via multiple paths
+- Performance with many active quests
+- Quest notifications work properly
+- All systems integrate smoothly
 
 ## Timeline
-- Start date: TBD (After Iteration 10 completion)
-- Target completion: Start date + 25 days
-- Duration: 20-25 days total
+- Start date: After Iteration 10
+- Target completion: 2-3 weeks
+- Critical for: Phase 2 validation
 
 ## Dependencies
-- Iteration 3: Audio MVP foundation (AudioManager, DiegeticAudioController)
-- Iteration 5: District system and transitions
-- Iteration 8: Investigation mechanics (for audio-based clues)
-- Iteration 10: Game state progression (for assimilation-based audio changes)
+- Iteration 10: NPC relationships (for social quests)
+- Iteration 9: Investigation system
+- All Phase 1 systems
 
 ## Code Links
-- No links yet
+- src/core/quests/quest_manager.gd (to be created)
+- src/core/quests/quest_state_machine.gd (to be created)
+- src/core/jobs/job_manager.gd (to be created)
+- src/ui/quest_log/quest_log_ui.gd (to be created)
+- data/quests/first_quest.json (to be created)
+- docs/design/job_work_quest_system_design.md
+- docs/design/quest_log_ui_design.md
+- docs/design/template_quest_design.md
 
 ## Notes
-This iteration implements the comprehensive audio system as designed in:
-- docs/design/audio_system_technical_implementation.md (Full implementation plan)
-- docs/design/audio_system_iteration3_mvp.md (MVP foundation reference)
-- docs/reference/game_design_document.md (Audio Design section)
-
-Key architectural decisions:
-- All audio must be diegetic (Design Pillar #13)
-- Music aesthetic should be "corporate banality" (Mallsoft/Vaporwave inspired)
-- District-specific ambience creates unique atmospheres
-- Performance optimization is critical for lower-spec hardware
-- System builds on MVP without breaking existing functionality
-
-### Task 1: Expand audio bus structure for district-specific routing
-
-**User Story:** As a developer, I want a comprehensive audio bus hierarchy that supports district-specific mixing and effects, so that each area can have its unique sonic character.
-
-**Requirements:**
-- **Linked to:** B2, T1
-- **Acceptance Criteria:**
-  1. Expand bus structure to include district-specific buses (Mall_Music, Spaceport_Music, etc.)
-  2. Configure appropriate effects chains for each district
-  3. Set up routing for smooth cross-fading between districts
-  4. Document bus architecture for future expansion
-  5. Maintain performance with complex routing
-
-**Implementation Notes:**
-- Build on MVP's basic bus structure (Master -> Music, Ambience, SFX)
-- Add per-district sub-buses under Music and Ambience
-- Configure reverb, EQ, and compression per district
-- Reference: docs/design/audio_system_technical_implementation.md - Section 1
-
-### Task 6: Create stereo panning system using AudioEffectPanner
-
-**User Story:** As a player, I want sounds to pan left and right based on their position relative to me, so that I can spatially locate audio sources in the game world.
-
-**Requirements:**
-- **Linked to:** U2, B1
-- **Acceptance Criteria:**
-  1. Implement dynamic stereo panning based on horizontal position
-  2. Panning integrates smoothly with distance attenuation
-  3. Works correctly at all camera zoom levels
-  4. Configurable pan width for different audio types
-  5. No audible artifacts during rapid position changes
-
-**Implementation Notes:**
-- Godot 3.5.2 lacks built-in 2D panning, must implement via AudioEffectPanner
-- Calculate pan value from relative X position
-- Apply to appropriate audio buses dynamically
-- Reference: docs/design/audio_system_technical_implementation.md - DiegeticAudioController
-
-### Task 9: Create DistrictAudioConfig resource system
-
-**User Story:** As a developer, I want a resource-based configuration system for district audio, so that sound designers can easily customize each area without code changes.
-
-**Requirements:**
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-  1. DistrictAudioConfig resource type created with all necessary properties
-  2. AudioSourceDefinition resource for individual sound sources
-  3. Resources can be edited in Godot inspector
-  4. Support for music sources, ambience sources, and effects settings
-  5. Easy to extend for future audio features
-
-**Implementation Notes:**
-- Create custom resource classes extending Resource
-- Include properties for sources, volumes, effects parameters
-- Design for visual editing in Godot
-- Reference: docs/design/audio_system_technical_implementation.md - Section 4
-
-### Task 14: Implement interactive audio objects (radios, PA systems)
-
-**User Story:** As a player, I want to interact with audio sources like radios and PA systems, so that I have control over the soundscape and can discover audio-based secrets.
-
-**Requirements:**
-- **Linked to:** U1, B3
-- **Acceptance Criteria:**
-  1. Players can turn radios on/off with verb system
-  2. PA systems deliver context-appropriate announcements
-  3. Interactive audio objects have visual feedback
-  4. State persistence for audio objects
-  5. Integration with existing interaction system
-
-**Implementation Notes:**
-- Extend InteractiveObject base class for audio objects
-- Implement interact() method for audio state changes
-- Create RadioObject and PASystemObject classes
-- Store audio state in object properties
-- Reference: Design Pillar #13 - All music is diegetic
-
-### Task 15: Create assimilation-based audio degradation system
-
-**User Story:** As a player, I want the audio atmosphere to subtly degrade as assimilation spreads, so that I can feel the station's decline through sound.
-
-**Requirements:**
-- **Linked to:** U3, B3
-- **Acceptance Criteria:**
-  1. Music becomes distorted/glitchy in highly assimilated areas
-  2. Ambient sounds fade or skip in affected districts
-  3. Degradation level tied to district assimilation percentage
-  4. Sudden silences create tension
-  5. System integrates with game state manager
-
-**Implementation Notes:**
-- Add distortion effects dynamically based on assimilation level
-- Implement random audio dropouts and glitches
-- Create "broken speaker" effect for failing audio sources
-- Tie to global game state tracking
-- Reference: docs/design/audio_system_technical_implementation.md - Audio as Gameplay Element
+- Quest system must be flexible for Phase 3 content
+- Jobs provide both gameplay and narrative opportunities
+- First Quest validates all Phase 2 systems
+- Multiple solution paths encourage replay
+- This iteration enables structured gameplay progression

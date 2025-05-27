@@ -1,177 +1,187 @@
-# Iteration 6: Game Districts and Time Management
-**Updated to include Living World Event System MVP**
+# Iteration 6: Dialog and Character Systems
+
+## Epic Description
+**Phase**: 1 - MVP Foundation  
+**Cohesive Goal**: "I can create my character and interact through dialog"
+
+As a player, I want to create a character that represents me in the game world and engage in meaningful conversations with NPCs using the classic SCUMM verb-based interaction system.
 
 ## Goals
-- Implement multiple station districts with transitions
-- Create detailed time management system (Persona-style)
-- Develop day/night cycle and time progression
-- **NEW:** Implement Living World Event System MVP for scheduled events and NPC routines
-- Implement random NPC assimilation tied to scheduled events
-- Implement single-slot save system
-- Create basic limited inventory system
+- Implement Character Gender Selection system
+- Refactor Dialog System to be gender-aware
+- Implement Verb UI System for SCUMM-style interactions
+- Create Main Menu and Start Game UI
+- Integrate all systems with existing serialization and notification systems
 
 ## Requirements
 
 ### Business Requirements
-- **B1:** Create a sense of progression and urgency through time management
-  - **Rationale:** Time-based gameplay creates strategic choices and replay value
-  - **Success Metric:** Players report making meaningful time allocation decisions in test sessions
+- **B1:** Create inclusive character creation experience
+  - **Rationale:** Player identification with their character increases engagement
+  - **Success Metric:** Character creation takes <2 minutes with clear options
 
-- **B2:** Expand game world with multiple distinct areas
-  - **Rationale:** Diverse environments increase perceived game size and exploration value
-  - **Success Metric:** Each district has unique visual identity and gameplay purpose
+- **B2:** Establish iconic SCUMM-style interaction system
+  - **Rationale:** Classic adventure game UI creates nostalgic appeal
+  - **Success Metric:** Players intuitively understand verb-based interactions
 
-- **B3:** Make the station feel alive with NPCs following schedules
-  - **Rationale:** Living world increases immersion and creates emergent gameplay
-  - **Success Metric:** Players report feeling the world continues without them
+- **B3:** Ensure dialog system supports narrative complexity
+  - **Rationale:** Rich dialog trees are core to the investigation gameplay
+  - **Success Metric:** Dialog system supports 5+ level deep conversations
 
 ### User Requirements
-- **U1:** As a player, I want to manage my time to prioritize activities
-  - **User Value:** Creates strategic decision-making and consequences
-  - **Acceptance Criteria:** Different actions consume varying amounts of in-game time
+- **U1:** As a player, I want to choose my character's gender
+  - **User Value:** Personal representation in the game world
+  - **Acceptance Criteria:** Can select male/female/non-binary with appropriate pronouns
 
-- **U2:** As a player, I want to explore distinct areas of the station
-  - **User Value:** Provides variety and discovery
-  - **Acceptance Criteria:** Each district has unique visuals, NPCs, and activities
+- **U2:** As a player, I want to interact using familiar adventure game verbs
+  - **User Value:** Intuitive interaction system reduces learning curve
+  - **Acceptance Criteria:** 9 verbs clearly displayed and functional
 
-- **U3:** As a player, I want to discover events I missed through investigation
-  - **User Value:** Rewards exploration and attention to detail
-  - **Acceptance Criteria:** Clues and dialog reveal information about past events
+- **U3:** As a player, I want engaging conversations with NPCs
+  - **User Value:** Dialog drives story and investigation forward
+  - **Acceptance Criteria:** Conversations feel natural with multiple choice options
 
 ### Technical Requirements
-- **T1:** Implement robust scene transition system
-  - **Rationale:** District loading and transitions must be seamless
-  - **Constraints:** Must preserve game state across transitions
+- **T1:** Implement pronoun system throughout codebase
+  - **Rationale:** Gender-aware text requires systematic pronoun handling
+  - **Constraints:** Must work with all existing and future dialog
 
-- **T2:** Create event scheduling architecture that scales
-  - **Rationale:** Foundation for full living world implementation
-  - **Constraints:** Must maintain 60 FPS with event processing
+- **T2:** Create extensible verb processing system
+  - **Rationale:** New verbs may be added in future iterations
+  - **Constraints:** Must integrate with existing interaction system
+
+- **T3:** Refactor dialog system for maintainability
+  - **Rationale:** Current system has architectural violations
+  - **Constraints:** Must maintain backwards compatibility
 
 ## Tasks
-- [ ] Task 1: Create at least one additional district besides Shipping
-- [ ] Task 2: Create bash script for generating NPC placeholders
-- [ ] Task 3: Implement district transitions via tram system
-- [ ] Task 4: Develop in-game clock and calendar system
-- [ ] Task 5: Create time progression through player actions
-- [ ] Task 6: Create SimpleEventScheduler for managing time-based events
-- [ ] Task 7: Implement NPCScheduleManager for basic NPC routines
-- [ ] Task 8: Create EventDiscovery system for learning about missed events
-- [ ] Task 9: Implement day cycle with sleep mechanics
-- [ ] Task 10: Design and implement time UI indicators
-- [ ] Task 11: Convert random assimilation to scheduled event system
-- [ ] Task 12: Add scheduled story events (security sweeps, meetings)
-- [ ] Task 13: Create NPC schedule data files for 5-10 key NPCs
-- [ ] Task 14: Implement contextual dialog based on recent events
-- [ ] Task 15: Implement player bedroom as save point location
-- [ ] Task 16: Create single-slot save system with event state persistence
-- [ ] Task 17: Create basic inventory system with size limitations
 
-## Testing Criteria
-- Player can travel between at least two districts
-- Time advances through specific actions (tram travel, conversations, etc.)
-- Day advances when player sleeps
-- NPCs follow daily schedules and appear in correct locations at correct times
-- Events trigger at scheduled times whether player witnesses them or not
-- Player can discover missed events through clues and NPC dialog
-- Assimilation events leave evidence in the world
-- Save system preserves complete event history and NPC states
-- Player has limited inventory space
-- NPC placeholder script successfully creates properly structured directories and registry entries
-- Performance maintains 60 FPS with event system active
+### Character Creation System
+- [ ] Task 1: Create character creation UI screen
+- [ ] Task 2: Implement gender selection with preview
+- [ ] Task 3: Create pronoun system (he/she/they)
+- [ ] Task 4: Implement character data persistence
+- [ ] Task 5: Integrate with main menu flow
 
-## Timeline
-- Start date: 2025-06-15
-- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
+### Dialog System Refactoring
+- [ ] Task 6: Refactor dialog system architecture
+- [ ] Task 7: Implement gender-aware text substitution
+- [ ] Task 8: Create dialog tree editor improvements
+- [ ] Task 9: Add dialog history/log system
+- [ ] Task 10: Integrate with notification system
 
-## Dependencies
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
+### Verb UI Implementation
+- [ ] Task 11: Create verb UI panel with 9 verbs
+- [ ] Task 12: Implement verb highlighting on hover
+- [ ] Task 13: Create verb-object interaction system
+- [ ] Task 14: Add verb shortcuts/hotkeys
+- [ ] Task 15: Implement context-sensitive verb availability
 
-## Code Links
-- Time Management System MVP Design: docs/design/time_management_system_mvp.md
-- Living World Event System MVP Design: docs/design/living_world_event_system_mvp.md
-- GameClock: src/core/systems/game_clock.gd (to be created)
-- TimeCostManager: src/core/systems/time_cost_manager.gd (to be created)
-- DayCycleController: src/core/systems/day_cycle_controller.gd (to be created)
-- SimpleEventScheduler: src/core/systems/simple_event_scheduler.gd (to be created)
-- NPCScheduleManager: src/core/systems/npc_schedule_manager.gd (to be created)
-- EventDiscovery: src/core/systems/event_discovery.gd (to be created)
-- TimeDisplay: src/ui/time_display/time_display.gd (to be created)
-- NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
-- Scheduled Events: src/data/events/scheduled_events.json (to be created)
+### Main Menu System
+- [ ] Task 16: Create main menu scene and UI
+- [ ] Task 17: Implement new game flow
+- [ ] Task 18: Add continue game functionality
+- [ ] Task 19: Create options/settings menu
+- [ ] Task 20: Add credits screen
 
 ## User Stories
 
-### Task 1: Create at least one additional district besides Shipping
-**User Story:** As a player, I want to explore different areas of the station, so that I can discover new characters, items, and story elements.
+### Task 2: Implement gender selection with preview
+**User Story:** As a player, I want to see how my character choice affects the game, so that I can make an informed decision about my character's gender.
 
-### Task 2: Create bash script for generating NPC placeholders
-**User Story:** As a developer, I want a bash script that manages the NPC registry and creates appropriate directory structures for NPC sprites, so that I can easily add new characters to the game with proper integration into the existing systems without manual configuration.
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 3: Implement district transitions via tram system
-**User Story:** As a player, I want to travel between districts using the tram system, so that I can explore the station while experiencing time passing during travel.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Time Cost Manager" - Travel actions
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Three options clearly presented: Male, Female, Non-binary
+  2. Character sprite preview updates based on selection
+  3. Example dialog shows pronoun usage
+  4. Selection can be changed before confirming
+  5. Choice persists through game sessions
 
-### Task 4: Develop in-game clock and calendar system
-**User Story:** As a player, I want to see the current time and day, so that I can plan my activities and understand when events might occur.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Game Clock System"
+**Implementation Notes:**
+- Reference: docs/design/character_gender_selection_system.md
+- Use character portraits for preview
+- Show example: "They walked into the room" with proper pronoun
+- Store selection in GameState singleton
 
-### Task 5: Create time progression through player actions
-**User Story:** As a player, I want my actions to consume time, so that I must make strategic choices about how to spend my limited time.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Time Cost Manager"
+### Task 7: Implement gender-aware text substitution
+**User Story:** As a player, I want all game text to use the correct pronouns for my character, so that the narrative feels personalized to my choices.
 
-### Task 6: Create SimpleEventScheduler for managing time-based events
-**User Story:** As a developer, I want a system that triggers events at specific times, so that the world feels alive and dynamic even when the player isn't present.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Core Components"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 7: Implement NPCScheduleManager for basic NPC routines
-**User Story:** As a player, I want NPCs to follow daily routines, so that the station feels like a real place with people living their lives.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "NPC Schedule Manager"
+**Requirements:**
+- **Linked to:** T1, U1
+- **Acceptance Criteria:**
+  1. Dialog system supports {pronoun} tags
+  2. Automatic substitution based on player gender
+  3. Supports subject/object/possessive forms
+  4. Works in all languages (future localization)
+  5. No hardcoded gender assumptions
 
-### Task 8: Create EventDiscovery system for learning about missed events
-**User Story:** As a player, I want to discover clues about events I missed, so that I can piece together what happened while I was elsewhere.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Discovery System"
+**Implementation Notes:**
+- Tags: {they}, {them}, {their}, {theirs}, {themselves}
+- Create PronounManager for centralized handling
+- Test with all existing dialog content
+- Reference: docs/design/dialog_system_refactoring_plan.md
 
-### Task 9: Implement day cycle with sleep mechanics
-**User Story:** As a player, I want to rest and advance to the next day, so that I can manage my time and see how the station changes overnight.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Day Cycle Controller"
+### Task 11: Create verb UI panel with 9 verbs
+**User Story:** As a player, I want to see all available actions clearly displayed, so that I know what interactions are possible in the game.
 
-### Task 10: Design and implement time UI indicators
-**User Story:** As a player, I want clear visual indicators of time passing, so that I can make informed decisions about my activities.
-**Reference:** See docs/design/time_management_system_mvp.md Section "Time UI System"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 11: Convert random assimilation to scheduled event system
-**User Story:** As a player, I want assimilation to happen at specific times and places, so that I might witness or investigate these events.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Types in MVP"
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. 9 verbs in 3x3 grid: Look, Talk, Use, Open, Close, Push, Pull, Give, Take
+  2. Verbs highlight on mouse hover
+  3. Selected verb shows different visual state
+  4. Verb panel always visible during gameplay
+  5. Responsive to different screen sizes
 
-### Task 12: Add scheduled story events (security sweeps, meetings)
-**User Story:** As a player, I want major story events to occur at specific times, so that I must choose which events to witness or investigate.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Event Types in MVP"
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md
+- Use retro pixel font for authenticity
+- Color scheme matches game aesthetic
+- Consider tooltip descriptions for verbs
 
-### Task 13: Create NPC schedule data files for 5-10 key NPCs
-**User Story:** As a player, I want important NPCs to have detailed daily routines, so that I can learn their patterns and plan my interactions.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "5-10 Key NPCs with Full Routines"
+## Testing Criteria
+- Character creation flow completes successfully
+- Gender selection persists across sessions
+- All dialog displays correct pronouns
+- Verb UI responds to all interactions
+- Dialog trees navigate without errors
+- Main menu functions properly
+- Save/load preserves character data
+- Performance remains smooth with UI updates
 
-### Task 14: Implement contextual dialog based on recent events
-**User Story:** As a player, I want NPCs to reference recent events in dialog, so that the world feels reactive and interconnected.
-**Reference:** See docs/design/living_world_event_system_mvp.md Section "Dialog System Integration"
+## Timeline
+- Start date: After Iteration 5 completion
+- Target completion: 2 weeks
+- Critical for: All future NPC interactions
 
-### Task 15: Implement player bedroom as save point location
-**User Story:** As a player, I want a personal space where I can save my progress, so that I have a safe location to plan my next moves.
+## Dependencies
+- Iteration 4: Serialization (for saving character data)
+- Iteration 5: Notification System (for dialog feedback)
+- Existing dialog and interaction systems
 
-### Task 16: Create single-slot save system with event state persistence
-**User Story:** As a player, I want to save my game including all event history, so that I can continue my unique playthrough later.
-
-### Task 17: Create basic inventory system with size limitations
-**User Story:** As a player, I want to collect and carry items with limited space, so that I must make choices about what to keep.
+## Code Links
+- src/ui/character_creation/ (to be created)
+- src/core/dialog/dialog_manager.gd (to be refactored)
+- src/core/dialog/pronoun_manager.gd (to be created)
+- src/ui/verb_ui/verb_ui.gd (to be refactored)
+- src/ui/main_menu/ (to be created)
+- docs/design/character_gender_selection_system.md
+- docs/design/dialog_system_refactoring_plan.md
+- docs/design/verb_ui_system_refactoring_plan.md
+- docs/design/main_menu_start_game_ui_design.md
 
 ## Notes
-- Time Management System MVP provides the core temporal framework for the entire game
-- Living World Event System MVP provides foundation for Iteration 12 full implementation
-- These two systems work together: Time Manager handles player resource allocation, Event System handles world simulation
-- Focus on making 5-10 NPCs feel truly alive rather than many shallow NPCs
-- Event discovery through clues and dialog is key to making missed events meaningful
-- Performance testing critical with event system running continuously
-- Time costs should feel intuitive - players should be able to estimate action costs without constantly checking
+- Gender system must be respectful and inclusive
+- Dialog refactoring addresses technical debt from early development
+- Verb UI is critical for game's identity as SCUMM-style adventure
+- Main menu sets first impression - polish is important

@@ -1,137 +1,180 @@
-# Iteration 5: Save System Foundation
+# Iteration 5: Time and Notification Systems
+
+## Epic Description
+**Phase**: 1 - MVP Foundation  
+**Cohesive Goal**: "Time flows and the game can communicate with the player"
+
+As a player, I need to feel the passage of time creating urgency in my investigation, while receiving clear feedback about important events and system states through a unified notification system.
 
 ## Goals
-- Implement single-slot save system inspired by Dead Rising
-- Create robust serialization architecture that can grow with the game
-- Build atomic save operations to prevent corruption
-- Develop save/load UI with clear progress indication
-- Establish version migration framework for future updates
-- Create modular serialization system to minimize future refactoring
+- Implement Time Management System MVP
+- Create Prompt Notification System for all player communications
+- Build basic calendar/clock UI
+- Establish time-based event foundation
+- Integrate notifications across all existing systems
 
 ## Requirements
 
 ### Business Requirements
-- **B1:** Implement save system that reinforces permanent consequences
-  - **Rationale:** Single-slot saves create tension and meaningful choices
-  - **Success Metric:** Players report feeling weight of their decisions
+- **B1:** Create a sense of progression and urgency through time management
+  - **Rationale:** Time-based gameplay creates strategic choices and replay value
+  - **Success Metric:** Players report making meaningful time allocation decisions in test sessions
 
-- **B2:** Ensure save system reliability and corruption resistance
-  - **Rationale:** Single slot means corruption is catastrophic
-  - **Success Metric:** <0.001% corruption rate in production
+- **B2:** Establish consistent player communication patterns
+  - **Rationale:** Clear feedback reduces player frustration and improves engagement
+  - **Success Metric:** 95% of player actions have appropriate feedback
 
 ### User Requirements
-- **U1:** As a player, I want to save my progress when sleeping
-  - **User Value:** Natural save points integrated with time management
-  - **Acceptance Criteria:** Saving advances time to next day
+- **U1:** As a player, I want to see time passing in the game world
+  - **User Value:** Creates immersion and strategic planning opportunities
+  - **Acceptance Criteria:** Clock and calendar UI clearly shows current time/date
 
-- **U2:** As a player, I want clear feedback during save/load operations
-  - **User Value:** Understanding system state during critical operations
-  - **Acceptance Criteria:** Progress indicators and success confirmations
+- **U2:** As a player, I want clear notifications about important events
+  - **User Value:** Never miss critical information or system feedback
+  - **Acceptance Criteria:** All major events trigger appropriate notifications
+
+- **U3:** As a player, I want to manage my time strategically
+  - **User Value:** Time pressure creates meaningful choices
+  - **Acceptance Criteria:** Different actions consume different amounts of time
 
 ### Technical Requirements
-- **T1:** Implement atomic file operations for save integrity
-  - **Rationale:** Prevent partial writes during crashes/power loss
-  - **Constraints:** Must use temp file + atomic rename pattern
+- **T1:** Implement centralized time management system
+  - **Rationale:** All systems need consistent time reference
+  - **Constraints:** Must be serializable and deterministic
 
-- **T2:** Design extensible serialization architecture
-  - **Rationale:** Future systems need easy integration
-  - **Constraints:** Modular design with version support from day 1
+- **T2:** Create flexible notification queue system
+  - **Rationale:** Multiple systems need to communicate with player
+  - **Constraints:** Must not block gameplay or create notification spam
 
 ## Tasks
-- [ ] Task 1: Implement core SaveManager with atomic file operations
-- [ ] Task 2: Create modular serialization architecture
-- [ ] Task 3: Implement player data serialization (position, stats, inventory)
-- [ ] Task 4: Implement NPC state serialization (simple version)
-- [ ] Task 5: Create world state serialization (districts, doors, etc.)
-- [ ] Task 6: Implement save/load UI flow with progress indication
-- [ ] Task 7: Create corruption detection and recovery system
-- [ ] Task 8: Implement version migration framework
-- [ ] Task 9: Add save file compression (Zstandard)
-- [ ] Task 10: Create save system unit tests
-- [ ] Task 11: Implement backup save management
-- [ ] Task 12: Add save analytics for debugging
 
-## Testing Criteria
-- Save/load cycle preserves all game state correctly
-- Save operations complete in <1 second for current game state
-- Load operations complete in <2 seconds
-- Corruption detection catches all test cases
-- Version migration handles all upgrade paths
-- UI provides clear feedback during operations
-- Atomic operations prevent partial saves
-- Backup system maintains previous save automatically
+### Time Management System
+- [ ] Task 1: Create TimeManager singleton
+- [ ] Task 2: Implement game clock (hours, minutes)
+- [ ] Task 3: Implement calendar system (days, months, years)
+- [ ] Task 4: Create time advancement mechanics
+- [ ] Task 5: Implement action duration system
+- [ ] Task 6: Create time-based event scheduler
 
-## Timeline
-- Start date: 2025-05-15
-- Target completion: 2025-05-22
+### Notification System
+- [ ] Task 7: Create PromptNotificationSystem singleton
+- [ ] Task 8: Implement notification queue and priority system
+- [ ] Task 9: Create notification UI component
+- [ ] Task 10: Implement notification categories and filtering
+- [ ] Task 11: Add notification sound support (prep for audio)
 
-## Dependencies
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
+### UI Implementation
+- [ ] Task 12: Create clock UI display
+- [ ] Task 13: Create calendar UI display
+- [ ] Task 14: Implement time controls (pause, speed settings)
+- [ ] Task 15: Create notification display area
 
-## Code Links
-- Serialization System Design: docs/design/serialization_system.md
-- SaveManager: src/core/systems/save_manager.gd (to be created)
-- PlayerSerializer: src/core/serializers/player_serializer.gd (to be created)
-- NPCSerializer: src/core/serializers/npc_serializer.gd (to be created)
-- WorldSerializer: src/core/serializers/world_serializer.gd (to be created)
-- SaveData: src/core/data/save_data.gd (to be created)
+### System Integration
+- [ ] Task 16: Integrate time system with existing game flow
+- [ ] Task 17: Add notifications to existing systems
+- [ ] Task 18: Implement time serialization
+- [ ] Task 19: Create time-based debug tools
 
 ## User Stories
 
-### Task 1: Implement core SaveManager with atomic file operations
-**User Story:** As a developer, I want atomic save operations, so that saves never corrupt even during power loss.
-**Reference:** See docs/design/serialization_system.md Section "Atomic Save Process"
+### Task 1: Create TimeManager singleton
+**User Story:** As a developer, I want a central time management system, so that all game systems can reference and advance time consistently.
 
-### Task 2: Create modular serialization architecture
-**User Story:** As a developer, I want modular serializers, so that new systems can be added without refactoring.
-**Reference:** See docs/design/serialization_system.md Section "Serialization Strategy"
+**Design Reference:** `docs/design/time_management_system_mvp.md`
 
-### Task 3: Implement player data serialization
-**User Story:** As a player, I want my character's state preserved, so that I continue exactly where I left off.
-**Reference:** See docs/design/serialization_system.md Section "Player Data Serialization"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 4: Implement NPC state serialization (simple version)
-**User Story:** As a player, I want NPC positions and states preserved, so that the world remains consistent.
-**Reference:** See docs/design/serialization_system.md Section "NPC State Compression"
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. TimeManager exists as autoload singleton
+  2. Tracks current time (hour, minute, day, month, year)
+  3. Provides methods to advance time by specific durations
+  4. Emits signals for time change events
+  5. Integrates with serialization system from I4
 
-### Task 5: Create world state serialization
-**User Story:** As a player, I want environmental changes preserved, so that my actions have lasting impact.
-**Reference:** See docs/design/serialization_system.md Section "Hierarchical Data Organization"
+**Implementation Notes:**
+- Start date: Day 1, Month 1, Year 2157, 08:00
+- 24-hour days, 30-day months, 12-month years
+- Time advances in 5-minute increments minimum
+- Reference: docs/design/time_management_system_mvp.md
 
-### Task 6: Implement save/load UI flow with progress indication
-**User Story:** As a player, I want to see save/load progress, so that I know the operation is working.
-**Reference:** See docs/design/serialization_system.md Section "Progressive Loading"
+### Task 7: Create PromptNotificationSystem singleton
+**User Story:** As a player, I want to receive clear notifications about game events, so that I never miss important information.
 
-### Task 7: Create corruption detection and recovery system
-**User Story:** As a player, I want automatic recovery from corruption, so that I don't lose all progress.
-**Reference:** See docs/design/serialization_system.md Section "Corruption Detection"
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
 
-### Task 8: Implement version migration framework
-**User Story:** As a player, I want my saves to work after updates, so that I can continue my playthrough.
-**Reference:** See docs/design/serialization_system.md Section "Version Migration"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 9: Add save file compression
-**User Story:** As a developer, I want compressed saves, so that file sizes remain manageable.
-**Reference:** See docs/design/serialization_system.md Section "File Format"
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. PromptNotificationSystem exists as autoload singleton
+  2. Supports queued notifications with priorities
+  3. Provides different notification types (info, warning, critical)
+  4. Notifications auto-dismiss or require confirmation
+  5. Integrates with future audio system
 
-### Task 10: Create save system unit tests
-**User Story:** As a developer, I want comprehensive save testing, so that we catch issues before release.
-**Reference:** See docs/design/serialization_system.md Section "Testing Framework"
+**Implementation Notes:**
+- Priority levels: LOW, NORMAL, HIGH, CRITICAL
+- Queue max size: 10 notifications
+- Auto-dismiss after 5 seconds for non-critical
+- Reference: docs/design/prompt_notification_system_design.md
 
-### Task 11: Implement backup save management
-**User Story:** As a player, I want automatic backups, so that corruption doesn't mean total loss.
-**Reference:** See docs/design/serialization_system.md Section "Save File Structure"
+### Task 5: Implement action duration system
+**User Story:** As a player, I want different actions to take different amounts of time, so that I must make strategic choices about how to spend my limited time.
 
-### Task 12: Add save analytics for debugging
-**User Story:** As a developer, I want save file analytics, so that I can optimize performance.
-**Reference:** See docs/design/serialization_system.md Section "Save File Analytics"
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Actions have configurable duration in minutes
+  2. Time advances when actions complete
+  3. Player sees time cost before committing to actions
+  4. Can't perform actions that would exceed day limits
+  5. Duration data is easily configurable
+
+**Implementation Notes:**
+- Example durations: Talk (10 min), Travel (30 min), Work (4 hours)
+- Store durations in resource files for easy balancing
+- Show time cost in hover text and confirmations
+- Maximum single action: 8 hours (work shift)
+
+## Testing Criteria
+- Time advances correctly for all actions
+- Calendar system tracks days/months/years properly
+- Notifications appear for all major events
+- Time system saves and loads correctly
+- UI displays current time clearly
+- Performance remains smooth with time updates
+- Notification queue handles spam gracefully
+
+## Timeline
+- Start date: After Iteration 4 completion
+- Target completion: 2 weeks
+- Critical for: Iteration 7 (Save/Sleep needs time)
+
+## Dependencies
+- Iteration 4: Serialization Foundation (time must be saved)
+- UI foundation from previous iterations
+
+## Code Links
+- src/core/time/time_manager.gd (to be created)
+- src/core/notifications/prompt_notification_system.gd (to be created)
+- src/ui/time/clock_display.gd (to be created)
+- src/ui/time/calendar_display.gd (to be created)
+- docs/design/time_management_system_mvp.md
+- docs/design/prompt_notification_system_design.md
+- docs/design/time_calendar_display_ui_design.md
 
 ## Notes
-- This iteration creates the foundation for all future save functionality
-- Focus on extensibility - future systems will add significant complexity
-- Single-slot design means reliability is paramount
-- Dead Rising inspiration: saves should feel weighty and consequential
-- Modular architecture will minimize refactoring as new systems are added
+- Time system is foundational for many Phase 2 systems
+- Notification system will be used by all future systems
+- Consider time speed settings for development/testing
+- Time pressure is key to creating game tension

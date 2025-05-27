@@ -1,8 +1,10 @@
 # System Integration Matrix
+**Status: 📚 REFERENCE**
+**Last Updated: May 26, 2025**
 
 ## Overview
 
-This document provides a comprehensive matrix of how all game systems interact with each other in "A Silent Refraction". It identifies touchpoints, dependencies, data flows, and potential areas of redundancy or missing integration.
+This document provides a comprehensive matrix of how all game systems interact with each other in "A Silent Refraction". Updated to reflect the complete design documentation created during the Phase 1-2 design sprint (May 24-26, 2025).
 
 ## Integration Matrix
 
@@ -10,38 +12,65 @@ This document provides a comprehensive matrix of how all game systems interact w
 - **→** Direct dependency (System A depends on System B)
 - **↔** Bidirectional interaction (Systems exchange data/events)
 - **○** Indirect relationship (through shared system)
-- **✗** No current integration (but should have)
-- **!** Redundancy identified
+- **◉** Designed integration (documented but not implemented)
+- **✓** Well-integrated in design
+- **!** Redundancy to be resolved during implementation
 
 ## System-to-System Relationships
 
 | From ↓ / To → | Save | Sleep | Assimilation | Coalition | Economy | Detection | Quest | NPC | Dialog | Audio | Prompt | Time | District |
 |----------------|------|-------|--------------|-----------|---------|-----------|-------|-----|--------|-------|--------|------|----------|
-| **Save**       | -    | →     | →            | →         | →       | →         | →     | →   | →      | ✗     | !      | →    | →        |
-| **Sleep**      | →    | -     | ↔            | ↔         | ↔       | ↔         | ↔     | ○   | ○      | ✗     | !      | →    | ○        |
-| **Assimilation** | ←  | ↔     | -            | ↔         | ↔       | ↔         | ↔     | →   | ○      | ✗     | ○      | →    | →        |
-| **Coalition**  | ←    | ↔     | ↔            | -         | ↔       | ↔         | ↔     | →   | →      | ✗     | ○      | →    | →        |
-| **Economy**    | ←    | ↔     | ↔            | ↔         | -       | ○         | ↔     | ○   | ○      | ✗     | →      | →    | →        |
-| **Detection**  | ←    | ↔     | ↔            | ↔         | ○       | -         | ↔     | →   | →      | ✗     | →      | →    | →        |
-| **Quest**      | ←    | ↔     | ↔            | ↔         | ↔       | ↔         | -     | →   | →      | ✗     | ○      | →    | →        |
-| **NPC**        | ←    | ○     | ←            | ←         | ○       | ←         | ←     | -   | →      | ✗     | ○      | →    | →        |
-| **Dialog**     | ←    | ○     | ○            | ←         | ○       | ←         | ←     | ←   | -      | ✗     | !      | ○    | ○        |
-| **Audio**      | ✗    | ✗     | ✗            | ✗         | ✗       | ✗         | ✗     | ✗   | ✗      | -     | ✗      | ○    | →        |
-| **Prompt**     | ○    | →     | ○            | ○         | →       | →         | ○     | ○   | →      | ←     | -      | ○    | ○        |
-| **Time**       | ←    | ←     | ←            | ←         | ←       | ←         | ←     | ←   | ○      | ○     | ○      | -    | ○        |
+| **Save**       | -    | →     | →            | →         | →       | →         | →     | →   | →      | ◉     | ◉      | →    | →        |
+| **Sleep**      | →    | -     | ↔            | ↔         | ↔       | ↔         | ↔     | ◉   | ○      | ◉     | ◉      | →    | ○        |
+| **Assimilation** | ←  | ↔     | -            | ↔         | ↔       | ↔         | ↔     | →   | ○      | ◉     | ◉      | →    | →        |
+| **Coalition**  | ←    | ↔     | ↔            | -         | ↔       | ↔         | ↔     | →   | →      | ◉     | ◉      | →    | →        |
+| **Economy**    | ←    | ↔     | ↔            | ↔         | -       | ○         | ↔     | ○   | ○      | ◉     | →      | →    | →        |
+| **Detection**  | ←    | ↔     | ↔            | ↔         | ○       | -         | ↔     | →   | →      | ◉     | →      | →    | →        |
+| **Quest**      | ←    | ↔     | ↔            | ↔         | ↔       | ↔         | -     | →   | →      | ◉     | ◉      | →    | →        |
+| **NPC**        | ←    | ◉     | ←            | ←         | ○       | ←         | ←     | -   | →      | ◉     | ◉      | →    | →        |
+| **Dialog**     | ←    | ○     | ○            | ←         | ○       | ←         | ←     | ←   | -      | ◉     | ◉      | ○    | ○        |
+| **Audio**      | ◉    | ◉     | ◉            | ◉         | ◉       | ◉         | ◉     | ◉   | ◉      | -     | ◉      | ◉    | →        |
+| **Prompt**     | ◉    | ◉     | ◉            | ◉         | →       | →         | ◉     | ◉   | ◉      | ◉     | -      | ○    | ○        |
+| **Time**       | ←    | ←     | ←            | ←         | ←       | ←         | ←     | ←   | ○      | ◉     | ○      | -    | ○        |
 | **District**   | ←    | ○     | ←            | ←         | ←       | ←         | ←     | ←   | ○      | ←     | ○      | ○    | -        |
+
+## Additional Systems (Phase 2)
+
+The following systems were designed during the Phase 1-2 sprint and extend the core functionality:
+
+| System | Design Document | Integration Status |
+|--------|----------------|-------------------|
+| **Investigation** | investigation_clue_tracking_system_design.md | ◉ Designed |
+| **Observation** | observation_system_full_design.md | ◉ Designed |
+| **Trust/Relationships** | npc_trust_relationship_system_design.md | ◉ Designed |
+| **Gender Selection** | character_gender_selection_system.md | ◉ Designed |
+| **Disguise** | disguise_clothing_system_design.md | ◉ Designed |
+| **Puzzles** | puzzle_system_design.md | ◉ Designed |
+| **Jobs/Work** | job_work_quest_system_design.md | ◉ Designed |
+| **Living World** | living_world_event_system_mvp.md & full.md | ◉ Designed |
+| **Transportation** | tram_transportation_system_design.md | ◉ Designed |
+| **Morning Report** | morning_report_manager_design.md | ◉ Designed |
+| **Trading Floor** | trading_floor_minigame_system_design.md | ◉ Designed |
+| **Crime/Security** | crime_security_event_system_design.md | ◉ Designed |
+| **Multiple Endings** | multiple_endings_system_design.md | ◉ Designed |
+| **Visual Systems** | sprite_perspective_scaling, foreground_occlusion | ◉ Designed |
 
 ## Detailed Integration Points
 
 ### 1. Save System Integration Points
 
+**Design Status:** ✓ Complete (save_system_design.md, modular_serialization_architecture.md)
+
 **Dependencies:**
 - → Sleep: Saves only occur during sleep
-- → All Systems: Collects serialized data from all stateful systems
+- → All Systems: Collects serialized data via self-registration pattern
 
-**Issues:**
-- ! Custom UI dialogs (should use PromptNotificationSystem)
-- ✗ No audio feedback for save success/failure
+**Design Features:**
+- ◉ Modular serialization with self-registering systems
+- ◉ Compressed save files
+- ◉ Integration with PromptNotificationSystem planned
+- ◉ Audio feedback integration designed
+- ◉ MorningReportManager integration
 
 ### 2. Sleep System Integration Points
 
@@ -119,22 +148,26 @@ This document provides a comprehensive matrix of how all game systems interact w
 
 ### 7. Audio System Integration Points
 
-**Current State:**
-- → District: Basic ambient sounds
-- ○ Time: Could respond to time of day
-- Operates too independently
+**Design Status:** ✓ Complete (audio_system_iteration3_mvp.md, audio_system_technical_implementation.md)
 
-**Missing Integrations:**
-- ✗ Save: No save success/failure sounds
-- ✗ Sleep: No sleep/wake audio cues
-- ✗ Assimilation: No spread audio effects
-- ✗ Coalition: No mission audio
-- ✗ Economy: No transaction sounds
-- ✗ Detection: No alert sounds
-- ✗ Quest: No completion sounds
-- ✗ NPC: No dialog audio cues
-- ✗ Dialog: No UI sounds
-- ✗ Prompt: No notification sounds
+**Designed Features:**
+- → District: Diegetic audio sources with spatial positioning
+- → Time: Time-based audio changes
+- ◉ Event-driven audio system architecture
+- ◉ DiegeticAudioController for in-world sounds
+- ◉ Integration with perspective scaling system
+- ◉ Audio bus hierarchy for different sound types
+
+**Planned Integrations:**
+- ◉ Save: Success/failure feedback sounds
+- ◉ Sleep: Sleep/wake audio transitions
+- ◉ Assimilation: Environmental audio changes
+- ◉ Coalition: Mission briefing audio
+- ◉ Economy: Transaction confirmation sounds
+- ◉ Detection: Alert escalation audio
+- ◉ Quest: Completion fanfares
+- ◉ NPC: Dialog UI sounds
+- ◉ Prompt: Notification audio cues
 
 ### 8. PromptNotificationSystem Integration Points
 
@@ -273,9 +306,11 @@ For initialization and processing, systems should be initialized in this order:
 
 ## Conclusion
 
-This integration matrix reveals that while most game systems have good logical integration, there are significant gaps in:
-1. Audio system integration with game events
-2. UI/notification consistency
-3. Feedback for player actions
+The updated integration matrix reveals that the Phase 1-2 design sprint (May 24-26, 2025) has comprehensively addressed what were initially perceived as integration gaps:
 
-Addressing these gaps will significantly improve the player experience and make the game world feel more cohesive and reactive.
+1. **Audio System**: Fully designed with event-driven architecture and integration points for all systems
+2. **UI/Notification**: PromptNotificationSystem and MorningReportManager designs provide consistency
+3. **Feedback Systems**: Audio and visual feedback patterns established for all player actions
+4. **Additional Systems**: 14+ new systems designed that weren't in the original matrix
+
+The challenge has shifted from design to implementation prioritization. All major systems have been thoughtfully designed with clear integration points, patterns, and dependencies. The game architecture is remarkably complete at the design level.

@@ -1,154 +1,228 @@
-# Iteration 8: Investigation Mechanics and Inventory
+# Iteration 8: Districts and Living World MVP
+
+## Epic Description
+**Phase**: 1 - MVP Foundation  
+**Cohesive Goal**: "I can explore districts with living NPCs and complete the Intro Quest"
+
+As a player, I want to explore multiple unique districts populated with NPCs who follow daily routines, creating a living world where I can complete my first major objective - the Intro Quest that validates all MVP systems work together.
 
 ## Goals
-- Implement investigation mechanics
-- Create quest log system for tracking progress
-- Develop advanced inventory system for collecting evidence
-- Add system for logging known assimilated NPCs
-- Implement overflow storage in player's room
+- Implement District Template System for efficient district creation
+- Create Spaceport District (starting area)
+- Create Engineering District (for Intro Quest)
+- Implement Living World Event System MVP
+- Add SCUMM Hover Text System
+- Complete Time Calendar Display UI
+- Validate Phase 1 with playable Intro Quest
 
 ## Requirements
 
 ### Business Requirements
+- **B1:** Complete Phase 1 MVP with explorable districts and living world
+  - **Rationale:** Validates all core systems work together before expanding to full features
+  - **Success Metric:** Intro Quest is fully playable from start to finish
 
-- **B2:** Validate game performance on target hardware platform to ensure viability of purpose-built gaming appliance distribution strategy
-  - **Rationale:** [Add rationale here]
-  - **Success Metric/Constraints:** [Add metric or constraints here]
-- **B1:** Implement core investigation mechanics that drive main storyline
-  - **Rationale:** Investigation is the primary gameplay loop for narrative progression
-  - **Success Metric:** Players can advance the story through evidence collection and analysis
+- **B2:** Establish district template system for efficient content creation
+  - **Rationale:** Reusable templates accelerate development of remaining districts
+  - **Success Metric:** New districts can be created in under 1 week using templates
+
+- **B3:** Create believable living world
+  - **Rationale:** NPCs with routines increase immersion and gameplay opportunities
+  - **Success Metric:** Players report the station feels alive
 
 ### User Requirements
+- **U1:** As a player, I want to explore multiple districts with unique content
+  - **User Value:** Variety keeps gameplay fresh and interesting
+  - **Acceptance Criteria:** Each district has distinct visuals, NPCs, and activities
 
-- **U2:** As a potential customer, I want assurance that the gaming appliance will run smoothly and provide a premium experience when I receive it
-  - **Rationale:** [Add rationale here]
-  - **User Value:** [Add user value here]
-- **U1:** As a player, I want to collect and analyze evidence
-  - **User Value:** Creates detective gameplay satisfaction
-  - **Acceptance Criteria:** Evidence can be found, stored, examined, and combined to progress
+- **U2:** As a player, I want hover text to identify interactive objects
+  - **User Value:** Clear interaction affordances reduce frustration
+  - **Acceptance Criteria:** SCUMM-style hover text appears for all interactive elements
 
-### Technical Requirements (Optional)
-- **T1:** Technical requirement placeholder
-  - **Rationale:** Why this is technically important
-  - **Constraints:** Any limitations to be aware of
+- **U3:** As a player, I want to complete the Intro Quest
+  - **User Value:** Clear initial goal provides direction
+  - **Acceptance Criteria:** Intro Quest playable from start to finish
+
+- **U4:** As a player, I want NPCs to have daily routines
+  - **User Value:** Predictable NPC behavior enables planning
+  - **Acceptance Criteria:** NPCs move between locations based on time
+
+### Technical Requirements
+- **T1:** Create reusable district template architecture
+  - **Rationale:** Standardization reduces development time and bugs
+  - **Constraints:** Must support different visual perspectives
+
+- **T2:** Implement efficient NPC scheduling system
+  - **Rationale:** Many NPCs with routines could impact performance
+  - **Constraints:** Must handle 20+ NPCs per district smoothly
+
+- **T3:** Design event system for dynamic world events
+  - **Rationale:** Living world needs unpredictable elements
+  - **Constraints:** Events must be serializable
 
 ## Tasks
-- [ ] Task 1: Create quest data structure and manager
-- [ ] Task 2: Implement quest log UI
-- [ ] Task 3: Develop advanced inventory features including categorization
-- [ ] Task 4: Create puzzles for accessing restricted areas
-- [ ] Task 5: Implement clue discovery and collection system
-- [ ] Task 6: Create assimilated NPC tracking log
-- [ ] Task 7: Develop investigation progress tracking
-- [ ] Task 8: Add quest state persistence
-- [ ] Task 9: Implement overflow inventory storage in player's room
-- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
-- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
-- [ ] Task 12: Set up Raspberry Pi 5 hardware validation environment
-- [ ] Task 13: Conduct POC performance testing on target hardware
-- [ ] Task 14: Document hardware requirements and optimization roadmap
+
+### District Template System
+- [ ] Task 1: Create BaseDistrict template class
+- [ ] Task 2: Implement district configuration system
+- [ ] Task 3: Create district transition system
+- [ ] Task 4: Add district-specific walkable areas
+- [ ] Task 5: Implement district lighting/atmosphere
+
+### Spaceport District
+- [ ] Task 6: Create Spaceport scene from template
+- [ ] Task 7: Design Docked Ship area
+- [ ] Task 8: Create Main Floor layout
+- [ ] Task 9: Add Ship Stewardess NPC
+- [ ] Task 10: Implement arrival sequence
+
+### Engineering District
+- [ ] Task 11: Create Engineering scene from template
+- [ ] Task 12: Design Science Deck layout
+- [ ] Task 13: Add Science Lead 01 NPC
+- [ ] Task 14: Create quest-related interactive objects
+- [ ] Task 15: Implement district-specific mechanics
+
+### Living World System MVP
+- [ ] Task 16: Create EventManager singleton
+- [ ] Task 17: Implement NPC daily schedule system
+- [ ] Task 18: Add random event generation
+- [ ] Task 19: Create event notification integration
+- [ ] Task 20: Implement event serialization
+
+### UI Enhancements
+- [ ] Task 21: Implement SCUMM hover text system
+- [ ] Task 22: Create hover text configuration
+- [ ] Task 23: Complete time/calendar UI display
+- [ ] Task 24: Add district name displays
+- [ ] Task 25: Polish UI integration
+
+### Intro Quest Implementation
+- [ ] Task 26: Create quest flow from ship to engineering
+- [ ] Task 27: Implement all quest dialogs
+- [ ] Task 28: Add quest items and interactions
+- [ ] Task 29: Create quest completion validation
+- [ ] Task 30: Full playtest and polish
+
+## User Stories
+
+### Task 1: Create BaseDistrict template class
+**User Story:** As a developer, I want a standardized district template, so that creating new districts is efficient and consistent.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+  1. BaseDistrict class extends Node2D
+  2. Handles walkable areas automatically
+  3. Manages NPC spawning and scheduling
+  4. Provides district entry/exit hooks
+  5. Integrates with save system
+
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md
+- Use composition over inheritance where possible
+- Districts register themselves with DistrictManager
+- Support for different camera perspectives per district
+
+### Task 17: Implement NPC daily schedule system
+**User Story:** As a player, I want NPCs to follow believable daily routines, so that the world feels alive and I can plan my interactions.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U4, T2
+- **Acceptance Criteria:**
+  1. NPCs have configurable daily schedules
+  2. Schedules include location, activity, and duration
+  3. NPCs path between locations automatically
+  4. Interruptions handled gracefully
+  5. Schedules persist through save/load
+
+**Implementation Notes:**
+- Schedule format: [{time: "08:00", location: "cafeteria", activity: "eating"}]
+- Use Navigation2D for pathfinding
+- Reference: docs/design/living_world_event_system_mvp.md
+- Consider performance with many NPCs
+
+### Task 21: Implement SCUMM hover text system
+**User Story:** As a player, I want to see object names when I hover over them, so that I know what I can interact with in the classic adventure game style.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Text appears at bottom of screen on hover
+  2. Shows object name in readable font
+  3. Updates instantly as mouse moves
+  4. Works with all interactive objects
+  5. Respects UI scaling settings
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md
+- Use Label with outline for readability
+- Consider color coding by object type
+- Must work with verb UI system
+
+### Task 26: Create quest flow from ship to engineering
+**User Story:** As a player, I want to experience a complete quest from beginning to end, so that I understand the game's objectives and mechanics.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Quest starts automatically on game begin
+  2. Clear objectives provided at each step
+  3. Uses all core game systems
+  4. Completable in 15-20 minutes
+  5. Provides satisfying conclusion
+
+**Implementation Notes:**
+- Quest flow: Ship arrival → Get assignment → Travel to Engineering → Solve problem → Return and report
+- Tests: Dialog, navigation, inventory, time management
+- Must work with all character genders
+- Reference: Intro Quest requirements from phased_development_approach.md
 
 ## Testing Criteria
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Game runs stably at 30fps on Raspberry Pi 5 hardware
-- Complete POC playthrough completes without performance issues
-- Hardware validation documentation provides clear optimization roadmap
+- Districts load and transition smoothly
+- NPCs follow schedules correctly
+- Events trigger at appropriate times
+- Hover text works for all objects
+- Time display updates properly
+- Intro Quest completable without bugs
+- All systems integrate correctly
+- Performance remains smooth with full districts
 
 ## Timeline
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
+- Start date: After Iteration 7 completion
+- Target completion: 2-3 weeks
+- Critical for: Phase 1 validation before Phase 2
 
 ## Dependencies
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Iteration 5 (Game Districts and Time Management)
+- All previous iterations (1-7) must be complete
+- Particularly: Save system (I7), Time system (I5), NPCs (I2)
 
 ## Code Links
-- Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
+- src/districts/base_district.gd (to be created)
+- src/districts/spaceport/ (to be created)
+- src/districts/engineering/ (to be created)
+- src/core/events/event_manager.gd (to be created)
+- src/ui/hover_text/hover_text_display.gd (to be created)
+- docs/design/template_district_design.md
+- docs/design/living_world_event_system_mvp.md
+- docs/design/scumm_hover_text_system_design.md
+- docs/design/time_calendar_display_ui_design.md
 
 ## Notes
-Add any additional notes or considerations here.
-
-### Task 11: Implement observation mechanics for detecting assimilated NPCs
-
-**User Story:** As a player, I want to carefully observe NPCs for subtle clues that indicate they have been assimilated, so that I can identify threats and make informed decisions about whom to trust and recruit.
-
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **🔄 IN PROGRESS** (05/22/25)
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-**Requirements:**
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-  1. NPCs exhibit different subtle behavioral cues based on assimilation status
-  2. Assimilated NPCs have visual tells that are discoverable through careful observation
-  3. Player can access a dedicated "observe" mode that enables closer inspection of NPCs
-  4. Different observation levels reveal different levels of information (casual glance vs. intense scrutiny)
-  5. Successful observation adds information to the assimilated NPC tracking log
-  6. False positives are possible to create tension and uncertainty
-  7. Observation mechanics integrate with the suspicion system (being caught observing raises suspicion)
-
-**Implementation Notes:**
-- Create a sliding scale of observation intensity with corresponding information reveals
-- Design subtle visual cues that fit the game's aesthetic (slight color shifts, animation differences)
-- Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
-- Link with existing suspicion and NPC state systems from Iteration 2
-
-### Task 12: Set up Raspberry Pi 5 hardware validation environment
-
-**User Story:** As a developer, I want to set up a complete Raspberry Pi 5 testing environment, so that I can validate our game's performance on the actual target hardware before committing to the gaming appliance distribution strategy
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
-
-### Task 13: Conduct POC performance testing on target hardware
-
-**User Story:** As a developer, I want to conduct comprehensive performance testing of the complete POC on Raspberry Pi 5 hardware, so that I can identify any optimization needs and confirm the viability of our gaming appliance approach
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
-
-### Task 14: Document hardware requirements and optimization roadmap
-
-**User Story:** As a project stakeholder, I want detailed documentation of hardware requirements and performance characteristics, so that I can make informed decisions about manufacturing and distribution of the gaming appliance
-
-**Status History:**
-- **⏳ PENDING** (05/22/25)
-
-**Requirements:**
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-  1. [Specific condition that must be met]
-
-**Implementation Notes:**
-- [Technical guidance or approach]
+- This iteration validates all Phase 1 systems work together
+- Intro Quest is critical - it's our "vertical slice"
+- District templates save massive time in Phase 3
+- Living world events start simple, expand in Phase 2
+- After this iteration, we move to Phase 2 Full Systems!

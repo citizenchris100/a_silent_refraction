@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 26, 2025 - Phased Development Approach Planning (✅ COMPLETED)
-- **Iteration:** 2 - NPC Framework and Suspicion System
-- **Focus:** Full planning of project phases and system integration
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-26_16-25-29.md)
-
 ### May 26, 2025 - Design Documentation Finishing Touches (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework and Suspicion System
 - **Focus:** Complete and polish all design documents

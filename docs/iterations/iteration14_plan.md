@@ -1,189 +1,216 @@
-# Iteration 14: Living World Event System - Full Implementation
+# Iteration 14: Visual Polish Systems
+
+## Epic Description
+**Phase**: 2 - Full Systems  
+**Cohesive Goal**: "The game looks polished with perspective and occlusion"
+
+As a player, I want to experience a visually cohesive world where characters scale naturally with perspective, objects occlude properly creating depth, and polished animations bring everything to life, making the dystopian space station feel tangible and real.
 
 ## Goals
-- Build upon the MVP foundation to create a deeply reactive and dynamic world
-- Implement conditional event chains and rumor propagation system
-- Create sophisticated NPC state management for 100+ NPCs
-- Add evidence mechanics and environmental storytelling
-- Optimize performance for complex world simulation
-- Enable emergent storytelling through event interactions
+- Implement full Sprite Perspective Scaling system
+- Complete Foreground Occlusion system
+- Add Animation Polish throughout
+- Create Visual Effects library
+- Establish visual consistency
+- Optimize rendering performance
 
 ## Requirements
 
 ### Business Requirements
-- **B1:** Create unique experiences in each playthrough through dynamic events
-  - **Rationale:** Replayability is key to long-term player engagement
-  - **Success Metric:** Players report significantly different experiences across multiple playthroughs
+- **B1:** Polish visual presentation to professional standards
+  - **Rationale:** Visual quality directly impacts player perception and reviews
+  - **Success Metric:** Consistent visual quality across all game areas
 
-- **B2:** Deepen immersion through believable NPC behaviors and information flow
-  - **Rationale:** A reactive world creates emotional investment
-  - **Success Metric:** Players form attachments to NPCs and care about their fates
+- **B2:** Implement perspective and occlusion for depth
+  - **Rationale:** Advanced visual features differentiate from competition
+  - **Success Metric:** Characters scale and occlude naturally in all scenes
 
-- **B3:** Support emergent storytelling through system interactions
-  - **Rationale:** Player stories create word-of-mouth marketing
-  - **Success Metric:** Players share unique stories from their playthroughs
+- **B3:** Create cohesive visual style
+  - **Rationale:** Consistent aesthetics enhance immersion
+  - **Success Metric:** All visual elements feel part of same world
 
 ### User Requirements
-- **U1:** As a player, I want NPCs to react to events realistically
-  - **User Value:** Creates believable world that responds to my actions
-  - **Acceptance Criteria:** NPCs change behavior based on world events and relationships
+- **U1:** As a player, I want visually polished game environments
+  - **User Value:** Professional presentation enhances immersion
+  - **Acceptance Criteria:** Consistent visual quality throughout the game
 
-- **U2:** As a player, I want to uncover information through investigation
-  - **User Value:** Rewards careful observation and deduction
-  - **Acceptance Criteria:** Multiple paths to discover event information
+- **U2:** As a player, I want characters to scale naturally with perspective
+  - **User Value:** Realistic depth perception improves visual clarity
+  - **Acceptance Criteria:** Characters and objects scale appropriately
 
-- **U3:** As a player, I want my choices to cascade through the world
-  - **User Value:** Meaningful agency and consequence
-  - **Acceptance Criteria:** Initial choices trigger chains of events
+- **U3:** As a player, I want smooth, polished animations
+  - **User Value:** Fluid motion enhances believability
+  - **Acceptance Criteria:** All animations play smoothly without glitches
 
 ### Technical Requirements
-- **T1:** Maintain performance with 100+ simulated NPCs
-  - **Rationale:** Complex simulation must not impact gameplay
-  - **Constraints:** 60 FPS on target hardware with full simulation
+- **T1:** Implement efficient scaling algorithms
+  - **Rationale:** Many sprites scaling simultaneously
+  - **Constraints:** Must maintain 60 FPS with 20+ characters
 
-- **T2:** Implement scalable event architecture
-  - **Rationale:** System must handle complex event interactions
-  - **Constraints:** No cascade loops or memory leaks
+- **T2:** Create flexible occlusion system
+  - **Rationale:** Different districts have different occlusion needs
+  - **Constraints:** Must work with various perspective types
+
+- **T3:** Optimize rendering pipeline
+  - **Rationale:** Visual enhancements can't compromise performance
+  - **Constraints:** Target minimum hardware specs
 
 ## Tasks
-- [ ] Task 1: Implement AdvancedEventScheduler with conditional events
-- [ ] Task 2: Create NPCStateMachine for complex NPC state management
-- [ ] Task 3: Implement RumorSystem for information propagation
-- [ ] Task 4: Create EvidenceSystem for physical traces of events
-- [ ] Task 5: Implement DynamicEventGenerator for reactive events
-- [ ] Task 6: Create WorldSimulationOptimizer for performance
-- [ ] Task 7: Implement 20-30 key NPCs with full behavioral complexity
-- [ ] Task 8: Create 30-40 supporting NPCs with simplified routines
-- [ ] Task 9: Implement 40-50 background NPCs with quantum states
-- [ ] Task 10: Create relationship dynamics between NPCs
-- [ ] Task 11: Implement information warfare mechanics
-- [ ] Task 12: Add environmental storytelling elements
-- [ ] Task 13: Create complex conditional event chains
-- [ ] Task 14: Implement event visualization debug tools
-- [ ] Task 15: Create scenario testing system
-- [ ] Task 16: Optimize save/load for complex world state
-- [ ] Task 17: Implement event cascade prevention
-- [ ] Task 18: Create rumor distortion mechanics
-- [ ] Task 19: Add NPC group behavior systems
-- [ ] Task 20: Performance profiling and optimization
 
-## Testing Criteria
-- 100+ NPCs active without frame drops
-- Rumors spread and distort believably through NPC networks
-- Evidence appears and decays appropriately
-- Conditional events trigger based on complex world states
-- Event chains create emergent stories
-- NPCs form and break relationships dynamically
-- Performance maintains 60 FPS throughout gameplay
-- Save files remain under 5MB with full state
-- No infinite event loops or cascades
-- Debug tools provide clear visibility into world state
+### Perspective Scaling
+- [ ] Task 1: Create PerspectiveManager
+- [ ] Task 2: Implement scaling algorithms
+- [ ] Task 3: Build perspective configuration
+- [ ] Task 4: Add smooth scale transitions
+- [ ] Task 5: Create perspective debug tools
 
-## Timeline
-- Start date: 2025-12-01
-- Target completion: 2025-12-22
+### Foreground Occlusion
+- [ ] Task 6: Create OcclusionManager
+- [ ] Task 7: Implement occlusion mapping
+- [ ] Task 8: Build depth sorting system
+- [ ] Task 9: Add transparency handling
+- [ ] Task 10: Create occlusion zones
 
-## Dependencies
-- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- Iteration 10 (Game Progression and Multiple Endings)
+### Animation Polish
+- [ ] Task 11: Audit all character animations
+- [ ] Task 12: Add animation blending
+- [ ] Task 13: Create transition animations
+- [ ] Task 14: Implement animation events
+- [ ] Task 15: Polish idle variations
 
-## Code Links
-- Living World Event System Full Design: docs/design/living_world_event_system_full.md
-- AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
-- NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
-- RumorSystem: src/core/systems/rumor_system.gd (to be created)
-- EvidenceSystem: src/core/systems/evidence_system.gd (to be created)
-- DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
-- WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
+### Visual Effects
+- [ ] Task 16: Create VFX manager
+- [ ] Task 17: Implement particle systems
+- [ ] Task 18: Add screen effects
+- [ ] Task 19: Create environmental VFX
+- [ ] Task 20: Build effect pooling
+
+### Performance Optimization
+- [ ] Task 21: Implement sprite batching
+- [ ] Task 22: Create LOD system
+- [ ] Task 23: Optimize shader usage
+- [ ] Task 24: Add quality settings
+- [ ] Task 25: Profile and optimize
 
 ## User Stories
 
-### Task 1: Implement AdvancedEventScheduler with conditional events
-**User Story:** As a player, I want events to happen based on world conditions, so that my actions have meaningful consequences throughout the game.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Advanced Event Scheduler"
+### Task 2: Implement scaling algorithms
+**User Story:** As a player, I want characters to appear smaller when further away, so that the game world has realistic depth and perspective.
 
-### Task 2: Create NPCStateMachine for complex NPC state management
-**User Story:** As a player, I want NPCs to have rich internal states, so that they behave believably based on their knowledge and experiences.
-**Reference:** See docs/design/living_world_event_system_full.md Section "NPC State Machine"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 3: Implement RumorSystem for information propagation
-**User Story:** As a player, I want information to spread through the station naturally, so that I can learn about events through social networks.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Rumor Propagation System"
+**Requirements:**
+- **Linked to:** B2, U2, T1
+- **Acceptance Criteria:**
+  1. Scaling based on Y position
+  2. Configurable per district
+  3. Smooth transitions
+  4. Maintains sprite quality
+  5. Consistent with perspective type
 
-### Task 4: Create EvidenceSystem for physical traces of events
-**User Story:** As a player, I want to find physical evidence of past events, so that I can piece together what happened through investigation.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Evidence System"
+**Implementation Notes:**
+- Reference: docs/design/sprite_perspective_scaling_full_plan.md
+- Scale formula: scale = base_scale * (1 + (y - horizon) * perspective_factor)
+- Consider different formulas for different perspectives
+- Cache calculations for performance
 
-### Task 5: Implement DynamicEventGenerator for reactive events
-**User Story:** As a player, I want events to create ripple effects, so that the world feels interconnected and reactive.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Dynamic Event Generation"
+### Task 7: Implement occlusion mapping
+**User Story:** As a player, I want to see my character disappear behind foreground objects naturally, so that the world feels three-dimensional.
 
-### Task 6: Create WorldSimulationOptimizer for performance
-**User Story:** As a developer, I want efficient NPC simulation, so that we can have 100+ NPCs without impacting performance.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Performance Optimization System"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 7: Implement 20-30 key NPCs with full behavioral complexity
-**User Story:** As a player, I want important NPCs to have deep personalities and behaviors, so that I form meaningful relationships with them.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Key NPCs"
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Characters occlude behind objects
+  2. Smooth transition at edges
+  3. Multiple occlusion layers
+  4. Works with transparency
+  5. No visual artifacts
 
-### Task 8: Create 30-40 supporting NPCs with simplified routines
-**User Story:** As a player, I want a populated station with many characters, so that the world feels alive and bustling.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Supporting NPCs"
+**Implementation Notes:**
+- Reference: docs/design/foreground_occlusion_full_plan.md
+- Use Y-sorting for base ordering
+- Occlusion maps define coverage areas
+- Consider dithering for soft edges
 
-### Task 9: Implement 40-50 background NPCs with quantum states
-**User Story:** As a player, I want to see crowds and background activity, so that the station feels like a real place.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Background NPCs"
+### Task 13: Create transition animations
+**User Story:** As a player, I want smooth transitions between character states, so that movement and actions feel fluid and natural.
 
-### Task 10: Create relationship dynamics between NPCs
-**User Story:** As a player, I want NPCs to have relationships that affect their behavior, so that social dynamics create interesting situations.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Relationship Dynamics"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 11: Implement information warfare mechanics
-**User Story:** As a player, I want to manipulate information flow, so that I can use rumors and misinformation strategically.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Information Warfare"
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. All state changes have transitions
+  2. No animation pops or jumps
+  3. Context-appropriate timing
+  4. Blends with movement
+  5. Consistent across characters
 
-### Task 12: Add environmental storytelling elements
-**User Story:** As a player, I want the environment to reflect ongoing events, so that I can read the story in the world itself.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Environmental Storytelling"
+**Implementation Notes:**
+- Transition types: idle→walk, walk→run, any→interact
+- Use animation blending for smoothness
+- Consider animation priority system
+- Test with different character types
 
-### Task 13: Create complex conditional event chains
-**User Story:** As a player, I want my actions to trigger complex sequences of events, so that I feel my choices matter deeply.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Chain Event: Coalition Discovery"
+### Task 18: Add screen effects
+**User Story:** As a player, I want visual feedback through screen effects, so that important events and states are communicated clearly.
 
-### Task 14: Implement event visualization debug tools
-**User Story:** As a developer, I want to visualize all active events and states, so that I can debug complex interactions.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Testing Infrastructure"
+**Status History:**
+- **⏳ PENDING** (05/26/25)
 
-### Task 15: Create scenario testing system
-**User Story:** As a developer, I want to test specific world states, so that I can verify event behaviors systematically.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Testing Infrastructure"
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Detection warning vignette
+  2. Damage/stress effects
+  3. Environmental effects
+  4. Transition effects
+  5. Adjustable intensity
 
-### Task 16: Optimize save/load for complex world state
-**User Story:** As a player, I want fast save/load times despite complex world state, so that I can play without interruption.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Performance Targets"
+**Implementation Notes:**
+- Use shader effects for efficiency
+- Effects: Vignette, Chromatic aberration, Blur
+- Tie to game state (suspicion level, health)
+- Respect accessibility settings
 
-### Task 17: Implement event cascade prevention
-**User Story:** As a developer, I want to prevent infinite event loops, so that the game remains stable.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Risk Mitigation"
+## Testing Criteria
+- Perspective scaling works in all districts
+- Occlusion creates proper depth
+- Animations blend smoothly
+- Visual effects enhance without distraction
+- Performance targets met
+- Quality settings function
+- No visual glitches
+- Consistent visual style maintained
 
-### Task 18: Create rumor distortion mechanics
-**User Story:** As a player, I want rumors to change as they spread, so that misinformation creates interesting gameplay.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Rumor Propagation System"
+## Timeline
+- Start date: After Iteration 13
+- Target completion: 2-3 weeks
+- Critical for: Professional presentation
 
-### Task 19: Add NPC group behavior systems
-**User Story:** As a player, I want NPCs to form groups and mobs, so that social dynamics create emergent situations.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Advanced Features"
+## Dependencies
+- Iteration 8: Districts (for testing environments)
+- Iteration 10: NPCs (for character animations)
+- Previous visual work from Phase 1
 
-### Task 20: Performance profiling and optimization
-**User Story:** As a developer, I want to identify and fix performance bottlenecks, so that the game runs smoothly.
-**Reference:** See docs/design/living_world_event_system_full.md Section "Performance Targets"
+## Code Links
+- src/core/visuals/perspective_manager.gd (to be created)
+- src/core/visuals/occlusion_manager.gd (to be created)
+- src/core/visuals/vfx_manager.gd (to be created)
+- src/core/animation/animation_blender.gd (to be created)
+- docs/design/sprite_perspective_scaling_full_plan.md
+- docs/design/sprite_perspective_scaling_plan.md
+- docs/design/foreground_occlusion_full_plan.md
+- docs/design/foreground_occlusion_mvp_plan.md
 
 ## Notes
-- This iteration transforms the MVP into a fully realized living world
-- Focus on emergent gameplay through system interactions
-- Performance optimization is critical with 100+ NPCs
-- Testing tools are essential for debugging complex event chains
-- Save system must handle significantly more state data
-- Consider player accessibility for discovering complex event chains
+- Visual polish makes huge difference in perception
+- Perspective and occlusion add significant depth
+- Animation quality affects character believability
+- Performance must be maintained throughout
+- This iteration elevates visual presentation to professional level

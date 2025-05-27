@@ -1,190 +1,230 @@
-# Iteration 15: Time Management System - Full Implementation
+# Iteration 15: Advanced Features & Polish
+
+## Epic Description
+As a developer, I want to implement the final advanced features and polish all systems to ensure they work together seamlessly and performantly, creating a stable foundation for content implementation.
+
+## Cohesive Goal
+**"All systems work together seamlessly and performantly"**
+
+## Overview
+This iteration completes Phase 2 by implementing the remaining advanced features, optimizing performance, and ensuring all systems integrate properly. This creates the stable, polished foundation needed for Phase 3 content implementation.
 
 ## Goals
-- Build upon the MVP foundation to create a sophisticated temporal framework
-- Implement deadline management and scheduling conflict systems
-- Create advanced fatigue mechanics that affect gameplay
-- Add time-based narrative branching and consequences
-- Develop temporal reputation system affecting NPC relationships
-- Enable multiple time management strategies for different playstyles
+- Implement full living world event system
+- Complete investigation mechanics with clue tracking
+- Add puzzle system framework
+- Implement tram transportation system
+- Optimize performance across all systems
+- Ensure seamless integration of all features
 
 ## Requirements
 
 ### Business Requirements
-- **B1:** Create escalating time pressure that drives narrative tension
-  - **Rationale:** Rising stakes keep players engaged throughout the game
-  - **Success Metric:** Players report increasing tension and difficult choices as game progresses
-
-- **B2:** Support multiple playstyles through flexible time management
-  - **Rationale:** Broader appeal by accommodating different player preferences
-  - **Success Metric:** Completionists, speedrunners, and role-players all find viable strategies
-
-- **B3:** Make time choices create unique narrative experiences
-  - **Rationale:** Replayability through meaningfully different outcomes
-  - **Success Metric:** Players discover new content in subsequent playthroughs
+- Complete all remaining technical features before content phase
+- Achieve stable 60 FPS performance on target hardware
+- Ensure all systems integrate without conflicts
+- Create framework for content creators
 
 ### User Requirements
-- **U1:** As a player, I want to juggle multiple deadlines and priorities
-  - **User Value:** Creates realistic pressure and meaningful trade-offs
-  - **Acceptance Criteria:** Conflicting deadlines force difficult choices
-
-- **U2:** As a player, I want my punctuality to affect relationships
-  - **User Value:** Time management has social consequences
-  - **Acceptance Criteria:** NPCs remember and react to broken promises
-
-- **U3:** As a player, I want to feel the effects of exhaustion
-  - **User Value:** Adds realism and resource management depth
-  - **Acceptance Criteria:** Fatigue affects performance in measurable ways
+- Living world feels dynamic with emergent events
+- Investigation mechanics support detective gameplay
+- Puzzles integrate naturally with environment
+- Fast travel via tram system
+- Smooth, responsive gameplay
 
 ### Technical Requirements
-- **T1:** Implement efficient deadline tracking and conflict detection
-  - **Rationale:** Complex scheduling must not impact performance
-  - **Constraints:** Deadline checks must be O(n) or better
-
-- **T2:** Create flexible narrative branching based on temporal choices
-  - **Rationale:** Support complex, time-gated story paths
-  - **Constraints:** Must handle 50+ concurrent time branches
+- Event-driven architecture for living world
+- Flexible puzzle system supporting multiple types
+- Performance profiling and optimization
+- Memory management and object pooling
+- System integration validation
 
 ## Tasks
-- [ ] Task 1: Implement DeadlineManager with conflict detection
-- [ ] Task 2: Create complex fatigue system with gameplay effects
-- [ ] Task 3: Implement temporal narrative branching system
-- [ ] Task 4: Create scheduling conflict resolution mechanics
-- [ ] Task 5: Develop temporal reputation tracking
-- [ ] Task 6: Implement advanced time UI with planning tools
-- [ ] Task 7: Create predictive scheduling assistant
-- [ ] Task 8: Add dynamic time costs based on context
-- [ ] Task 9: Implement time-gated content system
-- [ ] Task 10: Create fatigue mitigation mechanics (stimulants, power naps)
-- [ ] Task 11: Add hallucination effects for extreme exhaustion
-- [ ] Task 12: Implement cascade analysis for missed deadlines
-- [ ] Task 13: Create time-based dialog variations
-- [ ] Task 14: Add deadline warning and notification system
-- [ ] Task 15: Implement save system extensions for complex time state
-- [ ] Task 16: Create difficulty scaling for time pressure
-- [ ] Task 17: Add time manipulation debug tools
-- [ ] Task 18: Implement performance optimizations for time calculations
-- [ ] Task 19: Create comprehensive time analytics system
-- [ ] Task 20: Balance testing and tuning framework
+
+### 1. Living World Event System (Full)
+**Priority:** High  
+**Estimated Hours:** 20
+
+**Description:**  
+Implement the complete living world event system with dynamic events, emergent behavior, and player impact.
+
+**User Story:**  
+*As a player, I want the world to feel alive with unexpected events and consequences, so that each playthrough feels unique and responsive to my actions.*
+
+**Design Reference:** `docs/design/living_world_event_system_full.md`
+
+**Acceptance Criteria:**
+- [ ] Event manager handles scheduled and random events
+- [ ] Events can chain and influence each other
+- [ ] Player actions affect event probability
+- [ ] NPCs react to world events
+- [ ] Events persist across save/load
+
+**Dependencies:**
+- Time management system (Iteration 5)
+- NPC routines (Iteration 10)
+- District system (Iteration 8)
+
+### 2. Investigation System (Full)
+**Priority:** High  
+**Estimated Hours:** 16
+
+**Description:**  
+Complete the investigation mechanics with full clue tracking, evidence combination, and deduction interface.
+
+**User Story:**  
+*As a player, I want to collect clues, combine evidence, and make deductions about the assimilation threat, so that I feel like a detective uncovering a conspiracy.*
+
+**Design Reference:** `docs/design/investigation_clue_tracking_system_design.md`, `docs/design/observation_system_full_design.md`
+
+**Acceptance Criteria:**
+- [ ] Clue collection from multiple sources
+- [ ] Evidence combination mechanics
+- [ ] Deduction interface for theories
+- [ ] Clue persistence and organization
+- [ ] Integration with dialog and observation
+
+**Dependencies:**
+- Observation system (Iteration 11)
+- Dialog system (Iteration 6)
+- Inventory system (Iteration 7)
+
+### 3. Puzzle System Implementation
+**Priority:** Medium  
+**Estimated Hours:** 16
+
+**Description:**  
+Implement flexible puzzle framework supporting multiple puzzle types and integration with game world.
+
+**User Story:**  
+*As a player, I want to solve environmental and logic puzzles that feel integrated with the story, so that problem-solving enhances the narrative experience.*
+
+**Design Reference:** `docs/design/puzzle_system_design.md`
+
+**Acceptance Criteria:**
+- [ ] Base puzzle class with common interface
+- [ ] Support for multiple puzzle types
+- [ ] State persistence for puzzles
+- [ ] Integration with inventory items
+- [ ] Hint system framework
+
+**Dependencies:**
+- Interactive object system (Iteration 2)
+- Inventory system (Iteration 7)
+- Save system (Iteration 7)
+
+### 4. Transportation (Tram) System
+**Priority:** Medium  
+**Estimated Hours:** 12
+
+**Description:**  
+Implement tram transportation system for fast travel between districts with schedule integration.
+
+**User Story:**  
+*As a player, I want to use the tram system to quickly travel between districts while seeing the world from a different perspective, making exploration more efficient.*
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md`
+
+**Acceptance Criteria:**
+- [ ] Tram stations in each district
+- [ ] Schedule-based arrivals
+- [ ] Transition scenes during travel
+- [ ] Integration with time system
+- [ ] Access control validation
+
+**Dependencies:**
+- District system (Iteration 8)
+- Time management (Iteration 5)
+- Access control (Iteration 9)
+
+### 5. Performance Optimization
+**Priority:** Critical  
+**Estimated Hours:** 16
+
+**Description:**  
+Profile and optimize all systems to achieve stable 60 FPS performance on target hardware.
+
+**User Story:**  
+*As a player, I want smooth, responsive gameplay without stutters or slowdowns, so that I can stay immersed in the experience.*
+
+**Design Reference:** `docs/design/performance_optimization_plan.md`
+
+**Acceptance Criteria:**
+- [ ] Performance profiling completed
+- [ ] Rendering optimizations implemented
+- [ ] Object pooling for common objects
+- [ ] Memory usage optimized
+- [ ] Stable 60 FPS achieved
+
+**Dependencies:**
+- All previous systems
+- Hardware validation (Iteration 1)
+
+### 6. System Integration Validation
+**Priority:** Critical  
+**Estimated Hours:** 12
+
+**Description:**  
+Comprehensive testing and validation of all systems working together without conflicts.
+
+**User Story:**  
+*As a developer, I want all systems to integrate seamlessly without conflicts or bugs, so that content creators can build on a stable foundation.*
+
+**Acceptance Criteria:**
+- [ ] All systems tested together
+- [ ] No integration conflicts
+- [ ] Save/load works with all features
+- [ ] Memory leaks identified and fixed
+- [ ] Edge cases handled properly
+
+**Dependencies:**
+- All previous iterations
+- Testing framework (Iteration 1)
 
 ## Testing Criteria
-- Multiple conflicting deadlines can be tracked simultaneously
-- Fatigue accumulation feels realistic and impacts gameplay
-- Temporal narrative branches activate correctly based on conditions
-- Scheduling conflicts present meaningful choices to players
-- NPCs react appropriately to temporal reputation
-- UI clearly communicates all time pressures and options
-- Performance maintains 60 FPS with complex time calculations
-- Save/load preserves all temporal state correctly
-- Difficulty scaling provides appropriate challenge progression
-- Debug tools allow rapid testing of time scenarios
+- Living world events trigger and chain properly
+- Investigation system tracks all clue types
+- Puzzles save/load state correctly
+- Tram system integrates with time and access control
+- Performance maintains 60 FPS with all systems active
+- No conflicts between any systems
+- Memory usage remains stable over extended play
 
 ## Timeline
-- Start date: 2026-01-05
-- Target completion: 2026-01-26
+- **Estimated Duration:** 3-4 weeks
+- **Total Hours:** 92
+- **Critical Path:** Performance optimization must validate all other systems
+
+## Definition of Done
+- [ ] All tasks completed and tested
+- [ ] Performance targets achieved (60 FPS)
+- [ ] All systems integrate without conflicts
+- [ ] Comprehensive integration tests pass
+- [ ] Documentation updated for content creators
+- [ ] Code reviewed and approved
+- [ ] Phase 2 complete, ready for Phase 3
 
 ## Dependencies
-- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- Iteration 10 (Game Progression and Multiple Endings)
-- Iteration 14 (Living World Event System - Full Implementation)
+- All Phase 1 iterations (4-8)
+- All previous Phase 2 iterations (9-14)
+- Performance requirements from hardware validation
 
-## Code Links
-- Time Management System Full Design: docs/design/time_management_system_full.md
-- DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
-- FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
-- TemporalNarrativeManager: src/core/systems/temporal_narrative_manager.gd (to be created)
-- ScheduleConflictManager: src/core/systems/schedule_conflict_manager.gd (to be created)
-- TemporalReputation: src/core/systems/temporal_reputation.gd (to be created)
-- AdvancedTimeDisplay: src/ui/time_display/advanced_time_display.gd (to be created)
+## Risks and Mitigations
+- **Risk:** Performance issues with all systems active
+  - **Mitigation:** Early profiling, incremental optimization
+- **Risk:** Integration conflicts between systems
+  - **Mitigation:** Continuous integration testing
+- **Risk:** Scope creep on "polish"
+  - **Mitigation:** Clear acceptance criteria, time boxing
 
-## User Stories
-
-### Task 1: Implement DeadlineManager with conflict detection
-**User Story:** As a player, I want to track multiple deadlines simultaneously, so that I can prioritize my time effectively.
-**Reference:** See docs/design/time_management_system_full.md Section "Advanced Deadline System"
-
-### Task 2: Create complex fatigue system with gameplay effects
-**User Story:** As a player, I want exhaustion to meaningfully impact my abilities, so that rest becomes a strategic resource.
-**Reference:** See docs/design/time_management_system_full.md Section "Complex Fatigue System"
-
-### Task 3: Implement temporal narrative branching system
-**User Story:** As a player, I want my timing choices to open and close story paths, so that when I do things matters as much as what I do.
-**Reference:** See docs/design/time_management_system_full.md Section "Time-Based Narrative Branching"
-
-### Task 4: Create scheduling conflict resolution mechanics
-**User Story:** As a player, I want to face tough choices when events overlap, so that I feel the weight of my time management decisions.
-**Reference:** See docs/design/time_management_system_full.md Section "Scheduling Conflict System"
-
-### Task 5: Develop temporal reputation tracking
-**User Story:** As a player, I want NPCs to remember if I'm punctual or unreliable, so that my time management affects relationships.
-**Reference:** See docs/design/time_management_system_full.md Section "Temporal Reputation System"
-
-### Task 6: Implement advanced time UI with planning tools
-**User Story:** As a player, I want sophisticated tools to visualize and plan my time, so that I can make informed decisions.
-**Reference:** See docs/design/time_management_system_full.md Section "Advanced Time UI"
-
-### Task 7: Create predictive scheduling assistant
-**User Story:** As a player, I want help planning optimal schedules, so that I can achieve my priorities efficiently.
-**Reference:** See docs/design/time_management_system_full.md Section "Predictive Time Planning"
-
-### Task 8: Add dynamic time costs based on context
-**User Story:** As a player, I want action durations to vary based on circumstances, so that time management stays dynamic.
-**Reference:** See docs/design/time_management_system_full.md Section "Dynamic Time Costs"
-
-### Task 9: Implement time-gated content system
-**User Story:** As a player, I want exclusive opportunities at specific times, so that I must balance routine with special events.
-**Reference:** See docs/design/time_management_system_full.md Section "Time-Gated Content"
-
-### Task 10: Create fatigue mitigation mechanics (stimulants, power naps)
-**User Story:** As a player, I want ways to temporarily fight exhaustion, so that I can push through critical moments at a cost.
-**Reference:** See docs/design/time_management_system_full.md Section "Complex Fatigue System" - Stimulants
-
-### Task 11: Add hallucination effects for extreme exhaustion
-**User Story:** As a player, I want extreme exhaustion to distort reality, so that pushing too hard has dramatic consequences.
-**Reference:** See docs/design/time_management_system_full.md Section "Complex Fatigue System" - Critical effects
-
-### Task 12: Implement cascade analysis for missed deadlines
-**User Story:** As a player, I want to understand the ripple effects of missing deadlines, so that I can make informed sacrifices.
-**Reference:** See docs/design/time_management_system_full.md Section "Advanced Deadline System" - Cascade effects
-
-### Task 13: Create time-based dialog variations
-**User Story:** As a player, I want conversations to reflect the current time context, so that the world feels temporally aware.
-**Reference:** See docs/design/time_management_system_full.md Section "Integration with Full Systems"
-
-### Task 14: Add deadline warning and notification system
-**User Story:** As a player, I want clear warnings about approaching deadlines, so that I'm not blindsided by time limits.
-**Reference:** See docs/design/time_management_system_full.md Section "Advanced Time UI" - Deadline warnings
-
-### Task 15: Implement save system extensions for complex time state
-**User Story:** As a player, I want all temporal complexity preserved in saves, so that I can resume exactly where I left off.
-**Reference:** See docs/design/time_management_system_full.md Section "Performance Considerations"
-
-### Task 16: Create difficulty scaling for time pressure
-**User Story:** As a developer, I want time pressure to increase appropriately, so that the game maintains proper pacing.
-**Reference:** See docs/design/time_management_system_full.md Section "Difficulty Scaling"
-
-### Task 17: Add time manipulation debug tools
-**User Story:** As a developer, I want to test any time scenario quickly, so that I can verify temporal mechanics.
-**Reference:** See docs/design/time_management_system_full.md Section "Performance Considerations"
-
-### Task 18: Implement performance optimizations for time calculations
-**User Story:** As a developer, I want efficient time processing, so that complex calculations don't impact gameplay.
-**Reference:** See docs/design/time_management_system_full.md Section "Update Frequency"
-
-### Task 19: Create comprehensive time analytics system
-**User Story:** As a developer, I want to track how players use time, so that I can balance the game effectively.
-**Reference:** See docs/design/time_management_system_full.md Section "Balancing Framework"
-
-### Task 20: Balance testing and tuning framework
-**User Story:** As a developer, I want tools to tune time costs and pressures, so that the game feels properly balanced.
-**Reference:** See docs/design/time_management_system_full.md Section "Balancing Framework"
-
-## Notes
-- This iteration transforms the MVP time system into a core pillar of gameplay
-- Fatigue system must feel impactful without being frustrating
-- Deadline conflicts should create memorable "Sophie's choice" moments
-- Temporal reputation adds long-term consequences to time management
-- Performance critical with many concurrent deadlines and time calculations
-- Consider accessibility options for players who struggle with time pressure
+## Links to Relevant Code
+- src/core/events/event_manager.gd
+- src/core/events/living_world_event.gd
+- src/core/investigation/investigation_manager.gd
+- src/core/investigation/clue.gd
+- src/core/puzzles/base_puzzle.gd
+- src/core/puzzles/puzzle_manager.gd
+- src/core/transport/tram_system.gd
+- src/core/transport/tram_station.gd
+- src/core/performance/profiler.gd
+- src/core/performance/object_pool.gd
