@@ -181,6 +181,267 @@ Comprehensive testing and validation of all systems working together without con
 - All previous iterations
 - Testing framework (Iteration 1)
 
+## Numbered Tasks
+
+### Living World Event System
+- [ ] Task 1: Create EventManager singleton with scheduling system
+- [ ] Task 2: Implement random event generation based on world state
+- [ ] Task 3: Build event chaining and consequence system
+- [ ] Task 4: Create NPC reaction system to world events
+- [ ] Task 5: Implement event persistence and serialization
+
+### Investigation System
+- [ ] Task 6: Create ClueManager for tracking evidence
+- [ ] Task 7: Implement clue collection from multiple sources
+- [ ] Task 8: Build evidence combination mechanics
+- [ ] Task 9: Create deduction interface UI
+- [ ] Task 10: Integrate with dialog and observation systems
+
+### Puzzle System
+- [ ] Task 11: Create PuzzleManager singleton
+- [ ] Task 12: Implement base puzzle class with state machine
+- [ ] Task 13: Build access puzzle type (doors, terminals)
+- [ ] Task 14: Create investigation puzzle type (connecting clues)
+- [ ] Task 15: Implement social engineering puzzles
+- [ ] Task 16: Build technical puzzles (hacking, repairs)
+- [ ] Task 17: Create item combination puzzles
+- [ ] Task 18: Implement timing-based puzzles
+- [ ] Task 19: Add puzzle hint system with progressive hints
+- [ ] Task 20: Create puzzle state persistence
+
+### Transportation System
+- [ ] Task 21: Create TramSystem manager
+- [ ] Task 22: Implement tram station scenes
+- [ ] Task 23: Build schedule system with wait times
+- [ ] Task 24: Create travel time calculations
+- [ ] Task 25: Implement access control integration
+
+### Performance Optimization
+- [ ] Task 26: Set up performance profiling tools
+- [ ] Task 27: Profile all major systems
+- [ ] Task 28: Implement object pooling for common objects
+- [ ] Task 29: Optimize NPC update cycles
+- [ ] Task 30: Reduce memory allocations
+
+### System Integration
+- [ ] Task 31: Test all system interactions
+- [ ] Task 32: Fix integration conflicts
+- [ ] Task 33: Validate save/load with all features
+- [ ] Task 34: Handle edge cases and error states
+- [ ] Task 35: Polish user experience across systems
+
+## User Stories for Key Tasks
+
+### Task 11: Create PuzzleManager singleton
+**User Story:** As a developer, I want a centralized puzzle management system, so that all puzzles can be tracked, saved, and integrated consistently throughout the game.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Singleton pattern following existing managers
+  2. Track active and completed puzzles
+  3. Handle puzzle state transitions
+  4. Integrate with save/load system
+  5. Emit signals for UI updates
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Follow patterns from other managers
+- Support both single-step and multi-step puzzles
+- Track failed attempts for hint system
+
+### Task 12: Implement base puzzle class with state machine
+**User Story:** As a developer, I want a flexible base puzzle class, so that different puzzle types can be implemented consistently while sharing common functionality.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. State machine with INACTIVE, ACTIVE, PROGRESSED, SOLVED, FAILED states
+  2. Common interface for all puzzle types
+  3. Progress tracking for multi-step puzzles
+  4. Integration points for hints and rewards
+  5. Serialization support for all states
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Extend Node or Resource based on needs
+- Support partial progress saving
+- Include validation methods
+
+### Task 13: Build access puzzle type (doors, terminals)
+**User Story:** As a player, I want to solve puzzles to access restricted areas, so that exploration feels rewarding and areas feel meaningfully gated.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Support keycard, keypad, and hacking solutions
+  2. Multiple solution paths when appropriate
+  3. Failure consequences (alarms, lockouts)
+  4. Visual feedback for progress
+  5. Integration with security system
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Examples: Lab access, security doors, computer terminals
+- Consider player skills/items for alternatives
+- Suspicion increases on failures
+
+### Task 14: Create investigation puzzle type (connecting clues)
+**User Story:** As a player detective, I want to connect clues to form conclusions, so that I feel like I'm actively solving the mystery rather than passively collecting information.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Clue combination interface
+  2. Multiple valid conclusions possible
+  3. Deduction feedback system
+  4. Integration with investigation system
+  5. Persistent theory tracking
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Reference: docs/design/investigation_clue_tracking_system_design.md
+- Cork board style interface
+- Support red herrings and misdirection
+
+### Task 15: Implement social engineering puzzles
+**User Story:** As a player, I want to manipulate NPCs through dialog and actions to achieve my goals, so that social interactions become meaningful puzzles.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Dialog tree integration
+  2. Trust/suspicion affects options
+  3. Multiple persuasion strategies
+  4. Consequences for failure
+  5. Information gathering mechanics
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Examples: Getting keycard from guard, learning passwords
+- Use existing dialog and trust systems
+- Gender may affect available options
+
+### Task 16: Build technical puzzles (hacking, repairs)
+**User Story:** As a player, I want to hack systems and repair equipment through engaging minigames, so that technical challenges feel interactive rather than passive skill checks.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Hacking minigame mechanics
+  2. Repair sequence puzzles
+  3. Skill/item modifiers
+  4. Time pressure elements
+  5. Failure consequences
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Keep minigames simple and quick
+- Consider accessibility options
+- Integration with time management
+
+### Task 17: Create item combination puzzles
+**User Story:** As a player, I want to combine items in logical ways to solve problems, so that my inventory becomes a toolkit for creative solutions.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Logical item combinations
+  2. Clear feedback on attempts
+  3. Multiple valid solutions
+  4. Recipe discovery system
+  5. Integration with inventory
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Avoid moon logic combinations
+- Visual combination interface
+- Some combinations learned from NPCs
+
+### Task 18: Implement timing-based puzzles
+**User Story:** As a player, I want to exploit NPC schedules and routines to solve puzzles, so that observation and planning are rewarded.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Schedule-based opportunities
+  2. Guard patrol patterns
+  3. Shift change exploitation
+  4. Time window challenges
+  5. Integration with time system
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Examples: Sneaking past guards, accessing areas during breaks
+- Show schedules through observation
+- Allow multiple timing windows
+
+### Task 19: Add puzzle hint system with progressive hints
+**User Story:** As a player who's stuck, I want optional hints that guide without spoiling, so that I can maintain progress without frustration.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. Progressive hint levels (subtle to explicit)
+  2. Hints unlock after failures/time
+  3. Coalition members can provide hints
+  4. Optional hint disable setting
+  5. Context-sensitive hint delivery
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- First hint: "Have you tried looking around?"
+- Later hints more specific
+- Some hints from NPC dialog
+
+### Task 20: Create puzzle state persistence
+**User Story:** As a player, I want my puzzle progress to save properly, so that I can take breaks without losing complex multi-step solutions.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 3
+- **Acceptance Criteria:**
+  1. All puzzle states serialize correctly
+  2. Partial progress saves
+  3. Failed attempt tracking persists
+  4. Hint levels save
+  5. Integration with save system
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Reference: docs/design/serialization_system.md
+- Use existing serialization patterns
+- Version migration support
+
 ## Testing Criteria
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
@@ -228,3 +489,15 @@ Comprehensive testing and validation of all systems working together without con
 - src/core/transport/tram_station.gd
 - src/core/performance/profiler.gd
 - src/core/performance/object_pool.gd
+
+## Notes
+### Design Documents Implemented
+- docs/design/living_world_event_system_full.md
+- docs/design/investigation_clue_tracking_system_design.md
+- docs/design/puzzle_system_design.md
+- docs/design/tram_transportation_system_design.md
+- docs/design/performance_optimization_plan.md
+
+### Template References
+- Event implementation should follow docs/design/template_integration_standards.md
+- Puzzles should be designed using patterns from docs/design/template_interactive_object_design.md

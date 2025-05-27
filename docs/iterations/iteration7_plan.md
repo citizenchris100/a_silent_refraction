@@ -96,6 +96,18 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - [ ] Task 24: Create inventory UI
 - [ ] Task 25: Implement item usage system
 
+### Advanced Time Management
+- [ ] Task 26: Create DeadlineManager for time-sensitive objectives
+- [ ] Task 27: Implement deadline conflict detection system
+- [ ] Task 28: Add cascading consequence analysis for missed deadlines
+- [ ] Task 29: Create complex fatigue system with gameplay effects
+- [ ] Task 30: Implement stimulant usage with diminishing returns
+- [ ] Task 31: Add microsleep and hallucination mechanics
+- [ ] Task 32: Create temporal narrative branching system
+- [ ] Task 33: Implement flexible scheduling and time optimization
+- [ ] Task 34: Add activity interruption and resumption system
+- [ ] Task 35: Create time pressure visualization UI
+
 ## User Stories
 
 ### Task 3: Create transaction system with validation
@@ -180,6 +192,216 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Reference: docs/design/inventory_system_design.md
 - Reference: docs/design/inventory_ui_design.md
 
+### Task 26: Create DeadlineManager for time-sensitive objectives
+**User Story:** As a player, I want to see and track time-sensitive objectives, so that I can prioritize my actions and understand the consequences of my time management choices.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Deadlines display with clear due times
+  2. Warning notifications at multiple thresholds
+  3. Consequences clearly communicated before missing
+  4. Prerequisite chains visible to player
+  5. Conflict detection warns of impossible combinations
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Warning thresholds: 24h, 12h, 6h, 2h before deadline
+- Support hidden deadlines revealed through investigation
+- Integrate with quest system for objective deadlines
+
+### Task 27: Implement deadline conflict detection system
+**User Story:** As a player, I want to know when my commitments conflict, so that I can make informed decisions about which objectives to prioritize.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Automatic detection of time conflicts
+  2. Visual indicators for conflicting deadlines
+  3. Time calculation shows if both can be completed
+  4. Suggested priority based on consequences
+  5. Player can acknowledge and choose priority
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Calculate total time needed vs time available
+- Consider travel time between objectives
+- Show conflict resolution suggestions
+
+### Task 28: Add cascading consequence analysis for missed deadlines
+**User Story:** As a developer, I want missed deadlines to have realistic cascading effects, so that player choices create meaningful narrative branches and consequences.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Missing deadlines affects NPC relationships
+  2. Some story branches become inaccessible
+  3. New deadlines may emerge from failures
+  4. Coalition strength affected by reliability
+  5. Consequences persist across save/load
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Track missed deadline history for reputation
+- Some NPCs more forgiving than others
+- Critical deadlines can trigger game over scenarios
+
+### Task 29: Create complex fatigue system with gameplay effects
+**User Story:** As a player, I want fatigue to meaningfully affect my abilities, so that sleep becomes a strategic resource I must manage carefully.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Five fatigue levels with distinct effects
+  2. Movement speed decreases with exhaustion
+  3. Dialog options reduced when tired
+  4. Investigation success rates drop
+  5. All actions take longer when fatigued
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Fatigue levels: Rested, Alert, Tired, Exhausted, Critical
+- Exponential fatigue accumulation after 16 hours awake
+- Visual indicators: screen darkening, slower animations
+
+### Task 30: Implement stimulant usage with diminishing returns
+**User Story:** As a player, I want to use stimulants to postpone sleep, so that I can push through critical moments at the cost of building resistance and side effects.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Multiple stimulant types available
+  2. Each use less effective than the last
+  3. Resistance builds up over time
+  4. Side effects at high resistance
+  5. Recovery requires extended sleep
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Stimulant types: Coffee, Pills, Injections
+- Resistance decay: 10% per full sleep cycle
+- Side effects: jitters, crashes, health impacts
+
+### Task 31: Add microsleep and hallucination mechanics
+**User Story:** As a player, I want extreme exhaustion to create dramatic gameplay moments, so that pushing too hard has memorable consequences beyond simple stat penalties.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Microsleeps cause brief blackouts
+  2. Player loses 5-30 minutes during microsleep
+  3. Hallucinations show false NPCs/objects
+  4. Critical fatigue forces collapse
+  5. NPCs comment on player's condition
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Microsleeps trigger randomly at high fatigue
+- Hallucinations could reveal assimilated NPCs incorrectly
+- Forced collapse requires immediate rest location
+
+### Task 32: Create temporal narrative branching system
+**User Story:** As a developer, I want time-based choices to create distinct story paths, so that the game has meaningful replay value based on time management strategies.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Key events locked after certain times
+  2. NPCs remember missed appointments
+  3. Some content mutually exclusive by time
+  4. Different strategies yield different stories
+  5. At least 3 major branch points
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Track "point of no return" moments
+- Some branches only available to efficient players
+- Emergency choices for time-crunched situations
+
+### Task 33: Implement flexible scheduling and time optimization
+**User Story:** As an experienced player, I want to optimize my time usage, so that mastery of the game systems allows me to accomplish more within time constraints.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Some activities can be shortened with skill
+  2. Efficient routes save travel time
+  3. Multitasking options for compatible activities
+  4. Schedule flexibility increases with relationships
+  5. Time bonuses for good performance
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Quick dialog options for repeat conversations
+- Fast travel unlocked through exploration
+- Some NPCs offer schedule flexibility when befriended
+
+### Task 34: Add activity interruption and resumption system
+**User Story:** As a player, I want to interrupt long activities for emergencies, so that I can respond to urgent situations without losing all progress on current tasks.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Long activities can be paused
+  2. Progress saved when interrupted
+  3. Can resume with small time penalty
+  4. Some activities cannot be interrupted
+  5. NPCs react to interruptions appropriately
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Interruption penalty: 10-30 minutes depending on activity
+- Critical activities marked as non-interruptible
+- Save interruption state in serialization
+
+### Task 35: Create time pressure visualization UI
+**User Story:** As a player, I want clear visual feedback about time pressure, so that I can feel the mounting tension and make informed decisions quickly.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Deadline countdown timers visible
+  2. Clock speed visualization during time skip
+  3. Fatigue meter with stage indicators
+  4. Schedule conflict warnings prominent
+  5. Time remaining for current activity shown
+
+**Implementation Notes:**
+- Reference: docs/design/time_management_system_full.md
+- Use color coding: green->yellow->red for urgency
+- Pulsing effects for imminent deadlines
+- Integrate with existing time display UI
+
 ## Testing Criteria
 - Economy transactions process correctly
 - Save/sleep operation is atomic and reliable
@@ -189,6 +411,15 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - All systems integrate with serialization
 - UI responds smoothly to all operations
 - Save files are valid and loadable
+- Deadlines track and warn appropriately
+- Deadline conflicts detected accurately
+- Fatigue affects gameplay as designed
+- Stimulants work with diminishing returns
+- Microsleeps and hallucinations trigger correctly
+- Time-based narrative branches lock properly
+- Schedule optimization mechanics function
+- Activity interruption saves progress correctly
+- Time pressure UI provides clear feedback
 
 ## Timeline
 - Start date: After Iteration 6 completion
@@ -215,6 +446,8 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - docs/design/barracks_system_design.md
 - docs/design/inventory_system_design.md
 - docs/design/inventory_ui_design.md
+- docs/design/time_management_system_mvp.md (already in iteration 5)
+- docs/design/time_management_system_full.md (extends MVP with advanced features)
 
 ## Notes
 - Save/Sleep are intentionally coupled to prevent save-scumming
@@ -222,3 +455,4 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Morning reports add narrative flavor and information
 - Barracks serves as tutorial area for many systems
 - Inventory is simplified for MVP, expandable later
+- Time Management Full extends the MVP from Iteration 5 with advanced scheduling

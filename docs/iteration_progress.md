@@ -6,711 +6,796 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 10 | Game Progression and Multiple Endings | Not started | 0% (0/8) |
-| 11 | Full Audio System Implementation | Not started | 0% (0/24) |
-| 12 | Full Foreground Occlusion System Implementation | Not started | 0% (0/24) |
-| 13 | Full Sprite Perspective Scaling System | Not started | 0% (0/42) |
-| 14 | Living World Event System - Full Implementation | Not started | 0% (0/20) |
-| 15 | Time Management System - Full Implementation | Not started | 0% (0/20) |
+| 10 | Advanced NPC Systems | Not started | 0% (0/25) |
+| 11 | Quest and Progression Systems | Not started | 0% (0/25) |
+| 12 | Assimilation and Coalition | Not started | 0% (0/25) |
+| 13 | Full Audio Integration | Not started | 0% (0/25) |
+| 14 | Visual Polish Systems | Not started | 0% (0/25) |
+| 15 | Advanced Features & Polish | Not started | 0% (0/37) |
+| 16 | Advanced Visual Systems | Not started | 0% (0/42) |
+| 17 | Core Content Foundation | Not started | 0% (0/50) |
+| 18 | District Population Part 1 | Not started | 0% (0/47) |
+| 19 | District Population Part 2 | Not started | 0% (0/49) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
+| 20 | Quest Implementation | Not started | 0% (0/51) |
+| 21 | Dialog and Narrative | Not started | 0% (0/55) |
+| 22 | Polish and Integration | Not started | 0% (0/56) |
+| 23 | Post-Launch Support and Expansion | Not started | 0% (0/56) |
+| 24 | Hardware Validation and Distribution | Not started | 0% (0/3) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
 | 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 8% (4/45) |
-| 4 | Dialog and Verb UI System Refactoring | Not started | 0% (0/20) |
-| 5 | Save System Foundation | Not started | 0% (0/12) |
-| 6 | Game Districts and Time Management | Not started | 0% (0/17) |
-| 7 | Character Gender Selection System | Not started | 0% (0/12) |
-| 8 | Investigation Mechanics and Inventory | Not started | 0% (0/17) |
-| 9 | Coalition Building | Not started | 0% (0/8) |
+| 4 | Serialization Foundation | Not started | 0% (0/17) |
+| 5 | Time and Notification Systems | Not started | 0% (0/19) |
+| 6 | Dialog and Character Systems | Not started | 0% (0/20) |
+| 7 | Economy and Save/Sleep | Not started | 0% (0/25) |
+| 8 | Districts and Living World MVP | Not started | 0% (0/30) |
+| 9 | Core Gameplay Systems | Not started | 0% (0/25) |
 
 ## Detailed Progress
 
-### Iteration 10: Game Progression and Multiple Endings
+### Iteration 10: Advanced NPC Systems
 
 **Goals:**
-- Implement game state progression
-- Add multiple endings
-- Create transition between narrative branches
-- **B1:** Deliver multiple game endings based on player choices
-- **U1:** As a player, I want my choices to affect the game's outcome
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Implement game state manager
-- [ ] Task 2: Create win/lose conditions
-- [ ] Task 3: Develop multiple ending scenarios
-- [ ] Task 4: Add narrative branching system
-- [ ] Task 5: Implement final confrontation sequence
-- [ ] Task 6: Create ending cinematics
-- [ ] Task 7: Add game over screens
-- [ ] Task 8: Implement statistics tracking for playthrough
-- Game can be completed with multiple different outcomes
-- Narrative branches based on player choices
-- Game state properly tracks progress through the story
-- Complete game flow can be tested from start to finish
-- Start date: 2025-07-27
-- Target completion: 2025-08-10
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- No links yet
+- Implement NPC Trust/Relationship System
+- Create Full NPC Templates with all behaviors
+- Implement complete NPC Daily Routines
+- Build Disguise System for infiltration gameplay
+- Establish social simulation foundation
+- Create believable station inhabitants
+- **B1:** Develop deep NPC relationships and trust mechanics
+- **B2:** Enable disguise mechanics for stealth gameplay
+- **B3:** Create living NPCs with believable behaviors
+- **U1:** As a player, I want to build relationships with NPCs
+- **U2:** As a player, I want to use disguises for infiltration
+- **U3:** As a player, I want NPCs to have predictable routines
+- **T1:** Design scalable relationship tracking system
+- **T2:** Create flexible disguise detection mechanics
+- **T3:** Implement performance-optimized routine system
+- [ ] Task 1: Create RelationshipManager singleton
+- [ ] Task 2: Implement trust level mechanics
+- [ ] Task 3: Build relationship graph structure
+- [ ] Task 4: Create relationship UI display
+- [ ] Task 5: Add relationship-based dialog branches
+- [ ] Task 6: Expand BaseNPC with full behavior set
+- [ ] Task 7: Create personality trait system
+- [ ] Task 8: Implement memory system for NPCs
+- [ ] Task 9: Add emotional state tracking
+- [ ] Task 10: Build NPC reaction tables
+- [ ] Task 11: Enhance schedule system from MVP
+- [ ] Task 12: Add routine interruption handling
+- [ ] Task 13: Create activity animations/states
+- [ ] Task 14: Implement need-based behaviors
+- [ ] Task 15: Add routine variation system
+- [ ] Task 16: Create DisguiseManager
+- [ ] Task 17: Implement clothing/uniform system
+- [ ] Task 18: Build identity verification mechanics
+- [ ] Task 19: Add disguise effectiveness ratings
+- [ ] Task 20: Create disguise detection system
+- [ ] Task 21: Implement social group dynamics
+- [ ] Task 22: Create gossip/information spread
+- [ ] Task 23: Add faction reputation tracking
+- [ ] Task 24: Build social event system
+- [ ] Task 25: Implement relationship consequences
 
 **Key Requirements:**
-- **B1:** Deliver multiple game endings based on player choices
-- **U1:** As a player, I want my choices to affect the game's outcome
+- **B1:** Develop deep NPC relationships and trust mechanics
+- **B2:** Enable disguise mechanics for stealth gameplay
+- **U1:** As a player, I want to build relationships with NPCs
+- **U2:** As a player, I want to use disguises for infiltration
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement game state manager | Pending | - |
-| Create win/lose conditions | Pending | - |
-| Develop multiple ending scenarios | Pending | - |
-| Add narrative branching system | Pending | - |
-| Implement final confrontation sequence | Pending | - |
-| Create ending cinematics | Pending | - |
-| Add game over screens | Pending | - |
-| Implement statistics tracking for playthrough | Pending | - |
 
 **Testing Criteria:**
-- Game can be completed with multiple different outcomes
-- Narrative branches based on player choices
-- Game state properly tracks progress through the story
-- Complete game flow can be tested from start to finish
-- Start date: 2025-07-27
-- Target completion: 2025-08-10
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- No links yet
+- Trust levels change appropriately
+- NPC memories persist correctly
+- Routines execute without breaking
+- Disguises fool appropriate NPCs
+- Social dynamics create emergent stories
+- Performance stays smooth with many NPCs
+- All systems integrate properly
+- Save/load preserves all NPC states
+- Start date: After Iteration 9
+- Target completion: 3 weeks (complex systems)
+- Critical for: Social gameplay foundation
+- Iteration 9: Detection system (for disguise integration)
+- Iteration 8: Living World MVP (routine foundation)
+- Iteration 2: Base NPC system
+- src/core/social/relationship_manager.gd (to be created)
+- src/characters/npc/npc_memory.gd (to be created)
+- src/characters/npc/npc_routine_full.gd (to be created)
+- src/core/disguise/disguise_manager.gd (to be created)
+- src/characters/npc/base_npc_full.gd (to be created)
+- docs/design/npc_trust_relationship_system_design.md
+- docs/design/disguise_clothing_system_design.md
+- docs/design/template_npc_design.md
 
-### Iteration 11: Full Audio System Implementation
+### Iteration 11: Quest and Progression Systems
 
 **Goals:**
-- Complete the comprehensive diegetic audio system building on Iteration 3's MVP foundation
-- Implement district-specific audio environments with smooth transitions
-- Add advanced spatial audio features including stereo panning and environmental effects
-- Create interactive audio elements and atmospheric sound design
-- Establish production pipeline for audio content creation and management
-- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
-- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
-- **B3:** Implement audio as a gameplay element where sound provides narrative context, environmental storytelling, and subtle cues about the assimilation threat.
-- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
-- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
-- **U3:** As a player, I want the audio atmosphere to subtly change as more of the station becomes assimilated, creating an increasingly unsettling soundscape.
-- **T1:** Maintain 60 FPS performance with 20+ simultaneous audio sources using efficient LOD and pooling systems.
-- **T2:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
-- [ ] Task 1: Expand audio bus structure for district-specific routing
-- [ ] Task 2: Enhance AudioManager with district switching and fade functionality
-- [ ] Task 3: Add advanced spatial features to DiegeticAudioController
-- [ ] Task 4: Implement comprehensive unit tests for audio systems
-- [ ] Task 5: Implement custom attenuation curves and distance calculations
-- [ ] Task 6: Create stereo panning system using AudioEffectPanner
-- [ ] Task 7: Build audio debug visualization tools
-- [ ] Task 8: Performance profiling and optimization for multiple sources
-- [ ] Task 9: Create DistrictAudioConfig resource system
-- [ ] Task 10: Implement smooth district audio transitions
-- [ ] Task 11: Design district-specific audio configurations
-- [ ] Task 12: Create audio source spawning and management system
-- [ ] Task 13: Connect audio volume to visual perspective scale
-- [ ] Task 14: Implement interactive audio objects (radios, PA systems)
-- [ ] Task 15: Create assimilation-based audio degradation system
-- [ ] Task 16: Design silence and tension mechanics
-- [ ] Task 17: Implement audio LOD system for performance
-- [ ] Task 18: Add environmental reverb zones and effects
-- [ ] Task 19: Create audio settings UI and player preferences
-- [ ] Task 20: Final balancing and polish pass
-- [ ] Task 21: Create audio asset conversion and import pipeline
-- [ ] Task 22: Establish audio style guide and naming conventions
-- [ ] Task 23: Build placeholder audio library
-- [ ] Task 24: Document audio implementation for future content creators
-- All audio is purely diegetic with clear in-world sources
-- Spatial positioning feels natural and accurate with proper stereo panning
-- Performance maintains 60 FPS with 20+ simultaneous audio sources
-- District transitions are smooth and atmospheric
-- Audio reinforces the corporate banality aesthetic
-- Silence and sound create appropriate tension
-- Players can identify audio source locations
-- Audio enhances rather than distracts from gameplay
-- Interactive audio objects respond correctly to player input
-- Assimilation affects audio atmosphere progressively
-- All districts have unique and appropriate soundscapes
-- Audio settings provide adequate player control
+- Build comprehensive Quest System Framework
+- Implement Job/Work Quest System for economic gameplay
+- Create Quest Log UI for tracking progress
+- Develop First Quest as Phase 2 validation
+- Establish progression mechanics
+- Create quest template system for content creation
+- **B1:** Implement comprehensive quest and job systems
+- **B2:** Validate Phase 2 systems with First Quest implementation
+- **B3:** Create economic progression through jobs
+- **U1:** As a player, I want to track my quests and objectives
+- **U2:** As a player, I want meaningful job opportunities
+- **U3:** As a player, I want freedom in how I complete objectives
+- **T1:** Design flexible quest state machine
+- **T2:** Create data-driven quest system
+- **T3:** Implement robust quest tracking
+- [ ] Task 1: Create QuestManager singleton
+- [ ] Task 2: Implement quest state machine
+- [ ] Task 3: Build quest prerequisite system
+- [ ] Task 4: Create quest reward system
+- [ ] Task 5: Add quest save/load integration
+- [ ] Task 6: Create JobManager system
+- [ ] Task 7: Implement job board UI
+- [ ] Task 8: Build work shift mechanics
+- [ ] Task 9: Create job performance evaluation
+- [ ] Task 10: Add job-specific access permissions
+- [ ] Task 11: Design quest log interface
+- [ ] Task 12: Implement quest tracking HUD
+- [ ] Task 13: Create quest detail view
+- [ ] Task 14: Add quest filtering/sorting
+- [ ] Task 15: Build quest notification system
+- [ ] Task 16: Create quest data format
+- [ ] Task 17: Build quest template types
+- [ ] Task 18: Implement quest scripting system
+- [ ] Task 19: Add quest validation tools
+- [ ] Task 20: Create quest debug commands
+- [ ] Task 21: Design First Quest narrative
+- [ ] Task 22: Implement all quest objectives
+- [ ] Task 23: Create quest-specific content
+- [ ] Task 24: Add multiple solution paths
+- [ ] Task 25: Full integration testing
 
 **Key Requirements:**
-- **B1:** Deliver a fully immersive diegetic audio experience where all sounds originate from identifiable in-world sources, reinforcing the game's atmosphere of corporate sterility masking creeping dread.
-- **B2:** Create district-specific audio environments that enhance the unique character and purpose of each station area through carefully designed soundscapes.
-- **U1:** As a player, I want all music and sounds to come from realistic sources in the game world (radios, PA systems, machinery), so the station feels like a real, functioning space.
-- **U2:** As a player, I want spatial audio that accurately reflects my position relative to sound sources, so I can use audio cues to navigate and understand my environment.
+- **B1:** Implement comprehensive quest and job systems
+- **B2:** Validate Phase 2 systems with First Quest implementation
+- **U1:** As a player, I want to track my quests and objectives
+- **U2:** As a player, I want meaningful job opportunities
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Expand audio bus structure for district-specific routing (As a developer, I want a comprehensive audio bus hierarchy that supports district-specific mixing and effects, so that each area can have its unique sonic character.) | Pending | - |
-| Enhance AudioManager with district switching and fade functionality | Pending | - |
-| Add advanced spatial features to DiegeticAudioController | Pending | - |
-| Implement comprehensive unit tests for audio systems | Pending | - |
-| Implement custom attenuation curves and distance calculations | Pending | - |
-| Create stereo panning system using AudioEffectPanner (As a player, I want sounds to pan left and right based on their position relative to me, so that I can spatially locate audio sources in the game world.) | Pending | - |
-| Build audio debug visualization tools | Pending | - |
-| Performance profiling and optimization for multiple sources | Pending | - |
-| Create DistrictAudioConfig resource system (As a developer, I want a resource-based configuration system for district audio, so that sound designers can easily customize each area without code changes.) | Pending | - |
-| Implement smooth district audio transitions | Pending | - |
-| Design district-specific audio configurations | Pending | - |
-| Create audio source spawning and management system | Pending | - |
-| Connect audio volume to visual perspective scale | Pending | - |
-| Implement interactive audio objects (radios, PA systems) (As a player, I want to interact with audio sources like radios and PA systems, so that I have control over the soundscape and can discover audio-based secrets.) | Pending | - |
-| Create assimilation-based audio degradation system (As a player, I want the audio atmosphere to subtly degrade as assimilation spreads, so that I can feel the station's decline through sound.) | Pending | - |
-| Design silence and tension mechanics | Pending | - |
-| Implement audio LOD system for performance | Pending | - |
-| Add environmental reverb zones and effects | Pending | - |
-| Create audio settings UI and player preferences | Pending | - |
-| Final balancing and polish pass | Pending | - |
-| Create audio asset conversion and import pipeline | Pending | - |
-| Establish audio style guide and naming conventions | Pending | - |
-| Build placeholder audio library | Pending | - |
-| Document audio implementation for future content creators | Pending | - |
 
 **Testing Criteria:**
-- All audio is purely diegetic with clear in-world sources
-- Spatial positioning feels natural and accurate with proper stereo panning
-- Performance maintains 60 FPS with 20+ simultaneous audio sources
-- District transitions are smooth and atmospheric
-- Audio reinforces the corporate banality aesthetic
-- Silence and sound create appropriate tension
-- Players can identify audio source locations
-- Audio enhances rather than distracts from gameplay
-- Interactive audio objects respond correctly to player input
-- Assimilation affects audio atmosphere progressively
-- All districts have unique and appropriate soundscapes
-- Audio settings provide adequate player control
-- Start date: TBD (After Iteration 10 completion)
-- Target completion: Start date + 25 days
-- Duration: 20-25 days total
-- Iteration 3: Audio MVP foundation (AudioManager, DiegeticAudioController)
-- Iteration 5: District system and transitions
-- Iteration 8: Investigation mechanics (for audio-based clues)
-- Iteration 10: Game state progression (for assimilation-based audio changes)
-- No links yet
-- docs/design/audio_system_technical_implementation.md (Full implementation plan)
-- docs/design/audio_system_iteration3_mvp.md (MVP foundation reference)
-- docs/reference/game_design_document.md (Audio Design section)
-- All audio must be diegetic (Design Pillar #13)
-- Music aesthetic should be "corporate banality" (Mallsoft/Vaporwave inspired)
-- District-specific ambience creates unique atmospheres
-- Performance optimization is critical for lower-spec hardware
-- System builds on MVP without breaking existing functionality
-- **Linked to:** B2, T1
-- **Acceptance Criteria:**
-- Build on MVP's basic bus structure (Master -> Music, Ambience, SFX)
-- Add per-district sub-buses under Music and Ambience
-- Configure reverb, EQ, and compression per district
-- Reference: docs/design/audio_system_technical_implementation.md - Section 1
-- **Linked to:** U2, B1
-- **Acceptance Criteria:**
-- Godot 3.5.2 lacks built-in 2D panning, must implement via AudioEffectPanner
-- Calculate pan value from relative X position
-- Apply to appropriate audio buses dynamically
-- Reference: docs/design/audio_system_technical_implementation.md - DiegeticAudioController
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-- Create custom resource classes extending Resource
-- Include properties for sources, volumes, effects parameters
-- Design for visual editing in Godot
-- Reference: docs/design/audio_system_technical_implementation.md - Section 4
+- Quest states transition correctly
+- Jobs function with proper schedules
+- Quest log displays accurate information
+- Save/load preserves quest progress
+- First Quest completable via multiple paths
+- Performance with many active quests
+- Quest notifications work properly
+- All systems integrate smoothly
+- Start date: After Iteration 10
+- Target completion: 2-3 weeks
+- Critical for: Phase 2 validation
+- Iteration 10: NPC relationships (for social quests)
+- Iteration 9: Investigation system
+- All Phase 1 systems
+- src/core/quests/quest_manager.gd (to be created)
+- src/core/quests/quest_state_machine.gd (to be created)
+- src/core/jobs/job_manager.gd (to be created)
+- src/ui/quest_log/quest_log_ui.gd (to be created)
+- data/quests/first_quest.json (to be created)
+- docs/design/job_work_quest_system_design.md
+- docs/design/quest_log_ui_design.md
+- docs/design/template_quest_design.md
 
-### Iteration 12: Full Foreground Occlusion System Implementation
+### Iteration 12: Assimilation and Coalition
 
 **Goals:**
-- Expand the MVP foreground occlusion system into a comprehensive visual depth solution
-- Implement polygon-based occlusion zones with arbitrary shapes and behaviors
-- Create automated asset extraction and processing tools
-- Add support for animated foreground elements and multi-layer rendering
-- Build visual editing tools for efficient content creation
-- Optimize performance for complex scenes with many occlusion zones
-- **B6:** Ensure the occlusion system scales to support complex environments without impacting game performance
-- **B5:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise
-- **B4:** Deliver a visually rich environment where depth perception enhances the adventure game experience through sophisticated layering and occlusion effects
-- **B1:** Deliver a visually rich environment where depth perception enhances the adventure game experience through sophisticated layering and occlusion effects.
-- **B2:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise.
-- **B3:** Ensure the occlusion system scales to support complex environments without impacting game performance.
-- **U6:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game
-- **U5:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate
-- **U4:** As a player, I want my character to naturally move behind and in front of objects based on realistic spatial relationships, so the game world feels authentic and three-dimensional
-- **U1:** As a player, I want my character to naturally move behind and in front of objects based on realistic spatial relationships, so the game world feels authentic and three-dimensional.
-- **U2:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate.
-- **U3:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game.
-- **T1:** Build upon the MVP foundation from Iteration 3, extending all systems without breaking existing functionality.
-- **T2:** Implement efficient spatial data structures to handle complex polygon calculations at 60 FPS.
-- **T3:** Create modular, extensible architecture that supports future enhancements like dynamic occlusion and lighting integration.
-- [ ] Task 1: Implement polygon-based OcclusionZone resource class
-- [ ] Task 2: Create advanced OcclusionZoneManager with spatial indexing
-- [ ] Task 3: Build multi-layer foreground rendering system
-- [ ] Task 4: Add perspective-aware occlusion rules and configurations
-- [ ] Task 5: Create automated foreground extraction tool with UI
-- [ ] Task 6: Build batch processing scripts for foreground sprites
-- [ ] Task 7: Implement asset validation and optimization system
-- [ ] Task 8: Create foreground element template library
-- [ ] Task 9: Develop visual occlusion zone editor plugin
-- [ ] Task 10: Create zone testing and preview tools
-- [ ] Task 11: Build property inspectors for occlusion zones
-- [ ] Task 12: Implement zone library and preset system
+- Implement full Assimilation System with spread mechanics
+- Build Coalition/Resistance System for fighting back
+- Create Crime/Security Event System
+- Develop Multiple Endings Framework
+- Establish dynamic world state
+- Create emergent narrative possibilities
+- **B1:** Create dynamic station response to assimilation threat
+- **B2:** Enable multiple story outcomes through coalition mechanics
+- **B3:** Implement crime and security dynamics
+- **U1:** As a player, I want the station to react to the assimilation threat
+- **U2:** As a player, I want to build a coalition to fight back
+- **U3:** As a player, I want my choices to determine the outcome
+- **T1:** Design assimilation spread algorithm
+- **T2:** Create faction system architecture
+- **T3:** Implement ending determination logic
+- [ ] Task 1: Create AssimilationManager singleton
+- [ ] Task 2: Implement infection spread mechanics
+- [ ] Task 3: Build assimilation detection methods
+- [ ] Task 4: Create visual indicators for infected
+- [ ] Task 5: Add assimilation event system
+- [ ] Task 6: Create CoalitionManager
+- [ ] Task 7: Implement recruitment mechanics
+- [ ] Task 8: Build coalition strength tracking
+- [ ] Task 9: Create resistance mission system
+- [ ] Task 10: Add coalition meeting events
+- [ ] Task 11: Create SecurityManager
+- [ ] Task 12: Implement crime detection system
+- [ ] Task 13: Build security alert levels
+- [ ] Task 14: Create lockdown mechanics
+- [ ] Task 15: Add security response teams
+- [ ] Task 16: Create EndingManager
+- [ ] Task 17: Define ending conditions
+- [ ] Task 18: Build ending determination logic
+- [ ] Task 19: Create ending cutscenes
+- [ ] Task 20: Implement ending achievements
+- [ ] Task 21: Connect all systems to world state
+- [ ] Task 22: Create emergent event system
+- [ ] Task 23: Build faction conflict mechanics
+- [ ] Task 24: Add news/rumor system
+- [ ] Task 25: Implement cascade effects
 
 **Key Requirements:**
-- **B6:** Ensure the occlusion system scales to support complex environments without impacting game performance
-- **B5:** Provide efficient content creation tools that allow rapid iteration on foreground elements and occlusion zones without technical expertise
-- **U6:** As a player, I want consistent occlusion behavior across different visual perspectives (isometric, side-scrolling, top-down), so gameplay feels cohesive throughout the game
-- **U5:** As a player, I want foreground elements to enhance rather than obstruct gameplay, with clear visual cues about where I can navigate
+- **B1:** Create dynamic station response to assimilation threat
+- **B2:** Enable multiple story outcomes through coalition mechanics
+- **U1:** As a player, I want the station to react to the assimilation threat
+- **U2:** As a player, I want to build a coalition to fight back
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement polygon-based OcclusionZone resource class (As a developer, I want to define complex occlusion shapes using polygons, so that I can create realistic occlusion for irregularly shaped objects and environments.) | Pending | - |
-| Create advanced OcclusionZoneManager with spatial indexing (As a developer, I want the occlusion system to efficiently handle many zones without performance degradation, so that I can create rich, complex environments.) | Pending | - |
-| Build multi-layer foreground rendering system (As a player, I want to see multiple layers of foreground depth (near, mid, far), so that environments feel rich and spatially complex.) | Pending | - |
-| Add perspective-aware occlusion rules and configurations (As a developer, I want occlusion behavior to adapt to different perspective types, so that each district can have appropriate depth rendering.) | Pending | - |
-| Create automated foreground extraction tool with UI (As an artist, I want to easily extract foreground elements from background images using a visual tool, so that I can quickly create occlusion sprites without manual editing.) | Pending | - |
-| Build batch processing scripts for foreground sprites (As a developer, I want to process multiple foreground sprites consistently, so that all assets maintain the same visual style and optimization.) | Pending | - |
-| Implement asset validation and optimization system (As a developer, I want to ensure all foreground assets meet quality standards, so that the game maintains consistent performance and visual quality.) | Pending | - |
-| Create foreground element template library (As a developer, I want reusable foreground element templates, so that I can quickly add common occlusion objects to new scenes.) | Pending | - |
-| Develop visual occlusion zone editor plugin (As a level designer, I want to visually create and edit occlusion zones directly in the scene, so that I can see immediate results without editing data files.) | Pending | - |
-| Create zone testing and preview tools (As a developer, I want to test occlusion zones with simulated player movement, so that I can verify correct behavior before runtime.) | Pending | - |
-| Build property inspectors for occlusion zones (As a developer, I want detailed property editors for occlusion zones, so that I can fine-tune behavior without editing code.) | Pending | - |
-| Implement zone library and preset system (As a developer, I want to save and reuse occlusion zone configurations, so that I can maintain consistency across similar objects.) | Pending | - |
-| Create animated foreground element system (As a player, I want to see foreground elements that animate naturally (swaying plants, flickering signs), so that the environment feels alive and dynamic.) | Pending | - |
-| Build state machine for foreground animations (As a developer, I want foreground animations to respond to game states, so that the environment reacts appropriately to story events.) | Pending | - |
-| Implement trigger system for context-aware animations (As a player, I want foreground elements to react to my presence and actions, so that the world feels responsive and interactive.) | Pending | - |
-| Add particle effect support for atmospheric elements (As a player, I want to see atmospheric particle effects integrated with foreground elements (steam, sparks, dust), so that environments feel more dynamic and lived-in.) | Pending | - |
-| Implement QuadTree spatial indexing for zones (As a developer, I want efficient spatial queries for occlusion zones, so that the system scales to complex scenes without performance issues.) | Pending | - |
-| Add LOD system for distant foreground elements (As a player, I want consistent performance even in complex scenes, so that gameplay remains smooth regardless of environmental complexity.) | Pending | - |
-| Create update throttling and batching system (As a developer, I want occlusion updates to be efficient and batched, so that the system maintains high performance even with many active zones.) | Pending | - |
-| Build performance profiler and optimization tools (As a developer, I want detailed performance metrics for the occlusion system, so that I can identify and fix bottlenecks.) | Pending | - |
-| Complete integration with all perspective types (As a player, I want occlusion to work correctly in all visual perspectives, so that each area of the game feels polished and complete.) | Pending | - |
-| Add smooth transitions and visual effects (As a player, I want smooth visual transitions when moving through occlusion zones, so that the experience feels polished and professional.) | Pending | - |
-| Create comprehensive documentation and tutorials (As a developer, I want clear documentation and tutorials for the occlusion system, so that I can effectively use all features.) | Pending | - |
-| Build example implementations for each district type (As a developer, I want example occlusion setups for different district types, so that I have templates to build from.) | Pending | - |
 
 **Testing Criteria:**
-- Polygon-based occlusion zones correctly determine player visibility
-- Multi-layer system creates proper depth ordering
-- Performance maintains 60 FPS with 50+ zones
-- Editor tools are intuitive and stable
-- Animated elements sync correctly with game state
-- All perspective types handle occlusion appropriately
-- Asset pipeline produces consistent, optimized results
-- Debug tools provide clear visualization
-- System handles edge cases gracefully
-- Migration from MVP is smooth and documented
-- Start date: TBD (After core game systems complete)
-- Target completion: 3 weeks
-- Phase 1-2: Week 1
-- Phase 3-4: Week 2
-- Phase 5-6: Week 3
-- Iteration 3 (Foreground Occlusion MVP)
-- Iteration 3 (Multi-Perspective Character System)
-- Iteration 11 (Full Audio System) - For integration examples
-- To be added during implementation
-- docs/design/foreground_occlusion_full_plan.md
-- QuadTree spatial indexing for efficient polygon queries
-- Perspective-aware rendering rules
-- Automated asset extraction pipeline
-- Visual zone editing tools
-- **Linked to:** B1, U1, T2
-- **Acceptance Criteria:**
-- Create src/core/rendering/occlusion_zone.gd as Resource
-- Implement Geometry.is_point_in_polygon for detection
-- Add properties for soft edges and fade distance
-- Support perspective-specific rule overrides
-- Include height_offset for pseudo-3D effects
-- Reference: docs/design/foreground_occlusion_full_plan.md - OcclusionZone Resource
-- **Linked to:** B3, T2
-- **Acceptance Criteria:**
-- Implement QuadTree data structure
-- Query zones within player vicinity
-- Cache zone calculations where possible
-- Update throttling based on player movement
-- Profile with 50+ zones active
-- Reference: docs/design/foreground_occlusion_full_plan.md - Spatial Indexing
+- Assimilation spreads believably
+- Coalition mechanics function properly
+- Security responds appropriately
+- Endings trigger correctly
+- All systems affect world state
+- Save/load preserves all states
+- Performance with many active systems
+- Emergent scenarios feel natural
+- Start date: After Iteration 11
+- Target completion: 3 weeks (complex interactions)
+- Critical for: Complete game experience
+- Iteration 11: Quest system (for coalition missions)
+- Iteration 10: NPC relationships (for recruitment)
+- Iteration 9: Detection system (for security)
+- src/core/assimilation/assimilation_manager.gd (to be created)
+- src/core/coalition/coalition_manager.gd (to be created)
+- src/core/security/security_manager.gd (to be created)
+- src/core/endings/ending_manager.gd (to be created)
+- docs/design/assimilation_system_design.md
+- docs/design/coalition_resistance_system_design.md
+- docs/design/crime_security_event_system_design.md
+- docs/design/multiple_endings_system_design.md
 
-### Iteration 13: Full Sprite Perspective Scaling System
+### Iteration 13: Full Audio Integration
 
 **Goals:**
-- Transform the MVP perspective scaling into an intelligent, automated system
-- Implement advanced visual effects including LOD, deformation, and dynamic shadows
-- Create sophisticated movement prediction and group coordination systems
-- Build professional content creation tools for rapid iteration
-- Optimize performance for complex scenes with many scaled entities
-- Establish the definitive 2D perspective solution for adventure games
-- **B6:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance
-- **B5:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%
-- **B4:** Deliver industry-leading visual depth that sets a new standard for 2D adventure games through intelligent perspective scaling and effects
-- **B1:** Deliver industry-leading visual depth that sets a new standard for 2D adventure games through intelligent perspective scaling and effects.
-- **B2:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%.
-- **B3:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance.
-- **U1:** As a player, I want characters and objects to scale naturally with sophisticated visual effects, so the 2D world feels genuinely three-dimensional.
-- **U2:** As a player, I want perspective effects to enhance gameplay clarity rather than obscure it, with intelligent adjustments that maintain visibility.
-- **U3:** As a player, I want consistent performance regardless of scene complexity, so gameplay remains smooth throughout my adventure.
-- **T1:** Build upon the MVP foundation from Iteration 3, extending all systems while maintaining backwards compatibility.
-- **T2:** Implement intelligent systems that automate complex tasks while providing manual overrides for artistic control.
-- **T3:** Create modular architecture that supports future enhancements without major refactoring.
-- [ ] Task 1: Implement IntelligentZoneGenerator with background analysis
-- [ ] Task 2: Create PerspectiveAnalyzer for vanishing point detection
-- [ ] Task 3: Build automated zone optimization algorithms
-- [ ] Task 4: Develop adaptive scaling system with performance monitoring
-- [ ] Task 5: Create movement prediction and anticipation system
-- [ ] Task 6: Implement zone transition smoothing algorithms
-- [ ] Task 7: Build multi-level sprite LOD system with smooth transitions
-- [ ] Task 8: Create perspective deformation engine for sprite skewing
-- [ ] Task 9: Implement dynamic shadow system with perspective scaling
-- [ ] Task 10: Develop particle scaling system for environmental effects
-- [ ] Task 11: Create visual effects manager with quality presets
-- [ ] Task 12: Build shader-based optimization for batch rendering
-- [ ] Task 13: Implement group movement coordination system
-- [ ] Task 14: Create physics integration for perspective-aware behaviors
-- [ ] Task 15: Build path prediction and visualization system
-- [ ] Task 16: Develop momentum-based scaling adjustments
-- [ ] Task 17: Create diagonal movement compensation algorithms
-- [ ] Task 18: Implement crowd simulation with perspective awareness
-- [ ] Task 19: Develop visual zone editor plugin for Godot
-- [ ] Task 20: Create interactive curve designer for scaling behaviors
-- [ ] Task 21: Build real-time preview system with hot reload
-- [ ] Task 22: Implement batch processing tools for multiple scenes
-- [ ] Task 23: Create preset library system with sharing
-- [ ] Task 24: Develop performance profiler with optimization suggestions
+- Implement Audio Event Bridge for system integration
+- Create Diegetic Audio Implementation
+- Design unique District Ambiences
+- Add comprehensive UI Audio Feedback
+- Establish 3D spatial audio
+- Create reactive audio system
+- **B1:** Bring the game world to life through comprehensive audio
+- **B2:** Implement diegetic audio for enhanced realism
+- **B3:** Create memorable audio identity
+- **U1:** As a player, I want immersive audio that enhances the atmosphere
+- **U2:** As a player, I want to locate sounds in the game world
+- **U3:** As a player, I want audio cues for important events
+- **T1:** Create event-driven audio architecture
+- **T2:** Implement efficient audio streaming
+- **T3:** Design flexible audio bus system
+- [ ] Task 1: Create AudioEventBridge singleton
+- [ ] Task 2: Implement audio event registration
+- [ ] Task 3: Build audio resource management
+- [ ] Task 4: Create audio pooling system
+- [ ] Task 5: Add audio debugging tools
+- [ ] Task 6: Implement DiegeticAudioController
+- [ ] Task 7: Create 3D spatial audio system
+- [ ] Task 8: Build audio occlusion system
+- [ ] Task 9: Add distance attenuation
+- [ ] Task 10: Implement reverb zones
+- [ ] Task 11: Create ambience system
+- [ ] Task 12: Design Spaceport soundscape
+- [ ] Task 13: Design Engineering soundscape
+- [ ] Task 14: Design Barracks soundscape
+- [ ] Task 15: Implement ambience transitions
+- [ ] Task 16: Create UI sound library
+- [ ] Task 17: Implement button/hover sounds
+- [ ] Task 18: Add notification audio
+- [ ] Task 19: Create dialog UI sounds
+- [ ] Task 20: Add inventory sounds
+- [ ] Task 21: Connect all systems to audio
+- [ ] Task 22: Create audio settings UI
+- [ ] Task 23: Implement audio accessibility
+- [ ] Task 24: Add subtitles system
+- [ ] Task 25: Performance optimization
 
 **Key Requirements:**
-- **B6:** Ensure the perspective system scales to support the game's most ambitious scenes without compromising performance
-- **B5:** Accelerate content creation through intelligent automation and professional tools that reduce perspective setup time by 90%
-- **U1:** As a player, I want characters and objects to scale naturally with sophisticated visual effects, so the 2D world feels genuinely three-dimensional.
-- **U2:** As a player, I want perspective effects to enhance gameplay clarity rather than obscure it, with intelligent adjustments that maintain visibility.
+- **B1:** Bring the game world to life through comprehensive audio
+- **B2:** Implement diegetic audio for enhanced realism
+- **U1:** As a player, I want immersive audio that enhances the atmosphere
+- **U2:** As a player, I want to locate sounds in the game world
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement IntelligentZoneGenerator with background analysis (As a developer, I want the system to automatically generate perspective zones by analyzing background images, so I can create depth without manual zone creation.) | Pending | - |
-| Create PerspectiveAnalyzer for vanishing point detection (As a developer, I want automatic detection of vanishing points in background art, so perspective zones align with the visual perspective.) | Pending | - |
-| Build automated zone optimization algorithms (As a developer, I want zones to be automatically optimized for performance and visual quality, so I get the best results without manual tweaking.) | Pending | - |
-| Develop adaptive scaling system with performance monitoring (As a player, I want consistent performance regardless of scene complexity, so my gameplay experience remains smooth.) | Pending | - |
-| Create movement prediction and anticipation system (As a player, I want character scaling to feel smooth and natural during movement, so the perspective changes don't feel jarring.) | Pending | - |
-| Implement zone transition smoothing algorithms (As a player, I want seamless transitions between perspective zones, so movement through the environment feels continuous.) | Pending | - |
-| Build multi-level sprite LOD system with smooth transitions (As a player, I want sprites to maintain visual quality at their current scale while optimizing performance for distant objects.) | Pending | - |
-| Create perspective deformation engine for sprite skewing (As a player, I want sprites to subtly deform based on their position relative to the vanishing point, enhancing the 3D illusion.) | Pending | - |
-| Implement dynamic shadow system with perspective scaling (As a player, I want characters to cast shadows that scale and position correctly with perspective, enhancing the sense of depth.) | Pending | - |
-| Develop particle scaling system for environmental effects (As a player, I want environmental particles (dust, steam, sparks) to respect perspective scaling, creating a cohesive visual experience.) | Pending | - |
-| Create visual effects manager with quality presets (As a developer, I want centralized control over all perspective visual effects with quality presets for different hardware.) | Pending | - |
-| Build shader-based optimization for batch rendering (As a developer, I want perspective calculations optimized through GPU shaders for maximum performance.) | Pending | - |
-| Implement group movement coordination system (As a player, I want groups of characters to maintain formation while respecting perspective scaling, so crowds look natural.) | Pending | - |
-| Create physics integration for perspective-aware behaviors (As a player, I want physics behaviors (jumping, falling) to respect perspective scaling for consistent gameplay.) | Pending | - |
-| Build path prediction and visualization system (As a developer, I want to see predicted movement paths with perspective scaling for debugging and design.) | Pending | - |
-| Develop momentum-based scaling adjustments (As a player, I want scaling to account for movement momentum, so fast movement feels smooth through perspective changes.) | Pending | - |
-| Create diagonal movement compensation algorithms (As a player, I want diagonal movement to feel natural in perspective, compensating for the visual distortion.) | Pending | - |
-| Implement crowd simulation with perspective awareness (As a player, I want crowds of NPCs to move naturally through perspective, creating believable populated environments.) | Pending | - |
-| Develop visual zone editor plugin for Godot (As an artist, I want to paint perspective zones directly on backgrounds in the editor for intuitive setup.) | Pending | - |
-| Create interactive curve designer for scaling behaviors (As a designer, I want to visually design scaling curves to fine-tune how perspective affects sprites.) | Pending | - |
-| Build real-time preview system with hot reload (As an artist, I want changes to perspective settings to update immediately in the game for rapid iteration.) | Pending | - |
-| Implement batch processing tools for multiple scenes (As a developer, I want to apply perspective settings across multiple scenes efficiently for consistency.) | Pending | - |
-| Create preset library system with sharing (As a team, we want to share and reuse perspective presets across projects for consistency and efficiency.) | Pending | - |
-| Develop performance profiler with optimization suggestions (As a developer, I want detailed performance analysis of perspective systems with actionable optimization suggestions.) | Pending | - |
-| Implement advanced 3D audio simulation in 2D (As a player, I want audio to create a convincing 3D soundscape that matches the visual perspective for full immersion.) | Pending | - |
-| Create environmental reverb system based on perspective (As a player, I want environmental audio to reflect the space I'm in, with appropriate reverb in large or small areas.) | Pending | - |
-| Build dynamic audio occlusion for realistic sound (As a player, I want sounds to be naturally muffled when sources are behind objects, enhancing realism.) | Pending | - |
-| Develop perspective-aware ambient soundscapes (As a player, I want ambient sounds to change naturally based on my position and the visual perspective.) | Pending | - |
-| Create audio visualization tools for debugging (As a developer, I want to visualize audio propagation and effects for debugging and tuning.) | Pending | - |
-| Implement audio LOD system for performance (As a player, I want consistent performance even with many audio sources by intelligently managing audio complexity.) | Pending | - |
-| Create intelligent performance optimization manager (As a player, I want the game to automatically maintain smooth performance by adjusting quality settings intelligently.) | Pending | - |
-| Implement advanced culling for off-screen entities (As a developer, I want efficient culling of off-screen entities to maximize performance in complex scenes.) | Pending | - |
-| Build frame rate targeting with dynamic quality (As a player, I want consistent frame rates through dynamic quality adjustment that prioritizes gameplay smoothness.) | Pending | - |
-| Develop memory optimization for mobile platforms (As a mobile player, I want the perspective system optimized for limited memory without sacrificing visual quality.) | Pending | - |
-| Create comprehensive profiling and analytics (As a developer, I want detailed analytics on perspective system usage to guide optimization efforts.) | Pending | - |
-| Polish all visual effects and transitions (As a player, I want all perspective effects to feel polished and professional with smooth transitions.) | Pending | - |
-| Complete integration with all game systems (As a developer, I want the perspective system fully integrated with all game systems for seamless functionality.) | Pending | - |
-| Create migration tools from MVP system (As a developer, I want automated tools to migrate from the MVP perspective system to the full version.) | Pending | - |
-| Build example implementations for each use case (As a developer, I want comprehensive examples showing how to use the perspective system in various scenarios.) | Pending | - |
-| Write comprehensive developer documentation (As a developer, I want complete documentation to understand and extend the perspective system.) | Pending | - |
-| Create video tutorials for artists and designers (As an artist, I want video tutorials showing how to use the perspective tools effectively.) | Pending | - |
-| Develop automated testing suite for regression prevention (As a developer, I want comprehensive automated tests to prevent regressions in the perspective system.) | Pending | - |
 
 **Testing Criteria:**
-- Intelligent zone generation correctly identifies perspective from backgrounds
-- LOD transitions are smooth without visual popping
-- Deformation and shadow effects enhance depth perception
-- Movement prediction accurately anticipates player paths
-- Group coordination maintains formation through perspective changes
-- Performance optimizer maintains target FPS in all scenarios
-- Editor tools are intuitive for non-technical users
-- Audio spatialization creates believable 3D soundscape
-- Migration from MVP preserves all functionality
-- System handles edge cases gracefully
-- Visual quality exceeds industry standards
-- Documentation enables new team members to contribute quickly
-- Start date: TBD (After core systems mature)
-- Target completion: 6-7 weeks
-- Phase 1: Week 1 - Intelligent systems foundation
-- Phase 2: Week 2 - Visual effects implementation
-- Phase 3: Week 3 - Movement and physics
-- Phase 4: Week 4 - Tool development
-- Phase 5: Week 5 - Audio systems
-- Phase 6-7: Weeks 6-7 - Optimization and integration
-- Iteration 3 (Sprite Perspective Scaling MVP)
-- Iteration 3 (Multi-Perspective Character System)
-- Iteration 12 (Foreground Occlusion System) - For depth integration
-- Iteration 11 (Audio System) - For spatial audio features
-- To be added during implementation
+- All systems trigger appropriate audio
+- Spatial audio accurately represents position
+- Ambiences create proper atmosphere
+- UI audio provides clear feedback
+- Performance remains smooth
+- Audio settings work correctly
+- No audio glitches or pops
+- Accessibility features function
+- Start date: After Iteration 12
+- Target completion: 2-3 weeks
+- Critical for: Complete sensory experience
+- All previous systems (for audio hooks)
+- Particularly: Notification system, UI systems
+- src/core/audio/audio_event_bridge.gd (to be created)
+- src/core/audio/diegetic_audio_controller.gd (to be created)
+- src/core/audio/ambience_manager.gd (to be created)
+- src/ui/settings/audio_settings.gd (to be created)
+- assets/audio/ (to be organized)
+- docs/design/audio_system_iteration3_mvp.md
+- docs/design/audio_system_technical_implementation.md
+
+### Iteration 14: Visual Polish Systems
+
+**Goals:**
+- Implement full Sprite Perspective Scaling system
+- Complete Foreground Occlusion system
+- Add Animation Polish throughout
+- Create Visual Effects library
+- Establish visual consistency
+- Optimize rendering performance
+- **B1:** Polish visual presentation to professional standards
+- **B2:** Implement perspective and occlusion for depth
+- **B3:** Create cohesive visual style
+- **U1:** As a player, I want visually polished game environments
+- **U2:** As a player, I want characters to scale naturally with perspective
+- **U3:** As a player, I want smooth, polished animations
+- **T1:** Implement efficient scaling algorithms
+- **T2:** Create flexible occlusion system
+- **T3:** Optimize rendering pipeline
+- [ ] Task 1: Create PerspectiveManager
+- [ ] Task 2: Implement scaling algorithms
+- [ ] Task 3: Build perspective configuration
+- [ ] Task 4: Add smooth scale transitions
+- [ ] Task 5: Create perspective debug tools
+- [ ] Task 6: Create OcclusionManager
+- [ ] Task 7: Implement occlusion mapping
+- [ ] Task 8: Build depth sorting system
+- [ ] Task 9: Add transparency handling
+- [ ] Task 10: Create occlusion zones
+- [ ] Task 11: Audit all character animations
+- [ ] Task 12: Add animation blending
+- [ ] Task 13: Create transition animations
+- [ ] Task 14: Implement animation events
+- [ ] Task 15: Polish idle variations
+- [ ] Task 16: Create VFX manager
+- [ ] Task 17: Implement particle systems
+- [ ] Task 18: Add screen effects
+- [ ] Task 19: Create environmental VFX
+- [ ] Task 20: Build effect pooling
+- [ ] Task 21: Implement sprite batching
+- [ ] Task 22: Create LOD system
+- [ ] Task 23: Optimize shader usage
+- [ ] Task 24: Add quality settings
+- [ ] Task 25: Profile and optimize
+
+**Key Requirements:**
+- **B1:** Polish visual presentation to professional standards
+- **B2:** Implement perspective and occlusion for depth
+- **U1:** As a player, I want visually polished game environments
+- **U2:** As a player, I want characters to scale naturally with perspective
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- Perspective scaling works in all districts
+- Occlusion creates proper depth
+- Animations blend smoothly
+- Visual effects enhance without distraction
+- Performance targets met
+- Quality settings function
+- No visual glitches
+- Consistent visual style maintained
+- Start date: After Iteration 13
+- Target completion: 2-3 weeks
+- Critical for: Professional presentation
+- Iteration 8: Districts (for testing environments)
+- Iteration 10: NPCs (for character animations)
+- Previous visual work from Phase 1
+- src/core/visuals/perspective_manager.gd (to be created)
+- src/core/visuals/occlusion_manager.gd (to be created)
+- src/core/visuals/vfx_manager.gd (to be created)
+- src/core/animation/animation_blender.gd (to be created)
 - docs/design/sprite_perspective_scaling_full_plan.md
-- AI-powered zone generation from background art
-- Predictive scaling for ultra-smooth movement
-- Multi-level LOD with seamless transitions
-- Professional tools rivaling 3D game engines
-- Performance optimization that scales from mobile to high-end PCs
-- **Linked to:** B2, T2
-- **Acceptance Criteria:**
-- Create src/core/perspective/intelligent_zone_generator.gd
-- Use image analysis to detect convergence lines
-- Implement pattern recognition for repeated objects
-- Generate zones based on perspective grid detection
-- Support multiple vanishing points
-- Reference: docs/design/sprite_perspective_scaling_full_plan.md
-- **Linked to:** B1, T2
-- **Acceptance Criteria:**
-- Implement line detection algorithms
-- Find convergence points of detected lines
-- Calculate perspective transformation matrix
-- Support one, two, and three-point perspective
-- Create debug visualization overlay
+- docs/design/sprite_perspective_scaling_plan.md
+- docs/design/foreground_occlusion_full_plan.md
+- docs/design/foreground_occlusion_mvp_plan.md
 
-### Iteration 14: Living World Event System - Full Implementation
+### Iteration 15: Advanced Features & Polish
 
 **Goals:**
-- Build upon the MVP foundation to create a deeply reactive and dynamic world
-- Implement conditional event chains and rumor propagation system
-- Create sophisticated NPC state management for 100+ NPCs
-- Add evidence mechanics and environmental storytelling
-- Optimize performance for complex world simulation
-- Enable emergent storytelling through event interactions
-- **B1:** Create unique experiences in each playthrough through dynamic events
-- **B2:** Deepen immersion through believable NPC behaviors and information flow
-- **B3:** Support emergent storytelling through system interactions
-- **U1:** As a player, I want NPCs to react to events realistically
-- **U2:** As a player, I want to uncover information through investigation
-- **U3:** As a player, I want my choices to cascade through the world
-- **T1:** Maintain performance with 100+ simulated NPCs
-- **T2:** Implement scalable event architecture
-- [ ] Task 1: Implement AdvancedEventScheduler with conditional events
-- [ ] Task 2: Create NPCStateMachine for complex NPC state management
-- [ ] Task 3: Implement RumorSystem for information propagation
-- [ ] Task 4: Create EvidenceSystem for physical traces of events
-- [ ] Task 5: Implement DynamicEventGenerator for reactive events
-- [ ] Task 6: Create WorldSimulationOptimizer for performance
-- [ ] Task 7: Implement 20-30 key NPCs with full behavioral complexity
-- [ ] Task 8: Create 30-40 supporting NPCs with simplified routines
-- [ ] Task 9: Implement 40-50 background NPCs with quantum states
-- [ ] Task 10: Create relationship dynamics between NPCs
-- [ ] Task 11: Implement information warfare mechanics
-- [ ] Task 12: Add environmental storytelling elements
-- [ ] Task 13: Create complex conditional event chains
-- [ ] Task 14: Implement event visualization debug tools
-- [ ] Task 15: Create scenario testing system
-- [ ] Task 16: Optimize save/load for complex world state
-- [ ] Task 17: Implement event cascade prevention
-- [ ] Task 18: Create rumor distortion mechanics
-- [ ] Task 19: Add NPC group behavior systems
-- [ ] Task 20: Performance profiling and optimization
-- 100+ NPCs active without frame drops
-- Rumors spread and distort believably through NPC networks
-- Evidence appears and decays appropriately
-- Conditional events trigger based on complex world states
-- Event chains create emergent stories
-- NPCs form and break relationships dynamically
-- Performance maintains 60 FPS throughout gameplay
-- Save files remain under 5MB with full state
-- No infinite event loops or cascades
-- Debug tools provide clear visibility into world state
-- Start date: 2025-12-01
-- Target completion: 2025-12-22
-- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- Iteration 10 (Game Progression and Multiple Endings)
-- Living World Event System Full Design: docs/design/living_world_event_system_full.md
-- AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
-- NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
-- RumorSystem: src/core/systems/rumor_system.gd (to be created)
-- EvidenceSystem: src/core/systems/evidence_system.gd (to be created)
-- DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
-- WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
+- Implement full living world event system
+- Complete investigation mechanics with clue tracking
+- Add puzzle system framework
+- Implement tram transportation system
+- Optimize performance across all systems
+- Ensure seamless integration of all features
+- Complete all remaining technical features before content phase
+- Achieve stable 60 FPS performance on target hardware
+- Ensure all systems integrate without conflicts
+- Create framework for content creators
+- Living world feels dynamic with emergent events
+- Investigation mechanics support detective gameplay
+- Puzzles integrate naturally with environment
+- Fast travel via tram system
+- Smooth, responsive gameplay
+- Event-driven architecture for living world
+- Flexible puzzle system supporting multiple types
+- Performance profiling and optimization
+- Memory management and object pooling
+- System integration validation
+- [ ] Event manager handles scheduled and random events
+- [ ] Events can chain and influence each other
+- [ ] Player actions affect event probability
+- [ ] NPCs react to world events
+- [ ] Events persist across save/load
+- Time management system (Iteration 5)
+- NPC routines (Iteration 10)
+- District system (Iteration 8)
+- [ ] Clue collection from multiple sources
+- [ ] Evidence combination mechanics
+- [ ] Deduction interface for theories
+- [ ] Clue persistence and organization
+- [ ] Integration with dialog and observation
+- Observation system (Iteration 11)
+- Dialog system (Iteration 6)
+- Inventory system (Iteration 7)
 
 **Key Requirements:**
-- **B1:** Create unique experiences in each playthrough through dynamic events
-- **B2:** Deepen immersion through believable NPC behaviors and information flow
-- **U1:** As a player, I want NPCs to react to events realistically
-- **U2:** As a player, I want to uncover information through investigation
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement AdvancedEventScheduler with conditional events | Pending | - |
-| Create NPCStateMachine for complex NPC state management | Pending | - |
-| Implement RumorSystem for information propagation | Pending | - |
-| Create EvidenceSystem for physical traces of events | Pending | - |
-| Implement DynamicEventGenerator for reactive events | Pending | - |
-| Create WorldSimulationOptimizer for performance | Pending | - |
-| Implement 20-30 key NPCs with full behavioral complexity | Pending | - |
-| Create 30-40 supporting NPCs with simplified routines | Pending | - |
-| Implement 40-50 background NPCs with quantum states | Pending | - |
-| Create relationship dynamics between NPCs | Pending | - |
-| Implement information warfare mechanics | Pending | - |
-| Add environmental storytelling elements | Pending | - |
-| Create complex conditional event chains | Pending | - |
-| Implement event visualization debug tools | Pending | - |
-| Create scenario testing system | Pending | - |
-| Optimize save/load for complex world state | Pending | - |
-| Implement event cascade prevention | Pending | - |
-| Create rumor distortion mechanics | Pending | - |
-| Add NPC group behavior systems | Pending | - |
-| Performance profiling and optimization | Pending | - |
 
 **Testing Criteria:**
-- 100+ NPCs active without frame drops
-- Rumors spread and distort believably through NPC networks
-- Evidence appears and decays appropriately
-- Conditional events trigger based on complex world states
-- Event chains create emergent stories
-- NPCs form and break relationships dynamically
-- Performance maintains 60 FPS throughout gameplay
-- Save files remain under 5MB with full state
-- No infinite event loops or cascades
-- Debug tools provide clear visibility into world state
-- Start date: 2025-12-01
-- Target completion: 2025-12-22
-- Iteration 5 (Game Districts and Time Management - includes Living World MVP)
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- Iteration 10 (Game Progression and Multiple Endings)
-- Living World Event System Full Design: docs/design/living_world_event_system_full.md
-- AdvancedEventScheduler: src/core/systems/advanced_event_scheduler.gd (to be created)
-- NPCStateMachine: src/core/systems/npc_state_machine.gd (to be created)
-- RumorSystem: src/core/systems/rumor_system.gd (to be created)
-- EvidenceSystem: src/core/systems/evidence_system.gd (to be created)
-- DynamicEventGenerator: src/core/systems/dynamic_event_generator.gd (to be created)
-- WorldSimulationOptimizer: src/core/systems/world_simulation_optimizer.gd (to be created)
+- Living world events trigger and chain properly
+- Investigation system tracks all clue types
+- Puzzles save/load state correctly
+- Tram system integrates with time and access control
+- Performance maintains 60 FPS with all systems active
+- No conflicts between any systems
+- Memory usage remains stable over extended play
+- **Estimated Duration:** 3-4 weeks
+- **Total Hours:** 92
+- **Critical Path:** Performance optimization must validate all other systems
+- [ ] All tasks completed and tested
+- [ ] Performance targets achieved (60 FPS)
+- [ ] All systems integrate without conflicts
+- [ ] Comprehensive integration tests pass
+- [ ] Documentation updated for content creators
+- [ ] Code reviewed and approved
+- [ ] Phase 2 complete, ready for Phase 3
+- All Phase 1 iterations (4-8)
+- All previous Phase 2 iterations (9-14)
+- Performance requirements from hardware validation
+- **Risk:** Performance issues with all systems active
+- **Risk:** Integration conflicts between systems
+- **Risk:** Scope creep on "polish"
 
-### Iteration 15: Time Management System - Full Implementation
+### Iteration 16: Advanced Visual Systems
 
 **Goals:**
-- Build upon the MVP foundation to create a sophisticated temporal framework
-- Implement deadline management and scheduling conflict systems
-- Create advanced fatigue mechanics that affect gameplay
-- Add time-based narrative branching and consequences
-- Develop temporal reputation system affecting NPC relationships
-- Enable multiple time management strategies for different playstyles
-- **B1:** Create escalating time pressure that drives narrative tension
-- **B2:** Support multiple playstyles through flexible time management
-- **B3:** Make time choices create unique narrative experiences
-- **U1:** As a player, I want to juggle multiple deadlines and priorities
-- **U2:** As a player, I want my punctuality to affect relationships
-- **U3:** As a player, I want to feel the effects of exhaustion
-- **T1:** Implement efficient deadline tracking and conflict detection
-- **T2:** Create flexible narrative branching based on temporal choices
-- [ ] Task 1: Implement DeadlineManager with conflict detection
-- [ ] Task 2: Create complex fatigue system with gameplay effects
-- [ ] Task 3: Implement temporal narrative branching system
-- [ ] Task 4: Create scheduling conflict resolution mechanics
-- [ ] Task 5: Develop temporal reputation tracking
-- [ ] Task 6: Implement advanced time UI with planning tools
-- [ ] Task 7: Create predictive scheduling assistant
-- [ ] Task 8: Add dynamic time costs based on context
-- [ ] Task 9: Implement time-gated content system
-- [ ] Task 10: Create fatigue mitigation mechanics (stimulants, power naps)
-- [ ] Task 11: Add hallucination effects for extreme exhaustion
-- [ ] Task 12: Implement cascade analysis for missed deadlines
-- [ ] Task 13: Create time-based dialog variations
-- [ ] Task 14: Add deadline warning and notification system
-- [ ] Task 15: Implement save system extensions for complex time state
-- [ ] Task 16: Create difficulty scaling for time pressure
-- [ ] Task 17: Add time manipulation debug tools
-- [ ] Task 18: Implement performance optimizations for time calculations
-- [ ] Task 19: Create comprehensive time analytics system
-- [ ] Task 20: Balance testing and tuning framework
-- Multiple conflicting deadlines can be tracked simultaneously
-- Fatigue accumulation feels realistic and impacts gameplay
-- Temporal narrative branches activate correctly based on conditions
-- Scheduling conflicts present meaningful choices to players
-- NPCs react appropriately to temporal reputation
-- UI clearly communicates all time pressures and options
-- Performance maintains 60 FPS with complex time calculations
-- Save/load preserves all temporal state correctly
-- Difficulty scaling provides appropriate challenge progression
-- Debug tools allow rapid testing of time scenarios
-- Start date: 2026-01-05
-- Target completion: 2026-01-26
-- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- Iteration 10 (Game Progression and Multiple Endings)
-- Iteration 14 (Living World Event System - Full Implementation)
-- Time Management System Full Design: docs/design/time_management_system_full.md
-- DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
-- FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
-- TemporalNarrativeManager: src/core/systems/temporal_narrative_manager.gd (to be created)
-- ScheduleConflictManager: src/core/systems/schedule_conflict_manager.gd (to be created)
-- TemporalReputation: src/core/systems/temporal_reputation.gd (to be created)
-- AdvancedTimeDisplay: src/ui/time_display/advanced_time_display.gd (to be created)
+- Implement sprite perspective scaling for depth perception
+- Create foreground occlusion system for layered environments
+- Add holographic and heat distortion shader effects
+- Implement CRT screen effects for terminals
+- Polish animation systems for smooth movement
+- Create atmospheric visual effects
+- Visual quality that stands out in the adventure game market
+- Performance-efficient visual effects
+- Consistent art style across all visual systems
+- Support for multiple display resolutions
+- Characters scale naturally with distance
+- Foreground objects create believable depth
+- Visual effects enhance sci-fi atmosphere
+- Smooth, polished animations
+- Clear visual feedback for interactions
+- Efficient sprite scaling algorithms
+- Layered rendering system for occlusion
+- Optimized shader implementation
+- Animation state machine polish
+- Resolution-independent rendering
+- [ ] Smooth scaling based on Y-position
+- [ ] Configurable scaling curves per scene
+- [ ] Proper sprite sorting for depth
+- [ ] Integration with movement system
+- [ ] Performance optimized for multiple sprites
+- Player controller (Iteration 2)
+- NPC system (Iteration 2)
+- District system (Iteration 8)
+- [ ] Dynamic occlusion based on Y-position
+- [ ] Smooth transitions at occlusion boundaries
+- [ ] Support for complex occlusion shapes
+- [ ] Editor tools for occlusion setup
+- [ ] Minimal performance impact
+- Sprite scaling system (this iteration)
+- District system (Iteration 8)
+- Camera system (Iteration 1)
 
 **Key Requirements:**
-- **B1:** Create escalating time pressure that drives narrative tension
-- **B2:** Support multiple playstyles through flexible time management
-- **U1:** As a player, I want to juggle multiple deadlines and priorities
-- **U2:** As a player, I want my punctuality to affect relationships
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement DeadlineManager with conflict detection | Pending | - |
-| Create complex fatigue system with gameplay effects | Pending | - |
-| Implement temporal narrative branching system | Pending | - |
-| Create scheduling conflict resolution mechanics | Pending | - |
-| Develop temporal reputation tracking | Pending | - |
-| Implement advanced time UI with planning tools | Pending | - |
-| Create predictive scheduling assistant | Pending | - |
-| Add dynamic time costs based on context | Pending | - |
-| Implement time-gated content system | Pending | - |
-| Create fatigue mitigation mechanics (stimulants, power naps) | Pending | - |
-| Add hallucination effects for extreme exhaustion | Pending | - |
-| Implement cascade analysis for missed deadlines | Pending | - |
-| Create time-based dialog variations | Pending | - |
-| Add deadline warning and notification system | Pending | - |
-| Implement save system extensions for complex time state | Pending | - |
-| Create difficulty scaling for time pressure | Pending | - |
-| Add time manipulation debug tools | Pending | - |
-| Implement performance optimizations for time calculations | Pending | - |
-| Create comprehensive time analytics system | Pending | - |
-| Balance testing and tuning framework | Pending | - |
 
 **Testing Criteria:**
-- Multiple conflicting deadlines can be tracked simultaneously
-- Fatigue accumulation feels realistic and impacts gameplay
-- Temporal narrative branches activate correctly based on conditions
-- Scheduling conflicts present meaningful choices to players
-- NPCs react appropriately to temporal reputation
-- UI clearly communicates all time pressures and options
-- Performance maintains 60 FPS with complex time calculations
-- Save/load preserves all temporal state correctly
-- Difficulty scaling provides appropriate challenge progression
-- Debug tools allow rapid testing of time scenarios
-- Start date: 2026-01-05
-- Target completion: 2026-01-26
-- Iteration 5 (Game Districts and Time Management - includes Time Management MVP)
-- Iteration 8 (Investigation Mechanics)
-- Iteration 9 (Coalition Building)
-- Iteration 10 (Game Progression and Multiple Endings)
-- Iteration 14 (Living World Event System - Full Implementation)
-- Time Management System Full Design: docs/design/time_management_system_full.md
-- DeadlineManager: src/core/systems/deadline_manager.gd (to be created)
-- FatigueSystem: src/core/systems/fatigue_system.gd (to be created)
-- TemporalNarrativeManager: src/core/systems/temporal_narrative_manager.gd (to be created)
-- ScheduleConflictManager: src/core/systems/schedule_conflict_manager.gd (to be created)
-- TemporalReputation: src/core/systems/temporal_reputation.gd (to be created)
-- AdvancedTimeDisplay: src/ui/time_display/advanced_time_display.gd (to be created)
+- Sprite scaling creates convincing depth illusion
+- Occlusion system handles all edge cases smoothly
+- Shader effects render correctly on target hardware
+- Animation transitions are seamless
+- Visual effects maintain 60 FPS performance
+- All systems integrate without visual artifacts
+- Effects scale properly at different resolutions
+- **Estimated Duration:** 3-4 weeks
+- **Total Hours:** 86
+- **Critical Path:** Sprite scaling and occlusion are foundational
+- [ ] All visual systems implemented and polished
+- [ ] Performance targets maintained (60 FPS)
+- [ ] Visual effects enhance rather than distract
+- [ ] Comprehensive visual testing completed
+- [ ] Shader fallbacks for older hardware
+- [ ] Documentation for content creators
+- [ ] Code reviewed and approved
+- Core game systems (Iterations 1-3)
+- District system (Iteration 8)
+- Performance baseline (Iteration 15)
+- **Risk:** Shader compatibility issues
+- **Risk:** Performance impact of visual effects
+- **Risk:** Visual style inconsistency
+
+### Iteration 17: Core Content Foundation
+
+**Goals:**
+- Implement all 7 district backgrounds with navigation
+- Create 50 core NPCs essential for main story
+- Implement complete main story quest line
+- Set up district transitions via tram system
+- Configure all diegetic audio sources
+- Enable full game playthrough
+- Playable game from start to any ending
+- All locations accessible and functional
+- Core cast brings story to life
+- Main narrative arc compelling and complete
+- Explore all districts of the space station
+- Meet essential characters for the story
+- Complete main quest line with choices
+- Experience different endings based on decisions
+- Navigate seamlessly between areas
+- All districts properly configured
+- NPCs integrated with all systems
+- Quest progression saves correctly
+- Performance stable with core content
+- Tram system fully functional
+- [ ] Spaceport - import/export hub atmosphere
+- [ ] Security - authoritarian control center
+- [ ] Medical - sterile hospital environment
+- [ ] Mall - bustling commerce center
+- [ ] Trading Floor - corporate financial hub
+- [ ] Barracks - residential living quarters
+- [ ] Engineering - industrial maintenance area
+- District system (Iteration 8)
+- Visual systems (Iteration 16)
+- [ ] Walkable polygons for all districts
+- [ ] Proper collision boundaries
+- [ ] Smooth pathfinding
+- [ ] District entry/exit points
+- [ ] Vertical depth layers configured
+- Navigation system (Iteration 1)
+- Coordinate system (Iteration 1)
+- [ ] 5-10 interactive objects per district
+- [ ] Consistent interaction patterns
+- [ ] Environmental storytelling
+- [ ] Proper verb responses
+- [ ] Save state persistence
+- Interactive object system (Iteration 2)
+- Verb UI system (Iteration 6)
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- All districts accessible and explorable
+- Core NPCs have functional interactions
+- Main story completable without blockers
+- Each ending achievable through different paths
+- Performance maintains 60 FPS baseline
+- Save/load works at all story points
+- No critical bugs in core content
+- **Estimated Duration:** 4-6 weeks
+- **Total Hours:** 148
+- **Critical Path:** Districts must be complete before NPCs can be placed
+- [ ] All 7 districts implemented and polished
+- [ ] 50 core NPCs placed and functional
+- [ ] Main story playable start to finish
+- [ ] All endings achievable
+- [ ] Audio atmosphere complete
+- [ ] Tram travel working
+- [ ] Full playthrough tested
+- All Phase 1 systems (Iterations 4-8)
+- All Phase 2 systems (Iterations 9-15)
+- Visual polish systems (Iteration 16)
+- **Risk:** District implementation reveals system gaps
+- **Risk:** NPC count affects performance
+- **Risk:** Quest bugs block progression
+
+### Iteration 18: District Population Part 1
+
+**Goals:**
+- Implement 85 NPCs across four districts
+- Create job quest systems for each district
+- Add district-specific random events
+- Establish ambient crowds and activity
+- Complete environmental storytelling
+- Polish district atmospheres
+- Each district feels unique and purposeful
+- NPCs create believable communities
+- Job systems provide gameplay variety
+- Events create dynamic experiences
+- Meet diverse, memorable characters
+- Find meaningful work in each district
+- Experience unexpected events
+- Feel districts are alive and active
+- Discover environmental stories
+- Performance with 85+ active NPCs
+- Event system handles district events
+- Job system integrates smoothly
+- Crowd system for ambient NPCs
+- Memory management for assets
+- [ ] 20 unique NPCs with personalities
+- [ ] Loading dock job quests (3)
+- [ ] Customs inspection quests (2)
+- [ ] Ship arrival/departure events
+- [ ] Ambient traveler crowds
+- [ ] Environmental storytelling elements
+- Core NPCs (Iteration 17)
+- Job system (Iteration 11)
+- Event system (Iteration 15)
+- [ ] 20 NPCs including prisoner rotation
+- [ ] Investigation assistance quests (3)
+- [ ] Prisoner interview quests (2)
+- [ ] Crime/security breach events
+- [ ] Brig population system
+- [ ] Evidence room interactions
+- Investigation system (Iteration 15)
+- Access control (Iteration 9)
+- Crime events (Iteration 11)
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- All 85 NPCs function without conflicts
+- Job quests complete properly
+- Events trigger appropriately
+- Performance remains stable
+- Districts feel uniquely populated
+- Crowd systems don't impact gameplay
+- Environmental stories discoverable
+- **Estimated Duration:** 5-6 weeks
+- **Total Hours:** 120
+- **Critical Path:** NPCs must be created before quests can be assigned
+- [ ] 85 NPCs implemented across 4 districts
+- [ ] All job quests functional
+- [ ] District events triggering properly
+- [ ] Ambient crowds working
+- [ ] Environmental stories placed
+- [ ] Performance optimized
+- [ ] Districts feel alive and unique
+- Core content foundation (Iteration 17)
+- All Phase 2 systems
+- Performance baseline established
+- **Risk:** NPC count impacts performance
+- **Risk:** Quest complexity causes bugs
+- **Risk:** District identity not distinct
+
+### Iteration 19: District Population Part 2
+
+**Goals:**
+- Implement 65 NPCs across three districts
+- Create specialized gameplay for each district
+- Add unique district features and mechanics
+- Complete residential and technical areas
+- Integrate trading minigame
+- Finalize restricted area access
+- Each district offers unique gameplay
+- Trading minigame adds strategic depth
+- Player housing creates personal connection
+- Engineering provides end-game challenges
+- Experience financial trading gameplay
+- Customize personal living space
+- Build relationships with neighbors
+- Access restricted technical areas
+- Solve engineering puzzles
+- Trading minigame integration
+- Housing customization system
+- Neighbor interaction mechanics
+- Security clearance progression
+- Technical puzzle framework
+- [ ] 25 NPCs with financial roles
+- [ ] Trading desk job quests (3)
+- [ ] Corporate espionage quests (2)
+- [ ] Market event system
+- [ ] Executive interactions
+- [ ] Trading floor ambience
+- Economy system (Iteration 7)
+- Trading minigame (Iteration 11)
+- Corporate hierarchy (Iteration 10)
+- [ ] Minigame accessible from terminals
+- [ ] Market influenced by events
+- [ ] NPC traders participate
+- [ ] Profit/loss affects economy
+- [ ] Insider information quests
+- [ ] Achievement tracking
+- Trading minigame design (Iteration 11)
+- Economy system (Iteration 7)
+- Terminal UI (Iteration 3)
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- All 65 NPCs function properly
+- Trading minigame fully integrated
+- Player housing saves correctly
+- Restricted areas properly gated
+- Performance with 150 total NPCs
+- All districts feel complete
+- Unique mechanics work smoothly
+- **Estimated Duration:** 5-6 weeks
+- **Total Hours:** 126
+- **Critical Path:** District population must complete before integration testing
+- [ ] All 7 districts fully populated
+- [ ] 150 total NPCs implemented
+- [ ] Trading minigame integrated
+- [ ] Player housing functional
+- [ ] Restricted areas working
+- [ ] All job quests complete
+- [ ] Full integration tested
+- District Population Part 1 (Iteration 18)
+- All Phase 2 systems complete
+- Core content foundation (Iteration 17)
+- **Risk:** 150 NPCs impact performance severely
+- **Risk:** Trading minigame too complex
+- **Risk:** Housing system scope creep
 
 ### Iteration 1: Basic Environment and Navigation
 
@@ -775,6 +860,347 @@ This file tracks the progress of all iterations for the project.
 - Task 6: [src/core/player_controller.gd](src/core/player_controller.gd)
 - Task 7: [src/core/coordinate_system.gd](src/core/coordinate_system.gd)
 - Task 4: [src/core/districts/walkable_area.gd](src/core/districts/walkable_area.gd)
+
+### Iteration 20: Quest Implementation
+
+**Goals:**
+- Implement ~25 job quests across all districts
+- Create 10-15 coalition resistance missions
+- Design 5-8 investigation mystery chains
+- Add 15-20 personal side stories
+- Establish quest interconnections
+- Enable multiple solution paths
+- Rich quest content for 40+ hours gameplay
+- High replayability through branching
+- Meaningful character development
+- Reward player exploration
+- Always have something meaningful to do
+- Choices affect quest outcomes
+- Learn about characters through quests
+- Feel progression through quest chains
+- Discover secrets through investigation
+- Quest state management at scale
+- Complex prerequisite tracking
+- Dynamic quest generation
+- Performance with many active quests
+- Save system handles quest states
+- [ ] 25 total job quests implemented
+- [ ] Daily rotation system working
+- [ ] Performance affects rewards
+- [ ] Job-specific challenges
+- [ ] Coworker relationships impact
+- [ ] Economic progression
+- Job system (Iteration 11)
+- Economy system (Iteration 7)
+- Time management (Iteration 5)
+- [ ] Recruitment missions (5)
+- [ ] Sabotage operations (3)
+- [ ] Information gathering (3)
+- [ ] Safe house establishment (2)
+- [ ] Resource acquisition (2)
+- [ ] Risk/reward balance
+- Coalition system (Iteration 12)
+- Suspicion system (Iteration 9)
+- Faction mechanics (Iteration 12)
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- All quests completable without bugs
+- Quest chains progress logically
+- Interconnections work properly
+- Performance with many active quests
+- Save/load preserves quest states
+- Rewards balance properly
+- Player always has available quests
+- **Estimated Duration:** 4-6 weeks
+- **Total Hours:** 128
+- **Critical Path:** Quest interconnections affect all content
+- [ ] 65+ quests fully implemented
+- [ ] All quest types represented
+- [ ] Interconnection system working
+- [ ] Dynamic elements functional
+- [ ] Comprehensive testing complete
+- [ ] Quest log UI supports all quests
+- [ ] Achievement tracking integrated
+- All districts populated (Iterations 18-19)
+- Quest system infrastructure (Iteration 11)
+- All gameplay systems operational
+- **Risk:** Quest bugs block progression
+- **Risk:** Too many quests overwhelm players
+- **Risk:** Interconnections create deadlocks
+
+### Iteration 21: Dialog and Narrative
+
+**Goals:**
+- Write ~10,000 lines of character dialog
+- Create gender-specific dialog variations
+- Implement trust and suspicion responses
+- Add environmental storytelling throughout
+- Create dynamic time-based dialog
+- Polish all narrative elements
+- Professional quality writing throughout
+- Consistent character voices
+- Engaging noir atmosphere
+- Efficient localization support
+- Memorable character interactions
+- Dialog reflects my choices
+- Environmental details reward exploration
+- Conversations feel natural
+- Story unfolds organically
+- Dialog system handles variations
+- Performance with large text database
+- Dynamic text generation
+- Localization framework ready
+- Text search capabilities
+- [ ] 150 NPC base dialog trees
+- [ ] 50-100 lines per character
+- [ ] Personality consistency
+- [ ] Appropriate vocabulary
+- [ ] Emotional range
+- [ ] Natural flow
+- Dialog system (Iteration 6)
+- All NPCs created (Iterations 18-19)
+- Character personalities defined
+- [ ] Pronoun variations
+- [ ] Gender-specific reactions
+- [ ] Romance dialog branches
+- [ ] Professional addresses
+- [ ] Natural integration
+- [ ] Respectful handling
+- Gender selection (Iteration 6)
+- Dialog system (Iteration 6)
+- Relationship tracking (Iteration 10)
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- All dialog trees function correctly
+- Variations trigger appropriately
+- No missing text or placeholders
+- Character voices consistent
+- Trust/suspicion mechanics work
+- Environmental text accessible
+- Performance acceptable
+- **Estimated Duration:** 4-5 weeks
+- **Total Hours:** 148
+- **Critical Path:** Dialog must be complete for final testing
+- [ ] 10,000+ lines of dialog written
+- [ ] All NPCs have complete conversations
+- [ ] Gender variations implemented
+- [ ] Trust/suspicion branches working
+- [ ] Environmental storytelling complete
+- [ ] Dynamic variations functional
+- [ ] Full narrative polish complete
+- All NPCs implemented (Iterations 18-19)
+- All quests designed (Iteration 20)
+- Dialog system infrastructure (Iteration 6)
+- Character personality definitions
+- **Risk:** Dialog inconsistency across writers
+- **Risk:** Text database performance
+- **Risk:** Localization complexity
+
+### Iteration 22: Polish and Integration
+
+**Goals:**
+- Complete audio implementation and polish
+- Refine all visual elements
+- Balance economy and difficulty
+- Fix all remaining bugs
+- Optimize final performance
+- Achieve release quality
+- Release-quality polish throughout
+- Stable performance on all platforms
+- Balanced, fair gameplay
+- Professional presentation
+- Smooth, bug-free experience
+- Balanced challenge progression
+- Atmospheric audio throughout
+- Visual consistency
+- Intuitive interactions
+- 60 FPS performance maintained
+- Memory usage optimized
+- Load times minimized
+- Save system reliability
+- Platform compatibility
+- [ ] 7 district ambient soundscapes
+- [ ] UI audio feedback complete
+- [ ] Event audio stingers
+- [ ] Diegetic music placement
+- [ ] Volume balancing
+- [ ] 3D spatial audio
+- Audio system (Iteration 13)
+- All content complete
+- District implementation (Iterations 17-19)
+- [ ] Animation timing refined
+- [ ] Particle effects polished
+- [ ] UI element consistency
+- [ ] Color palette adherence
+- [ ] Visual effects timing
+- [ ] Screen transitions smooth
+- Visual systems (Iteration 16)
+- Animation system (Iteration 3)
+- UI implementation (Iteration 3)
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- Full playthrough without bugs
+- Performance targets achieved
+- Balance feels appropriate
+- Audio/visual polish complete
+- All platforms stable
+- Localization ready
+- Release criteria met
+- **Estimated Duration:** 3-4 weeks
+- **Total Hours:** 132
+- **Critical Path:** Bug fixes must complete before release
+- [ ] All audio implemented and balanced
+- [ ] Visual polish complete
+- [ ] Economy and difficulty balanced
+- [ ] All known bugs fixed
+- [ ] Performance optimized
+- [ ] Localization framework ready
+- [ ] Release builds prepared
+- [ ] Game ready for launch
+- All content complete (Iterations 17-21)
+- All systems implemented (Iterations 1-16)
+- Platform testing complete
+- QA feedback incorporated
+- **Risk:** Last-minute critical bugs
+- **Risk:** Performance issues on min-spec
+- **Risk:** Balance issues discovered late
+
+### Iteration 23: Post-Launch Support and Expansion
+
+**Goals:**
+- Establish post-launch support pipeline
+- Create community engagement tools
+- Plan expansion content framework
+- Implement analytics and telemetry
+- Design achievement extensions
+- Prepare modding support structure
+- Maintain player engagement post-launch
+- Support community growth
+- Enable future content sales
+- Gather player behavior data
+- Quick bug fixes and updates
+- New content to explore
+- Community features
+- Achievement hunting support
+- Potential modding capabilities
+- Patch deployment system
+- Analytics integration
+- Community tool APIs
+- Expansion framework
+- Mod support architecture
+- [ ] Patch deployment pipeline
+- [ ] Version checking system
+- [ ] Incremental update support
+- [ ] Rollback capabilities
+- [ ] Update notifications
+- [ ] Changelog delivery
+- Platform requirements
+- Server infrastructure
+- Build system (Iteration 1)
+- [ ] Gameplay metrics tracking
+- [ ] Performance data collection
+- [ ] Choice statistics
+- [ ] Progression analytics
+- [ ] Privacy compliance
+- [ ] Data visualization
+- Privacy policy
+- Server infrastructure
+- GDPR compliance
+
+**Key Requirements:**
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+
+**Testing Criteria:**
+- Update system works reliably
+- Analytics respect privacy settings
+- Community features integrate smoothly
+- Expansion framework doesn't break base game
+- Mod support maintains security
+- Documentation is comprehensive
+- **Estimated Duration:** 4-5 weeks
+- **Total Hours:** 128
+- **Note:** Can be developed in parallel with final polish
+- [ ] Live service pipeline operational
+- [ ] Analytics gathering useful data
+- [ ] Community features integrated
+- [ ] Expansion framework tested
+- [ ] Achievement extensions designed
+- [ ] Modding foundation secure
+- [ ] Documentation complete
+- [ ] Post-launch plan finalized
+- Game release (Iteration 22)
+- Platform infrastructure
+- Community management team
+- Server resources
+- **Risk:** Security vulnerabilities in mod support
+- **Risk:** Analytics privacy concerns
+- **Risk:** Community toxicity
+
+### Iteration 24: Hardware Validation and Distribution
+
+**Goals:**
+- Goal 1
+- Goal 2
+- Goal 3
+- **B1:** Business requirement placeholder
+- **U1:** As a player, I want to do something
+- **T1:** Technical requirement placeholder
+- [ ] Task 1: Description of task 1
+- [ ] Task 2: Description of task 2
+- [ ] Task 3: Description of task 3
+- Criterion 1
+- Criterion 2
+- Criterion 3
+- Start date: 2025-05-27
+- Target completion: 2025-06-10
+- List any dependencies here
+- No links yet
+
+**Key Requirements:**
+- **B1:** Business requirement placeholder
+- **U1:** As a player, I want to do something
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Description of task 1 | Pending | - |
+| Description of task 2 | Pending | - |
+| Description of task 3 | Pending | - |
+
+**Testing Criteria:**
+- Criterion 1
+- Criterion 2
+- Criterion 3
+- Start date: 2025-05-27
+- Target completion: 2025-06-10
+- List any dependencies here
+- No links yet
 
 ### Iteration 2: NPC Framework and Suspicion System
 
@@ -984,589 +1410,530 @@ This file tracks the progress of all iterations for the project.
 - docs/design/sprite_perspective_scaling_plan.md
 - docs/design/foreground_occlusion_mvp_plan.md
 
-### Iteration 4: Dialog and Verb UI System Refactoring
+### Iteration 4: Serialization Foundation
 
 **Goals:**
-- Refactor dialog system to comply with architectural principles
-- Refactor verb UI system to comply with architectural principles
-- Implement service-based architecture with dependency injection
-- Establish comprehensive unit testing for both systems
-- Maintain all existing functionality while improving maintainability
-- Create extensible foundation for future enhancements
-- **B1:** Eliminate technical debt in core interaction systems
-- **B2:** Establish sustainable development practices
-- **B3:** Maintain player experience continuity
-- **U1:** As a player, I want dialog interactions to work reliably and smoothly
-- **U2:** As a player, I want verb-based interactions to be responsive and intuitive
-- **U3:** As a player, I want the game to be stable and error-free
-- **T1:** Eliminate architectural violations in dialog and verb UI systems
-- **T2:** Implement service-based architecture with dependency injection
-- **T3:** Establish comprehensive unit testing infrastructure
-- [ ] Task 1: Implement dialog service interfaces and dependency injection
-- [ ] Task 2: Create dialog data abstraction layer (DialogData, DialogNode classes)
-- [ ] Task 3: Refactor dialog processing with validation pipeline
-- [ ] Task 4: Implement dialog UI factory and controller separation
-- [ ] Task 5: Establish dialog signal-based event system
-- [ ] Task 6: Create comprehensive dialog unit tests and mocks
-- [ ] Task 7: Implement progressive dialog system migration with adapters
-- [ ] Task 8: Implement verb service interfaces and configuration system
-- [ ] Task 9: Create interaction processing pipeline (validators/processors)
-- [ ] Task 10: Refactor verb UI with factory pattern and controller separation
-- [ ] Task 11: Establish verb interaction event bus and signal architecture
-- [ ] Task 12: Create comprehensive verb interaction unit tests and mocks
-- [ ] Task 13: Implement progressive verb system migration with adapters
-- [ ] Task 14: Integrate both refactored systems with ServiceRegistry
-- [ ] Task 15: Perform comprehensive integration testing
-- [ ] Task 16: Validate 100% functional parity with original systems
-- [ ] Task 17: Update system documentation for both refactored systems
-- All existing dialog functionality works identically to pre-refactoring behavior
-- All verb+object interactions produce identical responses to original system  
-- Dialog system achieves >90% unit test coverage with comprehensive mocks
-- Verb UI system achieves >90% unit test coverage with comprehensive mocks
-- Zero scene tree dependencies in core dialog and verb processing logic
-- Service-based architecture enables isolated component testing
-- Signal-based communication eliminates tight coupling between systems
-- Error handling provides structured context for all failure scenarios
-- Performance matches or exceeds original system response times
-- Start date: 2025-05-29
-- Target completion: 2025-06-12
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- [Dialog System Refactoring Plan](docs/design/dialog_system_refactoring_plan.md)
-- [Verb UI System Refactoring Plan](docs/design/verb_ui_system_refactoring_plan.md)
-- [Project Architecture Reference](docs/reference/architecture.md)
+- Implement modular serialization architecture
+- Create self-registering serialization system for all game components
+- Establish save/load testing framework
+- Document serialization patterns for future systems
+- Enable compressed save file format
+- **B1:** Create a sense of progression and urgency through time management
+- **B2:** Expand game world with multiple distinct areas
+- **U1:** As a player, I want to manage my time to prioritize activities
+- **U2:** As a player, I want to explore distinct areas of the station
+- **T1:** Implement modular serialization architecture
+- **T2:** Use Godot's native serialization capabilities efficiently
+- **T3:** Implement save file compression
+- [ ] Task 1: Create SerializationManager singleton
+- [ ] Task 2: Implement ISerializable interface
+- [ ] Task 3: Create self-registration system for serializable components
+- [ ] Task 4: Implement save data versioning system
+- [ ] Task 5: Create compressed save file format
+- [ ] Task 6: Implement player state serialization
+- [ ] Task 7: Implement NPC state serialization
+- [ ] Task 8: Implement district state serialization
+- [ ] Task 9: Implement game manager state serialization
+- [ ] Task 10: Create serialization for time system (prep for I5)
+- [ ] Task 11: Create unit tests for serialization system
+- [ ] Task 12: Implement save/load integration tests
+- [ ] Task 13: Create save file validation tools
+- [ ] Task 14: Implement backwards compatibility tests
+- [ ] Task 15: Document serialization architecture
+- [ ] Task 16: Create serialization implementation guide
+- [ ] Task 17: Document save file format specification
+- **⏳ PENDING** (05/26/25)
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+- Use Godot's autoload system for singleton
+- Implement using GDScript for consistency
+- Store saves in user://saves/ directory
+- Use .save extension for save files
 
 **Key Requirements:**
-- **B1:** Eliminate technical debt in core interaction systems
-- **B2:** Establish sustainable development practices
-- **U1:** As a player, I want dialog interactions to work reliably and smoothly
-- **U2:** As a player, I want verb-based interactions to be responsive and intuitive
+- **B1:** Create a sense of progression and urgency through time management
+- **B2:** Expand game world with multiple distinct areas
+- **U1:** As a player, I want to manage my time to prioritize activities
+- **U2:** As a player, I want to explore distinct areas of the station
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement dialog service interfaces and dependency injection (As a developer, I want dialog services to use dependency injection instead of scene tree traversal, so that I can test dialog logic in isolation and eliminate tight coupling between systems.) | Pending | - |
-| Create dialog data abstraction layer (DialogData, DialogNode classes) (As a developer, I want dialog data separated from UI and processing logic, so that I can modify dialog content without affecting system behavior and test dialog logic with predictable data.) | Pending | - |
-| Refactor dialog processing with validation pipeline (As a developer, I want dialog processing to use a validation pipeline, so that I can catch errors early with structured context and extend validation rules without modifying core logic.) | Pending | - |
-| Implement dialog UI factory and controller separation (As a developer, I want dialog UI creation separated from business logic, so that I can test UI behavior independently and modify dialog presentation without affecting core dialog processing.) | Pending | - |
-| Establish dialog signal-based event system (As a developer, I want dialog system communication to use signals instead of direct method calls, so that I can decouple dialog components and enable extensible event handling.) | Pending | - |
-| Create comprehensive dialog unit tests and mocks (As a developer, I want comprehensive unit tests for the dialog system, so that I can prevent regressions and validate behavior changes during refactoring.) | Pending | - |
-| Implement progressive dialog system migration with adapters (As a developer, I want to migrate the dialog system gradually without breaking existing functionality, so that I can refactor safely while maintaining system stability.) | Pending | - |
-| Implement verb service interfaces and configuration system (As a developer, I want verb definitions to be configurable and verb processing to use service interfaces, so that I can add new verbs easily and test interaction logic without full UI dependencies.) | Pending | - |
-| Create interaction processing pipeline (validators/processors) (As a developer, I want verb interactions to use a validation and processing pipeline, so that I can add new interaction rules without modifying core logic and handle edge cases consistently.) | Pending | - |
-| Refactor verb UI with factory pattern and controller separation (As a developer, I want verb UI creation separated from interaction logic, so that I can test UI behavior independently and support different UI themes without affecting core interaction processing.) | Pending | - |
-| Establish verb interaction event bus and signal architecture (As a developer, I want verb system communication to use signals instead of direct method calls, so that I can decouple interaction components and enable extensible event handling for interactions.) | Pending | - |
-| Create comprehensive verb interaction unit tests and mocks (As a developer, I want comprehensive unit tests for the verb interaction system, so that I can prevent regressions and validate interaction behavior during refactoring.) | Pending | - |
-| Implement progressive verb system migration with adapters (As a developer, I want to migrate the verb system gradually without breaking existing interactions, so that I can refactor safely while maintaining player experience continuity.) | Pending | - |
-| Integrate both refactored systems with ServiceRegistry (As a developer, I want both dialog and verb systems to integrate cleanly with the ServiceRegistry, so that all game systems use consistent dependency injection patterns and can be tested in isolation.) | Pending | - |
-| Perform comprehensive integration testing (As a developer, I want comprehensive integration testing for both refactored systems, so that I can verify they work together correctly and catch any integration issues before deployment.) | Pending | - |
-| Validate 100% functional parity with original systems (As a player, I want all dialog and verb interactions to work exactly as they did before the refactoring, so that my gameplay experience is unaffected by internal system improvements.) | Pending | - |
-| Update system documentation for both refactored systems (As a developer, I want updated documentation for both refactored systems, so that I can understand the new architecture and maintain the systems effectively in the future.) | Pending | - |
+| Create SerializationManager singleton | Pending | - |
+| Implement ISerializable interface | Pending | - |
+| Create self-registration system for serializable components | Pending | - |
+| Implement save data versioning system | Pending | - |
+| Create compressed save file format | Pending | - |
+| Implement player state serialization | Pending | - |
+| Implement NPC state serialization | Pending | - |
+| Implement district state serialization | Pending | - |
+| Implement game manager state serialization | Pending | - |
+| Create serialization for time system (prep for I5) | Pending | - |
+| Create unit tests for serialization system | Pending | - |
+| Implement save/load integration tests | Pending | - |
+| Create save file validation tools | Pending | - |
+| Implement backwards compatibility tests | Pending | - |
+| Document serialization architecture | Pending | - |
+| Create serialization implementation guide | Pending | - |
+| Document save file format specification | Pending | - |
 
 **Testing Criteria:**
-- All existing dialog functionality works identically to pre-refactoring behavior
-- All verb+object interactions produce identical responses to original system  
-- Dialog system achieves >90% unit test coverage with comprehensive mocks
-- Verb UI system achieves >90% unit test coverage with comprehensive mocks
-- Zero scene tree dependencies in core dialog and verb processing logic
-- Service-based architecture enables isolated component testing
-- Signal-based communication eliminates tight coupling between systems
-- Error handling provides structured context for all failure scenarios
-- Performance matches or exceeds original system response times
-- Start date: 2025-05-29
-- Target completion: 2025-06-12
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- [Dialog System Refactoring Plan](docs/design/dialog_system_refactoring_plan.md)
-- [Verb UI System Refactoring Plan](docs/design/verb_ui_system_refactoring_plan.md)
-- [Project Architecture Reference](docs/reference/architecture.md)
+- SerializationManager successfully saves and loads game state
+- All registered systems persist their data correctly
+- Save files are compressed and validate properly
+- Backwards compatibility is maintained
+- Performance targets are met (save <1s, load <2s)
+- Save system handles errors gracefully
+- Unit tests achieve >90% coverage
+- Start date: TBD
+- Target completion: 2 weeks from start
+- Critical for: Iteration 5 (Time System) and Iteration 7 (Save/Sleep)
+- Iteration 2: NPC Framework (need base classes to serialize)
+- Iteration 3: Navigation System (completed - provides stable systems to test with)
+- src/core/serialization/serialization_manager.gd (to be created)
+- src/core/serialization/iserializable.gd (to be created)
+- docs/design/modular_serialization_architecture.md
+- docs/design/serialization_system.md
+
+### Iteration 5: Time and Notification Systems
+
+**Goals:**
+- Implement Time Management System MVP
+- Create Prompt Notification System for all player communications
+- Build basic calendar/clock UI
+- Establish time-based event foundation
+- Integrate notifications across all existing systems
+- **B1:** Create a sense of progression and urgency through time management
+- **B2:** Establish consistent player communication patterns
+- **U1:** As a player, I want to see time passing in the game world
+- **U2:** As a player, I want clear notifications about important events
+- **U3:** As a player, I want to manage my time strategically
+- **T1:** Implement centralized time management system
+- **T2:** Create flexible notification queue system
+- [ ] Task 1: Create TimeManager singleton
+- [ ] Task 2: Implement game clock (hours, minutes)
+- [ ] Task 3: Implement calendar system (days, months, years)
+- [ ] Task 4: Create time advancement mechanics
+- [ ] Task 5: Implement action duration system
+- [ ] Task 6: Create time-based event scheduler
+- [ ] Task 7: Create PromptNotificationSystem singleton
+- [ ] Task 8: Implement notification queue and priority system
+- [ ] Task 9: Create notification UI component
+- [ ] Task 10: Implement notification categories and filtering
+- [ ] Task 11: Add notification sound support (prep for audio)
+- [ ] Task 12: Create clock UI display
+- [ ] Task 13: Create calendar UI display
+- [ ] Task 14: Implement time controls (pause, speed settings)
+- [ ] Task 15: Create notification display area
+- [ ] Task 16: Integrate time system with existing game flow
+- [ ] Task 17: Add notifications to existing systems
+- [ ] Task 18: Implement time serialization
+- [ ] Task 19: Create time-based debug tools
+- **⏳ PENDING** (05/26/25)
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+- Start date: Day 1, Month 1, Year 2157, 08:00
+- 24-hour days, 30-day months, 12-month years
+- Time advances in 5-minute increments minimum
+- Reference: docs/design/time_management_system_mvp.md
+
+**Key Requirements:**
+- **B1:** Create a sense of progression and urgency through time management
+- **B2:** Establish consistent player communication patterns
+- **U1:** As a player, I want to see time passing in the game world
+- **U2:** As a player, I want clear notifications about important events
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Create TimeManager singleton | Pending | - |
+| Implement game clock (hours, minutes) | Pending | - |
+| Implement calendar system (days, months, years) | Pending | - |
+| Create time advancement mechanics | Pending | - |
+| Implement action duration system | Pending | - |
+| Create time-based event scheduler | Pending | - |
+| Create PromptNotificationSystem singleton | Pending | - |
+| Implement notification queue and priority system | Pending | - |
+| Create notification UI component | Pending | - |
+| Implement notification categories and filtering | Pending | - |
+| Add notification sound support (prep for audio) | Pending | - |
+| Create clock UI display | Pending | - |
+| Create calendar UI display | Pending | - |
+| Implement time controls (pause, speed settings) | Pending | - |
+| Create notification display area | Pending | - |
+| Integrate time system with existing game flow | Pending | - |
+| Add notifications to existing systems | Pending | - |
+| Implement time serialization | Pending | - |
+| Create time-based debug tools | Pending | - |
+
+**Testing Criteria:**
+- Time advances correctly for all actions
+- Calendar system tracks days/months/years properly
+- Notifications appear for all major events
+- Time system saves and loads correctly
+- UI displays current time clearly
+- Performance remains smooth with time updates
+- Notification queue handles spam gracefully
+- Start date: After Iteration 4 completion
+- Target completion: 2 weeks
+- Critical for: Iteration 7 (Save/Sleep needs time)
+- Iteration 4: Serialization Foundation (time must be saved)
+- UI foundation from previous iterations
+- src/core/time/time_manager.gd (to be created)
+- src/core/notifications/prompt_notification_system.gd (to be created)
+- src/ui/time/clock_display.gd (to be created)
+- src/ui/time/calendar_display.gd (to be created)
+- docs/design/time_management_system_mvp.md
+- docs/design/prompt_notification_system_design.md
+- docs/design/time_calendar_display_ui_design.md
+
+### Iteration 6: Dialog and Character Systems
+
+**Goals:**
+- Implement Character Gender Selection system
+- Refactor Dialog System to be gender-aware
+- Implement Verb UI System for SCUMM-style interactions
+- Create Main Menu and Start Game UI
+- Integrate all systems with existing serialization and notification systems
+- **B1:** Create inclusive character creation experience
+- **B2:** Establish iconic SCUMM-style interaction system
+- **B3:** Ensure dialog system supports narrative complexity
+- **U1:** As a player, I want to choose my character's gender
+- **U2:** As a player, I want to interact using familiar adventure game verbs
+- **U3:** As a player, I want engaging conversations with NPCs
+- **T1:** Implement pronoun system throughout codebase
+- **T2:** Create extensible verb processing system
+- **T3:** Refactor dialog system for maintainability
+- [ ] Task 1: Create character creation UI screen
+- [ ] Task 2: Implement gender selection with preview
+- [ ] Task 3: Create pronoun system (he/she/they)
+- [ ] Task 4: Implement character data persistence
+- [ ] Task 5: Integrate with main menu flow
+- [ ] Task 6: Refactor dialog system architecture
+- [ ] Task 7: Implement gender-aware text substitution
+- [ ] Task 8: Create dialog tree editor improvements
+- [ ] Task 9: Add dialog history/log system
+- [ ] Task 10: Integrate with notification system
+- [ ] Task 11: Create verb UI panel with 9 verbs
+- [ ] Task 12: Implement verb highlighting on hover
+- [ ] Task 13: Create verb-object interaction system
+- [ ] Task 14: Add verb shortcuts/hotkeys
+- [ ] Task 15: Implement context-sensitive verb availability
+- [ ] Task 16: Create main menu scene and UI
+- [ ] Task 17: Implement new game flow
+- [ ] Task 18: Add continue game functionality
+- [ ] Task 19: Create options/settings menu
+- [ ] Task 20: Add credits screen
+
+**Key Requirements:**
+- **B1:** Create inclusive character creation experience
+- **B2:** Establish iconic SCUMM-style interaction system
+- **U1:** As a player, I want to choose my character's gender
+- **U2:** As a player, I want to interact using familiar adventure game verbs
+
+**Tasks:**
+
+| Task | Status | Linked Files |
+|------|--------|--------------|
+| Create character creation UI screen | Pending | - |
+| Implement gender selection with preview | Pending | - |
+| Create pronoun system (he/she/they) | Pending | - |
+| Implement character data persistence | Pending | - |
+| Integrate with main menu flow | Pending | - |
+| Refactor dialog system architecture | Pending | - |
+| Implement gender-aware text substitution | Pending | - |
+| Create dialog tree editor improvements | Pending | - |
+| Add dialog history/log system | Pending | - |
+| Integrate with notification system | Pending | - |
+| Create verb UI panel with 9 verbs | Pending | - |
+| Implement verb highlighting on hover | Pending | - |
+| Create verb-object interaction system | Pending | - |
+| Add verb shortcuts/hotkeys | Pending | - |
+| Implement context-sensitive verb availability | Pending | - |
+| Create main menu scene and UI | Pending | - |
+| Implement new game flow | Pending | - |
+| Add continue game functionality | Pending | - |
+| Create options/settings menu | Pending | - |
+| Add credits screen | Pending | - |
+
+**Testing Criteria:**
+- Character creation flow completes successfully
+- Gender selection persists across sessions
+- All dialog displays correct pronouns
+- Verb UI responds to all interactions
+- Dialog trees navigate without errors
+- Main menu functions properly
+- Save/load preserves character data
+- Performance remains smooth with UI updates
+- Start date: After Iteration 5 completion
+- Target completion: 2 weeks
+- Critical for: All future NPC interactions
+- Iteration 4: Serialization (for saving character data)
+- Iteration 5: Notification System (for dialog feedback)
+- Existing dialog and interaction systems
+- src/ui/character_creation/ (to be created)
+- src/core/dialog/dialog_manager.gd (to be refactored)
+- src/core/dialog/pronoun_manager.gd (to be created)
+- src/ui/verb_ui/verb_ui.gd (to be refactored)
+- src/ui/main_menu/ (to be created)
+- docs/design/character_gender_selection_system.md
 - docs/design/dialog_system_refactoring_plan.md
 - docs/design/verb_ui_system_refactoring_plan.md
-- **⏳ PENDING** (05/22/25)
-- **Linked to:** B1, B2, T1, T2
-- **Acceptance Criteria:**
-- Follow established ServiceRegistry pattern from camera system refactoring
-- Create dialog service abstractions that can be mocked for testing
-- Implement adapter pattern for gradual migration from legacy system
-- **Reference:** See Phase 1 of docs/design/dialog_system_refactoring_plan.md
-- **⏳ PENDING** (05/22/25)
-- **Linked to:** B1, T1, T3
-- **Acceptance Criteria:**
-- Extract dialog tree data structures from BaseNPC into dedicated classes
-- Create pure functions for text transformation and validation
-- Design for extensibility to support future dialog features
-- **⏳ PENDING** (05/22/25)
-- **Linked to:** B1, B2, T1, T3
-- **Acceptance Criteria:**
-- Follow validator pattern established in camera system architecture
-- Create priority-based validation pipeline for consistent error checking
-- Implement comprehensive error context for debugging support
+- docs/design/main_menu_start_game_ui_design.md
 
-### Iteration 5: Save System Foundation
+### Iteration 7: Economy and Save/Sleep
 
 **Goals:**
-- Implement single-slot save system inspired by Dead Rising
-- Create robust serialization architecture that can grow with the game
-- Build atomic save operations to prevent corruption
-- Develop save/load UI with clear progress indication
-- Establish version migration framework for future updates
-- Create modular serialization system to minimize future refactoring
-- **B1:** Implement save system that reinforces permanent consequences
-- **B2:** Ensure save system reliability and corruption resistance
-- **U1:** As a player, I want to save my progress when sleeping
-- **U2:** As a player, I want clear feedback during save/load operations
-- **T1:** Implement atomic file operations for save integrity
-- **T2:** Design extensible serialization architecture
-- [ ] Task 1: Implement core SaveManager with atomic file operations
-- [ ] Task 2: Create modular serialization architecture
-- [ ] Task 3: Implement player data serialization (position, stats, inventory)
-- [ ] Task 4: Implement NPC state serialization (simple version)
-- [ ] Task 5: Create world state serialization (districts, doors, etc.)
-- [ ] Task 6: Implement save/load UI flow with progress indication
-- [ ] Task 7: Create corruption detection and recovery system
-- [ ] Task 8: Implement version migration framework
-- [ ] Task 9: Add save file compression (Zstandard)
-- [ ] Task 10: Create save system unit tests
-- [ ] Task 11: Implement backup save management
-- [ ] Task 12: Add save analytics for debugging
-- Save/load cycle preserves all game state correctly
-- Save operations complete in <1 second for current game state
-- Load operations complete in <2 seconds
-- Corruption detection catches all test cases
-- Version migration handles all upgrade paths
-- UI provides clear feedback during operations
-- Atomic operations prevent partial saves
-- Backup system maintains previous save automatically
-- Start date: 2025-05-15
-- Target completion: 2025-05-22
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Serialization System Design: docs/design/serialization_system.md
-- SaveManager: src/core/systems/save_manager.gd (to be created)
-- PlayerSerializer: src/core/serializers/player_serializer.gd (to be created)
-- NPCSerializer: src/core/serializers/npc_serializer.gd (to be created)
-- WorldSerializer: src/core/serializers/world_serializer.gd (to be created)
-- SaveData: src/core/data/save_data.gd (to be created)
+- Implement basic Economy System with credits and transactions
+- Create unified Save/Sleep System (circular dependency - implement together)
+- Implement Morning Report Manager for overnight events
+- Create Barracks District with player quarters
+- Implement basic Inventory System
+- Design Inventory UI
+- **B1:** Create resource management gameplay
+- **B2:** Establish save system tied to gameplay mechanics
+- **B3:** Provide player home base
+- **U1:** As a player, I want to manage my credits carefully
+- **U2:** As a player, I want to save my progress when I sleep
+- **U3:** As a player, I want to know what happened overnight
+- **U4:** As a player, I want to store items safely
+- **T1:** Implement transaction system with validation
+- **T2:** Create atomic save/sleep operation
+- **T3:** Design expandable inventory system
+- [ ] Task 1: Create EconomyManager singleton
+- [ ] Task 2: Implement credit balance tracking
+- [ ] Task 3: Create transaction system with validation
+- [ ] Task 4: Add economy UI display
+- [ ] Task 5: Implement vendor/shop interface
+- [ ] Task 6: Create SaveManager (extends SerializationManager)
+- [ ] Task 7: Implement sleep locations and costs
+- [ ] Task 8: Create sleep UI with save confirmation
+- [ ] Task 9: Implement save file management (single slot)
+- [ ] Task 10: Add save failure handling
+- [ ] Task 11: Create MorningReportManager
+- [ ] Task 12: Implement event collection during sleep
+- [ ] Task 13: Design morning report UI
+- [ ] Task 14: Create report generation logic
+- [ ] Task 15: Add priority/severity system for events
+- [ ] Task 16: Create Barracks district scene
+- [ ] Task 17: Implement player quarters (Room 306)
+- [ ] Task 18: Add quarter customization basics
+- [ ] Task 19: Create storage system in quarters
+- [ ] Task 20: Add Barracks common areas
+- [ ] Task 21: Create InventoryManager
+- [ ] Task 22: Implement item data structure
+- [ ] Task 23: Add inventory capacity limits
+- [ ] Task 24: Create inventory UI
+- [ ] Task 25: Implement item usage system
 
 **Key Requirements:**
-- **B1:** Implement save system that reinforces permanent consequences
-- **B2:** Ensure save system reliability and corruption resistance
-- **U1:** As a player, I want to save my progress when sleeping
-- **U2:** As a player, I want clear feedback during save/load operations
+- **B1:** Create resource management gameplay
+- **B2:** Establish save system tied to gameplay mechanics
+- **U1:** As a player, I want to manage my credits carefully
+- **U2:** As a player, I want to save my progress when I sleep
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Implement core SaveManager with atomic file operations | Pending | - |
-| Create modular serialization architecture | Pending | - |
-| Implement player data serialization (position, stats, inventory) | Pending | - |
-| Implement NPC state serialization (simple version) | Pending | - |
-| Create world state serialization (districts, doors, etc.) | Pending | - |
-| Implement save/load UI flow with progress indication | Pending | - |
-| Create corruption detection and recovery system | Pending | - |
-| Implement version migration framework | Pending | - |
-| Add save file compression (Zstandard) | Pending | - |
-| Create save system unit tests | Pending | - |
-| Implement backup save management | Pending | - |
-| Add save analytics for debugging | Pending | - |
 
 **Testing Criteria:**
-- Save/load cycle preserves all game state correctly
-- Save operations complete in <1 second for current game state
-- Load operations complete in <2 seconds
-- Corruption detection catches all test cases
-- Version migration handles all upgrade paths
-- UI provides clear feedback during operations
-- Atomic operations prevent partial saves
-- Backup system maintains previous save automatically
-- Start date: 2025-05-15
-- Target completion: 2025-05-22
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Serialization System Design: docs/design/serialization_system.md
-- SaveManager: src/core/systems/save_manager.gd (to be created)
-- PlayerSerializer: src/core/serializers/player_serializer.gd (to be created)
-- NPCSerializer: src/core/serializers/npc_serializer.gd (to be created)
-- WorldSerializer: src/core/serializers/world_serializer.gd (to be created)
-- SaveData: src/core/data/save_data.gd (to be created)
+- Economy transactions process correctly
+- Save/sleep operation is atomic and reliable
+- Morning reports generate appropriate content
+- Barracks district loads and performs well
+- Inventory system handles capacity correctly
+- All systems integrate with serialization
+- UI responds smoothly to all operations
+- Save files are valid and loadable
+- Start date: After Iteration 6 completion
+- Target completion: 2-3 weeks (complex integration)
+- Critical for: Phase 1 completion
+- Iteration 4: Serialization (save system foundation)
+- Iteration 5: Time System (sleep advances time)
+- Iteration 5: Notification System (save confirmations)
+- Iteration 6: Character System (save character data)
+- src/core/economy/economy_manager.gd (to be created)
+- src/core/save/save_manager.gd (to be created)
+- src/core/save/morning_report_manager.gd (to be created)
+- src/districts/barracks/ (to be created)
+- src/core/inventory/inventory_manager.gd (to be created)
+- src/ui/inventory/inventory_ui.gd (to be created)
+- docs/design/economy_system_design.md
+- docs/design/save_system_design.md
+- docs/design/sleep_system_design.md
+- docs/design/morning_report_manager_design.md
+- docs/design/barracks_system_design.md
+- docs/design/inventory_system_design.md
+- docs/design/inventory_ui_design.md
 
-### Iteration 6: Game Districts and Time Management
+### Iteration 8: Districts and Living World MVP
 
 **Goals:**
-- Implement multiple station districts with transitions
-- Create detailed time management system (Persona-style)
-- Develop day/night cycle and time progression
-- **NEW:** Implement Living World Event System MVP for scheduled events and NPC routines
-- Implement random NPC assimilation tied to scheduled events
-- Implement single-slot save system
-- Create basic limited inventory system
-- **B1:** Create a sense of progression and urgency through time management
-- **B2:** Expand game world with multiple distinct areas
-- **B3:** Make the station feel alive with NPCs following schedules
-- **U1:** As a player, I want to manage my time to prioritize activities
-- **U2:** As a player, I want to explore distinct areas of the station
-- **U3:** As a player, I want to discover events I missed through investigation
-- **T1:** Implement robust scene transition system
-- **T2:** Create event scheduling architecture that scales
-- [ ] Task 1: Create at least one additional district besides Shipping
-- [ ] Task 2: Create bash script for generating NPC placeholders
-- [ ] Task 3: Implement district transitions via tram system
-- [ ] Task 4: Develop in-game clock and calendar system
-- [ ] Task 5: Create time progression through player actions
-- [ ] Task 6: Create SimpleEventScheduler for managing time-based events
-- [ ] Task 7: Implement NPCScheduleManager for basic NPC routines
-- [ ] Task 8: Create EventDiscovery system for learning about missed events
-- [ ] Task 9: Implement day cycle with sleep mechanics
-- [ ] Task 10: Design and implement time UI indicators
-- [ ] Task 11: Convert random assimilation to scheduled event system
-- [ ] Task 12: Add scheduled story events (security sweeps, meetings)
-- [ ] Task 13: Create NPC schedule data files for 5-10 key NPCs
-- [ ] Task 14: Implement contextual dialog based on recent events
-- [ ] Task 15: Implement player bedroom as save point location
-- [ ] Task 16: Create single-slot save system with event state persistence
-- [ ] Task 17: Create basic inventory system with size limitations
-- Player can travel between at least two districts
-- Time advances through specific actions (tram travel, conversations, etc.)
-- Day advances when player sleeps
-- NPCs follow daily schedules and appear in correct locations at correct times
-- Events trigger at scheduled times whether player witnesses them or not
-- Player can discover missed events through clues and NPC dialog
-- Assimilation events leave evidence in the world
-- Save system preserves complete event history and NPC states
-- Player has limited inventory space
-- NPC placeholder script successfully creates properly structured directories and registry entries
-- Performance maintains 60 FPS with event system active
-- Start date: 2025-06-15
-- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
+- Implement District Template System for efficient district creation
+- Create Spaceport District (starting area)
+- Create Engineering District (for Intro Quest)
+- Implement Living World Event System MVP
+- Add SCUMM Hover Text System
+- Complete Time Calendar Display UI
+- Validate Phase 1 with playable Intro Quest
+- **B1:** Complete Phase 1 MVP with explorable districts and living world
+- **B2:** Establish district template system for efficient content creation
+- **B3:** Create believable living world
+- **U1:** As a player, I want to explore multiple districts with unique content
+- **U2:** As a player, I want hover text to identify interactive objects
+- **U3:** As a player, I want to complete the Intro Quest
+- **U4:** As a player, I want NPCs to have daily routines
+- **T1:** Create reusable district template architecture
+- **T2:** Implement efficient NPC scheduling system
+- **T3:** Design event system for dynamic world events
+- [ ] Task 1: Create BaseDistrict template class
+- [ ] Task 2: Implement district configuration system
+- [ ] Task 3: Create district transition system
+- [ ] Task 4: Add district-specific walkable areas
+- [ ] Task 5: Implement district lighting/atmosphere
+- [ ] Task 6: Create Spaceport scene from template
+- [ ] Task 7: Design Docked Ship area
+- [ ] Task 8: Create Main Floor layout
+- [ ] Task 9: Add Ship Stewardess NPC
+- [ ] Task 10: Implement arrival sequence
+- [ ] Task 11: Create Engineering scene from template
+- [ ] Task 12: Design Science Deck layout
+- [ ] Task 13: Add Science Lead 01 NPC
+- [ ] Task 14: Create quest-related interactive objects
+- [ ] Task 15: Implement district-specific mechanics
+- [ ] Task 16: Create EventManager singleton
+- [ ] Task 17: Implement NPC daily schedule system
+- [ ] Task 18: Add random event generation
+- [ ] Task 19: Create event notification integration
+- [ ] Task 20: Implement event serialization
+- [ ] Task 21: Implement SCUMM hover text system
+- [ ] Task 22: Create hover text configuration
+- [ ] Task 23: Complete time/calendar UI display
+- [ ] Task 24: Add district name displays
+- [ ] Task 25: Polish UI integration
+- [ ] Task 26: Create quest flow from ship to engineering
+- [ ] Task 27: Implement all quest dialogs
+- [ ] Task 28: Add quest items and interactions
+- [ ] Task 29: Create quest completion validation
+- [ ] Task 30: Full playtest and polish
 
 **Key Requirements:**
-- **B1:** Create a sense of progression and urgency through time management
-- **B2:** Expand game world with multiple distinct areas
-- **U1:** As a player, I want to manage my time to prioritize activities
-- **U2:** As a player, I want to explore distinct areas of the station
+- **B1:** Complete Phase 1 MVP with explorable districts and living world
+- **B2:** Establish district template system for efficient content creation
+- **U1:** As a player, I want to explore multiple districts with unique content
+- **U2:** As a player, I want hover text to identify interactive objects
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create at least one additional district besides Shipping | Pending | - |
-| Create bash script for generating NPC placeholders | Pending | - |
-| Implement district transitions via tram system | Pending | - |
-| Develop in-game clock and calendar system | Pending | - |
-| Create time progression through player actions | Pending | - |
-| Create SimpleEventScheduler for managing time-based events | Pending | - |
-| Implement NPCScheduleManager for basic NPC routines | Pending | - |
-| Create EventDiscovery system for learning about missed events | Pending | - |
-| Implement day cycle with sleep mechanics | Pending | - |
-| Design and implement time UI indicators | Pending | - |
-| Convert random assimilation to scheduled event system | Pending | - |
-| Add scheduled story events (security sweeps, meetings) | Pending | - |
-| Create NPC schedule data files for 5-10 key NPCs | Pending | - |
-| Implement contextual dialog based on recent events | Pending | - |
-| Implement player bedroom as save point location | Pending | - |
-| Create single-slot save system with event state persistence | Pending | - |
-| Create basic inventory system with size limitations | Pending | - |
 
 **Testing Criteria:**
-- Player can travel between at least two districts
-- Time advances through specific actions (tram travel, conversations, etc.)
-- Day advances when player sleeps
-- NPCs follow daily schedules and appear in correct locations at correct times
-- Events trigger at scheduled times whether player witnesses them or not
-- Player can discover missed events through clues and NPC dialog
-- Assimilation events leave evidence in the world
-- Save system preserves complete event history and NPC states
-- Player has limited inventory space
-- NPC placeholder script successfully creates properly structured directories and registry entries
-- Performance maintains 60 FPS with event system active
-- Start date: 2025-06-15
-- Target completion: 2025-07-06 (extended by 1 week for Living World MVP)
-- Iteration 1 (Basic Environment and Navigation)
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Time Management System MVP Design: docs/design/time_management_system_mvp.md
-- Living World Event System MVP Design: docs/design/living_world_event_system_mvp.md
-- GameClock: src/core/systems/game_clock.gd (to be created)
-- TimeCostManager: src/core/systems/time_cost_manager.gd (to be created)
-- DayCycleController: src/core/systems/day_cycle_controller.gd (to be created)
-- SimpleEventScheduler: src/core/systems/simple_event_scheduler.gd (to be created)
-- NPCScheduleManager: src/core/systems/npc_schedule_manager.gd (to be created)
-- EventDiscovery: src/core/systems/event_discovery.gd (to be created)
-- TimeDisplay: src/ui/time_display/time_display.gd (to be created)
-- NPC Schedules: src/data/schedules/npc_schedules.json (to be created)
-- Scheduled Events: src/data/events/scheduled_events.json (to be created)
+- Districts load and transition smoothly
+- NPCs follow schedules correctly
+- Events trigger at appropriate times
+- Hover text works for all objects
+- Time display updates properly
+- Intro Quest completable without bugs
+- All systems integrate correctly
+- Performance remains smooth with full districts
+- Start date: After Iteration 7 completion
+- Target completion: 2-3 weeks
+- Critical for: Phase 1 validation before Phase 2
+- All previous iterations (1-7) must be complete
+- Particularly: Save system (I7), Time system (I5), NPCs (I2)
+- src/districts/base_district.gd (to be created)
+- src/districts/spaceport/ (to be created)
+- src/districts/engineering/ (to be created)
+- src/core/events/event_manager.gd (to be created)
+- src/ui/hover_text/hover_text_display.gd (to be created)
+- docs/design/template_district_design.md
+- docs/design/living_world_event_system_mvp.md
+- docs/design/scumm_hover_text_system_design.md
+- docs/design/time_calendar_display_ui_design.md
 
-### Iteration 7: Character Gender Selection System
+### Iteration 9: Core Gameplay Systems
 
 **Goals:**
-- Implement character gender selection at game start
-- Integrate gender data with save system and dialog system
-- Create UI for gender selection matching 90s aesthetic
-- Ensure all game systems work correctly with both gender options
-- Enable pronoun substitution throughout all dialog
-- **B1:** Provide character choice to increase player identification and broaden appeal
-- **B2:** Maintain narrative integrity while supporting player choice
-- **U1:** As a player, I want to choose my character's gender at the start of the game
-- **U2:** As a player, I want NPCs to address me correctly based on my gender choice
-- **U3:** As a player, I want the game to remember my choice across sessions
-- **T1:** Extend save system to support gender data with version migration
-- **T2:** Implement pronoun substitution system for dialog
-- [ ] Task 1: Design and implement gender selection UI scene
-- [ ] Task 2: Create gender selection screen with character portraits
-- [ ] Task 3: Implement gender data persistence in PlayerController
-- [ ] Task 4: Extend PlayerSerializer for gender data (version 2)
-- [ ] Task 5: Implement pronoun substitution in DialogManager
-- [ ] Task 6: Update all NPC dialog to use pronoun markers
-- [ ] Task 7: Create gender-specific sprite loading system
-- [ ] Task 8: Test both gender options through complete game flow
-- [ ] Task 9: Add gender selection to new game flow
-- [ ] Task 10: Implement save migration for existing saves
-- [ ] Task 11: Update main menu to show selected character portrait
-- [ ] Task 12: Create comprehensive tests for gender system
-- Gender selection screen appears after "New Game" selection
-- Both character portraits display correctly at 64x64 resolution
-- Selected gender persists through save/load cycles
-- All NPC dialog uses correct pronouns and titles
-- Both sprite sets load and animate correctly
-- Dialog substitution has no noticeable performance impact
-- Old saves migrate to default gender without errors
-- Gender selection integrates smoothly with existing game flow
-- All existing functionality works identically for both genders
-- Start date: 2025-07-07
-- Target completion: 2025-07-14
-- Iteration 3 (Multi-Perspective Character System) - Sprites must be created first
-- Iteration 4 (Dialog and Verb UI System Refactoring) - Need refactored dialog system
-- Iteration 5 (Save System Foundation) - Need modular serialization in place
-- Iteration 6 (Game Districts and Time Management) - Complete before major content
-- Character Gender Selection System Design: docs/design/character_gender_selection_system.md
-- GenderSelectionUI: src/ui/gender_selection/gender_selection_ui.gd (to be created)
-- Extended PlayerController: src/core/player_controller.gd (to be modified)
-- Extended PlayerSerializer: src/core/serializers/player_serializer.gd (to be modified)
-- Extended DialogManager: src/core/dialog/dialog_manager.gd (to be modified)
+- Implement full Observation System
+- Complete Suspicion/Detection System with game over mechanics
+- Create Detection Game Over System
+- Build Interactive Object Templates
+- Implement Investigation Clue Tracking System
+- Add District Access Control System
+- Establish core investigation gameplay loop
+- **B1:** Implement core observation and investigation mechanics
+- **B2:** Create tension through detection and access control systems
+- **B3:** Establish reusable interaction patterns
+- **U1:** As a player, I want to observe and investigate my surroundings
+- **U2:** As a player, I want tension when accessing restricted areas
+- **U3:** As a player, I want to track my investigation progress
+- **T1:** Create modular observation system
+- **T2:** Implement detection state machine
+- **T3:** Design flexible clue system
+- [ ] Task 1: Create ObservationManager singleton
+- [ ] Task 2: Implement observable properties system
+- [ ] Task 3: Create observation UI interface
+- [ ] Task 4: Add observation skill progression
+- [ ] Task 5: Implement observation notifications
+- [ ] Task 6: Expand suspicion system to full implementation
+- [ ] Task 7: Create detection state machine
+- [ ] Task 8: Implement line-of-sight detection
+- [ ] Task 9: Add detection UI warnings
+- [ ] Task 10: Create game over sequence
+- [ ] Task 11: Create InvestigationManager singleton
+- [ ] Task 12: Implement clue discovery mechanics
+- [ ] Task 13: Build clue connection system
+- [ ] Task 14: Create investigation journal UI
+- [ ] Task 15: Add investigation progress tracking
+- [ ] Task 16: Create BaseInteractiveObject class
+- [ ] Task 17: Implement standard interaction verbs
+- [ ] Task 18: Create object state system
+- [ ] Task 19: Add interaction feedback system
+- [ ] Task 20: Build object template library
+- [ ] Task 21: Create access permission system
+- [ ] Task 22: Implement keycard/credential mechanics
+- [ ] Task 23: Add restricted area warnings
+- [ ] Task 24: Create security checkpoint system
+- [ ] Task 25: Implement access violation consequences
 
 **Key Requirements:**
-- **B1:** Provide character choice to increase player identification and broaden appeal
-- **B2:** Maintain narrative integrity while supporting player choice
-- **U1:** As a player, I want to choose my character's gender at the start of the game
-- **U2:** As a player, I want NPCs to address me correctly based on my gender choice
+- **B1:** Implement core observation and investigation mechanics
+- **B2:** Create tension through detection and access control systems
+- **U1:** As a player, I want to observe and investigate my surroundings
+- **U2:** As a player, I want tension when accessing restricted areas
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Design and implement gender selection UI scene | Pending | - |
-| Create gender selection screen with character portraits | Pending | - |
-| Implement gender data persistence in PlayerController | Pending | - |
-| Extend PlayerSerializer for gender data (version 2) | Pending | - |
-| Implement pronoun substitution in DialogManager | Pending | - |
-| Update all NPC dialog to use pronoun markers | Pending | - |
-| Create gender-specific sprite loading system | Pending | - |
-| Test both gender options through complete game flow | Pending | - |
-| Add gender selection to new game flow | Pending | - |
-| Implement save migration for existing saves | Pending | - |
-| Update main menu to show selected character portrait | Pending | - |
-| Create comprehensive tests for gender system | Pending | - |
 
 **Testing Criteria:**
-- Gender selection screen appears after "New Game" selection
-- Both character portraits display correctly at 64x64 resolution
-- Selected gender persists through save/load cycles
-- All NPC dialog uses correct pronouns and titles
-- Both sprite sets load and animate correctly
-- Dialog substitution has no noticeable performance impact
-- Old saves migrate to default gender without errors
-- Gender selection integrates smoothly with existing game flow
-- All existing functionality works identically for both genders
-- Start date: 2025-07-07
-- Target completion: 2025-07-14
-- Iteration 3 (Multi-Perspective Character System) - Sprites must be created first
-- Iteration 4 (Dialog and Verb UI System Refactoring) - Need refactored dialog system
-- Iteration 5 (Save System Foundation) - Need modular serialization in place
-- Iteration 6 (Game Districts and Time Management) - Complete before major content
-- Character Gender Selection System Design: docs/design/character_gender_selection_system.md
-- GenderSelectionUI: src/ui/gender_selection/gender_selection_ui.gd (to be created)
-- Extended PlayerController: src/core/player_controller.gd (to be modified)
-- Extended PlayerSerializer: src/core/serializers/player_serializer.gd (to be modified)
-- Extended DialogManager: src/core/dialog/dialog_manager.gd (to be modified)
-
-### Iteration 8: Investigation Mechanics and Inventory
-
-**Goals:**
-- Implement investigation mechanics
-- Create quest log system for tracking progress
-- Develop advanced inventory system for collecting evidence
-- Add system for logging known assimilated NPCs
-- Implement overflow storage in player's room
-- **B2:** Validate game performance on target hardware platform to ensure viability of purpose-built gaming appliance distribution strategy
-- **B1:** Implement core investigation mechanics that drive main storyline
-- **U2:** As a potential customer, I want assurance that the gaming appliance will run smoothly and provide a premium experience when I receive it
-- **U1:** As a player, I want to collect and analyze evidence
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Create quest data structure and manager
-- [ ] Task 2: Implement quest log UI
-- [ ] Task 3: Develop advanced inventory features including categorization
-- [ ] Task 4: Create puzzles for accessing restricted areas
-- [ ] Task 5: Implement clue discovery and collection system
-- [ ] Task 6: Create assimilated NPC tracking log
-- [ ] Task 7: Develop investigation progress tracking
-- [ ] Task 8: Add quest state persistence
-- [ ] Task 9: Implement overflow inventory storage in player's room
-- [ ] Task 10: Create UI for transferring items between personal inventory and room storage
-- [ ] Task 11: Implement observation mechanics for detecting assimilated NPCs
-- [ ] Task 12: Set up Raspberry Pi 5 hardware validation environment
-- [ ] Task 13: Conduct POC performance testing on target hardware
-- [ ] Task 14: Document hardware requirements and optimization roadmap
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Game runs stably at 30fps on Raspberry Pi 5 hardware
-- Complete POC playthrough completes without performance issues
-- Hardware validation documentation provides clear optimization roadmap
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Iteration 5 (Game Districts and Time Management)
-- Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-
-**Key Requirements:**
-- **B2:** Validate game performance on target hardware platform to ensure viability of purpose-built gaming appliance distribution strategy
-- **B1:** Implement core investigation mechanics that drive main storyline
-- **U2:** As a potential customer, I want assurance that the gaming appliance will run smoothly and provide a premium experience when I receive it
-- **U1:** As a player, I want to collect and analyze evidence
-
-**Tasks:**
-
-| Task | Status | Linked Files |
-|------|--------|--------------|
-| Create quest data structure and manager | Pending | - |
-| Implement quest log UI | Pending | - |
-| Develop advanced inventory features including categorization | Pending | - |
-| Create puzzles for accessing restricted areas | Pending | - |
-| Implement clue discovery and collection system | Pending | - |
-| Create assimilated NPC tracking log | Pending | - |
-| Develop investigation progress tracking | Pending | - |
-| Add quest state persistence | Pending | - |
-| Implement overflow inventory storage in player's room | Pending | - |
-| Create UI for transferring items between personal inventory and room storage | Pending | - |
-| Implement observation mechanics for detecting assimilated NPCs (As a player, I want to carefully observe NPCs for subtle clues that indicate they have been assimilated, so that I can identify threats and make informed decisions about whom to trust and recruit.) | Pending | - |
-| Set up Raspberry Pi 5 hardware validation environment (As a developer, I want to set up a complete Raspberry Pi 5 testing environment, so that I can validate our game's performance on the actual target hardware before committing to the gaming appliance distribution strategy) | Pending | docs/design/hardware_validation_plan.md |
-| Conduct POC performance testing on target hardware (As a developer, I want to conduct comprehensive performance testing of the complete POC on Raspberry Pi 5 hardware, so that I can identify any optimization needs and confirm the viability of our gaming appliance approach) | Pending | docs/design/hardware_validation_plan.md |
-| Document hardware requirements and optimization roadmap (As a project stakeholder, I want detailed documentation of hardware requirements and performance characteristics, so that I can make informed decisions about manufacturing and distribution of the gaming appliance) | Pending | docs/design/hardware_validation_plan.md |
-
-**Testing Criteria:**
-- Quest log accurately tracks active and completed quests
-- Player can collect and use items/evidence
-- Puzzles can be solved to progress investigation
-- Player can track which NPCs are known to be assimilated
-- Player can store extra items in their room
-- Inventory management creates meaningful gameplay decisions
-- Observation mechanics allow players to detect assimilated NPCs
-- Different observation intensities reveal appropriate information
-- Game runs stably at 30fps on Raspberry Pi 5 hardware
-- Complete POC playthrough completes without performance issues
-- Hardware validation documentation provides clear optimization roadmap
-- Start date: 2025-06-29
-- Target completion: 2025-07-13
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 3 (Navigation Refactoring and Multi-Perspective Character System)
-- Iteration 4 (Dialog and Verb UI System Refactoring)
-- Iteration 5 (Game Districts and Time Management)
-- Task 14: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 13: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- Task 12: [docs/design/hardware_validation_plan.md](docs/design/hardware_validation_plan.md)
-- **✅ COMPLETE** (05/22/25)
-- **🔄 IN PROGRESS** (05/22/25)
-- **✅ COMPLETE** (05/22/25)
-- **⏳ PENDING** (05/22/25)
-- **Linked to:** B1, U1
-- **Acceptance Criteria:**
-- Create a sliding scale of observation intensity with corresponding information reveals
-- Design subtle visual cues that fit the game's aesthetic (slight color shifts, animation differences)
-- Balance difficulty so observation feels like skilled detective work but not frustratingly obscure
-- Link with existing suspicion and NPC state systems from Iteration 2
-- **⏳ PENDING** (05/22/25)
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-- [Technical guidance or approach]
-- **⏳ PENDING** (05/22/25)
-- **Linked to:** [List related Epic-level requirements]
-- **Acceptance Criteria:**
-- [Technical guidance or approach]
-
-### Iteration 9: Coalition Building
-
-**Goals:**
-- Implement recruiting NPCs to the coalition
-- Add risk/reward mechanisms for revealing information
-- Create coalition strength tracking
-- **B1:** Create meaningful NPC relationships through coalition building
-- **U1:** As a player, I want to recruit NPCs to help against the assimilation
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Implement NPC recruitment dialog options
-- [ ] Task 2: Create coalition membership tracking system
-- [ ] Task 3: Develop trust/mistrust mechanics
-- [ ] Task 4: Implement coalition strength indicators
-- [ ] Task 5: Add coalition member special abilities
-- [ ] Task 6: Create consequences for failed recruitment attempts
-- [ ] Task 7: Develop coalition headquarters location
-- [ ] Task 8: Implement coalition mission assignment system
-- NPCs can be successfully recruited to the coalition
-- Failed recruitment attempts have meaningful consequences
-- Coalition strength affects game progression
-- Coalition members provide tangible benefits
-- Start date: 2025-07-13
-- Target completion: 2025-07-27
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 8 (Investigation Mechanics)
-- No links yet
-
-**Key Requirements:**
-- **B1:** Create meaningful NPC relationships through coalition building
-- **U1:** As a player, I want to recruit NPCs to help against the assimilation
-
-**Tasks:**
-
-| Task | Status | Linked Files |
-|------|--------|--------------|
-| Implement NPC recruitment dialog options | Pending | - |
-| Create coalition membership tracking system | Pending | - |
-| Develop trust/mistrust mechanics | Pending | - |
-| Implement coalition strength indicators | Pending | - |
-| Add coalition member special abilities | Pending | - |
-| Create consequences for failed recruitment attempts | Pending | - |
-| Develop coalition headquarters location | Pending | - |
-| Implement coalition mission assignment system | Pending | - |
-
-**Testing Criteria:**
-- NPCs can be successfully recruited to the coalition
-- Failed recruitment attempts have meaningful consequences
-- Coalition strength affects game progression
-- Coalition members provide tangible benefits
-- Start date: 2025-07-13
-- Target completion: 2025-07-27
-- Iteration 2 (NPC Framework and Suspicion System)
-- Iteration 8 (Investigation Mechanics)
-- No links yet
+- Observation system reveals appropriate details
+- Detection states transition correctly
+- Investigation progress saves/loads properly
+- Interactive objects respond to all verbs
+- Access control prevents/allows appropriately
+- Game over sequence triggers correctly
+- Performance remains smooth with many observables
+- All systems integrate with existing mechanics
+- Start date: After Phase 1 completion
+- Target completion: 2-3 weeks
+- Critical for: Core gameplay establishment
+- Phase 1 complete (Iterations 1-8)
+- Particularly: NPC system, Save system, Districts
+- src/core/observation/observation_manager.gd (to be created)
+- src/core/detection/detection_state_machine.gd (to be created)
+- src/core/investigation/investigation_manager.gd (to be created)
+- src/objects/base/base_interactive_object.gd (to be refactored)
+- src/core/access/access_control_manager.gd (to be created)
+- docs/design/observation_system_full_design.md
+- docs/design/suspicion_system_full_design.md
+- docs/design/detection_game_over_system_design.md
+- docs/design/investigation_clue_tracking_system_design.md
+- docs/design/district_access_control_system_design.md
+- docs/design/template_interactive_object_design.md
 

@@ -92,6 +92,18 @@ As a player, I experience a living station where the mysterious assimilation spr
 - [ ] Task 24: Add news/rumor system
 - [ ] Task 25: Implement cascade effects
 
+### Advanced Living World System
+- [ ] Task 26: Create advanced event scheduler with conditional chains
+- [ ] Task 27: Implement sophisticated NPC state machine
+- [ ] Task 28: Build rumor propagation system with accuracy decay
+- [ ] Task 29: Create evidence discovery and decay mechanics
+- [ ] Task 30: Implement reaction chain system for events
+- [ ] Task 31: Add performance optimization for 100+ NPCs
+- [ ] Task 32: Create quantum simulation for background NPCs
+- [ ] Task 33: Build temporal reputation tracking
+- [ ] Task 34: Implement differential serialization for world state
+- [ ] Task 35: Create emergent narrative generation system
+
 ## User Stories
 
 ### Task 2: Implement infection spread mechanics
@@ -178,6 +190,224 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Track: Coalition strength, Assimilation %, Key decisions
 - Consider epilogue variations
 
+### Task 26: Create advanced event scheduler with conditional chains
+**User Story:** As a developer, I want events to trigger other events conditionally, so that the world feels reactive and player actions have cascading consequences.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Events can have multiple trigger conditions
+  2. One event completing can trigger others
+  3. Conditional logic based on world state
+  4. Chain reactions create emergent stories
+  5. All chains properly serialized
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Event types: fixed, conditional, recurring, chain
+- Complex conditions: AND/OR logic supported
+- Maximum chain depth: 5 to prevent infinite loops
+
+### Task 27: Implement sophisticated NPC state machine
+**User Story:** As a player, I want NPCs to have complex internal states that affect their behavior, so that each character feels unique and reactive to the world around them.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. 8 distinct NPC states (Normal, Suspicious, etc.)
+  2. States affect dialog and behavior
+  3. Transitions based on world events
+  4. Knowledge tracking per NPC
+  5. Relationship matrices between NPCs
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- States: NORMAL, SUSPICIOUS, INVESTIGATING, PANICKED, ASSIMILATED, MISSING, DETAINED, COALITION_MEMBER
+- Knowledge affects available conversation topics
+- Relationships influence information sharing
+
+### Task 28: Build rumor propagation system with accuracy decay
+**User Story:** As a player, I want to hear rumors about events from NPCs, so that I can learn about the world indirectly and experience how information spreads and distorts.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. NPCs share knowledge based on relationships
+  2. Information accuracy decreases with retelling
+  3. Some NPCs more reliable than others
+  4. Player can trace rumors to sources
+  5. False rumors can emerge naturally
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Accuracy decay: -10% per retelling
+- Gossips spread faster but less accurately
+- Critical info may require verification
+- Distortion can create red herrings
+
+### Task 29: Create evidence discovery and decay mechanics
+**User Story:** As a player investigating the station, I want to find physical evidence of events, so that I can piece together what happened even if I wasn't present.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Events can leave physical evidence
+  2. Evidence has limited lifespan
+  3. Different evidence types decay differently
+  4. Discovery requires investigation skill
+  5. Evidence can be preserved/documented
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Evidence types: Documents, bloodstains, recordings, items
+- Decay rates: 30min to 48hrs depending on type
+- Cleaning crews remove some evidence
+- Critical evidence protected from decay
+
+### Task 30: Implement reaction chain system for events
+**User Story:** As a developer, I want major events to create realistic ripple effects, so that the world responds dynamically to both player actions and autonomous events.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Assimilation triggers missing person reports
+  2. Security events affect NPC routines
+  3. Economic events change prices/availability
+  4. Coalition actions provoke responses
+  5. All reactions feel logical and timely
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Major event categories with specific chains
+- Timing offsets for realistic delays
+- Some chains can be interrupted
+- Player actions can redirect chains
+
+### Task 31: Add performance optimization for 100+ NPCs
+**User Story:** As a player, I want the game to run smoothly even with many NPCs active, so that the living world doesn't compromise gameplay performance.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Maintain 60 FPS with 100+ NPCs
+  2. Simulation detail scales with distance
+  3. Background NPCs use simplified logic
+  4. No noticeable pop-in or behavior jumps
+  5. Memory usage remains reasonable
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Three simulation levels: Full, Simplified, Quantum
+- LOD system for NPC complexity
+- Batch updates for distant NPCs
+- Profile and optimize hotspots
+
+### Task 32: Create quantum simulation for background NPCs
+**User Story:** As a developer, I want background NPCs to exist efficiently, so that the station feels populated without requiring full simulation for every character.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Background NPCs follow schedules loosely
+  2. Quantum state until observed
+  3. Smooth transition to full simulation
+  4. Reasonable behavior when "collapsed"
+  5. Minimal memory footprint
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Store only location and basic state
+- Probability-based state changes
+- Collapse to full state when player approaches
+- 70+ background NPCs supported
+
+### Task 33: Build temporal reputation tracking
+**User Story:** As a player, I want NPCs to remember my past actions over time, so that my reputation evolves based on consistent behavior patterns.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Actions affect reputation with factions
+  2. Reputation decays/grows over time
+  3. NPCs reference past interactions
+  4. Reputation affects available options
+  5. Can view reputation status
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Track recent actions with timestamps
+- Reputation has momentum (hard to change quickly)
+- Different factions value different actions
+- Some actions have permanent effects
+
+### Task 34: Implement differential serialization for world state
+**User Story:** As a developer, I want efficient save files despite complex world state, so that players don't experience long save/load times or huge save files.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Only save changed values
+  2. Compress repetitive data
+  3. Save files under 10MB
+  4. Load times under 3 seconds
+  5. Forward compatibility support
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Reference: docs/design/modular_serialization_architecture.md
+- Delta compression for NPC states
+- Prune expired events/rumors
+- Version migration support
+
+### Task 35: Create emergent narrative generation system
+**User Story:** As a player, I want unique stories to emerge from system interactions, so that each playthrough feels distinct and personally crafted by my choices.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, B2, U3
+- **Acceptance Criteria:**
+  1. System interactions create unique scenarios
+  2. Emergent stories feel intentional
+  3. Player can influence emerging narratives
+  4. Stories reference past events naturally
+  5. No two playthroughs identical
+
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_full.md
+- Combine multiple systems for emergence
+- Track narrative threads across events
+- Some emergent stories become quests
+- Player interpretation fills gaps
+
 ## Testing Criteria
 - Assimilation spreads believably
 - Coalition mechanics function properly
@@ -187,6 +417,16 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Save/load preserves all states
 - Performance with many active systems
 - Emergent scenarios feel natural
+- Event chains trigger and resolve correctly
+- NPCs maintain consistent state machines
+- Rumors propagate with appropriate distortion
+- Evidence spawns and decays properly
+- Reaction chains create logical consequences
+- 100+ NPCs perform without frame drops
+- Quantum NPCs transition smoothly
+- Reputation affects NPC interactions
+- Differential saves remain small and fast
+- Emergent narratives feel coherent
 
 ## Timeline
 - Start date: After Iteration 11
@@ -207,6 +447,8 @@ As a player, I experience a living station where the mysterious assimilation spr
 - docs/design/coalition_resistance_system_design.md
 - docs/design/crime_security_event_system_design.md
 - docs/design/multiple_endings_system_design.md
+- docs/design/living_world_event_system_mvp.md (from iteration 8)
+- docs/design/living_world_event_system_full.md (extends MVP with advanced events)
 
 ## Notes
 - This iteration creates the overarching narrative tension
@@ -214,3 +456,4 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Player agency in determining outcome is key
 - Systems create emergent storytelling opportunities
 - Multiple endings encourage replay
+- Living World Full adds complex event chains and emergent behaviors

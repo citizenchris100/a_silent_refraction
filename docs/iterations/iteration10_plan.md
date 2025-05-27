@@ -92,6 +92,18 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - [ ] Task 24: Build social event system
 - [ ] Task 25: Implement relationship consequences
 
+### Advanced Tram Transportation System
+- [ ] Task 26: Implement ring-based district layout with distance calculation
+- [ ] Task 27: Create dynamic pricing system with time/demand modifiers
+- [ ] Task 28: Build transit screen with route visualization
+- [ ] Task 29: Implement transit event system with NPC encounters
+- [ ] Task 30: Add transit passes and subscription system
+- [ ] Task 31: Create route disruption mechanics
+- [ ] Task 32: Implement transit security and scanning
+- [ ] Task 33: Add coalition transit benefits
+- [ ] Task 34: Build emergency transit mechanics
+- [ ] Task 35: Create economic pressure through travel costs
+
 ## User Stories
 
 ### Task 2: Implement trust level mechanics
@@ -177,6 +189,226 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Verification types: Visual, Verbal, Documentation, Biometric
 - Quick-time events for tense moments
 - Consider allowing bluff/persuasion options
+
+### Task 26: Implement ring-based district layout with distance calculation
+**User Story:** As a player, I want travel costs to reflect actual distances, so that strategic planning of my routes saves both time and money.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. 7 districts in ring configuration
+  2. Calculate shortest path (clockwise/counter)
+  3. Distance-based pricing: 10cr per hop
+  4. Distance-based time: 30min per hop
+  5. Maximum 3 hops to any destination
+
+**Implementation Notes:**
+- Districts: Spaceport→Security→Medical→Mall→Trading→Barracks→Engineering→(loop)
+- Always calculate both directions
+- Show route on station map
+
+### Task 27: Create dynamic pricing system with time/demand modifiers
+**User Story:** As a player, I want tram prices to reflect station conditions, so that the economic system feels reactive and alive.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Rush hour pricing (+50-80%)
+  2. Late night discount (-50%)
+  3. Surge pricing in crisis areas
+  4. Corruption affects all prices
+  5. Coalition discounts available
+
+**Implementation Notes:**
+- Morning rush: 07:00-09:00
+- Evening rush: 17:00-19:00
+- Integrate with AssimilationManager for corruption
+
+### Task 28: Build transit screen with route visualization
+**User Story:** As a player, I want to see my journey progress visually, so that travel time feels meaningful and engaging.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U1
+- **Acceptance Criteria:**
+  1. Animated route progress bar
+  2. Show each district stop
+  3. Display time remaining
+  4. Show current location
+  5. Random event notifications
+
+**Implementation Notes:**
+- Non-skippable travel sequence
+- Opportunity for ambient storytelling
+- Show other passengers occasionally
+
+### Task 29: Implement transit event system with NPC encounters
+**User Story:** As a player, I want interesting encounters during travel, so that tram journeys offer gameplay opportunities beyond mere transportation.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. 10-20% chance of events per trip
+  2. Event types: social, security, criminal
+  3. Coalition members can pass intel
+  4. Pickpocket attempts possible
+  5. Overhear useful rumors
+
+**Implementation Notes:**
+- Events influenced by current game state
+- Security checks more common near Security district
+- More events during longer trips
+
+### Task 30: Add transit passes and subscription system
+**User Story:** As a player, I want to purchase travel passes for savings, so that I can optimize my credits for frequent travel.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Daily pass: 50cr unlimited travel
+  2. Weekly pass: 200cr unlimited travel
+  3. 10-ride pass: 80cr with 20% discount
+  4. Pass UI in tram stations
+  5. Active passes shown in inventory
+
+**Implementation Notes:**
+- Passes great for investigation-heavy days
+- Must balance with starting credits
+- Consider theft/loss mechanics
+
+### Task 31: Create route disruption mechanics
+**User Story:** As a player, I want to adapt to transportation disruptions, so that the world feels dynamic and unpredictable.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, T3
+- **Acceptance Criteria:**
+  1. Maintenance delays (extra time)
+  2. Security lockdowns (route blocked)
+  3. Power failures (slow travel)
+  4. Assimilated vandalism
+  5. Alternative route calculations
+
+**Implementation Notes:**
+- Disruptions last 1-4 hours
+- Force players to adapt plans
+- More common as assimilation spreads
+
+### Task 32: Implement transit security and scanning
+**User Story:** As a player, I want to navigate security checks strategically, so that carrying contraband creates meaningful risk/reward decisions.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Random security scans (5-50% based on alert)
+  2. Contraband detection chance varies
+  3. Confiscation and suspicion increase
+  4. Bribery possible with right NPCs
+  5. Coalition can warn of checkpoints
+
+**Implementation Notes:**
+- Integrate with global suspicion system
+- Higher security near Security district
+- Create tension for smuggling quests
+
+### Task 33: Add coalition transit benefits
+**User Story:** As a coalition member, I want transit advantages from our network, so that organizing resistance provides tangible benefits.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Allied conductors give discounts
+  2. Warning system for security checks
+  3. Emergency extraction option
+  4. Hidden compartments for items
+  5. Coalition credits for group travel
+
+**Implementation Notes:**
+- Benefits scale with coalition size
+- Conductors must be recruited first
+- Emergency extraction very expensive
+
+### Task 34: Build emergency transit mechanics
+**User Story:** As a player in crisis, I want emergency travel options, so that desperate situations have desperate solutions.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Emergency loans for travel
+  2. Stowaway option (high risk)
+  3. Coalition extraction service
+  4. Barter for passage
+  5. Maintenance tunnel access
+
+**Implementation Notes:**
+- Each option has consequences
+- Creates drama when broke
+- Last resort mechanics
+
+### Task 35: Create economic pressure through travel costs
+**User Story:** As a player, I want travel expenses to create meaningful economic decisions, so that every credit spent on transport affects my survival.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Daily travel consumes 20-30% of income
+  2. Investigation requires expensive travel
+  3. Being broke truly limits movement
+  4. Creates "trapped in district" scenarios
+  5. Forces resource management
+
+**Implementation Notes:**
+- Balance: Starting 100cr = 5-10 trips
+- Essential travel vs investigation
+- Major choice pressure
 
 ## Testing Criteria
 - Trust levels change appropriately

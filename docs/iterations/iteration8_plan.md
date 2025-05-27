@@ -97,12 +97,19 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - [ ] Task 24: Add district name displays
 - [ ] Task 25: Polish UI integration
 
+### Tram Transportation System (MVP)
+- [ ] Task 26: Create TramManager singleton for district travel
+- [ ] Task 27: Implement simple fixed-cost travel between districts
+- [ ] Task 28: Build basic tram station UI
+- [ ] Task 29: Add travel confirmation and payment
+- [ ] Task 30: Integrate tram with time advancement
+
 ### Intro Quest Implementation
-- [ ] Task 26: Create quest flow from ship to engineering
-- [ ] Task 27: Implement all quest dialogs
-- [ ] Task 28: Add quest items and interactions
-- [ ] Task 29: Create quest completion validation
-- [ ] Task 30: Full playtest and polish
+- [ ] Task 31: Create quest flow from ship to engineering
+- [ ] Task 32: Implement all quest dialogs
+- [ ] Task 33: Add quest items and interactions
+- [ ] Task 34: Create quest completion validation
+- [ ] Task 35: Full playtest and polish
 
 ## User Stories
 
@@ -169,7 +176,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Consider color coding by object type
 - Must work with verb UI system
 
-### Task 26: Create quest flow from ship to engineering
+### Task 31: Create quest flow from ship to engineering
 **User Story:** As a player, I want to experience a complete quest from beginning to end, so that I understand the game's objectives and mechanics.
 
 **Status History:**
@@ -189,6 +196,116 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Tests: Dialog, navigation, inventory, time management
 - Must work with all character genders
 - Reference: Intro Quest requirements from phased_development_approach.md
+
+### Task 26: Create TramManager singleton for district travel
+**User Story:** As a player, I need a way to travel between districts, so that I can explore the station and complete quests.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U1, T1
+- **Acceptance Criteria:**
+  1. TramManager singleton manages all district travel
+  2. Tracks current player district
+  3. Provides travel functionality between any two districts
+  4. Enforces tram as only travel method
+  5. Simple, reliable implementation
+
+**Implementation Notes:**
+- MVP: No complex routing, just direct travel
+- Fixed costs and times for Phase 1
+- Reference MVP section of tram design doc
+
+### Task 27: Implement simple fixed-cost travel between districts
+**User Story:** As a player, I want predictable travel costs and times, so that I can plan my movements without complex calculations.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Fixed cost: 10 credits for any trip
+  2. Fixed time: 30 minutes for any trip
+  3. Cannot travel without sufficient credits
+  4. Clear feedback on insufficient funds
+  5. No distance calculations in MVP
+
+**Implementation Notes:**
+- MVP: All trips cost the same
+- Simplifies balancing and testing
+- Full distance-based pricing in Phase 2
+
+### Task 28: Build basic tram station UI
+**User Story:** As a player, I want a simple interface to select my destination, so that I can travel between districts easily.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U1, U2
+- **Acceptance Criteria:**
+  1. List of all districts (except current)
+  2. Shows fixed cost (10 credits)
+  3. Shows fixed time (30 minutes)
+  4. Disabled if insufficient funds
+  5. Simple, functional design
+
+**Implementation Notes:**
+- MVP: No route visualization
+- No fancy animations
+- Focus on functionality
+
+### Task 29: Add travel confirmation and payment
+**User Story:** As a player, I want to confirm my travel choice before spending credits, so that I don't waste money accidentally.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Confirmation dialog shows cost and destination
+  2. Can cancel before payment
+  3. Credits deducted on confirmation
+  4. Immediate district transition
+  5. Update economy display
+
+**Implementation Notes:**
+- MVP: Simple fade to black transition
+- No transit screen animation
+- Instant travel after payment
+
+### Task 30: Integrate tram with time advancement
+**User Story:** As a developer, I want tram travel to advance game time, so that movement has a time cost.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. Advances time by 30 minutes per trip
+  2. Integrates with TimeManager
+  3. Updates all time-dependent systems
+  4. Works with save/load
+  5. No complex time calculations
+
+**Implementation Notes:**
+- MVP: Fixed time advancement
+- Connect to TimeManager.advance_time(0.5)
+- Ensure NPCs update appropriately
 
 ## Testing Criteria
 - Districts load and transition smoothly
@@ -226,3 +343,17 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - District templates save massive time in Phase 3
 - Living world events start simple, expand in Phase 2
 - After this iteration, we move to Phase 2 Full Systems!
+
+### Design Documents Implemented
+- docs/design/template_district_design.md
+- docs/design/base_district_system.md
+- docs/design/living_world_event_system_mvp.md
+- docs/design/scumm_hover_text_system_design.md
+- docs/design/time_calendar_display_ui_design.md
+- docs/design/tram_transportation_system_design.md
+
+### Template References
+- All districts MUST follow docs/design/template_district_design.md
+- NPCs in districts should follow docs/design/template_npc_design.md
+- Interactive objects follow docs/design/template_interactive_object_design.md
+- Integration patterns from docs/design/template_integration_standards.md
