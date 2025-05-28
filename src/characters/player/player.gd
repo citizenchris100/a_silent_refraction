@@ -111,12 +111,12 @@ func _handle_movement(delta):
                 # We've reached the end of the path
                 current_target = target_position
     
-    var direction = current_target - position
+    var direction = current_target - global_position
     var distance = direction.length()
     
     if distance < 5:
         # We've reached the destination
-        position = target_position
+        global_position = target_position
         velocity = Vector2.ZERO
         is_moving = false
         navigation_path = []
@@ -144,11 +144,11 @@ func _handle_movement(delta):
         velocity = velocity.move_toward(desired_velocity, deceleration * delta)
     
     # Apply movement with delta time
-    position += velocity * delta
+    global_position += velocity * delta
     
     # Check if we're about to leave walkable area and correct if needed
     if current_district:
-        position = _adjust_position_to_stay_in_bounds(position)
+        global_position = _adjust_position_to_stay_in_bounds(global_position)
 
 func _adjust_position_to_stay_in_bounds(pos):
     # This is a simple implementation that just checks the current position
@@ -156,7 +156,7 @@ func _adjust_position_to_stay_in_bounds(pos):
     if current_district and !current_district.is_position_walkable(pos):
         # Reset to previous position and stop movement
         is_moving = false
-        return position - velocity.normalized() * 5
+        return global_position - velocity.normalized() * 5
     return pos
 
 func _update_visuals():
@@ -180,18 +180,25 @@ func _update_movement_state(distance_to_target):
     # Determine current state based on velocity and distance
     var speed = velocity.length()
     
+    # Check if we're on the final segment of our path
+    var is_final_segment = navigation_path.size() == 0 or (current_path_index >= navigation_path.size() - 1)
+    
     if current_movement_state == MovementState.ACCELERATING:
         # Check if we've reached cruising speed
         if speed >= movement_speed * 0.95:
             _set_movement_state(MovementState.MOVING)
     elif current_movement_state == MovementState.MOVING:
-        # Check if we need to start decelerating
-        var stopping_distance = (speed * speed) / (2 * deceleration)
-        if distance_to_target <= stopping_distance * 1.2:
-            _set_movement_state(MovementState.DECELERATING)
+        # Only decelerate if this is the final segment
+        if is_final_segment:
+            var stopping_distance = (speed * speed) / (2 * deceleration)
+            if distance_to_target <= stopping_distance * 1.2:
+                _set_movement_state(MovementState.DECELERATING)
     elif current_movement_state == MovementState.DECELERATING:
-        # We stay in this state until arrival
-        pass
+        # Check if we need to re-accelerate (e.g., overshot or new waypoint)
+        var stopping_distance = (speed * speed) / (2 * deceleration)
+        if distance_to_target > stopping_distance * 2.0:
+            # We're too far from target to be decelerating, re-accelerate
+            _set_movement_state(MovementState.ACCELERATING)
 
 # Navigation2D support methods for testing
 func request_navigation_path(target_pos):

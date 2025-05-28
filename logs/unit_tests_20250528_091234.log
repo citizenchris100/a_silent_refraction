@@ -1,0 +1,31 @@
+=== Test: player_navigation_progress_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERNAVIGATIONPROGRESSTEST TEST SUITE
+==================================================
+
+
+[TEST] test_player_makes_progress_along_path
+  Start position: (975, 150)
+  End position: (900, 375)
+  Total distance traveled: 535.69
+  Final waypoint index: 0
+  Current state: ARRIVED
+  ✓ PASS: test_player_makes_progress_along_path: Player should make progress along navigation path
+
+==================================================
+ SUMMARY: 1 passed, 0 failed
+==================================================
+
+[PASS] All PlayerNavigationProgressTest tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:126
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+

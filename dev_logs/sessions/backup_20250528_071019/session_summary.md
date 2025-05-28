@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 28, 2025 - Continue Iteration 3 - Navigation and Multi-Perspective Systems (🟢 IN PROGRESS)
-- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
-- **Focus:** Continue work from previous session on navigation system bug fixes and walkable area enhancements
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-28_07-10-19.md)
-
 ### May 27, 2025 - Continue Work on Iteration 3 (✅ COMPLETED)
 - **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
 - **Focus:** Navigation System Implementation

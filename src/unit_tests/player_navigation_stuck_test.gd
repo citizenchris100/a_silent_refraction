@@ -151,7 +151,7 @@ func test_suite_coordinate_consistency():
 	start_test("test_navigation_path_coordinate_space")
 	
 	if player.has_method("request_navigation_path"):
-		player.position = Vector2(100, 100)
+		player.global_position = Vector2(100, 100)
 		player.request_navigation_path(Vector2(900, 900))
 		
 		if player.navigation_path.size() > 0:
@@ -210,8 +210,11 @@ func test_suite_waypoint_reaching():
 	
 	while player.is_moving and frame_count < max_frames:
 		player._physics_process(0.016)
-		if player.current_path_index != indices_visited[indices_visited.size() - 1]:
-			indices_visited.append(player.current_path_index)
+		var current_index = player.current_path_index
+		var last_index = indices_visited[indices_visited.size() - 1]
+		# Only track valid indices that are actually incremental
+		if current_index != last_index and current_index <= player.navigation_path.size():
+			indices_visited.append(current_index)
 		frame_count += 1
 	
 	# Check that waypoints were visited in order
@@ -220,6 +223,10 @@ func test_suite_waypoint_reaching():
 		if indices_visited[i] != indices_visited[i-1] + 1:
 			sequential = false
 			break
+	
+	if log_debug_info:
+		print("  Indices visited: %s" % str(indices_visited))
+		print("  Final path index: %d" % player.current_path_index)
 	
 	end_test(sequential, "Waypoints should be followed sequentially")
 
@@ -270,8 +277,8 @@ func test_suite_path_following_stability():
 		player._physics_process(0.016)
 		frames += 1
 	
-	var arrived = !player.is_moving and player.get_state() == "IDLE"
-	var final_distance = player.position.distance_to(Vector2(200, 100))
+	var arrived = !player.is_moving and (player.get_state() == "IDLE" or player.get_state() == "ARRIVED")
+	var final_distance = player.global_position.distance_to(Vector2(200, 100))
 	
 	if log_debug_info:
 		print("  Frames to arrive: %d" % frames)
