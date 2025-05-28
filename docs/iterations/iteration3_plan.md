@@ -59,8 +59,8 @@
 - [x] Task 2: Implement state signaling and synchronization for camera
 - [x] Task 3: Create test scene for validating camera system improvements
 - [x] Task 4: Enhance player controller for consistent physics behavior
-- [ ] Task 5: Implement proper pathfinding with Navigation2D
-- [ ] Task 6: Create test scene for player movement validation
+- [x] Task 5: Implement proper pathfinding with Navigation2D
+- [x] Task 6: Create test scene for player movement validation
 - [ ] Task 7: Enhance walkable area system with improved polygon algorithms
 - [ ] Task 8: Implement click detection and validation refinements
 - [ ] Task 9: Create test scene for walkable area validation
@@ -358,6 +358,10 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a player, I want my character to intelligently navigate around obstacles, so that I don't have to micromanage movement through complex environments.
 
+
+**Status History:**
+- **✅ COMPLETE** (05/27/25)
+- **✅ COMPLETE** (05/27/25)
 **Requirements:**
 - **Linked to:** B1, U1
 - **Acceptance Criteria:**
@@ -378,6 +382,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a developer, I want a test scene for player movement, so that I can verify movement physics, pathfinding, and obstacle avoidance work correctly.
 
+
+**Status History:**
+- **✅ COMPLETE** (05/27/25)
 **Requirements:**
 - **Linked to:** B1, U1
 - **Acceptance Criteria:**

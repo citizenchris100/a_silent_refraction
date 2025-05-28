@@ -1,0 +1,49 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERCOORDINATEMISMATCHTEST TEST SUITE
+==================================================
+
+
+[TEST] test_position_global_position_mismatch
+WARNING: No district found for the player
+  Container position: (100, 100)
+  Player local position: (50, 50)
+  Player global position: (150, 150)
+  Expected global position: (150, 150)
+  Current target: (200, 150)
+  Direction using position: (150, 100)
+  Direction using global_position: (50, 0)
+  ✗ FAIL: test_position_global_position_mismatch: Player should use same coordinate space regardless of parent position
+
+[TEST] test_waypoint_distance_checks
+WARNING: No district found for the player
+  Player position: (100, 100)
+  Player global_position: (100, 100)
+  Waypoint: (110, 100)
+  Distance using position: 10.000000
+  Distance using global_position: 10.000000
+  ✓ PASS: test_waypoint_distance_checks: Distance calculations are consistent when player is at root level
+
+[TEST] test_navigation_direction_calculation_bug
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D').
+          at: _find_current_district (res://src/characters/player/player.gd:49)
+  Player position: (975, 150)
+  Player global_position: (975, 150)
+  Navigation target: (500, 500)
+  Wrong direction (using position): (-475, 350)
+  Correct direction (using global_position): (-475, 350)
+  Wrong distance: 590.021179
+  Correct distance: 590.021179
+  ✓ PASS: test_navigation_direction_calculation_bug: Player should use global_position for navigation calculations
+
+==================================================
+ SUMMARY: 2 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_position_global_position_mismatch

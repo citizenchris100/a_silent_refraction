@@ -23,6 +23,11 @@ var current_district = null
 # State machine
 var current_movement_state = MovementState.IDLE
 
+# Navigation2D variables
+var navigation_path = []
+var navigation_node = null
+var current_path_index = 0
+
 # Signals
 signal movement_state_changed(new_state)
 
@@ -33,6 +38,9 @@ func _ready():
     # Find the current district
     yield(get_tree(), "idle_frame")
     _find_current_district()
+    
+    # Find navigation node if available
+    navigation_node = _find_navigation_node()
 
 func _find_current_district():
     var districts = get_tree().get_nodes_in_group("district")
@@ -42,10 +50,39 @@ func _find_current_district():
     else:
         print("WARNING: No district found for the player")
 
+func _find_navigation_node():
+    # Look for Navigation2D node in parent hierarchy
+    var parent = get_parent()
+    while parent:
+        if parent.has_node("Navigation2D"):
+            return parent.get_node("Navigation2D")
+        # Also check if parent itself is Navigation2D
+        if parent is Navigation2D:
+            return parent
+        parent = parent.get_parent()
+    return null
+
 func move_to(pos):
+    # Alias for move_to_position for compatibility
+    move_to_position(pos)
+
+func move_to_position(pos):
     # Check if position is within a walkable area
     if current_district and current_district.is_position_walkable(pos):
         target_position = pos
+        
+        # Try to use Navigation2D if available
+        if navigation_node:
+            navigation_path = navigation_node.get_simple_path(global_position, pos)
+            current_path_index = 0
+            
+            # Skip the first point if it's very close to current position
+            if navigation_path.size() > 1 and global_position.distance_to(navigation_path[0]) < 5:
+                current_path_index = 1
+        else:
+            # Fallback to direct movement
+            navigation_path = []
+        
         is_moving = true
         _set_movement_state(MovementState.ACCELERATING)
         print("Moving to: " + str(pos))
@@ -61,7 +98,20 @@ func _process(delta):
     _update_visuals()
 
 func _handle_movement(delta):
-    var direction = target_position - position
+    var current_target = target_position
+    
+    # If we have a navigation path, follow it
+    if navigation_path.size() > 0 and current_path_index < navigation_path.size():
+        current_target = navigation_path[current_path_index]
+        
+        # Check if we've reached the current path point
+        if global_position.distance_to(current_target) < 10:
+            current_path_index += 1
+            if current_path_index >= navigation_path.size():
+                # We've reached the end of the path
+                current_target = target_position
+    
+    var direction = current_target - position
     var distance = direction.length()
     
     if distance < 5:
@@ -69,6 +119,8 @@ func _handle_movement(delta):
         position = target_position
         velocity = Vector2.ZERO
         is_moving = false
+        navigation_path = []
+        current_path_index = 0
         _set_movement_state(MovementState.ARRIVED)
         # After a brief moment, return to IDLE
         yield(get_tree().create_timer(0.1), "timeout")
@@ -140,3 +192,49 @@ func _update_movement_state(distance_to_target):
     elif current_movement_state == MovementState.DECELERATING:
         # We stay in this state until arrival
         pass
+
+# Navigation2D support methods for testing
+func request_navigation_path(target_pos):
+    # Request a navigation path without starting movement
+    if navigation_node:
+        navigation_path = navigation_node.get_simple_path(global_position, target_pos)
+        current_path_index = 0
+        
+        # Skip the first point if it's very close to current position
+        if navigation_path.size() > 1 and global_position.distance_to(navigation_path[0]) < 5:
+            current_path_index = 1
+
+func has_navigation_path():
+    return navigation_path.size() > 0
+
+func get_navigation_path():
+    return navigation_path
+
+func get_current_path():
+    return navigation_path
+
+func has_path():
+    return has_navigation_path()
+
+func stop_movement():
+    is_moving = false
+    navigation_path = []
+    current_path_index = 0
+    _set_movement_state(MovementState.DECELERATING)
+
+func get_state():
+    match current_movement_state:
+        MovementState.IDLE:
+            return "IDLE"
+        MovementState.ACCELERATING:
+            return "ACCELERATING"
+        MovementState.MOVING:
+            return "MOVING"
+        MovementState.DECELERATING:
+            return "DECELERATING"
+        MovementState.ARRIVED:
+            return "ARRIVED"
+    return "UNKNOWN"
+
+func get_target_position():
+    return target_position

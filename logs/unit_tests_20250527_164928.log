@@ -1,0 +1,16 @@
+=== Test: navigation_pathfinding_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+ERROR: Condition "err" is true. Returned: err
+   at: load_source_code (modules/gdscript/gdscript.cpp:807)
+ERROR: Cannot load source code from file 'res://addons/gut/test.gd'.
+   at: load (modules/gdscript/gdscript.cpp:2209)
+ERROR: Failed loading resource: res://addons/gut/test.gd. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270)
+SCRIPT ERROR: Parse Error: Couldn't load the base class: res://addons/gut/test.gd
+          at: GDScript::reload (res://src/unit_tests/navigation_pathfinding_test.gd:1)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+

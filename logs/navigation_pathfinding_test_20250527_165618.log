@@ -1,0 +1,69 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ NAVIGATIONPATHFINDINGTEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Navigation Setup Tests =====
+
+===== TEST SUITE: Pathfinding Tests =====
+
+===== TEST SUITE: Path Following Tests =====
+
+===== TEST SUITE: Obstacle Avoidance Tests =====
+
+===== TEST SUITE: Fallback Behavior Tests =====
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All NavigationPathfindingTest tests passed!
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D ()').
+          at: _find_current_district (res://src/characters/player/player.gd:41)
+
+[TEST] test_player_finds_navigation_node
+  ✗ FAIL: test_player_finds_navigation_node: Player can find navigation node in parent hierarchy
+
+[TEST] test_navigation2d_setup
+  ✓ PASS: test_navigation2d_setup: Navigation2D and NavigationPolygon are properly configured
+
+[TEST] test_district_navigation_reference
+  ✓ PASS: test_district_navigation_reference: District has correct navigation reference
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D ()').
+          at: _find_current_district (res://src/characters/player/player.gd:41)
+
+[TEST] test_get_simple_path
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_simple_path' in base 'Nil'.
+          at: test_suite_pathfinding (res://src/unit_tests/navigation_pathfinding_test.gd:191)
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D ()').
+          at: _find_current_district (res://src/characters/player/player.gd:41)
+
+[TEST] test_player_path_request
+SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
+          at: test_suite_path_following (res://src/unit_tests/navigation_pathfinding_test.gd:218)
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D ()').
+          at: _find_current_district (res://src/characters/player/player.gd:41)
+
+[TEST] test_path_avoids_obstacle
+SCRIPT ERROR: Invalid get index 'navpoly' (on base: 'Nil').
+          at: test_suite_obstacle_avoidance (res://src/unit_tests/navigation_pathfinding_test.gd:258)
+SCRIPT ERROR: Invalid get index 'district_name' (on base: 'Node2D ()').
+          at: _find_current_district (res://src/characters/player/player.gd:41)
+
+[TEST] test_fallback_to_direct_movement
+SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
+          at: test_suite_fallback_behavior (res://src/unit_tests/navigation_pathfinding_test.gd:306)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: There are still MemoryPool allocs in use at exit!
+   at: cleanup (core/pool_vector.cpp:63)

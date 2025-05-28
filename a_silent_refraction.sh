@@ -17,6 +17,7 @@ MAIN_SCENE="res://src/core/main.tscn"
 CAMERA_TEST_SCENE="res://src/test/clean_camera_test.tscn"
 CAMERA_SYSTEM_TEST_SCENE="res://src/test/clean_camera_test2.tscn"
 CAMERA_VALIDATION_TEST_SCENE="res://src/test/camera_system_test.tscn"
+MOVEMENT_GRID_TEST_SCENE="res://src/test/movement_grid_test.tscn"
 
 # Function to display help
 function show_help {
@@ -29,6 +30,7 @@ function show_help {
     echo "  camera               - Run the scrolling camera test scene"
     echo "  camera-system        - Run the district template with enhanced camera system"
     echo "  camera-test          - Run the comprehensive camera validation test"
+    echo "  movement             - Run the grid-based movement test scene"
     echo "  clean                - Clean up redundant files"
     echo "  build                - Build the game for distribution"
     echo "  check                - Check project for errors"
@@ -67,6 +69,16 @@ function run_camera_validation_test {
     echo -e "${YELLOW}Use number keys 1-8 to switch between test backgrounds${NC}"
     echo -e "${YELLOW}Press ESC to exit${NC}"
     $GODOT_CMD --path $PROJECT_ROOT $CAMERA_VALIDATION_TEST_SCENE
+}
+
+# Function to run the movement grid test scene
+function run_movement_test {
+    echo -e "${GREEN}Running grid-based movement test scene...${NC}"
+    echo -e "${YELLOW}Click on grid cells to test pathfinding and movement${NC}"
+    echo -e "${YELLOW}Grid coordinates (A1-T15) help identify click locations${NC}"
+    echo -e "${YELLOW}Press G to toggle grid, P to toggle path, M to toggle metrics${NC}"
+    echo -e "${YELLOW}Press ESC to exit${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT $MOVEMENT_GRID_TEST_SCENE
 }
 
 
@@ -303,6 +315,9 @@ case "$1" in
         ;;
     camera-test)
         run_camera_validation_test
+        ;;
+    movement)
+        run_movement_test
         ;;
     clean)
         clean_project

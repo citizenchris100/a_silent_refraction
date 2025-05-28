@@ -1,0 +1,70 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ NAVIGATIONPATHFINDINGTEST TEST SUITE
+==================================================
+
+Player linked to district: Test District
+
+===== TEST SUITE: Navigation Setup Tests =====
+
+[TEST] test_player_finds_navigation_node
+  ✓ PASS: test_player_finds_navigation_node: Player can find navigation node in parent hierarchy
+
+[TEST] test_navigation2d_setup
+  ✓ PASS: test_navigation2d_setup: Navigation2D and NavigationPolygon are properly configured
+
+[TEST] test_district_navigation_reference
+  ✓ PASS: test_district_navigation_reference: District has correct navigation reference
+
+===== TEST SUITE: Pathfinding Tests =====
+
+[TEST] test_get_simple_path
+WARNING: 'Navigation2D' node and 'Navigation2D.get_simple_path()' are deprecated and will be removed in a future version. Use 'Navigation2DServer.map_get_path()' instead.
+     at: get_simple_path (scene/2d/navigation_2d.cpp:81)
+  ✓ PASS: test_get_simple_path: Navigation2D returns valid path with at least 2 points
+
+[TEST] test_path_within_bounds
+  ✓ PASS: test_path_within_bounds: All path points stay within navigation polygon bounds
+
+[TEST] test_path_to_unreachable
+  ✓ PASS: test_path_to_unreachable: Pathfinding handles unreachable destinations correctly
+
+===== TEST SUITE: Path Following Tests =====
+
+[TEST] test_player_path_request
+  ✓ PASS: test_player_path_request: Player can request and store navigation path
+
+[TEST] test_movement_state_with_navigation
+Moving to: (200, 150)
+  ✓ PASS: test_movement_state_with_navigation: Player enters correct movement state when following path
+
+[TEST] test_path_following_movement
+Moving to: (150, 50)
+  ✓ PASS: test_path_following_movement: Player position updates when following path
+
+===== TEST SUITE: Obstacle Avoidance Tests =====
+
+[TEST] test_path_avoids_obstacle
+
+===== TEST SUITE: Fallback Behavior Tests =====
+
+[TEST] test_fallback_to_direct_movement
+Moving to: (200, 150)
+  ✓ PASS: test_fallback_to_direct_movement: Player falls back to direct movement when navigation unavailable
+
+[TEST] test_walkable_validation_with_navigation
+Cannot move to: (500, 500) - not in walkable area
+  ✓ PASS: test_walkable_validation_with_navigation: Movement still validates against walkable areas
+
+==================================================
+ SUMMARY: 11 passed, 0 failed
+==================================================
+
+[PASS] All NavigationPathfindingTest tests passed!
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_simple_path' in base 'Nil'.
+          at: test_suite_obstacle_avoidance (res://src/unit_tests/navigation_pathfinding_test.gd:311)

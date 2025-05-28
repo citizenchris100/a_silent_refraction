@@ -1,0 +1,39 @@
+=== Test: player_coordinate_mismatch_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERCOORDINATEMISMATCHTEST TEST SUITE
+==================================================
+
+
+[TEST] test_position_global_position_mismatch
+
+[TEST] test_waypoint_distance_checks
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All PlayerCoordinateMismatchTest tests passed!
+WARNING: No district found for the player
+  Container position: (100, 100)
+  Player local position: (50, 50)
+  Player global position: (150, 150)
+  Expected global position: (150, 150)
+  Current target: (200, 150)
+  Direction using position: (150, 100)
+  Direction using global_position: (50, 0)
+  ✓ PASS: test_waypoint_distance_checks: Coordinate mismatch exists when using position vs global_position
+WARNING: No district found for the player
+  Player position: (100, 100)
+  Player global_position: (100, 100)
+  Waypoint: (110, 100)
+  Distance using position: 10.000000
+  Distance using global_position: 10.000000
+  ✓ PASS: test_waypoint_distance_checks: Distance calculations are consistent when player is at root level
+

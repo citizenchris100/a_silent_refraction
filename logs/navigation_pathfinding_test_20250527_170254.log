@@ -1,0 +1,82 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ NAVIGATIONPATHFINDINGTEST TEST SUITE
+==================================================
+
+Player linked to district: Test District
+
+===== TEST SUITE: Navigation Setup Tests =====
+
+[TEST] test_player_finds_navigation_node
+  ✗ FAIL: test_player_finds_navigation_node: Player lacks _find_navigation_node method (not yet implemented)
+
+[TEST] test_navigation2d_setup
+  ✓ PASS: test_navigation2d_setup: Navigation2D and NavigationPolygon are properly configured
+
+[TEST] test_district_navigation_reference
+  ✓ PASS: test_district_navigation_reference: District has correct navigation reference
+
+===== TEST SUITE: Pathfinding Tests =====
+
+[TEST] test_get_simple_path
+WARNING: 'Navigation2D' node and 'Navigation2D.get_simple_path()' are deprecated and will be removed in a future version. Use 'Navigation2DServer.map_get_path()' instead.
+     at: get_simple_path (scene/2d/navigation_2d.cpp:81)
+  ✓ PASS: test_get_simple_path: Navigation2D returns valid path with at least 2 points
+
+[TEST] test_path_within_bounds
+  ✓ PASS: test_path_within_bounds: All path points stay within navigation polygon bounds
+
+[TEST] test_path_to_unreachable
+  ✓ PASS: test_path_to_unreachable: Pathfinding handles unreachable destinations correctly
+
+===== TEST SUITE: Path Following Tests =====
+
+[TEST] test_player_path_request
+  ✗ FAIL: test_player_path_request: Player lacks navigation path methods (not yet implemented)
+
+[TEST] test_movement_state_with_navigation
+  ✗ FAIL: test_movement_state_with_navigation: Player movement not yet integrated with navigation
+
+[TEST] test_path_following_movement
+  ✗ FAIL: test_path_following_movement: Path following movement not yet implemented
+
+===== TEST SUITE: Obstacle Avoidance Tests =====
+
+[TEST] test_path_avoids_obstacle
+  ✗ FAIL: test_path_avoids_obstacle: Path correctly navigates around obstacles
+
+[TEST] test_navigation_obstacle_2d
+SCRIPT ERROR: Invalid set index 'position' (on base: 'NavigationObstacle2D') with value of type 'Vector2'.
+          at: test_suite_obstacle_avoidance (res://src/unit_tests/navigation_pathfinding_test.gd:315)
+
+===== TEST SUITE: Fallback Behavior Tests =====
+
+[TEST] test_fallback_to_direct_movement
+  ✓ PASS: test_fallback_to_direct_movement: Fallback behavior will be tested when navigation integration is complete
+
+[TEST] test_walkable_validation_with_navigation
+  ✓ PASS: test_walkable_validation_with_navigation: Walkable validation will be tested with navigation integration
+
+==================================================
+ SUMMARY: 7 passed, 5 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_player_finds_navigation_node
+  - test_player_path_request
+  - test_movement_state_with_navigation
+  - test_path_following_movement
+  - test_path_avoids_obstacle
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: There are still MemoryPool allocs in use at exit!
+   at: cleanup (core/pool_vector.cpp:63)

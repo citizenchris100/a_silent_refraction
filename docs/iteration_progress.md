@@ -6,12 +6,12 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 10 | Advanced NPC Systems | Not started | 0% (0/25) |
-| 11 | Quest and Progression Systems | Not started | 0% (0/25) |
-| 12 | Assimilation and Coalition | Not started | 0% (0/25) |
+| 10 | Advanced NPC Systems | Not started | 0% (0/35) |
+| 11 | Quest and Progression Systems | Not started | 0% (0/35) |
+| 12 | Assimilation and Coalition | Not started | 0% (0/35) |
 | 13 | Full Audio Integration | Not started | 0% (0/25) |
 | 14 | Visual Polish Systems | Not started | 0% (0/25) |
-| 15 | Advanced Features & Polish | Not started | 0% (0/37) |
+| 15 | Advanced Features & Polish | Not started | 0% (0/72) |
 | 16 | Advanced Visual Systems | Not started | 0% (0/42) |
 | 17 | Core Content Foundation | Not started | 0% (0/50) |
 | 18 | District Population Part 1 | Not started | 0% (0/47) |
@@ -21,14 +21,14 @@ This file tracks the progress of all iterations for the project.
 | 21 | Dialog and Narrative | Not started | 0% (0/55) |
 | 22 | Polish and Integration | Not started | 0% (0/56) |
 | 23 | Post-Launch Support and Expansion | Not started | 0% (0/56) |
-| 24 | Hardware Validation and Distribution | Not started | 0% (0/3) |
+| 24 | Hardware Validation and Distribution | Not started | 0% (0/23) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
-| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 8% (4/45) |
+| 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 13% (6/45) |
 | 4 | Serialization Foundation | Not started | 0% (0/17) |
-| 5 | Time and Notification Systems | Not started | 0% (0/19) |
-| 6 | Dialog and Character Systems | Not started | 0% (0/20) |
-| 7 | Economy and Save/Sleep | Not started | 0% (0/25) |
-| 8 | Districts and Living World MVP | Not started | 0% (0/30) |
+| 5 | Time and Notification Systems | Not started | 0% (0/29) |
+| 6 | Dialog and Character Systems | Not started | 0% (0/25) |
+| 7 | Economy and Save/Sleep | Not started | 0% (0/35) |
+| 8 | Districts and Living World MVP | Not started | 0% (0/35) |
 | 9 | Core Gameplay Systems | Not started | 0% (0/25) |
 
 ## Detailed Progress
@@ -76,6 +76,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Add faction reputation tracking
 - [ ] Task 24: Build social event system
 - [ ] Task 25: Implement relationship consequences
+- [ ] Task 26: Implement ring-based district layout with distance calculation
+- [ ] Task 27: Create dynamic pricing system with time/demand modifiers
+- [ ] Task 28: Build transit screen with route visualization
+- [ ] Task 29: Implement transit event system with NPC encounters
+- [ ] Task 30: Add transit passes and subscription system
+- [ ] Task 31: Create route disruption mechanics
+- [ ] Task 32: Implement transit security and scanning
+- [ ] Task 33: Add coalition transit benefits
+- [ ] Task 34: Build emergency transit mechanics
+- [ ] Task 35: Create economic pressure through travel costs
 
 **Key Requirements:**
 - **B1:** Develop deep NPC relationships and trust mechanics
@@ -155,6 +165,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Create quest-specific content
 - [ ] Task 24: Add multiple solution paths
 - [ ] Task 25: Full integration testing
+- [ ] Task 26: Create TradingTerminal scene with Game Boy UI layout
+- [ ] Task 27: Implement BlockTrader core Tetris-style gameplay mechanics
+- [ ] Task 28: Create Game Boy shader and visual effects
+- [ ] Task 29: Implement score-to-credits conversion system
+- [ ] Task 30: Add gender-based modifiers and harassment events
+- [ ] Task 31: Create persistent leaderboard system
+- [ ] Task 32: Implement time consumption mechanics
+- [ ] Task 33: Integrate minigame with job shift system
+- [ ] Task 34: Add save/load functionality for minigame progress
+- [ ] Task 35: Create practice mode and tutorial
 
 **Key Requirements:**
 - **B1:** Implement comprehensive quest and job systems
@@ -176,6 +196,15 @@ This file tracks the progress of all iterations for the project.
 - Performance with many active quests
 - Quest notifications work properly
 - All systems integrate smoothly
+- Trading terminal launches correctly from job system
+- Tetris-style gameplay mechanics work smoothly
+- Game Boy visual aesthetic renders correctly
+- Score-to-credits conversion calculates properly
+- Gender modifiers and harassment events trigger appropriately
+- Leaderboard persists and updates correctly
+- Time consumption matches expected rates
+- Mini-game saves and loads progress properly
+- Practice mode functions without affecting main game
 - Start date: After Iteration 10
 - Target completion: 2-3 weeks
 - Critical for: Phase 2 validation
@@ -190,6 +219,7 @@ This file tracks the progress of all iterations for the project.
 - docs/design/job_work_quest_system_design.md
 - docs/design/quest_log_ui_design.md
 - docs/design/template_quest_design.md
+- docs/design/trading_floor_minigame_system_design.md
 
 ### Iteration 12: Assimilation and Coalition
 
@@ -234,6 +264,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Build faction conflict mechanics
 - [ ] Task 24: Add news/rumor system
 - [ ] Task 25: Implement cascade effects
+- [ ] Task 26: Create advanced event scheduler with conditional chains
+- [ ] Task 27: Implement sophisticated NPC state machine
+- [ ] Task 28: Build rumor propagation system with accuracy decay
+- [ ] Task 29: Create evidence discovery and decay mechanics
+- [ ] Task 30: Implement reaction chain system for events
+- [ ] Task 31: Add performance optimization for 100+ NPCs
+- [ ] Task 32: Create quantum simulation for background NPCs
+- [ ] Task 33: Build temporal reputation tracking
+- [ ] Task 34: Implement differential serialization for world state
+- [ ] Task 35: Create emergent narrative generation system
 
 **Key Requirements:**
 - **B1:** Create dynamic station response to assimilation threat
@@ -255,6 +295,16 @@ This file tracks the progress of all iterations for the project.
 - Save/load preserves all states
 - Performance with many active systems
 - Emergent scenarios feel natural
+- Event chains trigger and resolve correctly
+- NPCs maintain consistent state machines
+- Rumors propagate with appropriate distortion
+- Evidence spawns and decays properly
+- Reaction chains create logical consequences
+- 100+ NPCs perform without frame drops
+- Quantum NPCs transition smoothly
+- Reputation affects NPC interactions
+- Differential saves remain small and fast
+- Emergent narratives feel coherent
 - Start date: After Iteration 11
 - Target completion: 3 weeks (complex interactions)
 - Critical for: Complete game experience
@@ -269,6 +319,8 @@ This file tracks the progress of all iterations for the project.
 - docs/design/coalition_resistance_system_design.md
 - docs/design/crime_security_event_system_design.md
 - docs/design/multiple_endings_system_design.md
+- docs/design/living_world_event_system_mvp.md (from iteration 8)
+- docs/design/living_world_event_system_full.md (extends MVP with advanced events)
 
 ### Iteration 13: Full Audio Integration
 
@@ -497,6 +549,21 @@ This file tracks the progress of all iterations for the project.
 - **Risk:** Performance issues with all systems active
 - **Risk:** Integration conflicts between systems
 - **Risk:** Scope creep on "polish"
+- src/core/events/event_manager.gd
+- src/core/events/living_world_event.gd
+- src/core/investigation/investigation_manager.gd
+- src/core/investigation/clue.gd
+- src/core/puzzles/base_puzzle.gd
+- src/core/puzzles/puzzle_manager.gd
+- src/core/transport/tram_system.gd
+- src/core/transport/tram_station.gd
+- src/core/performance/profiler.gd
+- src/core/performance/object_pool.gd
+- docs/design/living_world_event_system_full.md
+- docs/design/investigation_clue_tracking_system_design.md
+- docs/design/puzzle_system_design.md
+- docs/design/tram_transportation_system_design.md
+- docs/design/performance_optimization_plan.md
 
 ### Iteration 16: Advanced Visual Systems
 
@@ -1164,43 +1231,112 @@ This file tracks the progress of all iterations for the project.
 ### Iteration 24: Hardware Validation and Distribution
 
 **Goals:**
-- Goal 1
-- Goal 2
-- Goal 3
-- **B1:** Business requirement placeholder
-- **U1:** As a player, I want to do something
-- **T1:** Technical requirement placeholder
-- [ ] Task 1: Description of task 1
-- [ ] Task 2: Description of task 2
-- [ ] Task 3: Description of task 3
-- Criterion 1
-- Criterion 2
-- Criterion 3
-- Start date: 2025-05-27
-- Target completion: 2025-06-10
-- List any dependencies here
+- Validate game performance on Raspberry Pi 5 hardware
+- Develop custom Linux distribution for direct-boot experience
+- Create manufacturing and distribution pipeline
+- Test complete hardware package with real users
+- **B1:** Create unique physical distribution model
+- **B2:** Achieve optimal performance on target hardware
+- **U1:** As a player, I want a plug-and-play gaming experience
+- **U2:** As a player, I want a collectible physical product
+- **T1:** Optimize for ARM architecture
+- **T2:** Implement hardware validation
+- [ ] Task 1: Acquire Raspberry Pi 5 development hardware
+- [ ] Task 2: Set up cross-compilation toolchain for ARM
+- [ ] Task 3: Build and test Godot game on Pi 5
+- [ ] Task 4: Performance profiling and optimization
+- [ ] Task 5: Memory usage optimization
+- [ ] Task 6: Test with various display resolutions
+- [ ] Task 7: Set up Buildroot development environment
+- [ ] Task 8: Create minimal Linux configuration
+- [ ] Task 9: Implement custom boot splash screen
+- [ ] Task 10: Configure auto-launch into game
+- [ ] Task 11: Create read-only filesystem setup
+- [ ] Task 12: Implement hardware fingerprinting
+- [ ] Task 13: Source components and suppliers
+- [ ] Task 14: Design custom case with branding
+- [ ] Task 15: Create SD card flashing process
+- [ ] Task 16: Develop QA testing procedures
+- [ ] Task 17: Design packaging and documentation
+- [ ] Task 18: Set up fulfillment process
+- [ ] Task 19: Create beta hardware units
+- [ ] Task 20: Conduct user testing sessions
+- [ ] Task 21: Gather performance metrics
+- [ ] Task 22: Iterate based on feedback
+- [ ] Task 23: Finalize production specifications
+- Game runs at stable 30+ FPS on Raspberry Pi 5
+- Boot time from power-on to main menu <30 seconds
+- All game features function correctly on ARM architecture
+- Custom Linux distribution boots reliably
+- Hardware validation doesn't impact gameplay
+- SD card image can be replicated consistently
+- Complete hardware package passes 2-hour stress test
+- Packaging protects hardware during shipping
+- Start date: After game release (Iteration 23)
+- Target completion: 6-8 weeks
+- Note: Can begin planning during Iteration 22-23
+- Complete game (Iteration 1-23)
+- Final performance optimization (Iteration 22)
+- Hardware supplier relationships
+- Beta testing group recruited
 - No links yet
 
 **Key Requirements:**
-- **B1:** Business requirement placeholder
-- **U1:** As a player, I want to do something
+- **B1:** Create unique physical distribution model
+- **B2:** Achieve optimal performance on target hardware
+- **U1:** As a player, I want a plug-and-play gaming experience
+- **U2:** As a player, I want a collectible physical product
 
 **Tasks:**
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Description of task 1 | Pending | - |
-| Description of task 2 | Pending | - |
-| Description of task 3 | Pending | - |
+| Acquire Raspberry Pi 5 development hardware | Pending | - |
+| Set up cross-compilation toolchain for ARM | Pending | - |
+| Build and test Godot game on Pi 5 | Pending | - |
+| Performance profiling and optimization | Pending | - |
+| Memory usage optimization | Pending | - |
+| Test with various display resolutions | Pending | - |
+| Set up Buildroot development environment | Pending | - |
+| Create minimal Linux configuration | Pending | - |
+| Implement custom boot splash screen | Pending | - |
+| Configure auto-launch into game | Pending | - |
+| Create read-only filesystem setup | Pending | - |
+| Implement hardware fingerprinting | Pending | - |
+| Source components and suppliers | Pending | - |
+| Design custom case with branding | Pending | - |
+| Create SD card flashing process | Pending | - |
+| Develop QA testing procedures | Pending | - |
+| Design packaging and documentation | Pending | - |
+| Set up fulfillment process | Pending | - |
+| Create beta hardware units | Pending | - |
+| Conduct user testing sessions | Pending | - |
+| Gather performance metrics | Pending | - |
+| Iterate based on feedback | Pending | - |
+| Finalize production specifications | Pending | - |
 
 **Testing Criteria:**
-- Criterion 1
-- Criterion 2
-- Criterion 3
-- Start date: 2025-05-27
-- Target completion: 2025-06-10
-- List any dependencies here
+- Game runs at stable 30+ FPS on Raspberry Pi 5
+- Boot time from power-on to main menu <30 seconds
+- All game features function correctly on ARM architecture
+- Custom Linux distribution boots reliably
+- Hardware validation doesn't impact gameplay
+- SD card image can be replicated consistently
+- Complete hardware package passes 2-hour stress test
+- Packaging protects hardware during shipping
+- Start date: After game release (Iteration 23)
+- Target completion: 6-8 weeks
+- Note: Can begin planning during Iteration 22-23
+- Complete game (Iteration 1-23)
+- Final performance optimization (Iteration 22)
+- Hardware supplier relationships
+- Beta testing group recruited
 - No links yet
+- This iteration happens POST-RELEASE of the digital game
+- Hardware distribution is a premium option, not primary release
+- Initial production run should be limited (100-500 units)
+- Consider Kickstarter for initial hardware funding
+- docs/design/hardware_validation_plan.md
 
 ### Iteration 2: NPC Framework and Suspicion System
 
@@ -1285,8 +1421,8 @@ This file tracks the progress of all iterations for the project.
 - [x] Task 2: Implement state signaling and synchronization for camera
 - [x] Task 3: Create test scene for validating camera system improvements
 - [x] Task 4: Enhance player controller for consistent physics behavior
-- [ ] Task 5: Implement proper pathfinding with Navigation2D
-- [ ] Task 6: Create test scene for player movement validation
+- [x] Task 5: Implement proper pathfinding with Navigation2D
+- [x] Task 6: Create test scene for player movement validation
 - [ ] Task 7: Enhance walkable area system with improved polygon algorithms
 - [ ] Task 8: Implement click detection and validation refinements
 - [ ] Task 9: Create test scene for walkable area validation
@@ -1330,31 +1466,31 @@ This file tracks the progress of all iterations for the project.
 |------|--------|--------------|
 | Enhance scrolling camera system with improved coordinate conversions *(REQUIRES VISUAL FIXES)* | Complete | - |
 | Implement state signaling and synchronization for camera (As a player, I want the camera to correctly synchronize with my character's movement and game events, so that I always have a clear view of relevant gameplay elements without jarring transitions.) | Complete | - |
-| Create test scene for validating camera system improvements | Complete | - |
+| Create test scene for validating camera system improvements (As a developer, I want a dedicated test scene for the camera system, so that I can verify its functionality and easily detect regressions during development.) | Complete | - |
 | Enhance player controller for consistent physics behavior (As a player, I want my character to move naturally with smooth acceleration and deceleration, so that navigation feels responsive and realistic.) | Complete | - |
-| Implement proper pathfinding with Navigation2D | Pending | - |
-| Create test scene for player movement validation | Pending | - |
+| Implement proper pathfinding with Navigation2D (As a player, I want my character to intelligently navigate around obstacles, so that I don't have to micromanage movement through complex environments.) | Complete | - |
+| Create test scene for player movement validation (As a developer, I want a test scene for player movement, so that I can verify movement physics, pathfinding, and obstacle avoidance work correctly.) | Complete | - |
 | Enhance walkable area system with improved polygon algorithms (As a player, I want clear boundaries for where my character can walk, so that I don't experience frustration from attempting to navigate to inaccessible areas.) | Pending | - |
-| Implement click detection and validation refinements | Pending | - |
-| Create test scene for walkable area validation | Pending | - |
-| Enhance system communication through signals | Pending | - |
-| Implement comprehensive debug tools and visualizations | Pending | - |
-| Create integration test for full navigation system | Pending | - |
+| Implement click detection and validation refinements (As a player, I want accurate click detection for character movement and object interaction, so that the game correctly interprets my intentions even in visually complex scenes.) | Pending | - |
+| Create test scene for walkable area validation (As a developer, I want a test scene for walkable areas, so that I can verify polygon algorithms, boundary detection, and multi-area functionality work correctly.) | Pending | - |
+| Enhance system communication through signals (As a developer, I want robust signal-based communication between navigation systems, so that components remain decoupled while still coordinating their behavior effectively.) | Pending | - |
+| Implement comprehensive debug tools and visualizations (As a developer, I want robust debug tools for the navigation system, so that I can quickly identify and resolve issues during development.) | Pending | - |
+| Create integration test for full navigation system (As a developer, I want comprehensive integration tests for the navigation system, so that I can verify all components work together correctly and prevent regressions.) | Pending | - |
 | Create directory structure and base files for the multi-perspective system (As a developer, I want a well-organized foundation for the multi-perspective character system, so that we can build and extend it systematically with minimal refactoring.) | Pending | - |
-| Define perspective types enum and configuration templates | Pending | - |
-| Extend district base class to support perspective information | Pending | - |
+| Define perspective types enum and configuration templates (As a developer, I want a clear definition of perspective types with configuration templates, so that I can easily create and maintain consistent visual perspectives across the game.) | Pending | - |
+| Extend district base class to support perspective information (As a developer, I want the district system to include perspective information, so that districts can properly communicate their visual style to character controllers.) | Pending | - |
 | Implement character controller class with animation support (As a player, I want my character's appearance to adapt correctly to different visual perspectives, so that the game maintains visual consistency and immersion.) | Pending | - |
-| Create test character with basic animations | Pending | - |
-| Test animation transitions within a perspective | Pending | - |
+| Create test character with basic animations (As a developer, I want a test character with basic animations for each perspective, so that I can validate the multi-perspective character system's functionality.) | Pending | - |
+| Test animation transitions within a perspective (As a developer, I want to validate animation transitions within each perspective, so that characters animate smoothly during gameplay actions.) | Pending | - |
 | Implement movement controller with direction support (As a player, I want my character to move correctly regardless of the visual perspective, so that gameplay feels consistent throughout the game.) | Pending | - |
-| Connect movement controller to point-and-click navigation | Pending | - |
-| Test character movement in a single perspective | Pending | - |
-| Create test districts with different perspective types | Pending | - |
-| Implement perspective switching in character controller | Pending | - |
-| Create test for transitions between different perspective districts | Pending | - |
+| Connect movement controller to point-and-click navigation (As a developer, I want the multi-perspective movement controller to integrate with the point-and-click navigation system, so that players experience consistent controls across all game areas.) | Pending | - |
+| Test character movement in a single perspective (As a developer, I want comprehensive testing of character movement within each perspective type, so that I can verify movement mechanics work correctly before moving to multi-perspective scenarios.) | Pending | - |
+| Create test districts with different perspective types (As a developer, I want test districts with different perspective types, so that I can verify the multi-perspective system works correctly across district transitions.) | Pending | - |
+| Implement perspective switching in character controller (As a developer, I want the character controller to handle perspective switching seamlessly, so that characters maintain appropriate behavior when moving between different districts.) | Pending | - |
+| Create test for transitions between different perspective districts (As a developer, I want comprehensive tests for character transitions between perspective types, so that I can verify the multi-perspective system functions correctly in real gameplay scenarios.) | Pending | - |
 | Create comprehensive documentation for both systems (As a developer, I want clear documentation for both the navigation and multi-perspective systems, so that I can understand, maintain, and extend these systems effectively.) | Pending | - |
-| Perform code review and optimization | Pending | - |
-| Update existing documentation to reflect new systems | Pending | - |
+| Perform code review and optimization (As a developer, I want a thorough code review and optimization pass for both systems, so that the code remains maintainable and performs well in all scenarios.) | Pending | - |
+| Update existing documentation to reflect new systems (As a developer, I want all existing documentation updated to reflect the new navigation and multi-perspective systems, so that documentation remains accurate and comprehensive.) | Pending | - |
 | Create simple POC test sprites for perspective scaling validation (As a developer, I want simple geometric test sprites at multiple scales, so that I can validate the perspective scaling system without complex art assets.) | Pending | - |
 | Implement basic sprite perspective scaling system (As a developer, I want sprites to scale based on Y-position in perspective backgrounds, so that depth illusion is maintained in scenes with visual perspective.) | Pending | - |
 | Create sprite scaling test scene for validation (As a developer, I want a dedicated test scene for sprite scaling, so that I can validate perspective effects work correctly with different backgrounds and movement patterns.) | Pending | - |
@@ -1409,6 +1545,9 @@ This file tracks the progress of all iterations for the project.
 - docs/design/multi_perspective_character_system_plan.md
 - docs/design/sprite_perspective_scaling_plan.md
 - docs/design/foreground_occlusion_mvp_plan.md
+- docs/design/audio_system_iteration3_mvp.md
+- docs/design/audio_system_technical_implementation.md
+- Template integration patterns should follow docs/design/template_integration_standards.md throughout implementation
 
 ### Iteration 4: Serialization Foundation
 
@@ -1460,23 +1599,6 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create SerializationManager singleton | Pending | - |
-| Implement ISerializable interface | Pending | - |
-| Create self-registration system for serializable components | Pending | - |
-| Implement save data versioning system | Pending | - |
-| Create compressed save file format | Pending | - |
-| Implement player state serialization | Pending | - |
-| Implement NPC state serialization | Pending | - |
-| Implement district state serialization | Pending | - |
-| Implement game manager state serialization | Pending | - |
-| Create serialization for time system (prep for I5) | Pending | - |
-| Create unit tests for serialization system | Pending | - |
-| Implement save/load integration tests | Pending | - |
-| Create save file validation tools | Pending | - |
-| Implement backwards compatibility tests | Pending | - |
-| Document serialization architecture | Pending | - |
-| Create serialization implementation guide | Pending | - |
-| Document save file format specification | Pending | - |
 
 **Testing Criteria:**
 - SerializationManager successfully saves and loads game state
@@ -1530,13 +1652,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 17: Add notifications to existing systems
 - [ ] Task 18: Implement time serialization
 - [ ] Task 19: Create time-based debug tools
-- **⏳ PENDING** (05/26/25)
-- **Linked to:** B1, T1
-- **Acceptance Criteria:**
-- Start date: Day 1, Month 1, Year 2157, 08:00
-- 24-hour days, 30-day months, 12-month years
-- Time advances in 5-minute increments minimum
-- Reference: docs/design/time_management_system_mvp.md
+- [ ] Task 20: Create TimeDisplay UI component with minimal/expanded states
+- [ ] Task 21: Implement deadline warning system with color coding
+- [ ] Task 22: Create expandable calendar view with event listings
+- [ ] Task 23: Integrate time display with quest deadlines
+- [ ] Task 24: Add assimilation countdown display
+- [ ] Task 25: Implement contextual time information system
+- [ ] Task 26: Create time display positioning system
+- [ ] Task 27: Add critical event flash warnings
+- [ ] Task 28: Implement time display serialization
+- [ ] Task 29: Create accessibility features for time display
 
 **Key Requirements:**
 - **B1:** Create a sense of progression and urgency through time management
@@ -1548,25 +1673,6 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create TimeManager singleton | Pending | - |
-| Implement game clock (hours, minutes) | Pending | - |
-| Implement calendar system (days, months, years) | Pending | - |
-| Create time advancement mechanics | Pending | - |
-| Implement action duration system | Pending | - |
-| Create time-based event scheduler | Pending | - |
-| Create PromptNotificationSystem singleton | Pending | - |
-| Implement notification queue and priority system | Pending | - |
-| Create notification UI component | Pending | - |
-| Implement notification categories and filtering | Pending | - |
-| Add notification sound support (prep for audio) | Pending | - |
-| Create clock UI display | Pending | - |
-| Create calendar UI display | Pending | - |
-| Implement time controls (pause, speed settings) | Pending | - |
-| Create notification display area | Pending | - |
-| Integrate time system with existing game flow | Pending | - |
-| Add notifications to existing systems | Pending | - |
-| Implement time serialization | Pending | - |
-| Create time-based debug tools | Pending | - |
 
 **Testing Criteria:**
 - Time advances correctly for all actions
@@ -1621,11 +1727,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 13: Create verb-object interaction system
 - [ ] Task 14: Add verb shortcuts/hotkeys
 - [ ] Task 15: Implement context-sensitive verb availability
-- [ ] Task 16: Create main menu scene and UI
-- [ ] Task 17: Implement new game flow
-- [ ] Task 18: Add continue game functionality
-- [ ] Task 19: Create options/settings menu
-- [ ] Task 20: Add credits screen
+- [ ] Task 16: Create title screen with minimalist UI layout
+- [ ] Task 17: Implement save file detection and load button states
+- [ ] Task 18: Create save overwrite warning dialog system
+- [ ] Task 19: Build gender selection screen with radio buttons
+- [ ] Task 20: Implement prologue scrolling text system
+- [ ] Task 21: Create new game initialization sequence
+- [ ] Task 22: Implement direct load functionality (no UI)
+- [ ] Task 23: Add atmospheric effects and CRT shader
+- [ ] Task 24: Create error handling for failed loads
+- [ ] Task 25: Integrate with existing game systems
 
 **Key Requirements:**
 - **B1:** Create inclusive character creation experience
@@ -1637,26 +1748,6 @@ This file tracks the progress of all iterations for the project.
 
 | Task | Status | Linked Files |
 |------|--------|--------------|
-| Create character creation UI screen | Pending | - |
-| Implement gender selection with preview | Pending | - |
-| Create pronoun system (he/she/they) | Pending | - |
-| Implement character data persistence | Pending | - |
-| Integrate with main menu flow | Pending | - |
-| Refactor dialog system architecture | Pending | - |
-| Implement gender-aware text substitution | Pending | - |
-| Create dialog tree editor improvements | Pending | - |
-| Add dialog history/log system | Pending | - |
-| Integrate with notification system | Pending | - |
-| Create verb UI panel with 9 verbs | Pending | - |
-| Implement verb highlighting on hover | Pending | - |
-| Create verb-object interaction system | Pending | - |
-| Add verb shortcuts/hotkeys | Pending | - |
-| Implement context-sensitive verb availability | Pending | - |
-| Create main menu scene and UI | Pending | - |
-| Implement new game flow | Pending | - |
-| Add continue game functionality | Pending | - |
-| Create options/settings menu | Pending | - |
-| Add credits screen | Pending | - |
 
 **Testing Criteria:**
 - Character creation flow completes successfully
@@ -1667,6 +1758,15 @@ This file tracks the progress of all iterations for the project.
 - Main menu functions properly
 - Save/load preserves character data
 - Performance remains smooth with UI updates
+- Title screen displays correctly with CRT effects
+- Save detection properly enables/disables load button
+- Save overwrite warning prevents accidental deletion
+- Gender selection enforces single choice
+- Prologue text scrolls smoothly and can be skipped
+- New game initialization sets all values correctly
+- Direct load bypasses all intermediate screens
+- Failed loads handled gracefully with clear messaging
+- All scene transitions work without memory leaks
 - Start date: After Iteration 5 completion
 - Target completion: 2 weeks
 - Critical for: All future NPC interactions
@@ -1678,6 +1778,14 @@ This file tracks the progress of all iterations for the project.
 - src/core/dialog/pronoun_manager.gd (to be created)
 - src/ui/verb_ui/verb_ui.gd (to be refactored)
 - src/ui/main_menu/ (to be created)
+- docs/design/character_gender_selection_system.md
+- docs/design/dialog_system_refactoring_plan.md
+- docs/design/verb_ui_system_refactoring_plan.md
+- docs/design/main_menu_start_game_ui_design.md
+- Gender system must be respectful and inclusive
+- Dialog refactoring addresses technical debt from early development
+- Verb UI is critical for game's identity as SCUMM-style adventure
+- Main menu sets first impression - polish is important
 - docs/design/character_gender_selection_system.md
 - docs/design/dialog_system_refactoring_plan.md
 - docs/design/verb_ui_system_refactoring_plan.md
@@ -1748,6 +1856,15 @@ This file tracks the progress of all iterations for the project.
 - All systems integrate with serialization
 - UI responds smoothly to all operations
 - Save files are valid and loadable
+- Deadlines track and warn appropriately
+- Deadline conflicts detected accurately
+- Fatigue affects gameplay as designed
+- Stimulants work with diminishing returns
+- Microsleeps and hallucinations trigger correctly
+- Time-based narrative branches lock properly
+- Schedule optimization mechanics function
+- Activity interruption saves progress correctly
+- Time pressure UI provides clear feedback
 - Start date: After Iteration 6 completion
 - Target completion: 2-3 weeks (complex integration)
 - Critical for: Phase 1 completion
@@ -1768,6 +1885,8 @@ This file tracks the progress of all iterations for the project.
 - docs/design/barracks_system_design.md
 - docs/design/inventory_system_design.md
 - docs/design/inventory_ui_design.md
+- docs/design/time_management_system_mvp.md (already in iteration 5)
+- docs/design/time_management_system_full.md (extends MVP with advanced features)
 
 ### Iteration 8: Districts and Living World MVP
 
@@ -1814,11 +1933,11 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Complete time/calendar UI display
 - [ ] Task 24: Add district name displays
 - [ ] Task 25: Polish UI integration
-- [ ] Task 26: Create quest flow from ship to engineering
-- [ ] Task 27: Implement all quest dialogs
-- [ ] Task 28: Add quest items and interactions
-- [ ] Task 29: Create quest completion validation
-- [ ] Task 30: Full playtest and polish
+- [ ] Task 26: Create TramManager singleton for district travel
+- [ ] Task 27: Implement simple fixed-cost travel between districts
+- [ ] Task 28: Build basic tram station UI
+- [ ] Task 29: Add travel confirmation and payment
+- [ ] Task 30: Integrate tram with time advancement
 
 **Key Requirements:**
 - **B1:** Complete Phase 1 MVP with explorable districts and living world
@@ -1854,6 +1973,17 @@ This file tracks the progress of all iterations for the project.
 - docs/design/living_world_event_system_mvp.md
 - docs/design/scumm_hover_text_system_design.md
 - docs/design/time_calendar_display_ui_design.md
+- This iteration validates all Phase 1 systems work together
+- Intro Quest is critical - it's our "vertical slice"
+- District templates save massive time in Phase 3
+- Living world events start simple, expand in Phase 2
+- After this iteration, we move to Phase 2 Full Systems!
+- docs/design/template_district_design.md
+- docs/design/base_district_system.md
+- docs/design/living_world_event_system_mvp.md
+- docs/design/scumm_hover_text_system_design.md
+- docs/design/time_calendar_display_ui_design.md
+- docs/design/tram_transportation_system_design.md
 
 ### Iteration 9: Core Gameplay Systems
 
