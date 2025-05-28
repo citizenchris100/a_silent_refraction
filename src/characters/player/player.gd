@@ -100,33 +100,69 @@ func _process(delta):
 func _handle_movement(delta):
     var current_target = target_position
     
+    # DEBUG: Track state at start of frame
+    var debug_initial_index = current_path_index
+    var debug_path_size = navigation_path.size()
+    
     # If we have a navigation path, follow it
     if navigation_path.size() > 0 and current_path_index < navigation_path.size():
         current_target = navigation_path[current_path_index]
         
         # Check if we've reached the current path point
         if global_position.distance_to(current_target) < 10:
+            print("[NAV DEBUG] Reached waypoint %d at position %s" % [current_path_index, global_position])
             current_path_index += 1
+            print("[NAV DEBUG] Incremented index to %d (path size: %d)" % [current_path_index, navigation_path.size()])
             if current_path_index >= navigation_path.size():
                 # We've reached the end of the path
+                print("[NAV DEBUG] Exhausted waypoints, targeting final destination: %s" % target_position)
                 current_target = target_position
+    elif navigation_path.size() > 0 and current_path_index >= navigation_path.size():
+        # This branch handles when we've already exhausted waypoints in a previous frame
+        print("[NAV DEBUG] Already exhausted waypoints (index=%d, size=%d), continuing to target" % [current_path_index, navigation_path.size()])
+        current_target = target_position
+    else:
+        # DEBUG: See if we ever hit a case where we have a path but aren't handling it
+        if navigation_path.size() > 0:
+            print("[NAV DEBUG WARNING] Have path but no handling! index=%d, size=%d" % [current_path_index, navigation_path.size()])
     
+    # IMPORTANT: Calculate direction and distance AFTER updating current_target
     var direction = current_target - global_position
     var distance = direction.length()
     
-    if distance < 5:
-        # We've reached the destination
+    # Only check for arrival at final destination when we're not following waypoints
+    # or when we've passed all waypoints and are heading to the final target
+    var heading_to_final_target = (navigation_path.size() == 0 or 
+                                   current_path_index >= navigation_path.size())
+    
+    # When checking for final arrival, use distance to actual target_position, not current_target
+    var distance_to_final = global_position.distance_to(target_position)
+    
+    if distance_to_final < 5 and heading_to_final_target:
+        print("[NAV DEBUG] ARRIVAL: distance_to_final=%f, resetting navigation state" % distance_to_final)
+        # We've reached the final destination
         global_position = target_position
         velocity = Vector2.ZERO
         is_moving = false
+        # Clear navigation state BEFORE resetting index to prevent test from seeing intermediate state
+        var had_path = navigation_path.size() > 0
         navigation_path = []
-        current_path_index = 0
+        if had_path:
+            # Only reset index if we actually had a path
+            print("[NAV DEBUG] Resetting path index from %d to 0" % current_path_index)
+            current_path_index = 0
         _set_movement_state(MovementState.ARRIVED)
         # After a brief moment, return to IDLE
         yield(get_tree().create_timer(0.1), "timeout")
         if not is_moving:  # Still not moving
             _set_movement_state(MovementState.IDLE)
         return
+    else:
+        # DEBUG: Log why we didn't arrive
+        if not heading_to_final_target:
+            print("[NAV DEBUG] Not heading to final target yet (index=%d, size=%d)" % [current_path_index, navigation_path.size()])
+        elif distance_to_final >= 5:
+            print("[NAV DEBUG] Too far from final target: %f pixels" % distance_to_final)
     
     # Apply acceleration toward target
     direction = direction.normalized()
@@ -154,8 +190,9 @@ func _adjust_position_to_stay_in_bounds(pos):
     # This is a simple implementation that just checks the current position
     # A more advanced implementation would predict collisions before they happen
     if current_district and !current_district.is_position_walkable(pos):
-        # Reset to previous position and stop movement
-        is_moving = false
+        # Reset to previous position but DON'T stop movement entirely
+        # The player should continue trying to reach their target via navigation
+        print("[NAV DEBUG] Position %s not walkable, adjusting but continuing navigation" % pos)
         return global_position - velocity.normalized() * 5
     return pos
 

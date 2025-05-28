@@ -1,0 +1,84 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERNAVIGATIONPROGRESSTEST TEST SUITE
+==================================================
+
+
+[TEST] test_player_makes_progress_along_path
+  Start position: (975, 150)
+  End position: (900, 375)
+  Total distance traveled: 535.69
+  Final waypoint index: 0
+  Current state: ARRIVED
+  ✓ PASS: test_player_makes_progress_along_path: Player should make progress along navigation path
+Player linked to district: Test District
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:131
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+[TEST] test_waypoint_reaching_with_overshoot
+  Player position after movement: (115.884789, 100)
+  Distance to waypoint: 4.12
+  Waypoint index advanced: True
+  ✓ PASS: test_waypoint_reaching_with_overshoot: Player should advance waypoint even with slight overshoot
+Player linked to district: Test District
+
+[TEST] test_navigation_stuck_at_intermediate_waypoint
+  Start position: (975, 150)
+  End position: (834.250916, 367.236084)
+  Final waypoint: 3 of 3
+  Final state: MOVING
+  Made progress: True
+  Got stuck: False
+  Reached destination: True
+  ✓ PASS: test_navigation_stuck_at_intermediate_waypoint: Player should navigate around obstacles without getting stuck
+Player linked to district: Test District
+
+[TEST] test_velocity_direction_mismatch_handling
+  Waypoint transition 0 -> 1
+    Position: (805.414368, 200)
+    Velocity: (175.600006, 0) (magnitude: 175.60)
+    State: MOVING
+    Velocity dot with new direction: 0.05
+  Waypoint transition 1 -> 2
+    Position: (811.988708, 293.598572)
+    Velocity: (-59.336311, 190.9953) (magnitude: 200.00)
+    State: DECELERATING
+    Velocity dot with new direction: 0.96
+  First transition velocity: (175.600006, 0)
+  Second transition velocity: (-59.336311, 190.9953)
+  Final position: (810.038879, 382.939178)
+  Target reached: True
+  ✓ PASS: test_velocity_direction_mismatch_handling: Player should handle sharp turns at waypoints without getting stuck
+Player linked to district: Test District
+
+[TEST] test_waypoint_index_reset_bug
+  Waypoint index changed: 0 -> 1 at position (193.311935, 100)
+  Distance to final target: 206.69
+  Waypoint index changed: 1 -> 2 at position (295.712036, 100)
+  Distance to final target: 104.29
+  Waypoint index changed: 2 -> 3 at position (394.912415, 100)
+  Distance to final target: 5.09
+  Waypoint index changed: 3 -> 0 at position (400, 100)
+  Distance to final target: 0.00
+  INDEX RESET DETECTED: 3 -> 0
+  Indices visited: [0, 1, 2, 3, 0]
+  Sequential: False
+  Index reset detected: True
+  Final position: (400, 100)
+  Final state: ARRIVED
+  ✗ FAIL: test_waypoint_index_reset_bug: Waypoints should be followed sequentially without resetting to 0
+Player linked to district: Test District
+
+==================================================
+ SUMMARY: 4 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_waypoint_index_reset_bug
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:131
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)

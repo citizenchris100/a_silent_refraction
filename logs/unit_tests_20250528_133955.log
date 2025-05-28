@@ -1,0 +1,316 @@
+=== Test: player_navigation_stuck_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERNAVIGATIONSTUCKTEST TEST SUITE
+==================================================
+
+Player linked to district: Test Navigation District
+
+===== TEST SUITE: Coordinate Consistency Tests =====
+
+[TEST] test_position_vs_global_position
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+  ✓ PASS: test_position_vs_global_position: Player should move when using consistent coordinates
+
+[TEST] test_navigation_path_coordinate_space
+WARNING: 'Navigation2D' node and 'Navigation2D.get_simple_path()' are deprecated and will be removed in a future version. Use 'Navigation2DServer.map_get_path()' instead.
+     at: get_simple_path (scene/2d/navigation_2d.cpp:81)
+  ✓ PASS: test_navigation_path_coordinate_space: Navigation path should be in player's coordinate space
+
+===== TEST SUITE: Waypoint Reaching Tests =====
+
+[TEST] test_waypoint_threshold
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+  Distance to waypoint: 9.487999
+  ✓ PASS: test_waypoint_threshold: Waypoint threshold test completed (threshold behavior documented)
+
+[TEST] test_waypoint_sequential_following
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Not heading to final target yet (index=0, size=3)
+[NAV DEBUG] Reached waypoint 0 at position (190.111938, 100)
+[NAV DEBUG] Incremented index to 1 (path size: 3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Not heading to final target yet (index=1, size=3)
+[NAV DEBUG] Reached waypoint 1 at position (292.512024, 100)
+[NAV DEBUG] Incremented index to 2 (path size: 3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Not heading to final target yet (index=2, size=3)
+[NAV DEBUG] Reached waypoint 2 at position (391.712402, 100)
+[NAV DEBUG] Incremented index to 3 (path size: 3)
+[NAV DEBUG] Exhausted waypoints, targeting final destination: (400, 100)
+[NAV DEBUG] Too far from final target: 8.287598 pixels
+[NAV DEBUG] Already exhausted waypoints (index=3, size=3), continuing to target
+[NAV DEBUG] Too far from final target: 5.087585 pixels
+[NAV DEBUG] Already exhausted waypoints (index=3, size=3), continuing to target
+[NAV DEBUG] ARRIVAL: distance_to_final=1.887573, resetting navigation state
+[NAV DEBUG] Resetting path index from 3 to 0
+  Indices visited: [0, 1, 2, 3, 0]
+  Final path index: 0
+  ✗ FAIL: test_waypoint_sequential_following: Waypoints should be followed sequentially
+
+===== TEST SUITE: Path Following Stability Tests =====
+
+[TEST] test_high_speed_stability
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+  ✓ PASS: test_high_speed_stability: Player should not oscillate at high speeds
+
+[TEST] test_eventual_arrival
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Reached waypoint 0 at position (190.111938, 100)
+[NAV DEBUG] Incremented index to 1 (path size: 1)
+[NAV DEBUG] Exhausted waypoints, targeting final destination: (200, 100)
+[NAV DEBUG] Too far from final target: 9.888062 pixels
+[NAV DEBUG] Already exhausted waypoints (index=1, size=1), continuing to target
+[NAV DEBUG] Too far from final target: 6.688065 pixels
+[NAV DEBUG] Already exhausted waypoints (index=1, size=1), continuing to target
+[NAV DEBUG] ARRIVAL: distance_to_final=3.488068, resetting navigation state
+[NAV DEBUG] Resetting path index from 1 to 0
+  Frames to arrive: 38
+  Final distance: 0.000000
+  Final state: ARRIVED
+  ✓ PASS: test_eventual_arrival: Player should eventually arrive at destination
+
+===== TEST SUITE: Deceleration Recovery Tests =====
+
+[TEST] test_deceleration_recovery
+[NAV DEBUG] Too far from final target: 200.000000 pixels
+[NAV DEBUG] Too far from final target: 198.195190 pixels
+[NAV DEBUG] Too far from final target: 196.185608 pixels
+[NAV DEBUG] Too far from final target: 193.971191 pixels
+[NAV DEBUG] Too far from final target: 191.552002 pixels
+[NAV DEBUG] Too far from final target: 188.928009 pixels
+[NAV DEBUG] Too far from final target: 186.099197 pixels
+[NAV DEBUG] Too far from final target: 183.065598 pixels
+[NAV DEBUG] Too far from final target: 179.865601 pixels
+[NAV DEBUG] Too far from final target: 176.665604 pixels
+[NAV DEBUG] Too far from final target: 173.465607 pixels
+[NAV DEBUG] Too far from final target: 170.265610 pixels
+[NAV DEBUG] Too far from final target: 167.065613 pixels
+[NAV DEBUG] Too far from final target: 163.865616 pixels
+[NAV DEBUG] Too far from final target: 160.665619 pixels
+[NAV DEBUG] Too far from final target: 157.465622 pixels
+[NAV DEBUG] Too far from final target: 154.265625 pixels
+[NAV DEBUG] Too far from final target: 151.065628 pixels
+[NAV DEBUG] Too far from final target: 147.865631 pixels
+[NAV DEBUG] Too far from final target: 144.665634 pixels
+  State transitions: [DECELERATING, ACCELERATING, MOVING]
+  ✓ PASS: test_deceleration_recovery: Player should recover from DECELERATING state when target not reached
+
+[TEST] test_stuck_detection
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+[NAV DEBUG] Not heading to final target yet (index=0, size=1)
+  Distance traveled in 1 second: 182.960526
+  State changes: 1
+  Final state: MOVING
+  ✓ PASS: test_stuck_detection: Player should not get stuck oscillating between states
+
+==================================================
+ SUMMARY: 7 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_waypoint_sequential_following
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:152
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:152
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
