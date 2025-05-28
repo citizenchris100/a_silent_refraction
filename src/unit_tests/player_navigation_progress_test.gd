@@ -474,7 +474,8 @@ func test_waypoint_sequential_following_reproduction():
 		var last_index = indices_visited[indices_visited.size() - 1]
 		
 		# Track index changes
-		if current_index != last_index and current_index <= player.navigation_path.size():
+		# Also check that we still have a navigation path to avoid capturing reset state
+		if current_index != last_index and current_index <= player.navigation_path.size() and player.navigation_path.size() > 0:
 			indices_visited.append(current_index)
 			
 			if log_debug_info:

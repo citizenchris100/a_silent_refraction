@@ -213,7 +213,8 @@ func test_suite_waypoint_reaching():
 		var current_index = player.current_path_index
 		var last_index = indices_visited[indices_visited.size() - 1]
 		# Only track valid indices that are actually incremental
-		if current_index != last_index and current_index <= player.navigation_path.size():
+		# Also check that we still have a navigation path to avoid capturing reset state
+		if current_index != last_index and current_index <= player.navigation_path.size() and player.navigation_path.size() > 0:
 			indices_visited.append(current_index)
 		frame_count += 1
 	
