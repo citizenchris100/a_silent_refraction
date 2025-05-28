@@ -39,3 +39,6 @@ build/
 # Ignore debug videos specifically
 src/assets/debug/*screen_tear*.mp4
 src/assets/debug/*.mp4
+
+# Ignore GIF files
+*.gif

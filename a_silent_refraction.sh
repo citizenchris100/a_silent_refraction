@@ -15,7 +15,7 @@ PROJECT_ROOT=$(pwd)
 GODOT_CMD="godot"
 MAIN_SCENE="res://src/core/main.tscn"
 CAMERA_TEST_SCENE="res://src/test/clean_camera_test.tscn"
-CAMERA_SYSTEM_TEST_SCENE="res://src/test/clean_camera_test2.tscn"
+CAMERA_SYSTEM_TEST_SCENE="res://src/test/clean_camera_test3.tscn"
 CAMERA_VALIDATION_TEST_SCENE="res://src/test/camera_system_test.tscn"
 MOVEMENT_GRID_TEST_SCENE="res://src/test/movement_grid_test.tscn"
 
@@ -57,9 +57,10 @@ function run_camera_test {
 
 # Function to run the enhanced camera system test scene
 function run_camera_system_test {
-    echo -e "${GREEN}Running district template with enhanced camera system...${NC}"
-    echo -e "${YELLOW}NOTE: This is a template for creating new districts with the enhanced camera system${NC}"
-    echo -e "${YELLOW}Press Alt+W to simulate world view mode for coordinate capture${NC}"
+    echo -e "${GREEN}Running clean camera test 3 with Navigation2D support...${NC}"
+    echo -e "${YELLOW}NOTE: This test includes Navigation2D for proper pathfinding${NC}"
+    echo -e "${YELLOW}Press Alt+W to toggle world view mode for coordinate capture${NC}"
+    echo -e "${YELLOW}Watch the navigation status display to see pathfinding in action${NC}"
     $GODOT_CMD --path $PROJECT_ROOT $CAMERA_SYSTEM_TEST_SCENE
 }
 

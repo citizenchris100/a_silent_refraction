@@ -3,12 +3,6 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 28, 2025 - Navigation Bug Resolution (🟢 IN PROGRESS)
-- **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
-- **Focus:** Fix navigation system bugs
-- **Summary:** No summary provided
-- [Session Log](session_2025-05-28_16-50-49.md)
-
 ### May 28, 2025 - Navigation Bug Resolution (✅ COMPLETED)
 - **Iteration:** 3 - Navigation Refactoring and Multi-Perspective Character System
 - **Focus:** Resolving navigation bug
