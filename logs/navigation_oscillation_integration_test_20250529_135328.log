@@ -1,0 +1,45 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Navigation Oscillation Integration test...
+Creating test scene...
+
+===== RUNNING INTEGRATION TESTS =====
+
+
+=== Test Suite: Corner Navigation ===
+
+=== Test Suite: Narrow Corridor ===
+
+=== Test Suite: Boundary Interaction ===
+
+===== TEST RESULTS =====
+Total tests: 0
+Passed: 0
+Failed: 0
+Tests complete - exiting...
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+[TEST] sharp_corner_oscillation
+ERROR: Attempted get on a deleted object.
+   at: get_named (core/variant_op.cpp:1693)
+ERROR: Attempted method check on a deleted object.
+   at: has_method (core/variant_call.cpp:1434)
+SCRIPT ERROR: Invalid get index 'position' (on base: 'previously freed instance').
+          at: test_suite_corner_navigation (res://src/unit_tests/navigation_oscillation_integration_test.gd:182)
+
+[TEST] narrow_corridor_oscillation
+ERROR: Attempted set on a deleted object.
+   at: set_named (core/variant_op.cpp:1535)
+SCRIPT ERROR: Invalid set index 'position' (on base: 'previously freed instance') with value of type 'Vector2'.
+          at: test_suite_narrow_corridor (res://src/unit_tests/navigation_oscillation_integration_test.gd:202)
+
+[TEST] boundary_pushback_oscillation
+ERROR: Attempted set on a deleted object.
+   at: set_named (core/variant_op.cpp:1535)
+SCRIPT ERROR: Invalid set index 'position' (on base: 'previously freed instance') with value of type 'Vector2'.
+          at: test_suite_boundary_interaction (res://src/unit_tests/navigation_oscillation_integration_test.gd:223)
+Test scene created successfully

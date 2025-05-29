@@ -1,0 +1,25 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==== PLAYERNAVIGATIONBUG TEST ====
+Scene setup complete
+- Player position: (400, 360)
+- District walkable areas: 2
+- Test positions walkable:
+  - (400, 360): True
+  - (240, 450): True
+  - (260, 380): False
+Player linked to district: Test District
+
+[TEST] Navigation oscillation around corner
+Navigating from (400, 360) to (240, 450)
+Moving to: (240, 450)
+Navigation path (0 waypoints):
+
+OSCILLATION DETECTED at position: (378.307434, 372.202148)
+  Path index: 0
+  Velocity: (-168.504654, 94.783798)
+  Current waypoint: None

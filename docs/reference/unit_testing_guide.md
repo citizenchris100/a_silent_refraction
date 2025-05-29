@@ -576,7 +576,14 @@ add_child(mock_district)
 
 # Create walkable area
 var walkable = Polygon2D.new()
-walkable.polygon = PoolVector2Array([...])
+walkable.polygon = PoolVector2Array([
+    Vector2(0, 0),
+    Vector2(600, 0),
+    Vector2(600, 400),
+    Vector2(0, 400)
+])
+# IMPORTANT: Add to walkable_area group for proper detection
+walkable.add_to_group("walkable_area")
 mock_district.add_child(walkable)
 mock_district.add_walkable_area(walkable)
 
@@ -621,12 +628,66 @@ func is_position_walkable(position):
     return false
 ```
 
+### Setting Up Navigation2D for Pathfinding Tests
+
+When testing navigation and pathfinding behavior (like the oscillation bug), you need to set up Navigation2D:
+
+```gdscript
+# Create Navigation2D BEFORE creating walkable areas
+var navigation = Navigation2D.new()
+navigation.name = "Navigation2D"
+mock_district.add_child(navigation)
+
+# Create walkable area
+var walkable = Polygon2D.new()
+walkable.polygon = PoolVector2Array([
+    Vector2(100, 300),  # Define your test area shape
+    Vector2(700, 300),
+    Vector2(700, 400),
+    Vector2(100, 400)
+])
+walkable.add_to_group("walkable_area")
+mock_district.add_child(walkable)
+mock_district.add_walkable_area(walkable)
+
+# IMPORTANT: Create NavigationPolygonInstance for pathfinding
+var nav_instance = NavigationPolygonInstance.new()
+var nav_poly = NavigationPolygon.new()
+nav_poly.add_outline(walkable.polygon)
+nav_poly.make_polygons_from_outlines()
+nav_instance.navpoly = nav_poly
+navigation.add_child(nav_instance)
+```
+
+#### Creating Complex Shapes for Testing Edge Cases
+
+For testing navigation bugs around corners or obstacles:
+
+```gdscript
+# L-shaped walkable area to test corner navigation
+var walkable = Polygon2D.new()
+walkable.polygon = PoolVector2Array([
+    # Horizontal section
+    Vector2(100, 300),
+    Vector2(700, 300),
+    Vector2(700, 400),
+    # Inner corner - common source of navigation issues
+    Vector2(300, 400),
+    # Vertical section
+    Vector2(300, 700),
+    Vector2(200, 700),
+    Vector2(200, 400),
+    Vector2(100, 400)
+])
+```
+
 ### Common Issues and Solutions
 
 1. **"Cannot move to: (x,y) - not in walkable area"**
    - Ensure target position is within walkable polygon
    - Check that walkable area was added to mock district
    - Verify coordinate spaces match
+   - Remember polygon positions are relative to their parent
 
 2. **"Freed instance" errors**
    - Store mock district as instance variable, not local
@@ -635,6 +696,11 @@ func is_position_walkable(position):
 3. **Player not finding district**
    - Ensure mock is in "district" group
    - Add yields after creating nodes for initialization
+
+4. **Navigation path not generated**
+   - Ensure Navigation2D is created before walkable areas
+   - Check that NavigationPolygonInstance is properly set up
+   - Verify the navigation polygon has valid outlines
 
 ### Best Practices
 
@@ -654,6 +720,232 @@ func is_position_walkable(position):
    - See `player_controller_test.gd` for physics isolation patterns
 
 For more details on the walkable area system, see [Walkable Area Workflow Guide](../systems/walkable_area_workflow.md).
+
+## Integration Testing
+
+### Overview
+
+While unit tests focus on individual components in isolation, integration tests verify that multiple systems work correctly together. These tests are especially valuable for catching emergent behaviors that only appear when systems interact.
+
+### When to Use Integration Tests
+
+Choose integration testing when:
+- The bug or feature involves multiple interacting systems
+- The issue emerges from timing or sequencing between components
+- You need to test realistic scenarios with full system behavior
+- Unit-level mocking would hide the actual problem
+
+Examples of integration test scenarios:
+- Player navigation around obstacles (movement + pathfinding + boundaries)
+- Camera following player through districts (camera + coordinate system + player)
+- NPC dialog affecting game state (dialog + game manager + NPC state)
+- Save/load with active game systems (serialization + all stateful components)
+
+### Integration Test Structure
+
+Integration tests follow the same file structure and patterns as unit tests but typically:
+- Create more complete test scenes with multiple systems
+- Use fewer mocks (only mock external dependencies)
+- Test longer sequences of operations
+- Monitor for emergent behaviors
+
+Example integration test template:
+
+```gdscript
+extends Node2D
+# System Integration Test: Tests interaction between System A and System B
+
+# ===== TEST CONFIGURATION =====
+var run_all_tests = true
+var log_debug_info = true
+
+# Test-specific flags
+var test_normal_interaction = true
+var test_edge_cases = true
+var test_error_conditions = true
+
+# ===== TEST VARIABLES =====
+var system_a: Node
+var system_b: Node
+var test_environment: Node2D
+var interaction_monitor = {}
+
+# ===== LIFECYCLE =====
+
+func _ready():
+    debug_log("Setting up integration test...")
+    
+    # Create full test environment
+    create_test_environment()
+    
+    # Run test suites
+    run_tests()
+    
+    # Report and cleanup
+    report_results()
+    cleanup_test_environment()
+    
+    # Exit
+    yield(get_tree().create_timer(0.1), "timeout")
+    get_tree().quit(tests_failed)
+
+func create_test_environment():
+    # Create systems with real implementations
+    system_a = preload("res://src/core/system_a.gd").new()
+    system_b = preload("res://src/core/system_b.gd").new()
+    
+    # Set up realistic environment
+    test_environment = Node2D.new()
+    test_environment.add_child(system_a)
+    test_environment.add_child(system_b)
+    add_child(test_environment)
+    
+    # Allow systems to initialize and find each other
+    yield(get_tree(), "idle_frame")
+```
+
+### Monitoring System Interactions
+
+Integration tests often need to monitor complex behaviors over time:
+
+```gdscript
+func monitor_interaction(duration: float) -> Dictionary:
+    var timer = 0.0
+    var events = []
+    
+    while timer < duration:
+        yield(get_tree(), "idle_frame")
+        timer += get_process_delta_time()
+        
+        # Record system states
+        events.append({
+            "time": timer,
+            "system_a_state": system_a.get_state(),
+            "system_b_state": system_b.get_state(),
+            "interaction_active": system_a.is_interacting_with(system_b)
+        })
+    
+    # Analyze collected data
+    return analyze_interaction_pattern(events)
+```
+
+### Best Practices for Integration Tests
+
+1. **Clear test boundaries** - Know exactly which systems you're testing together
+2. **Realistic scenarios** - Use configurations that match actual game situations
+3. **Diagnostic output** - Log system states to understand failures
+4. **Performance awareness** - Integration tests take longer; balance coverage vs speed
+5. **Incremental complexity** - Start with simple interactions, add complexity gradually
+
+### Common Integration Test Patterns
+
+#### Pattern 1: Sequential Operations
+Test a sequence of operations across systems:
+```gdscript
+func test_player_quest_completion():
+    # Player picks up item
+    player.collect_item(quest_item)
+    yield(get_tree(), "idle_frame")
+    
+    # Verify inventory updated
+    assert_true(inventory.has_item(quest_item))
+    
+    # Verify quest system notified
+    assert_true(quest_manager.is_objective_complete("collect_item"))
+    
+    # Verify UI updated
+    assert_true(ui_manager.quest_indicator.visible)
+```
+
+#### Pattern 2: Timing-Dependent Behavior
+Test behaviors that emerge from specific timing:
+```gdscript
+func test_animation_state_transition():
+    # Start animation
+    character.play_animation("walk")
+    
+    # Wait for specific frame
+    yield(get_tree().create_timer(0.3), "timeout")
+    
+    # Trigger state change mid-animation
+    character.set_state("idle")
+    
+    # Verify smooth transition
+    assert_true(character.is_blending_animation())
+```
+
+#### Pattern 3: Error Propagation
+Test how errors propagate through systems:
+```gdscript
+func test_network_failure_handling():
+    # Simulate network failure
+    network_manager.simulate_disconnect()
+    
+    # Verify game manager responds
+    yield(game_manager, "network_error")
+    assert_eq(game_manager.state, "offline_mode")
+    
+    # Verify UI shows error
+    assert_true(ui_manager.error_dialog.visible)
+```
+
+### Example: Navigation Oscillation Integration Test
+
+Here's a real example testing the interaction between player movement, pathfinding, and boundary systems:
+
+```gdscript
+func test_corner_navigation_oscillation():
+    # Create environment with problematic geometry
+    create_narrow_corridor_with_corner()
+    
+    # Position player before corner
+    player.position = Vector2(300, 380)
+    
+    # Navigate around corner
+    player.move_to(Vector2(220, 500))
+    
+    # Monitor for oscillation
+    var position_history = []
+    var oscillations = 0
+    
+    while player.is_moving and oscillations < 5:
+        yield(get_tree(), "idle_frame")
+        
+        position_history.append(player.position)
+        if position_history.size() > 10:
+            position_history.pop_front()
+        
+        # Detect back-and-forth movement
+        if is_oscillating(position_history):
+            oscillations += 1
+    
+    # This test EXPECTS the bug to exist
+    assert_true(oscillations > 0, "Player should oscillate at corner")
+```
+
+### Running Integration Tests
+
+Integration tests run through the same test runner:
+
+```bash
+# Run specific integration test
+./tools/run_unit_tests.sh navigation_oscillation_integration_test
+
+# Run all integration tests (by naming convention)
+./tools/run_unit_tests.sh "*_integration_test"
+```
+
+### Integration vs Unit Tests
+
+| Aspect | Unit Tests | Integration Tests |
+|--------|------------|-------------------|
+| Scope | Single component | Multiple components |
+| Mocking | Heavy mocking | Minimal mocking |
+| Speed | Fast (ms) | Slower (seconds) |
+| Debugging | Easy to isolate | More complex |
+| Value | Component correctness | System behavior |
+
+Both test types are valuable and complementary. Use unit tests for component logic and integration tests for system interactions.
 
 ## Summary
 

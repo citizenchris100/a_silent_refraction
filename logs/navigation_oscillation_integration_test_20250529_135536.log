@@ -1,0 +1,46 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Navigation Oscillation Integration test...
+Creating test scene...
+
+===== RUNNING INTEGRATION TESTS =====
+
+
+=== Test Suite: Corner Navigation ===
+Player linked to district: Navigation Test District
+
+[TEST] sharp_corner_oscillation
+Testing navigation from (300, 380) to (220, 500)
+Moving to: (220, 500)
+Test scene created successfully
+  ✗ FAIL: Failed to reproduce oscillation (player got stuck)
+
+=== Test Suite: Narrow Corridor ===
+
+[TEST] narrow_corridor_oscillation
+Testing narrow corridor navigation to corner junction
+Moving to: (220, 420)
+  OSCILLATION DETECTED at (171.609604, 392.348328) (count: 3)
+  ✓ PASS: Oscillation detected in narrow corridor (7 oscillations)
+
+=== Test Suite: Boundary Interaction ===
+
+[TEST] boundary_pushback_oscillation
+Testing boundary pushback near corner
+Moving to: (220, 410)
+  ✗ FAIL: Boundary pushback oscillation not detected (0 pushbacks)
+
+===== TEST RESULTS =====
+Total tests: 3
+Passed: 1
+Failed: 2
+
+Failed tests:
+  - sharp_corner_oscillation
+  - boundary_pushback_oscillation
+Tests complete - exiting...
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:163
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)

@@ -1,0 +1,42 @@
+=== Test: player_navigation_oscillation_test ===
+Exit code: 3
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYER NAVIGATION OSCILLATION TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Oscillation Bug Tests =====
+
+[TEST] test_boundary_oscillation
+Cannot move to: (550, 500) - not in walkable area
+  ✗ FAIL: test_boundary_oscillation: Boundary oscillation bug reproduced: No
+
+[TEST] test_waypoint_switching
+Cannot move to: (550, 500) - not in walkable area
+  ✗ FAIL: test_waypoint_switching: Waypoint oscillation detected: 0 changes
+
+[TEST] test_corner_case_oscillation
+Cannot move to: (550, 500) - not in walkable area
+  ✗ FAIL: test_corner_case_oscillation: Corner oscillation reproduced (near corner 0 times)
+
+==================================================
+ SUMMARY: 0 passed, 3 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_boundary_oscillation
+  - test_waypoint_switching
+  - test_corner_case_oscillation
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+

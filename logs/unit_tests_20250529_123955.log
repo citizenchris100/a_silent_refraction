@@ -1,0 +1,39 @@
+=== Test: player_oscillation_bug_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYEROSCILLATIONBUG TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Oscillation Bug Reproduction =====
+
+[TEST] test_corner_navigation_causes_oscillation
+  Testing walkable positions:
+    (400, 350): True
+    (250, 500): True
+    (250, 350): True
+Cannot move to: (250, 500) - not in walkable area
+  ✗ FAIL: test_corner_navigation_causes_oscillation: Player oscillation bug reproduced (oscillations: 0)
+
+[TEST] test_player_stuck_near_waypoints
+
+==================================================
+ SUMMARY: 0 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_corner_navigation_causes_oscillation
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+SCRIPT ERROR: Invalid call. Nonexistent function 'move_to' in base 'Nil'.
+          at: test_suite_oscillation (res://src/unit_tests/player_oscillation_bug_test.gd:208)
+Test scene setup complete
+SCRIPT ERROR: Invalid get index 'position' (on base: 'Nil').
+          at: setup_test_scene (res://src/unit_tests/player_oscillation_bug_test.gd:110)
+

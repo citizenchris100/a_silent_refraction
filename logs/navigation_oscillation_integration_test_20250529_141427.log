@@ -1,0 +1,138 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Navigation Oscillation Integration test...
+Creating test scene...
+
+===== RUNNING INTEGRATION TESTS =====
+
+
+=== Test Suite: Corner Navigation ===
+Player linked to district: Navigation Test District
+
+[TEST] sharp_corner_oscillation
+Testing navigation from (300, 380) to (220, 500)
+Moving to: (220, 500)
+Test scene created successfully
+  Time: 0.5, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 1.0, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 1.5, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 2.0, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 2.5, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 3.0, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 3.5, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 4.0, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 4.5, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  Time: 5.0, Pos: (292.665649, 391.001556), Dist to target: 131.0
+  ✗ FAIL: Player got stuck without oscillating at (292.665649, 391.001556)
+
+=== Test Suite: Narrow Corridor ===
+
+[TEST] narrow_corridor_oscillation
+Testing narrow corridor navigation to corner junction
+Moving to: (220, 420)
+  OSCILLATION DETECTED at (171.609604, 392.348328) (count: 3)
+  Time: 0.5, Pos: (173.056763, 393.175385), Dist to target: 54.1
+  Time: 1.0, Pos: (173.056915, 393.175446), Dist to target: 54.1
+  Time: 1.5, Pos: (173.057068, 393.175537), Dist to target: 54.1
+  Time: 2.0, Pos: (173.05722, 393.175629), Dist to target: 54.1
+  Time: 2.5, Pos: (173.057373, 393.17572), Dist to target: 54.1
+  Time: 3.0, Pos: (173.057526, 393.175812), Dist to target: 54.1
+  ✗ FAIL: Player oscillated 4 times in corridor
+
+=== Test Suite: Boundary Interaction ===
+
+[TEST] boundary_pushback_oscillation
+Testing boundary pushback near corner
+Moving to: (220, 410)
+  Pushback detected at (238.299835, 391.700165)
+  Pushback detected at (238.299835, 391.700134)
+  Pushback detected at (237.82843, 392.17157)
+  Pushback detected at (237.906998, 392.092987)
+  Pushback detected at (237.357025, 392.642944)
+  Pushback detected at (236.257065, 393.742859)
+  Pushback detected at (237.435577, 392.564331)
+  Pushback detected at (236.25708, 393.742828)
+  Pushback detected at (237.435593, 392.564301)
+  Pushback detected at (236.257095, 393.742798)
+  Pushback detected at (237.435608, 392.56427)
+  Pushback detected at (236.257111, 393.742767)
+  Pushback detected at (237.435623, 392.56424)
+  Pushback detected at (236.257126, 393.742737)
+  Pushback detected at (237.435638, 392.564209)
+  Pushback detected at (236.257141, 393.742706)
+  Pushback detected at (237.435654, 392.564178)
+  Pushback detected at (236.257156, 393.742676)
+  Pushback detected at (237.435669, 392.564148)
+  Pushback detected at (236.257156, 393.742645)
+  Pushback detected at (237.435654, 392.564117)
+  Pushback detected at (236.257141, 393.742615)
+  Pushback detected at (237.435638, 392.564087)
+  Pushback detected at (236.257126, 393.742645)
+  Pushback detected at (237.435623, 392.564117)
+  Pushback detected at (236.257111, 393.742645)
+  Pushback detected at (237.435608, 392.564117)
+  Pushback detected at (236.257095, 393.742676)
+  Pushback detected at (237.435593, 392.564148)
+  Pushback detected at (236.25708, 393.742676)
+  Pushback detected at (237.435577, 392.564148)
+  Pushback detected at (236.257065, 393.742706)
+  Pushback detected at (237.435562, 392.564178)
+  Pushback detected at (236.25705, 393.742706)
+  Pushback detected at (237.435547, 392.564209)
+  Pushback detected at (236.257034, 393.742737)
+  Pushback detected at (237.435532, 392.564209)
+  Pushback detected at (236.257019, 393.742737)
+  Pushback detected at (237.435516, 392.564209)
+  Pushback detected at (236.257004, 393.742767)
+  Pushback detected at (237.435501, 392.56424)
+  Pushback detected at (236.256989, 393.742767)
+  Pushback detected at (237.435486, 392.56424)
+  Pushback detected at (236.256973, 393.742798)
+  Pushback detected at (237.435471, 392.56427)
+  Pushback detected at (236.256958, 393.742798)
+  Pushback detected at (237.435455, 392.56427)
+  Pushback detected at (236.256943, 393.742828)
+  Pushback detected at (237.43544, 392.564301)
+  Pushback detected at (236.256927, 393.742828)
+  Pushback detected at (237.435425, 392.564301)
+  Pushback detected at (236.256912, 393.742859)
+  Pushback detected at (237.43541, 392.564331)
+  Pushback detected at (236.256897, 393.742859)
+  Pushback detected at (237.435394, 392.564331)
+  Pushback detected at (236.256882, 393.742889)
+  Pushback detected at (237.435379, 392.564362)
+  Pushback detected at (236.256866, 393.742889)
+  Pushback detected at (237.435364, 392.564362)
+  Pushback detected at (236.256851, 393.74292)
+  Pushback detected at (237.435349, 392.564392)
+  Pushback detected at (236.256836, 393.74292)
+  Pushback detected at (237.435333, 392.564392)
+  Pushback detected at (236.256821, 393.74295)
+  Pushback detected at (237.435318, 392.564423)
+  Pushback detected at (236.256805, 393.74295)
+  Pushback detected at (237.435303, 392.564453)
+  Pushback detected at (236.25679, 393.742981)
+  Pushback detected at (237.435287, 392.564453)
+  Pushback detected at (236.256775, 393.742981)
+  Pushback detected at (237.435272, 392.564453)
+  Pushback detected at (236.25676, 393.743011)
+  Pushback detected at (237.435257, 392.564484)
+  Pushback detected at (236.256744, 393.743011)
+  Pushback detected at (237.435242, 392.564484)
+  Pushback detected at (236.256729, 393.743042)
+  Pushback detected at (237.435226, 392.564514)
+  ✗ FAIL: Excessive pushbacks detected: 77
+
+===== TEST RESULTS =====
+Total tests: 3
+Passed: 0
+Failed: 3
+
+Failed tests:
+  - sharp_corner_oscillation
+  - narrow_corridor_oscillation
+  - boundary_pushback_oscillation
+Tests complete - exiting...

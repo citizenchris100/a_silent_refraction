@@ -1,0 +1,21 @@
+=== Test: player_navigation_bug_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==== PLAYERNAVIGATIONBUG TEST ====
+Scene setup complete
+- Player position: (400, 350)
+- District walkable areas: 2
+- Test positions walkable:
+  - (400, 350): True
+  - (250, 500): True
+Player linked to district: Test District
+
+[TEST] Navigation oscillation around corner
+Navigating from (400, 350) to (250, 500)
+Moving to: (250, 500)
+

@@ -1,0 +1,35 @@
+=== Test: navigation_oscillation_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+
+==================================================
+ NAVIGATION OSCILLATION TEST SUITE
+==================================================
+
+Navigation Oscillation Test loaded
+CoordinateManager: Current district set to Navigation Oscillation Test
+Registered district with CoordinateManager
+Using standard walkable area: MainWalkableArea
+
+===== TEST SUITE: Oscillation Detection Tests =====
+
+[TEST] test_oscillation_detection
+Player linked to district: Navigation Oscillation Test
+  ! Oscillation detected at position: (500, 350)
+  ✗ FAIL: test_oscillation_detection: No oscillation in static position
+
+[TEST] test_corner_navigation_oscillation
+Cannot move to: (550, 450) - not in walkable area
+  ✗ FAIL: test_corner_navigation_oscillation: Oscillation detected at corner (bug reproduced)
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: test_suite_oscillation_detection (res://src/unit_tests/navigation_oscillation_test.gd:145)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
