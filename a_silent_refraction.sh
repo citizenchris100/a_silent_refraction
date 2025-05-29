@@ -31,6 +31,7 @@ function show_help {
     echo "  camera-system        - Run the district template with enhanced camera system"
     echo "  camera-test          - Run the comprehensive camera validation test"
     echo "  movement             - Run the grid-based movement test scene"
+    echo "  walkable             - Run the walkable area enhancement test scene"
     echo "  clean                - Clean up redundant files"
     echo "  build                - Build the game for distribution"
     echo "  check                - Check project for errors"
@@ -80,6 +81,16 @@ function run_movement_test {
     echo -e "${YELLOW}Press G to toggle grid, P to toggle path, M to toggle metrics${NC}"
     echo -e "${YELLOW}Press ESC to exit${NC}"
     $GODOT_CMD --path $PROJECT_ROOT $MOVEMENT_GRID_TEST_SCENE
+}
+
+# Function to run the walkable area enhancement test scene
+function run_walkable_test {
+    echo -e "${GREEN}Running walkable area enhancement test scene...${NC}"
+    echo -e "${YELLOW}Tests multiple walkable areas, path validation, and closest point finding${NC}"
+    echo -e "${YELLOW}Click anywhere to test movement - even outside walkable areas${NC}"
+    echo -e "${YELLOW}Press R to re-run acceptance tests${NC}"
+    echo -e "${YELLOW}Press G to toggle grid, ESC to exit${NC}"
+    $GODOT_CMD --path $PROJECT_ROOT src/test/walkable_area_test.tscn
 }
 
 
@@ -319,6 +330,9 @@ case "$1" in
         ;;
     movement)
         run_movement_test
+        ;;
+    walkable)
+        run_walkable_test
         ;;
     clean)
         clean_project

@@ -100,6 +100,51 @@ Walkable areas use Godot's group system for identification:
 - `designer_walkable_area`: Special priority group for walkable areas designed specifically for a scene
 - `debug_walkable_area`: Group for temporary walkable areas used in debugging
 
+## Enhanced Features (Iteration 3)
+
+### Multiple Walkable Area Support
+
+The system now properly supports multiple walkable areas within a district:
+
+```gdscript
+# Each district can have multiple walkable areas
+# The is_position_walkable function checks all areas
+for area in walkable_areas:
+    var local_pos = area.to_local(position)  # Transform to local space
+    if Geometry.is_point_in_polygon(local_pos, area.polygon):
+        return true
+```
+
+**Important**: The coordinate space transformation (`to_local`) is critical for proper multiple area support, as polygon points are defined in the area's local space.
+
+### Path Validation
+
+New method to validate entire paths:
+
+```gdscript
+# Check if an entire path is within walkable areas
+func is_path_valid(path_points: Array) -> bool:
+    for point in path_points:
+        if not is_position_walkable(point):
+            return false
+    return true
+```
+
+This is automatically used by the player controller when Navigation2D generates a path.
+
+### Closest Point Finding
+
+When clicking outside walkable areas, the system can find the nearest valid point:
+
+```gdscript
+# Find the closest walkable point to a given position
+func get_closest_walkable_point(position: Vector2) -> Vector2:
+    # Returns the closest point on any walkable area edge
+    # Uses projection math to find the nearest point on polygon edges
+```
+
+The player controller automatically uses this to move to the closest valid position when clicking outside walkable areas.
+
 ## Integration with Other Systems
 
 ### 1. Camera Integration
@@ -175,7 +220,31 @@ static func apply_safety_corrections(bounds: Rect2, district = null) -> Rect2:
     return corrected_bounds
 ```
 
-### 2. Player Movement Constraints
+### 2. Player Movement Integration
+
+The player controller has been enhanced to use the new walkable area features:
+
+```gdscript
+# In player.gd move_to_position()
+if current_district and current_district.is_position_walkable(pos):
+    # Normal movement to valid position
+else:
+    # Try to find the closest walkable point
+    if current_district and current_district.has_method("get_closest_walkable_point"):
+        var closest_point = current_district.get_closest_walkable_point(pos)
+        move_to_position(closest_point)  # Move to nearest valid position
+```
+
+When using Navigation2D, paths are validated:
+
+```gdscript
+# Validate the navigation path
+if current_district.has_method("is_path_valid"):
+    if not current_district.is_path_valid(navigation_path):
+        print("Warning: Navigation path contains points outside walkable area")
+```
+
+### 3. Original Player Movement Constraints
 
 The player controller uses walkable areas to determine valid movement positions:
 
@@ -322,7 +391,16 @@ The validator provides visual feedback for valid and invalid points:
 
 ## Common Issues and Solutions
 
-### Issue 1: Coordinates in Wrong View Mode
+### Issue 1: Multiple Walkable Areas Not Working
+
+**Cause**: Coordinate space mismatch - comparing world positions directly to local polygon points
+
+**Solution**: 
+- Ensure `is_position_walkable` transforms world positions to local space using `area.to_local(position)`
+- Remember that Polygon2D polygon points are always in local space relative to the node's position
+- This was fixed in Iteration 3 - ensure you have the latest base_district.gd
+
+### Issue 2: Coordinates in Wrong View Mode
 
 **Cause**: Coordinates defined in the wrong view mode (e.g., captured in World View but used directly in Game View)
 
@@ -331,7 +409,7 @@ The validator provides visual feedback for valid and invalid points:
 - Use `CoordinateManager.validate_coordinates_for_view_mode()` to check for view mode issues
 - Press Alt+W to toggle between Game View and World View modes when capturing coordinates
 
-### Issue 2: Camera Not Following Proper Boundaries
+### Issue 3: Camera Not Following Proper Boundaries
 
 **Cause**: Walkable area too small or incorrectly positioned, giving the camera incorrect bounds
 
@@ -340,7 +418,7 @@ The validator provides visual feedback for valid and invalid points:
 - Use the ValidateWalkableArea tool to visualize and check walkable area coverage
 - Test all camera views (left, center, right) to ensure proper behavior
 
-### Issue 3: Different Results Between View Modes
+### Issue 4: Different Results Between View Modes
 
 **Cause**: Proper coordinate transformations not applied between view modes
 
@@ -404,7 +482,14 @@ for i in range(game_view_coords.size()):
 - Ensure walkable areas are properly defined before using BoundsCalculator
 - Create visualizations of bounds during development with `create_bounds_visualization()`
 
-### 6. Debugging Tools
+### 6. Using Enhanced Features
+
+- **Multiple Areas**: Place separate walkable areas for disconnected regions (e.g., platforms, islands)
+- **Path Validation**: Enable Navigation2D warnings when paths cross non-walkable areas
+- **Closest Point**: Players can click anywhere and character will move to nearest valid position
+- **Testing**: Use the walkable_area_enhancement_test.gd as a reference for testing walkable area features
+
+### 7. Debugging Tools
 
 - Use marker-based visualization instead of relying on Polygon2D visibility
 - Use ValidateWalkableArea tool to visualize valid and invalid points

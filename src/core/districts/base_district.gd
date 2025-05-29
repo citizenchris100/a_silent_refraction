@@ -132,11 +132,68 @@ func toggle_animated_elements(type, enabled):
 # Check if a position is in a walkable area
 func is_position_walkable(position):
     for area in walkable_areas:
+        # Transform position to area's local space
+        var local_pos = area.to_local(position)
+        
         # Check if the point is in the polygon
         var polygon = area.polygon
-        if Geometry.is_point_in_polygon(position, polygon):
+        if Geometry.is_point_in_polygon(local_pos, polygon):
             return true
     return false
+
+# Check if an entire path is within walkable areas
+func is_path_valid(path_points: Array) -> bool:
+    if path_points.empty():
+        return true
+        
+    for point in path_points:
+        if not is_position_walkable(point):
+            return false
+    return true
+
+# Find the closest walkable point to a given position
+func get_closest_walkable_point(position: Vector2) -> Vector2:
+    # If the position is already walkable, return it
+    if is_position_walkable(position):
+        return position
+    
+    var closest_point = position
+    var min_distance = INF
+    
+    # Check all walkable areas
+    for area in walkable_areas:
+        if area.polygon.size() < 3:
+            continue
+            
+        # Find the closest point on the polygon edges
+        for i in range(area.polygon.size()):
+            var p1 = area.to_global(area.polygon[i])
+            var p2 = area.to_global(area.polygon[(i + 1) % area.polygon.size()])
+            
+            # Find closest point on this edge
+            var edge_closest = _get_closest_point_on_segment(position, p1, p2)
+            var distance = position.distance_to(edge_closest)
+            
+            if distance < min_distance:
+                min_distance = distance
+                closest_point = edge_closest
+    
+    return closest_point
+
+# Helper function to find the closest point on a line segment
+func _get_closest_point_on_segment(point: Vector2, segment_start: Vector2, segment_end: Vector2) -> Vector2:
+    var segment = segment_end - segment_start
+    var segment_length_squared = segment.length_squared()
+    
+    # Handle degenerate case where segment is a point
+    if segment_length_squared == 0:
+        return segment_start
+    
+    # Calculate projection of point onto the line
+    var t = clamp((point - segment_start).dot(segment) / segment_length_squared, 0.0, 1.0)
+    
+    # Return the closest point on the segment
+    return segment_start + segment * t
 
 # Debug function to test walkable boundaries
 func test_walkable_boundaries():

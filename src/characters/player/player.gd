@@ -76,6 +76,16 @@ func move_to_position(pos):
             navigation_path = navigation_node.get_simple_path(global_position, pos)
             current_path_index = 0
             
+            # Validate the path if district supports it
+            if current_district.has_method("is_path_valid"):
+                var path_array = []
+                for point in navigation_path:
+                    path_array.append(point)
+                    
+                if not current_district.is_path_valid(path_array):
+                    print("Warning: Navigation path contains points outside walkable area")
+                    # Could implement path correction here in the future
+            
             # Skip the first point if it's very close to current position
             if navigation_path.size() > 1 and global_position.distance_to(navigation_path[0]) < 5:
                 current_path_index = 1
@@ -87,6 +97,14 @@ func move_to_position(pos):
         _set_movement_state(MovementState.ACCELERATING)
         print("Moving to: " + str(pos))
     else:
+        # Try to find the closest walkable point
+        if current_district and current_district.has_method("get_closest_walkable_point"):
+            var closest_point = current_district.get_closest_walkable_point(pos)
+            if closest_point != pos:
+                print("Target " + str(pos) + " not in walkable area, moving to closest point: " + str(closest_point))
+                move_to_position(closest_point)  # Recursive call with valid position
+                return
+        
         print("Cannot move to: " + str(pos) + " - not in walkable area")
 
 func _physics_process(delta):
