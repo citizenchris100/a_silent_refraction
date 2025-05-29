@@ -123,15 +123,31 @@ func _handle_movement(delta):
         current_target = navigation_path[current_path_index]
         
         # Check if we've reached the current path point
-        if global_position.distance_to(current_target) < 10:
-            current_path_index += 1
-            # Clamp the index to prevent it from going beyond the path size
-            # This helps tests that track the index value
-            if current_path_index > navigation_path.size():
-                current_path_index = navigation_path.size()
-            if current_path_index >= navigation_path.size():
-                # We've reached the end of the path
-                current_target = target_position
+        # Also check if we're making progress toward the NEXT waypoint to prevent oscillation
+        var distance_to_current = global_position.distance_to(current_target)
+        if distance_to_current < 10:
+            # Look ahead to next waypoint if available
+            var next_index = current_path_index + 1
+            if next_index < navigation_path.size():
+                var next_waypoint = navigation_path[next_index]
+                var distance_to_next = global_position.distance_to(next_waypoint)
+                var current_to_next = current_target.distance_to(next_waypoint)
+                
+                # Only advance if we're closer to the next waypoint than the current waypoint is
+                # This prevents oscillation when boundary pushback occurs
+                if distance_to_next < current_to_next:
+                    current_path_index = next_index
+                    current_target = next_waypoint
+                elif distance_to_current < 5:
+                    # We're very close to current waypoint but not making progress to next
+                    # This might be a sharp turn - advance anyway
+                    current_path_index = next_index
+                    current_target = next_waypoint
+            else:
+                # Last waypoint - advance to final target
+                current_path_index += 1
+                if current_path_index >= navigation_path.size():
+                    current_target = target_position
     elif navigation_path.size() > 0 and current_path_index >= navigation_path.size():
         # We've exhausted all waypoints but haven't reached final destination yet
         # Continue moving toward the final target
@@ -188,12 +204,19 @@ func _handle_movement(delta):
         global_position = _adjust_position_to_stay_in_bounds(global_position)
 
 func _adjust_position_to_stay_in_bounds(pos):
-    # This is a simple implementation that just checks the current position
-    # A more advanced implementation would predict collisions before they happen
+    # Check if position is walkable
     if current_district and !current_district.is_position_walkable(pos):
-        # Reset to previous position but DON'T stop movement entirely
-        # The player should continue trying to reach their target via navigation
-        return global_position - velocity.normalized() * 5
+        # Find the closest walkable point instead of just pushing back
+        # This prevents getting stuck in corners
+        if current_district.has_method("get_closest_walkable_point"):
+            var closest = current_district.get_closest_walkable_point(pos)
+            # Only use the closest point if it's reasonably close
+            if closest.distance_to(pos) < 20:
+                return closest
+        
+        # Fallback: push back along velocity direction
+        # Use a smaller pushback to reduce oscillation
+        return global_position - velocity.normalized() * 2
     return pos
 
 func _update_visuals():
