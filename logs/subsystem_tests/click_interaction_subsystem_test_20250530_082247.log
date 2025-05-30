@@ -1,0 +1,138 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+
+============================================================
+ CLICKINTERACTIONSUBSYSTEM SUBSYSTEM TEST SUITE
+============================================================
+
+
+--------------------------------------------------
+ Initializing Click Interaction Subsystem
+--------------------------------------------------
+Click Interaction Test District loaded
+CoordinateManager: Current district set to Click Interaction Test District
+Registered district with CoordinateManager
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1314
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Click Interaction Test District with initial view: right
+CoordinateManager: Current district set to Click Interaction Test District
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (2400, 1800)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 0
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 0
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+Final district bounds: (-1, -1, 802, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Camera bounds set from district: (-1, -1, 802, 602)
+Initializing DefaultBoundsValidator with bounds: (-1, -1, 802, 602)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2400, 1800)
+Current background scale: (1, 1)
+Effective background size with current scale: (2400, 1800)
+Scale needed to fill viewport height: 0.528889
+Applied new scale to background: (0.528889, 0.528889)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1269.333374, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (1269.333374, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1269.333374, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1269.333374, 952)
+Background wide enough for scrolling: False
+Background width: 1269.333374, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (634.666687, 476)
+Setting camera position to: (634.666687, 476)
+Camera position after setting: (635, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (635, 476)
+View ratio: 112% of background is visible (1424 pixels of 1269.333374 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+Added standard player character at position (960, 540)
+Setting target_player to: Player:[Node2D:1334]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Camera set to follow player
+Added standard player controller for point-and-click navigation
+ERROR: Condition "err" is true. Returned: err
+   at: load_source_code (modules/gdscript/gdscript.cpp:807)
+ERROR: Cannot load source code from file 'res://src/ui/click_feedback/click_feedback_system.gd'.
+   at: load (modules/gdscript/gdscript.cpp:2209)
+ERROR: Failed loading resource: res://src/ui/click_feedback/click_feedback_system.gd. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270)
+[WARNING] Visual feedback system not available - some tests will fail
+ERROR: Condition "err" is true. Returned: err
+   at: load_source_code (modules/gdscript/gdscript.cpp:807)
+ERROR: Cannot load source code from file 'res://src/core/input/click_priority_system.gd'.
+   at: load (modules/gdscript/gdscript.cpp:2209)
+ERROR: Failed loading resource: res://src/core/input/click_priority_system.gd. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270)
+[WARNING] Click priority system not available - some tests will fail
+[INFO] Verifying component connections...
+Player linked to district: Click Interaction Test District
+Player controller initialized
+[SUCCESS] Click interaction subsystem initialized
+
+--------------------------------------------------
+ Running Test Scenarios
+--------------------------------------------------
+
+===== SCENARIO: Basic Click-to-Move Workflow =====
+[INFO] Starting test: basic_click_to_move
+Clicked outside walkable area
+Cannot move to: (1123, 800) - not in walkable area
+Player moving to: (1123, 800)
+  ✗ FAIL: basic_click_to_move - Player moved in response to click (5.00s)
+[INFO] Starting test: click_outside_walkable_area
+Clicked outside walkable area
+Cannot move to: (-27, 50) - not in walkable area
+Player moving to: (-27, 50)
+  ✗ FAIL: click_outside_walkable_area - Click outside walkable area handled correctly (1.00s)
+
+===== SCENARIO: Visual Feedback System =====
+[INFO] Starting test: visual_feedback_on_valid_click
+  ✗ FAIL: visual_feedback_on_valid_click - Visual feedback system not available (0.00s)
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: run_scenario (res://src/subsystem_tests/click_interaction_subsystem_test.gd:551)

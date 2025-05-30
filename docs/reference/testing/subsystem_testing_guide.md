@@ -1048,6 +1048,30 @@ player.add_to_group("player")
 yield(get_tree(), "idle_frame")
 ```
 
+### Pitfall 8: Test Functions Not Yielding (Async Requirements)
+
+**Problem**: Test runner times out even though all tests complete successfully
+**Symptom**: Running test directly shows proper failures/passes but runner reports timeout
+**Solution**: All test scenario functions must yield, even if they contain no async operations:
+```gdscript
+func test_click_refinements():
+    """Test new click detection refinements"""
+    
+    start_test("validation_methods")
+    var has_methods = check_for_methods()
+    end_test(has_methods, "Should have validation methods")
+    
+    start_test("coordinate_validation")
+    var validates = check_validation()
+    end_test(validates, "Should validate coordinates")
+    
+    # CRITICAL: Add yield even for synchronous test functions
+    # This satisfies the async test runner expectations
+    yield(get_tree(), "idle_frame")
+```
+
+**Important for TDD**: This is especially critical when writing failing tests first. The test runner needs proper async flow even when tests are expected to fail. Without the yield, you'll see timeouts instead of clean test failures.
+
 ## Integration with CI/CD
 
 ### Running in CI Pipelines

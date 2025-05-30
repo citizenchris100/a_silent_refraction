@@ -1,0 +1,60 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKDETECTIONTEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Click Position Validation =====
+SCRIPT ERROR: Invalid set index 'dialog_panel' (on base: 'Node') with value of type 'Control'.
+          at: setup_test_scene (res://src/unit_tests/click_detection_test.gd:83)
+
+[TEST] test_click_validates_screen_bounds
+  ✓ PASS: test_click_validates_screen_bounds: Valid screen position should be accepted
+
+[TEST] test_click_rejects_outside_screen
+  ✓ PASS: test_click_rejects_outside_screen: Invalid screen positions should be rejected
+
+[TEST] test_click_handles_edge_cases
+  ✓ PASS: test_click_handles_edge_cases: Edge cases should be handled gracefully
+
+===== TEST SUITE: UI Element Detection =====
+SCRIPT ERROR: Invalid set index 'dialog_panel' (on base: 'Node') with value of type 'Control'.
+          at: setup_test_scene (res://src/unit_tests/click_detection_test.gd:83)
+
+[TEST] test_detects_click_on_ui_element
+SCRIPT ERROR: Invalid call. Nonexistent function 'add_child' in base 'Nil'.
+          at: test_suite_ui_detection (res://src/unit_tests/click_detection_test.gd:189)
+
+===== TEST SUITE: Dialog State Checking =====
+SCRIPT ERROR: Invalid set index 'dialog_panel' (on base: 'Node') with value of type 'Control'.
+          at: setup_test_scene (res://src/unit_tests/click_detection_test.gd:83)
+
+[TEST] test_blocks_clicks_during_dialog
+SCRIPT ERROR: Invalid get index 'dialog_panel' (on base: 'Node').
+          at: test_suite_dialog_state (res://src/unit_tests/click_detection_test.gd:241)
+
+===== TEST SUITE: Click Blocking Mechanism =====
+SCRIPT ERROR: Invalid set index 'dialog_panel' (on base: 'Node') with value of type 'Control'.
+          at: setup_test_scene (res://src/unit_tests/click_detection_test.gd:83)
+
+[TEST] test_blocks_clicks_for_duration
+  ✓ PASS: test_blocks_clicks_for_duration: Clicks should be blocked immediately after blocking
+
+[TEST] test_blocking_mechanism
+  ✓ PASS: test_blocking_mechanism: Clicks should not be blocked when block_clicks_until is 0
+
+[TEST] test_blocking_time_calculation
+  ✓ PASS: test_blocking_time_calculation: Block time should be set correctly (within 10ms tolerance)
+
+==================================================
+ SUMMARY: 6 passed, 0 failed
+==================================================
+
+[PASS] All ClickDetectionTest tests passed!
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
