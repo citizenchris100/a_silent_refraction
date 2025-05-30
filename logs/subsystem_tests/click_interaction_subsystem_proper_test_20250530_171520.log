@@ -1,0 +1,181 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+
+============================================================
+ CLICKINTERACTION SUBSYSTEM TEST SUITE
+============================================================
+
+Created walkable area with Navigation2D support
+Click Interaction Test District loaded
+CoordinateManager: Current district set to Click Interaction Test District
+Registered district with CoordinateManager
+Using standard walkable area: MainWalkableArea
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1318
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Click Interaction Test District with initial view: center
+DEBUG: Base district initialized
+DEBUG: Camera created: True
+DEBUG: Background size: (1920, 1080)
+DEBUG: Walkable areas found: 1
+CoordinateManager: Current district set to Click Interaction Test District
+Added standard player character at position (960, 540)
+Setting target_player to: Player:[Node2D:1330]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Camera set to follow player
+Added standard player controller for point-and-click navigation
+DEBUG: Player created at position: (960, 540)
+DEBUG: Created InputManager for test
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: Player
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1920, 1080)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: MainWalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 200), Global: (100, 200)
+Point 1 - Local: (1820, 200), Global: (1820, 200)
+Point 2 - Local: (1820, 880), Global: (1820, 880)
+Point 3 - Local: (100, 880), Global: (100, 880)
+Note: Rect2.expand() did not change bounds for point (100, 880) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 200, 1720, 680)
+Bounds after margin adjustment: (99, 199, 1722, 682)
+Final corrected bounds: (99, 199, 1722, 682)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 199, 1722, 682)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Camera bounds set from district: (99, 199, 1722, 682)
+Initializing DefaultBoundsValidator with bounds: (99, 199, 1722, 682)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: center
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (1692.444458, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1692.444458, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1692.444458, 952)
+Background wide enough for scrolling: False
+Background width: 1692.444458, Min width for scrolling: 2136
+Using CENTER initial view setting
+Positioning camera at center: (846.222229, 476)
+Setting camera position to: (846.222229, 476)
+Camera position after setting: (846, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+[CAMERA DEBUG] Walkable area polygon points: [(100, 200), (1820, 200), (1820, 880), (100, 880)]
+[CAMERA DEBUG] Calculated walkable area center: (960, 540)
+[CAMERA DEBUG] Distance from camera to walkable center: 130.736374
+Camera positioned for initial view: center at (846, 476)
+View ratio: 84% of background is visible (1424 pixels of 1692.444458 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Player linked to district: Click Interaction Test District
+Player controller initialized
+ERROR: Condition "err" is true. Returned: err
+   at: load_source_code (modules/gdscript/gdscript.cpp:807)
+ERROR: Cannot load source code from file 'res://src/ui/click_feedback/feedback_marker_draw.gd'.
+   at: load (modules/gdscript/gdscript.cpp:2209)
+ERROR: Failed loading resource: res://src/ui/click_feedback/feedback_marker_draw.gd. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270)
+SCRIPT ERROR: Parse Error: Can't preload resource at path: res://src/ui/click_feedback/feedback_marker_draw.gd
+          at: GDScript::reload (res://src/ui/click_feedback/click_feedback_system.gd:120)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _initialize_click_systems (res://src/core/input/input_manager.gd:193)
+
+--------------------------------------------------
+ Running Test Scenarios
+--------------------------------------------------
+
+===== SCENARIO: Click Detection Refinements =====
+
+[TEST] input_manager_validation_methods
+  ✓ PASS: InputManager should have click validation methods (0.00s)
+
+[TEST] coordinate_validation_in_click_flow
+  ✗ FAIL: Click handling should validate coordinates before processing (0.00s)
+
+===== SCENARIO: Visual Feedback System =====
+
+[TEST] visual_feedback_system_exists
+  ✓ PASS: Visual feedback system should be implemented (0.00s)
+
+[TEST] feedback_integration_with_clicks
+  ✗ FAIL: Visual feedback should be shown on clicks (0.00s)
+
+===== SCENARIO: Click Priority System =====
+
+[TEST] priority_system_exists
+  ✓ PASS: Click priority system should be implemented (0.00s)
+
+[TEST] objects_over_movement_priority
+  ✗ FAIL: Interactive objects should take priority over movement clicks (0.00s)
+
+===== SCENARIO: Tolerance & Perspective =====
+
+[TEST] click_tolerance_implementation
+  ✓ PASS: Click validation should include tolerance for easier clicking (0.00s)
+
+[TEST] perspective_zoom_awareness
+  ✓ PASS: Click system should account for camera zoom and perspective (0.00s)
+
+--------------------------------------------------
+ Test Summary
+--------------------------------------------------
+Tests Passed: 5
+Tests Failed: 3
+
+Failed Tests:
+  - coordinate_validation_in_click_flow
+  - feedback_integration_with_clicks
+  - objects_over_movement_priority
+
+Missing Components:
+  - Click validation methods in InputManager
+  - Tolerance implementation in coordinate validation
+  - Perspective/zoom awareness in click handling
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)

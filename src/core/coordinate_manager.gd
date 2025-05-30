@@ -255,3 +255,90 @@ func validate_viewport_coordinates(screen_pos: Vector2, include_boundary: bool =
 	else:
 		return screen_pos.x >= 0 && screen_pos.x < viewport_size.x && \
 			   screen_pos.y >= 0 && screen_pos.y < viewport_size.y
+# ===== CLICK TOLERANCE AND PERSPECTIVE METHODS =====
+
+func validate_click_with_tolerance(screen_pos: Vector2, tolerance: float = 10.0) -> Dictionary:
+	"""Validate a click position with tolerance for easier interaction"""
+	var result = {
+		"valid": false,
+		"adjusted_position": screen_pos,
+		"was_adjusted": false
+	}
+	
+	# First check if the click is within viewport
+	if not validate_viewport_coordinates(screen_pos, true):
+		# Try to find the closest valid viewport position
+		var viewport_size = OS.get_window_size()
+		var camera = _get_current_camera()
+		if camera:
+			viewport_size = camera.get_viewport_rect().size
+		
+		# Clamp to viewport bounds
+		var adjusted = Vector2(
+			clamp(screen_pos.x, 0, viewport_size.x),
+			clamp(screen_pos.y, 0, viewport_size.y)
+		)
+		
+		result.adjusted_position = adjusted
+		result.was_adjusted = true
+		result.valid = true
+		return result
+	
+	result.valid = true
+	return result
+
+func apply_click_tolerance(world_position: Vector2, tolerance: float = 10.0) -> Vector2:
+	"""Apply tolerance to a world position to find nearby valid targets"""
+	# This would search for nearby interactive objects or valid walkable positions
+	# For now, just return the original position
+	return world_position
+
+func adjust_click_for_perspective(world_position: Vector2, perspective_type: String = "default") -> Vector2:
+	"""Adjust click position based on perspective type and zoom"""
+	var camera = _get_current_camera()
+	if not camera:
+		return world_position
+	
+	# Get current zoom level
+	var zoom = camera.zoom if camera.has_method("get_zoom") else Vector2(1, 1)
+	
+	# Apply perspective-specific adjustments
+	match perspective_type:
+		"isometric":
+			# Isometric perspective might need Y-axis adjustment
+			world_position.y *= 0.866  # cos(30°) for isometric projection
+			
+		"side_scrolling":
+			# Side scrolling might restrict Y-axis movement
+			pass
+			
+		"top_down":
+			# Top-down view typically needs no adjustment
+			pass
+			
+		_:
+			# Default/unknown perspective
+			pass
+	
+	# Apply zoom-based adjustments
+	# When zoomed in, clicks might need finer adjustment
+	if zoom.x < 1.0:  # Zoomed in
+		# More precise clicking when zoomed in
+		pass
+	elif zoom.x > 1.0:  # Zoomed out
+		# Might need to expand click areas when zoomed out
+		pass
+	
+	return world_position
+
+func adjust_for_zoom(world_position: Vector2) -> Vector2:
+	"""Adjust position based on current camera zoom level"""
+	var camera = _get_current_camera()
+	if not camera:
+		return world_position
+	
+	var zoom = camera.zoom if camera.has_method("get_zoom") else Vector2(1, 1)
+	
+	# For now, just return the position
+	# In a full implementation, this might adjust click areas based on zoom
+	return world_position

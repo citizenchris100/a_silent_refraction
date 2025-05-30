@@ -1,0 +1,14 @@
+Starting test execution...
+=========================
+
+[click_interaction_subsystem_proper_test] PASSED
+
+[click_interaction_subsystem_simple_test] PASSED
+
+[0;34m========================================[0m
+[0;34mTest Summary[0m
+[0;34m========================================[0m
+Total: 2
+[0;32mPassed: 2[0m
+[0;31mFailed: 0[0m
+

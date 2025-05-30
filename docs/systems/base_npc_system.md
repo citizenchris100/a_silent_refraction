@@ -239,18 +239,30 @@ NPCs connect to the NPC registry for data persistence:
 
 ## Input Handling
 
-NPCs handle their own input detection:
+NPCs are integrated with the enhanced InputManager system:
 
-### Methods:
+### Modern Input Flow:
+1. InputManager validates and processes all clicks centrally
+2. ClickPrioritySystem determines if NPC takes precedence over other clickables
+3. Visual feedback is shown (green indicator when clicking NPCs)
+4. GameManager receives the validated click and routes to `handle_npc_click(self)`
+5. NPC processes the interaction based on current verb
+
+### Legacy Input Detection (still functional):
+NPCs can still handle their own input detection as a fallback:
+
+#### Methods:
 - `_input(event)`: Processes mouse clicks
 - `_is_point_in_clickable_area(point)`: Checks if click hits NPC
 - `_on_ClickableArea_input_event()`: Area2D collision detection
 
-### Process:
+#### Legacy Process:
 1. NPC detects click in its area
 2. Finds GameManager in scene tree
 3. Calls GameManager's `handle_npc_click(self)` method
 4. GameManager processes verb and NPC
+
+Note: NPCs automatically work with the click priority system - they take precedence over background movement clicks but not over UI elements or dialogs.
 
 ## Creating Custom NPCs
 

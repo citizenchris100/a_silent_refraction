@@ -1,0 +1,180 @@
+=== Test: click_detection_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKDETECTIONTEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Click Position Validation =====
+
+[TEST] test_click_validates_screen_bounds
+  ✓ PASS: test_click_validates_screen_bounds: Valid screen position should be accepted
+
+[TEST] test_click_rejects_outside_screen
+  ✓ PASS: test_click_rejects_outside_screen: Invalid screen positions should be rejected
+
+[TEST] test_click_handles_edge_cases
+  ✓ PASS: test_click_handles_edge_cases: Edge cases should be handled gracefully
+
+===== TEST SUITE: UI Element Detection =====
+
+[TEST] test_detects_click_on_ui_element
+  ✓ PASS: test_detects_click_on_ui_element: Click on UI element should be detected
+
+[TEST] test_ignores_invisible_ui_elements
+  ✓ PASS: test_ignores_invisible_ui_elements: Click on invisible UI element should be ignored
+
+[TEST] test_handles_nested_ui_elements
+  ✓ PASS: test_handles_nested_ui_elements: Click on nested UI element should be detected
+
+===== TEST SUITE: Dialog State Checking =====
+
+[TEST] test_blocks_clicks_during_dialog
+  ✓ PASS: test_blocks_clicks_during_dialog: Clicks should be blocked when dialog is visible
+
+[TEST] test_allows_clicks_without_dialog
+  ✓ PASS: test_allows_clicks_without_dialog: Clicks should be allowed when dialog is not visible
+
+[TEST] test_handles_missing_dialog_manager
+  ✓ PASS: test_handles_missing_dialog_manager: Should handle missing dialog manager gracefully
+
+===== TEST SUITE: Click Blocking Mechanism =====
+
+[TEST] test_blocks_clicks_for_duration
+  ✓ PASS: test_blocks_clicks_for_duration: Clicks should be blocked immediately after blocking
+
+[TEST] test_blocking_mechanism
+  ✓ PASS: test_blocking_mechanism: Clicks should not be blocked when block_clicks_until is 0
+
+[TEST] test_blocking_time_calculation
+  ✓ PASS: test_blocking_time_calculation: Block time should be set correctly (within 10ms tolerance)
+
+==================================================
+ SUMMARY: 12 passed, 0 failed
+==================================================
+
+[PASS] All ClickDetectionTest tests passed!
+
+=== Test: click_tolerance_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKTOLERANCETEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Basic Tolerance Application =====
+
+[TEST] test_apply_tolerance_to_click_position
+  ✓ PASS: test_apply_tolerance_to_click_position: Tolerance should preserve original click position
+
+[TEST] test_tolerance_creates_search_bounds
+  ✓ PASS: test_tolerance_creates_search_bounds: Tolerance should create correct search bounds
+
+[TEST] test_point_within_tolerance
+  ✓ PASS: test_point_within_tolerance: Points should be correctly identified as within/outside tolerance
+
+===== TEST SUITE: Edge Detection with Tolerance =====
+
+[TEST] test_find_closest_valid_point_within_tolerance
+  ✓ PASS: test_find_closest_valid_point_within_tolerance: Should find closest valid point within tolerance
+
+[TEST] test_adjust_click_to_nearest_edge
+  ✓ PASS: test_adjust_click_to_nearest_edge: Click near edge should snap to edge when within tolerance
+
+[TEST] test_no_adjustment_outside_tolerance
+  ✓ PASS: test_no_adjustment_outside_tolerance: Click outside tolerance should not be adjusted
+
+===== TEST SUITE: Zoom-based Tolerance Scaling =====
+
+[TEST] test_tolerance_scales_with_zoom
+  ✓ PASS: test_tolerance_scales_with_zoom: Tolerance should scale correctly with zoom level
+
+[TEST] test_tolerance_respects_limits_with_zoom
+  ✓ PASS: test_tolerance_respects_limits_with_zoom: Tolerance should respect min/max limits regardless of zoom
+
+===== TEST SUITE: Tolerance Limits and Constraints =====
+
+[TEST] test_minimum_tolerance_enforcement
+  ✓ PASS: test_minimum_tolerance_enforcement: Tolerance should never go below minimum threshold
+
+[TEST] test_maximum_tolerance_enforcement
+  ✓ PASS: test_maximum_tolerance_enforcement: Tolerance should never exceed maximum threshold
+
+[TEST] test_tolerance_with_ui_scale
+  ✓ PASS: test_tolerance_with_ui_scale: Tolerance should adjust for UI scale accessibility
+
+==================================================
+ SUMMARY: 11 passed, 0 failed
+==================================================
+
+[PASS] All ClickToleranceTest tests passed!
+
+=== Test: click_perspective_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKPERSPECTIVETEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Zoom-based Click Adjustment =====
+
+[TEST] test_click_position_adjusts_for_zoom
+  ✓ PASS: test_click_position_adjusts_for_zoom: Click positions should adjust correctly for zoom level
+
+[TEST] test_click_area_scales_with_zoom
+  ✓ PASS: test_click_area_scales_with_zoom: Click detection radius should scale inversely with zoom
+
+===== TEST SUITE: Perspective Type Click Handling =====
+
+[TEST] test_isometric_click_adjustment
+  ✓ PASS: test_isometric_click_adjustment: Isometric perspective should adjust Y-axis clicks correctly
+
+[TEST] test_side_scrolling_click_adjustment
+  ✓ PASS: test_side_scrolling_click_adjustment: Side-scrolling perspective should not modify click positions
+
+[TEST] test_top_down_click_adjustment
+  ✓ PASS: test_top_down_click_adjustment: Top-down perspective should not modify click positions
+
+[TEST] test_perspective_affects_click_tolerance
+  ✓ PASS: test_perspective_affects_click_tolerance: Click tolerance should adjust based on perspective type
+
+===== TEST SUITE: Screen Edge Click Behavior =====
+
+[TEST] test_edge_click_detection_with_zoom
+  ✓ PASS: test_edge_click_detection_with_zoom: Edge clicks should be detected with zoom consideration
+
+[TEST] test_edge_click_adjustment
+  ✓ PASS: test_edge_click_adjustment: Clicks too close to edge should be adjusted inward
+
+===== TEST SUITE: Combined Zoom and Perspective Effects =====
+
+[TEST] test_combined_zoom_and_perspective
+  ✓ PASS: test_combined_zoom_and_perspective: Combined zoom and perspective adjustments should apply correctly
+
+[TEST] test_effective_click_area_with_all_factors
+  ✓ PASS: test_effective_click_area_with_all_factors: All factors should combine correctly for effective click tolerance
+
+==================================================
+ SUMMARY: 10 passed, 0 failed
+==================================================
+
+[PASS] All ClickPerspectiveTest tests passed!
+

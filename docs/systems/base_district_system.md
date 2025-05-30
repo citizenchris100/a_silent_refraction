@@ -62,9 +62,15 @@ Base district provides:
 
 The `setup_player_and_controller()` method:
 - Creates the player instance
-- Sets up point-and-click navigation
+- Sets up point-and-click navigation with enhanced InputManager
 - Configures camera to follow player
 - Handles initial positioning
+- Integrates with click validation and visual feedback systems
+
+Note: The district works seamlessly with the enhanced InputManager which provides:
+- Click validation (preventing clicks outside valid areas)
+- Visual feedback (green for valid clicks, red for invalid, yellow for adjusted)
+- Priority handling for overlapping interactive elements
 
 ## Creating a New District
 
@@ -192,10 +198,13 @@ This ONLY works if:
 
 Base district integrates with:
 - **CoordinateManager**: For coordinate transformations
+- **InputManager**: For click validation and routing (created by GameManager)
 - **WalkableAreaSystem**: For movement boundaries
 - **NPCSystem**: For NPC placement and management
 - **DialogSystem**: For location-specific dialogs
 - **DebugSystem**: For development tools
+- **ClickFeedbackSystem**: For visual click indicators
+- **ClickPrioritySystem**: For handling overlapping interactive elements
 
 ## Best Practices
 

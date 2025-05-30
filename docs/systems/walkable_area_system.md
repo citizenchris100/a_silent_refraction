@@ -222,6 +222,15 @@ static func apply_safety_corrections(bounds: Rect2, district = null) -> Rect2:
 
 ### 2. Player Movement Integration
 
+The walkable area system now integrates with the enhanced InputManager for better user experience.
+
+#### Click Validation and Visual Feedback:
+1. **InputManager** validates clicks before passing to movement system
+2. **Visual feedback** shows click validity:
+   - 🟢 **Green marker**: Valid walkable position
+   - 🔴 **Red marker**: Invalid position outside walkable areas
+   - 🟡 **Yellow marker**: Click was adjusted to nearest valid position
+
 The player controller has been enhanced to use the new walkable area features:
 
 ```gdscript

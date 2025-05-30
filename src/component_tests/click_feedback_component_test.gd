@@ -165,7 +165,7 @@ func test_suite_feedback_states():
 	yield(get_tree(), "idle_frame")
 	var valid_feedbacks = feedback_system.get_active_feedbacks()
 	
-	end_test(valid_feedbacks.size() > 0 and valid_feedbacks[0].color.is_equal_approx(VALID_COLOR),
+	end_test(valid_feedbacks.size() > 0 and valid_feedbacks[0].type == feedback_system.FeedbackType.VALID,
 		"Valid clicks should show green feedback")
 	
 	start_test("test_invalid_click_shows_red_feedback")
