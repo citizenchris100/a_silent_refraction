@@ -1,0 +1,61 @@
+=== Component Test: click_signal_component_test ===
+Exit code: 4
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKSIGNALCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Connection Verification =====
+
+[TEST] test_components_are_connected
+  ✓ PASS: test_components_are_connected: All components should have required signals
+
+[TEST] test_signal_connections_established
+  ✓ PASS: test_signal_connections_established: Components should be connected via signals
+
+===== TEST SUITE: Signal Flow and Timing =====
+
+[TEST] test_click_triggers_signal_chain
+  ✓ PASS: test_click_triggers_signal_chain: Click should trigger complete signal chain
+
+[TEST] test_signal_data_propagation
+
+===== TEST SUITE: Priority Decision Communication =====
+
+[TEST] test_ui_click_gets_rejected
+  ✗ FAIL: test_ui_click_gets_rejected: Signal data should propagate through the chain
+  ✓ PASS: test_ui_click_gets_rejected: UI clicks should be rejected by priority system
+
+[TEST] test_object_click_priority_over_movement
+
+===== TEST SUITE: Error Handling and Edge Cases =====
+
+[TEST] test_handles_null_click_data
+  ✗ FAIL: test_handles_null_click_data: Object clicks should have higher priority than movement
+
+[TEST] test_movement_click_priority
+  ✗ FAIL: test_movement_click_priority: System should reject null click data
+
+[TEST] test_handles_missing_position
+
+==================================================
+ SUMMARY: 4 passed, 3 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_ui_click_gets_rejected
+  - test_handles_null_click_data
+  - test_movement_click_priority
+  ✗ FAIL: test_handles_missing_position: Movement clicks should have appropriate priority
+  ✓ PASS: test_handles_missing_position: System should reject data without position
+
+[TEST] test_feedback_system_receives_processed_clicks
+SCRIPT ERROR: Invalid call. Nonexistent function 'clear_all_feedback' in base 'Nil'.
+          at: test_suite_error_handling (res://src/component_tests/click_signal_component_test.gd:302)
+

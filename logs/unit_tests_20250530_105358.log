@@ -1,0 +1,60 @@
+=== Test: click_tolerance_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKTOLERANCETEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Basic Tolerance Application =====
+
+[TEST] test_apply_tolerance_to_click_position
+  ✓ PASS: test_apply_tolerance_to_click_position: Tolerance should preserve original click position
+
+[TEST] test_tolerance_creates_search_bounds
+  ✓ PASS: test_tolerance_creates_search_bounds: Tolerance should create correct search bounds
+
+[TEST] test_point_within_tolerance
+  ✓ PASS: test_point_within_tolerance: Points should be correctly identified as within/outside tolerance
+
+===== TEST SUITE: Edge Detection with Tolerance =====
+
+[TEST] test_find_closest_valid_point_within_tolerance
+  ✓ PASS: test_find_closest_valid_point_within_tolerance: Should find closest valid point within tolerance
+
+[TEST] test_adjust_click_to_nearest_edge
+  ✓ PASS: test_adjust_click_to_nearest_edge: Click near edge should snap to edge when within tolerance
+
+[TEST] test_no_adjustment_outside_tolerance
+  ✓ PASS: test_no_adjustment_outside_tolerance: Click outside tolerance should not be adjusted
+
+===== TEST SUITE: Zoom-based Tolerance Scaling =====
+
+[TEST] test_tolerance_scales_with_zoom
+  ✓ PASS: test_tolerance_scales_with_zoom: Tolerance should scale correctly with zoom level
+
+[TEST] test_tolerance_respects_limits_with_zoom
+  ✓ PASS: test_tolerance_respects_limits_with_zoom: Tolerance should respect min/max limits regardless of zoom
+
+===== TEST SUITE: Tolerance Limits and Constraints =====
+
+[TEST] test_minimum_tolerance_enforcement
+  ✓ PASS: test_minimum_tolerance_enforcement: Tolerance should never go below minimum threshold
+
+[TEST] test_maximum_tolerance_enforcement
+  ✓ PASS: test_maximum_tolerance_enforcement: Tolerance should never exceed maximum threshold
+
+[TEST] test_tolerance_with_ui_scale
+  ✓ PASS: test_tolerance_with_ui_scale: Tolerance should adjust for UI scale accessibility
+
+==================================================
+ SUMMARY: 11 passed, 0 failed
+==================================================
+
+[PASS] All ClickToleranceTest tests passed!
+

@@ -1,0 +1,59 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKPERSPECTIVETEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Zoom-based Click Adjustment =====
+
+[TEST] test_click_position_adjusts_for_zoom
+  ✓ PASS: test_click_position_adjusts_for_zoom: Click positions should adjust correctly for zoom level
+
+[TEST] test_click_area_scales_with_zoom
+  ✓ PASS: test_click_area_scales_with_zoom: Click detection radius should scale inversely with zoom
+
+===== TEST SUITE: Perspective Type Click Handling =====
+
+[TEST] test_isometric_click_adjustment
+  ✓ PASS: test_isometric_click_adjustment: Isometric perspective should adjust Y-axis clicks correctly
+
+[TEST] test_side_scrolling_click_adjustment
+  ✓ PASS: test_side_scrolling_click_adjustment: Side-scrolling perspective should not modify click positions
+
+[TEST] test_top_down_click_adjustment
+  ✓ PASS: test_top_down_click_adjustment: Top-down perspective should not modify click positions
+
+[TEST] test_perspective_affects_click_tolerance
+  ✓ PASS: test_perspective_affects_click_tolerance: Click tolerance should adjust based on perspective type
+
+===== TEST SUITE: Screen Edge Click Behavior =====
+
+[TEST] test_edge_click_detection_with_zoom
+  Failed to detect edge click at (50, 540) with zoom 0.75
+  Failed to detect edge click at (1870, 540) with zoom 0.75
+  Failed to detect edge click at (960, 50) with zoom 0.75
+  Failed to detect edge click at (960, 1030) with zoom 0.75
+  ✗ FAIL: test_edge_click_detection_with_zoom: Edge clicks should be detected with zoom consideration
+
+[TEST] test_edge_click_adjustment
+  ✓ PASS: test_edge_click_adjustment: Clicks too close to edge should be adjusted inward
+
+===== TEST SUITE: Combined Zoom and Perspective Effects =====
+
+[TEST] test_combined_zoom_and_perspective
+  ✓ PASS: test_combined_zoom_and_perspective: Combined zoom and perspective adjustments should apply correctly
+
+[TEST] test_effective_click_area_with_all_factors
+  ✓ PASS: test_effective_click_area_with_all_factors: All factors should combine correctly for effective click tolerance
+
+==================================================
+ SUMMARY: 9 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_edge_click_detection_with_zoom

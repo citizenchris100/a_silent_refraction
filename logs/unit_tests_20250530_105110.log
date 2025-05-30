@@ -1,0 +1,10 @@
+=== Test: click_tolerance_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Variable "all_correct" already defined in the scope (at line 164).
+          at: GDScript::reload (res://src/unit_tests/click_tolerance_test.gd:183)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+

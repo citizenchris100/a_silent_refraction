@@ -1,0 +1,40 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKFEEDBACKCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Feedback Creation on Click =====
+
+[TEST] test_creates_feedback_on_valid_click
+
+===== TEST SUITE: Feedback Visual States =====
+
+[TEST] test_valid_click_shows_green_feedback
+
+===== TEST SUITE: Feedback Timing and Duration =====
+
+[TEST] test_feedback_fades_after_duration
+
+===== TEST SUITE: Feedback Cleanup and Performance =====
+
+[TEST] test_clear_all_feedback
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All ClickFeedbackComponentTest tests passed!
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_active_feedbacks' in base 'Nil'.
+          at: test_suite_feedback_creation (res://src/component_tests/click_feedback_component_test.gd:110)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_active_feedbacks' in base 'Nil'.
+          at: test_suite_feedback_states (res://src/component_tests/click_feedback_component_test.gd:161)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_active_feedbacks' in base 'Nil'.
+          at: test_suite_feedback_timing (res://src/component_tests/click_feedback_component_test.gd:213)
+SCRIPT ERROR: Invalid call. Nonexistent function 'clear_all_feedback' in base 'Nil'.
+          at: test_suite_feedback_cleanup (res://src/component_tests/click_feedback_component_test.gd:256)

@@ -1,0 +1,20 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKSIGNALCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Connection Verification =====
+
+[TEST] test_components_are_connected
+  ✓ PASS: test_components_are_connected: All components should have required signals
+
+[TEST] test_signal_connections_established
+  ✓ PASS: test_signal_connections_established: Components should be connected via signals
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: run_test_suite (res://src/component_tests/click_signal_component_test.gd:84)
