@@ -1,0 +1,83 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYER CONTROLLER TEST SUITE
+==================================================
+
+
+[TEST] test_player_uses_physics_process_for_movement
+  ✓ Player should have _physics_process method
+  Player position after physics tick: (100.307198, 100)
+  Player velocity: (19.200001, 0)
+  Is moving: True
+  ✓ Player should move in _physics_process
+
+[TEST] test_movement_states_exist
+  ✓ Player should have MovementState enum
+  ✓ Should have IDLE state
+  ✓ Should have ACCELERATING state
+  ✓ Should have MOVING state
+  ✓ Should have DECELERATING state
+  ✓ Should have ARRIVED state
+
+[TEST] test_movement_state_transitions
+  ✓ Player should track movement state
+  ✓ Player should emit state change signal
+  ✓ Should start in IDLE state
+  ✓ Should be ACCELERATING after move_to
+
+[TEST] test_acceleration_behavior
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+  ✓ Velocity should increase during acceleration
+  ✓ Velocity should not exceed max speed
+
+[TEST] test_deceleration_behavior
+  ✓ Should arrive at destination
+  ✓ Should have multiple frames of movement
+  ✓ Should decelerate when approaching target
+
+[TEST] test_visual_update_in_process
+  ✓ Player should have _process for visuals
+  ✓ Player should have visual update method
+
+[TEST] test_movement_constants
+  ✓ Should have movement_speed
+  ✓ Should have acceleration
+  ✓ Should have deceleration
+  ✓ Movement speed should be positive
+  ✓ Acceleration should be positive
+  ✓ Deceleration should be positive
+  ✓ Deceleration should be >= acceleration
+
+==================================================
+ SUMMARY: 43 passed, 0 failed
+==================================================
+
+[PASS] All player controller tests passed!
+Player linked to district: Test District
+Player linked to district: Test District
+Player linked to district: Test District
+Player linked to district: Test District
+Player linked to district: Test District
+Player linked to district: Test District
+Player linked to district: Test District

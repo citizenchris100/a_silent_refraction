@@ -1,20 +1,20 @@
 #!/bin/bash
-# Script to run unit tests headlessly from the command line
-# Supports multiple test output formats
+# Script to run component tests headlessly from the command line
+# Component tests verify the interaction between 2-3 closely related components/systems
 #
 # Usage:
-#   ./tools/run_unit_tests.sh                  # Run all tests
-#   ./tools/run_unit_tests.sh test1 test2      # Run only specified tests
-#   ./tools/run_unit_tests.sh test1.tscn       # Run test with full name
+#   ./tools/run_component_tests.sh                  # Run all component tests
+#   ./tools/run_component_tests.sh test1 test2      # Run only specified tests
+#   ./tools/run_component_tests.sh test1.tscn       # Run test with full name
 
 # Configuration
 GODOT_PATH="godot" # Change this to the path of your Godot executable if needed
 PROJECT_PATH="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
-TEST_DIR="$PROJECT_PATH/src/unit_tests"
+TEST_DIR="$PROJECT_PATH/src/component_tests"
 LOG_DIR="$PROJECT_PATH/logs"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE="$LOG_DIR/unit_tests_$TIMESTAMP.log"
-TEST_TIMEOUT=60 # Timeout in seconds for each test - increased for complex tests
+LOG_FILE="$LOG_DIR/component_tests_$TIMESTAMP.log"
+TEST_TIMEOUT=120 # Timeout in seconds for each test - longer than unit tests due to complexity
 
 # Create logs directory if it doesn't exist
 mkdir -p "$LOG_DIR"
@@ -28,7 +28,7 @@ NC='\033[0m' # No Color
 
 # Display header
 echo -e "${YELLOW}==========================================${NC}"
-echo -e "${YELLOW}     Running A Silent Refraction Unit Tests${NC}"
+echo -e "${YELLOW}  Running A Silent Refraction Component Tests${NC}"
 echo -e "${YELLOW}==========================================${NC}"
 echo "Project path: $PROJECT_PATH"
 echo "Test path: $TEST_DIR"
@@ -44,14 +44,14 @@ run_test() {
     local test_scene=$1
     local test_name=$(basename "$test_scene" .tscn)
     
-    echo -e "${YELLOW}Running test: ${test_name}${NC}"
+    echo -e "${YELLOW}Running component test: ${test_name}${NC}"
     
     # Get custom timeout for specific tests that need more time
     local timeout_value=$TEST_TIMEOUT
     case "$test_name" in
-        "bounds_calculator_test")
+        "camera_walkable_component_test"|"navigation_oscillation_component_test")
             timeout_value=$((TEST_TIMEOUT*2)) # Double timeout for complex tests
-            echo -e "${BLUE}Using extended timeout ($timeout_value seconds) for complex test${NC}"
+            echo -e "${BLUE}Using extended timeout ($timeout_value seconds) for complex component test${NC}"
             ;;
     esac
     
@@ -121,7 +121,7 @@ run_test() {
         fi
     elif [ $exit_code -eq 124 ]; then
         # Test timed out - count as failure
-        echo -e "${RED}✗ Test timed out after $TEST_TIMEOUT seconds${NC}"
+        echo -e "${RED}✗ Test timed out after $timeout_value seconds${NC}"
         failures=1
         global_fails=$((global_fails + 1))
     else
@@ -133,7 +133,7 @@ run_test() {
     
     echo ""
     # Add to main log file
-    echo "=== Test: $test_name ===" >> "$LOG_FILE"
+    echo "=== Component Test: $test_name ===" >> "$LOG_FILE"
     echo "Exit code: $exit_code" >> "$LOG_FILE"
     cat "$LOG_DIR/${test_name}_${TIMESTAMP}.log" >> "$LOG_FILE"
     echo "" >> "$LOG_FILE"
@@ -202,9 +202,9 @@ total_tests=$((global_passes + global_fails))
 
 # Display summary
 echo -e "${YELLOW}==========================================${NC}"
-echo -e "${YELLOW}               Test Summary${NC}"
+echo -e "${YELLOW}         Component Test Summary${NC}"
 echo -e "${YELLOW}==========================================${NC}"
-echo "Total test files: $total_test_files"
+echo "Total component test files: $total_test_files"
 echo -e "Files passed: ${GREEN}$passed_test_files${NC}"
 echo -e "Files failed: ${RED}$failed_test_files${NC}"
 echo ""
