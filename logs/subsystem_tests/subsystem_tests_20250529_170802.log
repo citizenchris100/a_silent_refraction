@@ -1,0 +1,12 @@
+Starting test execution...
+=========================
+
+[camera_movement_subsystem_test] FAILED
+
+[0;34m========================================[0m
+[0;34mTest Summary[0m
+[0;34m========================================[0m
+Total: 1
+[0;32mPassed: 0[0m
+[0;31mFailed: 1[0m
+

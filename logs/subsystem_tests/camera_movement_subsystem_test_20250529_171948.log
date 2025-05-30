@@ -1,0 +1,102 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+============================================================
+ CAMERAMOVEMENT SUBSYSTEM TEST SUITE
+============================================================
+
+DEBUG: Starting initialization...
+DEBUG: About to initialize subsystem...
+[INFO] Started performance monitor: initialization
+
+--------------------------------------------------
+ Initializing Camera Movement Subsystem
+--------------------------------------------------
+[INFO] Setting up camera system
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1339
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (960, 540)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1692.444458, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1692.444458, 952)
+Background wide enough for scrolling: False
+Background width: 1692.444458, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (846.222229, 476)
+Setting camera position to: (846.222229, 476)
+Camera position after setting: (846, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (846, 476)
+View ratio: 84% of background is visible (1424 pixels of 1692.444458 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+[INFO] Camera system ready
+[INFO] Setting up player system
+Player linked to district: Test District
+[INFO] Player system ready
+[INFO] Setting up input system
+[INFO] Input system ready
+[INFO] Verifying component connections
+[SUCCESS] All components connected properly
+[INFO] Stopped performance monitor: initialization (Duration: 0.97s, Frames: 0)
+[SUCCESS] Camera Movement Subsystem initialized successfully
+DEBUG: Subsystem initialized, running tests...
+
+--------------------------------------------------
+ Running Test Scenarios
+--------------------------------------------------
+
+===== SCENARIO: Basic Movement =====
+[INFO] Starting test: basic_click_to_move
+[INFO] Moving player from (400, 400) to (1500, 700)
+WARNING: 'Navigation2D' node and 'Navigation2D.get_simple_path()' are deprecated and will be removed in a future version. Use 'Navigation2DServer.map_get_path()' instead.
+     at: get_simple_path (scene/2d/navigation_2d.cpp:81)
+Moving to: (1500, 700)
+  ✗ FAIL: basic_click_to_move - Player reached target (distance: 679.2), camera followed: False, stuck events: 0 (5.01s)
+[INFO] Starting test: rapid_destination_changes
+Moving to: (300, 300)
+Moving to: (1600, 300)
+Moving to: (1600, 800)
+Moving to: (300, 800)
+  ✓ PASS: rapid_destination_changes - No stuck events during rapid destination changes (5.08s)
+
+--------------------------------------------------
+ Subsystem Test Report
+--------------------------------------------------
+
+Performance Summary:
+[INFO] Cleaning up subsystem...
+[INFO] Cleanup complete

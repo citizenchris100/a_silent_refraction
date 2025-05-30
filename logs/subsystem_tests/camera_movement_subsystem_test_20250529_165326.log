@@ -1,0 +1,22 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+============================================================
+ CAMERAMOVEMENT SUBSYSTEM TEST SUITE
+============================================================
+
+DEBUG: Starting initialization...
+DEBUG: Created test environment
+DEBUG: About to initialize subsystem...
+[INFO] Started performance monitor: initialization
+
+--------------------------------------------------
+ Initializing Camera Movement Subsystem
+--------------------------------------------------
+SCRIPT ERROR: Invalid call. Nonexistent function 'instance' in base 'GDScript'.
+          at: initialize_subsystem (res://src/subsystem_tests/camera_movement_subsystem_test.gd:129)
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: _ready (res://src/subsystem_tests/camera_movement_subsystem_test.gd:97)
