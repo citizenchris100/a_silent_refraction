@@ -18,6 +18,7 @@ CAMERA_TEST_SCENE="res://src/test/clean_camera_test.tscn"
 CAMERA_SYSTEM_TEST_SCENE="res://src/test/clean_camera_test3.tscn"
 CAMERA_VALIDATION_TEST_SCENE="res://src/test/camera_system_test.tscn"
 MOVEMENT_GRID_TEST_SCENE="res://src/test/movement_grid_test.tscn"
+CLICK_VALIDATION_TEST_SCENE="res://src/test/click_validation_test.tscn"
 
 # Function to display help
 function show_help {
@@ -32,6 +33,7 @@ function show_help {
     echo "  camera-test          - Run the comprehensive camera validation test"
     echo "  movement             - Run the grid-based movement test scene"
     echo "  walkable             - Run the walkable area enhancement test scene"
+    echo "  click                - Run the click validation test scene (Task 8)"
     echo "  clean                - Clean up redundant files"
     echo "  build                - Build the game for distribution"
     echo "  check                - Check project for errors"
@@ -91,6 +93,29 @@ function run_walkable_test {
     echo -e "${YELLOW}Press R to re-run acceptance tests${NC}"
     echo -e "${YELLOW}Press G to toggle grid, ESC to exit${NC}"
     $GODOT_CMD --path $PROJECT_ROOT src/test/walkable_area_test.tscn
+}
+
+# Function to run the click validation test scene
+function run_click_validation_test {
+    echo -e "${GREEN}Running click validation test scene (Task 8)...${NC}"
+    echo ""
+    echo -e "${YELLOW}This test validates all acceptance criteria for click detection:${NC}"
+    echo "  1. Accurate click to world coordinate mapping"
+    echo "  2. Invalid click target handling"
+    echo "  3. Click priority system (objects over movement)"
+    echo "  4. Zoom-aware click tolerance"
+    echo "  5. Visual feedback system (green/red/yellow markers)"
+    echo ""
+    echo -e "${YELLOW}Controls:${NC}"
+    echo "  - Click anywhere to test click detection"
+    echo "  - Z/X: Change zoom levels"
+    echo "  - D: Toggle dialog simulation (blocks clicks)"
+    echo "  - B: Toggle click blocking"
+    echo "  - H: Show/hide debug overlay"
+    echo "  - R: Run validation tests"
+    echo "  - ESC: Exit"
+    echo ""
+    $GODOT_CMD --path $PROJECT_ROOT $CLICK_VALIDATION_TEST_SCENE
 }
 
 
@@ -333,6 +358,9 @@ case "$1" in
         ;;
     walkable)
         run_walkable_test
+        ;;
+    click)
+        run_click_validation_test
         ;;
     clean)
         clean_project
