@@ -1,0 +1,161 @@
+=== Component Test: game_manager_player_signal_component_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERPLAYERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Signal Connection =====
+
+[TEST] test_game_manager_connects_to_player
+  ✓ PASS: test_game_manager_connects_to_player: GameManager should connect to player movement_state_changed
+
+[TEST] test_signal_flow_player_to_game_manager
+  [SIGNAL] Test received movement_state_changed: 1
+
+===== TEST SUITE: State Response =====
+
+[TEST] test_game_manager_handles_movement_states
+  [SIGNAL] Test received movement_state_changed: 0
+
+===== TEST SUITE: Cleanup Handling =====
+
+[TEST] test_cleanup_on_player_removal
+
+==================================================
+ SUMMARY: 1 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerPlayerSignal tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_connected' in base 'Nil'.
+          at: GameManagerPlayerSignalComponentTest.test_suite_signal_connection (res://src/component_tests/game_manager_player_signal_component_test.gd:133)
+  ✗ FAIL: test_cleanup_on_player_removal: GameManager should handle all movement states
+
+[TEST] test_rapid_state_changes
+SCRIPT ERROR: Invalid call. Nonexistent function '_set_movement_state' in base 'Nil'.
+          at: GameManagerPlayerSignalComponentTest.test_suite_state_responses (res://src/component_tests/game_manager_player_signal_component_test.gd:171)
+ERROR: Attempted method call on a deleted object.
+   at: call_ptr (core/variant_call.cpp:1222)
+SCRIPT ERROR: Attempt to call function 'has_method' in base 'previously freed instance' on a null instance.
+          at: GameManagerPlayerSignalComponentTest.test_suite_cleanup (res://src/component_tests/game_manager_player_signal_component_test.gd:201)
+
+=== Component Test: game_manager_camera_signal_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERCAMERASIGNAL COMPONENT TEST SUITE
+==================================================
+
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1308
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+SCRIPT ERROR: Invalid call. Nonexistent function 'setup_camera_bounds' in base 'Camera2D (scrolling_camera.gd)'.
+          at: GameManagerCameraSignalComponentTest.setup_test_environment (res://src/component_tests/game_manager_camera_signal_component_test.gd:90)
+
+===== TEST SUITE: Camera Signal Connection =====
+
+[TEST] test_game_manager_connects_to_camera
+SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
+          at: GameManagerCameraSignalComponentTest.test_suite_camera_signals (res://src/component_tests/game_manager_camera_signal_component_test.gd:122)
+
+===== TEST SUITE: Movement Coordination =====
+
+[TEST] test_camera_follows_player_movement
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_follow_target' in base 'Camera2D (scrolling_camera.gd)'.
+          at: GameManagerCameraSignalComponentTest.test_suite_movement_coordination (res://src/component_tests/game_manager_camera_signal_component_test.gd:183)
+
+===== TEST SUITE: State Synchronization =====
+
+[TEST] test_camera_state_change_signals
+SCRIPT ERROR: Invalid call. Nonexistent function '_set_camera_state' in base 'Camera2D (scrolling_camera.gd)'.
+          at: GameManagerCameraSignalComponentTest.test_suite_state_sync (res://src/component_tests/game_manager_camera_signal_component_test.gd:209)
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerCameraSignal tests passed!
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:441
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+=== Component Test: input_game_manager_signal_component_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTGAMEMANAGERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Existing Connection =====
+
+[TEST] test_input_manager_to_game_manager_connected
+  ✗ FAIL: test_input_manager_to_game_manager_connected: InputManager.object_clicked should be connected to GameManager.handle_object_click
+
+===== TEST SUITE: Click Handling =====
+
+[TEST] test_object_click_handling
+
+===== TEST SUITE: Signal Data Flow =====
+
+[TEST] test_signal_data_integrity
+  [SIGNAL] Test received object_clicked: TestObject at (123, 456)
+
+==================================================
+ SUMMARY: 0 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_input_manager_to_game_manager_connected
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+  ✓ PASS: test_signal_data_integrity: GameManager should handle object_clicked signal
+
+[TEST] test_null_object_handling
+ERROR: Attempted method call on a deleted object.
+   at: call_ptr (core/variant_call.cpp:1222)
+SCRIPT ERROR: Attempt to call function 'emit_signal' in base 'previously freed instance' on a null instance.
+          at: InputGameManagerSignalComponentTest.test_suite_click_handling (res://src/component_tests/input_game_manager_signal_component_test.gd:159)
+ERROR: Attempted method call on a deleted object.
+   at: call_ptr (core/variant_call.cpp:1222)
+SCRIPT ERROR: Attempt to call function 'disconnect' in base 'previously freed instance' on a null instance.
+          at: InputGameManagerSignalComponentTest.test_suite_signal_data (res://src/component_tests/input_game_manager_signal_component_test.gd:183)
+

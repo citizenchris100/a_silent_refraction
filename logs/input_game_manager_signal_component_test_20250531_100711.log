@@ -1,0 +1,51 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTGAMEMANAGERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+Game Manager initializing...
+Creating dialog manager...
+
+===== TEST SUITE: Existing Connection =====
+
+[TEST] test_game_manager_uses_existing_input_manager
+  ✓ PASS: test_game_manager_uses_existing_input_manager: GameManager should find and use our existing InputManager
+
+[TEST] test_input_manager_to_game_manager_connected
+  ✗ FAIL: test_input_manager_to_game_manager_connected: InputManager.object_clicked should be connected to GameManager.handle_object_click
+
+===== TEST SUITE: Click Handling =====
+
+[TEST] test_object_click_handling
+
+===== TEST SUITE: Signal Data Flow =====
+
+[TEST] test_signal_data_integrity
+  [SIGNAL] Test received object_clicked: TestObject at (123, 456)
+
+==================================================
+ SUMMARY: 1 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_input_manager_to_game_manager_connected
+ERROR: No player found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Player not found
+Game Manager initialized
+  ✓ PASS: test_signal_data_integrity: GameManager should handle object_clicked signal
+
+[TEST] test_null_object_handling
+  ✗ FAIL: test_null_object_handling: Signal data should maintain integrity through chain
+
+[TEST] test_rapid_click_handling
+  ✗ FAIL: test_rapid_click_handling: System should handle null object clicks gracefully
+  ✗ FAIL: test_rapid_click_handling: System should handle rapid clicks without issues
+Our InputManager: Null
+SCRIPT ERROR: Invalid get index 'input_manager' (on base: 'Nil').
+          at: InputGameManagerSignalComponentTest.setup_test_environment (res://src/component_tests/input_game_manager_signal_component_test.gd:119)

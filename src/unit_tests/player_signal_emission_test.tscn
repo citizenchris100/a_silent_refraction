@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/unit_tests/player_signal_emission_test.gd" type="Script" id=1]
+
+[node name="PlayerSignalEmissionTest" type="Node2D"]
+script = ExtResource( 1 )

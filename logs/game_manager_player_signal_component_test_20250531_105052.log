@@ -1,0 +1,51 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERPLAYERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Signal Connection =====
+
+[TEST] test_game_manager_connects_to_player
+  ✗ FAIL: test_game_manager_connects_to_player: GameManager should connect to player movement_state_changed
+
+[TEST] test_signal_flow_player_to_game_manager
+  [SIGNAL] Test received movement_state_changed: 1
+
+===== TEST SUITE: State Response =====
+
+[TEST] test_game_manager_handles_movement_states
+  [SIGNAL] Test received movement_state_changed: 0
+
+===== TEST SUITE: Cleanup Handling =====
+
+[TEST] test_cleanup_on_player_removal
+
+==================================================
+ SUMMARY: 0 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_game_manager_connects_to_player
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: No player found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+ERROR: No district found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Player not found
+Game Manager initialized
+  ✓ PASS: test_cleanup_on_player_removal: Signal should flow from Player to GameManager
+  ✗ FAIL: test_cleanup_on_player_removal: GameManager should handle all movement states
+
+[TEST] test_rapid_state_changes
+  ✗ FAIL: test_rapid_state_changes: System should remain stable during rapid state changes
+  ✓ PASS: test_rapid_state_changes: System should remain stable when player is removed

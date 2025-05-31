@@ -1,0 +1,49 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTGAMEMANAGERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Existing Connection =====
+
+[TEST] test_input_manager_to_game_manager_connected
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_connected' in base 'Nil'.
+          at: InputGameManagerSignalComponentTest.test_suite_existing_connection (res://src/component_tests/input_game_manager_signal_component_test.gd:134)
+
+===== TEST SUITE: Click Handling =====
+
+[TEST] test_object_click_handling
+SCRIPT ERROR: Invalid call. Nonexistent function 'emit_signal' in base 'Nil'.
+          at: InputGameManagerSignalComponentTest.test_suite_click_handling (res://src/component_tests/input_game_manager_signal_component_test.gd:148)
+
+===== TEST SUITE: Signal Data Flow =====
+
+[TEST] test_signal_data_integrity
+SCRIPT ERROR: Invalid call. Nonexistent function 'connect' in base 'Nil'.
+          at: InputGameManagerSignalComponentTest.test_suite_signal_data (res://src/component_tests/input_game_manager_signal_component_test.gd:173)
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All InputGameManagerSignal tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Attempted get on a deleted object.
+   at: get_named (core/variant_op.cpp:1693)
+ERROR: Attempted method check on a deleted object.
+   at: has_method (core/variant_call.cpp:1434)
+SCRIPT ERROR: Invalid get index 'input_manager' (on base: 'previously freed instance').
+          at: InputGameManagerSignalComponentTest.setup_test_environment (res://src/component_tests/input_game_manager_signal_component_test.gd:106)

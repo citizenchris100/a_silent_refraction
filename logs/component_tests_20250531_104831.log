@@ -1,0 +1,85 @@
+=== Component Test: game_manager_camera_signal_component_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERCAMERASIGNAL COMPONENT TEST SUITE
+==================================================
+
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1308
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Camera Signal Connection =====
+
+[TEST] test_game_manager_connects_to_camera
+  ✗ FAIL: test_game_manager_connects_to_camera: GameManager should connect to camera signals
+
+[TEST] test_camera_move_started_signal
+ensure_valid_target called with position: (500, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: No bounds validator available, using legacy bounds validation
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+Position adjusted by bounds: (500, 300) -> (712, 476)
+move_to_position called with pos=(500, 300), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+  [SIGNAL] camera_move_started to (712, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+
+===== TEST SUITE: Movement Coordination =====
+
+[TEST] test_camera_follows_player_movement
+Setting target_player to: Player:[Node2D:1326]
+
+===== TEST SUITE: State Synchronization =====
+
+[TEST] test_camera_state_change_signals
+ensure_valid_target called with position: (300, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: No bounds validator available, using legacy bounds validation
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+Position adjusted by bounds: (300, 300) -> (712, 476)
+move_to_position called with pos=(300, 300), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+
+==================================================
+ SUMMARY: 0 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_game_manager_connects_to_camera
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:441
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Attempted method call on a deleted object.
+   at: call_ptr (core/variant_call.cpp:1222)
+SCRIPT ERROR: Attempt to call function 'is_connected' in base 'previously freed instance' on a null instance.
+          at: GameManagerCameraSignalComponentTest.test_suite_camera_signals (res://src/component_tests/game_manager_camera_signal_component_test.gd:151)
+ERROR: Attempted set on a deleted object.
+   at: set_named (core/variant_op.cpp:1535)
+SCRIPT ERROR: Invalid set index 'position' (on base: 'previously freed instance') with value of type 'Vector2'.
+          at: GameManagerCameraSignalComponentTest.test_suite_movement_coordination (res://src/component_tests/game_manager_camera_signal_component_test.gd:191)
+ERROR: Attempted method call on a deleted object.
+   at: call_ptr (core/variant_call.cpp:1222)
+SCRIPT ERROR: Attempt to call function 'is_connected' in base 'previously freed instance' on a null instance.
+          at: GameManagerCameraSignalComponentTest.test_suite_state_sync (res://src/component_tests/game_manager_camera_signal_component_test.gd:222)
+

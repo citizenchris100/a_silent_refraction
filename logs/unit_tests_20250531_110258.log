@@ -1,0 +1,152 @@
+=== Test: game_manager_signal_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Connection Tests =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_player_movement_state_connection
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_connected_to_player_signals' in base 'Node (game_manager.gd)'.
+          at: test_suite_signal_connections (res://src/unit_tests/game_manager_signal_test.gd:78)
+
+===== TEST SUITE: Signal Cleanup Tests =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_signal_cleanup_on_exit
+SCRIPT ERROR: Invalid call. Nonexistent function '_connect_navigation_signals' in base 'Node (game_manager.gd)'.
+          at: test_suite_signal_cleanup (res://src/unit_tests/game_manager_signal_test.gd:95)
+
+===== TEST SUITE: Signal Data Passing Tests =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_player_state_signal_data
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerSignal tests passed!
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+  ✗ FAIL: test_player_state_signal_data: Player state signal should pass correct data
+
+[TEST] test_camera_signal_data
+SCRIPT ERROR: Invalid call. Nonexistent function 'has_signal' in base 'Nil'.
+          at: test_suite_signal_data (res://src/unit_tests/game_manager_signal_test.gd:130)
+
+=== Test: player_signal_emission_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERSIGNALEMISSION TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+
+[TEST] test_movement_state_changed_signal_exists
+  ✓ PASS: test_movement_state_changed_signal_exists: Player should have movement_state_changed signal
+
+[TEST] test_signal_can_be_connected
+  ✓ PASS: test_signal_can_be_connected: Should be able to connect to movement_state_changed signal
+
+===== TEST SUITE: State Transition Tests =====
+
+[TEST] test_idle_to_accelerating_signal
+
+===== TEST SUITE: Signal Data Tests =====
+
+[TEST] test_signal_data_type
+  [SIGNAL] Received movement_state_changed: 2
+
+==================================================
+ SUMMARY: 2 passed, 0 failed
+==================================================
+
+[PASS] All PlayerSignalEmission tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+SCRIPT ERROR: Invalid get index 'MovementState' (on base: 'Nil').
+          at: test_suite_state_transitions (res://src/unit_tests/player_signal_emission_test.gd:98)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+SCRIPT ERROR: Invalid call. Nonexistent function 'disconnect' in base 'Nil'.
+          at: test_suite_signal_data (res://src/unit_tests/player_signal_emission_test.gd:141)
+
+=== Test: input_manager_signal_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+
+[TEST] test_object_clicked_signal_exists
+  ✓ PASS: test_object_clicked_signal_exists: InputManager should have object_clicked signal
+
+[TEST] test_click_detected_signal_exists
+  ✓ PASS: test_click_detected_signal_exists: InputManager should have click_detected signal
+
+[TEST] test_signals_connectable
+  ✓ PASS: test_signals_connectable: Should be able to connect to InputManager signals
+
+===== TEST SUITE: Click Signal Emission Tests =====
+
+[TEST] test_click_detected_emission
+SCRIPT ERROR: Invalid call. Nonexistent function '_emit_click_detected' in base 'Node (input_manager.gd)'.
+          at: test_suite_click_emission (res://src/unit_tests/input_manager_signal_test.gd:109)
+
+===== TEST SUITE: Signal Data Integrity Tests =====
+
+[TEST] test_click_detected_data_integrity
+SCRIPT ERROR: Invalid call. Nonexistent function '_emit_click_detected' in base 'Node (input_manager.gd)'.
+          at: test_suite_signal_data (res://src/unit_tests/input_manager_signal_test.gd:142)
+
+==================================================
+ SUMMARY: 3 passed, 0 failed
+==================================================
+
+[PASS] All InputManagerSignal tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+

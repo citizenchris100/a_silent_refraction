@@ -1,0 +1,43 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERSIGNALEMISSION TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+
+[TEST] test_movement_state_changed_signal_exists
+  ✓ PASS: test_movement_state_changed_signal_exists: Player should have movement_state_changed signal
+
+[TEST] test_signal_can_be_connected
+  ✓ PASS: test_signal_can_be_connected: Should be able to connect to movement_state_changed signal
+
+===== TEST SUITE: State Transition Tests =====
+
+[TEST] test_idle_to_accelerating_signal
+
+===== TEST SUITE: Signal Data Tests =====
+
+[TEST] test_signal_data_type
+  [SIGNAL] Received movement_state_changed: 2
+
+==================================================
+ SUMMARY: 2 passed, 0 failed
+==================================================
+
+[PASS] All PlayerSignalEmission tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+SCRIPT ERROR: Invalid get index 'MovementState' (on base: 'Nil').
+          at: test_suite_state_transitions (res://src/unit_tests/player_signal_emission_test.gd:98)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:39
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+SCRIPT ERROR: Invalid call. Nonexistent function 'disconnect' in base 'Nil'.
+          at: test_suite_signal_data (res://src/unit_tests/player_signal_emission_test.gd:141)

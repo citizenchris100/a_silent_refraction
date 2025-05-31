@@ -1,0 +1,58 @@
+=== Test: game_manager_signal_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Connection Tests =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_player_movement_state_connection
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_connected_to_player_signals' in base 'Node (game_manager.gd)'.
+          at: test_suite_signal_connections (res://src/unit_tests/game_manager_signal_test.gd:78)
+
+===== TEST SUITE: Signal Cleanup Tests =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_signal_cleanup_on_exit
+SCRIPT ERROR: Invalid call. Nonexistent function '_connect_navigation_signals' in base 'Node (game_manager.gd)'.
+          at: test_suite_signal_cleanup (res://src/unit_tests/game_manager_signal_test.gd:95)
+
+===== TEST SUITE: Signal Data Passing Tests =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_player_state_signal_data
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerSignal tests passed!
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/dialog/dialog_manager.gd:22
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/game/game_manager.gd:34
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+  ✗ FAIL: test_player_state_signal_data: Player state signal should pass correct data
+
+[TEST] test_camera_signal_data
+SCRIPT ERROR: Invalid call. Nonexistent function 'has_signal' in base 'Nil'.
+          at: test_suite_signal_data (res://src/unit_tests/game_manager_signal_test.gd:130)
+

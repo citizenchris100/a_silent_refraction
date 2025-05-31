@@ -1,0 +1,351 @@
+=== Test: game_manager_signal_test ===
+Exit code: 4
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Player Signal Connection =====
+ERROR: Parent node is busy setting up children, add_node() failed. Consider using call_deferred("add_child", child) instead.
+   at: add_child (scene/main/node.cpp:1286)
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+[TEST] test_connects_to_player_movement_state_changed
+ERROR: No district found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Found player: Player
+Game Manager initialized
+  ✗ FAIL: test_connects_to_player_movement_state_changed: GameManager should connect to player's movement_state_changed signal
+
+[TEST] test_responds_to_player_state_changes
+  [TEST] Received player state: MOVING
+  ✓ PASS: test_responds_to_player_state_changes: GameManager should be able to receive player state changes
+
+===== TEST SUITE: Camera Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_connects_to_camera_move_started
+Found player: @Player@7
+Game Manager initialized
+  ✗ FAIL: test_connects_to_camera_move_started: GameManager should connect to camera's camera_move_started signal
+
+[TEST] test_connects_to_camera_state_changed
+  ✗ FAIL: test_connects_to_camera_state_changed: GameManager should connect to camera's camera_state_changed signal
+
+===== TEST SUITE: Input Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_existing_input_manager_connection
+Found player: Player
+Game Manager initialized
+  ✗ FAIL: test_existing_input_manager_connection: GameManager should connect to InputManager's object_clicked signal
+
+[TEST] test_input_signal_functionality
+  [TEST] Received object click
+  ✓ PASS: test_input_signal_functionality: InputManager signals should work correctly
+
+==================================================
+ SUMMARY: 2 passed, 4 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_connects_to_player_movement_state_changed
+  - test_connects_to_camera_move_started
+  - test_connects_to_camera_state_changed
+  - test_existing_input_manager_connection
+
+=== Test: player_signal_emission_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERSIGNALEMISSION TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+WARNING: No district found for the player
+
+[TEST] test_movement_state_changed_signal_exists
+  ✓ PASS: test_movement_state_changed_signal_exists: Player should have movement_state_changed signal
+
+[TEST] test_signal_can_be_connected
+  ✓ PASS: test_signal_can_be_connected: Should be able to connect to movement_state_changed signal
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: run_test_suite (res://src/unit_tests/player_signal_emission_test.gd:66)
+
+=== Test: input_manager_signal_test ===
+Exit code: 2
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+
+[TEST] test_object_clicked_signal_exists
+  ✓ PASS: test_object_clicked_signal_exists: InputManager should have object_clicked signal
+
+[TEST] test_click_detected_signal_exists
+  ✓ PASS: test_click_detected_signal_exists: InputManager should have click_detected signal
+
+[TEST] test_signals_connectable
+  ✓ PASS: test_signals_connectable: Should be able to connect to InputManager signals
+
+===== TEST SUITE: Click Signal Emission Tests =====
+
+[TEST] test_click_detected_emission
+  [SIGNAL] Received click_detected: (100, 200) (screen: (100, 200))
+
+===== TEST SUITE: Signal Data Integrity Tests =====
+
+[TEST] test_click_detected_data_integrity
+  [SIGNAL] Received click_detected: (150, 250) (screen: (160, 260))
+
+==================================================
+ SUMMARY: 3 passed, 0 failed
+==================================================
+
+[PASS] All InputManagerSignal tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+  ✗ FAIL: test_click_detected_data_integrity: Should emit click_detected signal when click occurs
+
+[TEST] test_object_clicked_emission
+SCRIPT ERROR: Invalid call. Nonexistent function 'emit_signal' in base 'Nil'.
+          at: test_suite_click_emission (res://src/unit_tests/input_manager_signal_test.gd:119)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/input/input_manager.gd:21
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+  ✗ FAIL: test_object_clicked_emission: click_detected should pass correct position data
+
+[TEST] test_object_clicked_data_integrity
+SCRIPT ERROR: Invalid call. Nonexistent function 'emit_signal' in base 'Nil'.
+          at: test_suite_signal_data (res://src/unit_tests/input_manager_signal_test.gd:153)
+
+=== Test: camera_signal_test ===
+Exit code: 1
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CAMERASIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1305
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+
+[TEST] test_camera_move_started_signal_exists
+  ✓ PASS: test_camera_move_started_signal_exists: ScrollingCamera should have camera_move_started signal
+
+[TEST] test_camera_move_completed_signal_exists
+  ✓ PASS: test_camera_move_completed_signal_exists: ScrollingCamera should have camera_move_completed signal
+
+[TEST] test_camera_state_changed_signal_exists
+  ✓ PASS: test_camera_state_changed_signal_exists: ScrollingCamera should have camera_state_changed signal
+
+[TEST] test_signals_connectable
+  ✓ PASS: test_signals_connectable: Should be able to connect to camera signals
+
+===== TEST SUITE: Movement Signal Tests =====
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1325
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+
+[TEST] test_camera_move_started_emission
+ensure_valid_target called with position: (300, 200)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (300, 200) -> (712, 476)
+Position adjusted by bounds validator: (300, 200) -> (712, 476)
+move_to_position called with pos=(300, 200), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+  [SIGNAL] Received camera_move_started: target=(712, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+  ✓ PASS: test_camera_move_started_emission: Should emit camera_move_started when movement begins
+
+[TEST] test_camera_move_completed_emission
+  ✗ FAIL: test_camera_move_completed_emission: Should emit camera_move_completed when movement ends
+
+===== TEST SUITE: State Signal Tests =====
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1345
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+
+[TEST] test_camera_state_changed_emission
+ensure_valid_target called with position: (100, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (100, 100) -> (712, 476)
+Position adjusted by bounds validator: (100, 100) -> (712, 476)
+move_to_position called with pos=(100, 100), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+  [SIGNAL] Received camera_state_changed: 0 -> 1 (requested_position_change)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+  ✓ PASS: test_camera_state_changed_emission: Should emit camera_state_changed when state changes
+
+[TEST] test_camera_state_signal_data
+  ✓ PASS: test_camera_state_signal_data: State change signal should include new_state, old_state, and reason
+
+==================================================
+ SUMMARY: 7 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_camera_move_completed_emission
+
