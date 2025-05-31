@@ -1,0 +1,158 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+Navigation Signal Flow Test District loaded
+CoordinateManager: Current district set to Navigation Signal Flow Test District
+Registered district with CoordinateManager
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1317
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Navigation Signal Flow Test District with initial view: center
+Added standard player character at position (960, 540)
+Setting target_player to: Player:[Node2D:1329]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Camera set to follow player
+Added standard player controller for point-and-click navigation
+  [INFO] GameManager: NOT FOUND
+  [INFO] InputManager: NOT FOUND
+  [INFO] Player: found
+  [INFO] Camera: NOT FOUND
+
+============================================================
+ NAVIGATION SIGNAL FLOW SUBSYSTEM TEST
+============================================================
+
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: Player
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1920, 1080)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 0
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 0
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+Final district bounds: (-1, -1, 802, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Camera bounds set from district: (-1, -1, 802, 602)
+Initializing DefaultBoundsValidator with bounds: (-1, -1, 802, 602)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: center
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (1692.444458, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1692.444458, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1692.444458, 952)
+Background wide enough for scrolling: False
+Background width: 1692.444458, Min width for scrolling: 2136
+Using CENTER initial view setting
+Positioning camera at center: (846.222229, 476)
+Setting camera position to: (846.222229, 476)
+Camera position after setting: (846, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: center at (846, 476)
+View ratio: 84% of background is visible (1424 pixels of 1692.444458 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Player linked to district: Navigation Signal Flow Test District
+Player controller initialized
+
+===== SCENARIO: Complete Click to Movement Flow =====
+
+  Testing: signal_chain_order
+  [ACTION] Simulating click at (1200, 600)
+  [WARN] Missing input signals
+  [WARN] Missing player movement signals
+  [WARN] Missing camera signals
+    ✗ FAIL: Signals should emit in correct order (5.01s)
+
+  Testing: game_manager_signal_coordination
+    ✗ FAIL: GameManager should relay navigation signals (0.00s)
+
+  Testing: signal_timing_consistency
+    ✗ FAIL: Signal timing should be consistent with no large gaps (0.00s)
+
+===== SCENARIO: Multi-Component State Synchronization =====
+
+  Testing: rapid_click_handling
+  [ACTION] Rapid click 1 at (300, 300)
+  [ACTION] Rapid click 2 at (1600, 300)
+  [ACTION] Rapid click 3 at (1600, 800)
+  [ACTION] Rapid click 4 at (300, 800)
+    ✓ PASS: No race conditions during rapid clicks (2.46s)
+
+  Testing: component_state_consistency
+    ✗ FAIL: All components maintain consistent state (0.00s)
+
+===== SCENARIO: Edge Cases =====
+
+  Testing: click_outside_walkable_area
+  [ACTION] Clicking outside walkable area at (-100, -100)
+    ✓ PASS: Invalid clicks should not trigger movement (0.50s)
+
+  Testing: click_during_movement
+    ✗ FAIL: Clicks during movement should update destination (5.22s)
+
+--------------------------------------------------
+ Test Summary
+--------------------------------------------------
+Tests Passed: 2
+Tests Failed: 5
+
+Failed Tests:
+  - signal_chain_order
+  - game_manager_signal_coordination
+  - signal_timing_consistency
+  - component_state_consistency
+  - click_during_movement
+
+Signal Sequence Captured:
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)

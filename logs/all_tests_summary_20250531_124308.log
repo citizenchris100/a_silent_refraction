@@ -1,0 +1,21 @@
+A Silent Refraction - Test Execution Summary
+===========================================
+Started at: Sat May 31 12:43:08 PM CDT 2025
+
+
+Unit Tests:
+  Duration: 84s
+  Result: FAILED
+
+Test execution halted: Unit tests failed
+
+Final Summary:
+===========================================
+Unit Tests:      FAILED
+Component Tests: SKIPPED (unit tests failed)
+Subsystem Tests: SKIPPED (previous tests failed)
+
+Total Duration: 84s
+Completed at: Sat May 31 12:44:32 PM CDT 2025
+
+Overall Result: TEST SUITE INCOMPLETE
