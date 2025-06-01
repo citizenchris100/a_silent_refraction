@@ -181,6 +181,41 @@ As a player, I experience a living station where the mysterious assimilation spr
 - [ ] Task 89: Add coalition impact on endings
 - [ ] Task 90: Create coalition achievement tracking
 
+### Crime Discovery & Reporting System
+- [ ] Task 91: Implement crime witness mechanics
+- [ ] Task 92: Create NPC crime reporting behavior
+- [ ] Task 93: Build player crime interaction choices
+- [ ] Task 94: Implement crime discovery system
+- [ ] Task 95: Create crime scene investigation mechanics
+
+### Evidence System
+- [ ] Task 96: Implement physical evidence generation
+- [ ] Task 97: Create evidence decay system
+- [ ] Task 98: Build evidence discovery mechanics
+- [ ] Task 99: Implement evidence types per crime
+- [ ] Task 100: Create evidence UI and tracking
+
+### Player Crime Interactions
+- [ ] Task 101: Implement player intervention options
+- [ ] Task 102: Create security bribery mechanics
+- [ ] Task 103: Build chase sequence system
+- [ ] Task 104: Implement hiding from security
+- [ ] Task 105: Create consequence system for caught players
+
+### Crime Statistics & Economic Impact
+- [ ] Task 106: Create crime statistics tracking
+- [ ] Task 107: Implement district crime modifiers
+- [ ] Task 108: Build economic impact calculations
+- [ ] Task 109: Create social breakdown thresholds
+- [ ] Task 110: Implement crime trend analysis
+
+### Crime/Security Serialization
+- [ ] Task 111: Create CrimeSecuritySerializer
+- [ ] Task 112: Implement crime history persistence
+- [ ] Task 113: Build patrol state serialization
+- [ ] Task 114: Create security level persistence
+- [ ] Task 115: Implement player security record tracking
+
 ## User Stories
 
 ### Task 2: Implement infection spread mechanics
@@ -2077,6 +2112,532 @@ As a player, I experience a living station where the mysterious assimilation spr
 - "Paranoid Android" - Detect all infiltrators
 - "Master Thief" - Complete mainframe heist
 
+### Task 91: Implement crime witness mechanics
+**User Story:** As a player or NPC witnessing a crime, I want the system to recognize and track witnesses, so that crimes have social consequences and can be reported.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Line-of-sight witness detection
+  2. 60% chance for witnesses to see crimes
+  3. Witness memory of events
+  4. Multiple witness support
+  5. Player as witness option
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Check all NPCs within radius
+- Store witness IDs in crime event
+- Witnesses can provide testimony
+
+### Task 92: Create NPC crime reporting behavior
+**User Story:** As a law-abiding NPC, I want to report crimes I witness to security, so that the station maintains order and criminals face consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Lawfulness personality affects reporting
+  2. Drones don't report drone crimes
+  3. Reporting delay based on severity
+  4. Security response triggered
+  5. Reporter becomes target
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Lawfulness > 60 = automatic reporting
+- Add temporary dialog about witnessed crime
+- Some NPCs can be intimidated not to report
+
+### Task 93: Build player crime interaction choices
+**User Story:** As a player witnessing a crime, I want meaningful choices about how to respond, so that I can shape the narrative through my actions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Multiple choice prompt on witnessing
+  2. Observe to gather evidence
+  3. Intervene if not too dangerous
+  4. Report if near comm terminal
+  5. Flee to avoid involvement
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 495-535
+- Show crime notification UI
+- Each choice has different consequences
+- Some choices require items/skills
+
+### Task 94: Implement crime discovery system
+**User Story:** As a player investigating the station, I want to discover evidence of past crimes, so that I can piece together what happened even if I wasn't present.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, U3
+- **Acceptance Criteria:**
+  1. Crimes leave discoverable traces
+  2. Discovery triggers investigation
+  3. Time affects discoverability
+  4. Different discovery methods
+  5. Links to clue system
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 381-407
+- Physical evidence, NPC testimony, records
+- Older crimes harder to investigate
+- Discovery can trigger security response
+
+### Task 95: Create crime scene investigation mechanics
+**User Story:** As a player or security personnel, I want to investigate crime scenes for clues, so that I can identify perpetrators and understand criminal patterns.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, U3
+- **Acceptance Criteria:**
+  1. Interactive crime scene examination
+  2. Evidence collection mechanics
+  3. Clue combination for deductions
+  4. Time pressure before cleanup
+  5. Skills affect success
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Use observation system for examination
+- Evidence quality degrades over time
+- Security may restrict access
+
+### Task 96: Implement physical evidence generation
+**User Story:** As a crime system, I want to generate appropriate physical evidence for each crime type, so that players can investigate crimes forensically.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Each crime type generates evidence
+  2. Evidence appropriate to crime
+  3. Multiple evidence pieces possible
+  4. Evidence has properties
+  5. Visible in game world
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 126-233
+- Vandalism: graffiti, damage marks
+- Theft: forced entry, missing items
+- Assault: bloodstains, injuries
+
+### Task 97: Create evidence decay system
+**User Story:** As a living world, I want evidence to naturally decay over time, so that investigation has urgency and the world feels dynamic.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Evidence has lifespan
+  2. Different decay rates by type
+  3. Cleaning crews accelerate decay
+  4. Critical evidence protected
+  5. Visual decay representation
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Documents: 48 hours
+- Bloodstains: 6 hours
+- Digital records: permanent
+- Cleaning schedules affect decay
+
+### Task 98: Build evidence discovery mechanics
+**User Story:** As a player, I want to actively search for and discover evidence, so that investigation feels interactive rather than passive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Active search mechanics
+  2. Skill-based discovery
+  3. Tools enhance discovery
+  4. Hidden evidence possible
+  5. Discovery notifications
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Observation mode for searching
+- Investigation skill improves chances
+- Some evidence requires specific tools
+
+### Task 99: Implement evidence types per crime
+**User Story:** As a developer, I want each crime type to generate specific evidence patterns, so that players can deduce crime types from evidence.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Unique evidence per crime type
+  2. Evidence tells story
+  3. Red herrings possible
+  4. Quality varies
+  5. Combinable for deductions
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Vandalism: graffiti style, tool marks
+- Theft: entry method, missing items list
+- Sabotage: technical modifications
+
+### Task 100: Create evidence UI and tracking
+**User Story:** As a player, I want a clear interface for managing discovered evidence, so that I can review findings and make connections.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Evidence inventory screen
+  2. Categorization by type/location
+  3. Connection drawing interface
+  4. Timeline visualization
+  5. Export to investigation log
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Reference: docs/design/investigation_clue_tracking_system_design.md
+- Cork board style interface
+- Drag-and-drop connections
+
+### Task 101: Implement player intervention options
+**User Story:** As a player witnessing a crime in progress, I want to intervene if I choose, so that I can actively shape events rather than just observe.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Intervention choices based on crime
+  2. Success based on stats/items
+  3. Risk of becoming target
+  4. Reputation consequences
+  5. May prevent crime
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 510-517
+- Only for severity <= 3 crimes
+- Can gain evidence or trust
+- Failure may increase suspicion
+
+### Task 102: Create security bribery mechanics
+**User Story:** As a player caught by security, I want the option to bribe guards, so that I have alternatives to combat or capture.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Bribe option in security dialog
+  2. Success based on personality
+  3. Credit cost varies
+  4. Corrupt guards remember
+  5. Can backfire
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 559-563
+- Base 50 credits for minor infractions
+- Some guards incorruptible
+- Creates future leverage/blackmail
+
+### Task 103: Build chase sequence system
+**User Story:** As a player fleeing from security, I want engaging chase sequences, so that escape feels thrilling and skill-based.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Real-time pursuit mechanics
+  2. Environmental obstacles
+  3. Multiple escape routes
+  4. Stamina/speed factors
+  5. Hide mechanics during chase
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 574-577
+- Use existing navigation system
+- Guards call reinforcements
+- Can lose pursuers in crowds
+
+### Task 104: Implement hiding from security
+**User Story:** As a player evading security, I want to hide in environmental locations, so that stealth is a viable strategy.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Designated hiding spots
+  2. Line-of-sight breaking
+  3. Search patterns for guards
+  4. Time limits on hiding
+  5. Discovery consequences
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Lockers, vents, crowds
+- Guards search last known position
+- Some spots better than others
+
+### Task 105: Create consequence system for caught players
+**User Story:** As security, I want meaningful consequences when catching criminals, so that law enforcement feels impactful.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Detention mechanics
+  2. Fine payment system
+  3. Confiscation of items
+  4. Reputation impact
+  5. Record keeping
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 579-585
+- Detention time based on severity
+- Fines scale with crimes
+- Some items permanently lost
+
+### Task 106: Create crime statistics tracking
+**User Story:** As the game system, I want to track crime statistics across the station, so that the world can react to crime trends dynamically.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Track all crime metrics
+  2. Per-district statistics
+  3. Crime type breakdowns
+  4. Economic impact totals
+  5. Trend analysis
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 634-663
+- Dictionary structure for stats
+- Update on every crime
+- Trigger events at thresholds
+
+### Task 107: Implement district crime modifiers
+**User Story:** As a district, I want crime to affect my economic and social properties, so that criminal activity has lasting consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Crime reduces property values
+  2. Different crimes different impacts
+  3. Cumulative effects
+  4. Recovery over time
+  5. Visible to player
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 431-452
+- Vandalism: -5% property value
+- Theft: +10% prices
+- Assault: -30% foot traffic
+
+### Task 108: Build economic impact calculations
+**User Story:** As the economy system, I want to calculate and apply crime's economic impact, so that criminal activity affects station economics.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Direct damage calculations
+  2. Indirect economic effects
+  3. District-specific impacts
+  4. Cumulative tracking
+  5. Recovery mechanics
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Direct: property damage costs
+- Indirect: reduced business, higher prices
+- Some effects permanent
+
+### Task 109: Create social breakdown thresholds
+**User Story:** As the station, I want to enter crisis mode when crime exceeds thresholds, so that unchecked crime leads to dramatic consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Define breakdown thresholds
+  2. Escalating crisis levels
+  3. Station-wide effects
+  4. Special events trigger
+  5. Affects ending conditions
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 661-663
+- 100+ crimes = social breakdown
+- Triggers martial law
+- Changes NPC behaviors dramatically
+
+### Task 110: Implement crime trend analysis
+**User Story:** As a player or security analyst, I want to see crime trends over time, so that I can identify patterns and predict future problems.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Time-based trend tracking
+  2. Visual graphs/charts
+  3. Pattern identification
+  4. Prediction algorithms
+  5. Accessible via terminals
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- 7-day rolling averages
+- Heat maps for districts
+- Correlation with assimilation
+
+### Task 111: Create CrimeSecuritySerializer
+**User Story:** As a developer, I want crime and security state to persist correctly, so that player's impact on station security continues across sessions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Serialize all crime data
+  2. Save patrol states
+  3. Security level persistence
+  4. Evidence preservation
+  5. Statistics continuity
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 593-630
+- Priority: 50 (medium)
+- Compress crime history
+- Version migration support
+
+### Task 112: Implement crime history persistence
+**User Story:** As a player, I want past crimes to remain in the world's history, so that investigation can span multiple play sessions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Crimes older than 7 days purged
+  2. Significant crimes permanent
+  3. Evidence state preserved
+  4. Witness memories saved
+  5. Efficient storage
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Only save crimes with impact
+- Compress old crime data
+- Quick lookup by ID
+
+### Task 113: Build patrol state serialization
+**User Story:** As a security patrol, I want my route progress and alert status to persist, so that patrols continue realistically after save/load.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Current waypoint saved
+  2. Alert level preserved
+  3. Schedule state maintained
+  4. Detection history saved
+  5. Patrol route cached
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Minimal data per patrol
+- Reconstruct from schedule
+- Handle missing NPCs gracefully
+
+### Task 114: Create security level persistence
+**User Story:** As station security, I want alert levels and security states to persist, so that security responses maintain continuity.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. District security levels saved
+  2. Station alert status preserved
+  3. Lockdown states maintained
+  4. Response team positions
+  5. Checkpoint states saved
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Global and per-district levels
+- Timer states for lockdowns
+- Active response tracking
+
+### Task 115: Implement player security record tracking
+**User Story:** As station security, I want to maintain records of player infractions, so that repeat offenders face escalating consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Criminal record per player
+  2. Infraction history
+  3. Outstanding warrants
+  4. Reputation with security
+  5. Accessible by guards
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Affects guard interactions
+- Can be cleared/expunged
+- Influences ending possibilities
+
 ## Testing Criteria
 - Assimilation spreads believably
 - Coalition mechanics function properly
@@ -2121,6 +2682,17 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Coalition resistance factor slows assimilation appropriately
 - Coalition strength affects ending availability
 - Achievement tracking records coalition milestones
+- Crime witnesses are detected and tracked correctly
+- NPCs report crimes based on personality
+- Player crime choices present appropriate options
+- Evidence generates and decays properly
+- Crime scenes can be investigated
+- Security responds to bribery attempts appropriately
+- Chase sequences function smoothly
+- Crime statistics track all metrics accurately
+- Economic impacts calculate correctly
+- CrimeSecuritySerializer preserves all state
+- Player security records persist across sessions
 
 ## Timeline
 - Start date: After Iteration 11

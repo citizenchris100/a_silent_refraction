@@ -257,6 +257,12 @@ Complete the dialog system with full procedural generation, personality-driven r
 ### Advanced Dialog System
 - [ ] Task 36: Implement procedural dialog generation system
 
+### Security System Polish
+- [ ] Task 37: Implement camera surveillance system
+- [ ] Task 38: Create advanced security AI behaviors
+- [ ] Task 39: Optimize patrol performance for multiple guards
+- [ ] Task 40: Implement security checkpoint infrastructure
+
 ## User Stories for Key Tasks
 
 ### Task 11: Create PuzzleManager singleton
@@ -508,6 +514,91 @@ Complete the dialog system with full procedural generation, personality-driven r
   - Cache generated dialog for 1 game hour
   - Lazy generation for dialog nodes
   - Memory limits on conversation history
+
+### Task 37: Implement camera surveillance system
+**User Story:** As station security, I want camera surveillance coverage throughout the station, so that crimes and suspicious activities can be detected even when guards aren't present.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Crime/Security System Polish
+- **Acceptance Criteria:**
+  1. Cameras placed at key locations
+  2. Detection cone visualization
+  3. Recording system for evidence
+  4. Integration with security alerts
+  5. Hackable/disableable cameras
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Cameras have 90-degree vision cones
+- 30% chance to detect crimes in view
+- Can be disabled for 5 minutes when hacked
+
+### Task 38: Create advanced security AI behaviors
+**User Story:** As a player, I want security guards to exhibit intelligent behaviors like investigating disturbances and coordinating responses, so that evading them feels challenging and rewarding.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Crime/Security System Polish
+- **Acceptance Criteria:**
+  1. Guards investigate suspicious sounds
+  2. Coordinate when multiple guards present
+  3. Search patterns when player escapes
+  4. Remember previous encounters
+  5. Call for backup when overwhelmed
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Use behavior trees for complex AI
+- Guards share information about threats
+- Different personality types (cautious, aggressive)
+
+### Task 39: Optimize patrol performance for multiple guards
+**User Story:** As a player, I want the game to maintain smooth performance even with multiple security patrols active, so that busy areas don't cause frame rate drops.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Performance Optimization
+- **Acceptance Criteria:**
+  1. LOD system for distant patrols
+  2. Simplified AI for off-screen guards
+  3. Efficient pathfinding caching
+  4. 10+ simultaneous patrols possible
+  5. No FPS drops in crowded areas
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Three detail levels: Full, Simplified, Background
+- Update frequency based on distance to player
+- Pool patrol route calculations
+
+### Task 40: Implement security checkpoint infrastructure
+**User Story:** As a player, I want to encounter security checkpoints that verify my identity and access rights, so that restricted areas feel properly protected and infiltration requires planning.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** District Access Control
+- **Acceptance Criteria:**
+  1. Checkpoint scenes with guards
+  2. ID verification mechanics
+  3. Metal detector functionality
+  4. Queue system for NPCs
+  5. Bypass options (disguise, distraction)
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Reference: docs/design/district_access_control_system_design.md
+- Checkpoints at district boundaries
+- Different security levels per checkpoint
+- Integration with disguise system
 
 ## Testing Criteria
 - Living world events trigger and chain properly

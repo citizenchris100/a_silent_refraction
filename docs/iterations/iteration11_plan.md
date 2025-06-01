@@ -85,24 +85,36 @@ As a player, I need structured objectives that guide my investigation while allo
 - [ ] Task 19: Add quest validation tools
 - [ ] Task 20: Create quest debug commands
 
+### First Quest - Mall Patrol System
+- [ ] Task 21: Create SecurityPatrol class and data structures
+- [ ] Task 22: Implement mall patrol route system
+- [ ] Task 23: Build patrol schedule mechanics
+- [ ] Task 24: Create player detection during patrols
+- [ ] Task 25: Implement security guard dialog trees
+- [ ] Task 26: Add disguise bypass mechanics
+- [ ] Task 27: Create patrol area checking system
+- [ ] Task 28: Build security encounter UI
+- [ ] Task 29: Implement chase initiation from patrol
+- [ ] Task 30: Create patrol state persistence
+
 ### First Quest Implementation
-- [ ] Task 21: Design First Quest narrative
-- [ ] Task 22: Implement all quest objectives
-- [ ] Task 23: Create quest-specific content
-- [ ] Task 24: Add multiple solution paths
-- [ ] Task 25: Full integration testing
+- [ ] Task 31: Design First Quest narrative
+- [ ] Task 32: Implement all quest objectives
+- [ ] Task 33: Create quest-specific content
+- [ ] Task 34: Add multiple solution paths
+- [ ] Task 35: Full integration testing
 
 ### Trading Floor Minigame
-- [ ] Task 26: Create TradingTerminal scene with Game Boy UI layout
-- [ ] Task 27: Implement BlockTrader core Tetris-style gameplay mechanics
-- [ ] Task 28: Create Game Boy shader and visual effects
-- [ ] Task 29: Implement score-to-credits conversion system
-- [ ] Task 30: Add gender-based modifiers and harassment events
-- [ ] Task 31: Create persistent leaderboard system
-- [ ] Task 32: Implement time consumption mechanics
-- [ ] Task 33: Integrate minigame with job shift system
-- [ ] Task 34: Add save/load functionality for minigame progress
-- [ ] Task 35: Create practice mode and tutorial
+- [ ] Task 36: Create TradingTerminal scene with Game Boy UI layout
+- [ ] Task 37: Implement BlockTrader core Tetris-style gameplay mechanics
+- [ ] Task 38: Create Game Boy shader and visual effects
+- [ ] Task 39: Implement score-to-credits conversion system
+- [ ] Task 40: Add gender-based modifiers and harassment events
+- [ ] Task 41: Create persistent leaderboard system
+- [ ] Task 42: Implement time consumption mechanics
+- [ ] Task 43: Integrate minigame with job shift system
+- [ ] Task 44: Add save/load functionality for minigame progress
+- [ ] Task 45: Create practice mode and tutorial
 
 ## User Stories
 
@@ -169,8 +181,219 @@ As a player, I need structured objectives that guide my investigation while allo
 - Quick access hotkey (J for Journal)
 - Search/filter functionality
 
-### Task 22: Implement all quest objectives
-**User Story:** As a player, I want to experience a complex quest that uses all game systems, so that I understand the full depth of gameplay possibilities.
+### Task 21: Create SecurityPatrol class and data structures
+**User Story:** As a developer, I want a robust patrol system for security guards, so that the First Quest can feature dynamic guard patrols that create tension and gameplay opportunities.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. SecurityPatrol class with all properties
+  2. Route waypoint array support
+  3. Schedule dictionary for timing
+  4. Alert level state tracking
+  5. Detection radius configuration
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 238-247
+- Detection radius: 100.0 units default
+- Alert levels: 0=routine, 1=suspicious, 2=alert
+- Integrate with existing NPC system
+
+### Task 22: Implement mall patrol route system
+**User Story:** As a security guard, I want to follow a predefined patrol route through the mall, so that all areas are regularly monitored and players must time their movements carefully.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Waypoint-based route system
+  2. Smooth movement between points
+  3. Pause at each waypoint
+  4. Loop back to start
+  5. Visual route indicators (debug mode)
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 253-260
+- Route: entrance → fountain → shops_east → food_court → shops_west → entrance
+- Use existing navigation system
+- 30-second pause at key locations
+
+### Task 23: Build patrol schedule mechanics
+**User Story:** As a mall security system, I want guards to patrol on regular schedules, so that players can observe patterns and plan their infiltration accordingly.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Time-based patrol starts
+  2. Schedule integration with TimeManager
+  3. Frequency configuration (every 30 min)
+  4. Operating hours (8 AM - 10 PM)
+  5. Schedule variations by day
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 261-265
+- Use Living World Event System for scheduling
+- Consider lunch breaks in schedule
+- Weekend vs weekday patterns
+
+### Task 24: Create player detection during patrols
+**User Story:** As a security guard on patrol, I want to detect suspicious player behavior, so that infiltration requires careful planning and isn't trivially easy.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Line-of-sight detection
+  2. Distance-based detection
+  3. Running increases detection chance
+  4. Suspicious items increase detection
+  5. Detection chance calculation
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 294-316
+- Base detection chance: 50%
+- Running modifier: 2x
+- Suspicious item modifier: 1.5x
+- Must have clear line of sight
+
+### Task 25: Implement security guard dialog trees
+**User Story:** As a player caught by security, I want dialog options to talk my way out of trouble, so that social skills provide alternatives to running or fighting.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Suspicious encounter dialog
+  2. Alert encounter dialog
+  3. Multiple response options
+  4. Bribery option with credits
+  5. Employee badge bypass
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 539-588
+- Suspicious: "What's your business here?"
+- Alert: "Security! Stop right there!"
+- Bribe amount: 50 credits base
+
+### Task 26: Add disguise bypass mechanics
+**User Story:** As a player wearing a security uniform, I want to bypass guard detection, so that disguises provide meaningful gameplay advantages.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Security uniform detection check
+  2. Automatic bypass when disguised
+  3. Quality of disguise matters
+  4. Time limit on disguise effectiveness
+  5. Other guards may still investigate
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 305-307
+- Check DisguiseManager.current_role
+- Perfect disguise = no detection
+- Partial disguise = reduced detection
+
+### Task 27: Create patrol area checking system
+**User Story:** As a patrolling guard, I want to check specific areas for signs of intrusion, so that my patrol feels purposeful rather than just walking a route.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Area inspection at waypoints
+  2. Check for disturbances
+  3. Notice missing items
+  4. Spot opened doors/containers
+  5. React to found issues
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 284-285
+- 5-second inspection animation
+- Can discover player tampering
+- Increases alert level if issues found
+
+### Task 28: Build security encounter UI
+**User Story:** As a player in a security encounter, I want clear UI feedback about my situation, so that I understand the stakes and my options.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Alert level indicator
+  2. Guard suspicion meter
+  3. Available action prompts
+  4. Escape route indicators
+  5. Time pressure visualization
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Use existing UI framework
+- Red/yellow/green alert states
+- Show detection radius when spotted
+
+### Task 29: Implement chase initiation from patrol
+**User Story:** As a security guard, I want to pursue fleeing suspects, so that players can't simply run away without consequences.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Smooth transition to chase
+  2. Guard calls for backup
+  3. Increased movement speed
+  4. Pathfinding to player
+  5. Give up after distance/time
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md lines 574-577
+- Link to chase sequence system in Iteration 12
+- Guards run 20% faster during chase
+- 30-second chase timeout
+
+### Task 30: Create patrol state persistence
+**User Story:** As a developer, I want patrol states to save and load correctly, so that guard positions and alert levels persist across game sessions.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+  1. Current waypoint saves
+  2. Alert level persists
+  3. Schedule state maintained
+  4. Detection history saved
+  5. Graceful handling of missing guards
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Integrate with save system
+- Minimal data per patrol
+- Reconstruct routes from data
+
+### Task 32: Implement all quest objectives
+**User Story:** As a player, I want to experience a complex quest that uses all game systems including the new patrol mechanics, so that I understand the full depth of gameplay possibilities.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -183,14 +406,16 @@ As a player, I need structured objectives that guide my investigation while allo
   3. Includes economic elements
   4. Features time pressure
   5. Multiple completion methods
+  6. Integrates mall patrol puzzle
 
 **Implementation Notes:**
 - First Quest: "The Missing Researcher"
 - Tests all Phase 2 systems
+- Mall infiltration is key objective
 - 45-60 minutes completion time
 - At least 3 different endings
 
-### Task 26: Create TradingTerminal scene with Game Boy UI layout
+### Task 36: Create TradingTerminal scene with Game Boy UI layout
 **User Story:** As a player, I want to access a retro-styled trading terminal at my job, so that I can engage in a nostalgic mini-game that provides both entertainment and income.
 
 **Status History:**
@@ -410,6 +635,16 @@ As a player, I need structured objectives that guide my investigation while allo
 - Performance with many active quests
 - Quest notifications work properly
 - All systems integrate smoothly
+- Security patrol routes execute correctly
+- Guard detection mechanics work at proper distances
+- Line-of-sight calculations are accurate
+- Disguise bypass functions properly
+- Security dialog trees display correct options
+- Patrol schedules align with game time
+- Chase sequences initiate smoothly
+- Patrol states persist across save/load
+- Area checking discovers player actions
+- Security encounters provide player agency
 - Trading terminal launches correctly from job system
 - Tetris-style gameplay mechanics work smoothly
 - Game Boy visual aesthetic renders correctly
