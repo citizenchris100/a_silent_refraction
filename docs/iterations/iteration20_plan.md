@@ -33,6 +33,9 @@
 - [ ] Task 5: Build quest interconnection system
 - [ ] Task 6: Add dynamic quest elements for replayability
 - [ ] Task 7: Create quest testing framework
+- [ ] Task 8: Track memory usage metrics per quest
+- [ ] Task 9: Monitor district load times during quests
+- [ ] Task 10: Implement thermal monitoring integration
 
 ### Task 1: Implement ~25 job quests with daily rotations
 
@@ -194,6 +197,69 @@
 - Create quest visualization system
 - Build automated test runners
 - Implement state manipulation commands
+
+### Task 8: Track memory usage metrics per quest
+**User Story:** As a developer, I want to monitor memory usage for each quest system, so that I can ensure quests don't exceed the 4GB memory target on Raspberry Pi 5 hardware.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Key Metrics to Track
+- **Acceptance Criteria:**
+  1. Per-quest memory profiling
+  2. Memory leak detection in quest systems
+  3. Peak memory tracking during quest events
+  4. Memory reports per quest type
+  5. Alerts when exceeding thresholds
+
+**Implementation Notes:**
+- Hook into quest state changes
+- Track object allocations per quest
+- Monitor dialog and asset loading
+- Create quest memory report tool
+
+### Task 9: Monitor district load times during quests
+**User Story:** As a developer, I want to track how quests affect district loading times, so that I can ensure we meet the <5 second transition target even with complex quest states.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Performance Requirements
+- **Acceptance Criteria:**
+  1. Load time tracking with active quests
+  2. Breakdown by quest complexity
+  3. Asset loading analysis
+  4. Quest state serialization timing
+  5. Optimization recommendations
+
+**Implementation Notes:**
+- Instrument district transitions
+- Measure quest state restoration time
+- Profile asset dependencies
+- Generate load time reports
+
+### Task 10: Implement thermal monitoring integration
+**User Story:** As a developer, I want to monitor device temperature during extended quest sequences, so that I can ensure the hardware doesn't overheat during long play sessions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Power and Thermal Management
+- **Acceptance Criteria:**
+  1. Temperature reading on Pi hardware
+  2. Thermal event logging
+  3. Performance throttling detection
+  4. Temperature trends over time
+  5. Automatic thermal warnings
+
+**Implementation Notes:**
+- Read from /sys/class/thermal/
+- Log temperature spikes
+- Correlate with quest events
+- Add thermal overlay option
 
 ## Testing Criteria
 - All quests completable without bugs

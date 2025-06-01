@@ -111,6 +111,11 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - [ ] Task 34: Create quest completion validation
 - [ ] Task 35: Full playtest and polish
 
+### Testing Infrastructure
+- [ ] Task 36: Set up ARM build validation in CI/CD
+- [ ] Task 37: Create remote Raspberry Pi testing infrastructure
+- [ ] Task 38: Implement platform parity testing
+
 ## User Stories
 
 ### Task 1: Create BaseDistrict template class
@@ -381,6 +386,69 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - MVP: Fixed time advancement
 - Connect to TimeManager.advance_time(0.5)
 - Ensure NPCs update appropriately
+
+### Task 36: Set up ARM build validation in CI/CD
+**User Story:** As a developer, I want automated ARM builds in our CI/CD pipeline, so that we catch platform-specific issues early and ensure the game compiles correctly for Raspberry Pi 5.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Continuous Integration Enhancements
+- **Acceptance Criteria:**
+  1. ARM64 cross-compilation in CI pipeline
+  2. Automated build on every commit
+  3. Build artifacts stored for testing
+  4. Build failure notifications
+  5. Parallel builds for x86 and ARM
+
+**Implementation Notes:**
+- Use Docker with ARM toolchain
+- Cache dependencies for faster builds
+- Store last 10 successful ARM builds
+- Add ARM build status to README
+
+### Task 37: Create remote Raspberry Pi testing infrastructure
+**User Story:** As a developer, I want SSH-accessible Raspberry Pi devices for testing, so that I can validate performance and functionality on actual hardware without physical access.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Developer Hardware Access
+- **Acceptance Criteria:**
+  1. 2+ Raspberry Pi 5 units accessible via SSH
+  2. Automated deployment scripts
+  3. Remote performance monitoring
+  4. VNC access for visual testing
+  5. Shared access management system
+
+**Implementation Notes:**
+- Set up reverse SSH tunnels for access
+- Create deployment script: deploy_to_pi.sh
+- Install performance monitoring tools
+- Document access procedures
+
+### Task 38: Implement platform parity testing
+**User Story:** As a developer, I want automated tests that verify feature parity between x86 and ARM builds, so that players have the same experience regardless of platform.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Platform Parity Tests
+- **Acceptance Criteria:**
+  1. Automated test suite runs on both platforms
+  2. Performance benchmarks compared
+  3. Save file compatibility verified
+  4. Feature availability checked
+  5. Regression detection between platforms
+
+**Implementation Notes:**
+- Create platform_parity_test.gd
+- Run nightly on both architectures
+- Generate comparison reports
+- Flag any platform-specific failures
 
 ## Testing Criteria
 - Districts load and transition smoothly

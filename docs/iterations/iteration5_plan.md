@@ -87,6 +87,11 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - [ ] Task 28: Implement time display serialization
 - [ ] Task 29: Create accessibility features for time display
 
+### Performance Infrastructure
+- [ ] Task 30: Implement performance telemetry framework
+- [ ] Task 31: Create in-game performance metric collection
+- [ ] Task 32: Add performance regression tracking system
+
 ## User Stories
 
 ### Task 1: Create TimeManager singleton
@@ -425,6 +430,69 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Accessibility text includes all critical info
 - Separate high contrast stylesheet
 - Font size multiplier in settings
+
+### Task 30: Implement performance telemetry framework
+**User Story:** As a developer, I want an in-game telemetry framework that collects performance metrics during development and testing, so that I can identify performance bottlenecks early and track optimization progress.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Performance Metric Infrastructure
+- **Acceptance Criteria:**
+  1. FPS tracking with percentiles (p50, p95, p99)
+  2. Memory usage monitoring (current, peak, delta)
+  3. Frame time analysis and spikes detection
+  4. Per-system performance breakdown
+  5. Minimal overhead (<1% performance impact)
+
+**Implementation Notes:**
+- Create PerformanceMonitor singleton
+- Ring buffer for historical data
+- Export metrics to CSV for analysis
+- Optional HUD overlay for development
+
+### Task 31: Create in-game performance metric collection
+**User Story:** As a developer, I want to collect detailed performance metrics during gameplay, so that I can ensure the game meets hardware validation targets of 30fps stable and <4GB memory usage.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Key Metrics to Track
+- **Acceptance Criteria:**
+  1. Track load times (boot, districts, save/load)
+  2. Monitor CPU/GPU utilization
+  3. Detect thermal throttling events
+  4. Per-district memory profiling
+  5. Automatic metric snapshots at key points
+
+**Implementation Notes:**
+- Hook into scene transitions for load time tracking
+- Sample metrics every 100ms
+- Create performance report on game exit
+- Flag when metrics exceed targets
+
+### Task 32: Add performance regression tracking system
+**User Story:** As a developer, I want automated alerts when performance regresses below our targets, so that optimization issues are caught immediately during development.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Hardware Validation Plan - Alert System
+- **Acceptance Criteria:**
+  1. Baseline performance profiles stored
+  2. Automatic comparison on each run
+  3. Alert when FPS drops below 30
+  4. Alert when memory exceeds 4GB
+  5. Regression report generation
+
+**Implementation Notes:**
+- Store baselines in res://benchmarks/
+- Compare against previous 5 runs
+- Log regressions to file
+- Optional popup warnings in debug builds
 
 ## Testing Criteria
 - Time advances correctly for all actions
