@@ -1,13 +1,10 @@
 # Iteration 15: Advanced Features & Polish
 
 ## Epic Description
+**Phase**: 2 - Full Systems  
+**Cohesive Goal**: "All systems work together seamlessly and performantly"
+
 As a developer, I want to implement the final advanced features and polish all systems to ensure they work together seamlessly and performantly, creating a stable foundation for content implementation.
-
-## Cohesive Goal
-**"All systems work together seamlessly and performantly"**
-
-## Overview
-This iteration completes Phase 2 by implementing the remaining advanced features, optimizing performance, and ensuring all systems integrate properly. This creates the stable, polished foundation needed for Phase 3 content implementation.
 
 ## Goals
 - Implement full living world event system
@@ -16,196 +13,51 @@ This iteration completes Phase 2 by implementing the remaining advanced features
 - Implement tram transportation system
 - Optimize performance across all systems
 - Ensure seamless integration of all features
+- Add advanced dialog system
+- Polish security systems
 
 ## Requirements
 
 ### Business Requirements
-- Complete all remaining technical features before content phase
-- Achieve stable 60 FPS performance on target hardware
-- Ensure all systems integrate without conflicts
-- Create framework for content creators
+- **B1:** Complete all remaining technical features before content phase
+  - **Rationale:** All systems must be in place before content creation begins
+  - **Success Metric:** All planned Phase 2 features implemented and tested
+
+- **B2:** Achieve stable 60 FPS performance on target hardware
+  - **Rationale:** Smooth gameplay is essential for player satisfaction
+  - **Success Metric:** Performance benchmarks pass on minimum spec hardware
+
+- **B3:** Ensure all systems integrate without conflicts
+  - **Rationale:** Complex system interactions must work reliably
+  - **Success Metric:** Integration tests pass with no system conflicts
 
 ### User Requirements
-- Living world feels dynamic with emergent events
-- Investigation mechanics support detective gameplay
-- Puzzles integrate naturally with environment
-- Fast travel via tram system
-- Smooth, responsive gameplay
+- **U1:** As a player, I want the world to feel alive with unexpected events
+  - **User Value:** Dynamic world increases immersion and replayability
+  - **Acceptance Criteria:** Events trigger dynamically and affect world state
+
+- **U2:** As a player, I want to investigate clues and solve mysteries
+  - **User Value:** Detective gameplay provides intellectual satisfaction
+  - **Acceptance Criteria:** Can collect, combine, and deduce from evidence
+
+- **U3:** As a player, I want to solve integrated puzzles
+  - **User Value:** Problem-solving enhances narrative experience
+  - **Acceptance Criteria:** Multiple puzzle types work within game world
 
 ### Technical Requirements
-- Event-driven architecture for living world
-- Flexible puzzle system supporting multiple types
-- Performance profiling and optimization
-- Memory management and object pooling
-- System integration validation
+- **T1:** Implement event-driven architecture for living world
+  - **Rationale:** Scalable system for dynamic events
+  - **Constraints:** Must handle hundreds of potential events efficiently
+
+- **T2:** Create flexible puzzle framework
+  - **Rationale:** Support various puzzle types without code duplication
+  - **Constraints:** Must integrate with existing systems
+
+- **T3:** Optimize performance across all systems
+  - **Rationale:** Maintain smooth gameplay with all features active
+  - **Constraints:** 60 FPS on minimum spec hardware
 
 ## Tasks
-
-### 1. Living World Event System (Full)
-**Priority:** High  
-**Estimated Hours:** 20
-
-**Description:**  
-Implement the complete living world event system with dynamic events, emergent behavior, and player impact.
-
-**User Story:**  
-*As a player, I want the world to feel alive with unexpected events and consequences, so that each playthrough feels unique and responsive to my actions.*
-
-**Design Reference:** `docs/design/living_world_event_system_full.md`
-
-**Acceptance Criteria:**
-- [ ] Event manager handles scheduled and random events
-- [ ] Events can chain and influence each other
-- [ ] Player actions affect event probability
-- [ ] NPCs react to world events
-- [ ] Events persist across save/load
-
-**Dependencies:**
-- Time management system (Iteration 5)
-- NPC routines (Iteration 10)
-- District system (Iteration 8)
-
-### 2. Investigation System (Full)
-**Priority:** High  
-**Estimated Hours:** 16
-
-**Description:**  
-Complete the investigation mechanics with full clue tracking, evidence combination, and deduction interface.
-
-**User Story:**  
-*As a player, I want to collect clues, combine evidence, and make deductions about the assimilation threat, so that I feel like a detective uncovering a conspiracy.*
-
-**Design Reference:** `docs/design/investigation_clue_tracking_system_design.md`, `docs/design/observation_system_full_design.md`
-
-**Acceptance Criteria:**
-- [ ] Clue collection from multiple sources
-- [ ] Evidence combination mechanics
-- [ ] Deduction interface for theories
-- [ ] Clue persistence and organization
-- [ ] Integration with dialog and observation
-
-**Dependencies:**
-- Observation system (Iteration 11)
-- Dialog system (Iteration 6)
-- Inventory system (Iteration 7)
-
-### 3. Puzzle System Implementation
-**Priority:** Medium  
-**Estimated Hours:** 16
-
-**Description:**  
-Implement flexible puzzle framework supporting multiple puzzle types and integration with game world.
-
-**User Story:**  
-*As a player, I want to solve environmental and logic puzzles that feel integrated with the story, so that problem-solving enhances the narrative experience.*
-
-**Design Reference:** `docs/design/puzzle_system_design.md`
-
-**Acceptance Criteria:**
-- [ ] Base puzzle class with common interface
-- [ ] Support for multiple puzzle types
-- [ ] State persistence for puzzles
-- [ ] Integration with inventory items
-- [ ] Hint system framework
-
-**Dependencies:**
-- Interactive object system (Iteration 2)
-- Inventory system (Iteration 7)
-- Save system (Iteration 7)
-
-### 4. Transportation (Tram) System
-**Priority:** Medium  
-**Estimated Hours:** 12
-
-**Description:**  
-Implement tram transportation system for fast travel between districts with schedule integration.
-
-**User Story:**  
-*As a player, I want to use the tram system to quickly travel between districts while seeing the world from a different perspective, making exploration more efficient.*
-
-**Design Reference:** `docs/design/tram_transportation_system_design.md`
-
-**Acceptance Criteria:**
-- [ ] Tram stations in each district
-- [ ] Schedule-based arrivals
-- [ ] Transition scenes during travel
-- [ ] Integration with time system
-- [ ] Access control validation
-
-**Dependencies:**
-- District system (Iteration 8)
-- Time management (Iteration 5)
-- Access control (Iteration 9)
-
-### 5. Performance Optimization
-**Priority:** Critical  
-**Estimated Hours:** 16
-
-**Description:**  
-Profile and optimize all systems to achieve stable 60 FPS performance on target hardware.
-
-**User Story:**  
-*As a player, I want smooth, responsive gameplay without stutters or slowdowns, so that I can stay immersed in the experience.*
-
-**Design Reference:** `docs/design/performance_optimization_plan.md`
-
-**Acceptance Criteria:**
-- [ ] Performance profiling completed
-- [ ] Rendering optimizations implemented
-- [ ] Object pooling for common objects
-- [ ] Memory usage optimized
-- [ ] Stable 60 FPS achieved
-
-**Dependencies:**
-- All previous systems
-- Hardware validation (Iteration 1)
-
-### 6. System Integration Validation
-**Priority:** Critical  
-**Estimated Hours:** 12
-
-**Description:**  
-Comprehensive testing and validation of all systems working together without conflicts.
-
-**User Story:**  
-*As a developer, I want all systems to integrate seamlessly without conflicts or bugs, so that content creators can build on a stable foundation.*
-
-**Acceptance Criteria:**
-- [ ] All systems tested together
-- [ ] No integration conflicts
-- [ ] Save/load works with all features
-- [ ] Memory leaks identified and fixed
-- [ ] Edge cases handled properly
-
-**Dependencies:**
-- All previous iterations
-- Testing framework (Iteration 1)
-
-### 7. Advanced Dialog System (Full)
-**Priority:** Medium  
-**Estimated Hours:** 16
-
-**Description:**  
-Complete the dialog system with full procedural generation, personality-driven responses, and contextual awareness as described in the template design.
-
-**User Story:**  
-*As a player, I want NPCs to generate dynamic, personality-driven dialog that responds to context and events, so that conversations feel natural and unique to each playthrough.*
-
-**Design Reference:** `docs/design/template_dialog_design.md`
-
-**Acceptance Criteria:**
-- [ ] Complete DialogGenerator with personality modulation
-- [ ] Full DialogTemplates library implementation
-- [ ] Context-aware topic selection
-- [ ] Integration with living world events
-- [ ] Performance optimization for real-time generation
-
-**Dependencies:**
-- Dialog refactoring (Iteration 6)
-- NPC personality system (Iteration 10)
-- Living world events (this iteration)
-
-## Numbered Tasks
 
 ### Living World Event System
 - [ ] Task 1: Create EventManager singleton with scheduling system
@@ -222,10 +74,10 @@ Complete the dialog system with full procedural generation, personality-driven r
 - [ ] Task 10: Integrate with dialog and observation systems
 
 ### Puzzle System
-- [ ] Task 11: Create PuzzleManager singleton
-- [ ] Task 12: Implement base puzzle class with state machine
-- [ ] Task 13: Build access puzzle type (doors, terminals)
-- [ ] Task 14: Create investigation puzzle type (connecting clues)
+- [ ] Task 11: Create base puzzle framework
+- [ ] Task 12: Implement logic puzzles (riddles, patterns)
+- [ ] Task 13: Build environment puzzles (switches, doors)
+- [ ] Task 14: Create observation puzzles
 - [ ] Task 15: Implement social engineering puzzles
 - [ ] Task 16: Build technical puzzles (hacking, repairs)
 - [ ] Task 17: Create item combination puzzles
@@ -255,7 +107,7 @@ Complete the dialog system with full procedural generation, personality-driven r
 - [ ] Task 35: Polish user experience across systems
 
 ### Advanced Dialog System
-- [ ] Task 36: Implement procedural dialog generation system
+- [ ] Task 36: Implement advanced dialog feature enhancements
 
 ### Security System Polish
 - [ ] Task 37: Implement camera surveillance system
@@ -263,90 +115,305 @@ Complete the dialog system with full procedural generation, personality-driven r
 - [ ] Task 39: Optimize patrol performance for multiple guards
 - [ ] Task 40: Implement security checkpoint infrastructure
 
-## User Stories for Key Tasks
+### Detection System Integration
+- [ ] Task 41: Integrate all detection sources with DetectionManager
+- [ ] Task 42: Add environmental detection triggers
+- [ ] Task 43: Implement detection cooldown mechanics
 
-### Task 11: Create PuzzleManager singleton
-**User Story:** As a developer, I want a centralized puzzle management system, so that all puzzles can be tracked, saved, and integrated consistently throughout the game.
+## User Stories
 
-**Status History:**
-- **⏳ PENDING** (05/27/25)
-
-**Requirements:**
-- **Linked to:** Design Reference in section 3
-- **Acceptance Criteria:**
-  1. Singleton pattern following existing managers
-  2. Track active and completed puzzles
-  3. Handle puzzle state transitions
-  4. Integrate with save/load system
-  5. Emit signals for UI updates
-
-**Implementation Notes:**
-- Reference: docs/design/puzzle_system_design.md
-- Follow patterns from other managers
-- Support both single-step and multi-step puzzles
-- Track failed attempts for hint system
-
-### Task 12: Implement base puzzle class with state machine
-**User Story:** As a developer, I want a flexible base puzzle class, so that different puzzle types can be implemented consistently while sharing common functionality.
+### Task 1: Create EventManager singleton with scheduling system
+**User Story:** As a developer, I want a centralized event management system, so that world events can be scheduled, triggered, and managed consistently throughout the game.
 
 **Status History:**
-- **⏳ PENDING** (05/27/25)
+- **⏳ PENDING** (06/01/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
-  1. State machine with INACTIVE, ACTIVE, PROGRESSED, SOLVED, FAILED states
-  2. Common interface for all puzzle types
-  3. Progress tracking for multi-step puzzles
-  4. Integration points for hints and rewards
-  5. Serialization support for all states
+  1. Singleton EventManager autoload
+  2. Event scheduling with time delays
+  3. Conditional event triggers
+  4. Event priority system
+  5. Debug visualization tools
 
 **Implementation Notes:**
-- Reference: docs/design/puzzle_system_design.md
-- Extend Node or Resource based on needs
-- Support partial progress saving
-- Include validation methods
+- Reference: docs/design/living_world_event_system_full.md
+- Use signal-based architecture
+- Support both scheduled and immediate events
+- Include event history for debugging
 
-### Task 13: Build access puzzle type (doors, terminals)
-**User Story:** As a player, I want to solve puzzles to access restricted areas, so that exploration feels rewarding and areas feel meaningfully gated.
+### Task 2: Implement random event generation based on world state
+**User Story:** As a player, I want random events to occur based on the current world situation, so that the game world feels dynamic and responsive.
 
 **Status History:**
-- **⏳ PENDING** (05/27/25)
+- **⏳ PENDING** (06/01/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
-  1. Support keycard, keypad, and hacking solutions
-  2. Multiple solution paths when appropriate
-  3. Failure consequences (alarms, lockouts)
-  4. Visual feedback for progress
-  5. Integration with security system
+  1. Weight-based event selection
+  2. World state influences probabilities
+  3. Cooldowns prevent event spam
+  4. District-specific events
+  5. Time-of-day considerations
 
 **Implementation Notes:**
-- Reference: docs/design/puzzle_system_design.md
-- Examples: Lab access, security doors, computer terminals
-- Consider player skills/items for alternatives
-- Suspicion increases on failures
+- Use weighted random selection
+- Factor in assimilation level, security state
+- Some events only trigger under specific conditions
+- Balance frequency for good pacing
 
-### Task 14: Create investigation puzzle type (connecting clues)
-**User Story:** As a player detective, I want to connect clues to form conclusions, so that I feel like I'm actively solving the mystery rather than passively collecting information.
+### Task 3: Build event chaining and consequence system
+**User Story:** As a player, I want events to have meaningful consequences that can trigger follow-up events, so that my actions have lasting impact on the world.
 
 **Status History:**
-- **⏳ PENDING** (05/27/25)
+- **⏳ PENDING** (06/01/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
-  1. Clue combination interface
-  2. Multiple valid conclusions possible
-  3. Deduction feedback system
-  4. Integration with investigation system
-  5. Persistent theory tracking
+  1. Events can trigger other events
+  2. Delayed consequences
+  3. Multiple outcome branches
+  4. Player choice impacts
+  5. Consequence persistence
 
 **Implementation Notes:**
-- Reference: docs/design/puzzle_system_design.md
+- Reference: docs/design/living_world_event_system_full.md
+- Graph-based event relationships
+- Support for complex event chains
+- Visual debugging for event flow
+
+### Task 4: Create NPC reaction system to world events
+**User Story:** As a player, I want NPCs to react believably to world events, so that the station population feels alive and aware.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. NPCs change behavior based on events
+  2. Dialog reflects recent events
+  3. Emotional state changes
+  4. Group reactions for major events
+  5. Memory of significant events
+
+**Implementation Notes:**
+- Integrate with NPC state machines
+- Different reaction types per personality
+- Some NPCs spread news to others
+- Affects trust and suspicion
+
+### Task 5: Implement event persistence and serialization
+**User Story:** As a player, I want world events to persist across save/load cycles, so that the consequences of events remain consistent.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. Active events save state
+  2. Event history persists
+  3. Scheduled events restore
+  4. Consequence chains continue
+  5. Version migration support
+
+**Implementation Notes:**
+- Create EventSerializer
+- Compress event history
+- Only save relevant event data
+- Handle missing event types gracefully
+
+### Task 6: Create ClueManager for tracking evidence
+**User Story:** As a player, I want a system that tracks all the clues I've discovered, so that I can review evidence and make connections.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T1
+- **Acceptance Criteria:**
+  1. Centralized clue storage
+  2. Categorization system
+  3. Discovery timestamps
+  4. Source tracking
+  5. Connection mapping
+
+**Implementation Notes:**
 - Reference: docs/design/investigation_clue_tracking_system_design.md
-- Cork board style interface
+- Singleton pattern for global access
+- Support for various clue types
+- Integration with journal UI
+
+### Task 7: Implement clue collection from multiple sources
+**User Story:** As a player, I want to discover clues through various gameplay mechanics, so that investigation feels integrated with all game systems.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Dialog reveals clues
+  2. Observation discovers clues
+  3. Item examination yields clues
+  4. Environmental clues
+  5. Document/data clues
+
+**Implementation Notes:**
+- Standardized clue discovery interface
+- Different discovery methods per clue
+- Some clues require prerequisites
+- Visual/audio feedback on discovery
+
+### Task 8: Build evidence combination mechanics
+**User Story:** As a player, I want to combine related clues to form new insights, so that investigation rewards careful analysis.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Drag-and-drop combination UI
+  2. Valid combination rules
+  3. New clues from combinations
+  4. Failed combination feedback
+  5. Hint system for combinations
+
+**Implementation Notes:**
+- Reference: docs/design/investigation_clue_tracking_system_design.md
+- Logical combination rules
+- Some combinations unlock dialog options
+- Track combination attempts
+
+### Task 9: Create deduction interface UI
+**User Story:** As a player, I want a dedicated interface for reviewing clues and making deductions, so that I can think like a detective.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Visual clue board
+  2. Connection drawing tools
+  3. Theory formulation
+  4. Evidence filtering
+  5. Export to journal
+
+**Implementation Notes:**
+- Cork board metaphor
+- String connections between clues
+- Categories and tags
+- Search functionality
+
+### Task 10: Integrate with dialog and observation systems
+**User Story:** As a player, I want investigation to seamlessly integrate with dialog and observation, so that all detective tools work together.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Clues unlock dialog options
+  2. Observations add clues
+  3. Dialog references known clues
+  4. Confrontation mechanics
+  5. Evidence presentation
+
+**Implementation Notes:**
+- Extend dialog system for clue checks
+- Observation reveals clue locations
+- Some clues change NPC behavior
+- Support accusation scenarios
+
+### Task 11: Create base puzzle framework
+**User Story:** As a developer, I want a flexible puzzle base class, so that various puzzle types can be implemented consistently.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. Abstract puzzle interface
+  2. Common state management
+  3. Progress tracking
+  4. Reset functionality
+  5. Completion callbacks
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Base class: res://src/puzzles/base_puzzle.gd
+- Standard methods: start(), check_solution(), reset()
+- Signal: puzzle_completed, puzzle_failed
+
+### Task 12: Implement logic puzzles (riddles, patterns)
+**User Story:** As a player, I want to solve logic-based puzzles that challenge my reasoning skills, so that I feel intellectually engaged with the game.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Multiple puzzle variations
+  2. Scalable difficulty
+  3. Visual pattern matching
+  4. Number/symbol sequences
+  5. Clear feedback on attempts
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Examples: Circuit completion, code sequences, symbol matching
+- Some puzzles have multiple valid solutions
+- Integration with terminal interfaces
+
+### Task 13: Build environment puzzles (switches, doors)
+**User Story:** As a player, I want to interact with the environment to solve physical puzzles, so that exploration feels rewarding.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Multi-switch door puzzles
+  2. Pressure plate sequences
+  3. Valve/flow puzzles
+  4. Power routing challenges
+  5. Environmental state persistence
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Examples: Airlock sequences, power restoration
+- Visual feedback for state changes
+- Some require specific items
+
+### Task 14: Create observation puzzles
+**User Story:** As a player, I want puzzles that require careful observation of my surroundings, so that attention to detail is rewarded.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Hidden object finding
+  2. Spot-the-difference mechanics
+  3. Pattern recognition in environment
+  4. Clue synthesis puzzles
+  5. Timed observation challenges
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Integrate with observation system
+- Examples: Finding hidden panels, noting changes
 - Support red herrings and misdirection
 
 ### Task 15: Implement social engineering puzzles
@@ -356,7 +423,7 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U3
 - **Acceptance Criteria:**
   1. Dialog tree integration
   2. Trust/suspicion affects options
@@ -377,7 +444,7 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U3
 - **Acceptance Criteria:**
   1. Hacking minigame mechanics
   2. Repair sequence puzzles
@@ -398,7 +465,7 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U3
 - **Acceptance Criteria:**
   1. Logical item combinations
   2. Clear feedback on attempts
@@ -419,7 +486,7 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U3
 - **Acceptance Criteria:**
   1. Schedule-based opportunities
   2. Guard patrol patterns
@@ -440,7 +507,7 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B1, U3
 - **Acceptance Criteria:**
   1. Progressive hint levels (subtle to explicit)
   2. Hints unlock after failures/time
@@ -450,70 +517,366 @@ Complete the dialog system with full procedural generation, personality-driven r
 
 **Implementation Notes:**
 - Reference: docs/design/puzzle_system_design.md
-- First hint: "Have you tried looking around?"
-- Later hints more specific
-- Some hints from NPC dialog
+- Three hint levels: nudge, clue, solution
+- NPCs can offer hints in dialog
+- Track hint usage for achievements
 
 ### Task 20: Create puzzle state persistence
-**User Story:** As a player, I want my puzzle progress to save properly, so that I can take breaks without losing complex multi-step solutions.
+**User Story:** As a player, I want puzzle progress to save properly, so that I don't lose progress when leaving and returning to a puzzle.
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 3
+- **Linked to:** B3, U3
 - **Acceptance Criteria:**
-  1. All puzzle states serialize correctly
-  2. Partial progress saves
-  3. Failed attempt tracking persists
-  4. Hint levels save
-  5. Integration with save system
+  1. All puzzle types save state
+  2. Partial progress preserved
+  3. Reset option available
+  4. State survives scene changes
+  5. Backward compatibility
 
 **Implementation Notes:**
 - Reference: docs/design/puzzle_system_design.md
-- Reference: docs/design/serialization_system.md
-- Use existing serialization patterns
-- Version migration support
+- Implement in base puzzle class
+- Serialize only essential state
+- Handle version migration
 
-### Task 36: Implement procedural dialog generation system
-**User Story:** As a player, I want each NPC to speak with unique personality-driven dialog that adapts to context, so that every conversation feels fresh and responsive to the game state.
+### Task 21: Create TramSystem manager
+**User Story:** As a developer, I want a centralized tram system manager, so that all tram operations are coordinated and consistent.
 
-**Dialog Manager Migration Phase 4a-4c:** This task completes the Dialog Manager template migration by implementing full procedural generation with all advanced features.
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Singleton TramSystem
+  2. Route management
+  3. Schedule coordination
+  4. State tracking
+  5. Event integration
+
+**Implementation Notes:**
+- Reference: docs/design/tram_transportation_system_design.md
+- Autoload singleton pattern
+- Track all tram positions
+- Handle multi-tram coordination
+
+### Task 22: Implement tram station scenes
+**User Story:** As a player, I want to wait at tram stations and board trams, so that fast travel feels integrated with the world.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Station scene per district
+  2. Platform waiting areas
+  3. Schedule displays
+  4. Boarding mechanics
+  5. Ambient activity
+
+**Implementation Notes:**
+- Reusable station template
+- Dynamic schedule boards
+- NPCs also use trams
+- Weather/time affects ambience
+
+### Task 23: Build schedule system with wait times
+**User Story:** As a player, I want trams to run on schedules, so that the transportation system feels realistic and I must plan my travels.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Realistic timetables
+  2. Variable wait times
+  3. Rush hour mechanics
+  4. Delay system
+  5. Schedule displays
+
+**Implementation Notes:**
+- 5-15 minute intervals
+- Peak/off-peak schedules
+- Some randomization for realism
+- Events can cause delays
+
+### Task 24: Create travel time calculations
+**User Story:** As a player, I want tram travel to take appropriate time, so that distance matters and time management stays relevant.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Distance-based travel times
+  2. Express vs local routes
+  3. Time skip during travel
+  4. Transition scenes
+  5. Arrival notifications
+
+**Implementation Notes:**
+- 10-30 minutes based on distance
+- Show transition views
+- Option to sleep during travel
+- Can be interrupted by events
+
+### Task 25: Implement access control integration
+**User Story:** As a player, I want my access level to affect which tram routes I can use, so that progression unlocks new travel options.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Ticket/pass validation
+  2. Restricted routes
+  3. Security checkpoints
+  4. Fare payment system
+  5. Access violation handling
+
+**Implementation Notes:**
+- Some routes require clearance
+- Can forge/steal passes
+- Guards check tickets randomly
+- Integrate with crime system
+
+### Task 26: Set up performance profiling tools
+**User Story:** As a developer, I want comprehensive performance profiling, so that I can identify and fix performance bottlenecks.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. FPS monitoring
+  2. Memory tracking
+  3. CPU profiling
+  4. GPU analysis
+  5. Custom markers
+
+**Implementation Notes:**
+- Use Godot's built-in profiler
+- Add custom timing markers
+- Create performance HUD
+- Log performance metrics
+
+### Task 27: Profile all major systems
+**User Story:** As a developer, I want to profile each game system, so that I can identify which systems need optimization.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. Profile each system in isolation
+  2. Profile systems together
+  3. Identify bottlenecks
+  4. Memory leak detection
+  5. Performance reports
+
+**Implementation Notes:**
+- Test with 100+ NPCs active
+- Stress test each system
+- Document findings
+- Prioritize optimizations
+
+### Task 28: Implement object pooling for common objects
+**User Story:** As a developer, I want object pooling for frequently created/destroyed objects, so that memory allocation overhead is minimized.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. Generic pool implementation
+  2. Pools for projectiles
+  3. Pools for UI elements
+  4. Pools for particles
+  5. Automatic sizing
+
+**Implementation Notes:**
+- Start with most allocated objects
+- Configurable pool sizes
+- Warm pools on load
+- Monitor pool efficiency
+
+### Task 29: Optimize NPC update cycles
+**User Story:** As a developer, I want NPCs to update efficiently based on relevance, so that many NPCs can exist without impacting performance.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. LOD system for NPCs
+  2. Update frequency scaling
+  3. Offscreen optimizations
+  4. Batch processing
+  5. State caching
+
+**Implementation Notes:**
+- Near/far/offscreen tiers
+- Critical NPCs update more
+- Quantum state for distant NPCs
+- Batch similar operations
+
+### Task 30: Reduce memory allocations
+**User Story:** As a developer, I want to minimize runtime allocations, so that garbage collection doesn't cause frame drops.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. Identify allocation hotspots
+  2. Reuse objects/arrays
+  3. Preallocate buffers
+  4. String optimization
+  5. Texture atlasing
+
+**Implementation Notes:**
+- Profile allocations per frame
+- Cache commonly used strings
+- Reuse data structures
+- Optimize texture memory
+
+### Task 31: Test all system interactions
+**User Story:** As a developer, I want comprehensive testing of system interactions, so that edge cases and conflicts are identified.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. Test matrix for all systems
+  2. Automated integration tests
+  3. Edge case coverage
+  4. Stress testing
+  5. Bug documentation
+
+**Implementation Notes:**
+- Create test scenarios
+- Test unusual combinations
+- Document all issues found
+- Verify fixes don't break others
+
+### Task 32: Fix integration conflicts
+**User Story:** As a developer, I want to resolve all system conflicts, so that features work together seamlessly.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. Resolve signal conflicts
+  2. Fix resource contentions
+  3. Handle timing issues
+  4. Resolve UI overlaps
+  5. Fix save/load issues
+
+**Implementation Notes:**
+- Prioritize game-breaking issues
+- Document all fixes
+- Add regression tests
+- Update integration docs
+
+### Task 33: Validate save/load with all features
+**User Story:** As a player, I want save/load to work perfectly with all features active, so that I never lose progress.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. All systems serialize properly
+  2. State restoration complete
+  3. No data corruption
+  4. Version compatibility
+  5. Error recovery
+
+**Implementation Notes:**
+- Test saves at various points
+- Verify all state restored
+- Test version migration
+- Handle corrupted saves gracefully
+
+### Task 34: Handle edge cases and error states
+**User Story:** As a player, I want the game to handle errors gracefully, so that bugs don't ruin my experience.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Graceful error handling
+  2. Recovery mechanisms
+  3. Error logging
+  4. User feedback
+  5. Fallback behaviors
+
+**Implementation Notes:**
+- Never crash to desktop
+- Log errors for debugging
+- Provide user workarounds
+- Auto-recovery where possible
+
+### Task 35: Polish user experience across systems
+**User Story:** As a player, I want all systems to feel polished and cohesive, so that the game feels professional.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Consistent UI behavior
+  2. Smooth transitions
+  3. Clear feedback
+  4. Intuitive controls
+  5. Quality of life features
+
+**Implementation Notes:**
+- Focus on common pain points
+- Add tooltips and hints
+- Improve onboarding
+- Polish rough edges
+
+### Task 36: Implement advanced dialog feature enhancements
+**User Story:** As a player, I want the dialog system to show character portraits, emotional states, and rich narrative context, so that conversations feel immersive and cinematic.
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Design Reference in section 7
+- **Linked to:** Enhanced dialog experience
 - **Acceptance Criteria:**
-  1. DialogGenerator class with personality modulation
-  2. Complete template library with all conversation types
-  3. Context-aware topic and response selection
-  4. Real-time generation performs smoothly
-  5. Integration with all game systems
-  6. **Phase 4a:** Full procedural generation engine
-  7. **Phase 4b:** Complete contextual awareness
-  8. **Phase 4c:** Performance optimization and caching
+  1. Multiple portrait support with names/titles
+  2. Dynamic portrait positioning
+  3. Emotional state expressions (6+ emotions)
+  4. Thought bubbles/internal monologue
+  5. Trust level affects tone/wording
 
 **Implementation Notes:**
-- Reference: docs/design/template_dialog_design.md Full Implementation
-- **Phase 4a:** Implement from template:
-  ```gdscript
-  class_name DialogGenerator
-  func fill_template(template: String, context: DialogContext, data: Dictionary)
-  func _apply_personality_modulation(text: String, personality: NPCPersonality)
-  func _apply_emotional_coloring(text: String, emotional_state: String)
-  ```
-- **Phase 4b:** Full DialogContext implementation:
-  ```gdscript
-  var recent_events: Array = EventManager.get_recent_events(3600)
-  var time_since_last_talk: float
-  var stress_level: float = calculate_stress()
-  ```
-- **Phase 4c:** Performance features:
-  - Cache generated dialog for 1 game hour
-  - Lazy generation for dialog nodes
-  - Memory limits on conversation history
+- Reference: docs/design/dialog_manager_design.md
+- Extend existing dialog manager
+- Portrait art requirements documented
+- 6 base emotions + combinations
 
 ### Task 37: Implement camera surveillance system
 **User Story:** As station security, I want camera surveillance coverage throughout the station, so that crimes and suspicious activities can be detected even when guards aren't present.
@@ -522,19 +885,19 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Crime/Security System Polish
+- **Linked to:** Crime/Security System
 - **Acceptance Criteria:**
-  1. Cameras placed at key locations
-  2. Detection cone visualization
-  3. Recording system for evidence
-  4. Integration with security alerts
-  5. Hackable/disableable cameras
+  1. Camera nodes with vision cones
+  2. Pan/scan behaviors
+  3. Detection of crimes in view
+  4. Recording system for evidence
+  5. Camera destruction/hacking
 
 **Implementation Notes:**
 - Reference: docs/design/crime_security_event_system_design.md
-- Cameras have 90-degree vision cones
-- 30% chance to detect crimes in view
-- Can be disabled for 5 minutes when hacked
+- SecurityCamera extends Area2D
+- Different camera types (fixed, rotating, tracking)
+- Integrate with crime detection system
 
 ### Task 38: Create advanced security AI behaviors
 **User Story:** As a player, I want security guards to exhibit intelligent behaviors like investigating disturbances and coordinating responses, so that evading them feels challenging and rewarding.
@@ -543,19 +906,19 @@ Complete the dialog system with full procedural generation, personality-driven r
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Crime/Security System Polish
+- **Linked to:** Crime/Security System
 - **Acceptance Criteria:**
   1. Guards investigate suspicious sounds
-  2. Coordinate when multiple guards present
-  3. Search patterns when player escapes
-  4. Remember previous encounters
-  5. Call for backup when overwhelmed
+  2. Call for backup when needed
+  3. Coordinate when multiple guards present
+  4. Search patterns when player escapes
+  5. Memory of recent incidents
 
 **Implementation Notes:**
 - Reference: docs/design/crime_security_event_system_design.md
-- Use behavior trees for complex AI
-- Guards share information about threats
-- Different personality types (cautious, aggressive)
+- Extend NPC AI with security behaviors
+- Different alertness levels
+- Radio communication system
 
 ### Task 39: Optimize patrol performance for multiple guards
 **User Story:** As a player, I want the game to maintain smooth performance even with multiple security patrols active, so that busy areas don't cause frame rate drops.
@@ -566,17 +929,17 @@ Complete the dialog system with full procedural generation, personality-driven r
 **Requirements:**
 - **Linked to:** Performance Optimization
 - **Acceptance Criteria:**
-  1. LOD system for distant patrols
-  2. Simplified AI for off-screen guards
-  3. Efficient pathfinding caching
-  4. 10+ simultaneous patrols possible
-  5. No FPS drops in crowded areas
+  1. 10+ simultaneous patrols without lag
+  2. Efficient pathfinding caching
+  3. LOD for distant patrols
+  4. Batch processing for AI decisions
+  5. Memory usage optimization
 
 **Implementation Notes:**
 - Reference: docs/design/crime_security_event_system_design.md
-- Three detail levels: Full, Simplified, Background
-- Update frequency based on distance to player
-- Pool patrol route calculations
+- Implement patrol route caching
+- Use navigation mesh efficiently
+- Time-slice AI updates
 
 ### Task 40: Implement security checkpoint infrastructure
 **User Story:** As a player, I want to encounter security checkpoints that verify my identity and access rights, so that restricted areas feel properly protected and infiltration requires planning.
@@ -600,6 +963,69 @@ Complete the dialog system with full procedural generation, personality-driven r
 - Different security levels per checkpoint
 - Integration with disguise system
 
+### Task 41: Integrate all detection sources with DetectionManager
+**User Story:** As a developer, I want all detection sources to report through a central DetectionManager, so that detection states are consistent and coordinated across all systems.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. Camera detections route through DetectionManager
+  2. Guard detections use DetectionManager
+  3. Environmental triggers integrated
+  4. Checkpoint violations reported
+  5. All sources respect detection stages
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Ensure all detection sources use same severity scale
+- Maintain single source of truth for detection state
+- Support multiple simultaneous detection sources
+
+### Task 42: Add environmental detection triggers
+**User Story:** As a level designer, I want to place environmental detection triggers in scenes, so that certain areas or actions automatically increase detection risk.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Area2D triggers for restricted zones
+  2. Motion sensor nodes
+  3. Laser grid obstacles
+  4. Pressure plate detectors
+  5. Sound detection zones
+
+**Implementation Notes:**
+- Create reusable detection nodes
+- Support different trigger types
+- Visual indicators when active
+- Integration with level editor
+
+### Task 43: Implement detection cooldown mechanics
+**User Story:** As a player, I want detection heat to cool down over time, so that I can recover from mistakes through careful play.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Heat decreases when avoiding detection
+  2. Different cooldown rates per stage
+  3. Safe areas accelerate cooldown
+  4. Some actions reset cooldown
+  5. Visual feedback on heat level
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Timer-based decay system
+- District changes help lose heat
+- Integrate with UI indicators
+
 ## Testing Criteria
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
@@ -608,54 +1034,45 @@ Complete the dialog system with full procedural generation, personality-driven r
 - Performance maintains 60 FPS with all systems active
 - No conflicts between any systems
 - Memory usage remains stable over extended play
+- All detection sources integrate with DetectionManager
+- Environmental detection triggers work correctly
+- Detection cooldown mechanics function as designed
+- Security cameras properly report to detection system
+- Detection states remain consistent across all sources
 
 ## Timeline
-- **Estimated Duration:** 3-4 weeks
-- **Total Hours:** 108 (was 92, added 16 for dialog system)
-- **Critical Path:** Performance optimization must validate all other systems
-
-## Definition of Done
-- [ ] All tasks completed and tested
-- [ ] Performance targets achieved (60 FPS)
-- [ ] All systems integrate without conflicts
-- [ ] Comprehensive integration tests pass
-- [ ] Documentation updated for content creators
-- [ ] Code reviewed and approved
-- [ ] Phase 2 complete, ready for Phase 3
+- Start date: After Iterations 9-14 completion
+- Target completion: 3-4 weeks
+- Critical for: Phase 2 completion
 
 ## Dependencies
-- All Phase 1 iterations (4-8)
+- All Phase 1 iterations (1-8)
 - All previous Phase 2 iterations (9-14)
 - Performance requirements from hardware validation
 
-## Risks and Mitigations
-- **Risk:** Performance issues with all systems active
-  - **Mitigation:** Early profiling, incremental optimization
-- **Risk:** Integration conflicts between systems
-  - **Mitigation:** Continuous integration testing
-- **Risk:** Scope creep on "polish"
-  - **Mitigation:** Clear acceptance criteria, time boxing
-
-## Links to Relevant Code
-- src/core/events/event_manager.gd
-- src/core/events/living_world_event.gd
-- src/core/investigation/investigation_manager.gd
-- src/core/investigation/clue.gd
-- src/core/puzzles/base_puzzle.gd
-- src/core/puzzles/puzzle_manager.gd
-- src/core/transport/tram_system.gd
-- src/core/transport/tram_station.gd
-- src/core/performance/profiler.gd
-- src/core/performance/object_pool.gd
-
-## Notes
-### Design Documents Implemented
+## Code Links
+- src/core/events/event_manager.gd (to be created)
+- src/core/events/living_world_event.gd (to be created)
+- src/core/investigation/clue_manager.gd (to be created)
+- src/core/investigation/clue.gd (to be created)
+- src/core/puzzles/base_puzzle.gd (to be created)
+- src/core/puzzles/puzzle_manager.gd (to be created)
+- src/core/transport/tram_system.gd (to be created)
+- src/core/transport/tram_station.gd (to be created)
+- src/core/performance/profiler.gd (to be created)
+- src/core/performance/object_pool.gd (to be created)
+- src/core/security/security_camera.gd (to be created)
+- src/core/detection/environmental_trigger.gd (to be created)
 - docs/design/living_world_event_system_full.md
 - docs/design/investigation_clue_tracking_system_design.md
 - docs/design/puzzle_system_design.md
 - docs/design/tram_transportation_system_design.md
-- docs/design/performance_optimization_plan.md
+- docs/design/crime_security_event_system_design.md
+- docs/design/detection_game_over_system_design.md
 
-### Template References
-- Event implementation should follow docs/design/template_integration_standards.md
-- Puzzles should be designed using patterns from docs/design/template_interactive_object_design.md
+## Notes
+- This iteration completes Phase 2
+- Focus on polish and integration
+- Performance is critical - test early and often
+- All systems must work together seamlessly
+- Create framework for Phase 3 content creation

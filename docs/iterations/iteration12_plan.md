@@ -216,6 +216,13 @@ As a player, I experience a living station where the mysterious assimilation spr
 - [ ] Task 114: Create security level persistence
 - [ ] Task 115: Implement player security record tracking
 
+### Detection Network Integration
+- [ ] Task 116: Implement detection network propagation
+- [ ] Task 117: Create coalition-based escape routes
+- [ ] Task 118: Build detection cooldown mechanics
+- [ ] Task 119: Add environmental detection triggers
+- [ ] Task 120: Implement bribery mechanics during detection
+
 ## User Stories
 
 ### Task 2: Implement infection spread mechanics
@@ -2638,11 +2645,123 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Can be cleared/expunged
 - Influences ending possibilities
 
+### Task 116: Implement detection network propagation
+**User Story:** As an assimilated NPC, I want to share information about detected threats with my network, so that the collective can coordinate responses.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Detection info spreads through assimilated network
+  2. Information degrades with distance/time
+  3. Leaders propagate info more efficiently
+  4. Network connections affect spread speed
+  5. Player can disrupt propagation
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Use graph traversal for network spread
+- Information quality decreases with each hop
+- Leaders act as signal boosters
+
+### Task 117: Create coalition-based escape routes
+**User Story:** As a player, I want my coalition allies to provide escape options during pursuit, so that building alliances has survival benefits.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Safe houses provide escape destinations
+  2. Coalition members offer temporary hideouts
+  3. More allies means more escape options
+  4. Trust level affects hideout availability
+  5. Coalition can attempt rescue operations
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Integrate with CoalitionManager
+- High-trust members provide better hideouts
+- Calculate routes based on distance and risk
+
+### Task 118: Build detection cooldown mechanics
+**User Story:** As a player, I want detection levels to decrease over time when I avoid suspicious behavior, so that I can recover from mistakes.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Detection decreases when out of sight
+  2. Different cooldown rates per detection stage
+  3. Some actions reset cooldown
+  4. Safe areas accelerate cooldown
+  5. Higher alert levels decay slower
+
+**Implementation Notes:**
+- Use timer-based decay system
+- Safe houses provide bonus cooldown
+- Changing districts helps lose heat
+- Some NPCs have longer memories
+
+### Task 119: Add environmental detection triggers
+**User Story:** As a security system, I want to detect intruders through cameras and sensors, so that the station's automated defenses contribute to gameplay.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Security cameras detect players
+  2. Motion sensors trigger alerts
+  3. Restricted door access logged
+  4. Environmental hazards increase detection
+  5. Disguises affect sensor detection
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Create SecurityCamera nodes
+- Different sensor types and ranges
+- Integration with DisguiseManager
+
+### Task 120: Implement bribery mechanics during detection
+**User Story:** As a player, I want to attempt bribing assimilated NPCs during detection, so that I have desperate last-resort options.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Can attempt bribes at certain detection stages
+  2. Cost scales with detection severity
+  3. Leaders cannot be bribed
+  4. Success chance varies by NPC type
+  5. Failed bribes worsen situation
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Only drones accept bribes (40% chance)
+- Integrate with EconomyManager
+- Escalating costs per detection stage
+
 ## Testing Criteria
 - Assimilation spreads believably
 - Coalition mechanics function properly
 - Security responds appropriately
 - Endings trigger correctly
+- Detection network propagation works correctly
+- Coalition escape routes calculate properly
+- Detection cooldown mechanics function as designed
+- Environmental triggers detect appropriately
+- Bribery mechanics scale with detection severity
+- Chase sequences integrate with detection system
+- Hiding mechanics provide realistic escape options
 - All systems affect world state
 - Save/load preserves all states
 - Performance with many active systems

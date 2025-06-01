@@ -71,27 +71,34 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - [ ] Task 8: Implement line-of-sight detection
 - [ ] Task 9: Add detection UI warnings
 - [ ] Task 10: Create game over sequence
+- [ ] Task 11: Implement save file deletion on game over
+- [ ] Task 12: Create assimilation ending cinematics
+- [ ] Task 13: Build post-game revelation system
+- [ ] Task 14: Add detection state serialization
+- [ ] Task 15: Create DetectionManager singleton
+- [ ] Task 16: Implement detection triggers system
+- [ ] Task 17: Add detection evidence tracking
 
 ### Investigation System
-- [ ] Task 11: Create InvestigationManager singleton
-- [ ] Task 12: Implement clue discovery mechanics
-- [ ] Task 13: Build clue connection system
-- [ ] Task 14: Create investigation journal UI
-- [ ] Task 15: Add investigation progress tracking
+- [ ] Task 18: Create InvestigationManager singleton
+- [ ] Task 19: Implement clue discovery mechanics
+- [ ] Task 20: Build clue connection system
+- [ ] Task 21: Create investigation journal UI
+- [ ] Task 22: Add investigation progress tracking
 
 ### Interactive Object Templates
-- [ ] Task 16: Create BaseInteractiveObject class
-- [ ] Task 17: Implement standard interaction verbs
-- [ ] Task 18: Create object state system
-- [ ] Task 19: Add interaction feedback system
-- [ ] Task 20: Build object template library
+- [ ] Task 23: Create BaseInteractiveObject class
+- [ ] Task 24: Implement standard interaction verbs
+- [ ] Task 25: Create object state system
+- [ ] Task 26: Add interaction feedback system
+- [ ] Task 27: Build object template library
 
 ### District Access Control
-- [ ] Task 21: Create access permission system
-- [ ] Task 22: Implement keycard/credential mechanics
-- [ ] Task 23: Add restricted area warnings
-- [ ] Task 24: Create security checkpoint system
-- [ ] Task 25: Implement access violation consequences
+- [ ] Task 28: Create access permission system
+- [ ] Task 29: Implement keycard/credential mechanics
+- [ ] Task 30: Add restricted area warnings
+- [ ] Task 31: Create security checkpoint system
+- [ ] Task 32: Implement access violation consequences
 
 ## User Stories
 
@@ -137,7 +144,174 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Use state pattern for clean implementation
 - Consider "heat" cooldown mechanic
 
-### Task 12: Implement clue discovery mechanics
+### Task 10: Create game over sequence
+**User Story:** As a player, I want a dramatic and informative game over sequence when I'm caught, so that I understand what went wrong and feel motivated to try again.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Game over triggers when detection reaches CAPTURING stage
+  2. Cinematic sequence shows assimilation process
+  3. Player receives feedback on what led to detection
+  4. Save file is handled according to design
+  5. Smooth transition back to main menu
+
+**Implementation Notes:**
+- Reference: docs/design/detection_game_over_system_design.md
+- Integrate with GameOverManager class
+- Must feel consequential but fair
+
+### Task 11: Implement save file deletion on game over
+**User Story:** As a game designer, I want permanent consequences for failure through save deletion, so that players feel genuine tension and every decision matters.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Save file is deleted upon assimilation
+  2. Clear warning shown before deletion
+  3. Confirmation message after deletion
+  4. Graceful handling of permission errors
+  5. No way to recover deleted save
+
+**Implementation Notes:**
+- Show 5-second warning before deletion
+- Create .assimilated backup temporarily
+- Document cloud save incompatibility
+- Reference brutal save deletion section in design
+
+### Task 12: Create assimilation ending cinematics
+**User Story:** As a player, I want to see a haunting visualization of my character's assimilation, so that the consequence of failure is emotionally impactful.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Contextual dialog from assimilator
+  2. Visual transformation sequence
+  3. Consciousness fading effect
+  4. Different variations based on who caught player
+  5. Appropriate audio and visual effects
+
+**Implementation Notes:**
+- Create AssimilationEnding scene
+- Support multiple assimilator contexts
+- Use shader effects for transformation
+- Keep it disturbing but not gratuitous
+
+### Task 13: Build post-game revelation system
+**User Story:** As a player, I want to see what I missed after game over, so that I can learn for my next playthrough.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Shows total assimilated count
+  2. Reveals hidden leaders
+  3. Lists missed coalition members
+  4. Shows unsolved mysteries
+  5. Displays progress percentage
+
+**Implementation Notes:**
+- Create PostGameRevelations UI
+- Calculate investigation progress
+- Show statistics attractively
+- Motivate replay without spoiling everything
+
+### Task 14: Add detection state serialization
+**User Story:** As a player, I want detection states to persist across saves, so that I can't exploit save/load to escape consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T2, T3
+- **Acceptance Criteria:**
+  1. All detection states save properly
+  2. Evidence tracking persists
+  3. Alerted NPC lists maintained
+  4. Pursuit timers resume correctly
+  5. Heat levels persist between sessions
+
+**Implementation Notes:**
+- Create DetectionSerializer class
+- Self-register with SaveManager
+- High priority (20) for critical state
+- Handle version migration
+
+### Task 15: Create DetectionManager singleton
+**User Story:** As a developer, I need a central detection coordination system, so that all detection sources work together coherently.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Singleton manages all detection states
+  2. Coordinates multiple detection sources
+  3. Handles state transitions smoothly
+  4. Emits appropriate signals
+  5. Integrates with existing systems
+
+**Implementation Notes:**
+- Implement as autoload singleton
+- Follow detection state machine design
+- Coordinate with NPCRegistry
+- Handle escape routes calculation
+
+### Task 16: Implement detection triggers system
+**User Story:** As a player, I want my suspicious actions to have consequences, so that I must be careful about what I say and do.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Dialog choices can trigger detection
+  2. Restricted area entry detected
+  3. Suspicious items cause alerts
+  4. Different severity levels
+  5. Context-sensitive triggers
+
+**Implementation Notes:**
+- Create detection_triggers.gd
+- Define DETECTION_REASONS dictionary
+- Check dialog for keywords
+- Integrate with area system
+
+### Task 17: Add detection evidence tracking
+**User Story:** As a player, I want to understand what gave me away during detection, so that I can learn from my mistakes.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. System tracks what triggered detection
+  2. Evidence includes time and location
+  3. Shows which NPC detected what
+  4. Evidence used in game over sequence
+  5. Clear cause and effect relationship
+
+**Implementation Notes:**
+- Store evidence in dictionary
+- Include in serialization
+- Display in post-game revelations
+- Help players understand mistakes
+
+### Task 19: Implement clue discovery mechanics
 **User Story:** As a player, I want to discover clues through various investigation methods, so that I can piece together the mystery of the assimilation.
 
 **Status History:**
@@ -158,7 +332,7 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Use graph structure for clue connections
 - Consider red herrings for complexity
 
-### Task 22: Implement keycard/credential mechanics
+### Task 29: Implement keycard/credential mechanics
 **User Story:** As a player, I want to gain access to restricted areas through various means, so that I can investigate deeper into the station's mysteries.
 
 **Status History:**
@@ -179,7 +353,7 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Consider social engineering options
 - Access violations increase suspicion
 
-### Task 16: Create BaseInteractiveObject class
+### Task 23: Create BaseInteractiveObject class
 **User Story:** As a developer, I want a robust base class for all interactive objects, so that I can quickly create consistent interactable items throughout the game world.
 
 **Interactive Object Migration Phase 2a-2b:** This task implements the interaction area system and item combination support.
@@ -215,7 +389,7 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   func _get_item_combination_response(item: String)
   ```
 
-### Task 18: Create object state system
+### Task 25: Create object state system
 **User Story:** As a player, I want objects to have persistent states that change based on my interactions, so that the game world feels responsive and dynamic.
 
 **Interactive Object Migration Phase 3a-3b:** This task implements the full state machine system with transitions and state-based responses.
@@ -251,7 +425,7 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   func _get_interaction_response(verb: String, item = null)
   ```
 
-### Task 20: Build object template library
+### Task 27: Build object template library
 **User Story:** As a content creator, I want a library of pre-built object templates, so that I can quickly populate game scenes with interactive elements.
 
 **Interactive Object Migration Phase 4:** This task adds advanced features like audio, particles, and environmental effects.
@@ -283,11 +457,18 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 
 ## Testing Criteria
 - Observation system reveals appropriate details
-- Detection states transition correctly
+- Detection states transition correctly through all stages
 - Investigation progress saves/loads properly
 - Interactive objects respond to all verbs
 - Access control prevents/allows appropriately
 - Game over sequence triggers correctly
+- Save file deletion works as designed
+- Assimilation cinematics play properly
+- Post-game revelations display correctly
+- Detection evidence tracks accurately
+- Detection state persists across saves
+- DetectionManager coordinates all sources
+- Detection triggers fire appropriately
 - Performance remains smooth with many observables
 - All systems integrate with existing mechanics
 
@@ -303,6 +484,12 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 ## Code Links
 - src/core/observation/observation_manager.gd (to be created)
 - src/core/detection/detection_state_machine.gd (to be created)
+- src/core/detection/detection_manager.gd (to be created)
+- src/core/detection/detection_triggers.gd (to be created)
+- src/core/systems/game_over_manager.gd (to be created)
+- src/core/serializers/detection_serializer.gd (to be created)
+- src/ui/game_over/assimilation_ending.tscn (to be created)
+- src/ui/game_over/post_game_revelations.gd (to be created)
 - src/core/investigation/investigation_manager.gd (to be created)
 - src/objects/base/base_interactive_object.gd (to be refactored)
 - src/core/access/access_control_manager.gd (to be created)
