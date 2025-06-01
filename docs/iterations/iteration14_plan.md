@@ -732,6 +732,126 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Reference: docs/design/foreground_occlusion_mvp_plan.md - Save/Load Considerations
 - Integrate with modular serialization architecture
 
+### Inventory Visual Polish
+- [ ] Task 31: Create inventory grid animations
+- [ ] Task 32: Implement item hover effects and tooltips
+- [ ] Task 33: Add visual feedback for full inventory
+- [ ] Task 34: Create item condition visual indicators
+- [ ] Task 35: Implement drag-and-drop visual polish
+
+### Task 31: Create inventory grid animations
+**User Story:** As a player, I want smooth animations when items move in my inventory, so that inventory management feels polished and responsive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Items animate when added/removed
+  2. Smooth transitions between slots
+  3. Stacking animations for stackable items
+  4. Transfer animations between storages
+  5. No animation delays gameplay
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_ui_design.md (animation specifications)
+- Reference: docs/design/inventory_system_design.md lines 620-657 (UI components)
+- Slide/fade animations for items
+- Scale bounce on pickup
+- Smooth slot highlighting
+- Keep animations under 0.3s
+
+### Task 32: Implement item hover effects and tooltips
+**User Story:** As a player, I want rich visual feedback when examining items, so that I can quickly understand item properties without clicking.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Hover highlights item clearly
+  2. Tooltip shows name and description
+  3. Condition bar for degradable items
+  4. Stack count for stackables
+  5. Rarity/value indicators
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_ui_design.md (tooltip design)
+- Reference: docs/design/inventory_system_design.md (item properties display)
+- Soft glow on hover
+- Tooltip appears after 0.5s
+- Show key properties at a glance
+- Color-coded rarity borders
+
+### Task 33: Add visual feedback for full inventory
+**User Story:** As a player, I want clear visual indication when my inventory is full, so that I understand why I can't pick up items.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Full inventory visual state
+  2. Attempted pickup feedback
+  3. Slot highlighting when full
+  4. Capacity indicator always visible
+  5. Suggestions for making space
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 68-70 (inventory_full signal)
+- Red outline on full slots
+- Shake animation on failed pickup
+- "Inventory Full" banner
+- Highlight stackable items
+
+### Task 34: Create item condition visual indicators
+**User Story:** As a player, I want to see item conditions at a glance, so that I know which tools need attention before they break.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Condition bar overlay on items
+  2. Color gradient (green to red)
+  3. Warning for low condition
+  4. Broken item visual state
+  5. Condition in tooltip
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 379-394 (degradation system)
+- Small bar under item icon
+- Pulsing red at <20% condition
+- Cracked overlay for broken
+- Consider durability numbers
+
+### Task 35: Implement drag-and-drop visual polish
+**User Story:** As a player, I want satisfying drag-and-drop interactions, so that organizing my inventory feels tactile and responsive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Smooth drag animations
+  2. Ghost image while dragging
+  3. Valid drop zones highlighted
+  4. Snap-to-grid on release
+  5. Cancel drag with right-click
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_ui_design.md (interaction design)
+- Reference: docs/design/inventory_system_design.md lines 266 (drag-and-drop)
+- Semi-transparent drag preview
+- Green highlight for valid drops
+- Red for invalid drops
+- Smooth return animation on cancel
+
 ## Testing Criteria
 - Perspective scaling works in all districts
 - Occlusion creates proper depth

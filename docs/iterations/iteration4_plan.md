@@ -78,6 +78,15 @@ As a developer, I need a robust serialization system that allows all game system
 - [ ] Task 19: Implement build system for multi-platform support
 - [ ] Task 20: Add platform-specific configuration system
 
+### Inventory Serialization
+- [ ] Task 21: Create InventorySerializer class
+- [ ] Task 22: Implement personal inventory serialization
+- [ ] Task 23: Implement barracks storage serialization
+- [ ] Task 24: Add container state persistence
+- [ ] Task 25: Implement loadout saving system
+- [ ] Task 26: Create item instance serialization with conditions
+- [ ] Task 27: Add inventory version migration support
+
 ## User Stories
 
 ### Task 1: Create SerializationManager singleton
@@ -539,6 +548,161 @@ As a developer, I need a robust serialization system that allows all game system
 - Support hot-reloading for development
 - Log which config is loaded
 
+### Task 21: Create InventorySerializer class
+**User Story:** As a player, I want my inventory to save and load correctly, so that all my collected items persist between game sessions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. InventorySerializer extends BaseSerializer
+  2. Self-registers with SaveManager at priority 35
+  3. Serializes personal and barracks inventories
+  4. Handles item instance data correctly
+  5. Supports version migration
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 538-618 (Serialization section)
+- Reference: docs/design/modular_serialization_architecture.md (BaseSerializer pattern)
+- Implement get_version() returning 1
+- Use compact format for item data
+- Handle both inventory types in one serializer
+
+### Task 22: Implement personal inventory serialization
+**User Story:** As a player, I want my on-person inventory to save exactly as I left it, so that I can continue playing without losing any items I'm carrying.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. All personal inventory slots saved
+  2. Item quantities preserved correctly
+  3. Item conditions (degradation) saved
+  4. Custom data per item maintained
+  5. Slot positions preserved
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 567-586 (_serialize_personal_inventory method)
+- Reference: docs/design/serialization_system.md (compression strategies)
+- Use abbreviated keys for space efficiency
+- Only save non-default values
+- Preserve exact slot arrangement
+
+### Task 23: Implement barracks storage serialization
+**User Story:** As a player, I want my barracks storage to persist between sessions, so that my stored items remain safe even when I'm not playing.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. All barracks items saved with quantities
+  2. Storage access state preserved
+  3. Locked/unlocked status maintained
+  4. Simple id:quantity format used
+  5. Handles large storage efficiently
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 587-589 (_serialize_barracks_storage method)
+- Reference: docs/design/barracks_system_design.md (storage access mechanics)
+- Barracks uses simpler format than personal
+- Track has_barracks_access boolean
+- Consider compression for large storages
+
+### Task 24: Add container state persistence
+**User Story:** As a player, I want containers I've searched to remain empty and locked containers to stay locked, so that the world feels persistent and my actions have lasting effects.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Container searched states saved
+  2. Container contents preserved
+  3. Locked/unlocked states maintained
+  4. Per-district container tracking
+  5. Minimal save file impact
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 617-618 (_deserialize_world_containers)
+- Reference: docs/design/template_interactive_object_design.md (container state persistence)
+- Only save modified containers
+- Use container IDs for tracking
+- Integrate with district serialization
+
+### Task 25: Implement loadout saving system
+**User Story:** As a player, I want to save my preferred item loadouts, so that I can quickly switch between different equipment sets for different situations.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Named loadouts saved correctly
+  2. Loadout contents preserved
+  3. Multiple loadouts supported
+  4. Quick swap functionality maintained
+  5. Loadout names persist
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 441-463 (loadout system)
+- Reference: docs/design/barracks_system_design.md (barracks access requirements)
+- Store as name: Array of item_ids
+- Maximum 5 loadouts initially
+- Must be at barracks to load
+
+### Task 26: Create item instance serialization with conditions
+**User Story:** As a player, I want item conditions like wear and special states to be saved, so that my degraded tools and modified items maintain their properties.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Item condition values saved (0.0-1.0)
+  2. Custom item data preserved
+  3. Quest item states maintained
+  4. Disguise equipped status saved
+  5. Evidence chain data preserved
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 205-209 (ItemInstance class)
+- Reference: docs/design/template_quest_design.md (quest item states)
+- ItemInstance class properties
+- Only save non-default conditions
+- Support arbitrary custom_data Dictionary
+
+### Task 27: Add inventory version migration support
+**User Story:** As a developer, I want inventory saves to migrate gracefully between versions, so that players don't lose items when we update the inventory system.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T2, T3
+- **Acceptance Criteria:**
+  1. Version number tracked in saves
+  2. Migration paths defined
+  3. Item ID changes handled
+  4. New properties get defaults
+  5. No data loss during migration
+
+**Implementation Notes:**
+- Reference: docs/design/modular_serialization_architecture.md (version migration)
+- Reference: docs/design/serialization_system.md (migration strategies)
+- Start at version 1
+- Create migration functions for each version jump
+- Log all migrations performed
+- Test with sample save files
+
 ## Testing Criteria
 - SerializationManager successfully saves and loads game state
 - All registered systems persist their data correctly
@@ -547,6 +711,11 @@ As a developer, I need a robust serialization system that allows all game system
 - Performance targets are met (save <1s, load <2s)
 - Save system handles errors gracefully
 - Unit tests achieve >90% coverage
+- Inventory items persist correctly between sessions
+- Item conditions and custom data save/load properly
+- Container states maintain across saves
+- Loadout system saves and restores correctly
+- Inventory migration handles version changes
 
 ## Timeline
 - Start date: TBD
@@ -560,8 +729,10 @@ As a developer, I need a robust serialization system that allows all game system
 ## Code Links
 - src/core/serialization/serialization_manager.gd (to be created)
 - src/core/serialization/iserializable.gd (to be created)
+- src/core/serializers/inventory_serializer.gd (to be created)
 - docs/design/modular_serialization_architecture.md
 - docs/design/serialization_system.md
+- docs/design/inventory_system_design.md
 
 ## Notes
 - This iteration was reorganized from the original plan to establish serialization first

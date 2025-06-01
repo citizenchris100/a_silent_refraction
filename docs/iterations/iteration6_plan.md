@@ -110,6 +110,29 @@ As a player, I want to create a character that represents me in the game world a
 
 ## User Stories
 
+### Task 1: Create character creation UI screen
+**User Story:** As a player, I want a clean and intuitive character creation interface, so that I can customize my character without confusion or frustration.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Clean UI layout with clear sections
+  2. Navigation between creation steps
+  3. Preview area shows character
+  4. Confirm/back buttons clearly labeled
+  5. Integrates with main menu flow
+
+**Implementation Notes:**
+- Reference: docs/design/character_gender_selection_system.md (UI requirements)
+- Reference: docs/design/main_menu_start_game_ui_design.md (UI style guide)
+- Use consistent UI style with rest of game
+- Consider accessibility for all options
+- Include help text for choices
+- Preview updates in real-time
+
 ### Task 2: Implement gender selection with preview
 **User Story:** As a player, I want to see how my character choice affects the game, so that I can make an informed decision about my character's gender.
 
@@ -126,10 +149,80 @@ As a player, I want to create a character that represents me in the game world a
   5. Choice persists through game sessions
 
 **Implementation Notes:**
-- Reference: docs/design/character_gender_selection_system.md
+- Reference: docs/design/character_gender_selection_system.md lines 30-85 (implementation)
+- Reference: docs/design/main_menu_start_game_ui_design.md (gender selection screen)
 - Use character portraits for preview
 - Show example: "They walked into the room" with proper pronoun
 - Store selection in GameState singleton
+
+### Task 3: Create pronoun system (he/she/they)
+**User Story:** As a player, I want the game to use my chosen pronouns consistently throughout all text, so that I feel properly represented in the game world.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, U1
+- **Acceptance Criteria:**
+  1. Pronoun sets defined for all genders
+  2. Subject/object/possessive forms supported
+  3. Pronoun substitution works globally
+  4. Capitalization handled correctly
+  5. Plural forms work for non-binary
+
+**Implementation Notes:**
+- Reference: docs/design/character_gender_selection_system.md lines 86-120 (pronoun system)
+- Reference: docs/design/dialog_system_refactoring_plan.md (text substitution)
+- Create PronounManager singleton
+- Support: he/him/his, she/her/hers, they/them/theirs
+- Handle grammatical number agreement
+- Test with all existing dialog
+
+### Task 4: Implement character data persistence
+**User Story:** As a player, I want my character choices to be saved with my game, so that I don't have to recreate my character every time I play.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Character data saves to file
+  2. Gender selection preserved
+  3. Character name saved (future)
+  4. Integrates with save system
+  5. Loads correctly on game start
+
+**Implementation Notes:**
+- Reference: docs/design/character_gender_selection_system.md lines 176-200 (persistence)
+- Reference: docs/design/modular_serialization_architecture.md (data persistence)
+- Store in GameData singleton
+- Include in serialization system
+- Prepare for future customization options
+- Handle missing/corrupt data gracefully
+
+### Task 5: Integrate with main menu flow
+**User Story:** As a player, I want character creation to flow smoothly from the main menu, so that starting a new game feels seamless and polished.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. New Game leads to character creation
+  2. Can return to main menu
+  3. Creation completes to game start
+  4. Save created after character creation
+  5. Skip option for returning players
+
+**Implementation Notes:**
+- Reference: docs/design/main_menu_start_game_ui_design.md (flow design)
+- Reference: docs/design/character_gender_selection_system.md (integration)
+- Scene transition management
+- Prevent accidental back navigation
+- Auto-save after creation
+- Clear flow indicators
 
 ### Task 7: Implement gender-aware text substitution
 **User Story:** As a player, I want all game text to use the correct pronouns for my character, so that the narrative feels personalized to my choices.
@@ -567,7 +660,8 @@ As a player, I want to create a character that represents me in the game world a
   5. Debug mode lists all registered services
 
 **Implementation Notes:**
-- Reference: docs/design/dialog_system_refactoring_plan.md Phase 1
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 1 (Service Architecture)
+- Reference: docs/design/modular_serialization_architecture.md (singleton pattern)
 - Create as autoload singleton
 - Use weak references to prevent memory leaks
 - Include debug commands for service inspection
@@ -866,6 +960,156 @@ As a player, I want to create a character that represents me in the game world a
 - Update all documentation
 - Remove deprecated code paths
 
+### Inventory Verb Integration
+- [ ] Task 41: Implement item examination system with verb UI
+- [ ] Task 42: Create item combination interface for verb system
+- [ ] Task 43: Add "Give" verb integration with inventory
+- [ ] Task 44: Implement "Take" verb for world items
+- [ ] Task 45: Create inventory-aware dialog options
+- [ ] Task 46: Add item-based dialog branches
+
+### Task 41: Implement item examination system with verb UI
+**User Story:** As a player, I want to examine items in my inventory using the verb UI, so that I can learn more about items and discover clues or usage hints.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. "Look" verb works on inventory items
+  2. Detailed descriptions shown for items
+  3. Examination can reveal hidden properties
+  4. UI displays item sprite during examination
+  5. Supports both inventory and world items
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md (item examination)
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (verb processing)
+- Reference: docs/design/template_interactive_object_design.md lines 126-151 (examine behavior)
+- Hook into existing verb processing system
+- Show item icon alongside description
+- Consider investigation skill for detail level
+
+### Task 42: Create item combination interface for verb system
+**User Story:** As a player, I want to use items from my inventory with other items or world objects through the verb UI, so that I can solve puzzles and create new items.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. "Use" verb allows item selection from inventory
+  2. Selected item highlighted in UI
+  3. Can use items on world objects
+  4. Can combine two inventory items
+  5. Clear feedback for successful/failed combinations
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 140-163 (combine_items method)
+- Reference: docs/design/inventory_system_design.md lines 214-249 (ItemCombiner system)
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (item selection UI)
+- Two-step process: select item, then target
+- Visual feedback during combination attempt
+- Success/failure messages via notification system
+
+### Task 43: Add "Give" verb integration with inventory
+**User Story:** As a player, I want to give items from my inventory to NPCs, so that I can complete quests, build relationships, or bribe my way out of trouble.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. "Give" verb opens inventory selection
+  2. Only appropriate items shown as options
+  3. NPCs react based on item given
+  4. Items removed from inventory on success
+  5. Trust/relationship impacts from gifts
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Give verb implementation)
+- Reference: docs/design/npc_trust_relationship_system_design.md (gift reactions)
+- Reference: docs/design/template_npc_design.md (item acceptance logic)
+- Filter items based on NPC preferences
+- NPCs can refuse inappropriate items
+- Special reactions for quest items
+- Update relationship scores
+
+### Task 44: Implement "Take" verb for world items
+**User Story:** As a player, I want to take items from the game world into my inventory, so that I can collect useful objects and clues during exploration.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. "Take" verb works on takeable objects
+  2. Items add to inventory if space available
+  3. Full inventory shows appropriate message
+  4. Visual feedback when item taken
+  5. World object disappears/updates state
+
+**Implementation Notes:**
+- Reference: docs/design/template_interactive_object_design.md lines 195-220 (takeable objects)
+- Reference: docs/design/inventory_system_design.md lines 47-94 (add_item method)
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Take verb)
+- Check inventory capacity before taking
+- Update object state to "taken"
+- Remove visual representation from world
+- Log item acquisition for investigation
+
+### Task 45: Create inventory-aware dialog options
+**User Story:** As a player, I want dialog options that reference items in my inventory, so that conversations can be more dynamic and context-sensitive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Dialog system checks inventory contents
+  2. Item-specific options appear in conversations
+  3. Can show/discuss items with NPCs
+  4. Options hidden if item not possessed
+  5. Items can unlock new dialog branches
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md (conditional dialog)
+- Reference: docs/design/inventory_system_design.md (inventory queries)
+- Reference: docs/design/template_dialog_design.md (context-aware dialog)
+- Dialog condition: has_item("item_id")
+- Dynamic option generation based on inventory
+- NPCs comment on shown items
+- Some items trigger special conversations
+
+### Task 46: Add item-based dialog branches
+**User Story:** As an NPC, I want to react differently based on items the player possesses or shows me, so that conversations feel more realistic and responsive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. NPCs detect specific items in inventory
+  2. Dialog branches based on item possession
+  3. Reactions to contraband/suspicious items
+  4. Quest items trigger special dialogs
+  5. Item-based conversation memories
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 513-536 (contraband suspicion)
+- Reference: docs/design/suspicion_system_full_design.md (item-based suspicion)
+- Reference: docs/design/template_npc_design.md (personality reactions)
+- Integrate with suspicion system for illegal items
+- Quest items can auto-trigger conversations
+- NPCs remember items shown to them
+- Different reactions based on NPC personality
+
 ## Testing Criteria
 - Character creation flow completes successfully
 - Gender selection persists across sessions
@@ -884,6 +1128,12 @@ As a player, I want to create a character that represents me in the game world a
 - Direct load bypasses all intermediate screens
 - Failed loads handled gracefully with clear messaging
 - All scene transitions work without memory leaks
+- Item examination shows detailed descriptions
+- Item combination interface works intuitively
+- Give verb properly transfers items to NPCs
+- Take verb respects inventory capacity
+- Dialog options reflect inventory contents
+- NPCs react appropriately to shown items
 
 ## Timeline
 - Start date: After Iteration 5 completion

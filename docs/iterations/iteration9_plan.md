@@ -685,6 +685,308 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Integrate with economy system
 - Alternative black market options
 
+### Inventory Investigation Integration
+- [ ] Task 40: Create ItemCombiner system
+- [ ] Task 41: Implement CombinationData resources
+- [ ] Task 42: Build combination discovery mechanics
+- [ ] Task 43: Create container search system
+- [ ] Task 44: Implement container locking/unlocking
+- [ ] Task 45: Add evidence chain system for inventory items
+- [ ] Task 46: Create quest item state tracking
+- [ ] Task 47: Implement security scanning of inventory
+- [ ] Task 48: Add investigation clue items
+- [ ] Task 49: Create item-based puzzle mechanics
+- [ ] Task 50: Build container interaction with observation system
+- [ ] Task 51: Implement hidden item discovery mechanics
+
+### Task 40: Create ItemCombiner system
+**User Story:** As a player, I want to combine items in my inventory to create new items or solve puzzles, so that collected items have multiple uses and enable creative problem solving.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. ItemCombiner singleton manages combinations
+  2. Bidirectional combination checking
+  3. Result items created correctly
+  4. Source items consumed/preserved as designed
+  5. Combination events trigger appropriately
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 214-236 (ItemCombiner class)
+- Reference: docs/design/template_quest_design.md (puzzle combinations)
+- Check both item orderings
+- Support location-specific combinations
+- Trigger events on successful combination
+
+### Task 41: Implement CombinationData resources
+**User Story:** As a developer, I want a data-driven system for item combinations, so that designers can easily create new puzzles without code changes.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. CombinationData resource type defined
+  2. Supports all combination properties
+  3. JSON/resource file loading
+  4. Validation of combination data
+  5. Hot-reload in editor
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 237-249 (CombinationData)
+- Properties: item1_id, item2_id, result_id, destroy_sources
+- Support trigger_event for quest progression
+- Optional location requirements
+
+### Task 42: Build combination discovery mechanics with hint system UI
+**User Story:** As a player, I want clear hints about which items might combine with visual feedback in the UI, so that I can experiment intelligently rather than trying random combinations.
+
+**Design Reference:** `docs/design/inventory_system_design.md` lines 712-721 (Combination Hints section)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Visual hints for combinable items (glow effect)
+  2. Verb UI shows combination potential
+  3. Failed combinations give helpful feedback
+  4. Discovery tracking for found combinations
+  5. Progressive hint system for stuck players
+  6. **"This might combine with something..." tooltip on hover**
+  7. **Compatible items highlight when one is selected**
+  8. **Combination journal tracks attempted combinations**
+  9. **Hint intensity increases based on failed attempts**
+  10. **Optional combination recipe book unlockable**
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 712-721 (get_combination_hint method)
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (hint display integration)
+- "This might combine with something..." hints appear after 3 seconds hover
+- Track attempted combinations in Dictionary for progressive hints
+- After 3 failed attempts, highlight compatible items faintly
+- After 5 failed attempts, show category hints ("Try with a tool...")
+- Successful combinations added to recipe journal
+- ItemCombiner.get_possible_combinations(item_id) returns hint list
+- Visual feedback: soft glow for combinable, pulse for highly compatible
+- Consider Investigation skill affecting hint clarity
+- Recipe book found in-world provides combination documentation
+
+### Task 43: Create container search system
+**User Story:** As a player, I want to search containers throughout the station, so that exploration is rewarded with useful items and clues.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Containers have searchable inventories
+  2. Search action takes time
+  3. Some containers require tools
+  4. Visual/audio feedback on search
+  5. Empty containers show appropriate message
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 397-426 (Container System)
+- Reference: docs/design/template_interactive_object_design.md (container base)
+- Extend InteractiveObject for containers
+- Support one-time and respawning containers
+- Integrate with investigation system
+
+### Task 44: Implement container locking/unlocking
+**User Story:** As a player, I want some containers to be locked, requiring keys or skills to open, so that access to valuable items requires effort or the right tools.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Containers can be locked
+  2. Different lock types (key, code, biometric)
+  3. Keys/items unlock specific containers
+  4. Failed unlock attempts tracked
+  5. Some locks can be bypassed
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 403-416 (_try_unlock)
+- Reference: docs/design/district_access_control_system_design.md (lock types)
+- Support multiple unlock methods
+- Track lockpicking attempts
+- Some containers alarm on failure
+
+### Task 45: Add evidence chain system for inventory items with visual UI
+**User Story:** As a player, I want to collect evidence items that connect to form larger conclusions with clear visual representation, so that investigation feels like solving a real mystery with tangible progress.
+
+**Design Reference:** `docs/design/inventory_system_design.md` lines 467-483 (Evidence Chain System section)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Evidence items marked in inventory with special icon
+  2. Connections form automatically when related evidence collected
+  3. Conclusions unlock new dialog options and areas
+  4. Evidence log tracks all findings chronologically
+  5. Visual representation of connections between evidence pieces
+  6. **Evidence Chain UI shows node graph of connections**
+  7. **Animated lines connect related evidence pieces**
+  8. **Completed chains highlighted in different color**
+  9. **Hover over connections shows relationship details**
+  10. **Export evidence map as investigation report**
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 467-483 (EvidenceChain class)
+- Reference: docs/design/investigation_clue_tracking_system_design.md (evidence system integration)
+- Auto-connect related evidence using _check_connections() method
+- Trigger events on conclusions (e.g., "discovered_smuggling")
+- Support red herring evidence that leads nowhere
+- Use GraphEdit node for visual evidence map
+- Node types: Physical Evidence, Testimony, Documents, Deductions
+- Connection strength shown by line thickness
+- Click evidence nodes to view detailed information
+- Evidence chains persist in investigation journal
+
+### Task 46: Create quest item state tracking
+**User Story:** As a developer, I want quest items to maintain custom state data, so that items can change based on player actions and story progression.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Quest items have custom_data Dictionary
+  2. State changes persist
+  3. State affects item behavior
+  4. Integration with quest system
+  5. State visualization in UI
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 282-294 (update_quest_item_state)
+- Reference: docs/design/template_quest_design.md (quest item integration)
+- Custom data per item instance
+- Notify quest system of changes
+- Support complex state machines
+
+### Task 47: Implement security scanning of inventory
+**User Story:** As a security system, I want to scan player inventory at checkpoints, so that carrying contraband has meaningful risks and consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Checkpoints trigger inventory scans
+  2. Illegal items detected based on security level
+  3. Detection increases suspicion
+  4. Some items can be hidden
+  5. Scan results affect NPC behavior
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 524-536 (security_scan)
+- Reference: docs/design/detection_game_over_system_design.md (checkpoint integration)
+- Different security levels detect different items
+- Support scan-blocking items
+- Integrate with suspicion system
+
+### Task 48: Add investigation clue items
+**User Story:** As a player, I want to find clue items that help me understand the mystery, so that careful exploration and inventory management aids my investigation.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Clue items have special properties
+  2. Examining clues reveals information
+  3. Clues connect to form theories
+  4. Some clues are time-sensitive
+  5. Clue discovery tracked
+
+**Implementation Notes:**
+- Reference: docs/design/investigation_clue_tracking_system_design.md (clue items)
+- Reference: docs/design/inventory_system_design.md (quest item properties)
+- Clue categories: Physical, Documentary, Digital
+- Support partial clues
+- Time-sensitive clues degrade
+
+### Task 49: Create item-based puzzle mechanics
+**User Story:** As a player, I want to use items from my inventory to solve environmental puzzles, so that collected items feel useful beyond their obvious purposes.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Items interact with world objects
+  2. Multiple solution paths using different items
+  3. Failed attempts provide hints
+  4. Puzzle state persists
+  5. Rewards for creative solutions
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md lines 692-710 (Puzzle Design)
+- Reference: docs/design/template_interactive_object_design.md (puzzle objects)
+- Example: keycard fragments puzzle
+- Support alternative solutions
+- Track puzzle completion methods
+
+### Task 50: Build container interaction with observation system
+**User Story:** As a player, I want my observation skills to help me find hidden compartments and secret items, so that careful examination is rewarded.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Observation reveals hidden containers
+  2. Higher skill finds more secrets
+  3. Visual hints for observant players
+  4. Hidden items have better rewards
+  5. Discovery tracked in stats
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (container observation)
+- Reference: docs/design/inventory_system_design.md (container system)
+- Observation skill affects discovery chance
+- Hidden compartments in normal containers
+- Environmental storytelling through hidden items
+
+### Task 51: Implement hidden item discovery mechanics
+**User Story:** As a player, I want to discover hidden items through investigation and observation, so that thorough exploration feels rewarding.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Items can be hidden in scenes
+  2. Discovery requires specific actions
+  3. Hints available for hidden items
+  4. Valuable/unique items hidden
+  5. Discovery achievements tracked
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (hidden object detection)
+- Reference: docs/design/investigation_clue_tracking_system_design.md (discovery tracking)
+- Hide items behind/under objects
+- Require specific verbs to find
+- Track discovery statistics
+
 ## Testing Criteria
 - Observation system reveals appropriate details
 - Detection states transition correctly through all stages
@@ -705,6 +1007,16 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Detection state persists across saves
 - DetectionManager coordinates all sources
 - Detection triggers fire appropriately
+- Item combinations work bidirectionally
+- Container search mechanics function properly
+- Evidence items connect to form conclusions
+- Security scans detect contraband correctly
+- Hidden items discoverable through observation
+- Quest item states persist and update
+- Puzzle mechanics accept multiple solutions
+- Investigation clues integrate with inventory
+- Container locks work with appropriate keys
+- Combination hints display appropriately
 - Performance remains smooth with many observables
 - All systems integrate with existing mechanics
 
@@ -736,6 +1048,10 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - src/ui/access/card_reader_interface.gd (to be created)
 - src/ui/access/lost_access_ui.gd (to be created)
 - src/core/serializers/access_serializer.gd (to be created)
+- src/core/systems/item_combiner.gd (to be created)
+- src/resources/combination_data.gd (to be created)
+- src/core/investigation/evidence_chain.gd (to be created)
+- src/objects/base/container.gd (to be created)
 - docs/design/observation_system_full_design.md
 - docs/design/suspicion_system_full_design.md
 - docs/design/detection_game_over_system_design.md
