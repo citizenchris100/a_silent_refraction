@@ -215,6 +215,30 @@ Test the complete main story path ensuring all content is playable end-to-end.
 - All previous tasks
 - Save system (Iteration 7)
 
+### 13. District Foreground Occlusion Content
+**Priority:** Medium  
+**Estimated Hours:** 24
+
+**Description:**  
+Create and configure foreground occlusion elements for all seven districts to add visual depth and layering.
+
+**User Story:**  
+*As a player, I want to walk behind foreground objects in each district, creating a sense of depth and immersion in the environment.*
+
+**Design Reference:** `docs/design/foreground_occlusion_mvp_plan.md`, `docs/design/foreground_occlusion_full_plan.md`
+
+**Acceptance Criteria:**
+- [ ] Extract foreground elements from each district background
+- [ ] Create occlusion zones for major objects
+- [ ] Configure per-perspective rules where needed
+- [ ] Test character occlusion in all districts
+- [ ] Optimize performance with many zones
+
+**Dependencies:**
+- Occlusion system (Iterations 14, 16)
+- District backgrounds (this iteration)
+- Visual tools (Iteration 15)
+
 ## Testing Criteria
 - All districts accessible and explorable
 - Core NPCs have functional interactions

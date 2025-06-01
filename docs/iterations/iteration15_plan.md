@@ -132,6 +132,11 @@ As a developer, I want to implement the final advanced features and polish all s
 - [ ] Task 50: Add access degradation from assimilation corruption
 - [ ] Task 51: Create advanced access control UI (biometric interface, access logs)
 
+### Foreground Occlusion Tools
+- [ ] Task 52: Create automated foreground extraction tool
+- [ ] Task 53: Build visual occlusion zone editor plugin
+- [ ] Task 54: Implement batch processing scripts for occlusion assets
+
 ## User Stories
 
 ### Task 1: Create EventManager singleton with scheduling system
@@ -1213,6 +1218,72 @@ As a developer, I want to implement the final advanced features and polish all s
 - Support for mini-games
 - Access logs track: who accessed what, when, success/failure
 - Security terminals allow authorized personnel to review logs
+
+### Task 52: Create automated foreground extraction tool
+**User Story:** As a developer, I want to quickly extract foreground elements from background images, so that creating occlusion sprites is efficient and consistent.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Tool extracts selected regions
+  2. Applies transparency correctly
+  3. Batch processing support
+  4. Maintains art style
+  5. Export in correct format
+
+**Implementation Notes:**
+- Reference: docs/design/foreground_occlusion_full_plan.md - Automated Foreground Extraction Tool
+- Use ImageMagick or Godot tool script
+- Support polygon selection
+- Apply 32-bit processing pipeline
+- Generate occlusion configuration
+
+### Task 53: Build visual occlusion zone editor plugin
+**User Story:** As a developer, I want to visually define and edit occlusion zones in the Godot editor, so that setting up foreground occlusion is intuitive and precise.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Visual polygon editing
+  2. Real-time preview
+  3. Layer assignment UI
+  4. Test mode for validation
+  5. Export to resources
+
+**Implementation Notes:**
+- Reference: docs/design/foreground_occlusion_full_plan.md - Visual Occlusion Zone Editor
+- Create EditorPlugin extension
+- Click-to-add-point interface
+- Visual zone overlay
+- Integration with district scenes
+
+### Task 54: Implement batch processing scripts for occlusion assets
+**User Story:** As a developer, I want to process multiple foreground assets at once, so that I can efficiently prepare occlusion sprites for entire districts.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Process multiple files
+  2. Consistent styling
+  3. Automatic naming
+  4. Configuration generation
+  5. Error reporting
+
+**Implementation Notes:**
+- Shell script for batch operations
+- Process entire directories
+- Generate JSON configurations
+- Validate output files
+- Integration with art pipeline
 
 ## Testing Criteria
 - Living world events trigger and chain properly

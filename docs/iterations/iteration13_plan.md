@@ -232,6 +232,423 @@ As a player, I want to experience a fully diegetic audio environment where all s
   - PA: Apply EQ and compression
 - Include validation and error reporting
 
+### Task 2: Create distance attenuation curves
+**User Story:** As a player, I want sounds to fade naturally as I move away from their sources, so that the audio environment feels realistic and spatial.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Multiple curve types available
+  2. Smooth volume falloff
+  3. Configurable per source
+  4. No abrupt cutoffs
+  5. Performance efficient
+
+**Implementation Notes:**
+- Linear, exponential, logarithmic curves
+- Min/max distance parameters
+- Reference: docs/design/audio_system_technical_implementation.md - Section 3: Spatial Audio Implementation
+- Test with various source types
+- Ensure smooth transitions
+
+### Task 3: Add high-frequency rolloff for distance
+**User Story:** As a player, I want distant sounds to lose their high frequencies naturally, so that audio distance feels more realistic.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. EQ changes with distance
+  2. Natural frequency rolloff
+  3. Configurable parameters
+  4. CPU efficient
+  5. Works with attenuation
+
+**Implementation Notes:**
+- Use AudioEffectFilter
+- Cutoff frequency based on distance
+- Reference: docs/design/audio_system_technical_implementation.md - High-Frequency Rolloff
+- Subtle effect for realism
+- Test with various audio types
+
+### Task 4: Build visual debug overlay for audio ranges
+**User Story:** As a developer, I want to see audio source ranges and attenuation visually, so that I can debug and tune the audio environment effectively.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. Visual range circles
+  2. Attenuation gradients
+  3. Source information
+  4. Toggle on/off
+  5. Performance metrics
+
+**Implementation Notes:**
+- Draw circles for min/max distance
+- Color coding for source types
+- Reference: docs/design/audio_system_technical_implementation.md - Section 9: Debug and Visualization
+- Show active/inactive sources
+- Include in debug panel
+
+### Task 5: Implement audio source priority system
+**User Story:** As a player, I want the most important sounds to always be audible, so that critical audio information is never lost due to technical limitations.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. Priority-based culling
+  2. Important sounds preserved
+  3. Smooth transitions
+  4. Configurable priorities
+  5. Debug visibility
+
+**Implementation Notes:**
+- Priority levels: critical, high, medium, low
+- Cull lowest priority first
+- Preserve dialog and alerts
+- Reference: docs/design/audio_system_technical_implementation.md - Section 8: Performance Optimization
+
+### Task 7: Implement AudioSourceDefinition resources
+**User Story:** As a developer, I want to define audio sources as reusable resources, so that I can quickly configure and place sounds throughout districts.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Resource-based definitions
+  2. All parameters included
+  3. Reusable across districts
+  4. Hot-reloadable
+  5. Type-safe configuration
+
+**Implementation Notes:**
+- Extends Resource class
+- Properties: audio_stream, volume, pitch, etc
+- Reference: docs/design/audio_system_technical_implementation.md - Section 4: District Audio System
+- Support audio variations
+- Include metadata
+
+### Task 8: Build district audio transition system
+**User Story:** As a player, I want audio to transition smoothly between districts, so that movement between areas feels seamless and natural.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B2, U2
+- **Acceptance Criteria:**
+  1. Smooth crossfades
+  2. No audio pops
+  3. Proper timing
+  4. State preservation
+  5. Memory efficient
+
+**Implementation Notes:**
+- Fade out old, fade in new
+- Configurable transition time
+- Reference: docs/design/audio_system_technical_implementation.md - District Transitions
+- Handle rapid transitions
+- Clean up old sources
+
+### Task 9: Create audio source spawning system
+**User Story:** As a developer, I want audio sources to spawn automatically from configuration, so that district audio setup is data-driven and efficient.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Automatic spawning
+  2. Correct positioning
+  3. Proper configuration
+  4. Cleanup on exit
+  5. Error handling
+
+**Implementation Notes:**
+- Read from DistrictAudioConfig
+- Spawn DiegeticAudioController instances
+- Reference: docs/design/audio_system_technical_implementation.md - Section 4: District Audio System
+- Position in world space
+- Register with AudioManager
+
+### Task 10: Design district-specific audio configurations
+**User Story:** As a player, I want each district to have unique ambient sounds, so that each area has its own distinct atmosphere and character.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Unique ambience per district
+  2. Appropriate soundscapes
+  3. Consistent themes
+  4. Proper density
+  5. Performance balanced
+
+**Implementation Notes:**
+- Medical: sterile, beeping monitors
+- Trading Floor: bustling, phones, chatter
+- Engineering: industrial, machinery
+- Reference: docs/design/audio_system_technical_implementation.md - District Examples
+- Reference: docs/design/audio_system_iteration3_mvp.md - District Integration
+
+### Task 12: Create AudioZone area system
+**User Story:** As a player, I want certain areas to have special audio properties like reverb or muffling, so that spaces feel acoustically realistic.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Area-based effects
+  2. Smooth transitions
+  3. Multiple zone types
+  4. Overlapping support
+  5. Performance efficient
+
+**Implementation Notes:**
+- Use Area2D for zones
+- Apply bus effects on entry
+- Reference: docs/design/audio_system_technical_implementation.md - Section 5: Environmental Audio Zones
+- Blend between zones
+- Support reverb, EQ, etc
+
+### Task 13: Add environmental reverb effects
+**User Story:** As a player, I want spaces to sound different based on their size and materials, so that audio reinforces the visual environment.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, U3
+- **Acceptance Criteria:**
+  1. Appropriate reverb types
+  2. Smooth application
+  3. CPU efficient
+  4. Configurable parameters
+  5. Realistic sound
+
+**Implementation Notes:**
+- Small room, large hall, corridor presets
+- Use AudioEffectReverb
+- Reference: docs/design/audio_system_technical_implementation.md - Environmental Effects
+- Apply via audio buses
+- Test in various spaces
+
+### Task 14: Build audio event scheduling
+**User Story:** As a developer, I want to schedule audio events to occur at specific times or intervals, so that the world feels alive with timed activities.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T1
+- **Acceptance Criteria:**
+  1. Time-based scheduling
+  2. Random intervals
+  3. Conditional triggers
+  4. Cancellation support
+  5. Debug visibility
+
+**Implementation Notes:**
+- Timer-based system
+- Support one-shot and repeating
+- Reference: docs/design/audio_system_technical_implementation.md - PA System
+- Integrate with PA system
+- Save/load compatibility
+
+### Task 15: Create announcement content system
+**User Story:** As a player, I want to hear varied PA announcements throughout the station, so that it feels like a living facility with ongoing operations.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Multiple announcement types
+  2. Context-aware content
+  3. Story progression
+  4. Random variety
+  5. Clear audibility
+
+**Implementation Notes:**
+- Categories: routine, emergency, story
+- Text-to-speech or recordings
+- Scheduling integration
+- Reference: docs/design/audio_system_technical_implementation.md - PA Announcement System
+
+### Task 17: Implement interactive audio objects
+**User Story:** As a player, I want objects to make appropriate sounds when I interact with them, so that the world feels tactile and responsive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Interaction sounds
+  2. Appropriate audio
+  3. No repetition fatigue
+  4. Spatial positioning
+  5. Volume appropriate
+
+**Implementation Notes:**
+- Door opens, computer beeps, etc
+- Integrate with interaction system
+- Reference: docs/design/audio_system_technical_implementation.md - Section 6: Audio-Gameplay Integration
+- Use DiegeticAudioController
+- Support variations
+
+### Task 18: Create audio-based investigation clues
+**User Story:** As a player, I want to discover clues through audio cues and overheard conversations, so that investigation feels multi-sensory.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Audio contains clues
+  2. Positional accuracy
+  3. Clear audibility
+  4. Investigation integration
+  5. Repeatable if needed
+
+**Implementation Notes:**
+- Overheard conversations
+- Environmental audio clues
+- Reference: docs/design/audio_system_technical_implementation.md - Investigation Integration
+- Integration with ClueManager
+- Spatial positioning critical
+
+### Task 19: Add dynamic ambience system
+**User Story:** As a player, I want ambient sounds to change based on events and time, so that the audio environment feels alive and reactive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T1
+- **Acceptance Criteria:**
+  1. State-based changes
+  2. Smooth transitions
+  3. Event reactions
+  4. Time of day
+  5. Performance efficient
+
+**Implementation Notes:**
+- Calm vs alert states
+- React to assimilation level
+- Reference: docs/design/audio_system_technical_implementation.md - Dynamic Ambience
+- Fade between ambiences
+- Layer multiple tracks
+
+### Task 20: Build tension through audio design
+**User Story:** As a player, I want audio to build tension during suspicious or dangerous moments, so that I feel the emotional weight of the situation.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Dynamic tension layers
+  2. Suspicion integration
+  3. Smooth escalation
+  4. Not overwhelming
+  5. Clear audio cues
+
+**Implementation Notes:**
+- Layer tension drones
+- React to suspicion meter
+- Reference: docs/design/audio_system_technical_implementation.md - Tension System
+- Reference: docs/design/audio_system_iteration3_mvp.md - Suspicion Integration
+- Subtle but effective
+- Test with players
+
+### Task 22: Create audio source pooling
+**User Story:** As a developer, I want audio sources to be pooled and reused, so that spawning new sounds doesn't cause performance hitches.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Pre-allocated pools
+  2. Quick retrieval
+  3. Automatic return
+  4. Size management
+  5. Debug metrics
+
+**Implementation Notes:**
+- Pool AudioStreamPlayer2D nodes
+- Separate pools by type
+- Reference: docs/design/audio_system_technical_implementation.md - Section 8: Performance Optimization
+- Monitor pool usage
+- Expand when needed
+
+### Task 23: Add audio occlusion system
+**User Story:** As a player, I want sounds to be muffled when behind walls or obstacles, so that audio respects the physical environment.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Wall detection
+  2. Appropriate muffling
+  3. Performance efficient
+  4. Smooth transitions
+  5. Configurable effect
+
+**Implementation Notes:**
+- Raycast for obstacles
+- Apply low-pass filter
+- Reference: docs/design/audio_system_technical_implementation.md - Audio Occlusion
+- Cache results
+- Test performance impact
+
+### Task 24: Implement audio settings and saves
+**User Story:** As a player, I want to adjust audio settings and have them saved, so that I can customize the audio experience to my preferences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Volume sliders
+  2. Audio categories
+  3. Save preferences
+  4. Apply immediately
+  5. Sensible defaults
+
+**Implementation Notes:**
+- Master, Music, SFX, Ambience volumes
+- Save to user settings
+- Reference: docs/design/audio_system_technical_implementation.md - Section 7: Save/Load Integration
+- Apply to audio buses
+- Include in options menu
+
 ## Testing Criteria
 - Stereo panning accurately represents position
 - District transitions are smooth and seamless

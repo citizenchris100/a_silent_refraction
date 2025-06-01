@@ -92,6 +92,13 @@ As a player, I want to experience a visually cohesive world where characters sca
 - [ ] Task 24: Add quality settings
 - [ ] Task 25: Profile and optimize
 
+### Advanced Occlusion Features
+- [ ] Task 26: Implement polygon-based OcclusionZone resource
+- [ ] Task 27: Create multi-layer foreground system (near/mid/far)
+- [ ] Task 28: Add perspective-specific occlusion rules
+- [ ] Task 29: Implement soft edges and gradient occlusion
+- [ ] Task 30: Create occlusion serialization for save/load
+
 ## User Stories
 
 ### Task 2: Implement scaling algorithms
@@ -177,6 +184,553 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Effects: Vignette, Chromatic aberration, Blur
 - Tie to game state (suspicion level, health)
 - Respect accessibility settings
+
+### Task 1: Create PerspectiveManager
+**User Story:** As a developer, I want a centralized manager for all perspective-based visual effects, so that I can coordinate scaling, occlusion, and other depth-related systems efficiently.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T1, T2
+- **Acceptance Criteria:**
+  1. Singleton manager for perspective operations
+  2. Registers and updates all perspective-aware nodes
+  3. Provides configuration per district/scene
+  4. Coordinates with camera system
+  5. Minimal performance overhead
+
+**Implementation Notes:**
+- Create as singleton similar to AudioManager
+- Interface with both scaling and occlusion systems
+- Support hot-reloading of perspective configs
+- Include debug visualization methods
+
+### Task 3: Build perspective configuration
+**User Story:** As a developer, I want to configure perspective settings through resource files, so that each district can have unique depth characteristics without code changes.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, B3, T2
+- **Acceptance Criteria:**
+  1. Resource-based configuration system
+  2. Per-district perspective settings
+  3. Scaling curves and parameters
+  4. Occlusion zone definitions
+  5. Hot-reloadable in editor
+
+**Implementation Notes:**
+- Create PerspectiveConfig resource class
+- Include horizon_y, scale_factor, min/max_scale
+- Support different curves (linear, exponential, custom)
+- Reference: docs/design/sprite_perspective_scaling_full_plan.md
+
+### Task 4: Add smooth scale transitions
+**User Story:** As a player, I want characters to scale smoothly as they move, so that the illusion of depth is maintained without jarring visual changes.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T1
+- **Acceptance Criteria:**
+  1. No visual pops during scaling
+  2. Smooth interpolation between scales
+  3. Respects movement speed
+  4. Handles rapid position changes
+  5. Configurable smoothing
+
+**Implementation Notes:**
+- Use lerp() for gradual transitions
+- Consider movement velocity in smoothing
+- Prevent over-smoothing during teleports
+- Test with various movement speeds
+
+### Task 5: Create perspective debug tools
+**User Story:** As a developer, I want visual debug tools for the perspective system, so that I can quickly identify and fix depth-related issues.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. Visual scale indicators
+  2. Horizon line display
+  3. Scale gradient overlay
+  4. Performance metrics
+  5. Toggle-able in runtime
+
+**Implementation Notes:**
+- Draw scale values above sprites
+- Show horizon and scale zones
+- Display update frequency
+- Include in debug panel
+
+### Task 6: Create OcclusionManager
+**User Story:** As a developer, I want a dedicated manager for the occlusion system, so that foreground elements can efficiently determine sprite layering based on position.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2, T3
+- **Acceptance Criteria:**
+  1. Manages all occlusion zones
+  2. Efficient position queries
+  3. Handles multiple layers
+  4. Integrates with districts
+  5. Performance optimized
+
+**Implementation Notes:**
+- Extend ForegroundOcclusionManager from MVP
+- Add spatial indexing for performance
+- Support complex zone shapes
+- Reference: docs/design/foreground_occlusion_full_plan.md
+
+### Task 8: Build depth sorting system
+**User Story:** As a player, I want sprites to layer correctly based on their position, so that the world maintains proper visual depth at all times.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Consistent Y-sorting
+  2. Handles occlusion overrides
+  3. Multiple sort layers
+  4. Smooth transitions
+  5. No z-fighting
+
+**Implementation Notes:**
+- Implement multi-layer sorting
+- Base layer uses Y-position
+- Occlusion zones override base sorting
+- Handle edge cases at boundaries
+
+### Task 9: Add transparency handling
+**User Story:** As a player, I want semi-transparent foreground objects to blend naturally, so that glass, fences, and other transparent elements look correct.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T2
+- **Acceptance Criteria:**
+  1. Proper alpha blending
+  2. Correct sort order
+  3. No visual artifacts
+  4. Performance maintained
+  5. Works with occlusion
+
+**Implementation Notes:**
+- Handle transparent pixels in occlusion
+- Ensure proper render order
+- Test with various transparency levels
+- Consider dithered transparency
+
+### Task 10: Create occlusion zones
+**User Story:** As a developer, I want to define occlusion zones visually, so that I can quickly set up foreground elements without manual coding.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Visual zone creation
+  2. Polygon-based shapes
+  3. Layer assignment
+  4. Preview in editor
+  5. Export to resources
+
+**Implementation Notes:**
+- Create OcclusionZone resource type
+- Support arbitrary polygons
+- Visual editing helpers
+- Integration with district configs
+
+### Task 11: Audit all character animations
+**User Story:** As a developer, I want to review all character animations for quality, so that we can identify which need polish or rework.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B3, U3
+- **Acceptance Criteria:**
+  1. Complete animation inventory
+  2. Quality assessment
+  3. Consistency check
+  4. Performance review
+  5. Polish priority list
+
+**Implementation Notes:**
+- Document all animations per character
+- Rate quality (1-5)
+- Note inconsistencies
+- Identify missing animations
+
+### Task 12: Add animation blending
+**User Story:** As a player, I want character animations to blend smoothly between states, so that movement feels natural and polished.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T1
+- **Acceptance Criteria:**
+  1. Smooth state transitions
+  2. No animation pops
+  3. Context-aware blending
+  4. Configurable blend times
+  5. Priority system
+
+**Implementation Notes:**
+- Implement cross-fade system
+- Support blend trees
+- Handle interrupt cases
+- Test all state transitions
+
+### Task 14: Implement animation events
+**User Story:** As a developer, I want animations to trigger events at specific frames, so that footsteps, effects, and other synchronized elements play at the right time.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Frame-accurate events
+  2. Multiple event types
+  3. Easy to configure
+  4. Performance efficient
+  5. Debug visualization
+
+**Implementation Notes:**
+- Add event tracks to animations
+- Support audio, visual, gameplay events
+- Visual timeline editor
+- Batch event processing
+
+### Task 15: Polish idle variations
+**User Story:** As a player, I want characters to have varied idle animations, so that they feel more lifelike when standing still.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Multiple idle variations
+  2. Random selection
+  3. Smooth transitions
+  4. Context awareness
+  5. Natural timing
+
+**Implementation Notes:**
+- 3-4 variations per character
+- Weight-based selection
+- Prevent repetition
+- Environmental context
+
+### Task 16: Create VFX manager
+**User Story:** As a developer, I want a centralized system for visual effects, so that particles, shaders, and other effects are managed efficiently.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. Centralized VFX control
+  2. Effect pooling
+  3. Performance monitoring
+  4. Easy instantiation
+  5. Cleanup handling
+
+**Implementation Notes:**
+- Singleton pattern
+- Object pooling for particles
+- Effect categories
+- Performance budgets
+
+### Task 17: Implement particle systems
+**User Story:** As a player, I want to see environmental particles like dust and steam, so that the space station feels alive and atmospheric.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Multiple particle types
+  2. Environmental integration
+  3. Performance optimized
+  4. Reacts to gameplay
+  5. Consistent style
+
+**Implementation Notes:**
+- Dust motes, steam, sparks
+- Tied to environment zones
+- LOD for distant particles
+- Respect quality settings
+
+### Task 19: Create environmental VFX
+**User Story:** As a player, I want to see atmospheric effects that enhance specific environments, so that each area has its own unique feel.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Area-specific effects
+  2. Atmospheric enhancement
+  3. Performance balanced
+  4. Seamless integration
+  5. Dynamic response
+
+**Implementation Notes:**
+- Fog in maintenance areas
+- Heat shimmer in engineering
+- Holographic glitches in tech areas
+- Per-district configuration
+
+### Task 20: Build effect pooling
+**User Story:** As a developer, I want visual effects to use object pooling, so that instantiation doesn't cause performance hitches during gameplay.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. No allocation during gameplay
+  2. Configurable pool sizes
+  3. Automatic cleanup
+  4. Debug statistics
+  5. Memory efficient
+
+**Implementation Notes:**
+- Pre-allocate common effects
+- Dynamic pool expansion
+- Cleanup old effects
+- Monitor pool usage
+
+### Task 21: Implement sprite batching
+**User Story:** As a developer, I want sprites to be batched for rendering, so that draw calls are minimized and performance is optimized.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Automatic sprite batching
+  2. Texture atlas support
+  3. Draw call reduction
+  4. No visual changes
+  5. Debug metrics
+
+**Implementation Notes:**
+- Group sprites by texture
+- Use Godot's batching features
+- Monitor draw call count
+- Test with many sprites
+
+### Task 22: Create LOD system
+**User Story:** As a player, I want consistent performance even in complex scenes, so that gameplay remains smooth regardless of on-screen complexity.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Distance-based LOD
+  2. Smooth transitions
+  3. Configurable levels
+  4. Applies to sprites/effects
+  5. Performance gains
+
+**Implementation Notes:**
+- 3 LOD levels: near/medium/far
+- Reduce animation frames at distance
+- Disable effects when far
+- Smooth LOD transitions
+
+### Task 23: Optimize shader usage
+**User Story:** As a developer, I want shaders to be used efficiently, so that visual effects don't impact performance on target hardware.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Shader complexity analysis
+  2. Fallback shaders
+  3. Conditional features
+  4. Profiling data
+  5. Quality presets
+
+**Implementation Notes:**
+- Profile shader performance
+- Create simpler variants
+- Disable features by quality
+- Test on min spec hardware
+
+### Task 24: Add quality settings
+**User Story:** As a player, I want to adjust visual quality settings, so that I can balance performance and visual fidelity for my hardware.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T3
+- **Acceptance Criteria:**
+  1. Low/Medium/High presets
+  2. Individual toggles
+  3. Real-time changes
+  4. Saved preferences
+  5. Performance impact shown
+
+**Implementation Notes:**
+- Affect particles, shaders, LOD
+- Show FPS impact preview
+- Save to user settings
+- Apply without restart
+
+### Task 25: Profile and optimize
+**User Story:** As a developer, I want comprehensive performance profiling, so that we can identify and fix any performance bottlenecks.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Full performance audit
+  2. Bottleneck identification
+  3. Optimization passes
+  4. Before/after metrics
+  5. Target 60 FPS achieved
+
+**Implementation Notes:**
+- Use Godot profiler
+- Test all visual systems
+- Document findings
+- Iterative optimization
+
+### Task 26: Implement polygon-based OcclusionZone resource
+**User Story:** As a developer, I want to define complex occlusion shapes using polygons, so that foreground objects of any shape can properly occlude characters.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Arbitrary polygon shapes
+  2. Efficient point-in-polygon tests
+  3. Serializable as resources
+  4. Visual preview in editor
+  5. Supports convex and concave
+
+**Implementation Notes:**
+- Extend Resource class
+- Store PoolVector2Array for polygon
+- Implement fast containment test
+- Reference: docs/design/foreground_occlusion_full_plan.md - OcclusionZone Resource
+- Include debug drawing methods
+
+### Task 27: Create multi-layer foreground system (near/mid/far)
+**User Story:** As a player, I want multiple layers of foreground elements at different depths, so that environments feel rich and layered with proper visual depth.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Three distinct depth layers
+  2. Proper z-ordering per layer
+  3. Smooth transitions between
+  4. Configurable per district
+  5. Performance optimized
+
+**Implementation Notes:**
+- Near: z_index 200, Mid: 150, Far: 100
+- Each layer has own Node2D parent
+- Layer assignment in OcclusionZone
+- Reference: docs/design/foreground_occlusion_full_plan.md - Multi-layer management
+
+### Task 28: Add perspective-specific occlusion rules
+**User Story:** As a player, I want occlusion to work correctly regardless of the camera perspective, so that top-down, isometric, and side-scrolling views all feel natural.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, B3, U2
+- **Acceptance Criteria:**
+  1. Rules per perspective type
+  2. Smooth perspective transitions
+  3. Consistent visual logic
+  4. No occlusion artifacts
+  5. Configurable overrides
+
+**Implementation Notes:**
+- Store rules in OcclusionZone.perspective_rules
+- Different z_offset per perspective
+- Some zones disabled in certain perspectives
+- Reference: docs/design/foreground_occlusion_full_plan.md - Section 3
+
+### Task 29: Implement soft edges and gradient occlusion
+**User Story:** As a player, I want smooth transitions at occlusion boundaries, so that characters don't pop in and out of visibility harshly.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Gradient fade at edges
+  2. Configurable fade distance
+  3. Smooth visual transition
+  4. Works with transparency
+  5. Performance efficient
+
+**Implementation Notes:**
+- Calculate distance to polygon edge
+- Use smoothstep for fade curve
+- Apply modulate.a for fading
+- Reference: docs/design/foreground_occlusion_full_plan.md - get_occlusion_strength()
+
+### Task 30: Create occlusion serialization for save/load
+**User Story:** As a player, I want the game to remember occlusion states when I save and load, so that visual consistency is maintained across sessions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Saves dynamic z-indices
+  2. Preserves disabled elements
+  3. Minimal save data
+  4. Fast load times
+  5. Handles missing elements
+
+**Implementation Notes:**
+- Create ForegroundSerializer class
+- Only save non-default states
+- Reference: docs/design/foreground_occlusion_mvp_plan.md - Save/Load Considerations
+- Integrate with modular serialization architecture
 
 ## Testing Criteria
 - Perspective scaling works in all districts

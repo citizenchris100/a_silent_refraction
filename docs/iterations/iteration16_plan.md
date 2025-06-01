@@ -203,6 +203,30 @@ Add particle effects and atmospheric elements like dust, steam, and lighting eff
 - District system (Iteration 8)
 - Performance optimization (Iteration 15)
 
+### 8. Advanced Occlusion Features
+**Priority:** Medium  
+**Estimated Hours:** 16
+
+**Description:**  
+Implement advanced foreground occlusion features including animated elements, spatial indexing, and performance optimizations.
+
+**User Story:**  
+*As a player, I want rich, animated foreground elements that create a dynamic, layered environment with smooth performance.*
+
+**Design Reference:** `docs/design/foreground_occlusion_full_plan.md`
+
+**Acceptance Criteria:**
+- [ ] Animated foreground elements with state machines
+- [ ] QuadTree spatial indexing for performance
+- [ ] Advanced occlusion effects (heat distortion through occluders)
+- [ ] Performance LOD system for occlusion
+- [ ] Integration with all perspective types
+
+**Dependencies:**
+- Basic occlusion system (Iteration 14)
+- Animation system (Iteration 3)
+- Performance baseline (Iteration 15)
+
 ## Testing Criteria
 - Sprite scaling creates convincing depth illusion
 - Occlusion system handles all edge cases smoothly
