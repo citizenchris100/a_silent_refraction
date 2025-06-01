@@ -101,10 +101,13 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - [ ] Task 29: Implement item degradation system
 - [ ] Task 30: Create stackable item management
 - [ ] Task 31: Build barracks storage transfer mechanics
-- [ ] Task 32: Implement item category system
+- [ ] Task 32: Implement item category system with smart storage management
 - [ ] Task 33: Create item selling mechanics
 - [ ] Task 34: Add contraband detection system
 - [ ] Task 35: Implement container system basics
+- [ ] Task 46: Implement inventory performance optimizations
+- [ ] Task 47: Create inventory comparison and analysis tools
+- [ ] Task 48: Implement advanced inventory accessibility
 
 ### Advanced Time Management
 - [ ] Task 36: Create DeadlineManager for time-sensitive objectives
@@ -184,6 +187,54 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Transaction types: PURCHASE, SALARY, RENT, FINE, QUEST_REWARD
 - Log last 50 transactions for debugging
 
+### Task 4: Add economy UI display
+**User Story:** As a player, I want to see my credit balance displayed prominently in the UI, so that I can make informed economic decisions at all times.
+
+**Design Reference:** `docs/design/economy_system_design.md` (UI Integration section)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Credit balance always visible in HUD
+  2. Animated updates on balance changes
+  3. Formatted with thousand separators
+  4. Color flash on gain/loss
+  5. Optional transaction preview
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (HUD integration)
+- Top-right corner placement standard
+- Green flash for gains, red for losses
+- Smooth number interpolation
+- Consider compact notation for large amounts
+
+### Task 5: Implement vendor/shop interface
+**User Story:** As a player, I want an intuitive shop interface for browsing and purchasing items, so that I can easily acquire needed supplies and equipment.
+
+**Design Reference:** `docs/design/economy_system_design.md` (Shop Interface section)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Browse available items with prices
+  2. Preview item before purchase
+  3. Confirm purchase dialog
+  4. Insufficient funds notification
+  5. Purchase success feedback
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (shop UI mockup)
+- Grid-based item display
+- Show current balance vs item cost
+- Highlight affordable items
+- Integrate with inventory system
+
 ### Task 6: Create Basic Shop System Architecture
 **User Story:** As a player, I want to purchase items from shops using my credits, so that I can acquire necessary items like civilian clothes for the First Quest.
 
@@ -253,6 +304,54 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Basic job states: not_started, in_progress, completed
 - Schedule completion with TimeManager
 
+### Task 9: Create SaveManager (extends SerializationManager)
+**User Story:** As a developer, I want a dedicated save system that extends the serialization framework, so that game saves are handled consistently and reliably.
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Extends SerializationManager functionality
+  2. Single save slot implementation
+  3. Atomic save operations
+  4. Save metadata tracking
+  5. Version compatibility checks
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md (SaveManager architecture)
+- Reference: docs/design/serialization_manager_design.md (base class)
+- Store metadata: playtime, day, location
+- Handle save file corruption gracefully
+- Implement save file versioning
+
+### Task 10: Implement sleep locations and costs
+**User Story:** As a player, I want various sleep locations with different costs and safety levels, so that I can balance my budget against the risk of cheaper accommodations.
+
+**Design Reference:** `docs/design/sleep_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Multiple sleep locations defined
+  2. Cost variations (0-50 credits)
+  3. Safety ratings per location
+  4. Location availability states
+  5. Visual distinction between options
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md (sleep locations)
+- Barracks: Free (safe)
+- Hotels: 20-50 credits (very safe)
+- Maintenance areas: 0-10 credits (risky)
+- Link safety to morning events
+
 ### Task 11: Create sleep UI with save confirmation
 **User Story:** As a player, I want clear feedback when saving my game through sleep, so that I know my progress is safely preserved.
 
@@ -275,6 +374,78 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Use PromptNotificationSystem for confirmations
 - Show last save: "Day 5, 14:30 - 3 hours played"
 
+### Task 12: Implement save file management (single slot)
+**User Story:** As a player, I want a simple single-slot save system, so that I can maintain one continuous playthrough without save-scumming.
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Single save slot only
+  2. Auto-backup of previous save
+  3. Save file validation
+  4. Clear save location
+  5. Cross-platform compatibility
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md (file management)
+- Save location: user://saves/game.save
+- Backup: user://saves/game.save.bak
+- Use Godot's File API
+- Compress save data
+
+### Task 13: Add save failure handling
+**User Story:** As a player, I want the game to handle save failures gracefully, so that I don't lose progress due to technical issues.
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Detect save failures
+  2. Retry mechanism
+  3. Clear error messages
+  4. Alternative save location
+  5. Prevent sleep without save
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md (error handling)
+- Retry up to 3 times
+- Show specific error (disk full, permissions)
+- Log failures for debugging
+- Rollback sleep if save fails
+
+### Task 14: Create MorningReportManager
+**User Story:** As a developer, I want a centralized system to manage overnight events and generate morning reports, so that players receive consistent and meaningful updates about world changes.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Singleton manager for reports
+  2. Event registration system
+  3. Priority-based sorting
+  4. Category organization
+  5. Report data structure
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md (architecture)
+- Event categories: NPC, Coalition, Assimilation, Security
+- Priority levels: Critical, High, Normal, Low
+- Maximum 10 events per report
+- Store last 3 reports for review
+
 ### Task 15: Implement event collection during sleep
 **User Story:** As a developer, I want the game world to progress while the player sleeps, so that the world feels alive and dynamic.
 
@@ -295,6 +466,78 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Reference: docs/design/sleep_system_design.md (overnight progression)
 - Events have priority levels for report ordering
 - Maximum 10 events shown in report
+
+### Task 16: Design morning report UI
+**User Story:** As a player, I want an attractive and readable morning report interface, so that I can quickly understand what happened overnight.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Clean, newspaper-style layout
+  2. Categorized sections
+  3. Priority indicators
+  4. Scrollable if needed
+  5. Dismiss confirmation
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md (UI mockup)
+- Terminal/newspaper aesthetic
+- Icons for event categories
+- Color coding for priority
+- "Archive" button to review later
+
+### Task 17: Create report generation logic
+**User Story:** As a developer, I want intelligent report generation that prioritizes important events, so that players always see the most relevant information first.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Smart event filtering
+  2. Duplicate prevention
+  3. Context aggregation
+  4. Natural language generation
+  5. Personalized content
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md (generation algorithm)
+- Aggregate similar events (e.g., "3 NPCs became suspicious")
+- Prioritize player-relevant events
+- Include random flavor events
+- Generate contextual headlines
+
+### Task 18: Add priority/severity system for events
+**User Story:** As a developer, I want a flexible priority system for overnight events, so that critical information is never buried in the report.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Four priority levels defined
+  2. Automatic priority assignment
+  3. Manual override capability
+  4. Visual priority indicators
+  5. Sort by priority first
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md (priority system)
+- Critical: Game-changing events
+- High: Important player impacts
+- Normal: Standard world updates
+- Low: Flavor/atmosphere events
 
 ### Task 24: Create InventoryManager with dual storage system
 **User Story:** As a player, I want to manage both my on-person inventory and barracks storage, so that I can strategically decide what to carry and what to store safely.
@@ -367,9 +610,11 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Future: expandable personal slots
 
 ### Task 27: Create comprehensive inventory UI with grid and barracks interface
-**User Story:** As a player, I want intuitive interfaces for both my personal inventory and barracks storage, so that I can easily manage items in both locations.
+**User Story:** As a player, I want intuitive interfaces for both my personal inventory and barracks storage with comprehensive search and navigation features, so that I can efficiently manage items regardless of my input method or accessibility needs.
 
 **Interactive Object Migration Phase 1c & 2c:** This task implements visual representation for takeable objects and inventory integration.
+
+**Design Reference:** `docs/design/inventory_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -384,16 +629,27 @@ As a player, I need to manage my limited credits while finding safe places to sl
   5. Visual feedback for all actions
   6. **Phase 1c:** Interactive objects have visual sprites
   7. **Phase 2c:** Takeable objects integrate with inventory
+  8. Real-time search bar with filter-as-you-type
+  9. Full keyboard navigation (Tab, Arrow keys, Enter, Esc)
+  10. Quick-access hotbar (keys 1-9) for frequent items
+  11. Multi-select with Shift+Click and Ctrl+Click
+  12. Right-click context menus with common actions
+  13. Accessibility mode with high contrast option
 
 **Implementation Notes:**
 - Reference: docs/design/inventory_system_design.md lines 620-690 (UI Components)
 - Reference: docs/design/inventory_ui_design.md (detailed UI specifications)
+- Reference: docs/design/inventory_ui_design.md lines 406-418 (Keyboard Navigation and Accessibility)
 - Reference: docs/design/template_interactive_object_design.md lines 152-177 (visual system)
 - Personal: 5x2 grid = 10 slots
 - Barracks: Scrollable list with quantities
 - Transfer UI when at barracks
 - **Phase 1c:** Add visual system to interactive_object.gd
 - **Phase 2c:** Add takeable functionality
+- Search should filter both name and description
+- Context menu: Use, Examine, Drop, Transfer, Sell
+- Hotbar saves between sessions via serialization
+- Multi-select enables batch transfer/drop/sell
 
 ### Task 28: Implement item usage system
 **User Story:** As a player, I want to use items from my inventory to solve puzzles and interact with the world, so that collected items have meaningful purposes.
@@ -488,7 +744,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Handle eviction scenarios
 
 ### Task 32: Implement item category system with smart storage management
-**User Story:** As a player, I want items organized by category with smart storage features, so that I can quickly find what I need and efficiently manage my limited inventory space.
+**User Story:** As a player, I want items organized by category with smart storage features and advanced filtering, so that I can quickly find what I need and efficiently manage my limited inventory space with full accessibility support.
 
 **Design Reference:** `docs/design/inventory_system_design.md` lines 427-463 (Smart Storage Management section)
 
@@ -508,11 +764,16 @@ As a player, I need to manage my limited credits while finding safe places to sl
   8. **Loadout swap only available at barracks**
   9. **One-click "transfer all to barracks" option**
   10. **Smart sort prioritizes quest items, then tools, then consumables**
+  11. Advanced filters: by condition (>50%), by value, by legality
+  12. Batch operations for entire categories
+  13. Screen reader announcements for category changes
+  14. Colorblind-friendly category indicators
 
 **Implementation Notes:**
 - Reference: docs/design/inventory_system_design.md lines 193 (category property)
 - Reference: docs/design/inventory_system_design.md lines 427-439 (auto_sort_inventory method)
 - Reference: docs/design/inventory_system_design.md lines 441-463 (loadout system)
+- Reference: docs/design/inventory_ui_design.md lines 412-418 (Accessibility Features)
 - Categories affect shop organization
 - Quest items always visible and sorted first
 - Sort order customizable via settings
@@ -521,6 +782,9 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Loadouts stored as name: Array of item_ids in saved_loadouts Dictionary
 - Maximum 5 loadouts initially (expandable later)
 - Loadout UI shows saved configurations with custom names
+- Advanced filters use compound conditions
+- Batch operations: transfer all, sell all, drop all (with confirmation)
+- Colorblind modes: deuteranopia, protanopia, tritanopia
 
 ### Task 33: Create item selling mechanics
 **User Story:** As a player, I want to sell unwanted items for credits, so that I can convert excess items into needed funds.
@@ -592,6 +856,125 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Contents defined in scene/data
 - Locked containers need keys
 - One-time searchable
+
+### Task 19: Create Barracks district scene
+**User Story:** As a developer, I want to implement the Barracks district as the player's home base, so that players have a safe and familiar location for rest and storage.
+
+**Design Reference:** `docs/design/barracks_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Complete district scene
+  2. Walkable area defined
+  3. Navigation integration
+  4. Proper lighting/atmosphere
+  5. Performance optimized
+
+**Implementation Notes:**
+- Reference: docs/design/barracks_system_design.md (layout)
+- Reference: docs/design/district_template_design.md (base structure)
+- Multiple floors with elevator
+- Common areas and private quarters
+- Safe, military atmosphere
+
+### Task 20: Implement player quarters (Room 306)
+**User Story:** As a player, I want my own personal quarters in the Barracks, so that I have a private space for sleeping, storage, and planning.
+
+**Design Reference:** `docs/design/barracks_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Room 306 fully implemented
+  2. Bed for sleeping/saving
+  3. Storage access point
+  4. Personal terminal
+  5. Customizable elements
+
+**Implementation Notes:**
+- Reference: docs/design/barracks_system_design.md (Room 306)
+- Standard military quarters
+- Free sleep location
+- Direct storage access
+- Minimal but functional
+
+### Task 21: Add quarter customization basics
+**User Story:** As a player, I want to personalize my quarters with collected items, so that the space feels like my own.
+
+**Design Reference:** `docs/design/barracks_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Display spots for items
+  2. Achievement displays
+  3. Color scheme options
+  4. Furniture arrangement
+  5. Persistent changes
+
+**Implementation Notes:**
+- MVP: 3-5 display spots
+- Link to collected items
+- Save customization state
+- Visual only, no gameplay impact
+
+### Task 22: Create storage system in quarters
+**User Story:** As a player, I want a storage interface in my quarters, so that I can easily manage my barracks inventory without traveling elsewhere.
+
+**Design Reference:** `docs/design/barracks_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U4
+- **Acceptance Criteria:**
+  1. Storage terminal/locker
+  2. Direct inventory access
+  3. Visual storage representation
+  4. Quick deposit/withdraw
+  5. Integrates with InventoryManager
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_system_design.md (barracks storage)
+- Terminal or physical locker
+- Same UI as inventory barracks view
+- No time cost when in quarters
+- Consider visual item display
+
+### Task 23: Add Barracks common areas
+**User Story:** As a player, I want to explore common areas in the Barracks, so that the location feels like a living military facility.
+
+**Design Reference:** `docs/design/barracks_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Mess hall area
+  2. Recreation room
+  3. Briefing room
+  4. Corridors and elevators
+  5. Background NPCs
+
+**Implementation Notes:**
+- Reference: docs/design/barracks_system_design.md (common areas)
+- Non-interactive NPCs for atmosphere
+- Potential for future quest hooks
+- Vending machines for supplies
+- Notice boards for information
 
 ### Task 36: Create DeadlineManager for time-sensitive objectives
 **User Story:** As a player, I want to see and track time-sensitive objectives, so that I can prioritize my actions and understand the consequences of my time management choices.
@@ -804,6 +1187,89 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Pulsing effects for imminent deadlines
 - Integrate with existing time display UI
 
+### Task 46: Implement inventory performance optimizations
+**User Story:** As a player, I want the inventory UI to remain responsive even with hundreds of items, so that late-game inventory management doesn't become sluggish.
+
+**Design Reference:** `docs/design/inventory_ui_design.md` lines 370-376 (Icon Caching)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Icon texture caching system with memory limits
+  2. Lazy loading for barracks items (load on viewport)
+  3. Virtual scrolling for inventories > 50 items
+  4. Texture atlas generation for common items
+  5. Background loading with progress indicator
+  6. 60 FPS maintained with 500+ items
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_ui_design.md lines 354-369 (Lazy Loading)
+- Reference: docs/design/inventory_system_design.md lines 690-710 (Performance Optimization)
+- Preload first 20 barracks items, load rest on scroll
+- Cache most recent 100 icons in memory
+- Use Godot's TextureArray for atlasing
+- Implement viewport culling for off-screen items
+- Background thread for icon loading
+
+### Task 47: Create inventory comparison and analysis tools
+**User Story:** As a player, I want to compare items and track my inventory usage patterns, so that I can make informed decisions about what to keep or discard.
+
+**Design Reference:** `docs/design/inventory_ui_design.md` lines 140-163 (Time Management Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U4
+- **Acceptance Criteria:**
+  1. Hold Shift to compare items side-by-side
+  2. Transaction history (last 50 transactions)
+  3. Expiry countdown for perishable items
+  4. Usage statistics tracking
+  5. "Time to barracks" calculator for transfers
+  6. Visual warnings 24h before expiry
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_ui_design.md lines 460-477 (Perishable Item Management)
+- Reference: docs/design/inventory_ui_design.md lines 140-163 (Time cost calculations)
+- Comparison shows stat differences in color
+- History includes: timestamp, item, action, location
+- Calculate real-time travel costs based on current district
+- Integrate with TimeManager for accurate calculations
+- Show tram costs alongside time estimates
+
+### Task 48: Implement advanced inventory accessibility
+**User Story:** As a player with accessibility needs, I want full inventory functionality through keyboard and screen readers, so that I can enjoy the game regardless of my abilities.
+
+**Design Reference:** `docs/design/inventory_ui_design.md` lines 406-418 (Accessibility Features)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U4
+- **Acceptance Criteria:**
+  1. Complete keyboard navigation map
+  2. Screen reader support for all elements
+  3. High contrast mode toggle
+  4. Colorblind modes (3 types)
+  5. UI scaling (75%-150%)
+  6. Audio cues for actions
+  7. Visual focus indicators
+
+**Implementation Notes:**
+- Reference: docs/design/inventory_ui_design.md lines 406-418 (Keyboard Navigation)
+- Reference: docs/design/inventory_ui_design.md lines 412-418 (Screen Reader Support)
+- Use Godot's accessibility features where available
+- Custom TTS integration may be needed
+- Save accessibility preferences per profile
+- Focus order: Grid → Categories → Search → Actions
+- Audio cues: pickup, drop, transfer, error sounds
+- High contrast: increased borders, bold text
+
 ## Testing Criteria
 - Economy transactions process correctly
 - Shop purchases validate credit balance
@@ -834,6 +1300,19 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Schedule optimization mechanics function
 - Activity interruption saves progress correctly
 - Time pressure UI provides clear feedback
+- Search and filter functionality works in real-time
+- Keyboard navigation covers all UI elements
+- Quick-access hotbar persists between sessions
+- Multi-select operations function correctly
+- Context menus provide all expected actions
+- Performance remains smooth with 500+ items
+- Icon caching reduces memory usage
+- Lazy loading prevents initial load delays
+- Item comparison shows meaningful differences
+- Transaction history tracks all operations
+- Accessibility modes function correctly
+- Screen reader announces all actions
+- Colorblind modes clearly distinguish categories
 
 ## Timeline
 - Start date: After Iteration 6 completion
