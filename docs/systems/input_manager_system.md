@@ -73,14 +73,35 @@ signal object_clicked(object, position)
 signal click_detected(position, screen_position)
 ```
 
+### Signal Management (Task 10 Enhancement)
+
+As of Task 10, InputManager now includes enhanced signal management:
+
+1. **Automatic Group Registration**
+   - InputManager adds itself to the "input_manager" group on initialization
+   - This allows other systems to easily find and connect to it
+
+2. **GameManager Integration**
+   - GameManager automatically finds and connects to InputManager signals
+   - Connection tracking prevents duplicate connections
+   - Proper cleanup on scene changes
+
 ### Usage Example
 
 ```gdscript
-# Connect to click events
+# Direct connection (legacy method)
 func _ready():
     var input_manager = get_node("/root/GameManager/InputManager")
     input_manager.connect("object_clicked", self, "_on_object_clicked")
     input_manager.connect("click_detected", self, "_on_click_detected")
+
+# Group-based discovery (recommended)
+func _ready():
+    var input_managers = get_tree().get_nodes_in_group("input_manager")
+    if input_managers.size() > 0:
+        var input_manager = input_managers[0]
+        if not input_manager.is_connected("click_detected", self, "_on_click_detected"):
+            input_manager.connect("click_detected", self, "_on_click_detected")
 
 func _on_object_clicked(object, position):
     print("Clicked on: ", object.name, " at ", position)

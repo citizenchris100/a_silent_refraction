@@ -477,7 +477,27 @@ signal camera_move_started(target_position)  # When transition begins
 signal camera_move_completed()               # When transition ends
 signal view_bounds_changed(new_bounds)       # When camera bounds update
 signal camera_state_changed(new_state)       # When camera state changes
+signal bounds_changed(new_bounds)            # When bounds are recalculated
+signal camera_moved(new_position)            # During camera movement
 ```
+
+### Signal Management (Task 10 Enhancement)
+
+As of Task 10, ScrollingCamera now includes enhanced signal management:
+
+1. **Automatic Group Registration**
+   - ScrollingCamera adds itself to the "camera" group on initialization
+   - This allows other systems (like GameManager) to easily find and connect to it
+
+2. **Enhanced Signal Emissions**
+   - More granular signals for state transitions
+   - Additional signals for movement tracking
+   - Proper signal parameters for debugging
+
+3. **GameManager Integration**
+   - GameManager automatically finds and connects to camera signals
+   - Tracks camera state changes for coordination
+   - Handles camera movement events
 
 These signals enable proper synchronization between systems:
 
@@ -688,6 +708,35 @@ extends "res://src/core/districts/base_district.gd"
 2. **DON'T manually create cameras** (let base_district handle it)
 3. **DON'T wrap everything in a TestEnvironment node**
 4. **DON'T ignore the established architecture**
+
+## Navigation System Update
+
+### Migration to Navigation2DServer
+
+As of the latest update, the player navigation system has been migrated from the deprecated `Navigation2D.get_simple_path()` to the modern `Navigation2DServer.map_get_path()` API. This provides:
+
+1. **Better Performance**: Navigation2DServer is more efficient for pathfinding calculations
+2. **Thread Safety**: Can be called from background threads
+3. **Layer Support**: Supports navigation layers for more complex navigation setups
+4. **Future Compatibility**: Ensures compatibility with future Godot versions
+
+### Implementation Details
+
+The player now uses a navigation map RID instead of a direct Navigation2D node reference:
+
+```gdscript
+# Old way (deprecated)
+navigation_path = navigation_node.get_simple_path(global_position, target_pos)
+
+# New way
+navigation_path = Navigation2DServer.map_get_path(
+    navigation_map_rid,
+    global_position,
+    target_pos,
+    true,  # optimize path
+    0xFFFFFFFF  # use all navigation layers
+)
+```
 
 ## Related Documentation
 

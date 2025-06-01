@@ -195,9 +195,11 @@ func test_suite_pathfinding():
 	if navigation and is_instance_valid(navigation):
 		var start = Vector2(50, 50)
 		var end = Vector2(350, 250)
-		var path = navigation.get_simple_path(start, end)
+		# Use Navigation2DServer instead of deprecated method
+		var map_rid = navigation.get_rid()
+		var path = Navigation2DServer.map_get_path(map_rid, start, end, true, 0xFFFFFFFF)
 		var valid_path = path != null and path.size() >= 2
-		end_test(valid_path, "Navigation2D returns valid path with at least 2 points")
+		end_test(valid_path, "Navigation2DServer returns valid path with at least 2 points")
 	else:
 		end_test(false, "Navigation2D not properly initialized")
 	
@@ -206,7 +208,9 @@ func test_suite_pathfinding():
 	if navigation and is_instance_valid(navigation):
 		var start2 = Vector2(50, 50)
 		var end2 = Vector2(350, 250)
-		var path2 = navigation.get_simple_path(start2, end2)
+		# Use Navigation2DServer instead of deprecated method
+		var map_rid = navigation.get_rid()
+		var path2 = Navigation2DServer.map_get_path(map_rid, start2, end2, true, 0xFFFFFFFF)
 		var all_within_bounds = true
 		for point in path2:
 			if point.x < 0 or point.x > 400 or point.y < 0 or point.y > 300:
@@ -221,7 +225,9 @@ func test_suite_pathfinding():
 	if navigation and is_instance_valid(navigation):
 		var start3 = Vector2(50, 50)
 		var unreachable = Vector2(500, 500)  # Outside navigation mesh
-		var path3 = navigation.get_simple_path(start3, unreachable)
+		# Use Navigation2DServer instead of deprecated method
+		var map_rid = navigation.get_rid()
+		var path3 = Navigation2DServer.map_get_path(map_rid, start3, unreachable, true, 0xFFFFFFFF)
 		var handles_unreachable = path3.size() == 0 or (path3[path3.size()-1].x <= 400 and path3[path3.size()-1].y <= 300)
 		end_test(handles_unreachable, "Pathfinding handles unreachable destinations correctly")
 	else:
@@ -318,7 +324,9 @@ func test_suite_obstacle_avoidance():
 	# Test path that would go through obstacle
 	var start = Vector2(50, 150)
 	var end = Vector2(350, 150)
-	var path = navigation.get_simple_path(start, end)
+	# Use Navigation2DServer instead of deprecated method
+	var map_rid = navigation.get_rid()
+	var path = Navigation2DServer.map_get_path(map_rid, start, end, true, 0xFFFFFFFF)
 	
 	var avoids_obstacle = true
 	for point in path:

@@ -123,7 +123,9 @@ func create_player():
 	# Pre-configure player to avoid initialization issues
 	player.target_position = player.position
 	player.current_district = district
-	player.navigation_node = navigation
+	# Set up navigation map RID instead of navigation_node
+	if navigation:
+		player.navigation_map_rid = navigation.get_rid()
 	player.is_moving = false
 	player.velocity = Vector2.ZERO
 	player.navigation_path = []

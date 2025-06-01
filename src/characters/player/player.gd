@@ -23,9 +23,9 @@ var current_district = null
 # State machine
 var current_movement_state = MovementState.IDLE
 
-# Navigation2D variables
+# Navigation variables
 var navigation_path = []
-var navigation_node = null
+var navigation_map_rid = null  # RID for Navigation2DServer
 var current_path_index = 0
 
 # Signals
@@ -39,8 +39,8 @@ func _ready():
     yield(get_tree(), "idle_frame")
     _find_current_district()
     
-    # Find navigation node if available
-    navigation_node = _find_navigation_node()
+    # Get navigation map RID for Navigation2DServer
+    _setup_navigation()
 
 func _find_current_district():
     var districts = get_tree().get_nodes_in_group("district")
@@ -50,8 +50,18 @@ func _find_current_district():
     else:
         print("WARNING: No district found for the player")
 
-func _find_navigation_node():
-    # Look for Navigation2D node in parent hierarchy
+func _setup_navigation():
+    # First try to get navigation map from Navigation2D node if it exists
+    var nav_node = _find_navigation2d_node()
+    if nav_node:
+        # Get the RID from the Navigation2D node
+        navigation_map_rid = nav_node.get_rid()
+    else:
+        # Fall back to world's default navigation map
+        navigation_map_rid = get_world_2d().get_navigation_map()
+
+func _find_navigation2d_node():
+    # Look for Navigation2D node in parent hierarchy (for compatibility)
     var parent = get_parent()
     while parent:
         if parent.has_node("Navigation2D"):
@@ -62,6 +72,10 @@ func _find_navigation_node():
         parent = parent.get_parent()
     return null
 
+# Compatibility method for tests
+func _find_navigation_node():
+    return _find_navigation2d_node()
+
 func move_to(pos):
     # Alias for move_to_position for compatibility
     move_to_position(pos)
@@ -71,9 +85,15 @@ func move_to_position(pos):
     if current_district and current_district.is_position_walkable(pos):
         target_position = pos
         
-        # Try to use Navigation2D if available
-        if navigation_node:
-            navigation_path = navigation_node.get_simple_path(global_position, pos)
+        # Try to use Navigation2DServer if available
+        if navigation_map_rid:
+            navigation_path = Navigation2DServer.map_get_path(
+                navigation_map_rid,
+                global_position,
+                pos,
+                true,  # optimize path
+                0xFFFFFFFF  # use all navigation layers
+            )
             current_path_index = 0
             
             # Validate the path if district supports it
@@ -260,11 +280,17 @@ func _update_movement_state(distance_to_target):
             # We're too far from target to be decelerating, re-accelerate
             _set_movement_state(MovementState.ACCELERATING)
 
-# Navigation2D support methods for testing
+# Navigation support methods for testing
 func request_navigation_path(target_pos):
     # Request a navigation path without starting movement
-    if navigation_node:
-        navigation_path = navigation_node.get_simple_path(global_position, target_pos)
+    if navigation_map_rid:
+        navigation_path = Navigation2DServer.map_get_path(
+            navigation_map_rid,
+            global_position,
+            target_pos,
+            true,  # optimize path
+            0xFFFFFFFF  # use all navigation layers
+        )
         current_path_index = 0
         
         # Skip the first point if it's very close to current position

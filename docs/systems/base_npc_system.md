@@ -264,6 +264,58 @@ NPCs can still handle their own input detection as a fallback:
 
 Note: NPCs automatically work with the click priority system - they take precedence over background movement clicks but not over UI elements or dialogs.
 
+## Signal Management (Task 10 Enhancement)
+
+As of Task 10, NPCs are now integrated with the enhanced signal management system:
+
+### Automatic Lifecycle Management
+
+1. **NPC Addition**:
+   - When NPCs are added to the scene tree, GameManager automatically detects them
+   - NPCs in the "npc" group are connected via `_on_npc_added()`
+   - Signal connections are tracked to prevent duplicates
+
+2. **NPC Removal**:
+   - GameManager monitors node removal and disconnects signals
+   - Prevents memory leaks from orphaned connections
+   - Handled through `_on_npc_removed()`
+
+### Signal Connection Example
+
+```gdscript
+# In GameManager
+func _on_node_added(node):
+    if node.is_in_group("npc"):
+        _on_npc_added(node)
+
+func _on_npc_added(npc):
+    if not npc or not is_instance_valid(npc):
+        return
+    _connect_npc_signals(npc)
+
+func _connect_npc_signals(npc):
+    if npc.has_signal("interacted"):
+        if not npc.is_connected("interacted", self, "_on_npc_interacted"):
+            npc.connect("interacted", self, "_on_npc_interacted", [npc])
+            _track_connection(npc, "interacted", self, "_on_npc_interacted")
+    
+    print("Connected to NPC: " + str(npc.name))
+```
+
+### NPC Signals
+
+NPCs can emit these signals:
+- `interacted` - When player interacts with the NPC
+- `state_changed` - When NPC state changes (if implemented)
+- `suspicion_changed` - When suspicion level changes (if implemented)
+
+### Benefits
+
+1. **No Manual Connection Required**: NPCs don't need to manually connect to GameManager
+2. **Automatic Cleanup**: Signals are cleaned up when NPCs are removed
+3. **Duplicate Prevention**: System prevents multiple connections to same signal
+4. **Centralized Management**: All NPC signal connections tracked in one place
+
 ## Creating Custom NPCs
 
 To create a new NPC with custom behavior:
