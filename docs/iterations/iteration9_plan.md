@@ -193,7 +193,7 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   1. Base class supports all SCUMM verbs
   2. Consistent interaction patterns
   3. State persistence built-in
-  4. Visual and audio support
+  4. Visual feedback support
   5. Easy to extend for specific objects
   6. **Phase 2a:** Interaction area with mouse detection
   7. **Phase 2b:** Item combination system
@@ -230,7 +230,7 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   2. States transition based on interactions
   3. Each state has unique properties
   4. States persist across saves
-  5. Visual/audio changes per state
+  5. Visual changes per state
   6. **Phase 3a:** Full state machine implementation
   7. **Phase 3b:** State-based responses and visuals
 
@@ -267,17 +267,16 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   3. Documentation for each template
   4. Example implementations
   5. Performance optimized
-  6. **Phase 4:** Audio and particle effects
+  6. **Phase 4:** Particle and lighting effects
 
 **Implementation Notes:**
 - Template types: doors, containers, machines, terminals, switches
 - **Phase 4:** Add environmental features:
   ```gdscript
-  export var interaction_sounds: Dictionary = {}
   export var particle_effects: Dictionary = {}
   export var light_states: Dictionary = {}
-  var audio_player: AudioStreamPlayer2D
   var particle_system: CPUParticles2D
+  var dynamic_light: Light2D
   ```
 - Create prefab scenes for common objects
 - Include usage examples in documentation
