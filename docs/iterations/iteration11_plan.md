@@ -85,36 +85,58 @@ As a player, I need structured objectives that guide my investigation while allo
 - [ ] Task 19: Add quest validation tools
 - [ ] Task 20: Create quest debug commands
 
+### Disguise Role Obligation System
+- [ ] Task 21: Implement role obligation mechanics in DisguiseManager
+- [ ] Task 22: Create RoleObligation class and data structures
+- [ ] Task 23: Build obligation scheduling and tracking system
+- [ ] Task 24: Implement role performance evaluation
+- [ ] Task 25: Create role knowledge test system
+- [ ] Task 26: Build behavioral consistency checking
+- [ ] Task 27: Implement obligation UI components (Role HUD)
+- [ ] Task 28: Create quick change interface
+- [ ] Task 29: Build role reputation system
+- [ ] Task 30: Implement disguise serialization (DisguiseSerializer)
+- [ ] Task 31: Create complex multi-phase obligations
+- [ ] Task 32: Build disguise layer/combination system
+- [ ] Task 33: Implement role-specific behavior requirements
+- [ ] Task 34: Create obligation failure consequences
+- [ ] Task 35: Build disguise acquisition mechanics
+- [ ] Task 36: Implement economic impact of role obligations
+- [ ] Task 37: Create role-based access integration
+- [ ] Task 38: Build obligation hint and tutorial system
+- [ ] Task 39: Implement disguise effectiveness decay
+- [ ] Task 40: Create role obligation testing framework
+
 ### First Quest - Mall Patrol System
-- [ ] Task 21: Create SecurityPatrol class and data structures
-- [ ] Task 22: Implement mall patrol route system
-- [ ] Task 23: Build patrol schedule mechanics
-- [ ] Task 24: Create player detection during patrols
-- [ ] Task 25: Implement security guard dialog trees
-- [ ] Task 26: Add disguise bypass mechanics
-- [ ] Task 27: Create patrol area checking system
-- [ ] Task 28: Build security encounter UI
-- [ ] Task 29: Implement chase initiation from patrol
-- [ ] Task 30: Create patrol state persistence
+- [ ] Task 41: Create SecurityPatrol class and data structures
+- [ ] Task 42: Implement mall patrol route system
+- [ ] Task 43: Build patrol schedule mechanics
+- [ ] Task 44: Create player detection during patrols
+- [ ] Task 45: Implement security guard dialog trees
+- [ ] Task 46: Add disguise bypass mechanics
+- [ ] Task 47: Create patrol area checking system
+- [ ] Task 48: Build security encounter UI
+- [ ] Task 49: Implement chase initiation from patrol
+- [ ] Task 50: Create patrol state persistence
 
 ### First Quest Implementation
-- [ ] Task 31: Design First Quest narrative
-- [ ] Task 32: Implement all quest objectives
-- [ ] Task 33: Create quest-specific content
-- [ ] Task 34: Add multiple solution paths
-- [ ] Task 35: Full integration testing
+- [ ] Task 51: Design First Quest narrative
+- [ ] Task 52: Implement all quest objectives
+- [ ] Task 53: Create quest-specific content
+- [ ] Task 54: Add multiple solution paths
+- [ ] Task 55: Full integration testing
 
 ### Trading Floor Minigame
-- [ ] Task 36: Create TradingTerminal scene with Game Boy UI layout
-- [ ] Task 37: Implement BlockTrader core Tetris-style gameplay mechanics
-- [ ] Task 38: Create Game Boy shader and visual effects
-- [ ] Task 39: Implement score-to-credits conversion system
-- [ ] Task 40: Add gender-based modifiers and harassment events
-- [ ] Task 41: Create persistent leaderboard system
-- [ ] Task 42: Implement time consumption mechanics
-- [ ] Task 43: Integrate minigame with job shift system
-- [ ] Task 44: Add save/load functionality for minigame progress
-- [ ] Task 45: Create practice mode and tutorial
+- [ ] Task 56: Create TradingTerminal scene with Game Boy UI layout
+- [ ] Task 57: Implement BlockTrader core Tetris-style gameplay mechanics
+- [ ] Task 58: Create Game Boy shader and visual effects
+- [ ] Task 59: Implement score-to-credits conversion system
+- [ ] Task 60: Add gender-based modifiers and harassment events
+- [ ] Task 61: Create persistent leaderboard system
+- [ ] Task 62: Implement time consumption mechanics
+- [ ] Task 63: Integrate minigame with job shift system
+- [ ] Task 64: Add save/load functionality for minigame progress
+- [ ] Task 65: Create practice mode and tutorial
 
 ## User Stories
 
@@ -181,7 +203,155 @@ As a player, I need structured objectives that guide my investigation while allo
 - Quick access hotkey (J for Journal)
 - Search/filter functionality
 
-### Task 21: Create SecurityPatrol class and data structures
+### Task 21: Implement role obligation mechanics in DisguiseManager
+**User Story:** As a player wearing a disguise, I want to be required to perform job duties appropriate to my role, so that infiltration requires active participation rather than just wearing the right clothes.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, U3
+- **Acceptance Criteria:**
+  1. Wearing uniforms triggers role-specific obligations
+  2. Obligations have time limits and location requirements
+  3. Failed obligations increase suspicion/blow cover
+  4. Different roles have different obligation types
+  5. Player receives clear feedback about obligations
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 28-181
+- Security: patrol routes, respond to crimes
+- Medical: patient rounds, emergency response
+- Maintenance: repair tasks, inspections
+- Integrate with existing DisguiseManager from Iteration 10
+
+### Task 22: Create RoleObligation class and data structures
+**User Story:** As a developer, I want a robust data structure for role obligations, so that various job requirements can be consistently tracked and evaluated across different disguise types.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. RoleObligation class with all necessary properties
+  2. Support for immediate and recurring obligations
+  3. Completion condition checking
+  4. Time tracking and deadline management
+  5. Serializable for save/load
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 184-251
+- Properties: id, description, location, time_limit, priority, repeating
+- Support special conditions and prerequisites
+- Example obligations per role (patrol, rounds, repairs)
+
+### Task 24: Implement role performance evaluation
+**User Story:** As the game system, I want to evaluate how well players perform their disguised roles, so that maintaining cover requires consistent appropriate behavior.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Performance score tracks role consistency (0-100%)
+  2. Actions evaluated for role appropriateness
+  3. NPCs notice out-of-character behavior
+  4. Performance affects detection risk
+  5. Different thresholds trigger different consequences
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 253-337
+- Excellent (90%+), Good (70-89%), Poor (30-49%), Blown (<30%)
+- Expected vs forbidden actions per role
+- Integrate with suspicion system
+
+### Task 25: Create role knowledge test system
+**User Story:** As an NPC, I want to test suspicious colleagues with role-specific questions, so that I can identify imposters who don't know basic job information.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. NPCs can initiate knowledge tests
+  2. Questions specific to each role type
+  3. Multiple choice responses in dialog
+  4. Correct answers maintain cover
+  5. Wrong answers increase suspicion significantly
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 555-604
+- Security: codes, procedures, shift times
+- Medical: dosages, protocols, staff names
+- Failed tests dramatically reduce performance score
+
+### Task 27: Implement obligation UI components (Role HUD)
+**User Story:** As a player in disguise, I want a clear UI showing my current obligations and performance, so that I can successfully maintain my cover role.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Role HUD displays current disguise type
+  2. Active obligations listed with timers
+  3. Performance meter shows current score
+  4. Color coding for urgency levels
+  5. Hide UI when not disguised
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 809-851
+- Obligation timers with visual urgency
+- Performance bar with color states (green/yellow/red)
+- Integrate with existing UI framework
+
+### Task 29: Build role reputation system
+**User Story:** As a player repeatedly using disguises, I want to build reputation within roles, so that consistent good performance makes future infiltrations easier.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Track reputation per role type (not per disguise)
+  2. Good performance increases reputation
+  3. High reputation reduces obligations
+  4. Low reputation may blacklist roles
+  5. NPCs remember past interactions
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 681-703
+- Reputation thresholds: Trusted (50+), Blacklisted (<-20)
+- Affects obligation frequency and NPC reactions
+- Persists across game sessions
+
+### Task 30: Implement disguise serialization (DisguiseSerializer)
+**User Story:** As a player, I want my disguise progress and reputation to save correctly, so that my infiltration efforts persist across game sessions.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. All disguise state serializes properly
+  2. Obligations save with progress/timers
+  3. Performance scores persist
+  4. Reputation data saves per role
+  5. Integrates with modular save system
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 747-803
+- Extend BaseSerializer, priority 55
+- Handle obligation timer restoration
+- Version migration support
+
+### Task 41: Create SecurityPatrol class and data structures
 **User Story:** As a developer, I want a robust patrol system for security guards, so that the First Quest can feature dynamic guard patrols that create tension and gameplay opportunities.
 
 **Status History:**
@@ -202,7 +372,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Alert levels: 0=routine, 1=suspicious, 2=alert
 - Integrate with existing NPC system
 
-### Task 22: Implement mall patrol route system
+### Task 42: Implement mall patrol route system
 **User Story:** As a security guard, I want to follow a predefined patrol route through the mall, so that all areas are regularly monitored and players must time their movements carefully.
 
 **Status History:**
@@ -223,7 +393,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Use existing navigation system
 - 30-second pause at key locations
 
-### Task 23: Build patrol schedule mechanics
+### Task 43: Build patrol schedule mechanics
 **User Story:** As a mall security system, I want guards to patrol on regular schedules, so that players can observe patterns and plan their infiltration accordingly.
 
 **Status History:**
@@ -244,7 +414,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Consider lunch breaks in schedule
 - Weekend vs weekday patterns
 
-### Task 24: Create player detection during patrols
+### Task 44: Create player detection during patrols
 **User Story:** As a security guard on patrol, I want to detect suspicious player behavior, so that infiltration requires careful planning and isn't trivially easy.
 
 **Status History:**
@@ -266,7 +436,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Suspicious item modifier: 1.5x
 - Must have clear line of sight
 
-### Task 25: Implement security guard dialog trees
+### Task 45: Implement security guard dialog trees
 **User Story:** As a player caught by security, I want dialog options to talk my way out of trouble, so that social skills provide alternatives to running or fighting.
 
 **Status History:**
@@ -287,7 +457,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Alert: "Security! Stop right there!"
 - Bribe amount: 50 credits base
 
-### Task 26: Add disguise bypass mechanics
+### Task 46: Add disguise bypass mechanics
 **User Story:** As a player wearing a security uniform, I want to bypass guard detection, so that disguises provide meaningful gameplay advantages.
 
 **Status History:**
@@ -308,7 +478,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Perfect disguise = no detection
 - Partial disguise = reduced detection
 
-### Task 27: Create patrol area checking system
+### Task 47: Create patrol area checking system
 **User Story:** As a patrolling guard, I want to check specific areas for signs of intrusion, so that my patrol feels purposeful rather than just walking a route.
 
 **Status History:**
@@ -329,7 +499,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Can discover player tampering
 - Increases alert level if issues found
 
-### Task 28: Build security encounter UI
+### Task 48: Build security encounter UI
 **User Story:** As a player in a security encounter, I want clear UI feedback about my situation, so that I understand the stakes and my options.
 
 **Status History:**
@@ -350,7 +520,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Red/yellow/green alert states
 - Show detection radius when spotted
 
-### Task 29: Implement chase initiation from patrol
+### Task 49: Implement chase initiation from patrol
 **User Story:** As a security guard, I want to pursue fleeing suspects, so that players can't simply run away without consequences.
 
 **Status History:**
@@ -371,7 +541,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Guards run 20% faster during chase
 - 30-second chase timeout
 
-### Task 30: Create patrol state persistence
+### Task 50: Create patrol state persistence
 **User Story:** As a developer, I want patrol states to save and load correctly, so that guard positions and alert levels persist across game sessions.
 
 **Status History:**
@@ -392,7 +562,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Minimal data per patrol
 - Reconstruct routes from data
 
-### Task 32: Implement all quest objectives
+### Task 52: Implement all quest objectives
 **User Story:** As a player, I want to experience a complex quest that uses all game systems including the new patrol mechanics, so that I understand the full depth of gameplay possibilities.
 
 **Status History:**
@@ -415,7 +585,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - 45-60 minutes completion time
 - At least 3 different endings
 
-### Task 36: Create TradingTerminal scene with Game Boy UI layout
+### Task 56: Create TradingTerminal scene with Game Boy UI layout
 **User Story:** As a player, I want to access a retro-styled trading terminal at my job, so that I can engage in a nostalgic mini-game that provides both entertainment and income.
 
 **Status History:**
@@ -436,7 +606,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Implement shader for authentic Game Boy look
 - Terminal should feel like a separate device within the game world
 
-### Task 27: Implement BlockTrader core Tetris-style gameplay mechanics
+### Task 57: Implement BlockTrader core Tetris-style gameplay mechanics
 **User Story:** As a player, I want to play a familiar block-falling game with smooth controls, so that my trading performance directly reflects my skill and concentration.
 
 **Status History:**
@@ -458,7 +628,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Use _unhandled_input for responsive controls
 - Implement proper collision detection for blocks
 
-### Task 28: Create Game Boy shader and visual effects
+### Task 58: Create Game Boy shader and visual effects
 **User Story:** As a player, I want the trading terminal to have an authentic retro aesthetic, so that the mini-game feels like a genuine Game Boy experience that enhances immersion.
 
 **Status History:**
@@ -479,7 +649,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Keep effects simple (KISS principle)
 - Test on various display resolutions
 
-### Task 29: Implement score-to-credits conversion system
+### Task 59: Implement score-to-credits conversion system
 **User Story:** As a player, I want my game performance to translate directly into earnings, so that improving my skills provides tangible economic benefits in the main game.
 
 **Status History:**
@@ -500,7 +670,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Consider shift-specific modifiers
 - Payment occurs at shift completion
 
-### Task 30: Add gender-based modifiers and harassment events
+### Task 60: Add gender-based modifiers and harassment events
 **User Story:** As a female player character, I want to experience the additional challenges women faced in 1950s workplaces, so that the game provides meaningful commentary on historical gender discrimination while maintaining engaging gameplay.
 
 **Status History:**
@@ -521,7 +691,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Keep tone appropriate - educational not exploitative
 - Effects last 5-10 seconds maximum
 
-### Task 31: Create persistent leaderboard system
+### Task 61: Create persistent leaderboard system
 **User Story:** As a player, I want to see my high scores compared to other traders, so that I have competitive goals to strive for and can track my improvement over time.
 
 **Status History:**
@@ -542,7 +712,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - NPC scores should feel competitive but beatable
 - Consider daily/weekly/all-time boards in future
 
-### Task 32: Implement time consumption mechanics
+### Task 62: Implement time consumption mechanics
 **User Story:** As a player, I want the mini-game to consume in-game time realistically, so that I must balance the desire to earn credits with other investigation activities.
 
 **Status History:**
@@ -563,7 +733,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Force end game with "Shift Complete" message
 - No time consumption in practice mode
 
-### Task 33: Integrate minigame with job shift system
+### Task 63: Integrate minigame with job shift system
 **User Story:** As a player working as a trader, I want the mini-game to launch seamlessly when I start my shift, so that the job system and mini-game feel like one cohesive experience.
 
 **Status History:**
@@ -584,7 +754,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Handle early quit with penalties
 - Return to trading floor after shift
 
-### Task 34: Add save/load functionality for minigame progress
+### Task 64: Add save/load functionality for minigame progress
 **User Story:** As a player, I want my trading statistics and high scores to persist, so that my accomplishments and progress in the mini-game are remembered across play sessions.
 
 **Status History:**
@@ -605,7 +775,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Integrate with main save system
 - Handle save corruption gracefully
 
-### Task 35: Create practice mode and tutorial
+### Task 65: Create practice mode and tutorial
 **User Story:** As a new player, I want to practice the trading mini-game without time pressure or consequences, so that I can learn the mechanics and improve my skills before taking on paid shifts.
 
 **Status History:**
@@ -635,6 +805,22 @@ As a player, I need structured objectives that guide my investigation while allo
 - Performance with many active quests
 - Quest notifications work properly
 - All systems integrate smoothly
+- Role obligations trigger when wearing disguises
+- Obligation timers and deadlines work correctly
+- Performance evaluation tracks actions accurately
+- Role knowledge tests present appropriate questions
+- NPCs react to out-of-character behavior
+- Behavioral consistency checking functions properly
+- Role HUD displays obligations and performance clearly
+- Quick change interface allows disguise swapping
+- Role reputation affects future infiltrations
+- DisguiseSerializer saves/loads all disguise state
+- Complex multi-phase obligations execute in sequence
+- Disguise combinations and layers work as designed
+- Obligation failures have appropriate consequences
+- Role-specific behaviors are properly enforced
+- Disguise acquisition mechanics integrate with economy
+- Obligation hints help players understand requirements
 - Security patrol routes execute correctly
 - Guard detection mechanics work at proper distances
 - Line-of-sight calculations are accurate
@@ -657,7 +843,7 @@ As a player, I need structured objectives that guide my investigation while allo
 
 ## Timeline
 - Start date: After Iteration 10
-- Target completion: 2-3 weeks
+- Target completion: 3-4 weeks (increased due to disguise obligation system)
 - Critical for: Phase 2 validation
 
 ## Dependencies
@@ -669,18 +855,30 @@ As a player, I need structured objectives that guide my investigation while allo
 - src/core/quests/quest_manager.gd (to be created)
 - src/core/quests/quest_state_machine.gd (to be created)
 - src/core/jobs/job_manager.gd (to be created)
+- src/core/disguise/role_obligation.gd (to be created)
+- src/core/disguise/role_performance.gd (to be created)
+- src/core/disguise/role_reputation.gd (to be created)
+- src/core/serializers/disguise_serializer.gd (to be created)
 - src/ui/quest_log/quest_log_ui.gd (to be created)
+- src/ui/disguise/role_hud.gd (to be created)
+- src/ui/disguise/quick_change_ui.gd (to be created)
 - data/quests/first_quest.json (to be created)
+- data/disguises/role_obligations.json (to be created)
+- data/disguises/role_knowledge_tests.json (to be created)
 - docs/design/job_work_quest_system_design.md
 - docs/design/quest_log_ui_design.md
 - docs/design/template_quest_design.md
 - docs/design/trading_floor_minigame_system_design.md
+- docs/design/disguise_clothing_system_design.md
 
 ## Notes
 - Quest system must be flexible for Phase 3 content
 - Jobs provide both gameplay and narrative opportunities
-- First Quest validates all Phase 2 systems
+- Disguise role obligations create "double-edged sword" gameplay where access requires responsibility
+- Role performance and reputation systems add depth to infiltration mechanics
+- First Quest validates all Phase 2 systems including disguise obligations
 - Multiple solution paths encourage replay
 - This iteration enables structured gameplay progression
 - Trading Floor minigame provides economic job gameplay
 - All job systems should integrate with the quest framework
+- Disguise obligations fundamentally change infiltration from passive to active gameplay
