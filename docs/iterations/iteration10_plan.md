@@ -13,6 +13,7 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Build Disguise System for infiltration gameplay
 - Establish social simulation foundation
 - Create believable station inhabitants
+- Implement Barracks Rent System for economic pressure
 
 ## Requirements
 
@@ -29,6 +30,10 @@ As a player, I want to interact with NPCs who feel like real people with their o
   - **Rationale:** Immersive world requires NPCs that feel alive
   - **Success Metric:** Players report NPCs feel like real people
 
+- **B4:** Establish economic pressure through rent system
+  - **Rationale:** Weekly rent creates constant resource management tension
+  - **Success Metric:** Players feel economic pressure affects their decisions
+
 ### User Requirements
 - **U1:** As a player, I want to build relationships with NPCs
   - **User Value:** Social gameplay adds depth and personalization
@@ -42,6 +47,10 @@ As a player, I want to interact with NPCs who feel like real people with their o
   - **User Value:** Learning patterns enables strategic planning
   - **Acceptance Criteria:** NPCs follow schedules with logical activities
 
+- **U4:** As a player, I want to manage weekly rent payments
+  - **User Value:** Economic survival adds tension and strategic resource planning
+  - **Acceptance Criteria:** Weekly rent deducted, warnings given, eviction/re-admittance works
+
 ### Technical Requirements
 - **T1:** Design scalable relationship tracking system
   - **Rationale:** Many NPCs with interconnected relationships
@@ -54,6 +63,10 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - **T3:** Implement performance-optimized routine system
   - **Rationale:** Many NPCs with complex schedules could impact FPS
   - **Constraints:** LOD system for distant NPCs
+
+- **T4:** Create automated rent collection system
+  - **Rationale:** Weekly cycles must integrate with time and economy systems
+  - **Constraints:** Must handle save/load across rent cycles
 
 ## Tasks
 
@@ -103,6 +116,16 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - [ ] Task 33: Add coalition transit benefits
 - [ ] Task 34: Build emergency transit mechanics
 - [ ] Task 35: Create economic pressure through travel costs
+
+### Barracks Rent System
+- [ ] Task 36: Create RentManager singleton
+- [ ] Task 37: Implement weekly rent collection mechanics
+- [ ] Task 38: Add rent warning and notification system
+- [ ] Task 39: Create eviction process with grace period
+- [ ] Task 40: Implement Concierge re-admittance dialog
+- [ ] Task 41: Add rent system UI integration
+- [ ] Task 42: Create BarracksSerializer for save/load
+- [ ] Task 43: Integrate rent with economic assistance events
 
 ## User Stories
 
@@ -566,6 +589,174 @@ As a player, I want to interact with NPCs who feel like real people with their o
   - Handle district transitions
   - Update activity based on location
 
+### Task 36: Create RentManager singleton
+**User Story:** As a developer, I want a centralized system to manage all rent-related mechanics, so that weekly payments, evictions, and re-admittance are handled consistently.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4, U4, T4
+- **Acceptance Criteria:**
+  1. Tracks weeks_owed and payment history
+  2. Calculates rent based on current status
+  3. Manages eviction dates and grace periods
+  4. Integrates with TimeManager for weekly cycles
+  5. Provides API for other systems
+
+**Implementation Notes:**
+- Reference: docs/design/barracks_system_design.md
+- Weekly rent: 450 credits
+- Grace period: 7 days after first missed payment
+- Eviction after 2 weeks of non-payment
+
+### Task 37: Implement weekly rent collection mechanics
+**User Story:** As a player, I want rent automatically deducted every Friday, so that I must maintain steady income to keep my housing.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4, U4
+- **Acceptance Criteria:**
+  1. Rent deducted every Friday (day % 7 == 5)
+  2. Successful payment clears debt
+  3. Failed payment starts grace period
+  4. Transaction logged in EconomyManager
+  5. Notification shows payment result
+
+**Implementation Notes:**
+- Check happens at day change to Friday
+- If insufficient funds, increment weeks_owed
+- First failure triggers grace period
+- Second failure triggers eviction
+
+### Task 38: Add rent warning and notification system
+**User Story:** As a player, I want advance warning about rent payments, so that I can ensure I have sufficient credits before Friday.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4, U4
+- **Acceptance Criteria:**
+  1. Warning on Wednesday if funds insufficient
+  2. Grace period notice shows eviction date
+  3. Eviction notice explains re-admittance
+  4. All notices use PromptNotificationSystem
+  5. Critical deadlines shown in time display
+
+**Implementation Notes:**
+- Wednesday warning: 2 days before rent due
+- Use notification types: info, warning, critical
+- Add to quest log as reminders
+- Time display shows "Eviction in X days" when applicable
+
+### Task 39: Create eviction process with grace period
+**User Story:** As a player, I want a grace period after missing rent, so that temporary financial hardship doesn't immediately cost me my home.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4, U4
+- **Acceptance Criteria:**
+  1. 7-day grace period after first missed payment
+  2. Must pay 2 weeks rent to avoid eviction
+  3. Eviction revokes barracks access
+  4. Storage locked but items preserved
+  5. Save location changes to mall_squat
+
+**Implementation Notes:**
+- Set eviction_date = current_day + 7
+- Lock storage with InventoryManager.lock_barracks_storage()
+- Update SleepSystem with player_homeless = true
+- Add "evicted_from_barracks" flag
+
+### Task 40: Implement Concierge re-admittance dialog
+**User Story:** As a player, I want to pay the Concierge to regain barracks access, so that eviction is a setback but not permanent.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4, U4
+- **Acceptance Criteria:**
+  1. Concierge has context-sensitive dialog
+  2. Shows exact amount owed
+  3. Payment restores full access
+  4. Storage unlocked after payment
+  5. Next rent date clearly communicated
+
+**Implementation Notes:**
+- Add to Concierge NPC in Iteration 19
+- Dialog checks is_evicted() and credits
+- Full payment required, no partial payments
+- Reset all rent tracking on payment
+
+### Task 41: Add rent system UI integration
+**User Story:** As a player, I want to see my rent status at a glance, so that I can plan my finances accordingly.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4, U4
+- **Acceptance Criteria:**
+  1. Rent status in economy UI
+  2. Days until next payment shown
+  3. Amount owed if in debt
+  4. Calendar shows rent due dates
+  5. Color coding for urgency
+
+**Implementation Notes:**
+- Green: paid up, Yellow: due soon, Red: overdue/evicted
+- Calendar recurring event every Friday
+- Show in player stats/journal
+- Quick access from economy display
+
+### Task 42: Create BarracksSerializer for save/load
+**User Story:** As a player, I want my rent status to persist across game sessions, so that I can't avoid payments by reloading.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T4
+- **Acceptance Criteria:**
+  1. All rent data serialized
+  2. Eviction status preserved
+  3. Payment history saved
+  4. Grace period dates maintained
+  5. Integrates with SaveManager
+
+**Implementation Notes:**
+- Extend BaseSerializer
+- Priority 30 (medium)
+- Save: has_access, weeks_owed, eviction_date, etc.
+- Restore evicted state on load
+
+### Task 43: Integrate rent with economic assistance events
+**User Story:** As a player in the coalition, I want the possibility of rent assistance, so that strong relationships can help in dire situations.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B4
+- **Acceptance Criteria:**
+  1. Coalition may offer rent help (trust > 75)
+  2. Random assistance events (10% chance)
+  3. Economic crisis reduces rent (rare)
+  4. Amount varies 100-300 credits
+  5. Creates coalition loyalty
+
+**Implementation Notes:**
+- Only triggers when weeks_owed > 0
+- Requires high coalition trust
+- Shows as notification with credits added
+- Deepens coalition relationship mechanics
+
 ## Testing Criteria
 - Trust levels change appropriately
 - NPC memories persist correctly
@@ -575,6 +766,10 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Performance stays smooth with many NPCs
 - All systems integrate properly
 - Save/load preserves all NPC states
+- Rent deducted correctly every Friday
+- Eviction process follows proper timeline
+- Re-admittance through Concierge works
+- Rent persists across save/load cycles
 
 ## Timeline
 - Start date: After Iteration 9
@@ -585,6 +780,9 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Iteration 9: Detection system (for disguise integration)
 - Iteration 8: Living World MVP (routine foundation)
 - Iteration 2: Base NPC system
+- Iteration 7: Economy system (for rent transactions)
+- Iteration 5: Time system (for weekly cycles)
+- Iteration 5: Notification system (for rent warnings)
 
 ## Code Links
 - src/core/social/relationship_manager.gd (to be created)
@@ -592,9 +790,12 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - src/characters/npc/npc_routine_full.gd (to be created)
 - src/core/disguise/disguise_manager.gd (to be created)
 - src/characters/npc/base_npc_full.gd (to be created)
+- src/core/economy/rent_manager.gd (to be created)
+- src/core/economy/barracks_serializer.gd (to be created)
 - docs/design/npc_trust_relationship_system_design.md
 - docs/design/disguise_clothing_system_design.md
 - docs/design/template_npc_design.md
+- docs/design/barracks_system_design.md
 
 ## Notes
 - NPCs are the heart of the social simulation
@@ -602,3 +803,5 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Disguise system offers stealth alternative
 - Routines create investigation opportunities
 - This iteration brings NPCs to life
+- Rent system creates constant economic pressure
+- Concierge becomes critical NPC for housing
