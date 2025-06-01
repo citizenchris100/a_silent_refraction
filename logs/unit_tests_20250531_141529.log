@@ -1,0 +1,24 @@
+=== Test: player_signal_emission_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERSIGNALEMISSION TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+WARNING: No district found for the player
+
+[TEST] test_movement_state_changed_signal_exists
+  ✓ PASS: test_movement_state_changed_signal_exists: Player should have movement_state_changed signal
+
+[TEST] test_signal_can_be_connected
+  ✓ PASS: test_signal_can_be_connected: Should be able to connect to movement_state_changed signal
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: run_test_suite (res://src/unit_tests/player_signal_emission_test.gd:66)
+

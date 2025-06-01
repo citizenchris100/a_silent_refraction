@@ -1,0 +1,28 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKSIGNALCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST: Basic Signal Flow =====
+
+[TEST] Components created successfully
+  ✓ PASS: All components should be created
+
+[TEST] InputManager emits click signal
+
+==================================================
+ SUMMARY: 1 passed, 0 failed
+==================================================
+
+  ✓ PASS: Click detected signal should be emitted
+
+[TEST] Priority system processes clicks
+  ✓ PASS: Priority system should process valid clicks
+
+[TEST] Priority system rejects UI clicks

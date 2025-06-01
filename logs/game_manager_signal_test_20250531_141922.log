@@ -1,0 +1,69 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Player Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_connects_to_player_movement_state_changed
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  ✓ PASS: test_connects_to_player_movement_state_changed: GameManager should connect to player's movement_state_changed signal
+
+[TEST] test_responds_to_player_state_changes
+  [TEST] Received player state: MOVING
+Player movement state changed to: MOVING
+  ✓ PASS: test_responds_to_player_state_changes: GameManager should be able to receive player state changes
+Cleaned up all signal connections
+
+===== TEST SUITE: Camera Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_connects_to_camera_move_started
+Cleaned up all signal connections
+Found player: @Player@5
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  ✓ PASS: test_connects_to_camera_move_started: GameManager should connect to camera's camera_move_started signal
+
+[TEST] test_connects_to_camera_state_changed
+  ✓ PASS: test_connects_to_camera_state_changed: GameManager should connect to camera's camera_state_changed signal
+Cleaned up all signal connections
+
+===== TEST SUITE: Input Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_existing_input_manager_connection
+Cleaned up all signal connections
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  ✓ PASS: test_existing_input_manager_connection: GameManager should connect to InputManager's object_clicked signal
+
+[TEST] test_input_signal_functionality
+  [TEST] Received object click
+  ✓ PASS: test_input_signal_functionality: InputManager signals should work correctly
+Cleaned up all signal connections
+
+==================================================
+ SUMMARY: 6 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerSignal tests passed!
+Cleaned up all signal connections

@@ -68,7 +68,7 @@ func run_test_suite(suite_name: String, test_func: FuncRef):
 	print("\n===== TEST SUITE: %s =====" % suite_name)
 	setup_test_scene()
 	yield(test_func.call_func(), "completed")
-	cleanup_test_scene()
+	yield(cleanup_test_scene(), "completed")
 
 # ===== TEST SUITES =====
 
@@ -76,8 +76,10 @@ func test_suite_player_connection():
 	# Test GameManager connects to player movement_state_changed signal
 	start_test("test_connects_to_player_movement_state_changed")
 	
-	# Wait for GameManager to initialize and find player
-	yield(get_tree().create_timer(0.2), "timeout")
+	# Wait for GameManager's internal initialization to complete
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	yield(get_tree().create_timer(0.1), "timeout")
 	
 	# Check if connection exists
 	var connected = false
@@ -107,7 +109,10 @@ func test_suite_camera_connection():
 	# Test GameManager connects to camera signals
 	start_test("test_connects_to_camera_move_started")
 	
-	yield(get_tree().create_timer(0.2), "timeout")
+	# Wait for GameManager's internal initialization to complete
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	yield(get_tree().create_timer(0.1), "timeout")
 	
 	var connected = false
 	if mock_camera and game_manager and mock_camera.has_signal("camera_move_started"):
@@ -129,11 +134,21 @@ func test_suite_input_connection():
 	# Test existing InputManager connection (this should PASS as it already exists)
 	start_test("test_existing_input_manager_connection")
 	
-	yield(get_tree().create_timer(0.2), "timeout")
+	# Wait longer for GameManager's internal yield(get_tree(), "idle_frame") to complete
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	yield(get_tree().create_timer(0.1), "timeout")
 	
 	var connected = false
 	if mock_input_manager and game_manager and mock_input_manager.has_signal("object_clicked"):
 		connected = mock_input_manager.is_connected("object_clicked", game_manager, "handle_object_click")
+		if log_debug_info:
+			print("  [DEBUG] InputManager found: %s" % (mock_input_manager != null))
+			print("  [DEBUG] GameManager found: %s" % (game_manager != null))
+			print("  [DEBUG] GameManager.input_manager: %s" % (game_manager.input_manager != null if game_manager else "N/A"))
+			print("  [DEBUG] Same instance: %s" % (game_manager.input_manager == mock_input_manager if game_manager and game_manager.input_manager else "N/A"))
+			print("  [DEBUG] Has signal: %s" % (mock_input_manager.has_signal("object_clicked") if mock_input_manager else false))
+			print("  [DEBUG] Is connected: %s" % connected)
 	
 	end_test(connected, "GameManager should connect to InputManager's object_clicked signal")
 	
@@ -165,6 +180,7 @@ func setup_test_scene():
 	# Create mock camera with signals
 	mock_camera = Node2D.new()
 	mock_camera.name = "ScrollingCamera"
+	mock_camera.add_to_group("camera")  # Add to camera group so GameManager can find it
 	mock_camera.add_user_signal("camera_move_started", [
 		{"name": "target_position", "type": TYPE_VECTOR2},
 		{"name": "old_position", "type": TYPE_VECTOR2},
@@ -183,15 +199,19 @@ func setup_test_scene():
 	])
 	add_child(mock_camera)
 	
-	# Create mock input manager
+	# Create mock input manager BEFORE GameManager
 	mock_input_manager = Node.new()
 	mock_input_manager.name = "InputManager"
+	mock_input_manager.add_to_group("input_manager")  # Add to group for consistency
 	mock_input_manager.add_user_signal("object_clicked", [
 		{"name": "object", "type": TYPE_OBJECT},
 		{"name": "position", "type": TYPE_VECTOR2}
 	])
 	# Add to scene so GameManager can find it
-	get_parent().add_child(mock_input_manager)
+	add_child(mock_input_manager)
+	
+	# Wait for mock objects to be ready
+	yield(get_tree(), "idle_frame")
 	
 	# Create GameManager which should find and connect to these
 	game_manager = GameManager.new()
@@ -206,6 +226,9 @@ func cleanup_test_scene():
 	gm_received_signals.clear()
 	
 	if game_manager:
+		# Ensure GameManager cleans up its connections before freeing
+		if game_manager.has_method("cleanup_connections"):
+			game_manager.cleanup_connections()
 		game_manager.queue_free()
 		game_manager = null
 	if mock_player:
@@ -218,7 +241,10 @@ func cleanup_test_scene():
 		mock_input_manager.queue_free()
 		mock_input_manager = null
 	
+	# Wait for nodes to be freed
 	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	yield(get_tree().create_timer(0.1), "timeout")
 
 # Signal receivers for testing
 func _on_test_player_state_changed(new_state):

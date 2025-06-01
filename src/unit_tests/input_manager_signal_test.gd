@@ -35,7 +35,7 @@ func _ready():
 	print(" %s TEST SUITE" % test_name.to_upper())
 	print("==================================================\n")
 	
-	run_tests()
+	yield(run_tests(), "completed")
 	
 	print("\n" + "==================================================")
 	print(" SUMMARY: %d passed, %d failed" % [tests_passed, tests_failed])
@@ -54,20 +54,20 @@ func _ready():
 
 func run_tests():
 	if run_all_tests or test_signal_definitions:
-		run_test_suite("Signal Definition Tests", funcref(self, "test_suite_signal_definitions"))
+		yield(run_test_suite("Signal Definition Tests", funcref(self, "test_suite_signal_definitions")), "completed")
 	
 	if run_all_tests or test_click_signal_emission:
-		run_test_suite("Click Signal Emission Tests", funcref(self, "test_suite_click_emission"))
+		yield(run_test_suite("Click Signal Emission Tests", funcref(self, "test_suite_click_emission")), "completed")
 		
 	if run_all_tests or test_signal_data_integrity:
-		run_test_suite("Signal Data Integrity Tests", funcref(self, "test_suite_signal_data"))
+		yield(run_test_suite("Signal Data Integrity Tests", funcref(self, "test_suite_signal_data")), "completed")
 
 func run_test_suite(suite_name: String, test_func: FuncRef):
 	current_suite = suite_name
 	print("\n===== TEST SUITE: %s =====" % suite_name)
-	setup_test_scene()
-	test_func.call_func()
-	cleanup_test_scene()
+	yield(setup_test_scene(), "completed")
+	yield(test_func.call_func(), "completed")
+	yield(cleanup_test_scene(), "completed")
 
 # ===== TEST SUITES =====
 
@@ -92,6 +92,7 @@ func test_suite_signal_definitions():
 	else:
 		can_connect = false
 	end_test(can_connect, "Should be able to connect to InputManager signals")
+	yield(get_tree(), "idle_frame")
 
 func test_suite_click_emission():
 	# Connect signals for testing
@@ -126,6 +127,7 @@ func test_suite_click_emission():
 		input_manager.disconnect("object_clicked", self, "_on_object_clicked")
 	if input_manager.is_connected("click_detected", self, "_on_click_detected"):
 		input_manager.disconnect("click_detected", self, "_on_click_detected")
+	yield(get_tree(), "idle_frame")
 
 func test_suite_signal_data():
 	# Connect signals
@@ -162,6 +164,7 @@ func test_suite_signal_data():
 		input_manager.disconnect("object_clicked", self, "_on_object_clicked")
 	if input_manager.is_connected("click_detected", self, "_on_click_detected"):
 		input_manager.disconnect("click_detected", self, "_on_click_detected")
+	yield(get_tree(), "idle_frame")
 
 # ===== HELPER METHODS =====
 
@@ -184,7 +187,8 @@ func setup_test_scene():
 	input_manager.name = "InputManager"
 	add_child(input_manager)
 	
-	# Wait for initialization
+	# Wait for initialization (InputManager has yield in _ready)
+	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
 
 func cleanup_test_scene():
@@ -197,6 +201,10 @@ func cleanup_test_scene():
 	if mock_district:
 		mock_district.queue_free()
 		mock_district = null
+	
+	# Wait for nodes to be freed
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
 	
 	reset_signal_tracking()
 	yield(get_tree(), "idle_frame")

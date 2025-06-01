@@ -1,0 +1,29 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All InputManagerSignal tests passed!
+ERROR: No player found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+
+[TEST] test_object_clicked_signal_exists
+  ✓ PASS: test_object_clicked_signal_exists: InputManager should have object_clicked signal
+
+[TEST] test_click_detected_signal_exists
+  ✓ PASS: test_click_detected_signal_exists: InputManager should have click_detected signal
+
+[TEST] test_signals_connectable
+  ✓ PASS: test_signals_connectable: Should be able to connect to InputManager signals

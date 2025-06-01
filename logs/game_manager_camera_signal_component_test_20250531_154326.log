@@ -1,0 +1,106 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERCAMERASIGNAL COMPONENT TEST SUITE
+==================================================
+
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1319
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Camera Signal Connection =====
+
+[TEST] test_game_manager_connects_to_camera
+
+===== TEST SUITE: Movement Coordination =====
+
+[TEST] test_camera_follows_player_movement
+Setting target_player to: Player:[Node2D:1321]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+
+===== TEST SUITE: State Synchronization =====
+
+[TEST] test_camera_state_change_signals
+ensure_valid_target called with position: (300, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: No bounds validator available, using legacy bounds validation
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+Position adjusted by bounds: (300, 300) -> (712, 476)
+move_to_position called with pos=(300, 300), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+  [SIGNAL] camera_state_changed to 1
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+
+==================================================
+ SUMMARY: 0 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerCameraSignal tests passed!
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: Player
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+WARNING: No district found for the player
+ERROR: No district found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  ✗ FAIL: test_camera_state_change_signals: GameManager should connect to camera signals
+  ✓ PASS: test_camera_state_change_signals: Camera state changes should emit signals
+
+[TEST] test_camera_move_started_signal
+
+[TEST] test_game_manager_responds_to_camera_states
+  ✓ PASS: test_game_manager_responds_to_camera_states: GameManager should handle all camera states
+Cleaned up all signal connections

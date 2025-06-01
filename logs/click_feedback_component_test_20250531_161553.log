@@ -1,0 +1,60 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKFEEDBACKCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Feedback Creation on Click =====
+
+[TEST] test_creates_feedback_on_valid_click
+  ✓ PASS: test_creates_feedback_on_valid_click: Should create feedback marker at click position
+
+[TEST] test_creates_feedback_on_invalid_click
+  ✓ PASS: test_creates_feedback_on_invalid_click: Should create invalid feedback marker for invalid clicks
+
+[TEST] test_handles_multiple_rapid_clicks
+  ✓ PASS: test_handles_multiple_rapid_clicks: Should handle multiple rapid clicks without issues
+
+===== TEST SUITE: Feedback Visual States =====
+
+[TEST] test_valid_click_shows_green_feedback
+  ✓ PASS: test_valid_click_shows_green_feedback: Valid clicks should show green feedback
+
+[TEST] test_invalid_click_shows_red_feedback
+  ✓ PASS: test_invalid_click_shows_red_feedback: Invalid clicks should show red feedback
+
+[TEST] test_adjusted_click_shows_yellow_feedback
+  ✓ PASS: test_adjusted_click_shows_yellow_feedback: Adjusted clicks should show both original and final positions
+
+[TEST] test_feedback_includes_adjustment_line
+  ✓ PASS: test_feedback_includes_adjustment_line: Adjusted clicks should show a line from original to adjusted position
+
+===== TEST SUITE: Feedback Timing and Duration =====
+
+[TEST] test_feedback_fades_after_duration
+  ✓ PASS: test_feedback_fades_after_duration: Feedback should automatically fade after duration
+
+[TEST] test_feedback_fade_animation
+  ✓ PASS: test_feedback_fade_animation: Feedback should fade gradually over time
+
+===== TEST SUITE: Feedback Cleanup and Performance =====
+
+[TEST] test_clear_all_feedback
+  ✓ PASS: test_clear_all_feedback: Clear all should remove all active feedback
+
+[TEST] test_feedback_performance_with_many_clicks
+  ✓ PASS: test_feedback_performance_with_many_clicks: Should handle many feedbacks efficiently (took 2ms)
+
+[TEST] test_old_feedback_cleanup
+  ✓ PASS: test_old_feedback_cleanup: System should clean up expired feedback nodes
+
+==================================================
+ SUMMARY: 12 passed, 0 failed
+==================================================
+
+[PASS] All ClickFeedbackComponentTest tests passed!

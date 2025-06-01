@@ -1,0 +1,393 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1303
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+ScrollingCameraTest: Using existing camera: TestCamera
+ScrollingCameraTest: Created mock player at position: (500, 500)
+Setting target_player to: MockPlayer:[Node2D:1318]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+ScrollingCameraTest: Starting ScrollingCamera unit tests
+ScrollingCameraTest: === Running Basic Tests ===
+ScrollingCameraTest: Running test: Camera instantiation
+ScrollingCameraTest: PASS: Camera instantiation
+ScrollingCameraTest: Running test: Test mode setting
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ScrollingCameraTest: PASS: Test mode setting
+ScrollingCameraTest: Running test: Camera state control
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+ScrollingCameraTest: PASS: Camera state control
+ScrollingCameraTest: Running test: Default bounds settings
+ScrollingCameraTest: PASS: Default bounds settings
+ScrollingCameraTest: Running test: Bounds enabled setting
+ScrollingCameraTest: PASS: Bounds enabled setting
+ScrollingCameraTest: === Running Movement Tests ===
+ScrollingCameraTest: Running test: Immediate movement
+ensure_valid_target called with position: (812, 476)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (812, 476)
+move_to_position called with pos=(812, 476), immediate=True
+Target position after validation: (812, 476)
+Immediate move from (712, 476) to (812, 476)
+ScrollingCameraTest: PASS: Immediate movement
+ScrollingCameraTest: Running test: Movement with transition
+ensure_valid_target called with position: (912, 476)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (912, 476)
+move_to_position called with pos=(912, 476), immediate=False
+Target position after validation: (912, 476)
+Starting animated movement to (912, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (853, 476), Target (912, 476)
+[CAMERA DEBUG] Camera transition: Progress 1, Position (912, 476), Target (912, 476)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+[CAMERA DEBUG] Camera transition completed to (912, 476), took 0s
+ScrollingCameraTest: PASS: Movement with transition
+ScrollingCameraTest: Running test: Movement easing types
+ensure_valid_target called with position: (812, 476)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (812, 476)
+move_to_position called with pos=(812, 476), immediate=False
+Target position after validation: (812, 476)
+Starting animated movement to (812, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (762, 476), Target (812, 476)
+[CAMERA DEBUG] Camera transition: Progress 1, Position (812, 476), Target (812, 476)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+[CAMERA DEBUG] Camera transition completed to (812, 476), took 0.016s
+ensure_valid_target called with position: (812, 476)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (812, 476)
+move_to_position called with pos=(812, 476), immediate=False
+Target position after validation: (812, 476)
+Starting animated movement to (812, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (737, 476), Target (812, 476)
+[CAMERA DEBUG] Camera transition: Progress 1, Position (812, 476), Target (812, 476)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+[CAMERA DEBUG] Camera transition completed to (812, 476), took 0.017s
+ensure_valid_target called with position: (812, 476)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (812, 476)
+move_to_position called with pos=(812, 476), immediate=False
+Target position after validation: (812, 476)
+Starting animated movement to (812, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (787, 476), Target (812, 476)
+[CAMERA DEBUG] Camera transition: Progress 1, Position (812, 476), Target (812, 476)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+[CAMERA DEBUG] Camera transition completed to (812, 476), took 0.016s
+ScrollingCameraTest: PASS: Movement easing types
+ScrollingCameraTest: === Running Bounds Tests ===
+ScrollingCameraTest: Running test: Bounds initialization
+ScrollingCameraTest: PASS: Bounds initialization
+ScrollingCameraTest: Running test: Test mode bounds bypass
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ensure_valid_target called with position: (-1000, -1000)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (-1000, -1000)
+move_to_position called with pos=(-1000, -1000), immediate=True
+Target position after validation: (-1000, -1000)
+Immediate move from (712, 476) to (-1000, -1000)
+ScrollingCameraTest: PASS: Test mode bounds bypass
+ScrollingCameraTest: Running test: Default validator bounds enforcement
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+ensure_valid_target called with position: (-1000, -1000)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (-1000, -1000) -> (712, 476)
+Position adjusted by bounds validator: (-1000, -1000) -> (712, 476)
+ensure_valid_target called with position: (-1000, -1000)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (-1000, -1000) -> (712, 476)
+Position adjusted by bounds validator: (-1000, -1000) -> (712, 476)
+move_to_position called with pos=(-1000, -1000), immediate=True
+Target position after validation: (712, 476)
+Immediate move from (712, 476) to (712, 476)
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ScrollingCameraTest: PASS: Default validator bounds enforcement
+ScrollingCameraTest: Running test: Update bounds method
+ScrollingCameraTest: PASS: Update bounds method
+ScrollingCameraTest: Running test: Viewport-aware bounds calculation
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (4698, 952)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 0
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 0
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+NOTE: Calculated bounds width is less than 30% of background width.
+This may indicate an issue with walkable area coordinates.
+Final district bounds: (-1, -1, 802, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+ScrollingCameraTest: Viewport size: (1424, 952)
+ScrollingCameraTest: Calculated bounds: (-1, -1, 802, 602)
+ScrollingCameraTest: Bounds height: 602
+ScrollingCameraTest: Viewport height: 952
+ScrollingCameraTest: Height ratio (bounds/viewport): 0.632353
+ScrollingCameraTest: Is height ratio acceptable (>=0.3): True
+ScrollingCameraTest: PASS: Viewport-aware bounds calculation
+ScrollingCameraTest: Running test: Background scaling hybrid architecture validation
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (2448, 496)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: ScalingWalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 822), Global: (0, 822)
+Point 1 - Local: (4691, 822), Global: (4691, 822)
+Point 2 - Local: (4691, 947), Global: (4691, 947)
+Point 3 - Local: (0, 947), Global: (0, 947)
+Note: Rect2.expand() did not change bounds for point (0, 947) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 822, 4691, 125)
+Bounds after margin adjustment: (-1, 821, 4693, 127)
+Final corrected bounds: (-1, 821, 4693, 127)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+INFO: Walkable area height is 127 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 285.6 pixels for better visibility
+Height-to-viewport ratio: 0.3 (30%)
+This preserves the exact floor walkable area while improving camera view
+Final district bounds: (-1, 741.700012, 4693, 285.600006)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+ScrollingCameraTest: Expected viewport-aware bounds: (-1, 741.700012, 4693, 285.600006)
+ScrollingCameraTest: Expected bounds height: 285.600006
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2448, 496)
+Current background scale: (1, 1)
+Effective background size with current scale: (2448, 496)
+Scale needed to fill viewport height: 1.919355
+Applied new scale to background: (1.919355, 1.919355)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (4698.580566, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 4698.580566, 952)
+[TEST] Set bounds to: (0, 0, 4698.580566, 952) (ignored in test validator)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+ScrollingCameraTest: Bounds after background scaling: (0, 0, 4698.580566, 952)
+ScrollingCameraTest: Bounds height after scaling: 952
+ScrollingCameraTest: Bounds were overridden: True
+ScrollingCameraTest: Bounds match scaled background: True
+ScrollingCameraTest: PASS: Background scaling hybrid architecture validation
+ScrollingCameraTest: Running test: Background scaling visual requirement
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2448, 496)
+Current background scale: (1, 1)
+Effective background size with current scale: (2448, 496)
+Scale needed to fill viewport height: 1.919355
+Applied new scale to background: (1.919355, 1.919355)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (4698.580566, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 4698.580566, 952)
+[TEST] Set bounds to: (0, 0, 4698.580566, 952) (ignored in test validator)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+ScrollingCameraTest: Background scale after calculate_optimal_zoom: (1.919355, 1.919355)
+ScrollingCameraTest: Expected scale for viewport fill: 1.919355
+ScrollingCameraTest: Final camera bounds: (0, 0, 4698.580566, 952)
+ScrollingCameraTest: Scaled background size: (4698.580566, 952)
+ScrollingCameraTest: Bounds match scaled background: True
+ScrollingCameraTest: PASS: Background scaling visual requirement
+ScrollingCameraTest: Running test: Bounds validator synchronization with background scaling
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (2448, 496)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 0
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 0
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+Final district bounds: (-1, -1, 802, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+ScrollingCameraTest: Initial bounds before scaling: (-1, -1, 802, 602)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2448, 496)
+Current background scale: (1, 1)
+Effective background size with current scale: (2448, 496)
+Scale needed to fill viewport height: 1.919355
+Applied new scale to background: (1.919355, 1.919355)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (4698.580566, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 4698.580566, 952)
+[TEST] Set bounds to: (0, 0, 4698.580566, 952) (ignored in test validator)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+ScrollingCameraTest: Final bounds after scaling: (0, 0, 4698.580566, 952)
+ScrollingCameraTest: Bounds were overridden: True
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 4698.580566, 952)
+BoundsValidator initialized: Reference
+ScrollingCameraTest: Testing position: (4598.580566, 852)
+ScrollingCameraTest: Against bounds: (0, 0, 4698.580566, 952)
+ensure_valid_target called with position: (4598.580566, 852)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (4598.580566, 852) -> (3986.580566, 476)
+Position adjusted by bounds validator: (4598.580566, 852) -> (3986.580566, 476)
+ScrollingCameraTest: Validated position: (3986.580566, 476)
+ScrollingCameraTest: Validated position within new bounds area: True
+ScrollingCameraTest: PASS: Bounds validator synchronization with background scaling
+ScrollingCameraTest: === Running State Tests ===
+ScrollingCameraTest: Running test: State transitions
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+ScrollingCameraTest: PASS: State transitions
+ScrollingCameraTest: Running test: State helper methods
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to IDLE
+ScrollingCameraTest: PASS: State helper methods
+ScrollingCameraTest: === Running Coordinate Tests ===
+ScrollingCameraTest: Running test: Screen to world conversion
+ScrollingCameraTest: PASS: Screen to world conversion
+ScrollingCameraTest: Running test: World to screen conversion
+ScrollingCameraTest: PASS: World to screen conversion
+ScrollingCameraTest: Running test: Coordinate validation
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+ScrollingCameraTest: PASS: Coordinate validation
+ScrollingCameraTest: === Running Signal Tests ===
+ScrollingCameraTest: Running test: State change signal
+ScrollingCameraTest: Received state_changed signal: 1 from 0 reason: manual_transition
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+ScrollingCameraTest: PASS: State change signal
+ScrollingCameraTest: Running test: Movement signals
+ensure_valid_target called with position: (812, 476)
+Current test_mode value: False
+Camera half size: (712, 476)
+move_to_position called with pos=(812, 476), immediate=False
+Target position after validation: (812, 476)
+Starting animated movement to (812, 476)
+ScrollingCameraTest: Received move_started signal: (812, 476)
+[CAMERA DEBUG] Camera state changed from IDLE to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.5, Position (787, 476), Target (812, 476)
+[CAMERA DEBUG] Camera transition: Progress 1, Position (812, 476), Target (812, 476)
+ScrollingCameraTest: Received move_completed signal: (812, 476)
+ScrollingCameraTest: Received move_completed signal: (812, 476)
+[CAMERA DEBUG] Camera state changed from MOVING to IDLE
+[CAMERA DEBUG] Camera transition completed to (812, 476), took 0.016s
+ScrollingCameraTest: PASS: Movement signals
+ScrollingCameraTest: Running test: Bounds change signal
+ScrollingCameraTest: Received view_bounds_changed signal: (10, 10, 4698.580566, 952)
+ScrollingCameraTest: PASS: Bounds change signal
+ScrollingCameraTest: Running test: Pixel-perfect camera positioning
+Setting target_player to: MockPlayer:[Node2D:1318]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+ScrollingCameraTest: PASS: Pixel-perfect camera positioning
+ScrollingCameraTest: === Running Physics Synchronization Tests ===
+ScrollingCameraTest: Running test: Camera movement frame synchronization
+ScrollingCameraTest: PASS: Camera movement frame synchronization
+ScrollingCameraTest: Running test: Pixel-perfect positioning in physics process
+ScrollingCameraTest: PASS: Pixel-perfect positioning in physics process
+ScrollingCameraTest: All tests completed
+ScrollingCameraTest: === TEST RESULTS ===
+ScrollingCameraTest: Total tests: 27
+ScrollingCameraTest: Passed: 27
+ScrollingCameraTest: Failed: 0
+ScrollingCameraTest: 
+All tests passed! 🎉

@@ -1,0 +1,117 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Coordinate Transformation component test...
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1304
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Test scene created with district and camera
+Starting Coordinate Transformation component tests...
+Running test suite: screen_world_transformations with timeout protection
+===== TEST SUITE: Screen World Transformations =====
+Running test: Scrolling Camera Screen to World
+✓ PASS: Scrolling Camera Screen to World: Camera screen_to_world should map screen center to camera position
+Running test: Scrolling Camera World to Screen
+✓ PASS: Scrolling Camera World to Screen: Camera world_to_screen should map camera position to screen center
+Running test: CoordinateSystem Screen to World
+✓ PASS: CoordinateSystem Screen to World: CoordinateSystem screen_to_world should map screen center to camera position
+Running test: CoordinateSystem World to Screen
+✓ PASS: CoordinateSystem World to Screen: CoordinateSystem world_to_screen should map camera position to screen center
+Running test: District Coordinate Methods
+✓ PASS: District Coordinate Methods: District coordinate methods should use camera methods correctly
+Suite completed: 5/5 tests passed
+Running test suite: game_world_view_transformations with timeout protection
+===== TEST SUITE: Game World View Transformations =====
+Running test: CoordinateSystem World to Game
+✓ PASS: CoordinateSystem World to Game: world_view_to_game_view should divide coordinates by scale factor
+Running test: CoordinateSystem Game to World
+✓ PASS: CoordinateSystem Game to World: game_view_to_world_view should multiply coordinates by scale factor
+Running test: CoordinateManager View Transformations
+CoordinateManager initialized
+✓ PASS: CoordinateManager View Transformations: CoordinateManager view transformations should work correctly in both directions
+Running test: Scale Factor Handling
+✓ PASS: Scale Factor Handling: Scale factor operations should work correctly with different factors
+Suite completed: 4/4 tests passed
+Running test suite: round_trip_transformations with timeout protection
+===== TEST SUITE: Round Trip Transformations =====
+Running test: Screen World Round Trip
+✓ PASS: Screen World Round Trip: Screen-to-world-to-screen round trip should preserve coordinates
+Running test: Game World View Round Trip
+✓ PASS: Game World View Round Trip: Game-view-to-world-view-to-game-view round trip should preserve coordinates
+Running test: Full Coordinate Pipeline
+CoordinateManager initialized
+✓ PASS: Full Coordinate Pipeline: Full coordinate transformation pipeline should preserve coordinates
+Suite completed: 3/3 tests passed
+Running test suite: coordinate_systems_integration with timeout protection
+===== TEST SUITE: Coordinate Systems Integration =====
+Running test: Camera CoordinateSystem Consistency
+✓ PASS: Camera CoordinateSystem Consistency: Camera and CoordinateSystem methods should give consistent results
+Running test: District CoordinateManager Consistency
+CoordinateManager initialized
+✓ PASS: District CoordinateManager Consistency: District and CoordinateManager methods should give consistent results
+Running test: Cross System Transformations
+CoordinateManager initialized
+Cross-system transformation difference: 0 pixels
+✓ PASS: Cross System Transformations: Coordinate transformations should work consistently across different systems
+Suite completed: 3/3 tests passed
+Running test suite: edge_cases with timeout protection
+===== TEST SUITE: Edge Cases =====
+Running test: Handle NaN Values
+WARNING: world_view_to_game_view received NaN coordinates: (nan, 100)
+WARNING: world_view_to_game_view received NaN coordinates: (100, nan)
+WARNING: world_view_to_game_view received NaN coordinates: (nan, nan)
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+✓ PASS: Handle NaN Values: Coordinate systems should properly handle NaN values
+Running test: Handle Infinity Values
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+✓ PASS: Handle Infinity Values: Coordinate systems should properly handle infinity values
+Running test: Handle Large Coordinates
+WARNING: Camera: Suspiciously large coordinate detected. Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Large coordinate detected: (1000000, 1000000)
+WARNING: Camera: Suspiciously large coordinate detected. Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Large coordinate detected: (-1000000, 1000000)
+WARNING: Camera: Suspiciously large coordinate detected. Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Large coordinate detected: (1000000, -1000000)
+✓ PASS: Handle Large Coordinates: Coordinate systems should properly handle very large coordinates
+Running test: Handle Negative Coordinates
+✓ PASS: Handle Negative Coordinates: Coordinate systems should properly handle negative coordinates
+Suite completed: 4/4 tests passed
+Running test suite: performance with timeout protection
+===== TEST SUITE: Performance =====
+Running test: Batch Transformations
+Batch transformation time for 100 points: 0ms
+✓ PASS: Batch Transformations: Batch transformations should complete without errors
+Running test: Large Array Transformations
+CoordinateManager initialized
+Large array transformation time for 1000 points: 2ms
+✓ PASS: Large Array Transformations: Large array transformations should preserve array size
+Suite completed: 2/2 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 21
+Passed: 21
+Failed: 0
+
+All tests passed! 🎉
+Tests complete - exiting...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/camera/scrolling_camera.gd:444
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)

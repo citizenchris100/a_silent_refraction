@@ -1,0 +1,27 @@
+A Silent Refraction - Test Execution Summary
+===========================================
+Started at: Sat May 31 07:51:46 PM CDT 2025
+
+
+Unit Tests:
+  Duration: 23s
+  Result: PASSED
+
+Component Tests:
+  Duration: 18s
+  Result: PASSED
+
+Subsystem Tests:
+  Duration: 34s
+  Result: FAILED
+
+Final Summary:
+===========================================
+Unit Tests:      PASSED
+Component Tests: PASSED
+Subsystem Tests: FAILED
+
+Total Duration: 75s
+Completed at: Sat May 31 07:53:01 PM CDT 2025
+
+Overall Result: TEST SUITE INCOMPLETE

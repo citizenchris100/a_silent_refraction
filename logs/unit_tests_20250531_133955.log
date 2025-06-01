@@ -1,0 +1,75 @@
+=== Test: game_manager_signal_test ===
+Exit code: 3
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERSIGNAL TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Player Signal Connection =====
+ERROR: Parent node is busy setting up children, add_node() failed. Consider using call_deferred("add_child", child) instead.
+   at: add_child (scene/main/node.cpp:1286)
+Game Manager initializing...
+Creating input manager...
+Creating dialog manager...
+
+[TEST] test_connects_to_player_movement_state_changed
+ERROR: No district found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Found player: Player
+Connected to player movement_state_changed signal
+No camera found in 'camera' group for signal connection
+Game Manager initialized
+  ✓ PASS: test_connects_to_player_movement_state_changed: GameManager should connect to player's movement_state_changed signal
+
+[TEST] test_responds_to_player_state_changes
+  [TEST] Received player state: MOVING
+Player movement state changed to: MOVING
+  ✓ PASS: test_responds_to_player_state_changes: GameManager should be able to receive player state changes
+
+===== TEST SUITE: Camera Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_connects_to_camera_move_started
+Cleaned up all signal connections
+Found player: @Player@7
+Connected to player movement_state_changed signal
+No camera found in 'camera' group for signal connection
+Game Manager initialized
+  ✗ FAIL: test_connects_to_camera_move_started: GameManager should connect to camera's camera_move_started signal
+
+[TEST] test_connects_to_camera_state_changed
+  ✗ FAIL: test_connects_to_camera_state_changed: GameManager should connect to camera's camera_state_changed signal
+
+===== TEST SUITE: Input Signal Connection =====
+Game Manager initializing...
+Creating dialog manager...
+
+[TEST] test_existing_input_manager_connection
+Cleaned up all signal connections
+Found player: Player
+Connected to player movement_state_changed signal
+No camera found in 'camera' group for signal connection
+Game Manager initialized
+  ✗ FAIL: test_existing_input_manager_connection: GameManager should connect to InputManager's object_clicked signal
+
+[TEST] test_input_signal_functionality
+  [TEST] Received object click
+  ✓ PASS: test_input_signal_functionality: InputManager signals should work correctly
+
+==================================================
+ SUMMARY: 3 passed, 3 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_connects_to_camera_move_started
+  - test_connects_to_camera_state_changed
+  - test_existing_input_manager_connection
+Cleaned up all signal connections
+

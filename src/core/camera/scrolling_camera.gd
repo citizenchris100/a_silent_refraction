@@ -409,6 +409,9 @@ func _ready():
     print("ScrollingCamera._ready() called - Script Path: " + get_script().get_path())
     print("ScrollingCamera class loaded - Script ID: " + str(get_instance_id()))
     
+    # Add to camera group for easy finding
+    add_to_group("camera")
+    
     # Setup camera properties
     current = true # Make this the active camera
     smoothing_enabled = true
@@ -775,6 +778,10 @@ func ensure_valid_target(target_pos: Vector2) -> Vector2:
     return validated_pos
 
 func _handle_camera_movement(delta):
+    # Ensure player is in the scene tree before accessing global_position
+    if not target_player.is_inside_tree():
+        return
+        
     # Get player's position
     var player_pos = target_player.global_position
     

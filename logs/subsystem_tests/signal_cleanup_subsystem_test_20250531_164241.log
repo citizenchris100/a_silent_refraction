@@ -1,0 +1,7 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: The identifier "CoordinateManager" isn't declared in the current scope.
+          at: GDScript::reload (res://src/core/districts/base_district.gd:46)
+SCRIPT ERROR: Parse Error: Script isn't fully loaded (cyclic preload?): res://src/core/districts/base_district.gd
+          at: GDScript::reload (res://src/subsystem_tests/signal_cleanup_subsystem_test.gd:1)

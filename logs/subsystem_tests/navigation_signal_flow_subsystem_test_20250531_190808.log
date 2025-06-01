@@ -1,0 +1,619 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+Navigation Signal Flow Test District loaded
+CoordinateManager: Current district set to Navigation Signal Flow Test District
+Registered district with CoordinateManager
+Using standard walkable area: MainWalkableArea
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1319
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Navigation Signal Flow Test District with initial view: center
+Added standard player character at position (960, 540)
+Setting target_player to: Player:[Node2D:1331]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Camera set to follow player
+Added standard player controller for point-and-click navigation
+Creating input manager...
+Creating dialog manager...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: Player
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1920, 1080)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: MainWalkableArea with 12 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (800, 100), Global: (800, 100)
+Point 2 - Local: (800, 400), Global: (800, 400)
+Point 3 - Local: (1120, 400), Global: (1120, 400)
+Point 4 - Local: (1120, 100), Global: (1120, 100)
+Note: Rect2.expand() did not change bounds for point (1120, 100) - this is normal for some polygon arrangements
+Point 5 - Local: (1820, 100), Global: (1820, 100)
+Point 6 - Local: (1820, 980), Global: (1820, 980)
+Point 7 - Local: (1120, 980), Global: (1120, 980)
+Note: Rect2.expand() did not change bounds for point (1120, 980) - this is normal for some polygon arrangements
+Point 8 - Local: (1120, 680), Global: (1120, 680)
+Note: Rect2.expand() did not change bounds for point (1120, 680) - this is normal for some polygon arrangements
+Point 9 - Local: (800, 680), Global: (800, 680)
+Note: Rect2.expand() did not change bounds for point (800, 680) - this is normal for some polygon arrangements
+Point 10 - Local: (800, 980), Global: (800, 980)
+Note: Rect2.expand() did not change bounds for point (800, 980) - this is normal for some polygon arrangements
+Point 11 - Local: (100, 980), Global: (100, 980)
+Note: Rect2.expand() did not change bounds for point (100, 980) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 100, 1720, 880)
+Bounds after margin adjustment: (99, 99, 1722, 882)
+Final corrected bounds: (99, 99, 1722, 882)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 99, 1722, 882)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Camera bounds set from district: (99, 99, 1722, 882)
+Initializing DefaultBoundsValidator with bounds: (99, 99, 1722, 882)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: center
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (1692.444458, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1692.444458, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1692.444458, 952)
+Background wide enough for scrolling: False
+Background width: 1692.444458, Min width for scrolling: 2136
+Using CENTER initial view setting
+Positioning camera at center: (846.222229, 476)
+Setting camera position to: (846.222229, 476)
+Camera position after setting: (846, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+[CAMERA DEBUG] Walkable area polygon points: [(100, 100), (800, 100), (800, 400), (1120, 400), (1120, 100), (1820, 100), (1820, 980), (1120, 980), (1120, 680), (800, 680), (800, 980), (100, 980)]
+[CAMERA DEBUG] Calculated walkable area center: (960, 540)
+[CAMERA DEBUG] Distance from camera to walkable center: 130.736374
+Camera positioned for initial view: center at (846, 476)
+View ratio: 84% of background is visible (1424 pixels of 1692.444458 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Player linked to district: Navigation Signal Flow Test District
+Player controller initialized
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  [INFO] GameManager: found
+  [INFO] InputManager: found
+  [INFO] Player: found
+  [INFO] Camera: found
+
+============================================================
+ NAVIGATION SIGNAL FLOW SUBSYSTEM TEST
+============================================================
+
+
+===== SCENARIO: Complete Click to Movement Flow =====
+
+  Testing: signal_chain_order
+  [ACTION] Simulating click at (1200, 600)
+  [SIGNAL] input_object_clicked at 714 ms
+  [SIGNAL] player_movement_state_changed at 714 ms
+  [SIGNAL] gm_player_state_relayed at 714 ms
+Player movement state changed to: 1
+Moving to: (1334, 600)
+  [SIGNAL] input_click_detected at 715 ms
+  [SIGNAL] player_movement_state_changed at 963 ms
+  [SIGNAL] gm_player_state_relayed at 963 ms
+Player movement state changed to: 2
+  [SIGNAL] player_movement_state_changed at 2644 ms
+  [SIGNAL] gm_player_state_relayed at 2644 ms
+Player movement state changed to: 3
+  [SIGNAL] player_movement_state_changed at 2710 ms
+  [SIGNAL] gm_player_state_relayed at 2710 ms
+Player movement state changed to: 4
+  [SIGNAL] player_movement_state_changed at 2810 ms
+  [SIGNAL] gm_player_state_relayed at 2811 ms
+Player movement state changed to: 0
+  [WARN] Missing camera signals
+    ✓ PASS: Signals should emit in correct order (2.11s)
+
+  Testing: game_manager_signal_coordination
+    ✓ PASS: GameManager should relay navigation signals (0.00s)
+
+  Testing: signal_timing_consistency
+    ✗ FAIL: Signal timing should be consistent with no large gaps (0.00s)
+
+===== SCENARIO: Multi-Component State Synchronization =====
+
+  Testing: rapid_click_handling
+  [ACTION] Rapid click 1 at (300, 300)
+  [SIGNAL] input_object_clicked at 2844 ms
+  [SIGNAL] player_movement_state_changed at 2844 ms
+  [SIGNAL] gm_player_state_relayed at 2844 ms
+Player movement state changed to: 1
+Moving to: (434, 300)
+  [SIGNAL] input_click_detected at 2844 ms
+  [ACTION] Rapid click 2 at (1600, 300)
+  [SIGNAL] input_click_detected at 2944 ms
+  [ACTION] Rapid click 3 at (1600, 800)
+  [SIGNAL] input_click_detected at 3060 ms
+  [SIGNAL] player_movement_state_changed at 3093 ms
+  [SIGNAL] gm_player_state_relayed at 3093 ms
+Player movement state changed to: 2
+  [ACTION] Rapid click 4 at (300, 800)
+  [SIGNAL] input_object_clicked at 3177 ms
+  [SIGNAL] player_movement_state_changed at 3177 ms
+  [SIGNAL] gm_player_state_relayed at 3177 ms
+Player movement state changed to: 1
+Moving to: (434, 800)
+  [SIGNAL] input_click_detected at 3178 ms
+  [SIGNAL] player_movement_state_changed at 3194 ms
+  [SIGNAL] gm_player_state_relayed at 3194 ms
+Player movement state changed to: 2
+    ✓ PASS: No race conditions during rapid clicks (2.46s)
+
+  Testing: component_state_consistency
+    ✗ FAIL: All components maintain consistent state (0.00s)
+
+===== SCENARIO: Edge Cases =====
+
+  Testing: click_outside_walkable_area
+  [ACTION] Clicking outside walkable area at (-100, -100)
+  [SIGNAL] input_click_detected at 5324 ms
+    ✓ PASS: Invalid clicks should not trigger movement (0.50s)
+
+  Testing: click_during_movement
+  [SIGNAL] input_object_clicked at 5823 ms
+  [SIGNAL] player_movement_state_changed at 5823 ms
+  [SIGNAL] gm_player_state_relayed at 5823 ms
+Player movement state changed to: 1
+Moving to: (634, 500)
+  [SIGNAL] input_click_detected at 5823 ms
+  [SIGNAL] player_movement_state_changed at 5839 ms
+  [SIGNAL] gm_player_state_relayed at 5839 ms
+Player movement state changed to: 2
+  [SIGNAL] input_object_clicked at 6040 ms
+  [SIGNAL] player_movement_state_changed at 6040 ms
+  [SIGNAL] gm_player_state_relayed at 6040 ms
+Player movement state changed to: 1
+Moving to: (1534, 700)
+  [SIGNAL] input_click_detected at 6040 ms
+  [SIGNAL] player_movement_state_changed at 6421 ms
+  [SIGNAL] gm_player_state_relayed at 6421 ms
+Player movement state changed to: 2
+ensure_valid_target called with position: (854.326172, 694.097961)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (854.326172, 694.097961) -> (854.326172, 476)
+Position adjusted by bounds validator: (854.326172, 694.097961) -> (854.326172, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1411.326172, 694.097961) -> (847, 476)
+ensure_valid_target called with position: (857.65564, 694.258179)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (857.65564, 694.258179) -> (857.65564, 476)
+Position adjusted by bounds validator: (857.65564, 694.258179) -> (857.65564, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1414.65564, 694.258179) -> (848, 476)
+ensure_valid_target called with position: (860.985107, 694.418335)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (860.985107, 694.418335) -> (860.985107, 476)
+Position adjusted by bounds validator: (860.985107, 694.418335) -> (860.985107, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1417.985107, 694.418335) -> (850, 476)
+ensure_valid_target called with position: (864.314575, 694.578552)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (864.314575, 694.578552) -> (864.314575, 476)
+Position adjusted by bounds validator: (864.314575, 694.578552) -> (864.314575, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1421.314575, 694.578552) -> (852, 476)
+ensure_valid_target called with position: (867.644043, 694.738708)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (867.644043, 694.738708) -> (867.644043, 476)
+Position adjusted by bounds validator: (867.644043, 694.738708) -> (867.644043, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1424.644043, 694.738708) -> (854, 476)
+ensure_valid_target called with position: (870.973511, 694.898865)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (870.973511, 694.898865) -> (870.973511, 476)
+Position adjusted by bounds validator: (870.973511, 694.898865) -> (870.973511, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1427.973511, 694.898865) -> (856, 476)
+ensure_valid_target called with position: (874.302979, 695.059082)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (874.302979, 695.059082) -> (874.302979, 476)
+Position adjusted by bounds validator: (874.302979, 695.059082) -> (874.302979, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1431.302979, 695.059082) -> (858, 476)
+ensure_valid_target called with position: (877.632446, 695.219238)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (877.632446, 695.219238) -> (877.632446, 476)
+Position adjusted by bounds validator: (877.632446, 695.219238) -> (877.632446, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1434.632446, 695.219238) -> (861, 476)
+ensure_valid_target called with position: (880.961914, 695.379456)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (880.961914, 695.379456) -> (880.961914, 476)
+Position adjusted by bounds validator: (880.961914, 695.379456) -> (880.961914, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1437.961914, 695.379456) -> (864, 476)
+ensure_valid_target called with position: (884.291382, 695.539612)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (884.291382, 695.539612) -> (884.291382, 476)
+Position adjusted by bounds validator: (884.291382, 695.539612) -> (884.291382, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1441.291382, 695.539612) -> (867, 476)
+ensure_valid_target called with position: (887.62085, 695.699829)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (887.62085, 695.699829) -> (887.62085, 476)
+Position adjusted by bounds validator: (887.62085, 695.699829) -> (887.62085, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1444.62085, 695.699829) -> (870, 476)
+ensure_valid_target called with position: (890.950317, 695.859985)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (890.950317, 695.859985) -> (890.950317, 476)
+Position adjusted by bounds validator: (890.950317, 695.859985) -> (890.950317, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1447.950317, 695.859985) -> (873, 476)
+ensure_valid_target called with position: (894.279785, 696.020203)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (894.279785, 696.020203) -> (894.279785, 476)
+Position adjusted by bounds validator: (894.279785, 696.020203) -> (894.279785, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1451.279785, 696.020203) -> (876, 476)
+ensure_valid_target called with position: (897.609253, 696.180359)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (897.609253, 696.180359) -> (897.609253, 476)
+Position adjusted by bounds validator: (897.609253, 696.180359) -> (897.609253, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1454.609253, 696.180359) -> (879, 476)
+ensure_valid_target called with position: (900.938721, 696.340576)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (900.938721, 696.340576) -> (900.938721, 476)
+Position adjusted by bounds validator: (900.938721, 696.340576) -> (900.938721, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1457.938721, 696.340576) -> (882, 476)
+ensure_valid_target called with position: (904.268188, 696.500732)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (904.268188, 696.500732) -> (904.268188, 476)
+Position adjusted by bounds validator: (904.268188, 696.500732) -> (904.268188, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1461.268188, 696.500732) -> (885, 476)
+ensure_valid_target called with position: (907.597656, 696.66095)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (907.597656, 696.66095) -> (907.597656, 476)
+Position adjusted by bounds validator: (907.597656, 696.66095) -> (907.597656, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1464.597656, 696.66095) -> (888, 476)
+ensure_valid_target called with position: (910.927124, 696.821106)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (910.927124, 696.821106) -> (910.927124, 476)
+Position adjusted by bounds validator: (910.927124, 696.821106) -> (910.927124, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1467.927124, 696.821106) -> (891, 476)
+ensure_valid_target called with position: (914.256592, 696.981323)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (914.256592, 696.981323) -> (914.256592, 476)
+Position adjusted by bounds validator: (914.256592, 696.981323) -> (914.256592, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1471.256592, 696.981323) -> (894, 476)
+ensure_valid_target called with position: (917.58606, 697.141479)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (917.58606, 697.141479) -> (917.58606, 476)
+Position adjusted by bounds validator: (917.58606, 697.141479) -> (917.58606, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1474.58606, 697.141479) -> (897, 476)
+ensure_valid_target called with position: (920.915527, 697.301697)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (920.915527, 697.301697) -> (920.915527, 476)
+Position adjusted by bounds validator: (920.915527, 697.301697) -> (920.915527, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1477.915527, 697.301697) -> (900, 476)
+ensure_valid_target called with position: (924.244995, 697.461853)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (924.244995, 697.461853) -> (924.244995, 476)
+Position adjusted by bounds validator: (924.244995, 697.461853) -> (924.244995, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1481.244995, 697.461853) -> (903, 476)
+ensure_valid_target called with position: (927.574463, 697.62207)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (927.574463, 697.62207) -> (927.574463, 476)
+Position adjusted by bounds validator: (927.574463, 697.62207) -> (927.574463, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1484.574463, 697.62207) -> (906, 476)
+ensure_valid_target called with position: (930.903931, 697.782227)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (930.903931, 697.782227) -> (930.903931, 476)
+Position adjusted by bounds validator: (930.903931, 697.782227) -> (930.903931, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1487.903931, 697.782227) -> (909, 476)
+ensure_valid_target called with position: (934.233398, 697.942444)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (934.233398, 697.942444) -> (934.233398, 476)
+Position adjusted by bounds validator: (934.233398, 697.942444) -> (934.233398, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1491.233398, 697.942444) -> (912, 476)
+ensure_valid_target called with position: (937.562866, 698.1026)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (937.562866, 698.1026) -> (937.562866, 476)
+Position adjusted by bounds validator: (937.562866, 698.1026) -> (937.562866, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1494.562866, 698.1026) -> (915, 476)
+ensure_valid_target called with position: (940.892334, 698.262817)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (940.892334, 698.262817) -> (940.892334, 476)
+Position adjusted by bounds validator: (940.892334, 698.262817) -> (940.892334, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1497.892334, 698.262817) -> (918, 476)
+ensure_valid_target called with position: (944.221802, 698.422974)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (944.221802, 698.422974) -> (944.221802, 476)
+Position adjusted by bounds validator: (944.221802, 698.422974) -> (944.221802, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1501.221802, 698.422974) -> (921, 476)
+ensure_valid_target called with position: (947.55127, 698.583191)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (947.55127, 698.583191) -> (947.55127, 476)
+Position adjusted by bounds validator: (947.55127, 698.583191) -> (947.55127, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1504.55127, 698.583191) -> (924, 476)
+ensure_valid_target called with position: (950.880737, 698.743347)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (950.880737, 698.743347) -> (950.880737, 476)
+Position adjusted by bounds validator: (950.880737, 698.743347) -> (950.880737, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1507.880737, 698.743347) -> (928, 476)
+ensure_valid_target called with position: (954.210205, 698.903564)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (954.210205, 698.903564) -> (954.210205, 476)
+Position adjusted by bounds validator: (954.210205, 698.903564) -> (954.210205, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1511.210205, 698.903564) -> (931, 476)
+ensure_valid_target called with position: (957.539673, 699.063721)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (957.539673, 699.063721) -> (957.539673, 476)
+Position adjusted by bounds validator: (957.539673, 699.063721) -> (957.539673, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1514.539673, 699.063721) -> (934, 476)
+  [SIGNAL] player_movement_state_changed at 10166 ms
+  [SIGNAL] gm_player_state_relayed at 10166 ms
+Player movement state changed to: 3
+ensure_valid_target called with position: (960.869141, 699.223938)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (960.869141, 699.223938) -> (960.869141, 476)
+Position adjusted by bounds validator: (960.869141, 699.223938) -> (960.869141, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1517.869141, 699.223938) -> (938, 476)
+ensure_valid_target called with position: (964.198608, 699.384094)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (964.198608, 699.384094) -> (964.198608, 476)
+Position adjusted by bounds validator: (964.198608, 699.384094) -> (964.198608, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1521.198608, 699.384094) -> (941, 476)
+ensure_valid_target called with position: (967.528076, 699.544312)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (967.528076, 699.544312) -> (967.528076, 476)
+Position adjusted by bounds validator: (967.528076, 699.544312) -> (967.528076, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1524.528076, 699.544312) -> (944, 476)
+ensure_valid_target called with position: (970.857544, 699.704468)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (970.857544, 699.704468) -> (970.857544, 476)
+Position adjusted by bounds validator: (970.857544, 699.704468) -> (970.857544, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1527.857544, 699.704468) -> (948, 476)
+ensure_valid_target called with position: (974.187012, 699.864685)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (974.187012, 699.864685) -> (974.187012, 476)
+Position adjusted by bounds validator: (974.187012, 699.864685) -> (974.187012, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1531.187012, 699.864685) -> (951, 476)
+  [SIGNAL] player_movement_state_changed at 10249 ms
+  [SIGNAL] gm_player_state_relayed at 10249 ms
+Player movement state changed to: 4
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (954, 476)
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (957, 476)
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (960, 476)
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (962, 476)
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (964, 476)
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (966, 476)
+  [SIGNAL] player_movement_state_changed at 10350 ms
+  [SIGNAL] gm_player_state_relayed at 10350 ms
+Player movement state changed to: 0
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (967, 476)
+    ✗ FAIL: Clicks during movement should update destination (4.54s)
+ensure_valid_target called with position: (977, 700)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (977, 700) -> (977, 476)
+Position adjusted by bounds validator: (977, 700) -> (977, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (1534, 700) -> (968, 476)
+
+--------------------------------------------------
+ Test Summary
+--------------------------------------------------
+Tests Passed: 4
+Tests Failed: 3
+
+Failed Tests:
+  - signal_timing_consistency
+  - component_state_consistency
+  - click_during_movement
+
+Signal Sequence Captured:
+  1. input_object_clicked
+  2. player_movement_state_changed
+  3. gm_player_state_relayed
+  4. input_click_detected
+  5. player_movement_state_changed
+  6. gm_player_state_relayed
+  7. player_movement_state_changed
+  8. gm_player_state_relayed
+  9. player_movement_state_changed
+  10. gm_player_state_relayed
+Cleaned up all signal connections
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)

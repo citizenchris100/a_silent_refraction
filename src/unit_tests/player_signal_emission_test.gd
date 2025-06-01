@@ -84,6 +84,7 @@ func test_suite_signal_definition():
 	else:
 		can_connect = false
 	end_test(can_connect, "Should be able to connect to movement_state_changed signal")
+	yield(get_tree(), "idle_frame")
 
 func test_suite_state_transitions():
 	# Connect to signal for all state tests

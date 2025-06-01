@@ -108,19 +108,30 @@ func test_suite_movement_signals():
 	# Test camera_move_started emission
 	start_test("test_camera_move_started_emission")
 	reset_signal_tracking()
-	# Trigger camera movement
-	var target_pos = Vector2(300, 200)
-	camera.move_to_position(target_pos)
+	# Move camera to starting position immediately
+	camera.move_to_position(Vector2(0, 0), true)  # immediate = true
+	yield(get_tree(), "idle_frame")
+	# Trigger camera movement to a different position
+	var target_pos = Vector2(800, 600)  # Use a position that should be valid
+	camera.move_to_position(target_pos, false)  # animated movement
 	yield(get_tree(), "idle_frame")
 	var move_started = signals_received.has("camera_move_started")
 	end_test(move_started, "Should emit camera_move_started when movement begins")
 	
-	# Wait for movement to complete
-	yield(get_tree().create_timer(1.5), "timeout")
+	# Wait for movement to complete (or timeout)
+	var wait_time = 0.0
+	var max_wait = 3.0
+	while wait_time < max_wait and not signals_received.has("camera_move_completed"):
+		yield(get_tree().create_timer(0.1), "timeout")
+		wait_time += 0.1
 	
 	# Test camera_move_completed emission
 	start_test("test_camera_move_completed_emission")
 	var move_completed = signals_received.has("camera_move_completed")
+	if not move_completed:
+		print("  [DEBUG] Camera state: " + str(camera.get("current_camera_state")))
+		print("  [DEBUG] Camera position: " + str(camera.global_position))
+		print("  [DEBUG] Signals received: " + str(signals_received.keys()))
 	end_test(move_completed, "Should emit camera_move_completed when movement ends")
 	
 	# Disconnect signals
@@ -128,7 +139,9 @@ func test_suite_movement_signals():
 		camera.disconnect("camera_move_started", self, "_on_camera_move_started")
 	if camera.is_connected("camera_move_completed", self, "_on_camera_move_completed"):
 		camera.disconnect("camera_move_completed", self, "_on_camera_move_completed")
-	yield(get_tree(), "idle_frame")
+	
+	# Wait a bit more to ensure camera finishes any pending operations
+	yield(get_tree().create_timer(0.5), "timeout")
 
 func test_suite_state_signals():
 	# Connect state signal
@@ -156,7 +169,9 @@ func test_suite_state_signals():
 	# Disconnect
 	if camera.is_connected("camera_state_changed", self, "_on_camera_state_changed"):
 		camera.disconnect("camera_state_changed", self, "_on_camera_state_changed")
-	yield(get_tree(), "idle_frame")
+	
+	# Wait for any pending operations
+	yield(get_tree().create_timer(0.5), "timeout")
 
 # ===== HELPER METHODS =====
 

@@ -166,9 +166,10 @@ func _handle_click_legacy(world_position, screen_position):
                 break
     
     # If not clicking on an object, check if clicking in walkable area
-    if not clicked_on_object and current_district and player:
+    if not clicked_on_object and current_district:
         if current_district.is_position_walkable(world_position):
-            player.move_to(world_position)
+            # Emit object_clicked with null object for movement
+            emit_signal("object_clicked", null, world_position)
             if click_feedback_system:
                 click_feedback_system.show_click_feedback(world_position, click_feedback_system.FeedbackType.VALID)
         else:
@@ -176,7 +177,8 @@ func _handle_click_legacy(world_position, screen_position):
             # Find closest valid point
             var adjusted_position = _find_closest_valid_point(world_position)
             if adjusted_position:
-                player.move_to(adjusted_position)
+                # Emit object_clicked with null object for adjusted movement
+                emit_signal("object_clicked", null, adjusted_position)
                 if click_feedback_system:
                     click_feedback_system.show_adjusted_click_feedback(world_position, adjusted_position)
             else:
@@ -249,11 +251,14 @@ func apply_click_tolerance(world_position: Vector2, screen_position: Vector2) ->
     var base_tolerance = 10.0
     
     # Adjust tolerance based on zoom if camera exists
-    var camera = get_viewport().get_camera_2d()
-    if camera and camera.has_method("get_zoom"):
-        var zoom = camera.get_zoom()
-        # Inverse relationship - higher zoom means smaller tolerance
-        base_tolerance = base_tolerance / zoom.x
+    # Note: get_camera_2d() doesn't exist in Godot 3.5.2, use camera group instead
+    var cameras = get_tree().get_nodes_in_group("camera")
+    if cameras.size() > 0:
+        var camera = cameras[0]
+        if camera and camera.has_method("get_zoom"):
+            var zoom = camera.get_zoom()
+            # Inverse relationship - higher zoom means smaller tolerance
+            base_tolerance = base_tolerance / zoom.x
     
     # Clamp tolerance to reasonable bounds
     base_tolerance = clamp(base_tolerance, 5.0, 20.0)
@@ -292,8 +297,13 @@ func _on_priority_click_processed(click_data):
     """Handle processed clicks from priority system"""
     if click_data.has("handled") and click_data.handled:
         # Priority system handled it
-        if click_data.has("action") and click_data.action == "object_interaction":
-            emit_signal("object_clicked", click_data.object, click_data.position)
+        if click_data.has("action"):
+            if click_data.action == "object_interaction":
+                emit_signal("object_clicked", click_data.object, click_data.position)
+            elif click_data.action == "movement":
+                # Use adjusted position if available, otherwise use original position
+                var move_position = click_data.get("adjusted_position", click_data.get("position", click_data.get("world_position")))
+                emit_signal("object_clicked", null, move_position)
     else:
         # Not handled by priority system, use legacy handling
         _handle_click_legacy(click_data.world_position, click_data.screen_position)

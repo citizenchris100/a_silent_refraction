@@ -1,0 +1,12 @@
+Starting test execution...
+=========================
+
+[signal_cleanup_subsystem_test] PASSED
+
+[0;34m========================================[0m
+[0;34mTest Summary[0m
+[0;34m========================================[0m
+Total: 1
+[0;32mPassed: 1[0m
+[0;31mFailed: 0[0m
+

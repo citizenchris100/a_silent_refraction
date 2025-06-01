@@ -1,0 +1,16 @@
+Starting test execution...
+=========================
+
+[signal_cleanup_subsystem_test] FAILED
+
+[camera_movement_subsystem_test] PASSED
+
+[navigation_signal_flow_subsystem_test] FAILED
+
+[0;34m========================================[0m
+[0;34mTest Summary[0m
+[0;34m========================================[0m
+Total: 3
+[0;32mPassed: 1[0m
+[0;31mFailed: 2[0m
+

@@ -1,0 +1,33 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ VSYNCSETTINGSTEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: VSync Configuration Tests =====
+
+[TEST] test_vsync_is_enabled
+  VSync enabled: True
+  ✓ PASS: test_vsync_is_enabled: VSync should be enabled
+
+[TEST] test_vsync_via_compositor_is_disabled
+  VSync via compositor: False
+  ✓ PASS: test_vsync_via_compositor_is_disabled: VSync via compositor should be disabled
+
+[TEST] test_pixel_snap_is_enabled
+  Pixel snap enabled: True
+  ✓ PASS: test_pixel_snap_is_enabled: Pixel snap should be enabled for SCUMM-style graphics
+
+[TEST] test_settings_not_malformed
+  ✓ PASS: test_settings_not_malformed: Project settings should not be malformed
+
+==================================================
+ SUMMARY: 4 passed, 0 failed
+==================================================
+
+[PASS] All VSyncSettingsTest tests passed!

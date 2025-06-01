@@ -47,14 +47,14 @@ func _ready():
 	print("==================================================\n")
 	
 	# Create test environment
-	setup_test_environment()
+	yield(setup_test_environment(), "completed")
 	
 	# Run test suites
-	run_tests()
+	yield(run_tests(), "completed")
 	
 	# Report and cleanup
 	report_results()
-	cleanup_test_environment()
+	yield(cleanup_test_environment(), "completed")
 	
 	# Exit
 	yield(get_tree().create_timer(0.1), "timeout")
@@ -73,23 +73,25 @@ func setup_test_environment():
 	player.add_to_group("player")
 	test_environment.add_child(player)
 	
-	# Create game manager with real implementation
+	# Wait for player to be fully initialized
+	yield(get_tree(), "idle_frame")
+	yield(get_tree().create_timer(0.1), "timeout")
+	
+	# Now create game manager - it will find the player in its _ready()
 	game_manager = GameManager.new()
 	game_manager.name = "GameManager"
 	test_environment.add_child(game_manager)
 	
-	# Allow systems to initialize and find each other
+	# Allow GameManager to initialize and connect
 	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	# Extra wait for Player's _ready() yields to complete
 	yield(get_tree().create_timer(0.1), "timeout")
 
 func run_tests():
 	if run_all_tests or test_signal_connection:
-		run_test_suite("Signal Connection", funcref(self, "test_suite_signal_connection"))
+		yield(run_test_suite("Signal Connection", funcref(self, "test_suite_signal_connection")), "completed")
 	
 	if run_all_tests or test_state_responses:
-		run_test_suite("State Response", funcref(self, "test_suite_state_responses"))
+		yield(run_test_suite("State Response", funcref(self, "test_suite_state_responses")), "completed")
 	
 	# Run cleanup test last since it removes the player
 	if run_all_tests or test_cleanup_on_player_removal:
@@ -101,12 +103,13 @@ func run_tests():
 			player.add_to_group("player")
 			test_environment.add_child(player)
 			yield(get_tree().create_timer(0.2), "timeout")
-		run_test_suite("Cleanup Handling", funcref(self, "test_suite_cleanup"))
+		yield(run_test_suite("Cleanup Handling", funcref(self, "test_suite_cleanup")), "completed")
 
 func run_test_suite(suite_name: String, test_func: FuncRef):
 	current_suite = suite_name
 	print("\n===== TEST SUITE: %s =====" % suite_name)
-	test_func.call_func()
+	yield(test_func.call_func(), "completed")
+	yield(get_tree(), "idle_frame")
 
 # ===== TEST SUITES =====
 
@@ -122,6 +125,7 @@ func test_suite_signal_connection():
 		if player and player.has_signal("movement_state_changed"):
 			connected = player.is_connected("movement_state_changed", game_manager, "_on_player_movement_state_changed")
 	end_test(connected, "GameManager should connect to player movement_state_changed")
+	yield(get_tree(), "idle_frame")
 	
 	# Test connection works by triggering signal
 	start_test("test_signal_flow_player_to_game_manager")
@@ -143,6 +147,7 @@ func test_suite_signal_connection():
 		player.disconnect("movement_state_changed", self, "_on_test_movement_state_changed")
 	
 	end_test(gm_received_state_change, "Signal should flow from Player to GameManager")
+	yield(get_tree(), "idle_frame")
 
 func test_suite_state_responses():
 	# Test GameManager responds to different states
@@ -174,6 +179,7 @@ func test_suite_state_responses():
 			break
 	
 	end_test(states_handled, "GameManager should handle all movement states")
+	yield(get_tree(), "idle_frame")
 	
 	# Test rapid state changes
 	start_test("test_rapid_state_changes")
@@ -193,6 +199,7 @@ func test_suite_state_responses():
 		rapid_stable = false  # Can't test without player
 	
 	end_test(rapid_stable, "System should remain stable during rapid state changes")
+	yield(get_tree(), "idle_frame")
 
 func test_suite_cleanup():
 	# Test cleanup when player is removed
@@ -212,6 +219,7 @@ func test_suite_cleanup():
 	var system_stable = game_manager != null
 	
 	end_test(player_exists_before and system_stable, "System should remain stable when player is removed")
+	yield(get_tree(), "idle_frame")
 	
 	# Don't recreate player - this is the last test
 
