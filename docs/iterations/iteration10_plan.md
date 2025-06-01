@@ -109,6 +109,8 @@ As a player, I want to interact with NPCs who feel like real people with their o
 ### Task 2: Implement trust level mechanics
 **User Story:** As a player, I want my actions to build or destroy trust with NPCs, so that my choices have meaningful social consequences throughout the game.
 
+**BaseNPC Migration Phase 2a:** This task implements the dialog context system required for personality-driven interactions and prepares for gender dynamics.
+
 **Status History:**
 - **⏳ PENDING** (05/26/25)
 
@@ -120,15 +122,21 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Trust affects available dialog options
   4. Trust changes trigger NPC reactions
   5. Trust persists across sessions
+  6. **Phase 2a:** Dialog context Dictionary passed to all dialog methods
+  7. **Phase 2a:** Context includes player_gender and npc_gender fields
 
 **Implementation Notes:**
 - Reference: docs/design/npc_trust_relationship_system_design.md
 - Trust changes: Help (+10), Betray (-30), Small talk (+2)
 - Consider trust decay over time without interaction
 - Different NPCs have different trust gain rates
+- **Phase 2a:** Modify dialog methods to accept context: `{"player_gender": String, "npc_gender": String, "time_of_day": String, "location": String}`
+- **Phase 2a:** Store trust values in interaction_memory Dictionary
 
 ### Task 8: Implement memory system for NPCs
 **User Story:** As an NPC, I want to remember my interactions with the player, so that our relationship feels continuous and meaningful across multiple encounters.
+
+**BaseNPC Migration Phase 4:** This task fully implements the memory system from the template design, completing the NPC enhancement framework.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -141,12 +149,61 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Significant events never forgotten
   4. Memories can be shared between NPCs
   5. Memory saves with game state
+  6. **Phase 4:** Full NPCMemory class implementation as per template
+  7. **Phase 4:** Integration with procedural dialog generation
 
 **Implementation Notes:**
 - Memory types: Interactions, Promises, Betrayals, Shared_Events
 - Use circular buffer for recent memories
 - Flag important memories as permanent
 - Consider "gossip" system for memory sharing
+- **Phase 4:** Implement full memory structure from template_npc_design.md:
+  ```gdscript
+  var interaction_memory: Dictionary = {
+      "times_talked": 0,
+      "topics_discussed": [],
+      "given_quests": [],
+      "player_reputation": 0.0,
+      "last_interaction_day": -1
+  }
+  ```
+- **Phase 4:** Create NPCMemory class with short_term Array and long_term Dictionary
+
+### Task 5: Add relationship-based dialog branches
+**User Story:** As a player, I want NPCs to speak differently based on our relationship, so that building trust feels rewarding and meaningful.
+
+**BaseNPC Migration Phase 2a:** This task establishes the dialog context system that enables personality and relationship-driven conversations.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Dialog options change based on trust level
+  2. New dialog branches unlock at higher trust
+  3. Hostile NPCs refuse certain conversations
+  4. Context affects available responses
+  5. Dialog reflects relationship history
+  6. **Phase 2a:** Dialog context system implemented
+  7. **Phase 2a:** All dialog methods accept context Dictionary
+
+**Implementation Notes:**
+- Trust thresholds: Hostile < -50, Neutral -50 to 50, Friendly > 50
+- Trusted NPCs reveal sensitive information
+- **Phase 2a:** Implement dialog context structure:
+  ```gdscript
+  var dialog_context = {
+      "time_of_day": TimeManager.get_time_period(),
+      "location": get_current_district(),
+      "player_reputation": interaction_memory.player_reputation,
+      "is_assimilated": is_assimilated,
+      "suspicion_level": suspicion_level,
+      "player_gender": GameManager.player_gender,
+      "npc_gender": npc_gender
+  }
+  ```
+- **Phase 2a:** Pass context to all dialog generation methods
 
 ### Task 14: Implement need-based behaviors
 **User Story:** As an NPC, I want to fulfill my basic needs throughout the day, so that my routine feels natural and provides opportunities for player interaction.
@@ -409,6 +466,105 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Balance: Starting 100cr = 5-10 trips
 - Essential travel vs investigation
 - Major choice pressure
+
+### Task 6: Expand BaseNPC with full behavior set
+**User Story:** As a developer, I want to enhance BaseNPC to support the full template design, so that all NPCs can utilize advanced features without breaking existing functionality.
+
+**BaseNPC Migration Phase 2b-2c:** This task implements personality-driven responses and gender dynamics as core NPC features.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. BaseNPC supports all template behaviors
+  2. Existing NPCs continue functioning
+  3. New features are opt-in via configuration
+  4. Performance remains acceptable
+  5. All state handlers properly implemented
+  6. **Phase 2b:** Personality affects dialog generation
+  7. **Phase 2c:** Gender dynamics traits fully integrated
+
+**Implementation Notes:**
+- Reference: docs/design/template_npc_design.md
+- Maintain backward compatibility
+- Use feature flags for new behaviors
+- **Phase 2b:** Implement personality-based dialog modifiers:
+  ```gdscript
+  if personality.friendliness > 0.7:
+      dialog_modifier = "friendly"
+  ```
+- **Phase 2c:** Add gender dynamics to personality Dictionary:
+  ```gdscript
+  personality = {
+      "progressiveness": 0.5,
+      "sexism_level": 0.3,
+      "competitiveness": 0.5,
+      "gender_comfort": 0.7
+  }
+  ```
+
+### Task 7: Create personality trait system
+**User Story:** As an NPC, I want personality traits that affect my behavior and dialog, so that each character feels unique and consistent.
+
+**BaseNPC Migration Phase 2b-2c:** This task creates the personality system that drives NPC individuality and social dynamics.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Personality traits affect dialog tone
+  2. Traits influence NPC reactions
+  3. Gender dynamics create varied interactions
+  4. Personality persists across saves
+  5. Traits are data-driven (JSON configurable)
+  6. **Phase 2b:** Core personality traits implemented
+  7. **Phase 2c:** Gender-aware traits added
+
+**Implementation Notes:**
+- Trait ranges: 0.0 to 1.0
+- Default personalities for NPC types
+- **Phase 2b:** Core traits: formality, suspicion, friendliness, verbosity
+- **Phase 2c:** Gender traits per template design:
+  - progressiveness: Traditional vs progressive attitudes
+  - sexism_level: Degree of sexist behavior
+  - competitiveness: Same-gender rivalry
+  - gender_comfort: Opposite-gender ease
+
+### Task 11: Enhance schedule system from MVP
+**User Story:** As an NPC, I want to follow daily routines and schedules, so that the station feels alive and my behavior is predictable for strategic players.
+
+**BaseNPC Migration Phase 3a-3b:** This task implements the schedule foundation and location awareness for dynamic NPC behavior.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U3, T3
+- **Acceptance Criteria:**
+  1. NPCs follow time-based schedules
+  2. Schedules drive location changes
+  3. Activities match current schedule entry
+  4. Interruptions handled gracefully
+  5. Schedule data loaded from JSON
+  6. **Phase 3a:** Basic schedule array structure
+  7. **Phase 3b:** Location tracking and transitions
+
+**Implementation Notes:**
+- Reference: Living World design docs
+- Schedule format matches template design
+- **Phase 3a:** Add schedule structure:
+  ```gdscript
+  var schedule: Array = []
+  var current_schedule_index: int = 0
+  ```
+- **Phase 3b:** Implement location awareness:
+  - Track current_location
+  - Handle district transitions
+  - Update activity based on location
 
 ## Testing Criteria
 - Trust levels change appropriately

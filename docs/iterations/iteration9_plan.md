@@ -179,6 +179,109 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Consider social engineering options
 - Access violations increase suspicion
 
+### Task 16: Create BaseInteractiveObject class
+**User Story:** As a developer, I want a robust base class for all interactive objects, so that I can quickly create consistent interactable items throughout the game world.
+
+**Interactive Object Migration Phase 2a-2b:** This task implements the interaction area system and item combination support.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. Base class supports all SCUMM verbs
+  2. Consistent interaction patterns
+  3. State persistence built-in
+  4. Visual and audio support
+  5. Easy to extend for specific objects
+  6. **Phase 2a:** Interaction area with mouse detection
+  7. **Phase 2b:** Item combination system
+
+**Implementation Notes:**
+- Refactor existing interactive_object.gd
+- Reference: docs/design/template_interactive_object_design.md
+- **Phase 2a:** Add interaction area:
+  ```gdscript
+  var interaction_area: Area2D
+  func _setup_interaction_area()
+  func _on_mouse_entered()
+  func _on_mouse_exited()
+  ```
+- **Phase 2b:** Add item combination:
+  ```gdscript
+  func interact(verb: String, item = null)
+  var item_combinations: Dictionary = {}
+  func _get_item_combination_response(item: String)
+  ```
+
+### Task 18: Create object state system
+**User Story:** As a player, I want objects to have persistent states that change based on my interactions, so that the game world feels responsive and dynamic.
+
+**Interactive Object Migration Phase 3a-3b:** This task implements the full state machine system with transitions and state-based responses.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Objects can have multiple named states
+  2. States transition based on interactions
+  3. Each state has unique properties
+  4. States persist across saves
+  5. Visual/audio changes per state
+  6. **Phase 3a:** Full state machine implementation
+  7. **Phase 3b:** State-based responses and visuals
+
+**Implementation Notes:**
+- State examples: locked/unlocked, open/closed, on/off, broken/functional
+- **Phase 3a:** Implement state system:
+  ```gdscript
+  export var states: Dictionary = {}
+  export var initial_state: String = "default"
+  var current_state: String
+  func change_state(new_state: String)
+  func _apply_state(state_name: String)
+  ```
+- **Phase 3b:** State-based responses:
+  ```gdscript
+  export var state_sprites: Dictionary = {}
+  export var interaction_responses: Dictionary = {}
+  func _get_interaction_response(verb: String, item = null)
+  ```
+
+### Task 20: Build object template library
+**User Story:** As a content creator, I want a library of pre-built object templates, so that I can quickly populate game scenes with interactive elements.
+
+**Interactive Object Migration Phase 4:** This task adds advanced features like audio, particles, and environmental effects.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Common object types templated
+  2. Easy customization of templates
+  3. Documentation for each template
+  4. Example implementations
+  5. Performance optimized
+  6. **Phase 4:** Audio and particle effects
+
+**Implementation Notes:**
+- Template types: doors, containers, machines, terminals, switches
+- **Phase 4:** Add environmental features:
+  ```gdscript
+  export var interaction_sounds: Dictionary = {}
+  export var particle_effects: Dictionary = {}
+  export var light_states: Dictionary = {}
+  var audio_player: AudioStreamPlayer2D
+  var particle_system: CPUParticles2D
+  ```
+- Create prefab scenes for common objects
+- Include usage examples in documentation
+
 ## Testing Criteria
 - Observation system reveals appropriate details
 - Detection states transition correctly

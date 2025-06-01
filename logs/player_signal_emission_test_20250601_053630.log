@@ -1,0 +1,50 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERSIGNALEMISSION TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Signal Definition Tests =====
+WARNING: No district found for the player
+
+[TEST] test_movement_state_changed_signal_exists
+  ✓ PASS: test_movement_state_changed_signal_exists: Player should have movement_state_changed signal
+
+[TEST] test_signal_can_be_connected
+  ✓ PASS: test_signal_can_be_connected: Should be able to connect to movement_state_changed signal
+
+===== TEST SUITE: State Transition Tests =====
+WARNING: No district found for the player
+
+[TEST] test_idle_to_accelerating_signal
+  [SIGNAL] Received movement_state_changed: 1
+  ✓ PASS: test_idle_to_accelerating_signal: Should emit signal when changing from IDLE to ACCELERATING
+
+[TEST] test_accelerating_to_moving_signal
+  [SIGNAL] Received movement_state_changed: 2
+  ✓ PASS: test_accelerating_to_moving_signal: Should emit signal when changing from ACCELERATING to MOVING
+
+[TEST] test_moving_to_decelerating_signal
+  [SIGNAL] Received movement_state_changed: 3
+  ✓ PASS: test_moving_to_decelerating_signal: Should emit signal when changing from MOVING to DECELERATING
+
+[TEST] test_no_signal_same_state
+  ✓ PASS: test_no_signal_same_state: Should not emit signal when state doesn't change
+
+===== TEST SUITE: Signal Data Tests =====
+WARNING: No district found for the player
+
+[TEST] test_signal_data_type
+  [SIGNAL] Received movement_state_changed: 2
+  ✓ PASS: test_signal_data_type: Signal should pass movement state as integer enum
+
+==================================================
+ SUMMARY: 7 passed, 0 failed
+==================================================
+
+[PASS] All PlayerSignalEmission tests passed!

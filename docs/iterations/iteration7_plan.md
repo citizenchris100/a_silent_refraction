@@ -174,6 +174,8 @@ As a player, I need to manage my limited credits while finding safe places to sl
 ### Task 24: Create inventory UI
 **User Story:** As a player, I want an intuitive inventory interface, so that I can easily manage my items without frustration.
 
+**Interactive Object Migration Phase 1c & 2c:** This task implements visual representation for takeable objects and inventory integration.
+
 **Status History:**
 - **⏳ PENDING** (05/26/25)
 
@@ -185,12 +187,25 @@ As a player, I need to manage my limited credits while finding safe places to sl
   3. Drag-and-drop organization
   4. Category filtering (All, Consumables, Key Items, etc.)
   5. Shows weight/capacity limits
+  6. **Phase 1c:** Interactive objects have visual sprites
+  7. **Phase 2c:** Takeable objects integrate with inventory
 
 **Implementation Notes:**
 - 8x6 grid = 48 item slots
 - Categories: All, Consumables, Tools, Evidence, Key Items
 - Reference: docs/design/inventory_system_design.md
 - Reference: docs/design/inventory_ui_design.md
+- **Phase 1c:** Add visual system to interactive_object.gd:
+  ```gdscript
+  export var sprite_texture: Texture
+  var sprite: Sprite
+  func _setup_visuals()
+  ```
+- **Phase 2c:** Add takeable functionality:
+  ```gdscript
+  export var takeable: bool = false
+  var is_taken: bool = false
+  func _handle_take()
 
 ### Task 26: Create DeadlineManager for time-sensitive objectives
 **User Story:** As a player, I want to see and track time-sensitive objectives, so that I can prioritize my actions and understand the consequences of my time management choices.

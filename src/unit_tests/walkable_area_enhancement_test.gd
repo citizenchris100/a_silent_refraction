@@ -45,8 +45,19 @@ func _ready():
 		for failed in failed_tests:
 			print("  - " + failed)
 	
+	# Final cleanup before exit
+	cleanup_test_scene()
+	
+	# Force cleanup all child nodes
+	for child in get_children():
+		if is_instance_valid(child):
+			child.queue_free()
+	
+	# Wait for cleanup
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	
 	# Clean exit
-	yield(get_tree().create_timer(0.1), "timeout")
 	get_tree().quit(tests_failed)
 
 func run_tests():
@@ -95,6 +106,11 @@ func cleanup_test_scene():
 		test_district = null
 	
 	yield(get_tree(), "idle_frame")
+
+func _exit_tree():
+	# Ensure all references are cleared
+	walkable_areas.clear()
+	test_district = null
 
 # ===== TEST SUITES =====
 

@@ -181,6 +181,30 @@ Comprehensive testing and validation of all systems working together without con
 - All previous iterations
 - Testing framework (Iteration 1)
 
+### 7. Advanced Dialog System (Full)
+**Priority:** Medium  
+**Estimated Hours:** 16
+
+**Description:**  
+Complete the dialog system with full procedural generation, personality-driven responses, and contextual awareness as described in the template design.
+
+**User Story:**  
+*As a player, I want NPCs to generate dynamic, personality-driven dialog that responds to context and events, so that conversations feel natural and unique to each playthrough.*
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Acceptance Criteria:**
+- [ ] Complete DialogGenerator with personality modulation
+- [ ] Full DialogTemplates library implementation
+- [ ] Context-aware topic selection
+- [ ] Integration with living world events
+- [ ] Performance optimization for real-time generation
+
+**Dependencies:**
+- Dialog refactoring (Iteration 6)
+- NPC personality system (Iteration 10)
+- Living world events (this iteration)
+
 ## Numbered Tasks
 
 ### Living World Event System
@@ -229,6 +253,9 @@ Comprehensive testing and validation of all systems working together without con
 - [ ] Task 33: Validate save/load with all features
 - [ ] Task 34: Handle edge cases and error states
 - [ ] Task 35: Polish user experience across systems
+
+### Advanced Dialog System
+- [ ] Task 36: Implement procedural dialog generation system
 
 ## User Stories for Key Tasks
 
@@ -442,6 +469,46 @@ Comprehensive testing and validation of all systems working together without con
 - Use existing serialization patterns
 - Version migration support
 
+### Task 36: Implement procedural dialog generation system
+**User Story:** As a player, I want each NPC to speak with unique personality-driven dialog that adapts to context, so that every conversation feels fresh and responsive to the game state.
+
+**Dialog Manager Migration Phase 4a-4c:** This task completes the Dialog Manager template migration by implementing full procedural generation with all advanced features.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** Design Reference in section 7
+- **Acceptance Criteria:**
+  1. DialogGenerator class with personality modulation
+  2. Complete template library with all conversation types
+  3. Context-aware topic and response selection
+  4. Real-time generation performs smoothly
+  5. Integration with all game systems
+  6. **Phase 4a:** Full procedural generation engine
+  7. **Phase 4b:** Complete contextual awareness
+  8. **Phase 4c:** Performance optimization and caching
+
+**Implementation Notes:**
+- Reference: docs/design/template_dialog_design.md Full Implementation
+- **Phase 4a:** Implement from template:
+  ```gdscript
+  class_name DialogGenerator
+  func fill_template(template: String, context: DialogContext, data: Dictionary)
+  func _apply_personality_modulation(text: String, personality: NPCPersonality)
+  func _apply_emotional_coloring(text: String, emotional_state: String)
+  ```
+- **Phase 4b:** Full DialogContext implementation:
+  ```gdscript
+  var recent_events: Array = EventManager.get_recent_events(3600)
+  var time_since_last_talk: float
+  var stress_level: float = calculate_stress()
+  ```
+- **Phase 4c:** Performance features:
+  - Cache generated dialog for 1 game hour
+  - Lazy generation for dialog nodes
+  - Memory limits on conversation history
+
 ## Testing Criteria
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
@@ -453,7 +520,7 @@ Comprehensive testing and validation of all systems working together without con
 
 ## Timeline
 - **Estimated Duration:** 3-4 weeks
-- **Total Hours:** 92
+- **Total Hours:** 108 (was 92, added 16 for dialog system)
 - **Critical Path:** Performance optimization must validate all other systems
 
 ## Definition of Done

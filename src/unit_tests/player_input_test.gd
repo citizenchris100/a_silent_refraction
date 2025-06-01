@@ -26,6 +26,9 @@ func _ready():
 	# Enable scrolling camera (required for coordinate conversion)
 	use_scrolling_camera = true
 	
+	# Disable debug features for testing
+	OS.set_environment("DISABLE_CAMERA_DEBUG", "1")
+	
 	# Create minimal required nodes
 	setup_test_district()
 	
@@ -56,9 +59,34 @@ func _ready():
 		for failed in failed_tests:
 			print("  - " + failed)
 	
+	# Clean up before exit
+	cleanup_test_scene()
+	
+	# Force clean up all child nodes recursively
+	_recursive_free_children(self)
+	
+	# Wait for nodes to be freed
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	
+	# Clear any remaining references
+	walkable_areas.clear()
+	interactive_objects.clear()
+	camera = null
+	test_player = null
+	test_texture = null
+	
+	# Ensure CoordinateManager is cleaned up
+	if CoordinateManager.get_current_district() == self:
+		CoordinateManager.set_current_district(null)
+	
+	# Final wait to ensure everything is cleaned
+	yield(get_tree(), "idle_frame")
+	
 	# Clean exit for headless testing
-	yield(get_tree().create_timer(0.1), "timeout")
 	get_tree().quit(tests_failed)
+
+var test_texture = null  # Store reference to free later
 
 func setup_test_district():
 	# Create background (required by base_district)
@@ -69,9 +97,9 @@ func setup_test_district():
 	var image = Image.new()
 	image.create(1920, 1080, false, Image.FORMAT_RGB8)
 	image.fill(Color(0.2, 0.2, 0.2))
-	var texture = ImageTexture.new()
-	texture.create_from_image(image)
-	background.texture = texture
+	test_texture = ImageTexture.new()
+	test_texture.create_from_image(image)
+	background.texture = test_texture
 	background.centered = false
 	add_child(background)
 	
@@ -191,6 +219,18 @@ func setup_test_scene():
 
 func cleanup_test_scene():
 	last_move_to_position = null
+	
+	# Clean up the player controller first
+	var player_controller = get_node_or_null("PlayerController")
+	if player_controller:
+		player_controller.player = null
+		player_controller.queue_free()
+	
+	# Clean up test player
+	if test_player:
+		test_player.queue_free()
+		test_player = null
+	
 	# Base district cleanup happens automatically
 
 # Helper functions
@@ -211,3 +251,44 @@ func end_test(passed: bool, message: String):
 # Called by mock player to record move_to calls
 func record_move_to(position: Vector2):
 	last_move_to_position = position
+
+# Override setup_camera to disable debug features
+func setup_camera():
+	# Call parent to set up camera
+	.setup_camera()
+	
+	# Disable debug features after camera is created
+	if camera and "debug_draw" in camera:
+		camera.debug_draw = false
+
+func _recursive_free_children(node):
+	for child in node.get_children():
+		_recursive_free_children(child)
+		child.queue_free()
+
+func _exit_tree():
+	# Clean up any remaining references
+	test_player = null
+	last_move_to_position = null
+	
+	# Clean up the camera reference
+	camera = null
+	
+	# Clean up animated background manager
+	if animated_bg_manager:
+		animated_bg_manager.queue_free()
+		animated_bg_manager = null
+	
+	# Clean up texture resource
+	if test_texture:
+		test_texture = null
+	
+	# Clear walkable areas
+	walkable_areas.clear()
+	
+	# Clear interactive objects
+	interactive_objects.clear()
+	
+	# Unregister from CoordinateManager
+	if CoordinateManager.get_current_district() == self:
+		CoordinateManager.set_current_district(null)

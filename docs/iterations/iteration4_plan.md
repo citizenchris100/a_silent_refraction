@@ -210,6 +210,8 @@ As a developer, I need a robust serialization system that allows all game system
 ### Task 7: Implement NPC state serialization
 **User Story:** As a player, I want NPCs to remember our interactions and maintain their states, so that the world feels persistent and my actions have lasting consequences.
 
+**BaseNPC Migration Phase 1a-1c:** This task establishes the foundation for the BaseNPC template migration by adding core data structures that will be populated in later iterations.
+
 **Status History:**
 - **⏳ PENDING** (05/27/25)
 
@@ -221,15 +223,24 @@ As a developer, I need a robust serialization system that allows all game system
   3. Relationship values maintained
   4. NPC schedules and routines preserved
   5. Suspicion levels and flags saved
+  6. **Phase 1a:** Personality Dictionary structure added (empty default)
+  7. **Phase 1b:** Basic interaction_memory Dictionary implemented
+  8. **Phase 1c:** Missing signals added (interaction_finished, etc.)
 
 **Implementation Notes:**
 - Extend base_npc.gd with ISerializable
 - Compress dialog history to save space
 - Only save NPCs that differ from defaults
 - Consider pooling similar NPC states
+- **Phase 1a:** Add `export var personality: Dictionary = {}` to BaseNPC
+- **Phase 1b:** Add `var interaction_memory: Dictionary = {}` for basic tracking
+- **Phase 1c:** Add `signal interaction_finished(verb, result)` and other missing signals from template
+- These additions ensure forward compatibility without breaking existing NPCs
 
 ### Task 8: Implement district state serialization
 **User Story:** As a player, I want the game world to remember changes I've made to environments, so that my actions feel impactful and the world responds to my choices.
+
+**Interactive Object Migration Phase 1a-1b:** This task establishes the foundation for Interactive Object persistence by adding core state management and signals.
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -242,12 +253,34 @@ As a developer, I need a robust serialization system that allows all game system
   3. Environmental changes maintained
   4. Spawned items and entities preserved
   5. District-specific flags and triggers saved
+  6. **Phase 1a:** Interactive objects emit proper signals (interaction_completed, state_changed)
+  7. **Phase 1b:** Basic state Dictionary implemented for all objects
 
 **Implementation Notes:**
 - Implement in base_district.gd
 - Use diff-based saving for efficiency
 - Save only modified objects
 - Include district visit timestamps
+- **Phase 1a:** Add to interactive_object.gd:
+  ```gdscript
+  signal interaction_completed(verb, result)
+  signal object_taken(object_id)
+  signal state_changed(new_state)
+  export var object_id: String = ""
+  export var object_type: String = "generic"
+  ```
+- **Phase 1b:** Add basic state management:
+  ```gdscript
+  var current_state: Dictionary = {}
+  func get_state() -> Dictionary
+  func set_state(state: Dictionary)
+  ```
+- **BaseDistrict Phase 2a-2b:** Add sub-location support:
+  ```gdscript
+  var sub_locations: Dictionary = {}
+  var current_sub_location: String = "main"
+  func transition_to_sub_location(name: String, entry: String)
+  ```
 
 ### Task 9: Implement game manager state serialization
 **User Story:** As a player, I want the overall game state including time, events, and global flags to be saved, so that the game world maintains continuity between sessions.

@@ -116,6 +116,8 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 ### Task 1: Create BaseDistrict template class
 **User Story:** As a developer, I want a standardized district template, so that creating new districts is efficient and consistent.
 
+**BaseDistrict Migration Phase 1a-1c:** This task enhances BaseDistrict with core identity features, spawn points, and visual theming.
+
 **Status History:**
 - **⏳ PENDING** (05/26/25)
 
@@ -127,15 +129,36 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   3. Manages NPC spawning and scheduling
   4. Provides district entry/exit hooks
   5. Integrates with save system
+  6. **Phase 1a:** District ID system and formalized spawn points
+  7. **Phase 1b:** District connection management system
+  8. **Phase 1c:** Visual theme/color palette enforcement
 
 **Implementation Notes:**
 - Reference: docs/design/template_district_design.md
 - Use composition over inheritance where possible
 - Districts register themselves with DistrictManager
 - Support for different camera perspectives per district
+- **Phase 1a:** Add to base_district.gd:
+  ```gdscript
+  export var district_id: String = ""
+  var spawn_points: Dictionary = {}
+  func add_spawn_point(name: String, position: Vector2)
+  func get_spawn_point(name: String) -> Vector2
+  ```
+- **Phase 1b:** Add connection system:
+  ```gdscript
+  var connections: Dictionary = {}  # {exit_name: {target_district, entry_point}}
+  signal district_exit_triggered(target_district, entry_point)
+  ```
+- **Phase 1c:** Add visual theming:
+  ```gdscript
+  export var color_theme: String = "industrial"
+  const COLOR_THEMES = {...}  # Canonical palette subsets
 
 ### Task 17: Implement NPC daily schedule system
 **User Story:** As a player, I want NPCs to follow believable daily routines, so that the world feels alive and I can plan my interactions.
+
+**BaseDistrict Migration Phase 3a:** This task integrates time-based scheduling into districts, enabling dynamic NPC populations and activities.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -148,12 +171,64 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   3. NPCs path between locations automatically
   4. Interruptions handled gracefully
   5. Schedules persist through save/load
+  6. **Phase 3a:** Districts support time-based element changes
 
 **Implementation Notes:**
 - Schedule format: [{time: "08:00", location: "cafeteria", activity: "eating"}]
 - Use Navigation2D for pathfinding
 - Reference: docs/design/living_world_event_system_mvp.md
 - Consider performance with many NPCs
+- **Phase 3a:** Add to base_district.gd:
+  ```gdscript
+  var time_based_elements: Dictionary = {}
+  func _setup_time_based_changes()
+  func _update_time_based_elements(time_period: String)
+  TimeManager.connect("time_period_changed", self, "_update_time_based_elements")
+  ```
+
+### Task 5: Implement district lighting/atmosphere
+**User Story:** As a player, I want each district to have unique atmospheric qualities, so that different areas of the station feel distinct and memorable.
+
+**BaseDistrict Migration Phase 3b & 4a:** This task implements environmental states and audio source management for atmospheric district experiences.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1, T1
+- **Acceptance Criteria:**
+  1. Districts have configurable lighting moods
+  2. Ambient sounds create atmosphere
+  3. Environmental states affect visuals
+  4. Particle effects enhance immersion
+  5. Performance remains smooth
+  6. **Phase 3b:** Environmental state system (normal/suspicious/infested)
+  7. **Phase 4a:** Diegetic audio source management
+  8. **Phase 4b:** LOD system for complex districts
+
+**Implementation Notes:**
+- Use Light2D nodes for dynamic lighting
+- Position AudioStreamPlayer2D for spatial sound
+- **Phase 3b:** Add environmental states:
+  ```gdscript
+  export var environmental_state: String = "normal"
+  var environmental_states: Dictionary = {}
+  func set_environmental_state(state: String)
+  func show_assimilation_progress(level: float)
+  ```
+- **Phase 4a:** Add audio management:
+  ```gdscript
+  var ambient_sounds: Array = []
+  func _initialize_audio_sources()
+  func add_ambient_sound(position: Vector2, sound_path: String)
+  ```
+- **Phase 4b:** LOD system for performance:
+  ```gdscript
+  export var use_lod_system: bool = true
+  var lod_distances: Dictionary = {}
+  func _initialize_lod_system()
+  func _update_lod_states()
+  ```
 
 ### Task 21: Implement SCUMM hover text system
 **User Story:** As a player, I want to see object names when I hover over them, so that I know what I can interact with in the classic adventure game style.

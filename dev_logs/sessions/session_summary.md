@@ -3,7 +3,13 @@
 This file provides an overview of all development sessions for the project.
 
 ## Sessions
-### May 31, 2025 - Task 10: Signal Enhancement Testing (🟢 IN PROGRESS)
+### June 01, 2025 - ObjectDB Memory Leak Resolution (🟢 IN PROGRESS)
+- **Iteration:** 2 - NPC Framework and Suspicion System
+- **Focus:** Fix memory leaks in test files
+- **Summary:** No summary provided
+- [Session Log](session_2025-06-01_05-45-44.md)
+
+### May 31, 2025 - Task 10: Signal Enhancement Testing (✅ COMPLETED)
 - **Iteration:** 2 - NPC Framework and Suspicion System
 - **Focus:** Implement TDD tests for navigation system signal communication
 - **Summary:** No summary provided

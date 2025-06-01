@@ -89,6 +89,25 @@ As a player, I want to create a character that represents me in the game world a
 - [ ] Task 24: Create error handling for failed loads
 - [ ] Task 25: Integrate with existing game systems
 
+### Dialog Architecture Refactoring
+- [ ] Task 26: Implement ServiceRegistry singleton pattern
+- [ ] Task 27: Create IDialogService interface and DialogService
+- [ ] Task 28: Extract DialogData and dialog state classes
+- [ ] Task 29: Implement DialogUIFactory for UI separation
+- [ ] Task 30: Create NPCDialogController for dialog logic
+- [ ] Task 31: Implement DialogEventBus for signal architecture
+- [ ] Task 32: Create DialogValidator and error handling
+- [ ] Task 33: Build dialog testing infrastructure with mocks
+- [ ] Task 34: Implement LegacyDialogAdapter for migration
+- [ ] Task 35: Add feature flags for progressive rollout
+
+### UI Consolidation
+- [ ] Task 36: Migrate Sleep system dialogs to PromptNotificationSystem
+- [ ] Task 37: Migrate Save system dialogs to PromptNotificationSystem
+- [ ] Task 38: Migrate Detection system dialogs to PromptNotificationSystem
+- [ ] Task 39: Create MorningReportManager for centralized reports
+- [ ] Task 40: Remove all redundant dialog implementations
+
 ## User Stories
 
 ### Task 2: Implement gender selection with preview
@@ -364,6 +383,488 @@ As a player, I want to create a character that represents me in the game world a
 - Test with all existing systems
 - Ensure proper cleanup on scene change
 - Verify autoload singletons persist
+
+### Task 6: Refactor dialog system architecture
+**User Story:** As a developer, I want a clean, maintainable dialog system architecture that supports procedural generation, so that I can efficiently implement complex personality-driven conversations.
+
+**Dialog Manager Migration Phase 1a-1c:** This task establishes the foundation for the template dialog system by implementing core navigation and state tracking features.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. DialogManager follows service architecture pattern from refactoring plan
+  2. Clean separation between UI, data, and logic layers
+  3. Support for flexible dialog tree navigation
+  4. Foundation for future procedural generation
+  5. Maintains backwards compatibility with existing NPCs
+  6. **Phase 1a:** Extended dialog_panel UI with personality/mood indicators
+  7. **Phase 1b:** Flexible node navigation methods (get_entry_node, get_node_options)
+  8. **Phase 1c:** Option selection tracking for future personality adaptation
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md
+- Follow service registry pattern for dependency injection
+- Create IDialogService interface
+- **Phase 1a:** Add visual personality hints to dialog UI (mood icon, tone indicator)
+- **Phase 1b:** Implement navigation methods from template_dialog_design.md:
+  ```gdscript
+  func get_entry_node() -> String
+  func get_node_text(node_id: String) -> String
+  func get_node_options(node_id: String) -> Array
+  ```
+- **Phase 1c:** Track player choices in conversation_history for future analysis
+
+### Task 7: Implement gender-aware text substitution
+**User Story:** As a player, I want NPCs to address me with appropriate pronouns and gender-specific language, so that conversations feel natural and personalized.
+
+**Dialog Manager Migration Phase 2a:** This task implements the context system required for gender-aware and personality-driven dialog generation.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, U3
+- **Acceptance Criteria:**
+  1. Pronoun system replaces {PLAYER_PRONOUN} tags correctly
+  2. Gender-specific dialog variations work seamlessly
+  3. NPCs use appropriate titles (Mr./Ms./Mx.)
+  4. Context passed to all dialog methods
+  5. System handles all three gender options gracefully
+  6. **Phase 2a:** Full DialogContext system implemented
+  7. **Phase 2a:** Context includes gender, time, location, relationship data
+
+**Implementation Notes:**
+- Reference: docs/design/character_gender_selection_system.md
+- Create PronounManager singleton
+- Implement text substitution engine
+- **Phase 2a:** Create DialogContext class from template_dialog_design.md:
+  ```gdscript
+  var dialog_context = {
+      "player_gender": GameManager.player_gender,
+      "npc_gender": npc.gender,
+      "time_of_day": TimeManager.get_time_period(),
+      "location": get_current_district(),
+      "player_reputation": interaction_memory.player_reputation,
+      "is_assimilated": is_assimilated,
+      "suspicion_level": suspicion_level
+  }
+  ```
+- Pass context to all dialog generation methods
+
+### Task 8: Create dialog tree editor improvements
+**User Story:** As a content creator, I want improved tools for creating complex dialog trees, so that I can efficiently write branching conversations that support the game's investigation mechanics.
+
+**Dialog Manager Migration Phase 2b:** This task enhances the dialog system with template support and guideline-based generation preparation.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. Visual dialog tree editor in Godot
+  2. Support for conditional branches
+  3. Preview with pronoun substitution
+  4. Template system for common patterns
+  5. Export/import JSON dialog format
+  6. **Phase 2b:** Dialog template library structure
+  7. **Phase 2b:** Personality-based response variations
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md
+- Build on Godot's GraphEdit node
+- Support node types: Text, Choice, Condition, Action
+- **Phase 2b:** Implement DialogTemplates class structure:
+  ```gdscript
+  const GREETING_TEMPLATES = {}
+  const TOPIC_TEMPLATES = {}
+  const SUSPICION_RESPONSES = {}
+  ```
+- Prepare for personality-driven text modulation
+
+### Task 9: Add dialog history/log system
+**User Story:** As a player, I want to review past conversations with NPCs, so that I can track important information and notice inconsistencies that might indicate assimilation.
+
+**Dialog Manager Migration Phase 3a:** This task implements memory and history tracking essential for relationship-based dialog.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Dialog log UI accessible from pause menu
+  2. Conversations grouped by NPC
+  3. Searchable text with keywords
+  4. Important lines can be marked/starred
+  5. History persists through save/load
+  6. **Phase 3a:** NPCMemory integration for conversation tracking
+  7. **Phase 3a:** Topic frequency and relationship tracking
+
+**Implementation Notes:**
+- Reference: docs/design/investigation_clue_tracking_system_design.md
+- Store last 50 conversations per NPC
+- Highlight suspicious dialog automatically
+- **Phase 3a:** Implement conversation memory structure:
+  ```gdscript
+  var conversation_history: Array = []
+  var topics_discussed: Dictionary = {}
+  var player_choices: Dictionary = {}
+  var relationship_score: float = 0.0
+  ```
+- Link to investigation system for clue extraction
+
+### Task 10: Integrate with notification system
+**User Story:** As a player, I want consistent notification when dialog events occur, so that I'm aware of important conversation outcomes and relationship changes.
+
+**Dialog Manager Migration Phase 3b:** This task completes the integration with game systems and enables suspicion-based dialog variations.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U3, T1
+- **Acceptance Criteria:**
+  1. Dialog events trigger notifications
+  2. Relationship changes shown via prompts
+  3. Suspicion changes integrated smoothly
+  4. All dialog UI uses prompt_notification_system
+  5. Consistent look/feel across all systems
+  6. **Phase 3b:** Suspicion level affects dialog generation
+  7. **Phase 3b:** Assimilation effects on dialog implemented
+
+**Implementation Notes:**
+- Reference: docs/design/prompt_notification_system_design.md
+- Remove custom dialog UI from Sleep/Save systems
+- Consolidate all through notification system
+- **Phase 3b:** Implement suspicion responses:
+  ```gdscript
+  const SUSPICION_RESPONSES = {
+      "low": {"question": "Is there something specific you wanted to know?"},
+      "medium": {"question": "Why all these questions?"},
+      "high": {"question": "What are you really after?"},
+      "critical": {"question": "Are you security? What's this about?"}
+  }
+  ```
+- Apply assimilation text transforms based on infection level
+
+### Task 26: Implement ServiceRegistry singleton pattern
+**User Story:** As a developer, I want a centralized service registry for dependency injection, so that dialog system components can be loosely coupled and easily testable.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. ServiceRegistry singleton implemented
+  2. Services can register and retrieve by name
+  3. Supports interface-based service contracts
+  4. Handles missing services gracefully
+  5. Debug mode lists all registered services
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 1
+- Create as autoload singleton
+- Use weak references to prevent memory leaks
+- Include debug commands for service inspection
+
+### Task 27: Create IDialogService interface and DialogService
+**User Story:** As a developer, I want clean dialog service interfaces, so that the dialog system can be extended without modifying core components.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. IDialogService interface defines contract
+  2. DialogService implements the interface
+  3. No scene tree dependencies
+  4. Clean separation from UI layer
+  5. Supports multiple dialog instances
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 1
+- Interface methods: show_dialog(), hide_dialog(), is_dialog_active()
+- Use signals for all communication
+- Factory pattern for UI creation
+
+### Task 28: Extract DialogData and dialog state classes
+**User Story:** As a developer, I want dialog data separated from logic, so that dialog state can be easily serialized and tested.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. DialogData resource class created
+  2. Clean data structures for serialization
+  3. No logic in data classes
+  4. Supports versioning
+  5. Handles legacy format conversion
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 2
+- Pure data classes with no side effects
+- Include validation methods
+- Support for procedural generation fields
+
+### Task 29: Implement DialogUIFactory for UI separation
+**User Story:** As a developer, I want UI creation separated from dialog logic, so that we can easily modify or replace the dialog UI without affecting the system.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. DialogUIFactory creates all UI components
+  2. Clean interface between UI and logic
+  3. Supports different UI styles
+  4. Handles UI cleanup properly
+  5. No business logic in UI layer
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 2
+- Factory methods for each UI component
+- Support for custom UI themes
+- Proper memory management for UI nodes
+
+### Task 30: Create NPCDialogController for dialog logic
+**User Story:** As a developer, I want dialog logic centralized per NPC, so that each character's conversation behavior is encapsulated and maintainable.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. NPCDialogController handles all dialog logic
+  2. Clean interface with BaseNPC
+  3. Supports personality-driven responses
+  4. Integrates with suspicion system
+  5. No UI dependencies
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 2
+- One controller per NPC instance
+- Handles option selection and branching
+- Integrates with template dialog system
+
+### Task 31: Implement DialogEventBus for signal architecture
+**User Story:** As a developer, I want all dialog communication through signals, so that components remain decoupled and the system is maintainable.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. DialogEventBus centralizes all dialog signals
+  2. Replaces direct method calls
+  3. Supports event filtering
+  4. Debug mode shows event flow
+  5. No circular dependencies
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 4
+- Central hub for all dialog events
+- Event types: dialog_requested, option_chosen, dialog_ended
+- Include event logging for debugging
+
+### Task 32: Create DialogValidator and error handling
+**User Story:** As a developer, I want comprehensive dialog validation, so that content creators get clear feedback about dialog tree errors.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. DialogValidator checks tree structure
+  2. Validates all node references
+  3. Provides clear error messages
+  4. Includes context in errors
+  5. Can run in editor or runtime
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 5
+- Validate: missing nodes, circular references, dead ends
+- ErrorContextService for structured reporting
+- Integration with editor tools
+
+### Task 33: Build dialog testing infrastructure with mocks
+**User Story:** As a developer, I want comprehensive dialog system tests, so that refactoring doesn't break existing functionality.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. MockDialogService for testing
+  2. Unit tests for all components
+  3. Integration test suite
+  4. >90% code coverage
+  5. Automated test runs
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 6
+- Mock implementations of all services
+- Test dialog flow, state management, serialization
+- Performance benchmarks included
+
+### Task 34: Implement LegacyDialogAdapter for migration
+**User Story:** As a developer, I want to migrate gradually to the new system, so that we can maintain stability while refactoring.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. LegacyDialogAdapter bridges old/new systems
+  2. Existing NPCs continue working
+  3. Can migrate NPCs individually
+  4. No breaking changes
+  5. Clear migration path
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 7
+- Adapter pattern for backward compatibility
+- Converts between old/new formats
+- Deprecation warnings for old API usage
+
+### Task 35: Add feature flags for progressive rollout
+**User Story:** As a developer, I want to control the rollout of new dialog features, so that we can test in production without risk.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. FeatureFlags system implemented
+  2. Can toggle dialog features at runtime
+  3. Persists flag settings
+  4. Debug UI for flag management
+  5. Performance monitoring per feature
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md Phase 7
+- Flags: use_new_dialog_system, enable_validation, debug_performance
+- Integration with debug menu
+- A/B testing support
+
+### Task 36: Migrate Sleep system dialogs to PromptNotificationSystem
+**User Story:** As a player, I want consistent UI for all notifications, so that I can quickly understand and respond to game events.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. All Sleep dialogs use PromptNotificationSystem
+  2. Remove custom dialog implementations
+  3. Maintain existing functionality
+  4. Consistent look/feel
+  5. Proper priority handling
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md UI Consolidation
+- Replace: NotificationDialog, UrgentDialog, ForcedReturnDialog
+- Use prompt types: WARNING, CRITICAL, INFO
+- Test all sleep warning scenarios
+
+### Task 37: Migrate Save system dialogs to PromptNotificationSystem
+**User Story:** As a player, I want save system feedback through the standard notification system, so that save operations feel integrated with the rest of the game.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. All Save dialogs use PromptNotificationSystem
+  2. Progress indicators work correctly
+  3. Error messages are clear
+  4. No custom UI code remains
+  5. Maintains save system reliability
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md UI Consolidation
+- Replace: SaveProgressUI, SaveErrorDialog, CorruptionDialog
+- Handle progress updates appropriately
+- Test error scenarios thoroughly
+
+### Task 38: Migrate Detection system dialogs to PromptNotificationSystem
+**User Story:** As a player, I want security alerts through the standard notification system, so that all warnings have consistent urgency and presentation.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. All Detection dialogs use PromptNotificationSystem
+  2. Alert urgency properly conveyed
+  3. Lockdown announcements work
+  4. Sound integration maintained
+  5. Clear threat communication
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md UI Consolidation
+- Replace custom alert and lockdown dialogs
+- Use CRITICAL priority for immediate threats
+- Maintain audio cue integration
+
+### Task 39: Create MorningReportManager for centralized reports
+**User Story:** As a player, I want a unified morning report system, so that I get consistent daily updates about station events.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. MorningReportManager centralizes all reports
+  2. Collects data from all systems
+  3. Formats consistent morning briefing
+  4. Integrates with notification system
+  5. Customizable report sections
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md UI Consolidation
+- Gather: sleep quality, station events, rumors, alerts
+- Use INFO prompt type with special formatting
+- Support for future report expansions
+
+### Task 40: Remove all redundant dialog implementations
+**User Story:** As a developer, I want a clean codebase without duplicate dialog systems, so that maintenance is simplified and bugs are reduced.
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. All custom dialog code removed
+  2. No functionality lost
+  3. Code coverage maintained
+  4. Documentation updated
+  5. Migration guide created
+
+**Implementation Notes:**
+- Reference: docs/design/dialog_system_refactoring_plan.md
+- Final cleanup phase after all migrations
+- Update all documentation
+- Remove deprecated code paths
 
 ## Testing Criteria
 - Character creation flow completes successfully

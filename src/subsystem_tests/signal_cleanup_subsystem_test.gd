@@ -93,6 +93,9 @@ func _ready():
     # Clean up any remaining NPCs
     cleanup_test_npcs()
     
+    # Clean up resources
+    cleanup_resources()
+    
     # Wait for cleanup to complete
     yield(get_tree().create_timer(0.1), "timeout")
     
@@ -476,3 +479,34 @@ func print_test_summary():
         print("  - No cleanup methods exist")
         print("  - No duplicate protection implemented")
         print("  - No NPC lifecycle management")
+
+func cleanup_resources():
+    # Clean up background texture
+    var background = get_node_or_null("Background")
+    if background and background is Sprite:
+        background.texture = null
+    
+    # Clean up walkable areas
+    for area in walkable_areas:
+        if is_instance_valid(area):
+            area.queue_free()
+    walkable_areas.clear()
+    
+    # Clean up test NPCs
+    for npc in test_npcs:
+        if is_instance_valid(npc):
+            npc.queue_free()
+    test_npcs.clear()
+    
+    # Clear references
+    game_manager = null
+    input_manager = null
+    player_instance = null
+    camera_instance = null
+
+func _exit_tree():
+    # Ensure cleanup happens even if test is interrupted
+    cleanup_resources()
+    
+    # Call parent cleanup
+    ._exit_tree()

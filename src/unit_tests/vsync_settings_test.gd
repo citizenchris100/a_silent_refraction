@@ -100,6 +100,9 @@ func test_suite_vsync_config():
 		if log_debug_info:
 			print("  Could not open project.godot for validation")
 	
+	# Clean up File object reference
+	file = null
+	
 	end_test(settings_valid, "Project settings should not be malformed")
 
 # Helper functions

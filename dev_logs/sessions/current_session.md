@@ -1,1 +1,1 @@
-/home/chris/Documents/repos/a_silent_refraction/dev_logs/sessions/session_2025-05-31_06-38-43.md
+/home/chris/Documents/repos/a_silent_refraction/dev_logs/sessions/session_2025-06-01_05-45-44.md
