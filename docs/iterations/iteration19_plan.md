@@ -44,17 +44,18 @@ This iteration completes Phase 3.2 by populating the remaining three districts. 
 ### District Population
 - [ ] Task 1: Trading Floor District Population
 - [ ] Task 2: Trading Minigame Integration
-- [ ] Task 3: Barracks District Population
-- [ ] Task 4: Player Housing Implementation
-- [ ] Task 5: Engineering District Population
-- [ ] Task 6: Restricted Area Implementation
-- [ ] Task 7: District Integration Testing
+- [ ] Task 3: Black Market Integration
+- [ ] Task 4: Barracks District Population
+- [ ] Task 5: Player Housing Implementation
+- [ ] Task 6: Engineering District Population
+- [ ] Task 7: Restricted Area Implementation
+- [ ] Task 8: District Integration Testing
 
 ### District Access Control Implementation
-- [ ] Task 8: Implement Engineering biometric locks for high-security areas
-- [ ] Task 9: Create maintenance tunnel access network in Engineering
-- [ ] Task 10: Add security checkpoint NPCs with access verification dialog
-- [ ] Task 11: Implement borrowed keycard quest mechanics
+- [ ] Task 9: Implement Engineering biometric locks for high-security areas
+- [ ] Task 10: Create maintenance tunnel access network in Engineering
+- [ ] Task 11: Add security checkpoint NPCs with access verification dialog
+- [ ] Task 12: Implement borrowed keycard quest mechanics
 
 ### 1. Trading Floor District Population
 **Priority:** High  
@@ -102,7 +103,32 @@ Fully integrate the trading floor minigame with NPCs, market events, and progres
 - Economy system (Iteration 7)
 - Terminal UI (Iteration 3)
 
-### 3. Barracks District Population
+### 3. Black Market Integration
+**Priority:** Medium  
+**Estimated Hours:** 12
+
+**Description:**  
+Implement underground economy in Trading Floor and Engineering districts with illegal items and secretive traders.
+
+**User Story:**  
+*As a player, I want to access black market goods and services, so that I can obtain restricted items at the risk of increased suspicion.*
+
+**Design Reference:** `docs/design/economy_system_design.md` (Black Market - Medium Priority)
+
+**Acceptance Criteria:**
+- [ ] Hidden shop locations established
+- [ ] Black market NPCs configured
+- [ ] Illegal item inventory created
+- [ ] Reputation system for access
+- [ ] Integration with suspicion system
+- [ ] Higher prices but unique items
+
+**Dependencies:**
+- Shop system expansion (Iteration 11)
+- Suspicion system (Iteration 9)
+- Coalition system (Iteration 12)
+
+### 4. Barracks District Population
 **Priority:** High  
 **Estimated Hours:** 24
 
@@ -327,6 +353,8 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 ## Testing Criteria
 - All 65 NPCs function properly
 - Trading minigame fully integrated
+- Black market shops function with reputation gates
+- Illegal items integrate with suspicion system
 - Player housing saves correctly
 - Restricted areas properly gated
 - Engineering biometric locks function correctly

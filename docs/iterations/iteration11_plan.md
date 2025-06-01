@@ -119,24 +119,29 @@ As a player, I need structured objectives that guide my investigation while allo
 - [ ] Task 49: Implement chase initiation from patrol
 - [ ] Task 50: Create patrol state persistence
 
+### Advanced Economy System
+- [ ] Task 51: Implement Price Modifier System
+- [ ] Task 52: Expand Shop System
+- [ ] Task 53: Complete Job System
+
 ### First Quest Implementation
-- [ ] Task 51: Design First Quest narrative
-- [ ] Task 52: Implement all quest objectives
-- [ ] Task 53: Create quest-specific content
-- [ ] Task 54: Add multiple solution paths
-- [ ] Task 55: Full integration testing
+- [ ] Task 54: Design First Quest narrative
+- [ ] Task 55: Implement all quest objectives
+- [ ] Task 56: Create quest-specific content
+- [ ] Task 57: Add multiple solution paths
+- [ ] Task 58: Full integration testing
 
 ### Trading Floor Minigame
-- [ ] Task 56: Create TradingTerminal scene with Game Boy UI layout
-- [ ] Task 57: Implement BlockTrader core Tetris-style gameplay mechanics
-- [ ] Task 58: Create Game Boy shader and visual effects
-- [ ] Task 59: Implement score-to-credits conversion system
-- [ ] Task 60: Add gender-based modifiers and harassment events
-- [ ] Task 61: Create persistent leaderboard system
-- [ ] Task 62: Implement time consumption mechanics
-- [ ] Task 63: Integrate minigame with job shift system
-- [ ] Task 64: Add save/load functionality for minigame progress
-- [ ] Task 65: Create practice mode and tutorial
+- [ ] Task 59: Create TradingTerminal scene with Game Boy UI layout
+- [ ] Task 60: Implement BlockTrader core Tetris-style gameplay mechanics
+- [ ] Task 61: Create Game Boy shader and visual effects
+- [ ] Task 62: Implement score-to-credits conversion system
+- [ ] Task 63: Add gender-based modifiers and harassment events
+- [ ] Task 64: Create persistent leaderboard system
+- [ ] Task 65: Implement time consumption mechanics
+- [ ] Task 66: Integrate minigame with job shift system
+- [ ] Task 67: Add save/load functionality for minigame progress
+- [ ] Task 68: Create practice mode and tutorial
 
 ## User Stories
 
@@ -562,7 +567,77 @@ As a player, I need structured objectives that guide my investigation while allo
 - Minimal data per patrol
 - Reconstruct routes from data
 
-### Task 52: Implement all quest objectives
+### Task 51: Implement Price Modifier System
+**User Story:** As a player, I want prices to change based on station conditions, so that the economy reflects the growing crisis and adds strategic depth to purchases.
+
+**Design Reference:** `docs/design/economy_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Dynamic pricing based on conditions
+  2. Corruption-based price increases (0-100%)
+  3. District-specific price modifiers
+  4. Integration with AssimilationManager
+  5. Real-time price updates in shops
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Dynamic Pricing System)
+- Corruption factor: price increase = corruption²
+- Price modifiers Dictionary in EconomyManager
+- get_modified_price() function implementation
+
+### Task 52: Expand Shop System
+**User Story:** As a developer, I want a complete shop system with inventory management, so that each district can have unique shops with varied inventories and stock limitations.
+
+**Design Reference:** `docs/design/economy_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Full inventory management per shop
+  2. Stock tracking and depletion
+  3. Category-based pricing system
+  4. Shop-specific inventories for each district
+  5. Stock replenishment mechanics
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Shop System section)
+- Categories: food, clothing, tools, info
+- Stock: -1 for unlimited, positive for limited
+- Required trust levels for some items
+
+### Task 53: Complete Job System
+**User Story:** As a player, I want jobs to have performance metrics and varied requirements, so that work becomes a strategic choice rather than simple time-for-money exchange.
+
+**Design Reference:** `docs/design/economy_system_design.md` (Full Implementation)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Performance tracking system
+  2. Performance-based bonus payments
+  3. Shift scheduling mechanics
+  4. Skill/item requirements for jobs
+  5. Multiple job types per district
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Complex Job System)
+- Performance bonuses: 20-40 credits
+- Shift times vary by job
+- Some jobs require tools or skills
+- Criminal jobs have suspicion risk
+
+### Task 55: Implement all quest objectives
 **User Story:** As a player, I want to experience a complex quest that uses all game systems including the new patrol mechanics, so that I understand the full depth of gameplay possibilities.
 
 **Status History:**
@@ -585,7 +660,95 @@ As a player, I need structured objectives that guide my investigation while allo
 - 45-60 minutes completion time
 - At least 3 different endings
 
-### Task 56: Create TradingTerminal scene with Game Boy UI layout
+### Task 54: Design First Quest narrative
+**User Story:** As a designer, I want to create a compelling narrative for the First Quest that introduces all game mechanics naturally, so that players learn while being engaged in the story.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Narrative introduces all core mechanics
+  2. Multiple solution paths designed
+  3. Pacing guides player learning
+  4. Story hooks for main narrative
+  5. Dialog supports player choices
+
+**Implementation Notes:**
+- Reference: docs/reference/game_design_document.md (First Quest section)
+- Package delivery as catalyst
+- Security infiltration tutorial
+- Shop system introduction
+- Coalition recruitment setup
+
+### Task 56: Create quest-specific content
+**User Story:** As a developer, I want to implement all unique content needed for the First Quest, so that the quest feels polished and complete.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. All required NPCs configured
+  2. Quest items created
+  3. Dialog trees complete
+  4. Environmental storytelling added
+  5. Quest-specific events implemented
+
+**Implementation Notes:**
+- Concierge special dialog
+- Bank Teller package item
+- Security guard encounters
+- Mall crime events
+- Hidden resistance room
+
+### Task 57: Add multiple solution paths
+**User Story:** As a player, I want different ways to complete the First Quest, so that my choices feel meaningful and encourage replay.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Stealth path fully functional
+  2. Social engineering path available
+  3. Brute force consequences implemented
+  4. Each path has unique rewards
+  5. Choices affect future quests
+
+**Implementation Notes:**
+- Disguise bypass for stealth
+- Dialog options for persuasion
+- Combat-free solutions prioritized
+- Different coalition introductions
+- Path tracking for achievements
+
+### Task 58: Full integration testing
+**User Story:** As a QA tester, I want to thoroughly test all First Quest paths and edge cases, so that players have a bug-free experience.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. All paths completable
+  2. Edge cases handled
+  3. Performance acceptable
+  4. Save/load works at all points
+  5. No sequence breaks possible
+
+**Implementation Notes:**
+- Test matrix for all paths
+- Performance profiling
+- Save corruption prevention
+- Dialog state verification
+- Achievement unlock testing
+
+### Task 59: Create TradingTerminal scene with Game Boy UI layout
 **User Story:** As a player, I want to access a retro-styled trading terminal at my job, so that I can engage in a nostalgic mini-game that provides both entertainment and income.
 
 **Status History:**
@@ -606,7 +769,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Implement shader for authentic Game Boy look
 - Terminal should feel like a separate device within the game world
 
-### Task 57: Implement BlockTrader core Tetris-style gameplay mechanics
+### Task 60: Implement BlockTrader core Tetris-style gameplay mechanics
 **User Story:** As a player, I want to play a familiar block-falling game with smooth controls, so that my trading performance directly reflects my skill and concentration.
 
 **Status History:**
@@ -628,7 +791,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Use _unhandled_input for responsive controls
 - Implement proper collision detection for blocks
 
-### Task 58: Create Game Boy shader and visual effects
+### Task 61: Create Game Boy shader and visual effects
 **User Story:** As a player, I want the trading terminal to have an authentic retro aesthetic, so that the mini-game feels like a genuine Game Boy experience that enhances immersion.
 
 **Status History:**
@@ -649,7 +812,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Keep effects simple (KISS principle)
 - Test on various display resolutions
 
-### Task 59: Implement score-to-credits conversion system
+### Task 62: Implement score-to-credits conversion system
 **User Story:** As a player, I want my game performance to translate directly into earnings, so that improving my skills provides tangible economic benefits in the main game.
 
 **Status History:**
@@ -670,7 +833,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Consider shift-specific modifiers
 - Payment occurs at shift completion
 
-### Task 60: Add gender-based modifiers and harassment events
+### Task 63: Add gender-based modifiers and harassment events
 **User Story:** As a female player character, I want to experience the additional challenges women faced in 1950s workplaces, so that the game provides meaningful commentary on historical gender discrimination while maintaining engaging gameplay.
 
 **Status History:**
@@ -691,7 +854,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Keep tone appropriate - educational not exploitative
 - Effects last 5-10 seconds maximum
 
-### Task 61: Create persistent leaderboard system
+### Task 64: Create persistent leaderboard system
 **User Story:** As a player, I want to see my high scores compared to other traders, so that I have competitive goals to strive for and can track my improvement over time.
 
 **Status History:**
@@ -712,7 +875,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - NPC scores should feel competitive but beatable
 - Consider daily/weekly/all-time boards in future
 
-### Task 62: Implement time consumption mechanics
+### Task 65: Implement time consumption mechanics
 **User Story:** As a player, I want the mini-game to consume in-game time realistically, so that I must balance the desire to earn credits with other investigation activities.
 
 **Status History:**
@@ -733,7 +896,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Force end game with "Shift Complete" message
 - No time consumption in practice mode
 
-### Task 63: Integrate minigame with job shift system
+### Task 66: Integrate minigame with job shift system
 **User Story:** As a player working as a trader, I want the mini-game to launch seamlessly when I start my shift, so that the job system and mini-game feel like one cohesive experience.
 
 **Status History:**
@@ -754,7 +917,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Handle early quit with penalties
 - Return to trading floor after shift
 
-### Task 64: Add save/load functionality for minigame progress
+### Task 67: Add save/load functionality for minigame progress
 **User Story:** As a player, I want my trading statistics and high scores to persist, so that my accomplishments and progress in the mini-game are remembered across play sessions.
 
 **Status History:**
@@ -775,7 +938,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - Integrate with main save system
 - Handle save corruption gracefully
 
-### Task 65: Create practice mode and tutorial
+### Task 68: Create practice mode and tutorial
 **User Story:** As a new player, I want to practice the trading mini-game without time pressure or consequences, so that I can learn the mechanics and improve my skills before taking on paid shifts.
 
 **Status History:**
@@ -801,6 +964,9 @@ As a player, I need structured objectives that guide my investigation while allo
 - Jobs function with proper schedules
 - Quest log displays accurate information
 - Save/load preserves quest progress
+- Dynamic pricing system adjusts correctly
+- Shop inventories track stock properly
+- Job performance metrics calculate bonuses
 - First Quest completable via multiple paths
 - Performance with many active quests
 - Quest notifications work properly
@@ -855,6 +1021,9 @@ As a player, I need structured objectives that guide my investigation while allo
 - src/core/quests/quest_manager.gd (to be created)
 - src/core/quests/quest_state_machine.gd (to be created)
 - src/core/jobs/job_manager.gd (to be created)
+- src/core/economy/price_modifier_system.gd (to be created)
+- src/core/economy/shop_inventory_manager.gd (to be created)
+- src/core/jobs/job_performance_tracker.gd (to be created)
 - src/core/disguise/role_obligation.gd (to be created)
 - src/core/disguise/role_performance.gd (to be created)
 - src/core/disguise/role_reputation.gd (to be created)

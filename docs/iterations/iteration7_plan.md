@@ -67,46 +67,49 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - [ ] Task 3: Create transaction system with validation
 - [ ] Task 4: Add economy UI display
 - [ ] Task 5: Implement vendor/shop interface
+- [ ] Task 6: Create Basic Shop System Architecture
+- [ ] Task 7: Implement Core Shop Items
+- [ ] Task 8: Create Basic Job Infrastructure
 
 ### Save/Sleep System
-- [ ] Task 6: Create SaveManager (extends SerializationManager)
-- [ ] Task 7: Implement sleep locations and costs
-- [ ] Task 8: Create sleep UI with save confirmation
-- [ ] Task 9: Implement save file management (single slot)
-- [ ] Task 10: Add save failure handling
+- [ ] Task 9: Create SaveManager (extends SerializationManager)
+- [ ] Task 10: Implement sleep locations and costs
+- [ ] Task 11: Create sleep UI with save confirmation
+- [ ] Task 12: Implement save file management (single slot)
+- [ ] Task 13: Add save failure handling
 
 ### Morning Report System
-- [ ] Task 11: Create MorningReportManager
-- [ ] Task 12: Implement event collection during sleep
-- [ ] Task 13: Design morning report UI
-- [ ] Task 14: Create report generation logic
-- [ ] Task 15: Add priority/severity system for events
+- [ ] Task 14: Create MorningReportManager
+- [ ] Task 15: Implement event collection during sleep
+- [ ] Task 16: Design morning report UI
+- [ ] Task 17: Create report generation logic
+- [ ] Task 18: Add priority/severity system for events
 
 ### Barracks District
-- [ ] Task 16: Create Barracks district scene
-- [ ] Task 17: Implement player quarters (Room 306)
-- [ ] Task 18: Add quarter customization basics
-- [ ] Task 19: Create storage system in quarters
-- [ ] Task 20: Add Barracks common areas
+- [ ] Task 19: Create Barracks district scene
+- [ ] Task 20: Implement player quarters (Room 306)
+- [ ] Task 21: Add quarter customization basics
+- [ ] Task 22: Create storage system in quarters
+- [ ] Task 23: Add Barracks common areas
 
 ### Inventory System
-- [ ] Task 21: Create InventoryManager
-- [ ] Task 22: Implement item data structure
-- [ ] Task 23: Add inventory capacity limits
-- [ ] Task 24: Create inventory UI
-- [ ] Task 25: Implement item usage system
+- [ ] Task 24: Create InventoryManager
+- [ ] Task 25: Implement item data structure
+- [ ] Task 26: Add inventory capacity limits
+- [ ] Task 27: Create inventory UI
+- [ ] Task 28: Implement item usage system
 
 ### Advanced Time Management
-- [ ] Task 26: Create DeadlineManager for time-sensitive objectives
-- [ ] Task 27: Implement deadline conflict detection system
-- [ ] Task 28: Add cascading consequence analysis for missed deadlines
-- [ ] Task 29: Create complex fatigue system with gameplay effects
-- [ ] Task 30: Implement stimulant usage with diminishing returns
-- [ ] Task 31: Add microsleep and hallucination mechanics
-- [ ] Task 32: Create temporal narrative branching system
-- [ ] Task 33: Implement flexible scheduling and time optimization
-- [ ] Task 34: Add activity interruption and resumption system
-- [ ] Task 35: Create time pressure visualization UI
+- [ ] Task 29: Create DeadlineManager for time-sensitive objectives
+- [ ] Task 30: Implement deadline conflict detection system
+- [ ] Task 31: Add cascading consequence analysis for missed deadlines
+- [ ] Task 32: Create complex fatigue system with gameplay effects
+- [ ] Task 33: Implement stimulant usage with diminishing returns
+- [ ] Task 34: Add microsleep and hallucination mechanics
+- [ ] Task 35: Create temporal narrative branching system
+- [ ] Task 36: Implement flexible scheduling and time optimization
+- [ ] Task 37: Add activity interruption and resumption system
+- [ ] Task 38: Create time pressure visualization UI
 
 ## User Stories
 
@@ -130,7 +133,76 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Log last 50 transactions for debugging
 - Reference: docs/design/economy_system_design.md
 
-### Task 8: Create sleep UI with save confirmation
+### Task 6: Create Basic Shop System Architecture
+**User Story:** As a player, I want to purchase items from shops using my credits, so that I can acquire necessary items like civilian clothes for the First Quest.
+
+**Design Reference:** `docs/design/economy_system_design.md` (MVP Implementation)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. ShopSystem base class implemented
+  2. Purchase mechanics validate credit balance
+  3. Integration with EconomyManager for transactions
+  4. Support for Mall district shops
+  5. Purchase success/failure notifications via PromptNotificationSystem
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Shop System section)
+- Focus on MVP features: fixed prices, simple inventory
+- Mall shops priority for First Quest requirement
+- Use transaction system from Task 3
+
+### Task 7: Implement Core Shop Items
+**User Story:** As a player, I want essential items available for purchase in shops, so that I can buy civilian clothes and other necessities for gameplay.
+
+**Design Reference:** `docs/design/economy_system_design.md` (MVP Implementation)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Civilian clothes item (required for First Quest)
+  2. Basic necessities (food, water)
+  3. Fixed pricing structure
+  4. Items integrate with inventory system
+  5. Shop inventory data structure defined
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (MVP Data Examples)
+- Civilian clothes: 75 credits (as per design)
+- Food ration: 10 credits
+- Simple ShopItem resource structure
+
+### Task 8: Create Basic Job Infrastructure
+**User Story:** As a player, I want to work jobs to earn credits, so that I can afford necessary purchases and manage my economic survival.
+
+**Design Reference:** `docs/design/economy_system_design.md` (MVP Implementation)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Job execution framework
+  2. Time-based job completion
+  3. Credit rewards on completion
+  4. Support for patrol "job" in First Quest
+  5. Integration with TimeManager
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Job System section)
+- Mall Security job: 4 hours, 50 credits
+- Basic job states: not_started, in_progress, completed
+- Schedule completion with TimeManager
+
+### Task 11: Create sleep UI with save confirmation
 **User Story:** As a player, I want clear feedback when saving my game through sleep, so that I know my progress is safely preserved.
 
 **Status History:**
@@ -151,7 +223,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Reference: docs/design/save_system_design.md
 - Reference: docs/design/sleep_system_design.md
 
-### Task 12: Implement event collection during sleep
+### Task 15: Implement event collection during sleep
 **User Story:** As a developer, I want the game world to progress while the player sleeps, so that the world feels alive and dynamic.
 
 **Status History:**
@@ -171,7 +243,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Maximum 10 events shown in report
 - Reference: docs/design/morning_report_manager_design.md
 
-### Task 24: Create inventory UI
+### Task 27: Create inventory UI
 **User Story:** As a player, I want an intuitive inventory interface, so that I can easily manage my items without frustration.
 
 **Interactive Object Migration Phase 1c & 2c:** This task implements visual representation for takeable objects and inventory integration.
@@ -207,7 +279,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
   var is_taken: bool = false
   func _handle_take()
 
-### Task 26: Create DeadlineManager for time-sensitive objectives
+### Task 29: Create DeadlineManager for time-sensitive objectives
 **User Story:** As a player, I want to see and track time-sensitive objectives, so that I can prioritize my actions and understand the consequences of my time management choices.
 
 **Status History:**
@@ -228,7 +300,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Support hidden deadlines revealed through investigation
 - Integrate with quest system for objective deadlines
 
-### Task 27: Implement deadline conflict detection system
+### Task 30: Implement deadline conflict detection system
 **User Story:** As a player, I want to know when my commitments conflict, so that I can make informed decisions about which objectives to prioritize.
 
 **Status History:**
@@ -249,7 +321,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Consider travel time between objectives
 - Show conflict resolution suggestions
 
-### Task 28: Add cascading consequence analysis for missed deadlines
+### Task 31: Add cascading consequence analysis for missed deadlines
 **User Story:** As a developer, I want missed deadlines to have realistic cascading effects, so that player choices create meaningful narrative branches and consequences.
 
 **Status History:**
@@ -270,7 +342,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Some NPCs more forgiving than others
 - Critical deadlines can trigger game over scenarios
 
-### Task 29: Create complex fatigue system with gameplay effects
+### Task 32: Create complex fatigue system with gameplay effects
 **User Story:** As a player, I want fatigue to meaningfully affect my abilities, so that sleep becomes a strategic resource I must manage carefully.
 
 **Status History:**
@@ -291,7 +363,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Exponential fatigue accumulation after 16 hours awake
 - Visual indicators: screen darkening, slower animations
 
-### Task 30: Implement stimulant usage with diminishing returns
+### Task 33: Implement stimulant usage with diminishing returns
 **User Story:** As a player, I want to use stimulants to postpone sleep, so that I can push through critical moments at the cost of building resistance and side effects.
 
 **Status History:**
@@ -312,7 +384,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Resistance decay: 10% per full sleep cycle
 - Side effects: jitters, crashes, health impacts
 
-### Task 31: Add microsleep and hallucination mechanics
+### Task 34: Add microsleep and hallucination mechanics
 **User Story:** As a player, I want extreme exhaustion to create dramatic gameplay moments, so that pushing too hard has memorable consequences beyond simple stat penalties.
 
 **Status History:**
@@ -333,7 +405,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Hallucinations could reveal assimilated NPCs incorrectly
 - Forced collapse requires immediate rest location
 
-### Task 32: Create temporal narrative branching system
+### Task 35: Create temporal narrative branching system
 **User Story:** As a developer, I want time-based choices to create distinct story paths, so that the game has meaningful replay value based on time management strategies.
 
 **Status History:**
@@ -354,7 +426,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Some branches only available to efficient players
 - Emergency choices for time-crunched situations
 
-### Task 33: Implement flexible scheduling and time optimization
+### Task 36: Implement flexible scheduling and time optimization
 **User Story:** As an experienced player, I want to optimize my time usage, so that mastery of the game systems allows me to accomplish more within time constraints.
 
 **Status History:**
@@ -375,7 +447,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Fast travel unlocked through exploration
 - Some NPCs offer schedule flexibility when befriended
 
-### Task 34: Add activity interruption and resumption system
+### Task 37: Add activity interruption and resumption system
 **User Story:** As a player, I want to interrupt long activities for emergencies, so that I can respond to urgent situations without losing all progress on current tasks.
 
 **Status History:**
@@ -396,7 +468,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Critical activities marked as non-interruptible
 - Save interruption state in serialization
 
-### Task 35: Create time pressure visualization UI
+### Task 38: Create time pressure visualization UI
 **User Story:** As a player, I want clear visual feedback about time pressure, so that I can feel the mounting tension and make informed decisions quickly.
 
 **Status History:**
@@ -419,6 +491,9 @@ As a player, I need to manage my limited credits while finding safe places to sl
 
 ## Testing Criteria
 - Economy transactions process correctly
+- Shop purchases validate credit balance
+- Shop items available in Mall for First Quest
+- Basic job system executes and pays credits
 - Save/sleep operation is atomic and reliable
 - Morning reports generate appropriate content
 - Barracks district loads and performs well
@@ -449,6 +524,10 @@ As a player, I need to manage my limited credits while finding safe places to sl
 
 ## Code Links
 - src/core/economy/economy_manager.gd (to be created)
+- src/core/economy/shop_system.gd (to be created)
+- src/core/economy/job_system.gd (to be created)
+- src/resources/shop_item.gd (to be created)
+- src/resources/job_data.gd (to be created)
 - src/core/save/save_manager.gd (to be created)
 - src/core/save/morning_report_manager.gd (to be created)
 - src/districts/barracks/ (to be created)

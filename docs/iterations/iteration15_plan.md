@@ -73,61 +73,64 @@ As a developer, I want to implement the final advanced features and polish all s
 - [ ] Task 9: Create deduction interface UI
 - [ ] Task 10: Integrate with dialog and observation systems
 
+### Banking and Financial Investigation
+- [ ] Task 11: Implement Basic Banking System
+
 ### Puzzle System
-- [ ] Task 11: Create base puzzle framework
-- [ ] Task 12: Implement logic puzzles (riddles, patterns)
-- [ ] Task 13: Build environment puzzles (switches, doors)
-- [ ] Task 14: Create observation puzzles
-- [ ] Task 15: Implement social engineering puzzles
-- [ ] Task 16: Build technical puzzles (hacking, repairs)
-- [ ] Task 17: Create item combination puzzles
-- [ ] Task 18: Implement timing-based puzzles
-- [ ] Task 19: Add puzzle hint system with progressive hints
-- [ ] Task 20: Create puzzle state persistence
+- [ ] Task 12: Create base puzzle framework
+- [ ] Task 13: Implement logic puzzles (riddles, patterns)
+- [ ] Task 14: Build environment puzzles (switches, doors)
+- [ ] Task 15: Create observation puzzles
+- [ ] Task 16: Implement social engineering puzzles
+- [ ] Task 17: Build technical puzzles (hacking, repairs)
+- [ ] Task 18: Create item combination puzzles
+- [ ] Task 19: Implement timing-based puzzles
+- [ ] Task 20: Add puzzle hint system with progressive hints
+- [ ] Task 21: Create puzzle state persistence
 
 ### Transportation System
-- [ ] Task 21: Create TramSystem manager
-- [ ] Task 22: Implement tram station scenes
-- [ ] Task 23: Build schedule system with wait times
-- [ ] Task 24: Create travel time calculations
-- [ ] Task 25: Implement access control integration
+- [ ] Task 22: Create TramSystem manager
+- [ ] Task 23: Implement tram station scenes
+- [ ] Task 24: Build schedule system with wait times
+- [ ] Task 25: Create travel time calculations
+- [ ] Task 26: Implement access control integration
 
 ### Performance Optimization
-- [ ] Task 26: Set up performance profiling tools
-- [ ] Task 27: Profile all major systems
-- [ ] Task 28: Implement object pooling for common objects
-- [ ] Task 29: Optimize NPC update cycles
-- [ ] Task 30: Reduce memory allocations
+- [ ] Task 27: Set up performance profiling tools
+- [ ] Task 28: Profile all major systems
+- [ ] Task 29: Implement object pooling for common objects
+- [ ] Task 30: Optimize NPC update cycles
+- [ ] Task 31: Reduce memory allocations
 
 ### System Integration
-- [ ] Task 31: Test all system interactions
-- [ ] Task 32: Fix integration conflicts
-- [ ] Task 33: Validate save/load with all features
-- [ ] Task 34: Handle edge cases and error states
-- [ ] Task 35: Polish user experience across systems
+- [ ] Task 32: Test all system interactions
+- [ ] Task 33: Fix integration conflicts
+- [ ] Task 34: Validate save/load with all features
+- [ ] Task 35: Handle edge cases and error states
+- [ ] Task 36: Polish user experience across systems
 
 ### Advanced Dialog System
-- [ ] Task 36: Implement advanced dialog feature enhancements
+- [ ] Task 37: Implement advanced dialog feature enhancements
 
 ### Security System Polish
-- [ ] Task 37: Implement camera surveillance system
-- [ ] Task 38: Create advanced security AI behaviors
-- [ ] Task 39: Optimize patrol performance for multiple guards
-- [ ] Task 40: Implement security checkpoint infrastructure
+- [ ] Task 38: Implement camera surveillance system
+- [ ] Task 39: Create advanced security AI behaviors
+- [ ] Task 40: Optimize patrol performance for multiple guards
+- [ ] Task 41: Implement security checkpoint infrastructure
 
 ### Detection System Integration
-- [ ] Task 41: Integrate all detection sources with DetectionManager
-- [ ] Task 42: Add environmental detection triggers
-- [ ] Task 43: Implement detection cooldown mechanics
+- [ ] Task 42: Integrate all detection sources with DetectionManager
+- [ ] Task 43: Add environmental detection triggers
+- [ ] Task 44: Implement detection cooldown mechanics
 
 ### Advanced Access Control Features
-- [ ] Task 44: Implement biometric security system (fingerprint, retinal scanners)
-- [ ] Task 45: Create access trading/sharing system between NPCs and player
-- [ ] Task 46: Implement maintenance access routes as alternative paths
-- [ ] Task 47: Create dynamic security escalation system
-- [ ] Task 48: Implement key copying and black market access items
-- [ ] Task 49: Add access degradation from assimilation corruption
-- [ ] Task 50: Create advanced access control UI (biometric interface, access logs)
+- [ ] Task 45: Implement biometric security system (fingerprint, retinal scanners)
+- [ ] Task 46: Create access trading/sharing system between NPCs and player
+- [ ] Task 47: Implement maintenance access routes as alternative paths
+- [ ] Task 48: Create dynamic security escalation system
+- [ ] Task 49: Implement key copying and black market access items
+- [ ] Task 50: Add access degradation from assimilation corruption
+- [ ] Task 51: Create advanced access control UI (biometric interface, access logs)
 
 ## User Stories
 
@@ -341,7 +344,31 @@ As a developer, I want to implement the final advanced features and polish all s
 - Some clues change NPC behavior
 - Support accusation scenarios
 
-### Task 11: Create base puzzle framework
+### Task 11: Implement Basic Banking System
+**User Story:** As a player, I want to access banking services at the Trading Floor, so that I can save credits and investigate financial records for clues about the assimilation conspiracy.
+
+**Design Reference:** `docs/design/economy_system_design.md` (Banking System - Medium Priority)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Basic savings account functionality
+  2. Deposit and withdrawal mechanics
+  3. Transaction history viewable
+  4. Financial records accessible for investigation
+  5. Integration with ClueManager for financial clues
+
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Banking System section)
+- Simple interest calculations not needed for MVP
+- Focus on transaction tracking for investigation
+- Bank Teller and Bank Manager NPCs already exist
+- Financial anomalies can reveal assimilated NPCs
+
+### Task 12: Create base puzzle framework
 **User Story:** As a developer, I want a flexible puzzle base class, so that various puzzle types can be implemented consistently.
 
 **Status History:**
@@ -362,7 +389,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Standard methods: start(), check_solution(), reset()
 - Signal: puzzle_completed, puzzle_failed
 
-### Task 12: Implement logic puzzles (riddles, patterns)
+### Task 13: Implement logic puzzles (riddles, patterns)
 **User Story:** As a player, I want to solve logic-based puzzles that challenge my reasoning skills, so that I feel intellectually engaged with the game.
 
 **Status History:**
@@ -383,7 +410,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Some puzzles have multiple valid solutions
 - Integration with terminal interfaces
 
-### Task 13: Build environment puzzles (switches, doors)
+### Task 14: Build environment puzzles (switches, doors)
 **User Story:** As a player, I want to interact with the environment to solve physical puzzles, so that exploration feels rewarding.
 
 **Status History:**
@@ -404,7 +431,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Visual feedback for state changes
 - Some require specific items
 
-### Task 14: Create observation puzzles
+### Task 15: Create observation puzzles
 **User Story:** As a player, I want puzzles that require careful observation of my surroundings, so that attention to detail is rewarded.
 
 **Status History:**
@@ -425,7 +452,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Examples: Finding hidden panels, noting changes
 - Support red herrings and misdirection
 
-### Task 15: Implement social engineering puzzles
+### Task 16: Implement social engineering puzzles
 **User Story:** As a player, I want to manipulate NPCs through dialog and actions to achieve my goals, so that social interactions become meaningful puzzles.
 
 **Status History:**
@@ -446,7 +473,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Use existing dialog and trust systems
 - Gender may affect available options
 
-### Task 16: Build technical puzzles (hacking, repairs)
+### Task 17: Build technical puzzles (hacking, repairs)
 **User Story:** As a player, I want to hack systems and repair equipment through engaging minigames, so that technical challenges feel interactive rather than passive skill checks.
 
 **Status History:**
@@ -467,7 +494,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Consider accessibility options
 - Integration with time management
 
-### Task 17: Create item combination puzzles
+### Task 18: Create item combination puzzles
 **User Story:** As a player, I want to combine items in logical ways to solve problems, so that my inventory becomes a toolkit for creative solutions.
 
 **Status History:**
@@ -488,7 +515,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Visual combination interface
 - Some combinations learned from NPCs
 
-### Task 18: Implement timing-based puzzles
+### Task 19: Implement timing-based puzzles
 **User Story:** As a player, I want to exploit NPC schedules and routines to solve puzzles, so that observation and planning are rewarded.
 
 **Status History:**
@@ -509,7 +536,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Show schedules through observation
 - Allow multiple timing windows
 
-### Task 19: Add puzzle hint system with progressive hints
+### Task 20: Add puzzle hint system with progressive hints
 **User Story:** As a player who's stuck, I want optional hints that guide without spoiling, so that I can maintain progress without frustration.
 
 **Status History:**
@@ -530,7 +557,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - NPCs can offer hints in dialog
 - Track hint usage for achievements
 
-### Task 20: Create puzzle state persistence
+### Task 21: Create puzzle state persistence
 **User Story:** As a player, I want puzzle progress to save properly, so that I don't lose progress when leaving and returning to a puzzle.
 
 **Status History:**
@@ -551,7 +578,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Serialize only essential state
 - Handle version migration
 
-### Task 21: Create TramSystem manager
+### Task 22: Create TramSystem manager
 **User Story:** As a developer, I want a centralized tram system manager, so that all tram operations are coordinated and consistent.
 
 **Status History:**
@@ -572,7 +599,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Track all tram positions
 - Handle multi-tram coordination
 
-### Task 22: Implement tram station scenes
+### Task 23: Implement tram station scenes
 **User Story:** As a player, I want to wait at tram stations and board trams, so that fast travel feels integrated with the world.
 
 **Status History:**
@@ -593,7 +620,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - NPCs also use trams
 - Weather/time affects ambience
 
-### Task 23: Build schedule system with wait times
+### Task 24: Build schedule system with wait times
 **User Story:** As a player, I want trams to run on schedules, so that the transportation system feels realistic and I must plan my travels.
 
 **Status History:**
@@ -614,7 +641,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Some randomization for realism
 - Events can cause delays
 
-### Task 24: Create travel time calculations
+### Task 25: Create travel time calculations
 **User Story:** As a player, I want tram travel to take appropriate time, so that distance matters and time management stays relevant.
 
 **Status History:**
@@ -635,7 +662,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Option to sleep during travel
 - Can be interrupted by events
 
-### Task 25: Implement access control integration
+### Task 26: Implement access control integration
 **User Story:** As a player, I want my access level to affect which tram routes I can use, so that progression unlocks new travel options.
 
 **Status History:**
@@ -656,7 +683,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Guards check tickets randomly
 - Integrate with crime system
 
-### Task 26: Set up performance profiling tools
+### Task 27: Set up performance profiling tools
 **User Story:** As a developer, I want comprehensive performance profiling, so that I can identify and fix performance bottlenecks.
 
 **Status History:**
@@ -677,7 +704,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Create performance HUD
 - Log performance metrics
 
-### Task 27: Profile all major systems
+### Task 28: Profile all major systems
 **User Story:** As a developer, I want to profile each game system, so that I can identify which systems need optimization.
 
 **Status History:**
@@ -698,7 +725,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Document findings
 - Prioritize optimizations
 
-### Task 28: Implement object pooling for common objects
+### Task 29: Implement object pooling for common objects
 **User Story:** As a developer, I want object pooling for frequently created/destroyed objects, so that memory allocation overhead is minimized.
 
 **Status History:**
@@ -719,7 +746,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Warm pools on load
 - Monitor pool efficiency
 
-### Task 29: Optimize NPC update cycles
+### Task 30: Optimize NPC update cycles
 **User Story:** As a developer, I want NPCs to update efficiently based on relevance, so that many NPCs can exist without impacting performance.
 
 **Status History:**
@@ -740,7 +767,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Quantum state for distant NPCs
 - Batch similar operations
 
-### Task 30: Reduce memory allocations
+### Task 31: Reduce memory allocations
 **User Story:** As a developer, I want to minimize runtime allocations, so that garbage collection doesn't cause frame drops.
 
 **Status History:**
@@ -761,7 +788,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Reuse data structures
 - Optimize texture memory
 
-### Task 31: Test all system interactions
+### Task 32: Test all system interactions
 **User Story:** As a developer, I want comprehensive testing of system interactions, so that edge cases and conflicts are identified.
 
 **Status History:**
@@ -782,7 +809,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Document all issues found
 - Verify fixes don't break others
 
-### Task 32: Fix integration conflicts
+### Task 33: Fix integration conflicts
 **User Story:** As a developer, I want to resolve all system conflicts, so that features work together seamlessly.
 
 **Status History:**
@@ -803,7 +830,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Add regression tests
 - Update integration docs
 
-### Task 33: Validate save/load with all features
+### Task 34: Validate save/load with all features
 **User Story:** As a player, I want save/load to work perfectly with all features active, so that I never lose progress.
 
 **Status History:**
@@ -824,7 +851,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Test version migration
 - Handle corrupted saves gracefully
 
-### Task 34: Handle edge cases and error states
+### Task 35: Handle edge cases and error states
 **User Story:** As a player, I want the game to handle errors gracefully, so that bugs don't ruin my experience.
 
 **Status History:**
@@ -845,7 +872,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Provide user workarounds
 - Auto-recovery where possible
 
-### Task 35: Polish user experience across systems
+### Task 36: Polish user experience across systems
 **User Story:** As a player, I want all systems to feel polished and cohesive, so that the game feels professional.
 
 **Status History:**
@@ -866,7 +893,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Improve onboarding
 - Polish rough edges
 
-### Task 36: Implement advanced dialog feature enhancements
+### Task 37: Implement advanced dialog feature enhancements
 **User Story:** As a player, I want the dialog system to show character portraits, emotional states, and rich narrative context, so that conversations feel immersive and cinematic.
 
 **Status History:**
@@ -887,7 +914,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Portrait art requirements documented
 - 6 base emotions + combinations
 
-### Task 37: Implement camera surveillance system
+### Task 38: Implement camera surveillance system
 **User Story:** As station security, I want camera surveillance coverage throughout the station, so that crimes and suspicious activities can be detected even when guards aren't present.
 
 **Status History:**
@@ -908,7 +935,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Different camera types (fixed, rotating, tracking)
 - Integrate with crime detection system
 
-### Task 38: Create advanced security AI behaviors
+### Task 39: Create advanced security AI behaviors
 **User Story:** As a player, I want security guards to exhibit intelligent behaviors like investigating disturbances and coordinating responses, so that evading them feels challenging and rewarding.
 
 **Status History:**
@@ -929,7 +956,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Different alertness levels
 - Radio communication system
 
-### Task 39: Optimize patrol performance for multiple guards
+### Task 40: Optimize patrol performance for multiple guards
 **User Story:** As a player, I want the game to maintain smooth performance even with multiple security patrols active, so that busy areas don't cause frame rate drops.
 
 **Status History:**
@@ -950,7 +977,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Use navigation mesh efficiently
 - Time-slice AI updates
 
-### Task 40: Implement security checkpoint infrastructure
+### Task 41: Implement security checkpoint infrastructure
 **User Story:** As a player, I want to encounter security checkpoints that verify my identity and access rights, so that restricted areas feel properly protected and infiltration requires planning.
 
 **Status History:**
@@ -972,7 +999,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Different security levels per checkpoint
 - Integration with disguise system
 
-### Task 41: Integrate all detection sources with DetectionManager
+### Task 42: Integrate all detection sources with DetectionManager
 **User Story:** As a developer, I want all detection sources to report through a central DetectionManager, so that detection states are consistent and coordinated across all systems.
 
 **Status History:**
@@ -993,7 +1020,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Maintain single source of truth for detection state
 - Support multiple simultaneous detection sources
 
-### Task 42: Add environmental detection triggers
+### Task 43: Add environmental detection triggers
 **User Story:** As a level designer, I want to place environmental detection triggers in scenes, so that certain areas or actions automatically increase detection risk.
 
 **Status History:**
@@ -1014,7 +1041,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Visual indicators when active
 - Integration with level editor
 
-### Task 43: Implement detection cooldown mechanics
+### Task 44: Implement detection cooldown mechanics
 **User Story:** As a player, I want detection heat to cool down over time, so that I can recover from mistakes through careful play.
 
 **Status History:**
@@ -1035,7 +1062,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - District changes help lose heat
 - Integrate with UI indicators
 
-### Task 44: Implement biometric security system (fingerprint, retinal scanners)
+### Task 45: Implement biometric security system (fingerprint, retinal scanners)
 **User Story:** As a player, I want to encounter biometric security that requires creative solutions to bypass, so that high-security areas feel appropriately protected.
 
 **Status History:**
@@ -1056,7 +1083,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Some require unconscious/willing NPCs
 - High security areas only
 
-### Task 45: Create access trading/sharing system between NPCs and player
+### Task 46: Create access trading/sharing system between NPCs and player
 **User Story:** As a player, I want to borrow or trade access credentials with trusted NPCs, so that social relationships provide gameplay benefits.
 
 **Status History:**
@@ -1077,7 +1104,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Some NPCs refuse certain requests
 - Track borrowed items carefully
 
-### Task 46: Implement maintenance access routes as alternative paths
+### Task 47: Implement maintenance access routes as alternative paths
 **User Story:** As a player with maintenance knowledge, I want to access areas through service tunnels and vents, so that alternative solutions exist for access challenges.
 
 **Status History:**
@@ -1100,7 +1127,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Not all areas accessible this way
 - Special tools: maintenance override key, electronic lockpick, vent removal tool
 
-### Task 47: Create dynamic security escalation system
+### Task 48: Create dynamic security escalation system
 **User Story:** As a player, I want security to dynamically respond to threats by increasing access restrictions, so that my actions have meaningful consequences on the world.
 
 **Status History:**
@@ -1121,7 +1148,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Different districts escalate differently
 - Player actions affect threat level
 
-### Task 48: Implement key copying and black market access items
+### Task 49: Implement key copying and black market access items
 **User Story:** As a player, I want to copy keys or purchase illegal access items, so that I have alternative (risky) methods to gain entry.
 
 **Status History:**
@@ -1142,7 +1169,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Black market has trust system
 - Guards detect contraband
 
-### Task 49: Add access degradation from assimilation corruption
+### Task 50: Add access degradation from assimilation corruption
 **User Story:** As a player, I want the assimilation to corrupt access control systems over time, so that the spreading threat affects gameplay systems.
 
 **Status History:**
@@ -1163,7 +1190,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - Assimilated security chiefs worse
 - Creates new gameplay challenges
 
-### Task 50: Create advanced access control UI (biometric interface, access logs)
+### Task 51: Create advanced access control UI (biometric interface, access logs)
 **User Story:** As a player, I want sophisticated UI for advanced security systems, so that interacting with high-tech security feels immersive.
 
 **Status History:**
@@ -1190,6 +1217,8 @@ As a developer, I want to implement the final advanced features and polish all s
 ## Testing Criteria
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
+- Banking system handles deposits/withdrawals correctly
+- Financial records integrate with investigation system
 - Puzzles save/load state correctly
 - Tram system integrates with time and access control
 - Performance maintains 60 FPS with all systems active
@@ -1223,6 +1252,8 @@ As a developer, I want to implement the final advanced features and polish all s
 - src/core/events/living_world_event.gd (to be created)
 - src/core/investigation/clue_manager.gd (to be created)
 - src/core/investigation/clue.gd (to be created)
+- src/core/economy/banking_system.gd (to be created)
+- src/core/investigation/financial_investigator.gd (to be created)
 - src/core/puzzles/base_puzzle.gd (to be created)
 - src/core/puzzles/puzzle_manager.gd (to be created)
 - src/core/transport/tram_system.gd (to be created)
