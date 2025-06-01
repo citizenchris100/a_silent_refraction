@@ -41,6 +41,21 @@ This iteration completes Phase 3.2 by populating the remaining three districts. 
 
 ## Tasks
 
+### District Population
+- [ ] Task 1: Trading Floor District Population
+- [ ] Task 2: Trading Minigame Integration
+- [ ] Task 3: Barracks District Population
+- [ ] Task 4: Player Housing Implementation
+- [ ] Task 5: Engineering District Population
+- [ ] Task 6: Restricted Area Implementation
+- [ ] Task 7: District Integration Testing
+
+### District Access Control Implementation
+- [ ] Task 8: Implement Engineering biometric locks for high-security areas
+- [ ] Task 9: Create maintenance tunnel access network in Engineering
+- [ ] Task 10: Add security checkpoint NPCs with access verification dialog
+- [ ] Task 11: Implement borrowed keycard quest mechanics
+
 ### 1. Trading Floor District Population
 **Priority:** High  
 **Estimated Hours:** 24
@@ -201,11 +216,123 @@ Test all seven populated districts together ensuring smooth transitions and cons
 - All previous district work
 - Performance optimization (Iteration 15)
 
+### 8. Implement Engineering biometric locks for high-security areas
+**Priority:** High  
+**Estimated Hours:** 8
+
+**Description:**  
+Add biometric security systems to Engineering's most restricted areas containing critical station systems.
+
+**User Story:**  
+*As a player, I want Engineering's critical areas to require biometric authentication, so that accessing the station's core systems feels appropriately challenging.*
+
+**Acceptance Criteria:**
+- [ ] Place biometric scanners at key locations
+- [ ] Configure authorized personnel lists
+- [ ] Implement bypass challenges
+- [ ] Add visual security indicators
+- [ ] Create failure consequences
+
+**Dependencies:**
+- Biometric system (Iteration 15, Task 44)
+- Engineering district (Iteration 17)
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Use biometric scanner prefabs from Iteration 15
+- Configure for Engineering-specific personnel
+- Consider fail-safe overrides for emergencies
+
+### 9. Create maintenance tunnel access network in Engineering
+**Priority:** Medium  
+**Estimated Hours:** 10
+
+**Description:**  
+Build the maintenance tunnel network throughout Engineering providing alternative access routes.
+
+**User Story:**  
+*As a player with maintenance knowledge, I want to navigate Engineering through service tunnels, so that I can avoid security or reach restricted areas.*
+
+**Acceptance Criteria:**
+- [ ] Map tunnel network layout
+- [ ] Connect to key areas
+- [ ] Add environmental hazards
+- [ ] Implement tool requirements
+- [ ] Create discovery mechanics
+
+**Dependencies:**
+- Maintenance access system (Iteration 15, Task 46)
+- Engineering layout complete
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Use MaintenanceAccess class from Iteration 15
+- Include environmental hazards (steam, electrical)
+- Tool requirements: screwdriver, flashlight
+
+### 10. Add security checkpoint NPCs with access verification dialog
+**Priority:** High  
+**Estimated Hours:** 8
+
+**Description:**  
+Place security checkpoint guards who verify credentials through dialog interactions.
+
+**User Story:**  
+*As a player, I want to interact with checkpoint guards who check my credentials, so that gaining access feels like a social challenge.*
+
+**Acceptance Criteria:**
+- [ ] Place checkpoint guard NPCs
+- [ ] Create verification dialog trees
+- [ ] Implement credential checking
+- [ ] Add persuasion options
+- [ ] Include failure responses
+
+**Dependencies:**
+- Security checkpoint system (Iteration 9)
+- Dialog system (Iteration 4)
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Integrate with existing guard NPC templates
+- Use dialog conditions for credential checks
+- Different responses based on clearance level
+
+### 11. Implement borrowed keycard quest mechanics
+**Priority:** Medium  
+**Estimated Hours:** 6
+
+**Description:**  
+Create quests where NPCs lend keycards with time limits and consequences for not returning them.
+
+**User Story:**  
+*As a player, I want to borrow keycards from trusting NPCs for temporary access, so that social relationships provide tangible benefits.*
+
+**Acceptance Criteria:**
+- [ ] Create borrowing dialog options
+- [ ] Implement time tracking
+- [ ] Add return reminders
+- [ ] Create trust consequences
+- [ ] Handle lost borrowed items
+
+**Dependencies:**
+- Access trading system (Iteration 15, Task 45)
+- Trust system (Iteration 10)
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Use access trading mechanics from Iteration 15
+- Time limits: 2-8 hours based on trust level
+- Trust penalty for not returning: -20 points
+
 ## Testing Criteria
 - All 65 NPCs function properly
 - Trading minigame fully integrated
 - Player housing saves correctly
 - Restricted areas properly gated
+- Engineering biometric locks function correctly
+- Maintenance tunnel network accessible
+- Security checkpoint dialogs work properly
+- Borrowed keycard mechanics track correctly
 - Performance with 150 total NPCs
 - All districts feel complete
 - Unique mechanics work smoothly

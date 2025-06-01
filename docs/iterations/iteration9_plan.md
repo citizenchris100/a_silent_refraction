@@ -99,6 +99,13 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - [ ] Task 30: Add restricted area warnings
 - [ ] Task 31: Create security checkpoint system
 - [ ] Task 32: Implement access violation consequences
+- [ ] Task 33: Create AccessControlManager singleton
+- [ ] Task 34: Implement AccessPoint base class and system
+- [ ] Task 35: Create access item types (PhysicalKey, Keycard, AccessBadge classes)
+- [ ] Task 36: Implement access code system for keypads
+- [ ] Task 37: Create access control UI components (keypad, card reader interfaces)
+- [ ] Task 38: Implement AccessSerializer for save/load
+- [ ] Task 39: Create lost/replacement access system with economy integration
 
 ## User Stories
 
@@ -455,12 +462,241 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Create prefab scenes for common objects
 - Include usage examples in documentation
 
+### Task 28: Create access permission system
+**User Story:** As a developer, I want a centralized system for managing access permissions throughout the station, so that all access control is consistent and easily maintainable.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T1
+- **Acceptance Criteria:**
+  1. Define access level hierarchy (Guest, Staff, Security, Admin)
+  2. Permission checking interface
+  3. Area-based access zones
+  4. Role-based permissions
+  5. Debug visualization of access areas
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Foundation for all access control features
+- Consider future expansion for special permissions
+
+### Task 30: Add restricted area warnings
+**User Story:** As a player, I want clear visual and audio warnings when approaching restricted areas, so that I don't accidentally trespass and raise suspicion.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Visual warning signs/barriers
+  2. Audio cues near restricted zones
+  3. UI notification when approaching
+  4. Different warning levels
+  5. Consistent warning design language
+
+**Implementation Notes:**
+- Use Area2D for proximity detection
+- Integrate with UI notification system
+- Different warnings for different security levels
+
+### Task 31: Create security checkpoint system
+**User Story:** As a player, I want to encounter security checkpoints at key locations, so that accessing secure areas feels appropriately challenging and realistic.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Checkpoint scenes with interaction
+  2. Guard NPC integration
+  3. ID verification process
+  4. Queue system for NPCs
+  5. Bypass options available
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Place at district boundaries
+- Different security levels per checkpoint
+
+### Task 32: Implement access violation consequences
+**User Story:** As a player, I want meaningful consequences for access violations, so that security systems feel impactful and I must carefully consider my actions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Suspicion increase on violations
+  2. Guard alert system
+  3. Temporary lockdowns
+  4. Access revocation mechanics
+  5. Escalating consequences
+
+**Implementation Notes:**
+- Integrate with suspicion system
+- Different severity levels
+- Some violations trigger immediate response
+
+### Task 33: Create AccessControlManager singleton
+**User Story:** As a developer, I want a centralized AccessControlManager to coordinate all access control systems, so that access logic is unified and maintainable.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+  1. Singleton autoload implementation
+  2. Access point registry
+  3. Player access item tracking
+  4. Access validation methods
+  5. Signal emission for access events
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Core component managing all access control
+- Must integrate with existing managers
+
+### Task 34: Implement AccessPoint base class and system
+**User Story:** As a developer, I want a flexible AccessPoint class for doors and barriers, so that I can easily create various locked areas throughout the station.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+  1. Base AccessPoint class extending Area2D
+  2. Support multiple access types
+  3. Visual state management
+  4. Interaction with verb system
+  5. Alarm trigger capability
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Extensible for different lock types
+- Must work with existing interaction system
+
+### Task 35: Create access item types (PhysicalKey, Keycard, AccessBadge classes)
+**User Story:** As a player, I want various types of access items that work differently, so that gaining access feels varied and strategic.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. PhysicalKey class with unique IDs
+  2. Keycard with security levels
+  3. AccessBadge with visual ID
+  4. Item inheritance from ItemData
+  5. Validation methods per type
+  6. Badge visual matching with disguise system
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Integrate with inventory system
+- Support for future item types
+- AccessBadge includes owner_photo and matches_wearer() method
+- Badge/disguise mismatch triggers suspicion
+
+### Task 36: Implement access code system for keypads
+**User Story:** As a player, I want to use keypads with codes to access areas, so that I can gain entry through knowledge rather than items.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Keypad interaction UI
+  2. Code validation system
+  3. Code discovery mechanics
+  4. Failed attempt tracking
+  5. Code hint system
+
+**Implementation Notes:**
+- Codes can be found in notes/dialog
+- Some codes change periodically
+- Track player's known codes
+
+### Task 37: Create access control UI components (keypad, card reader interfaces)
+**User Story:** As a player, I want intuitive interfaces for different access control methods, so that interacting with security systems feels natural.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Keypad number entry UI
+  2. Card reader slot animation
+  3. Access denied/granted feedback
+  4. Consistent UI design language
+  5. Audio feedback integration
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Reusable UI components
+- Clear visual feedback for all states
+
+### Task 38: Implement AccessSerializer for save/load
+**User Story:** As a player, I want all access states to persist between game sessions, so that my progress with keycards and unlocked doors is maintained.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. Serialize access point states
+  2. Save player's access items
+  3. Track revoked access
+  4. Remember known codes
+  5. Version migration support
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Self-register with SaveManager
+- Medium priority (60) serialization
+
+### Task 39: Create lost/replacement access system with economy integration
+**User Story:** As a player, I want to replace lost keycards for a fee, so that losing access items has consequences but isn't game-ending.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Replacement request interface
+  2. Credit cost calculation
+  3. Time delay for processing
+  4. Security logging of replacements
+  5. Higher costs for higher clearance
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Integrate with economy system
+- Alternative black market options
+
 ## Testing Criteria
 - Observation system reveals appropriate details
 - Detection states transition correctly through all stages
 - Investigation progress saves/loads properly
 - Interactive objects respond to all verbs
 - Access control prevents/allows appropriately
+- AccessControlManager manages all access points correctly
+- All access item types function as designed
+- Access codes work with proper validation
+- UI components provide clear feedback
+- Access states persist through save/load
+- Lost item replacement system integrates with economy
 - Game over sequence triggers correctly
 - Save file deletion works as designed
 - Assimilation cinematics play properly
@@ -493,6 +729,13 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - src/core/investigation/investigation_manager.gd (to be created)
 - src/objects/base/base_interactive_object.gd (to be refactored)
 - src/core/access/access_control_manager.gd (to be created)
+- src/core/access/access_point.gd (to be created)
+- src/resources/access_items.gd (to be created)
+- src/ui/access/access_interface.gd (to be created)
+- src/ui/access/keypad_interface.gd (to be created)
+- src/ui/access/card_reader_interface.gd (to be created)
+- src/ui/access/lost_access_ui.gd (to be created)
+- src/core/serializers/access_serializer.gd (to be created)
 - docs/design/observation_system_full_design.md
 - docs/design/suspicion_system_full_design.md
 - docs/design/detection_game_over_system_design.md

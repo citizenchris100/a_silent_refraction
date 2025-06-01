@@ -120,6 +120,15 @@ As a developer, I want to implement the final advanced features and polish all s
 - [ ] Task 42: Add environmental detection triggers
 - [ ] Task 43: Implement detection cooldown mechanics
 
+### Advanced Access Control Features
+- [ ] Task 44: Implement biometric security system (fingerprint, retinal scanners)
+- [ ] Task 45: Create access trading/sharing system between NPCs and player
+- [ ] Task 46: Implement maintenance access routes as alternative paths
+- [ ] Task 47: Create dynamic security escalation system
+- [ ] Task 48: Implement key copying and black market access items
+- [ ] Task 49: Add access degradation from assimilation corruption
+- [ ] Task 50: Create advanced access control UI (biometric interface, access logs)
+
 ## User Stories
 
 ### Task 1: Create EventManager singleton with scheduling system
@@ -1026,6 +1035,158 @@ As a developer, I want to implement the final advanced features and polish all s
 - District changes help lose heat
 - Integrate with UI indicators
 
+### Task 44: Implement biometric security system (fingerprint, retinal scanners)
+**User Story:** As a player, I want to encounter biometric security that requires creative solutions to bypass, so that high-security areas feel appropriately protected.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T2
+- **Acceptance Criteria:**
+  1. Fingerprint scanner implementation
+  2. Retinal scanner implementation
+  3. Voice recognition option
+  4. Spoofing mechanics
+  5. Failure detection system
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Different spoof methods per biometric type
+- Some require unconscious/willing NPCs
+- High security areas only
+
+### Task 45: Create access trading/sharing system between NPCs and player
+**User Story:** As a player, I want to borrow or trade access credentials with trusted NPCs, so that social relationships provide gameplay benefits.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Trust-based access sharing
+  2. NPCs can lend keycards
+  3. NPCs can share codes
+  4. Time limits on borrowed items
+  5. Consequences for not returning
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Requires high trust levels
+- Some NPCs refuse certain requests
+- Track borrowed items carefully
+
+### Task 46: Implement maintenance access routes as alternative paths
+**User Story:** As a player with maintenance knowledge, I want to access areas through service tunnels and vents, so that alternative solutions exist for access challenges.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. Maintenance tunnel network
+  2. Ventilation shaft paths
+  3. Tool requirements
+  4. Size/disguise restrictions
+  5. Environmental hazards
+  6. Special maintenance tools grant access (lockpicks, override keys)
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Requires maintenance disguise or knowledge
+- Some routes have risks
+- Not all areas accessible this way
+- Special tools: maintenance override key, electronic lockpick, vent removal tool
+
+### Task 47: Create dynamic security escalation system
+**User Story:** As a player, I want security to dynamically respond to threats by increasing access restrictions, so that my actions have meaningful consequences on the world.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Threat level system (green to lockdown)
+  2. Dynamic security increases
+  3. Access revocation during alerts
+  4. Guard deployment system
+  5. Cooldown mechanics
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Integrate with event system
+- Different districts escalate differently
+- Player actions affect threat level
+
+### Task 48: Implement key copying and black market access items
+**User Story:** As a player, I want to copy keys or purchase illegal access items, so that I have alternative (risky) methods to gain entry.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T2
+- **Acceptance Criteria:**
+  1. Key copying mechanics
+  2. Black market vendor system
+  3. Risk of fake items
+  4. Contraband detection
+  5. Price scaling system
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Copied keys are trackable
+- Black market has trust system
+- Guards detect contraband
+
+### Task 49: Add access degradation from assimilation corruption
+**User Story:** As a player, I want the assimilation to corrupt access control systems over time, so that the spreading threat affects gameplay systems.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Random keycard failures
+  2. Door malfunctions
+  3. Code changes by assimilated
+  4. Trap door creation
+  5. Progressive degradation
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Tied to global corruption level
+- Assimilated security chiefs worse
+- Creates new gameplay challenges
+
+### Task 50: Create advanced access control UI (biometric interface, access logs)
+**User Story:** As a player, I want sophisticated UI for advanced security systems, so that interacting with high-tech security feels immersive.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Biometric scan animations
+  2. Access log viewing interface
+  3. Security terminal UI
+  4. Visual hack interfaces
+  5. Multi-stage authentication UI
+  6. Comprehensive access logs with timestamps and user tracking
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Consistent with sci-fi aesthetic
+- Clear feedback for all states
+- Support for mini-games
+- Access logs track: who accessed what, when, success/failure
+- Security terminals allow authorized personnel to review logs
+
 ## Testing Criteria
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
@@ -1039,6 +1200,13 @@ As a developer, I want to implement the final advanced features and polish all s
 - Detection cooldown mechanics function as designed
 - Security cameras properly report to detection system
 - Detection states remain consistent across all sources
+- Biometric security systems function correctly
+- Access sharing mechanics work with trust system
+- Maintenance routes provide alternative access
+- Security escalation responds dynamically
+- Key copying and black market systems integrate
+- Access degradation from corruption works
+- Advanced UI components display properly
 
 ## Timeline
 - Start date: After Iterations 9-14 completion
@@ -1063,6 +1231,12 @@ As a developer, I want to implement the final advanced features and polish all s
 - src/core/performance/object_pool.gd (to be created)
 - src/core/security/security_camera.gd (to be created)
 - src/core/detection/environmental_trigger.gd (to be created)
+- src/core/access/biometric_scanner.gd (to be created)
+- src/core/access/maintenance_access.gd (to be created)
+- src/core/access/security_escalation.gd (to be created)
+- src/core/access/access_trading.gd (to be created)
+- src/ui/access/biometric_interface.gd (to be created)
+- src/ui/access/security_terminal_ui.gd (to be created)
 - docs/design/living_world_event_system_full.md
 - docs/design/investigation_clue_tracking_system_design.md
 - docs/design/puzzle_system_design.md
