@@ -139,6 +139,48 @@ As a player, I experience a living station where the mysterious assimilation spr
 - [ ] Task 34: Implement differential serialization for world state
 - [ ] Task 35: Create emergent narrative generation system
 
+### Coalition System (Intelligence Network)
+- [ ] Task 61: Implement member intelligence gathering
+- [ ] Task 62: Create surveillance assignment system
+- [ ] Task 63: Build intel report generation
+- [ ] Task 64: Add verified/suspected NPC tracking
+- [ ] Task 65: Create intel accuracy decay
+
+### Coalition System (Resource Sharing)
+- [ ] Task 66: Implement shared credit pool
+- [ ] Task 67: Create shared inventory system
+- [ ] Task 68: Build safe house management
+- [ ] Task 69: Add resource request/contribution mechanics
+- [ ] Task 70: Create resource pooling from members
+
+### Coalition System (Advanced Heists)
+- [ ] Task 71: Implement heist phase system
+- [ ] Task 72: Create role requirements checker
+- [ ] Task 73: Build skill check mechanics
+- [ ] Task 74: Add heist reward distribution
+- [ ] Task 75: Create heist planning interface
+
+### Coalition System (Infiltration & Trust)
+- [ ] Task 76: Implement infiltrator detection
+- [ ] Task 77: Create infiltration consequences
+- [ ] Task 78: Build paranoia mechanics
+- [ ] Task 79: Add member verification system
+- [ ] Task 80: Create trust building system
+
+### Coalition System (UI Components)
+- [ ] Task 81: Create Coalition HQ scene
+- [ ] Task 82: Build member list interface
+- [ ] Task 83: Implement intelligence board UI
+- [ ] Task 84: Add resource management UI
+- [ ] Task 85: Create operation planner interface
+
+### Coalition System (Integration & Serialization)
+- [ ] Task 86: Create CoalitionSerializer
+- [ ] Task 87: Implement coalition-economy integration
+- [ ] Task 88: Build coalition-assimilation resistance mechanics
+- [ ] Task 89: Add coalition impact on endings
+- [ ] Task 90: Create coalition achievement tracking
+
 ## User Stories
 
 ### Task 2: Implement infection spread mechanics
@@ -969,6 +1011,1072 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Corruption injection tests
 - Performance benchmarks
 
+### Task 1: Create AssimilationManager singleton
+**User Story:** As a developer, I want a central system to manage all assimilation mechanics, so that the infection spread is coordinated and consistent across the game.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Singleton pattern implemented
+  2. Tracks all assimilated NPCs
+  3. Manages spread mechanics
+  4. Provides API for other systems
+  5. Handles save/load state
+
+**Implementation Notes:**
+- Reference: docs/design/assimilation_system_design.md
+- Central authority for assimilation state
+- Emit signals for major events
+- Thread-safe for performance
+
+### Task 3: Build assimilation detection methods
+**User Story:** As a player, I want ways to detect who might be assimilated, so that I can investigate and uncover the conspiracy.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Multiple detection methods available
+  2. Behavioral observation works
+  3. Investigation skill affects success
+  4. False positives possible
+  5. Evidence can be gathered
+
+**Implementation Notes:**
+- Reference: docs/design/assimilation_system_design.md
+- Observation, investigation, evidence
+- Different methods for leaders vs drones
+- Skill checks required
+
+### Task 4: Create visual indicators for infected
+**User Story:** As a player, I want to see subtle visual cues on assimilated NPCs, so that careful observation is rewarded.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** U1
+- **Acceptance Criteria:**
+  1. Subtle indicators for leaders
+  2. More obvious signs for drones
+  3. Progressive visual degradation
+  4. Optional highlight mode
+  5. Consistent art style
+
+**Implementation Notes:**
+- Reference: docs/design/assimilation_system_design.md
+- Eye color shifts, posture changes
+- Drone degradation visible
+- Toggle for accessibility
+
+### Task 5: Add assimilation event system
+**User Story:** As the assimilation force, I want to trigger events that advance the infection, so that the threat feels active and evolving.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Scheduled infection attempts
+  2. Event variety (contact, airborne, etc.)
+  3. Player can witness some events
+  4. Events leave evidence
+  5. Integrate with world state
+
+**Implementation Notes:**
+- Reference: docs/design/assimilation_system_design.md
+- Different event types
+- Some visible, some hidden
+- Affect spread rate
+
+### Task 6: Create CoalitionManager
+**User Story:** As a developer, I want a central system to manage the resistance coalition, so that recruitment, resources, and operations are coordinated.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Singleton pattern implemented
+  2. Track coalition members
+  3. Manage shared resources
+  4. Calculate coalition strength
+  5. Handle coalition events
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Central coalition authority
+- Integrate with other systems
+- Signal major coalition events
+
+### Task 8: Build coalition strength tracking
+**User Story:** As a player, I want to see how strong our coalition is, so that I understand our chances against the assimilation threat.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Strength calculated from multiple factors
+  2. Visual representation available
+  3. Affects available actions
+  4. Compare to assimilation strength
+  5. Dynamic updates
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Members, resources, completed missions
+- 0-100 scale
+- Visible in UI
+
+### Task 9: Create resistance mission system
+**User Story:** As a coalition leader, I want to plan and execute missions against the assimilation, so that we can fight back effectively.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Various mission types available
+  2. Success based on coalition strength
+  3. Missions have consequences
+  4. Rewards for success
+  5. Can fail with penalties
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Sabotage, rescue, intelligence missions
+- Scale with game progression
+- Some unlock heists
+
+### Task 10: Add coalition meeting events
+**User Story:** As a coalition member, I want to attend meetings to share information and plan operations, so that we coordinate effectively.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Weekly meeting schedule
+  2. Share intelligence at meetings
+  3. Vote on operations
+  4. Build member relationships
+  5. Can be infiltrated
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Time-based events
+- Dialog-heavy scenes
+- Affect coalition morale
+
+### Task 11: Create SecurityManager
+**User Story:** As station security, I want a system to detect and respond to crimes, so that order is maintained despite the growing chaos.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Track security alerts station-wide
+  2. Dispatch security to incidents
+  3. Manage alert levels
+  4. Coordinate with other systems
+  5. Security can be compromised
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Central security authority
+- NPC security officers
+- Response time mechanics
+
+### Task 12: Implement crime detection system
+**User Story:** As security, I want to detect crimes when they happen, so that perpetrators can be caught and order maintained.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Witness-based detection
+  2. Camera surveillance
+  3. Report delay mechanics
+  4. Evidence generation
+  5. False reports possible
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Multiple detection methods
+- Not all crimes detected
+- Integrate with evidence system
+
+### Task 14: Create lockdown mechanics
+**User Story:** As security, I want to lockdown areas during emergencies, so that threats can be contained and civilians protected.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Area-based lockdowns
+  2. Movement restrictions
+  3. Override mechanics for player
+  4. NPC behavior changes
+  5. Time-limited lockdowns
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Doors sealed, areas blocked
+- Security checkpoints
+- Affect navigation mesh
+
+### Task 15: Add security response teams
+**User Story:** As a player, I want to see security teams respond to incidents, so that the world feels reactive to criminal events.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Teams dispatch to crimes
+  2. Response time varies
+  3. Can apprehend criminals
+  4. Player can evade/confront
+  5. Teams have different capabilities
+
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- 2-4 officer teams
+- Pathfinding to incidents
+- Combat capabilities
+
+### Task 16: Create EndingManager
+**User Story:** As a developer, I want a system to track and trigger game endings, so that player choices lead to appropriate conclusions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. Track ending conditions
+  2. Multiple endings supported
+  3. Trigger appropriate cutscenes
+  4. Save completion state
+  5. Enable new game+
+
+**Implementation Notes:**
+- Reference: docs/design/multiple_endings_system_design.md
+- Central ending authority
+- Check conditions regularly
+- Smooth transitions
+
+### Task 18: Build ending determination logic
+**User Story:** As a player, I want my accumulated choices to determine which ending I receive, so that my journey feels consequential.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3, T3
+- **Acceptance Criteria:**
+  1. Complex condition checking
+  2. Priority system for endings
+  3. Track all relevant factors
+  4. Clear but not obvious
+  5. Debug visualization available
+
+**Implementation Notes:**
+- Reference: docs/design/multiple_endings_system_design.md
+- Coalition strength, assimilation %, decisions
+- Weighted scoring system
+- Some endings have sub-variations
+
+### Task 19: Create ending cutscenes
+**User Story:** As a player reaching an ending, I want to see a satisfying conclusion cutscene, so that my story feels complete.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Unique scene per ending
+  2. Reference player choices
+  3. Show consequences
+  4. Epilogue information
+  5. Credits integration
+
+**Implementation Notes:**
+- Reference: docs/design/multiple_endings_system_design.md
+- 5+ unique endings
+- Some share components
+- Skippable but memorable
+
+### Task 20: Implement ending achievements
+**User Story:** As a completionist player, I want achievements for reaching different endings, so that I'm encouraged to explore all possibilities.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Achievement per ending
+  2. Hidden achievements for secrets
+  3. Progress tracking
+  4. Steam/platform integration
+  5. New game+ rewards
+
+**Implementation Notes:**
+- Reference: docs/design/multiple_endings_system_design.md
+- Track across playthroughs
+- Some require specific paths
+- Unlock bonuses
+
+### Task 21: Connect all systems to world state
+**User Story:** As a developer, I want all game systems to read and modify a unified world state, so that everything stays synchronized.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** All requirements
+- **Acceptance Criteria:**
+  1. Central world state object
+  2. All systems integrated
+  3. State changes propagate
+  4. Save/load support
+  5. Debug visualization
+
+**Implementation Notes:**
+- Major integration task
+- Define clear interfaces
+- Performance critical
+
+### Task 22: Create emergent event system
+**User Story:** As a player, I want unexpected events to emerge from system interactions, so that each playthrough feels unique.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Events emerge from interactions
+  2. Not pre-scripted
+  3. Feel intentional
+  4. Create memorable moments
+  5. Properly balanced
+
+**Implementation Notes:**
+- System interaction rules
+- Emergence from complexity
+- Some become mini-quests
+
+### Task 23: Build faction conflict mechanics
+**User Story:** As a player, I want to see different factions clash over station control, so that the world feels politically complex.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Multiple faction interests
+  2. Conflicts over resources
+  3. Alliance possibilities
+  4. Territory control
+  5. Player can influence
+
+**Implementation Notes:**
+- Coalition vs Assimilated vs Security vs Civilians
+- Dynamic relationships
+- Visible consequences
+
+### Task 24: Add news/rumor system
+**User Story:** As a player, I want to hear news and rumors about station events, so that I stay informed about the changing world.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. News broadcasts available
+  2. Rumors spread naturally
+  3. Accuracy varies
+  4. Player actions featured
+  5. Affect NPC knowledge
+
+**Implementation Notes:**
+- Terminal news feeds
+- NPC gossip system
+- Some false information
+
+### Task 25: Implement cascade effects
+**User Story:** As a player taking major actions, I want to see ripple effects throughout the station, so that my choices have far-reaching consequences.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Major events trigger chains
+  2. Delayed consequences
+  3. Multiple systems affected
+  4. Some predictable, some not
+  5. Can be interrupted
+
+**Implementation Notes:**
+- Define trigger events
+- Chain reaction rules
+- Balance to avoid chaos
+
+### Task 61: Implement member intelligence gathering
+**User Story:** As a coalition member, I want to share intelligence about other NPCs with the coalition, so that we can identify safe recruits and threats.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Each member knows 2-5 other NPCs
+  2. Information quality varies by relationship
+  3. Verified safe vs suspected lists
+  4. Updates when recruiting new members
+  5. False intelligence possible
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Network effect multiplies intelligence
+- Based on NPC relationships and roles
+- Some NPCs have better intel than others
+
+### Task 62: Create surveillance assignment system
+**User Story:** As a coalition leader, I want to assign members to watch suspicious NPCs, so that we can detect assimilation attempts early.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Assign watchers to targets
+  2. Regular surveillance reports
+  3. Risk of detection exists
+  4. Watchers unavailable for other tasks
+  5. Can discover assimilation
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 8-hour report cycles
+- 10% detection chance per report
+- Higher chance of catching assimilated
+
+### Task 63: Build intel report generation
+**User Story:** As a coalition member, I want to receive detailed intelligence reports, so that I can make informed decisions about recruitment and operations.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Automated report generation
+  2. Surveillance observations included
+  3. Financial anomalies noted
+  4. Behavioral changes tracked
+  5. Actionable intelligence highlighted
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Compress old reports for performance
+- Visual format for easy scanning
+- Priority flagging system
+
+### Task 64: Add verified/suspected NPC tracking
+**User Story:** As a player, I want the coalition to maintain lists of verified safe and suspected assimilated NPCs, so that I know who to trust.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Two separate tracking lists
+  2. NPCs can move between lists
+  3. Verification methods available
+  4. UI shows status clearly
+  5. Lists affect recruitment options
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Color coding in UI (green/red)
+- Verification requires multiple confirmations
+- Suspected list helps avoid infiltrators
+
+### Task 65: Create intel accuracy decay
+**User Story:** As time passes, I want intelligence to become less reliable, so that the coalition must actively maintain its information network.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Intelligence has timestamps
+  2. Accuracy decreases over time
+  3. Fresh intel more valuable
+  4. Old intel can mislead
+  5. Updates refresh accuracy
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 48-hour half-life for most intel
+- Critical info decays slower
+- Visual indicators for freshness
+
+### Task 66: Implement shared credit pool
+**User Story:** As a coalition member, I want to contribute and access shared funds, so that we can support each other financially.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Central credit storage
+  2. Contribution tracking
+  3. Withdrawal limits
+  4. Emergency fund access
+  5. Transaction history
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Members contribute based on wealth
+- Daily withdrawal limits prevent abuse
+- Priority access for operations
+
+### Task 67: Create shared inventory system
+**User Story:** As a coalition member, I want to share items with other members, so that resources are used efficiently.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Central item storage
+  2. Deposit/withdraw mechanics
+  3. Item categorization
+  4. Access permissions
+  5. Inventory UI
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Medical supplies, weapons, tools
+- Some items restricted by role
+- Physical storage location
+
+### Task 68: Build safe house management
+**User Story:** As a coalition, we want to maintain secret safe houses, so that members have places to hide and meet.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Multiple safe house locations
+  2. Can be discovered/compromised
+  3. Provide rest and resources
+  4. Meeting locations
+  5. Upgrade possibilities
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- One per major district when established
+- Infiltrators can compromise
+- Fallback locations available
+
+### Task 69: Add resource request/contribution mechanics
+**User Story:** As a coalition member in need, I want to request specific resources from the coalition, so that I can complete my missions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Request system UI
+  2. Automatic fulfillment
+  3. Priority levels
+  4. Contribution rewards
+  5. Request history
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- High-priority for operations
+- Reputation affects priority
+- Some requests denied if low resources
+
+### Task 70: Create resource pooling from members
+**User Story:** As the coalition grows, I want new members to automatically contribute resources, so that our collective strength increases.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Automatic contributions on join
+  2. Periodic contributions
+  3. Based on member wealth
+  4. Voluntary extra contributions
+  5. Morale affects giving
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 10% initial contribution
+- 5% weekly contributions
+- Wealthy members give more
+
+### Task 71: Implement heist phase system
+**User Story:** As a heist planner, I want operations divided into phases, so that complex missions can be executed step by step.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Multi-phase structure
+  2. Phase dependencies
+  3. Failure handling per phase
+  4. Time costs per phase
+  5. Dynamic phase generation
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Infiltration → Execution → Escape pattern
+- Some phases optional
+- Failure can abort or adapt
+
+### Task 72: Create role requirements checker
+**User Story:** As a heist planner, I want to know what roles are needed for each operation, so that I can assemble the right team.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Define role types
+  2. Match members to roles
+  3. Show missing roles
+  4. Alternative role options
+  5. Skill level requirements
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Hacker, muscle, face, tech, medic, etc.
+- Some roles have substitutes
+- Higher difficulty needs better skills
+
+### Task 73: Build skill check mechanics
+**User Story:** As a heist participant, I want my skills tested during operations, so that success depends on team composition.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Skill-based dice rolls
+  2. Difficulty thresholds
+  3. Teamwork bonuses
+  4. Failure consequences
+  5. Critical success/failure
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- D20-style system internally
+- Visualized as percentage chance
+- Some checks can be retried
+
+### Task 74: Add heist reward distribution
+**User Story:** As a heist participant, I want to receive my share of the rewards, so that successful operations benefit everyone involved.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Automatic distribution
+  2. Role-based shares
+  3. Coalition tax
+  4. Bonus for excellence
+  5. Non-monetary rewards
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 20% to coalition fund
+- Leaders get larger shares
+- Intel and items also distributed
+
+### Task 75: Create heist planning interface
+**User Story:** As a player planning heists, I want a clear interface showing phases, requirements, and risks, so that I can make informed decisions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Phase breakdown display
+  2. Role assignment UI
+  3. Success probability shown
+  4. Risk/reward analysis
+  5. Team selection interface
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Blueprint-style visual
+- Drag-drop team assignment
+- Real-time probability updates
+
+### Task 76: Implement infiltrator detection
+**User Story:** As a coalition leader, I want to detect when assimilated NPCs try to infiltrate our ranks, so that we can protect the coalition.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Verification checks available
+  2. Behavioral analysis
+  3. Background investigation
+  4. Warning signs system
+  5. False positive possibility
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Multiple verification methods
+- Some infiltrators very hard to detect
+- Investigation takes time
+
+### Task 77: Create infiltration consequences
+**User Story:** As a coalition, when we're infiltrated, I want to see realistic consequences, so that the threat feels serious.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Member exposure risk
+  2. Resource theft
+  3. Safe house compromise
+  4. Morale damage
+  5. Recovery mechanics
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 30-50% resource loss
+- Multiple members exposed
+- Triggers paranoia state
+
+### Task 78: Build paranoia mechanics
+**User Story:** As a coalition after infiltration, I want members to become paranoid and suspicious, so that trust must be rebuilt.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Paranoia levels per member
+  2. Affects cooperation
+  3. Additional verification required
+  4. Trust rebuilding over time
+  5. Paranoia events
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 0-100 paranoia scale
+- High paranoia reduces effectiveness
+- Special events to reduce paranoia
+
+### Task 79: Add member verification system
+**User Story:** As a paranoid coalition, I want to verify existing members aren't compromised, so that we can root out infiltrators.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Verification protocols
+  2. Multiple test types
+  3. Resource cost
+  4. Time requirements
+  5. Not 100% accurate
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Question sessions, behavior monitoring
+- Can stress relationships
+- Some refuse verification
+
+### Task 80: Create trust building system
+**User Story:** As a player, I want to build trust with NPCs through actions and dialog, so that I can recruit them to the coalition.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Trust levels 0-100
+  2. Multiple building methods
+  3. Personality affects approach
+  4. Trust unlocks options
+  5. Trust can be lost
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Evidence, mutual benefit, moral appeal, protection
+- Thresholds at 30, 50, 70
+- Some NPCs harder to convince
+
+### Task 81: Create Coalition HQ scene
+**User Story:** As a coalition member, I want a physical headquarters to visit, so that I feel part of a real organization.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Physical location in world
+  2. Interactive elements
+  3. Members present
+  4. Functional areas
+  5. Can be upgraded
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Hidden location
+- Meeting room, armory, infirmary
+- Members have schedules
+
+### Task 82: Build member list interface
+**User Story:** As a coalition leader, I want to see all members and their status, so that I can manage the organization effectively.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Sortable member list
+  2. Status indicators
+  3. Skills displayed
+  4. Trust levels shown
+  5. Assignment status
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Grid or list view options
+- Quick filters
+- Click for detailed view
+
+### Task 83: Implement intelligence board UI
+**User Story:** As a player, I want to see all coalition intelligence in one place, so that I can track threats and opportunities.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Verified/suspected lists
+  2. Recent reports display
+  3. Map integration
+  4. Search functionality
+  5. Priority highlighting
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Cork board aesthetic
+- Red strings connecting related intel
+- Timeline view option
+
+### Task 84: Add resource management UI
+**User Story:** As a coalition quartermaster, I want to see and manage shared resources, so that supplies are distributed efficiently.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Credit pool display
+  2. Inventory categories
+  3. Request queue
+  4. Distribution controls
+  5. Transaction history
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Tabbed interface
+- Graphs for trends
+- Quick distribution buttons
+
+### Task 85: Create operation planner interface
+**User Story:** As a player planning operations, I want a strategic interface, so that I can coordinate complex missions effectively.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Mission selection
+  2. Team assignment
+  3. Timeline display
+  4. Success prediction
+  5. Resource allocation
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- War room style
+- Drag-drop planning
+- Save operation plans
+
+### Task 86: Create CoalitionSerializer
+**User Story:** As a developer, I want coalition state to save correctly, so that player progress persists across sessions.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** T2
+- **Acceptance Criteria:**
+  1. All coalition data saved
+  2. Follows modular architecture
+  3. Compression for intel
+  4. Version migration support
+  5. Fast save/load
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Reference: docs/design/modular_serialization_architecture.md
+- Priority 40 (medium)
+- Compress intelligence reports
+
+### Task 87: Implement coalition-economy integration
+**User Story:** As a coalition member, I want economic benefits from fellow members, so that cooperation has tangible rewards.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Member shop discounts
+  2. Exclusive trade deals
+  3. Economic intelligence
+  4. Group purchasing power
+  5. Black market access
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 30% discount from member shops
+- 10% from sympathizers
+- Bulk buying options
+
+### Task 88: Build coalition-assimilation resistance mechanics
+**User Story:** As a coalition, I want our efforts to slow the assimilation spread, so that we're making a real difference.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, B2
+- **Acceptance Criteria:**
+  1. Coalition size affects spread rate
+  2. Safe houses protect areas
+  3. Active operations disrupt assimilation
+  4. Visible impact on statistics
+  5. Max 50% slowdown
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- 2% resistance per member
+- 5% per safe house
+- 10% during active operations
+
+### Task 89: Add coalition impact on endings
+**User Story:** As a player, I want coalition strength to affect available endings, so that building the resistance matters to the outcome.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U3, T3
+- **Acceptance Criteria:**
+  1. Ending variations based on coalition
+  2. Some endings require strong coalition
+  3. Coalition fate in epilogue
+  4. Member outcomes shown
+  5. Coalition legacy described
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- Reference: docs/design/multiple_endings_system_design.md
+- True Victory needs 75% coalition
+- Affects 3 of 5 endings
+
+### Task 90: Create coalition achievement tracking
+**User Story:** As a player, I want achievements for coalition milestones, so that I'm rewarded for building the resistance.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Recruitment milestones
+  2. Mission success tracking
+  3. Perfect infiltration detection
+  4. Resource accumulation
+  5. Special heist completion
+
+**Implementation Notes:**
+- Reference: docs/design/coalition_resistance_system_design.md
+- "Coalition Builder" - 20 members
+- "Paranoid Android" - Detect all infiltrators
+- "Master Thief" - Complete mainframe heist
+
 ## Testing Criteria
 - Assimilation spreads believably
 - Coalition mechanics function properly
@@ -998,6 +2106,21 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Behavioral degradation progresses naturally
 - Assimilation serialization handles all data
 - Version migration preserves save integrity
+- Coalition intelligence network provides accurate information
+- Surveillance assignments detect assimilation correctly
+- Resource sharing mechanics work without exploits
+- Heist phase system executes properly
+- Skill checks provide appropriate challenge
+- Infiltrator detection catches some but not all attempts
+- Paranoia mechanics affect coalition effectiveness
+- Trust building unlocks recruitment at correct thresholds
+- Coalition HQ scene functions as hub
+- All coalition UI interfaces are intuitive
+- Coalition serialization compresses intelligence efficiently
+- Economic benefits apply correctly to coalition members
+- Coalition resistance factor slows assimilation appropriately
+- Coalition strength affects ending availability
+- Achievement tracking records coalition milestones
 
 ## Timeline
 - Start date: After Iteration 11
@@ -1038,3 +2161,9 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Financial investigation adds detective gameplay layer
 - Leader/drone coordination enables strategic AI opponents
 - Comprehensive serialization ensures save system compatibility
+- Coalition System expanded from 5 to 30 tasks to fully implement design
+- Intelligence network creates information warfare gameplay
+- Resource sharing enables cooperative strategy
+- Heist system provides Ocean's 11 style missions
+- Infiltration mechanics add paranoia and trust elements
+- Full UI suite supports complex coalition management
