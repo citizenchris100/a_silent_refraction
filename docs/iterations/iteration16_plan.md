@@ -41,6 +41,22 @@ This new iteration focuses on advanced visual features that enhance immersion an
 
 ## Tasks
 
+### Visual Systems
+- [ ] Task 1: Sprite Perspective Scaling System
+- [ ] Task 2: Foreground Occlusion System
+- [ ] Task 3: Holographic Shader Effects
+- [ ] Task 4: Heat Distortion Effects
+- [ ] Task 5: CRT Screen Effects
+- [ ] Task 6: Animation System Polish
+- [ ] Task 7: Atmospheric Visual Effects
+- [ ] Task 8: Advanced Occlusion Features
+
+### Performance Optimization
+- [ ] Task 9: Rendering Pipeline Optimizations
+- [ ] Task 10: Platform-Specific Rendering Optimizations
+
+## User Stories
+
 ### 1. Sprite Perspective Scaling System
 **Priority:** High  
 **Estimated Hours:** 16
@@ -226,6 +242,68 @@ Implement advanced foreground occlusion features including animated elements, sp
 - Basic occlusion system (Iteration 14)
 - Animation system (Iteration 3)
 - Performance baseline (Iteration 15)
+
+### 9. Rendering Pipeline Optimizations
+**Priority:** High  
+**Estimated Hours:** 10
+
+**Description:**  
+Implement advanced rendering optimizations beyond basic sprite batching to ensure smooth performance.
+
+**User Story:**  
+*As a player, I want consistent frame rates even in visually complex scenes, so that gameplay remains smooth and responsive.*
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 104-115
+
+**Acceptance Criteria:**
+- [ ] Advanced draw call batching beyond basic sprite batching
+- [ ] Light2D optimization strategies
+- [ ] Static element conversion to single textures
+- [ ] VisibilityEnabler2D implementation for all applicable nodes
+- [ ] Measurable performance improvements
+
+**Implementation Notes:**
+- Reference: docs/design/performance_optimization_plan.md - Section 4: Rendering Optimization
+- Extend draw call batching to UI and effects
+- Minimize or avoid Light2D usage (not authentic to era)
+- Convert static backgrounds and UI to single textures
+- Implement visibility culling for off-screen elements
+- Profile and document performance gains
+
+**Dependencies:**
+- Basic sprite batching (Iteration 14)
+- Visual systems (this iteration)
+
+### 10. Platform-Specific Rendering Optimizations
+**Priority:** Medium  
+**Estimated Hours:** 8
+
+**Description:**  
+Implement platform-specific optimizations to ensure optimal performance across Windows and Linux systems.
+
+**User Story:**  
+*As a player on any supported platform, I want the game to take advantage of my system's capabilities, so that I get the best possible performance.*
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 221-235
+
+**Acceptance Criteria:**
+- [ ] Windows GPU scheduling enablement
+- [ ] Linux X11/Wayland compatibility testing
+- [ ] Resolution scaling optimization
+- [ ] Platform-specific render settings
+- [ ] Verified performance on both platforms
+
+**Implementation Notes:**
+- Reference: docs/design/performance_optimization_plan.md - Platform-Specific Optimizations
+- Enable GPU scheduling on Windows for better performance
+- Test with both X11 and Wayland on Linux
+- Implement resolution-aware rendering optimizations
+- Create platform detection and auto-configuration
+- Document platform-specific settings
+
+**Dependencies:**
+- Core rendering system
+- Quality settings (Iteration 14)
 
 ## Testing Criteria
 - Sprite scaling creates convincing depth illusion

@@ -137,6 +137,9 @@ As a developer, I want to implement the final advanced features and polish all s
 - [ ] Task 53: Build visual occlusion zone editor plugin
 - [ ] Task 54: Implement batch processing scripts for occlusion assets
 
+### Script Optimization
+- [ ] Task 55: Implement timer-based optimization patterns
+
 ## User Stories
 
 ### Task 1: Create EventManager singleton with scheduling system
@@ -726,7 +729,9 @@ As a developer, I want to implement the final advanced features and polish all s
 - Integrate with crime system
 
 ### Task 27: Set up performance profiling tools
-**User Story:** As a developer, I want comprehensive performance profiling, so that I can identify and fix performance bottlenecks.
+**User Story:** As a developer, I want comprehensive performance profiling with regression testing framework, so that I can identify and fix performance bottlenecks while ensuring performance targets are maintained.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 192-220, 269-276
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -739,15 +744,27 @@ As a developer, I want to implement the final advanced features and polish all s
   3. CPU profiling
   4. GPU analysis
   5. Custom markers
+  6. **Enhanced:** Performance regression test framework
+  7. **Enhanced:** Minimum spec hardware testing setup
+  8. **Enhanced:** 2-hour memory leak detection protocols
+  9. **Enhanced:** Automated performance benchmarking
 
 **Implementation Notes:**
 - Use Godot's built-in profiler
 - Add custom timing markers
 - Create performance HUD
 - Log performance metrics
+- Reference: docs/design/performance_optimization_plan.md - Section: Profiling Strategy & Testing Protocol
+- **Enhanced:** Implement automated regression test suite
+- **Enhanced:** Add frame time history tracking (60 frame window)
+- **Enhanced:** Alert system for performance degradation (< 50 FPS)
+- **Enhanced:** Memory leak detection over extended play sessions
+- **Enhanced:** Performance command console for testing
 
 ### Task 28: Profile all major systems with comprehensive observation system analysis
-**User Story:** As a developer, I want to profile each game system including comprehensive observation system performance, so that I can identify which systems need optimization.
+**User Story:** As a developer, I want to profile each game system including comprehensive observation system performance, so that I can identify which systems need optimization and verify all performance targets are met.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 269-276
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -763,6 +780,9 @@ As a developer, I want to implement the final advanced features and polish all s
   6. **Enhanced:** Comprehensive observation system profiling across all observation types
   7. **Enhanced:** Mutual observation performance analysis with multiple watchers
   8. **Enhanced:** Pattern analysis system performance under complex observation data
+  9. **Enhanced:** District load time verification (< 2 seconds)
+  10. **Enhanced:** Maximum NPC stress testing (> 60 FPS with 100+ NPCs)
+  11. **Enhanced:** Save/load performance verification (< 1 second)
 
 **Implementation Notes:**
 - Test with 100+ NPCs active
@@ -773,6 +793,11 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Enhanced:** Test environmental observation with complex scene details
 - **Enhanced:** Benchmark camera surveillance system with multiple feeds
 - **Enhanced:** Measure pattern analysis performance with large observation datasets
+- Reference: docs/design/performance_optimization_plan.md - Performance Regression Tests
+- **Enhanced:** Verify each district loads in < 2 seconds
+- **Enhanced:** Test with maximum NPCs to ensure > 60 FPS maintained
+- **Enhanced:** Validate save/load operations complete in < 1 second
+- **Enhanced:** Run 2-hour session to check for memory leaks
 
 ### Task 29: Implement object pooling for common objects including observation system components
 **User Story:** As a developer, I want object pooling for frequently created/destroyed objects including observation system components, so that memory allocation overhead is minimized.
@@ -1360,6 +1385,37 @@ As a developer, I want to implement the final advanced features and polish all s
 - Generate JSON configurations
 - Validate output files
 - Integration with art pipeline
+
+### Task 55: Implement timer-based optimization patterns
+**User Story:** As a developer, I want to replace per-frame update checks with timer-based periodic updates, so that CPU usage is optimized and the game maintains smooth performance according to the performance plan.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 68-86
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T3
+- **Acceptance Criteria:**
+  1. Replace per-frame checks with timer-based periodic updates
+  2. Implement signal-based reactive update system
+  3. Batch processing for similar operations
+  4. No gameplay impact from timing changes
+  5. Measurable CPU usage reduction
+  6. Configurable update frequencies
+
+**Implementation Notes:**
+- Reference: docs/design/performance_optimization_plan.md - Section 3: Script Optimization
+- Implement timer-based checks for:
+  - NPC interaction detection (0.5 second intervals)
+  - UI element updates (as needed)
+  - Suspicion level checks (1 second intervals)
+- Use signals for reactive updates:
+  - player.position_changed for movement-based updates
+  - Event-driven UI updates instead of polling
+- Batch similar operations together
+- Ensure no visual stuttering from reduced update rates
+- Create debug tools to monitor update frequencies
 
 ## Testing Criteria
 - Living world events trigger and chain properly

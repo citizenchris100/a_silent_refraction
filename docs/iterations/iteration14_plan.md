@@ -522,7 +522,9 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Monitor pool usage
 
 ### Task 21: Implement sprite batching
-**User Story:** As a developer, I want sprites to be batched for rendering, so that draw calls are minimized and performance is optimized.
+**User Story:** As a developer, I want sprites to be batched for rendering with comprehensive texture optimization, so that draw calls are minimized and performance is optimized according to the performance plan targets.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 111-115, 24-36
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -531,16 +533,24 @@ As a player, I want to experience a visually cohesive world where characters sca
 - **Linked to:** T3
 - **Acceptance Criteria:**
   1. Automatic sprite batching
-  2. Texture atlas support
+  2. **Enhanced:** Texture atlas creation and management
   3. Draw call reduction
   4. No visual changes
   5. Debug metrics
+  6. **Enhanced:** Sprite sheet optimization with automatic trimming
+  7. **Enhanced:** Batch similar sprites using same material/shader
+  8. **Enhanced:** Static element conversion to single texture where possible
 
 **Implementation Notes:**
 - Group sprites by texture
 - Use Godot's batching features
 - Monitor draw call count
 - Test with many sprites
+- Reference: docs/design/performance_optimization_plan.md - Section 4: Rendering Optimization
+- **Enhanced:** Implement texture atlas packing for related animations
+- **Enhanced:** Use Godot's automatic trimming for transparent pixels
+- **Enhanced:** Convert static UI elements to single textures
+- **Enhanced:** Batch sprites with identical materials for better performance
 
 ### Task 22: Create LOD system
 **User Story:** As a player, I want consistent performance even in complex scenes, so that gameplay remains smooth regardless of on-screen complexity.
@@ -564,7 +574,9 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Smooth LOD transitions
 
 ### Task 23: Optimize shader usage
-**User Story:** As a developer, I want shaders to be used efficiently, so that visual effects don't impact performance on target hardware.
+**User Story:** As a developer, I want shaders to be used efficiently with advanced rendering optimizations, so that visual effects don't impact performance on target hardware and meet the performance plan's rendering targets.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 104-115
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -577,12 +589,20 @@ As a player, I want to experience a visually cohesive world where characters sca
   3. Conditional features
   4. Profiling data
   5. Quality presets
+  6. **Enhanced:** Y-sorting optimization implementation
+  7. **Enhanced:** VisibilityEnabler2D integration for off-screen objects
+  8. **Enhanced:** Light2D usage minimization (not authentic to era)
 
 **Implementation Notes:**
 - Profile shader performance
 - Create simpler variants
 - Disable features by quality
 - Test on min spec hardware
+- Reference: docs/design/performance_optimization_plan.md - Section 4: Rendering Optimization (Culling)
+- **Enhanced:** Implement VisibilityEnabler2D for off-screen character culling
+- **Enhanced:** Optimize Y-sorting to only apply to necessary layers (characters, interactive objects)
+- **Enhanced:** Avoid or minimize Light2D usage to maintain era authenticity
+- **Enhanced:** Use Control nodes instead of sprites for UI elements
 
 ### Task 24: Add quality settings
 **User Story:** As a player, I want to adjust visual quality settings, so that I can balance performance and visual fidelity for my hardware.
@@ -749,6 +769,9 @@ As a player, I want to experience a visually cohesive world where characters sca
 - [ ] Task 40: Implement "being watched" visual indicators
 - [ ] Task 41: Add observation equipment visual effects
 - [ ] Task 42: Create camera feed interface with pan/zoom controls
+
+### Asset Import Optimization
+- [ ] Task 43: Implement comprehensive asset import optimization
 
 ### Task 31: Create inventory grid animations
 **User Story:** As a player, I want smooth animations when items move in my inventory, so that inventory management feels polished and responsive.
@@ -1080,6 +1103,34 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Recording red dot indicator and evidence timestamp system
 - Integration with CameraObservation system from observation design
 - Screenshot capture functionality for evidence collection
+
+### Task 43: Implement comprehensive asset import optimization
+**User Story:** As a developer, I want automated asset import optimization that implements the performance plan's specifications, so that all game assets meet performance targets without manual configuration.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 24-41
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, T1, T3
+- **Acceptance Criteria:**
+  1. **Enhanced:** Texture compression settings (0.7 quality, lossy compression)
+  2. **Enhanced:** Import presets disable filter and mipmaps for pixel art
+  3. **Enhanced:** Maximum resolution enforcement (1920x1080 for backgrounds)
+  4. **Enhanced:** Batch asset processing pipeline
+  5. **Enhanced:** Asset validation against performance targets
+  6. **Enhanced:** Automated import preset application by asset type
+
+**Implementation Notes:**
+- Reference: docs/design/performance_optimization_plan.md - Section 1: Asset Optimization (Textures)
+- Create automated import preset system
+- Texture settings: lossy compression at 0.7 quality
+- Disable mipmaps (pixel art doesn't benefit)
+- Disable filter for pixel-perfect rendering
+- Implement batch processing for existing assets
+- Add validation scripts to ensure compliance
+- Create asset pipeline documentation
 
 ## Notes
 - Visual polish makes huge difference in perception

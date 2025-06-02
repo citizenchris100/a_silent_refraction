@@ -630,28 +630,39 @@ As a player, I want to experience a fully diegetic audio environment where all s
 - Include in options menu
 
 ### Task 25: Build content production pipeline
-**User Story:** As a content creator, I want streamlined tools for processing and importing audio assets, so that I can maintain consistent audio quality and quickly add new sounds to the game.
+**User Story:** As a content creator, I want streamlined tools for processing and importing audio assets with performance optimization, so that I can maintain consistent audio quality and quickly add new sounds to the game while meeting the performance targets of the optimization plan.
+
+**Design Reference:** `docs/design/performance_optimization_plan.md` lines 37-41, 647-654
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
 
 **Requirements:**
-- **Linked to:** B3
+- **Linked to:** B3, T3
 - **Acceptance Criteria:**
-  1. Automated audio conversion scripts
+  1. Automated audio conversion scripts with performance-optimized settings
   2. Consistent naming conventions
   3. Import presets for different audio types
   4. Documentation for audio requirements
   5. Batch processing capabilities
+  6. **Enhanced:** OGG Vorbis compression for music (128 kbps, 44.1 kHz sample rate)
+  7. **Enhanced:** WAV format optimization for short SFX
+  8. **Enhanced:** Streaming configuration for music tracks > 1 minute
+  9. **Enhanced:** Audio quality validation against performance targets
 
 **Implementation Notes:**
 - Create process_game_audio.sh script
 - Reference: docs/design/audio_system_technical_implementation.md - Audio Asset Pipeline
+- Reference: docs/design/performance_optimization_plan.md - Section 1: Asset Optimization (Audio)
 - Support conversions:
-  - Music/Ambience: WAV → OGG Vorbis (128-192 kbps)
+  - Music/Ambience: WAV → OGG Vorbis (128 kbps, 44.1 kHz)
   - SFX: Keep as WAV for short sounds
   - PA: Apply EQ and compression
+  - **Enhanced:** Enable streaming for music tracks > 1 minute
+  - **Enhanced:** Validate file sizes meet performance targets
 - Include validation and error reporting
+- **Enhanced:** Memory usage validation for audio assets
+- **Enhanced:** Automated import preset application
 
 ### Task 26: Implement eavesdropping mechanics with audio cues
 **User Story:** As a player, I want to overhear conversations from a distance using audio cues, so that I can gather information without being directly involved in conversations.
