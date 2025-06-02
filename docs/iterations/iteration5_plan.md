@@ -92,6 +92,12 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - [ ] Task 31: Create in-game performance metric collection
 - [ ] Task 32: Add performance regression tracking system
 
+### Event System Foundation
+- [ ] Task 33: Design event system data structures
+- [ ] Task 34: Create base event serialization format
+- [ ] Task 35: Implement event timestamp tracking
+- [ ] Task 36: Create event notification categories
+
 ## User Stories
 
 ### Task 1: Create TimeManager singleton
@@ -115,6 +121,75 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Start date: Day 1, Month 1, Year 2157, 08:00
 - 24-hour days, 30-day months, 12-month years
 - Time advances in 5-minute increments minimum
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 2: Implement game clock (hours, minutes)
+**User Story:** As a player, I want time to pass realistically in hours and minutes, so that I can plan my daily activities within the game world.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. 24-hour clock format
+  2. Minutes advance in 5-minute increments
+  3. Hour transitions work correctly
+  4. Clock wraps at midnight
+  5. Time display formatted properly
+
+**Implementation Notes:**
+- Internal time as float (minutes since start)
+- Convert to hours:minutes for display
+- Consider time acceleration for testing
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 3: Implement calendar system (days, months, years)
+**User Story:** As a player, I want a calendar system to track longer time periods, so that I can plan around deadlines and understand the passage of time.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. 30-day months for simplicity
+  2. 12 months per year
+  3. Day advances at midnight
+  4. Calendar data structure defined
+  5. Special dates markable
+
+**Implementation Notes:**
+- Simple calendar for gameplay clarity
+- Day 1-30, Month 1-12
+- Year starts at 2157
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 4: Create time advancement mechanics
+**User Story:** As a developer, I want controlled ways to advance game time, so that actions have temporal consequences and the world progresses.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Advance by specific duration
+  2. Advance to specific time
+  3. Skip to next day
+  4. Pause/resume time flow
+  5. Time multiplier support
+
+**Implementation Notes:**
+- Methods: advance_time(minutes), skip_to_time(hour)
+- Emit signals for time changes
+- Update all dependent systems
 - Reference: docs/design/time_management_system_mvp.md
 
 ### Task 7: Create PromptNotificationSystem singleton
@@ -162,6 +237,29 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Store durations in resource files for easy balancing
 - Show time cost in hover text and confirmations
 - Maximum single action: 8 hours (work shift)
+
+### Task 6: Create time-based event scheduler
+**User Story:** As a developer, I want a system that can trigger events at specific times, so that the world can have scheduled activities and deadlines.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Can schedule events for specific times
+  2. Triggers callbacks when time reached
+  3. Supports recurring events
+  4. Handles missed events gracefully
+  5. Integrates with TimeManager
+
+**Implementation Notes:**
+- Foundation for living world in I8
+- Simple callback system for MVP
+- Consider performance with many events
+- Reference: docs/design/time_management_system_mvp.md
 
 ### Task 12: Create clock UI display
 **User Story:** As a player, I want to see the current time clearly displayed at all times, so that I can manage my activities effectively.
@@ -493,6 +591,97 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Compare against previous 5 runs
 - Log regressions to file
 - Optional popup warnings in debug builds
+
+### Task 33: Design event system data structures
+**User Story:** As a developer, I want to define the core data structures for events, so that the event system has a solid foundation for future expansion.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Event base class defined
+  2. Event data dictionary structure
+  3. Event type enumeration
+  4. Priority system defined
+  5. Extensible for future types
+
+**Implementation Notes:**
+- Reference event_data structure in MVP design
+- Keep simple but extensible
+- Consider performance implications
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 34: Create base event serialization format
+**User Story:** As a developer, I want events to have a defined serialization format, so that they can be saved and loaded efficiently.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/modular_serialization_architecture.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Event to dictionary conversion
+  2. Dictionary to event restoration
+  3. Compression-friendly format
+  4. Version field included
+  5. Follows modular pattern
+
+**Implementation Notes:**
+- Prepare for EventSerializer in I8
+- Use short keys for space efficiency
+- Reference: docs/design/modular_serialization_architecture.md
+
+### Task 35: Implement event timestamp tracking
+**User Story:** As a developer, I want all events to have timestamps, so that we can track when events occur and sort them chronologically.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Events store creation timestamp
+  2. Events store trigger timestamp
+  3. Time format matches TimeManager
+  4. Sorting by timestamp works
+  5. Serializable timestamps
+
+**Implementation Notes:**
+- Use TimeManager time format
+- Both scheduled and actual times
+- Consider timezone issues
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 36: Create event notification categories
+**User Story:** As a player, I want different types of events to use appropriate notification styles, so that I can quickly understand their importance.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Event notification categories defined
+  2. Map event types to notification types
+  3. Priority levels per category
+  4. Visual distinction planned
+  5. Audio cues planned
+
+**Implementation Notes:**
+- Categories: World, Security, Economic, Social
+- Different urgency levels
+- Prepare for audio in Phase 2
+- Reference: docs/design/prompt_notification_system_design.md
 
 ## Testing Criteria
 - Time advances correctly for all actions

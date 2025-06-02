@@ -84,11 +84,18 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - [ ] Task 15: Implement district-specific mechanics
 
 ### Living World System MVP
-- [ ] Task 16: Create EventManager singleton
-- [ ] Task 17: Implement NPC daily schedule system
-- [ ] Task 18: Add random event generation
+- [ ] Task 16: Create EventManager singleton with SimpleEventScheduler
+- [ ] Task 17: Implement NPCScheduleManager with daily routines
+- [ ] Task 18: Add event generation for 4 types (Assimilation, Security, Economic, Social)
 - [ ] Task 19: Create event notification integration
 - [ ] Task 20: Implement event serialization
+- [ ] Task 39: Create EventDiscovery system for missed events
+- [ ] Task 40: Implement schedule JSON format for 5 key NPCs
+- [ ] Task 41: Create Concierge NPC with full routine
+- [ ] Task 42: Create Security Chief NPC with full routine
+- [ ] Task 43: Create Bank Teller NPC with full routine
+- [ ] Task 44: Integrate event system with District spawning
+- [ ] Task 45: Integrate contextual dialog based on recent events
 
 ### UI Enhancements
 - [ ] Task 21: Implement SCUMM hover text system
@@ -160,10 +167,33 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   export var color_theme: String = "industrial"
   const COLOR_THEMES = {...}  # Canonical palette subsets
 
-### Task 17: Implement NPC daily schedule system
+### Task 16: Create EventManager singleton with SimpleEventScheduler
+**User Story:** As a developer, I want a centralized event management system with scheduling capabilities, so that the living world can trigger events at specific times and conditions.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T3
+- **Acceptance Criteria:**
+  1. EventManager exists as autoload singleton
+  2. Contains SimpleEventScheduler for time-based events
+  3. Supports scheduled and immediate events
+  4. Emits signals for event triggers
+  5. Integrates with serialization system
+
+**Implementation Notes:**
+- Implement SimpleEventScheduler as inner class or component
+- Support event_data structure from design doc
+- Maximum 100 scheduled events in queue
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 17: Implement NPCScheduleManager with daily routines
 **User Story:** As a player, I want NPCs to follow believable daily routines, so that the world feels alive and I can plan my interactions.
 
-**BaseDistrict Migration Phase 3a:** This task integrates time-based scheduling into districts, enabling dynamic NPC populations and activities.
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -171,25 +201,17 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 **Requirements:**
 - **Linked to:** U4, T2
 - **Acceptance Criteria:**
-  1. NPCs have configurable daily schedules
-  2. Schedules include location, activity, and duration
-  3. NPCs path between locations automatically
-  4. Interruptions handled gracefully
-  5. Schedules persist through save/load
-  6. **Phase 3a:** Districts support time-based element changes
+  1. NPCScheduleManager tracks all NPC routines
+  2. Loads schedules from JSON files
+  3. Provides location queries by time
+  4. Handles schedule interruptions
+  5. Integrates with district spawning
 
 **Implementation Notes:**
-- Schedule format: [{time: "08:00", location: "cafeteria", activity: "eating"}]
-- Use Navigation2D for pathfinding
+- Reference NPC Schedule Format in design doc
+- Support routine variations (+/- time)
+- Performance: lazy load full schedules
 - Reference: docs/design/living_world_event_system_mvp.md
-- Consider performance with many NPCs
-- **Phase 3a:** Add to base_district.gd:
-  ```gdscript
-  var time_based_elements: Dictionary = {}
-  func _setup_time_based_changes()
-  func _update_time_based_elements(time_period: String)
-  TimeManager.connect("time_period_changed", self, "_update_time_based_elements")
-  ```
 
 ### Task 5: Implement district lighting/atmosphere
 **User Story:** As a player, I want each district to have unique atmospheric qualities, so that different areas of the station feel distinct and memorable.
@@ -449,6 +471,691 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Run nightly on both architectures
 - Generate comparison reports
 - Flag any platform-specific failures
+
+### Task 2: Implement district configuration system
+**User Story:** As a developer, I want districts to be configurable through data files, so that I can easily adjust district properties without code changes.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+  1. Districts load configuration from .tres files
+  2. Configuration includes walkable areas
+  3. Spawn points defined in config
+  4. NPC lists specified per district
+  5. Hot-reload support in editor
+
+**Implementation Notes:**
+- Use Godot resource system
+- Reference template_district_design.md
+- Include example configuration
+
+### Task 3: Create district transition system
+**User Story:** As a player, I want smooth transitions between districts, so that movement feels seamless and immersive.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1, T1
+- **Acceptance Criteria:**
+  1. Fade out/in transitions
+  2. Loading screen if needed
+  3. Player spawns at correct entry point
+  4. State preserved during transitions
+  5. Time advances appropriately
+
+**Implementation Notes:**
+- Connect to TramManager for travel
+- Handle direct walkable transitions
+- Preserve player state and inventory
+
+### Task 4: Add district-specific walkable areas
+**User Story:** As a player, I want to navigate naturally through each district, so that movement feels realistic within the space station environment.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1, T1
+- **Acceptance Criteria:**
+  1. Navigation2D polygons per district
+  2. Visual debug mode for testing
+  3. Smooth pathfinding
+  4. Obstacles properly excluded
+  5. Works with click movement
+
+**Implementation Notes:**
+- Use Navigation2D nodes
+- Support complex polygon shapes
+- Test with multiple NPCs
+
+### Task 18: Add event generation for 4 types (Assimilation, Security, Economic, Social)
+**User Story:** As a player, I want different types of events to occur in the station, so that the world feels dynamic and unpredictable.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U4, T3
+- **Acceptance Criteria:**
+  1. Assimilation events (2-3 per game)
+  2. Security events (1-2 per game)
+  3. Economic events (1-2 per game)
+  4. Social events (2-3 per game)
+  5. Events leave appropriate clues
+
+**Implementation Notes:**
+- Reference Event Types in MVP section
+- Each type has unique consequences
+- Some events are discoverable later
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 19: Create event notification integration
+**User Story:** As a player, I want to be notified of important events when they happen nearby, so that I can react to the changing world.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T3
+- **Acceptance Criteria:**
+  1. Events trigger notifications when appropriate
+  2. Distance-based notification filtering
+  3. Priority levels respected
+  4. Integrates with PromptNotificationSystem
+  5. Some events silent until discovered
+
+**Implementation Notes:**
+- Connect to notification system from I5
+- Only notify if player can perceive event
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 20: Implement event serialization
+**User Story:** As a player, I want events to persist across save/load cycles, so that the world state remains consistent.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Scheduled events saved
+  2. Event history preserved
+  3. Event consequences persist
+  4. Integrates with modular serialization
+  5. Handles version migration
+
+**Implementation Notes:**
+- Follow modular serialization pattern
+- Reference: docs/design/modular_serialization_architecture.md
+- Compress event history
+- Priority: 20 (high)
+
+### Task 39: Create EventDiscovery system for missed events
+**User Story:** As a player, I want to learn about events I missed through clues and dialog, so that the world continues to evolve even when I'm not present.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Track witnessed vs discovered events
+  2. Place clues in world after events
+  3. NPCs reference recent events
+  4. Discovery through investigation
+  5. Discovery affects player knowledge
+
+**Implementation Notes:**
+- Reference EventDiscovery class in design
+- Clues decay over time (some permanent)
+- Connect to investigation system later
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 40: Implement schedule JSON format for 5 key NPCs
+**User Story:** As a developer, I want NPC schedules defined in data files, so that I can easily create and modify NPC routines without code changes.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T2
+- **Acceptance Criteria:**
+  1. JSON schema matches design doc
+  2. Schedules for 5 key NPCs
+  3. Time variations supported
+  4. Activity types defined
+  5. Validates on load
+
+**Implementation Notes:**
+- Reference NPC Schedule Format section
+- Create schedules for: Concierge, Security Chief, Bank Teller, Scientist Lead, Dock Foreman
+- Include example for others to follow
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 41: Create Concierge NPC with full routine
+**User Story:** As a player, I want the Concierge to follow a daily routine, so that I can find them predictably when I need assistance.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Morning desk preparation (06:00-08:00)
+  2. Working at desk (08:00-18:00)
+  3. Lunch break (12:00-13:00)
+  4. Personal time in quarters (18:00-19:00)
+  5. Personality: helpful, organized
+
+**Implementation Notes:**
+- Central hub character in Barracks
+- High lawfulness, low suspicion
+- Uses template NPC structure
+- Reference: docs/design/template_npc_design.md
+
+### Task 42: Create Security Chief NPC with full routine
+**User Story:** As a player, I want the Security Chief to patrol and work on a schedule, so that I can plan my activities around security presence.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Morning briefing (06:00-07:00)
+  2. Patrol rounds (07:00-12:00, 14:00-18:00)
+  3. Office work (12:00-14:00)
+  4. Evening report (18:00-19:00)
+  5. Personality: vigilant, suspicious
+
+**Implementation Notes:**
+- Key to security events
+- High suspicion, high lawfulness
+- Patrol route varies by day
+- Reference: docs/design/template_npc_design.md
+
+### Task 43: Create Bank Teller NPC with full routine
+**User Story:** As a player, I want the Bank Teller to maintain regular hours, so that I know when banking services are available.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Open bank (08:00-09:00)
+  2. Customer service (09:00-17:00)
+  3. Lunch break (13:00-14:00)
+  4. Close bank (17:00-18:00)
+  5. Personality: professional, detail-oriented
+
+**Implementation Notes:**
+- Important for economy quests
+- Medium suspicion, high greed
+- Handles player transactions
+- Reference: docs/design/template_npc_design.md
+
+### Task 44: Integrate event system with District spawning
+**User Story:** As a developer, I want NPCs to spawn in districts based on their schedules, so that the world population changes realistically with time.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T1, T2
+- **Acceptance Criteria:**
+  1. Districts query NPCScheduleManager on load
+  2. Spawn appropriate NPCs for current time
+  3. Handle NPCs entering/leaving districts
+  4. Despawn NPCs when leaving district
+  5. Performance optimized
+
+**Implementation Notes:**
+- Reference District System Integration section
+- Only spawn visible NPCs
+- Handle district transitions smoothly
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 45: Integrate contextual dialog based on recent events
+**User Story:** As a player, I want NPCs to reference recent events in dialog, so that conversations feel dynamic and responsive to the world state.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. NPCs aware of recent events
+  2. Dialog options change based on events
+  3. Knowledge spreads realistically
+  4. Some NPCs more informed than others
+  5. Player can learn through dialog
+
+**Implementation Notes:**
+- Reference Dialog System Integration section
+- Track which NPCs know which events
+- Add event-specific dialog branches
+- Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 6: Create Spaceport scene from template
+**User Story:** As a player, I want to start my journey in the Spaceport, so that I have a clear entry point into the game world.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Uses BaseDistrict template
+  2. Docked Ship sub-area included
+  3. Main Floor area included
+  4. Proper lighting atmosphere
+  5. Navigation mesh complete
+
+**Implementation Notes:**
+- First district player sees
+- Industrial atmosphere
+- Reference: docs/design/template_district_design.md
+
+### Task 7: Design Docked Ship area
+**User Story:** As a player, I want to explore the ship I arrived on, so that I understand how I got to the station.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Ship interior layout
+  2. Airlock transition
+  3. Stewardess spawn point
+  4. Interactive elements
+  5. One-way exit design
+
+**Implementation Notes:**
+- Small area, tutorial space
+- Cannot return after leaving
+- Atmospheric introduction
+
+### Task 8: Create Main Floor layout
+**User Story:** As a player, I want to explore the Spaceport main area, so that I can access transportation and meet NPCs.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1
+- **Acceptance Criteria:**
+  1. Tram station access
+  2. Information kiosks
+  3. Waiting areas
+  4. Clear navigation paths
+  5. District transitions marked
+
+**Implementation Notes:**
+- Hub area for travel
+- Multiple exit points
+- Clear signage
+
+### Task 9: Add Ship Stewardess NPC
+**User Story:** As a player, I want to meet the Ship Stewardess, so that I receive my initial orientation to the station.
+
+**Design Reference:** `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Greets player on arrival
+  2. Provides initial quest
+  3. Uses template NPC structure
+  4. Tutorial dialog included
+  5. Personality: helpful, tired
+
+**Implementation Notes:**
+- First NPC player meets
+- Simple behavior state
+- Reference: docs/design/template_npc_design.md
+
+### Task 10: Implement arrival sequence
+**User Story:** As a player, I want a scripted arrival sequence, so that my entry to the game world feels cinematic and engaging.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Camera pans on entry
+  2. Stewardess approaches
+  3. Dialog auto-triggers
+  4. Movement initially limited
+  5. Smooth transition to gameplay
+
+**Implementation Notes:**
+- One-time sequence
+- Sets narrative tone
+- Must handle skip option
+
+### Task 11: Create Engineering scene from template
+**User Story:** As a player, I want to visit the Engineering district, so that I can complete the intro quest objectives.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, U3
+- **Acceptance Criteria:**
+  1. Uses BaseDistrict template
+  2. Science Deck sub-area
+  3. Technical atmosphere
+  4. Quest locations marked
+  5. Proper NPC spawn points
+
+**Implementation Notes:**
+- Key location for intro quest
+- More complex than Spaceport
+- Reference: docs/design/template_district_design.md
+
+### Task 12: Design Science Deck layout
+**User Story:** As a player, I want to explore the Science Deck, so that I can interact with research equipment and complete objectives.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Laboratory areas
+  2. Office spaces
+  3. Equipment rooms
+  4. Clear pathfinding
+  5. Interactive objects placed
+
+**Implementation Notes:**
+- Scientific equipment visible
+- Clean, sterile atmosphere
+- Multiple room types
+
+### Task 13: Add Science Lead 01 NPC
+**User Story:** As a player, I want to meet the Science Lead, so that I can receive and complete my first real assignment.
+
+**Design Reference:** `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Quest giver for intro
+  2. Professional personality
+  3. Clear dialog options
+  4. Problem explanation
+  5. Reward handling
+
+**Implementation Notes:**
+- Key NPC for intro quest
+- Uses full NPC template
+- Reference: docs/design/template_npc_design.md
+
+### Task 14: Create quest-related interactive objects
+**User Story:** As a player, I want to interact with quest objects, so that I can solve problems and progress through the game.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Broken equipment object
+  2. Repair interface
+  3. Clear interaction prompts
+  4. State changes on fix
+  5. Quest update triggers
+
+**Implementation Notes:**
+- Tests inventory system
+- Simple puzzle mechanic
+- Reference: docs/design/template_interactive_object_design.md
+
+### Task 15: Implement district-specific mechanics
+**User Story:** As a player, I want each district to have unique gameplay elements, so that exploration reveals new mechanics and challenges.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1
+- **Acceptance Criteria:**
+  1. Engineering: equipment interaction
+  2. Spaceport: travel hub
+  3. Unique atmosphere each
+  4. District-specific sounds
+  5. Themed color palettes
+
+**Implementation Notes:**
+- Makes districts memorable
+- Supports gameplay variety
+- Reference: docs/design/template_district_design.md
+
+### Task 22: Create hover text configuration
+**User Story:** As a developer, I want hover text behavior to be configurable, so that we can fine-tune the user experience.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U2
+- **Acceptance Criteria:**
+  1. Font size options
+  2. Color settings
+  3. Position adjustments
+  4. Fade timing
+  5. Debug options
+
+**Implementation Notes:**
+- Settings menu integration
+- Save preferences
+- Reference: docs/design/scumm_hover_text_system_design.md
+
+### Task 23: Complete time/calendar UI display
+**User Story:** As a player, I want to see the current time and date clearly, so that I can plan my activities effectively.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Shows current time/date
+  2. Indicates time of day
+  3. Expandable calendar view
+  4. Event indicators
+  5. Clean visual design
+
+**Implementation Notes:**
+- Builds on I5 time system
+- Must be always visible
+- Reference: docs/design/time_calendar_display_ui_design.md
+
+### Task 24: Add district name displays
+**User Story:** As a player, I want to see which district I'm in, so that I can orient myself within the station.
+
+**Design Reference:** `docs/design/template_district_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U1
+- **Acceptance Criteria:**
+  1. District name on entry
+  2. Fade in/out animation
+  3. Consistent positioning
+  4. Readable font/size
+  5. Respects UI scale
+
+**Implementation Notes:**
+- Brief display on transition
+- Can be toggled in UI
+- Reference: docs/design/template_district_design.md
+
+### Task 25: Polish UI integration
+**User Story:** As a player, I want all UI elements to work together seamlessly, so that the interface feels cohesive and professional.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Consistent visual style
+  2. No overlapping elements
+  3. Proper layering
+  4. Smooth transitions
+  5. Responsive scaling
+
+**Implementation Notes:**
+- Final polish pass
+- Test all resolutions
+- Ensure accessibility
+
+### Task 32: Implement all quest dialogs
+**User Story:** As a player, I want meaningful conversations during the intro quest, so that I understand the story and objectives.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Stewardess introduction
+  2. Science Lead briefing
+  3. Success/failure responses
+  4. Context-sensitive options
+  5. Clear objective communication
+
+**Implementation Notes:**
+- Write engaging dialog
+- Test all branches
+- Reference: docs/design/template_dialog_design.md
+
+### Task 33: Add quest items and interactions
+**User Story:** As a player, I want to collect and use items for the quest, so that I experience the core gameplay loop.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** U3
+- **Acceptance Criteria:**
+  1. Repair tool pickup
+  2. Broken equipment fix
+  3. Evidence collection
+  4. Inventory integration
+  5. Clear feedback
+
+**Implementation Notes:**
+- Tests all item systems
+- Simple but complete
+- Reference: docs/design/template_interactive_object_design.md
+
+### Task 34: Create quest completion validation
+**User Story:** As a developer, I want to validate the intro quest is completable, so that players have a smooth first experience.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. All paths tested
+  2. Objectives clear
+  3. Rewards granted
+  4. No soft locks
+  5. 15-20 minute duration
+
+**Implementation Notes:**
+- Automated test preferred
+- Multiple playtests required
+- Document any issues
+
+### Task 35: Full playtest and polish
+**User Story:** As a player, I want a polished intro experience, so that my first impression of the game is positive.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. No critical bugs
+  2. Smooth flow
+  3. Clear objectives
+  4. Balanced difficulty
+  5. Engaging narrative
+
+**Implementation Notes:**
+- Multiple testers needed
+- Fresh eyes important
+- Polish based on feedback
 
 ## Testing Criteria
 - Districts load and transition smoothly

@@ -143,6 +143,10 @@ As a player, I need structured objectives that guide my investigation while allo
 - [ ] Task 67: Add save/load functionality for minigame progress
 - [ ] Task 68: Create practice mode and tutorial
 
+### Key NPC Implementation (Phase 2 Continued)
+- [ ] Task 69: Implement Scientist Lead NPC with quest integration
+- [ ] Task 70: Create Dock Foreman NPC with job system ties
+
 ## User Stories
 
 ### Task 2: Implement quest state machine
@@ -958,6 +962,52 @@ As a player, I need structured objectives that guide my investigation while allo
 - Tutorial shows control scheme overlay
 - Consider ghost piece for practice mode
 - Allow difficulty selection in practice
+
+### Task 69: Implement Scientist Lead NPC with quest integration
+**User Story:** As a player, I want the Scientist Lead to be central to research-based quests, so that scientific investigations feel guided by expertise.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Quest giver for scientific missions
+  2. Professional but stressed personality
+  3. Knowledge of station systems
+  4. Trust affects quest rewards
+  5. Reacts to assimilation discoveries
+
+**Implementation Notes:**
+- Central to main plot progression
+- High intelligence, medium suspicion
+- Office in Engineering district
+- Reference: docs/design/template_npc_design.md
+
+### Task 70: Create Dock Foreman NPC with job system ties
+**User Story:** As a player, I want the Dock Foreman to manage shipping jobs, so that manual labor opportunities feel supervised and authentic.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Assigns shipping/loading jobs
+  2. Gruff but fair personality
+  3. Tracks job performance
+  4. Trust affects job availability
+  5. Knows about smuggling activities
+
+**Implementation Notes:**
+- Key to shipping district access
+- Low education, high lawfulness
+- Early morning start times
+- Reference: docs/design/template_npc_design.md
 
 ## Testing Criteria
 - Quest states transition correctly

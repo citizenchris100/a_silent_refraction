@@ -127,6 +127,10 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - [ ] Task 42: Create BarracksSerializer for save/load
 - [ ] Task 43: Integrate rent with economic assistance events
 
+### Key NPC Implementation (Phase 2)
+- [ ] Task 44: Implement Security Chief NPC with advanced routines
+- [ ] Task 45: Create Bank Teller NPC with economic integration
+
 ## User Stories
 
 ### Task 2: Implement trust level mechanics
@@ -756,6 +760,52 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Requires high coalition trust
 - Shows as notification with credits added
 - Deepens coalition relationship mechanics
+
+### Task 44: Implement Security Chief NPC with advanced routines
+**User Story:** As a player, I want the Security Chief to have complex behaviors and routines, so that security feels like a dynamic force within the station.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U1, U2
+- **Acceptance Criteria:**
+  1. Complex daily patrol routes with variations
+  2. Responds to security events dynamically
+  3. Relationships affect security interactions
+  4. Trust level impacts player treatment
+  5. Integrates with detection system
+
+**Implementation Notes:**
+- Uses enhanced NPC template from this iteration
+- High suspicion, high lawfulness personality
+- Patrol routes vary based on alert level
+- Reference: docs/design/template_npc_design.md
+
+### Task 45: Create Bank Teller NPC with economic integration
+**User Story:** As a player, I want the Bank Teller to be a fully realized character, so that economic interactions feel personal rather than purely transactional.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. Professional demeanor during business hours
+  2. Different personality after hours
+  3. Handles all banking transactions
+  4. Trust affects loan availability
+  5. Gossips about economic events
+
+**Implementation Notes:**
+- Medium suspicion, high greed personality
+- Key to economic questlines
+- Knows about station financial status
+- Reference: docs/design/template_npc_design.md
 
 ## Testing Criteria
 - Trust levels change appropriately
