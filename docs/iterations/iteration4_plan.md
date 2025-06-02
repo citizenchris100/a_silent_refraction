@@ -87,6 +87,9 @@ As a developer, I need a robust serialization system that allows all game system
 - [ ] Task 26: Create item instance serialization with conditions
 - [ ] Task 27: Add inventory version migration support
 
+### Multi-Perspective System
+- [ ] Task 28: Create MultiPerspectiveSerializer for character perspective states
+
 ## User Stories
 
 ### Task 1: Create SerializationManager singleton
@@ -733,6 +736,31 @@ As a developer, I need a robust serialization system that allows all game system
 - docs/design/modular_serialization_architecture.md
 - docs/design/serialization_system.md
 - docs/design/inventory_system_design.md
+
+### Task 28: Create MultiPerspectiveSerializer for character perspective states
+**User Story:** As a player, I want character perspective states to persist across save/load cycles, so that characters maintain their correct appearance when loading a save and I don't experience jarring visual transitions.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 253-320
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. MultiPerspectiveSerializer extends BaseSerializer
+  2. Registers with SaveManager at priority 40
+  3. Saves current perspective type per character
+  4. Preserves facing direction and animation state
+  5. Handles district perspective overrides
+  6. Restores character appearance correctly on load
+
+**Implementation Notes:**
+- Reference the save system design in multi_perspective_character_system_plan.md
+- Serialize current_perspective, facing_direction, animation_state
+- Include custom perspective overrides if any
+- Use differential saving (only save non-default values)
+- Integrate with character controller from Iteration 3
 
 ## Notes
 - This iteration was reorganized from the original plan to establish serialization first

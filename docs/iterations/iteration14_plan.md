@@ -739,6 +739,11 @@ As a player, I want to experience a visually cohesive world where characters sca
 - [ ] Task 34: Create item condition visual indicators
 - [ ] Task 35: Implement drag-and-drop visual polish
 
+### Multi-Perspective Enhancements
+- [ ] Task 36: Implement perspective transition effects
+- [ ] Task 37: Create perspective-specific interaction mechanics
+- [ ] Task 38: Optimize perspective resource loading
+
 ### Task 31: Create inventory grid animations
 **User Story:** As a player, I want smooth animations when items move in my inventory, so that inventory management feels polished and responsive.
 
@@ -897,6 +902,78 @@ As a player, I want to experience a visually cohesive world where characters sca
 - docs/design/sprite_perspective_scaling_plan.md
 - docs/design/foreground_occlusion_full_plan.md
 - docs/design/foreground_occlusion_mvp_plan.md
+
+### Task 36: Implement perspective transition effects
+**User Story:** As a player, I want smooth visual transitions when moving between districts with different perspectives, so that the change in camera angle feels cinematic rather than jarring.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 345-361
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, B3, U1
+- **Acceptance Criteria:**
+  1. Fade/blend transition between perspective types
+  2. Camera smoothly adjusts zoom and angle
+  3. Character sprite transitions seamlessly
+  4. No visual pops or glitches
+  5. Transition duration configurable (0.5-2s)
+
+**Implementation Notes:**
+- Implement perspective transition state machine
+- Cross-fade between sprite sets during transition
+- Use camera interpolation for smooth movement
+- Test all perspective type combinations
+- Consider special effects (blur, zoom) during transition
+
+### Task 37: Create perspective-specific interaction mechanics
+**User Story:** As a player, I want interaction mechanics that feel natural for each perspective type, so that gameplay adapts appropriately to the current visual style.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 363-367
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, B3, U2
+- **Acceptance Criteria:**
+  1. Side-scrolling: Enhanced vertical interactions (ladders, elevators)
+  2. Isometric: Precise diagonal movement and object selection
+  3. Top-down: 360-degree interaction radius
+  4. Click detection adapts to perspective
+  5. Visual feedback matches perspective style
+
+**Implementation Notes:**
+- Extend interaction system per perspective type
+- Adjust click detection algorithms
+- Modify movement constraints
+- Update verb UI positioning based on perspective
+- Test with various interactive objects
+
+### Task 38: Optimize perspective resource loading
+**User Story:** As a player, I want instant district transitions without loading delays, so that exploration feels seamless even when perspectives change.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 369-380
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. Lazy loading of perspective-specific assets
+  2. Pre-cache adjacent district perspectives
+  3. Resource pooling for common sprites
+  4. Memory usage stays within limits
+  5. No frame drops during transitions
+
+**Implementation Notes:**
+- Implement perspective asset manager
+- Use background loading threads
+- Cache recently used perspective sprites
+- Monitor memory usage and unload unused assets
+- Profile loading times for optimization
 
 ## Notes
 - Visual polish makes huge difference in perception

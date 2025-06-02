@@ -55,6 +55,13 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - [ ] Task 9: Medical Courier Job Implementation
 - [ ] Task 10: Retail Clerk Job Implementation
 
+### Perspective Validation Task
+- [ ] Task 11: Validate perspective configurations for new districts
+
+### Automation Scripts
+- [ ] Task 12: Create setup_multi_perspective.sh automation script
+- [ ] Task 13: Create generate_perspective_sprites.sh script
+
 ## User Stories
 
 ### Task 1: Spaceport District Population
@@ -278,6 +285,31 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Female characters face more harassment events
 - Base pay: 35 credits per 4-hour shift
 
+### Task 11: Validate perspective configurations for new districts
+**User Story:** As a developer, I want to ensure that Medical Bay and Market Square districts have appropriate perspective settings, so that characters display correctly and the multi-perspective system works seamlessly in all game areas.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 136-151
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (memory management), Business Requirements (district uniqueness)
+- **Acceptance Criteria:**
+  1. Medical Bay perspective type configured (likely ISOMETRIC)
+  2. Market Square perspective type configured (likely ISOMETRIC or TOP_DOWN)
+  3. Character sprites load correctly in each district
+  4. Perspective transitions work from/to these districts
+  5. Audio scaling adjusts appropriately
+  6. Performance remains optimal with perspective changes
+
+**Implementation Notes:**
+- Test with both male and female Alex sprites
+- Verify perspective parameters in district JSON
+- Check camera settings match perspective type
+- Validate foreground occlusion works correctly
+- Test memory usage during perspective transitions
+
 ## Testing Criteria
 - All 85 NPCs function without conflicts
 - Job quests complete properly
@@ -293,10 +325,64 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Job performance evaluations calculate properly
 - Workplace clues discoverable during shifts
 - Job payments integrate with economy
+- Perspective configurations work in all districts
+- Character sprites display correctly per perspective
+- setup_multi_perspective.sh creates all required infrastructure
+- generate_perspective_sprites.sh processes sprites correctly
+
+### Task 12: Create setup_multi_perspective.sh automation script
+**User Story:** As a developer, I want an automated script to set up the multi-perspective character system infrastructure, so that new team members or fresh installations can quickly configure the system correctly.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 117-123
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (performance), Business Requirements (district uniqueness)
+- **Acceptance Criteria:**
+  1. Script creates all required directory structures
+  2. Generates configuration templates for each perspective type
+  3. Sets up default perspective parameters
+  4. Creates example character configurations
+  5. Validates setup completion
+  6. Provides clear error messages
+
+**Implementation Notes:**
+- Shell script to automate setup process
+- Create directories: src/characters/perspectives/
+- Generate template JSON configs for ISOMETRIC, SIDE_SCROLLING, TOP_DOWN
+- Include validation checks for dependencies
+- Document usage in script header
+
+### Task 13: Create generate_perspective_sprites.sh script
+**User Story:** As a content creator, I want an automated script to generate character sprites for all perspective types, so that creating multi-perspective NPCs is efficient and consistent.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 124-135
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (performance with 85+ NPCs), Business Requirements (believable communities)
+- **Acceptance Criteria:**
+  1. Script processes source sprites into perspective variants
+  2. Supports batch processing for multiple characters
+  3. Maintains consistent art style across perspectives
+  4. Generates proper directory structure
+  5. Creates animation configuration files
+  6. Optimizes sprites for performance
+
+**Implementation Notes:**
+- Wrapper around sprite_workflow.md processing
+- Input: base character sprites
+- Output: organized perspective-specific sprite sheets
+- Support for the 85 NPCs being created in this iteration
+- Integration with existing sprite pipeline tools
 
 ## Timeline
 - **Estimated Duration:** 6-7 weeks
-- **Total Hours:** 170 (120 + 50 for job implementations)
+- **Total Hours:** 175 (120 + 50 for job implementations + 5 for automation scripts)
 - **Critical Path:** NPCs must be created before quests can be assigned
 
 ## Definition of Done
@@ -307,6 +393,8 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - [ ] Environmental stories placed
 - [ ] Performance optimized
 - [ ] Districts feel alive and unique
+- [ ] Perspective configurations validated
+- [ ] Automation scripts created and tested
 
 ## Dependencies
 - Core content foundation (Iteration 17)

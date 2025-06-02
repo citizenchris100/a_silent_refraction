@@ -216,10 +216,12 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Performance: lazy load full schedules
 - Reference: docs/design/living_world_event_system_mvp.md
 
-### Task 5: Implement district lighting/atmosphere
-**User Story:** As a player, I want each district to have unique atmospheric qualities, so that different areas of the station feel distinct and memorable.
+### Task 5: Implement district lighting/atmosphere with perspective adjustments
+**User Story:** As a player, I want each district to have unique atmospheric qualities that adapt to the visual perspective, so that different areas of the station feel distinct and memorable regardless of camera angle.
 
 **BaseDistrict Migration Phase 3b & 4a:** This task implements environmental states and audio source management for atmospheric district experiences.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 136-151
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -235,6 +237,8 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   6. **Phase 3b:** Environmental state system (normal/suspicious/infested)
   7. **Phase 4a:** Diegetic audio source management
   8. **Phase 4b:** LOD system for complex districts
+  9. **Enhanced:** Perspective-specific visual adjustments (depth fog, lighting angles)
+  10. **Enhanced:** Camera configuration per perspective type
 
 **Implementation Notes:**
 - Use Light2D nodes for dynamic lighting
@@ -258,6 +262,17 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   var lod_distances: Dictionary = {}
   func _initialize_lod_system()
   func _update_lod_states()
+  ```
+- **Enhanced:** Add perspective-aware atmosphere:
+  ```gdscript
+  func apply_perspective_atmosphere():
+      match perspective_type:
+          "ISOMETRIC":
+              # Adjust lighting angle for isometric depth
+          "SIDE_SCROLLING":
+              # Apply parallax-friendly lighting
+          "TOP_DOWN":
+              # Even lighting distribution
   ```
 
 ### Task 28: Implement SCUMM hover text system
@@ -475,10 +490,10 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Generate comparison reports
 - Flag any platform-specific failures
 
-### Task 2: Implement district configuration system
-**User Story:** As a developer, I want districts to be configurable through data files, so that I can easily adjust district properties without code changes.
+### Task 2: Implement district configuration system with perspective support
+**User Story:** As a developer, I want districts to be configurable through data files including perspective type, so that I can easily adjust district properties and visual style without code changes.
 
-**Design Reference:** `docs/design/template_district_design.md`
+**Design Reference:** `docs/design/template_district_design.md`, `docs/design/multi_perspective_character_system_plan.md` lines 89-94
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -491,11 +506,22 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   3. Spawn points defined in config
   4. NPC lists specified per district
   5. Hot-reload support in editor
+  6. **Enhanced:** Perspective type (ISOMETRIC, SIDE_SCROLLING, TOP_DOWN) in config
+  7. **Enhanced:** Perspective-specific parameters (scaling curves, camera settings)
 
 **Implementation Notes:**
 - Use Godot resource system
 - Reference template_district_design.md
 - Include example configuration
+- **Enhanced:** Add to district config:
+  ```gdscript
+  export var perspective_type: String = "ISOMETRIC"
+  export var perspective_params: Dictionary = {
+    "scale_min": 0.5,
+    "scale_max": 1.0,
+    "camera_zoom": 1.0
+  }
+  ```
 
 ### Task 3: Create district transition system
 **User Story:** As a player, I want smooth transitions between districts, so that movement feels seamless and immersive.

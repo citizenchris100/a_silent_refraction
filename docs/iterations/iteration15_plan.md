@@ -415,8 +415,10 @@ As a developer, I want to implement the final advanced features and polish all s
 - Some puzzles have multiple valid solutions
 - Integration with terminal interfaces
 
-### Task 14: Build environment puzzles (switches, doors)
-**User Story:** As a player, I want to interact with the environment to solve physical puzzles, so that exploration feels rewarding.
+### Task 14: Build environment puzzles (switches, doors) with perspective awareness
+**User Story:** As a player, I want to interact with the environment to solve physical puzzles that adapt to the current perspective, so that exploration feels rewarding and perspective changes create new puzzle opportunities.
+
+**Design Reference:** `docs/design/puzzle_system_design.md`, `docs/design/multi_perspective_character_system_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -429,12 +431,17 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Valve/flow puzzles
   4. Power routing challenges
   5. Environmental state persistence
+  6. **Enhanced:** Some puzzles only solvable in specific perspectives
+  7. **Enhanced:** Visual cues change based on camera angle
 
 **Implementation Notes:**
 - Reference: docs/design/puzzle_system_design.md
 - Examples: Airlock sequences, power restoration
 - Visual feedback for state changes
 - Some require specific items
+- **Enhanced:** Side-scrolling reveals vertical puzzle elements
+- **Enhanced:** Isometric shows spatial relationships
+- **Enhanced:** Top-down reveals floor patterns
 
 ### Task 15: Create observation puzzles
 **User Story:** As a player, I want puzzles that require careful observation of my surroundings, so that attention to detail is rewarded.
@@ -457,8 +464,10 @@ As a developer, I want to implement the final advanced features and polish all s
 - Examples: Finding hidden panels, noting changes
 - Support red herrings and misdirection
 
-### Task 16: Implement social engineering puzzles
-**User Story:** As a player, I want to manipulate NPCs through dialog and actions to achieve my goals, so that social interactions become meaningful puzzles.
+### Task 16: Implement social engineering puzzles with memory optimization
+**User Story:** As a player, I want to manipulate NPCs through dialog and actions to achieve my goals, so that social interactions become meaningful puzzles while maintaining smooth performance.
+
+**Design Reference:** `docs/design/puzzle_system_design.md`, `docs/design/multi_perspective_character_system_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -471,12 +480,17 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Multiple persuasion strategies
   4. Consequences for failure
   5. Information gathering mechanics
+  6. **Enhanced:** Memory optimization for dialog-heavy puzzles
+  7. **Enhanced:** LOD system for distant character perspectives
 
 **Implementation Notes:**
 - Reference: docs/design/puzzle_system_design.md
 - Examples: Getting keycard from guard, learning passwords
 - Use existing dialog and trust systems
 - Gender may affect available options
+- **Enhanced:** Implement LOD system for characters during social puzzles
+- **Enhanced:** Optimize perspective asset loading for dialog scenes
+- **Enhanced:** Memory pooling for conversation UI elements
 
 ### Task 17: Build technical puzzles (hacking, repairs)
 **User Story:** As a player, I want to hack systems and repair equipment through engaging minigames, so that technical challenges feel interactive rather than passive skill checks.
