@@ -1111,6 +1111,146 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Require specific verbs to find
 - Track discovery statistics
 
+### Puzzle System Integration
+- [ ] Task 52: Create access puzzle templates (keycards, passwords, biometrics)
+- [ ] Task 53: Implement timing-based security patrol puzzles
+- [ ] Task 54: Build investigation puzzle chains for conspiracy discovery
+- [ ] Task 55: Create environmental manipulation puzzles
+- [ ] Task 56: Implement puzzle-triggered area unlocks
+
+## User Stories (continued)
+
+### Task 52: Create access puzzle templates (keycards, passwords, biometrics)
+**User Story:** As a player, I want multiple ways to bypass security including puzzles, so that I can choose between direct access with credentials or clever workarounds.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Keycard copying puzzle minigame
+  2. Password deduction from clues
+  3. Biometric spoofing challenges
+  4. Multiple solutions per access point
+  5. Integration with PuzzleManager
+  6. Failure increases suspicion
+  7. Coalition members can provide hints
+  8. Time pressure elements
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Access Puzzles lines 183-211)
+- Reference: docs/design/district_access_control_system_design.md
+- Templates for common security types
+- Circuit completion puzzles for electronic locks
+- Password hints found in environment
+- Biometric spoofing requires specific items or NPCs
+- Register all access puzzles with PuzzleManager
+
+### Task 53: Implement timing-based security patrol puzzles
+**User Story:** As a player, I want to exploit guard patrol patterns and shift changes to access restricted areas, so that observation and patience create opportunities.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T2
+- **Acceptance Criteria:**
+  1. Guard patrol pattern observation
+  2. Timing windows for safe passage
+  3. Shift change exploitation
+  4. Multiple timing solutions
+  5. Visual patrol indicators
+  6. Integration with time system
+  7. Failure triggers detection
+  8. Pattern disruption options
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Timing Puzzles)
+- Observe patrols to learn patterns
+- 30-second to 2-minute timing windows
+- Shift changes create longer opportunities
+- Can create distractions to alter patterns
+- Integration with NPC schedule system
+
+### Task 54: Build investigation puzzle chains for conspiracy discovery
+**User Story:** As a player, I want to connect evidence through multi-stage investigation puzzles, so that uncovering the conspiracy feels like solving a complex mystery.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T3
+- **Acceptance Criteria:**
+  1. Multi-stage investigation sequences
+  2. Evidence combination puzzles
+  3. Deduction challenges
+  4. Timeline reconstruction
+  5. Cross-reference ship manifests
+  6. Progressive revelation system
+  7. Integration with ClueManager
+  8. Chain completion unlocks confrontations
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Investigation Puzzles lines 212-246)
+- Example: Trace assimilation source puzzle chain
+- Steps: gather manifests → cross-reference → access records → identify patient zero
+- Each stage builds on previous discoveries
+- Coalition intel can skip some steps
+- Major chains affect game ending
+
+### Task 55: Create environmental manipulation puzzles
+**User Story:** As a player, I want to manipulate the station environment to solve puzzles, so that the world feels interactive and responsive to creative thinking.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T2
+- **Acceptance Criteria:**
+  1. Power routing puzzles
+  2. Ventilation system navigation
+  3. Pressure/temperature controls
+  4. Multi-room puzzle sequences
+  5. Visual state feedback
+  6. Environmental hazards
+  7. Tool requirements
+  8. Alternative solutions
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Environmental Puzzles lines 650-697)
+- Examples: restore power to doors, navigate vents, reroute systems
+- Some puzzles span multiple rooms
+- Environmental changes affect NPCs
+- Certain tools enable new solutions
+- Visual feedback for all state changes
+
+### Task 56: Implement puzzle-triggered area unlocks
+**User Story:** As a player, I want my puzzle solutions to grant access to new areas, so that intellectual challenges are rewarded with exploration opportunities.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T2
+- **Acceptance Criteria:**
+  1. Puzzles unlock specific areas
+  2. AreaManager integration
+  3. Persistent unlock states
+  4. Visual unlock feedback
+  5. Multiple unlock methods
+  6. Story progression gates
+  7. Optional area puzzles
+  8. Unlock notifications
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Rewards lines 127-147)
+- PuzzleManager notifies AreaManager on completion
+- Some areas require multiple puzzles
+- Critical areas have puzzle gates
+- Optional areas have harder puzzles
+- Clear feedback when areas unlock
+
 ## Testing Criteria
 - Observation system reveals appropriate details
 - Detection states transition correctly through all stages
@@ -1143,6 +1283,11 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Combination hints display appropriately
 - Performance remains smooth with many observables
 - All systems integrate with existing mechanics
+- **Puzzle Integration:** Access puzzles work with multiple solutions
+- **Puzzle Integration:** Investigation puzzle chains progress correctly
+- **Puzzle Integration:** Environmental puzzles respond to player actions
+- **Puzzle Integration:** Timing puzzles sync with NPC schedules
+- **Puzzle Integration:** Area unlocks trigger from puzzle completion
 
 ## Timeline
 - Start date: After Phase 1 completion
@@ -1176,12 +1321,17 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - src/resources/combination_data.gd (to be created)
 - src/core/investigation/evidence_chain.gd (to be created)
 - src/objects/base/container.gd (to be created)
+- src/core/puzzles/access_puzzle.gd (to be created)
+- src/core/puzzles/investigation_puzzle.gd (to be created)
+- src/core/puzzles/timing_puzzle.gd (to be created)
+- src/core/puzzles/environmental_puzzle.gd (to be created)
 - docs/design/observation_system_full_design.md
 - docs/design/suspicion_system_full_design.md
 - docs/design/detection_game_over_system_design.md
 - docs/design/investigation_clue_tracking_system_design.md
 - docs/design/district_access_control_system_design.md
 - docs/design/template_interactive_object_design.md
+- docs/design/puzzle_system_design.md
 
 ## Notes
 - This iteration establishes the core investigation loop

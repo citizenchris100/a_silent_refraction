@@ -103,14 +103,14 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - [ ] Task 22: Create gossip/information spread
 - [ ] Task 23: Add faction reputation tracking
 - [ ] Task 24: Build social event system
-- [ ] Task 25: Implement relationship consequences
+- [ ] Task 25: Implement relationship consequences with social puzzles
 
 ### Advanced Tram Transportation System
 - [ ] Task 26: Implement ring-based district layout with distance calculation
 - [ ] Task 27: Create dynamic pricing system with time/demand modifiers
 - [ ] Task 28: Build transit screen with route visualization
 - [ ] Task 29: Implement transit event system with NPC encounters
-- [ ] Task 30: Add transit passes and subscription system
+- [ ] Task 30: Add transit passes and subscription system with trust-based puzzle assistance
 - [ ] Task 31: Create route disruption mechanics
 - [ ] Task 32: Implement transit security and scanning
 - [ ] Task 33: Add coalition transit benefits

@@ -73,13 +73,13 @@ As a player, I need structured objectives that guide my investigation while allo
 
 ### Quest UI
 - [ ] Task 11: Design quest log interface
-- [ ] Task 12: Implement quest tracking HUD
+- [ ] Task 12: Implement quest tracking HUD with puzzle indicators
 - [ ] Task 13: Create quest detail view
 - [ ] Task 14: Add quest filtering/sorting
 - [ ] Task 15: Build quest notification system
 
 ### Quest Templates
-- [ ] Task 16: Create quest data format
+- [ ] Task 16: Create quest data format with puzzle objectives
 - [ ] Task 17: Build quest template types
 - [ ] Task 18: Implement quest scripting system
 - [ ] Task 19: Add quest validation tools
@@ -650,8 +650,8 @@ As a player, I need structured objectives that guide my investigation while allo
 - Some jobs require tools or skills
 - Criminal jobs have suspicion risk
 
-### Task 55: Implement all quest objectives
-**User Story:** As a player, I want to experience a complex quest that uses all game systems including the new patrol mechanics, so that I understand the full depth of gameplay possibilities.
+### Task 55: Implement all quest objectives including puzzle challenges
+**User Story:** As a player, I want to experience a complex quest that uses all game systems including patrol mechanics and integrated puzzles, so that I understand the full depth of gameplay possibilities through engaging challenges.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -665,6 +665,8 @@ As a player, I need structured objectives that guide my investigation while allo
   4. Features time pressure
   5. Multiple completion methods
   6. Integrates mall patrol puzzle
+  7. **2-3 puzzle challenges integrated**
+  8. **Puzzles support multiple solutions**
 
 **Implementation Notes:**
 - First Quest: "The Missing Researcher"
@@ -672,6 +674,9 @@ As a player, I need structured objectives that guide my investigation while allo
 - Mall infiltration is key objective
 - 45-60 minutes completion time
 - At least 3 different endings
+- Reference: docs/design/puzzle_system_design.md
+- Include: keycard puzzle, timing puzzle, investigation puzzle
+- Each puzzle has social/technical/stealth solutions
 
 ### Task 54: Design First Quest narrative
 **User Story:** As a designer, I want to create a compelling narrative for the First Quest that introduces all game mechanics naturally, so that players learn while being engaged in the story.

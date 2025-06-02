@@ -854,8 +854,8 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Some areas have higher security
 - Integrate with detection system
 
-### Task 35: Implement container system basics
-**User Story:** As a player, I want to find items in containers throughout the station, so that exploration is rewarded with useful discoveries.
+### Task 35: Implement container system with lockable puzzle containers
+**User Story:** As a player, I want to find items in containers throughout the station, with some containers requiring puzzles or keys to open, so that exploration and puzzle-solving are rewarded with useful discoveries.
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -868,14 +868,20 @@ As a player, I need to manage my limited credits while finding safe places to sl
   3. Some containers locked
   4. Searched state persists
   5. Container types vary
+  6. **Locked containers support puzzle integration**
+  7. **Multiple unlock methods (key, code, puzzle)**
+  8. **Failed unlock attempts tracked**
 
 **Implementation Notes:**
 - Reference: docs/design/inventory_system_design.md lines 397-426 (Container System)
 - Reference: docs/design/template_interactive_object_design.md (base container class)
+- Reference: docs/design/puzzle_system_design.md (Container puzzles)
 - Container class extends InteractiveObject
 - Contents defined in scene/data
-- Locked containers need keys
+- Locked containers need keys or puzzle solutions
 - One-time searchable
+- Some containers trigger mini-puzzles to unlock
+- Lock types: simple key, combination, puzzle
 
 ### Task 19: Create Barracks district scene
 **User Story:** As a developer, I want to implement the Barracks district as the player's home base, so that players have a safe and familiar location for rest and storage.

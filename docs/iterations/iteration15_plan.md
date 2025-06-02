@@ -140,6 +140,18 @@ As a developer, I want to implement the final advanced features and polish all s
 ### Script Optimization
 - [ ] Task 55: Implement timer-based optimization patterns
 
+### Puzzle System Architecture
+- [ ] Task 56: Implement PuzzleManager singleton and registry system
+- [ ] Task 57: Create PuzzleData resource structure and validation
+- [ ] Task 58: Build puzzle validation and multi-solution support system
+- [ ] Task 59: Implement investigation board UI and evidence connection mechanics
+- [ ] Task 60: Create puzzle-suspicion integration system
+- [ ] Task 61: Build puzzle chain and sequential progression system
+- [ ] Task 62: Implement trap puzzle mechanics for assimilated NPCs
+- [ ] Task 63: Create PuzzleSerializer for save/load support
+- [ ] Task 64: Build puzzle-coalition assistance mechanics
+- [ ] Task 65: Implement dynamic puzzle generation system
+
 ## User Stories
 
 ### Task 1: Create EventManager singleton with scheduling system
@@ -581,8 +593,8 @@ As a developer, I want to implement the final advanced features and polish all s
 - Show schedules through observation
 - Allow multiple timing windows
 
-### Task 20: Add puzzle hint system with progressive hints
-**User Story:** As a player who's stuck, I want optional hints that guide without spoiling, so that I can maintain progress without frustration.
+### Task 20: Add puzzle hint system with progressive hints and coalition integration
+**User Story:** As a player who's stuck, I want optional hints that guide without spoiling, with coalition members providing contextual assistance based on their expertise, so that I can maintain progress without frustration while leveraging my social connections.
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -592,14 +604,20 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Acceptance Criteria:**
   1. Progressive hint levels (subtle to explicit)
   2. Hints unlock after failures/time
-  3. Coalition members can provide hints
+  3. Coalition members provide expertise-based hints
   4. Optional hint disable setting
   5. Context-sensitive hint delivery
+  6. Environmental clue highlighting
+  7. Credit cost for direct solutions
+  8. Integration with investigation UI
 
 **Implementation Notes:**
-- Reference: docs/design/puzzle_system_design.md
-- Three hint levels: nudge, clue, solution
-- NPCs can offer hints in dialog
+- Reference: docs/design/puzzle_system_design.md (Hint System lines 290-346)
+- Three hint levels: subtle (highlighting), moderate (NPC dialog), direct (explicit hints)
+- Coalition members with relevant expertise offer specialized hints
+- Final solution hints cost 100 credits
+- Environmental highlighting uses subtle glow effects
+- NPCs queue ambient dialog hints when nearby
 - Track hint usage for achievements
 
 ### Task 21: Create puzzle state persistence
@@ -1168,8 +1186,8 @@ As a developer, I want to implement the final advanced features and polish all s
 - District changes help lose heat
 - Integrate with UI indicators
 
-### Task 45: Implement biometric security system (fingerprint, retinal scanners)
-**User Story:** As a player, I want to encounter biometric security that requires creative solutions to bypass, so that high-security areas feel appropriately protected.
+### Task 45: Implement biometric security system with integrated puzzle mechanics
+**User Story:** As a player, I want to encounter biometric security that requires creative puzzle solutions including hacking minigames and social engineering, so that high-security areas feel appropriately protected with multiple bypass methods.
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -1182,12 +1200,19 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Voice recognition option
   4. Spoofing mechanics
   5. Failure detection system
+  6. Hacking minigame integration
+  7. Social engineering alternatives
+  8. Technical puzzle bypass options
 
 **Implementation Notes:**
 - Reference: docs/design/district_access_control_system_design.md
+- Reference: docs/design/puzzle_system_design.md (Technical Puzzles)
 - Different spoof methods per biometric type
 - Some require unconscious/willing NPCs
 - High security areas only
+- Hacking minigames provide alternative bypass
+- Circuit completion puzzles for hardware bypass
+- Social puzzles to obtain biometric data
 
 ### Task 46: Create access trading/sharing system between NPCs and player
 **User Story:** As a player, I want to borrow or trade access credentials with trusted NPCs, so that social relationships provide gameplay benefits.
@@ -1417,6 +1442,277 @@ As a developer, I want to implement the final advanced features and polish all s
 - Ensure no visual stuttering from reduced update rates
 - Create debug tools to monitor update frequencies
 
+### Task 56: Implement PuzzleManager singleton and registry system
+**User Story:** As a developer, I want a centralized PuzzleManager that tracks all active puzzles and manages their lifecycle, so that puzzle states are consistently managed across the entire game.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. Singleton PuzzleManager autoload
+  2. Puzzle registration and tracking
+  3. Active puzzle state management
+  4. Solution validation system
+  5. Progress tracking across puzzles
+  6. Event signals for puzzle states
+  7. Integration with save system
+  8. Debug visualization tools
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Core Components lines 26-178)
+- Singleton pattern: src/core/systems/puzzle_manager.gd
+- Track active_puzzles, solved_puzzles, failed_attempts
+- Emit signals: puzzle_started, puzzle_progressed, puzzle_solved, puzzle_failed
+- Support for multi-step puzzles with state tracking
+- Integration points for coalition help and hint system
+- Failed attempt tracking with suspicion consequences
+
+### Task 57: Create PuzzleData resource structure and validation
+**User Story:** As a developer, I want standardized PuzzleData resources that define puzzle properties and validation rules, so that creating new puzzles is consistent and data-driven.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. PuzzleData resource class
+  2. PuzzleStep sub-structure
+  3. Solution type definitions
+  4. Requirement specifications
+  5. Reward configurations
+  6. Chain puzzle support
+  7. Validation rules
+  8. Editor integration
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Data Structures lines 350-391)
+- Resource path: src/resources/puzzle_data.gd
+- Categories: access, investigation, social, technical, combination, timing
+- Support multiple solution types per step
+- Include failure consequences and trap configurations
+- Reward types: credits, items, area unlocks, intel reveals
+- Editor tools for puzzle creation
+
+### Task 58: Build puzzle validation and multi-solution support system
+**User Story:** As a player, I want puzzles to accept multiple valid solutions and provide clear feedback on my attempts, so that creative problem-solving is rewarded.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. Solution validation framework
+  2. Multiple solution paths per puzzle
+  3. Partial solution recognition
+  4. Close-but-wrong feedback
+  5. Alternative item acceptance
+  6. Skill-based modifiers
+  7. Context-aware validation
+  8. Clear failure reasons
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Validation lines 81-117)
+- Validation methods per solution type
+- "Right idea, wrong item" feedback for near-misses
+- Alternative solutions tracked separately
+- Coalition help provides solution hints
+- Different validation for each puzzle category
+- Support item category matching for flexibility
+
+### Task 59: Implement investigation board UI and evidence connection mechanics
+**User Story:** As a player, I want a visual investigation board where I can connect clues and form theories about the conspiracy, so that complex investigations feel like real detective work.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, U3
+- **Acceptance Criteria:**
+  1. Cork board visual interface
+  2. Drag-and-drop evidence placement
+  3. String connection drawing
+  4. Evidence categorization
+  5. Theory formulation tools
+  6. Pattern recognition hints
+  7. Export to journal
+  8. Search and filter options
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Investigation Board lines 916-939)
+- UI path: src/ui/puzzles/investigation_board.gd
+- Visual metaphor of detective board with pins and strings
+- Support complex multi-stage investigations
+- Auto-suggest connections based on evidence types
+- Integration with ClueManager for evidence data
+- Save board state between sessions
+
+### Task 60: Create puzzle-suspicion integration system
+**User Story:** As a player, I want failed puzzle attempts to increase NPC suspicion appropriately, so that puzzle-solving has meaningful consequences beyond simple success/failure.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T1
+- **Acceptance Criteria:**
+  1. Failed puzzle suspicion scaling
+  2. Failure type affects suspicion amount
+  3. Nearby NPC awareness
+  4. Global suspicion impact
+  5. Security alert triggers
+  6. Trap detection consequences
+  7. Cooldown mechanics
+  8. Visual feedback integration
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Suspicion Integration lines 498-523)
+- Base suspicion: 10 points, modified by failure type
+- Wrong keycard: 5 points, Failed hack: 20 points, Caught sneaking: 30 points
+- Trap triggers: 50 points suspicion
+- Nearby NPCs receive 50% of base suspicion
+- Global suspicion increases by 20% of base
+- Some puzzles trigger immediate security response
+
+### Task 61: Build puzzle chain and sequential progression system
+**User Story:** As a player, I want complex puzzles that lead to new challenges, so that major investigations feel like unraveling a conspiracy step by step.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, U3
+- **Acceptance Criteria:**
+  1. Chain definition system
+  2. Context passing between puzzles
+  3. Automatic next puzzle unlocking
+  4. Progress tracking across chains
+  5. Multiple chain paths
+  6. Investigation main chain
+  7. District liberation chains
+  8. Save state persistence
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Puzzle Chain System lines 775-806)
+- Chain types: investigation_main, district_liberation
+- Context builds from previous puzzle solutions
+- Support branching paths based on solution methods
+- Main investigation chain reveals conspiracy layers
+- District chains for liberating areas from assimilation
+- Visual progress indicators for active chains
+
+### Task 62: Implement trap puzzle mechanics for assimilated NPCs
+**User Story:** As a player, I want to detect and avoid trap puzzles set by assimilated NPCs, so that the assimilation threat creates paranoia and requires careful observation.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, U3
+- **Acceptance Criteria:**
+  1. Trap puzzle identification
+  2. Warning sign system
+  3. Assimilated NPC involvement
+  4. Ambush mechanics
+  5. Escape options
+  6. Detection triggers
+  7. Coalition warnings
+  8. Avoidance methods
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Trap Puzzles lines 698-728)
+- Warning signs: unusual location, behavior anomalies, suspicious timing
+- Trap types: fake coalition meetings, corrupted access points
+- Escape requirements vary by trap type
+- Coalition members can warn about suspicious invitations
+- Surveillance and verification provide avoidance options
+- Failed traps trigger high suspicion and possible detection
+
+### Task 63: Create PuzzleSerializer for save/load support
+**User Story:** As a player, I want all my puzzle progress to save correctly including partial solutions and discovered clues, so that I never lose investigation progress.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U3, T1
+- **Acceptance Criteria:**
+  1. Serialize active puzzle states
+  2. Save partial progress
+  3. Track solved puzzles
+  4. Failed attempt history
+  5. Hint usage tracking
+  6. Chain progress saving
+  7. Version migration support
+  8. Data compression
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Serialization lines 809-877)
+- Extends BaseSerializer with priority 45
+- Save: current step, time started, known clues, attempts
+- Compress historical data to minimize save size
+- Handle missing puzzle types gracefully on load
+- Support save version migration for puzzle changes
+- Integration with modular save system
+
+### Task 64: Build puzzle-coalition assistance mechanics
+**User Story:** As a player, I want coalition members to help with puzzles based on their expertise, so that building a strong coalition provides tangible gameplay benefits.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T1
+- **Acceptance Criteria:**
+  1. Member expertise system
+  2. Skill-based assistance
+  3. Direct solution sharing
+  4. Trust requirements
+  5. Intel-based hints
+  6. Collaborative solving
+  7. Time reduction benefits
+  8. Expertise categories
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Coalition Integration lines 458-496)
+- Members have puzzle_expertise dictionary by category
+- High trust members share direct solutions
+- Coalition intel auto-completes investigation steps
+- Collaborative solving reduces time by 30%
+- Different members excel at different puzzle types
+- Some puzzles require multiple coalition members
+
+### Task 65: Implement dynamic puzzle generation system
+**User Story:** As a player, I want puzzles that adapt to my resources and playstyle, so that there's always a viable path forward regardless of my choices.
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. Resource-based generation
+  2. Skill-aware solutions
+  3. Item-based alternatives
+  4. Social option inclusion
+  5. Coalition path guarantee
+  6. Difficulty scaling
+  7. Context awareness
+  8. Replayability support
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md (Dynamic Generation lines 730-774)
+- Analyze player resources: items, skills, coalition
+- Always provide at least 3 solution paths
+- Scale difficulty based on area and progression
+- Coalition solution always available as fallback
+- Adjust puzzle parameters based on player actions
+- Support procedural puzzle elements for replayability
+- Cache generated puzzles for consistency
+
 ## Testing Criteria
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
@@ -1446,6 +1742,16 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Enhanced:** Environmental observation processing stays within performance budget
 - **Enhanced:** Observation UI elements (camera feeds, pattern boards) display smoothly
 - **Enhanced:** Observation memory usage remains stable during extended investigation sessions
+- **Puzzle System:** PuzzleManager correctly tracks all active and completed puzzles
+- **Puzzle System:** Multi-solution validation accepts all intended solutions
+- **Puzzle System:** Investigation board UI allows complex clue connections
+- **Puzzle System:** Failed puzzles increase suspicion appropriately
+- **Puzzle System:** Puzzle chains progress correctly with context passing
+- **Puzzle System:** Trap puzzles provide adequate warning signs
+- **Puzzle System:** Coalition assistance reduces puzzle difficulty/time
+- **Puzzle System:** Dynamic generation creates solvable puzzles for any playstyle
+- **Puzzle System:** All puzzle types integrate with existing game systems
+- **Puzzle System:** Hint system provides appropriate guidance without spoiling
 
 ## Timeline
 - Start date: After Iterations 9-14 completion
@@ -1466,6 +1772,14 @@ As a developer, I want to implement the final advanced features and polish all s
 - src/core/investigation/financial_investigator.gd (to be created)
 - src/core/puzzles/base_puzzle.gd (to be created)
 - src/core/puzzles/puzzle_manager.gd (to be created)
+- src/core/systems/puzzle_manager.gd (to be created)
+- src/resources/puzzle_data.gd (to be created)
+- src/core/puzzles/puzzle_validator.gd (to be created)
+- src/ui/puzzles/investigation_board.gd (to be created)
+- src/core/puzzles/puzzle_chain.gd (to be created)
+- src/core/puzzles/trap_puzzle.gd (to be created)
+- src/core/serializers/puzzle_serializer.gd (to be created)
+- src/core/puzzles/dynamic_puzzle_generator.gd (to be created)
 - src/core/transport/tram_system.gd (to be created)
 - src/core/transport/tram_station.gd (to be created)
 - src/core/performance/profiler.gd (to be created)
