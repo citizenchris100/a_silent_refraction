@@ -98,6 +98,25 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - [ ] Task 35: Implement event timestamp tracking
 - [ ] Task 36: Create event notification categories
 
+### Notification System UI
+- [ ] Task 37: Implement UI visual styling for notification types
+- [ ] Task 38: Create modal dialog UI component
+
+### Debugging and Testing
+- [ ] Task 39: Create notification system debug tools
+- [ ] Task 40: Add notification stress testing capabilities
+- [ ] Task 41: Implement notification history viewer
+- [ ] Task 42: Create notification category filtering
+- [ ] Task 43: Add performance monitoring for notifications
+- [ ] Task 44: Implement notification replay system
+- [ ] Task 45: Create mock notification generator
+- [ ] Task 46: Add notification analytics dashboard
+- [ ] Task 47: Implement notification sound test interface
+- [ ] Task 48: Create notification template system
+- [ ] Task 49: Add bulk notification management tools
+- [ ] Task 50: Implement notification export/import
+- [ ] Task 51: Create automated notification testing
+
 ## User Stories
 
 ### Task 1: Create TimeManager singleton
@@ -193,7 +212,7 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Reference: docs/design/time_management_system_mvp.md
 
 ### Task 7: Create PromptNotificationSystem singleton
-**User Story:** As a player, I want to receive clear notifications about game events, so that I never miss important information.
+**User Story:** As a player, I want to receive clear notifications about game events with appropriate visual styling and performance constraints, so that I never miss important information while maintaining smooth gameplay.
 
 **Design Reference:** `docs/design/prompt_notification_system_design.md`
 
@@ -204,15 +223,111 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - **Linked to:** B2, T2
 - **Acceptance Criteria:**
   1. PromptNotificationSystem exists as autoload singleton
-  2. Supports queued notifications with priorities
-  3. Provides different notification types (info, warning, critical)
+  2. Supports queued notifications with priorities (queue max size: 20)
+  3. Provides different notification types (info, warning, critical, confirm, story)
   4. Notifications auto-dismiss or require confirmation
   5. Integrates with future audio system
+  6. Implements performance constraints (history: 1000 entries, message length: 2000 chars)
+  7. Provides convenience methods (show_info, show_warning, show_critical, show_confirm, show_story)
+  8. Proper deduplication by notification ID
 
 **Implementation Notes:**
-- Priority levels: LOW, NORMAL, HIGH, CRITICAL
-- Queue max size: 10 notifications
+- Priority levels: CRITICAL=0, WARNING=10, STORY=20, CONFIRM=30, INFO=40
+- Queue max size: 20 notifications (increased from 10)
 - Auto-dismiss after 5 seconds for non-critical
+- Message length limited to 2000 characters
+- History automatically pruned at 1000 entries
+- Convenience methods reduce boilerplate for common notifications
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 8: Implement notification queue and priority system
+**User Story:** As a player, I want notifications to be queued and shown in order of importance, so that critical information is never buried under less important messages.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Notification queue with configurable max size (20)
+  2. Priority-based ordering (lower number = higher priority)
+  3. Automatic deduplication by notification ID
+  4. Queue overflow handling (drops lowest priority)
+  5. Proper queue state management
+  6. Signal emission for queue changes
+
+**Implementation Notes:**
+- FIFO within same priority level
+- Critical notifications can clear queue
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 9: Create notification UI component
+**User Story:** As a player, I want a consistent UI component for all notifications, so that I can easily recognize and interact with game messages.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Reusable notification UI scene
+  2. Title and message text areas
+  3. OK button for dismissal
+  4. Proper sizing and centering
+  5. Fade in/out animations
+  6. Keyboard and mouse support
+
+**Implementation Notes:**
+- Base UI component for all notification types
+- Must be theme-able for different styles
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 10: Implement notification categories and filtering
+**User Story:** As a player, I want notifications organized by category, so that I can understand the context of each message at a glance.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Category system implemented (System, Story, Economy, etc.)
+  2. Category-based filtering options
+  3. Category icons and colors
+  4. Per-category priority defaults
+  5. Category statistics tracking
+
+**Implementation Notes:**
+- Categories help with future filtering features
+- Prepare for player preferences in Phase 2
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 11: Add notification sound support (prep for audio)
+**User Story:** As a developer, I want the notification system prepared for audio integration, so that we can easily add sounds in Phase 2.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T2
+- **Acceptance Criteria:**
+  1. Sound trigger points identified
+  2. Audio bus routing prepared
+  3. Per-type sound settings structure
+  4. Volume control integration points
+  5. Placeholder sound file paths
+
+**Implementation Notes:**
+- No actual audio in Phase 1
+- Structure ready for Phase 2 audio
 - Reference: docs/design/prompt_notification_system_design.md
 
 ### Task 5: Implement action duration system
@@ -306,6 +421,138 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Expanded view: Full calendar with events
 - Color coding for urgency levels
 - Must integrate with future quest system
+
+### Task 14: Implement time controls (pause, speed settings)
+**User Story:** As a developer, I want debug controls for time manipulation, so that I can test time-based features efficiently.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Debug panel with time controls
+  2. Pause/resume time flow
+  3. Time speed multiplier (1x, 2x, 10x)
+  4. Jump to specific time/date
+  5. Only available in debug builds
+
+**Implementation Notes:**
+- Debug-only feature for testing
+- Hotkeys for common operations
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 15: Create notification display area
+**User Story:** As a player, I want a dedicated area for notifications to appear, so that they don't obscure important game elements.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Centered screen position for modals
+  2. Proper layering (always on top)
+  3. Background dimming when active
+  4. Responsive to screen size changes
+  5. Accessibility considerations
+
+**Implementation Notes:**
+- Modal overlay approach
+- Must not conflict with other UI
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 16: Integrate time system with existing game flow
+**User Story:** As a player, I want all game actions to properly advance time, so that the world feels consistent and time has meaning.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Movement actions advance time
+  2. Conversations advance time
+  3. Inventory actions have time cost
+  4. All systems use TimeManager
+  5. Time flow feels natural
+
+**Implementation Notes:**
+- Retrofit existing systems
+- Consistent time costs across game
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 17: Add notifications to existing systems
+**User Story:** As a player, I want all game systems to use the unified notification system, so that I receive consistent feedback.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Save system uses notifications
+  2. Inventory uses notifications
+  3. Dialog system uses notifications
+  4. All error messages use notifications
+  5. Remove old feedback systems
+
+**Implementation Notes:**
+- Systematic replacement of old UI
+- Consistent messaging patterns
+- Reference: docs/design/prompt_notification_system_design.md
+
+### Task 18: Implement time serialization
+**User Story:** As a player, I want the game time to be saved and restored correctly, so that my progress through time is preserved.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. TimeManager implements BaseSerializer
+  2. All time data properly saved
+  3. Scheduled events preserved
+  4. Time resumes correctly on load
+  5. Handles version migration
+
+**Implementation Notes:**
+- Priority order in save system
+- Include scheduled events
+- Reference: docs/design/time_management_system_mvp.md
+
+### Task 19: Create time-based debug tools
+**User Story:** As a developer, I want comprehensive debug tools for the time system, so that I can diagnose time-related bugs.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Time flow visualization
+  2. Event schedule viewer
+  3. Time advancement log
+  4. Performance metrics
+  5. Time validation tools
+
+**Implementation Notes:**
+- Debug overlay for time info
+- Event timeline visualization
+- Reference: docs/design/time_management_system_mvp.md
 
 ### Task 20: Create TimeDisplay UI component with minimal/expanded states
 **User Story:** As a player, I want a persistent time display that can expand to show more details, so that I can quickly check the time or get detailed schedule information as needed.
@@ -682,6 +929,56 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Different urgency levels
 - Prepare for audio in Phase 2
 - Reference: docs/design/prompt_notification_system_design.md
+
+### Task 37: Implement UI visual styling for notification types
+**User Story:** As a player, I want different notification types to have distinct visual styles, so that I can quickly understand the importance and category of each message.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Color schemes defined for each type (INFO: blue, WARNING: yellow, CRITICAL: red, CONFIRM: green, STORY: purple)
+  2. Icon system for notification categories
+  3. Border styles by notification type (CRITICAL gets pulsing border)
+  4. Animation patterns for different priorities
+  5. Consistent with game's aesthetic
+  6. Header styling matches notification type
+  7. Support for BBCode rich text formatting
+
+**Implementation Notes:**
+- Visual distinction helps quick recognition
+- Pulsing borders for critical alerts
+- Consider colorblind accessibility
+- Reference: docs/design/prompt_notification_system_design.md (UI Specifications section)
+
+### Task 38: Create modal dialog UI component
+**User Story:** As a player, I want notifications to appear as modal dialogs that pause the game, so that I never miss important information during gameplay.
+
+**Design Reference:** `docs/design/prompt_notification_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Centered modal window with title and message areas
+  2. Single "OK" button for acknowledgment
+  3. Game time pauses while modal is displayed
+  4. All player input blocked except modal interaction
+  5. Supports multi-line text with scrolling if needed
+  6. Proper word wrapping for long messages
+  7. Keyboard support (Enter/Space to dismiss)
+
+**Implementation Notes:**
+- Modal design per UI specification in design doc
+- Must handle text overflow gracefully
+- Z-order ensures always on top
+- Reference: docs/design/prompt_notification_system_design.md (UI Specifications section)
 
 ## Testing Criteria
 - Time advances correctly for all actions

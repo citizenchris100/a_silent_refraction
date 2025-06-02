@@ -822,9 +822,9 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 
 ### Task 28: Add evaluation countdown warnings
 
-**User Story:** As a player, I want clear warnings as the evaluation day approaches, so that I can prepare for the consequences and make final preparations.
+**User Story:** As a player, I want clear warnings as the evaluation day approaches and helpful tutorial messages for new gameplay elements, so that I can prepare for the consequences and understand new mechanics as they're introduced.
 
-**Design Reference:** `docs/design/multiple_endings_system_design.md` lines 400-412
+**Design Reference:** `docs/design/multiple_endings_system_design.md` lines 400-412, `docs/design/prompt_notification_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/02/25)
@@ -838,12 +838,18 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
   4. UI prominence increases
   5. Audio cues for final warnings
   6. Cannot be disabled
+  7. Tutorial messages for first-time mechanics
+  8. Tutorial respects GameSettings.tutorials_enabled
+  9. Tutorials use INFO notification type
 
 **Implementation Notes:**
-- Use notification system
+- Use notification system for all warnings
 - Color coding: green->yellow->red
 - Show exact numbers in later warnings
 - Integrate with morning reports
+- Tutorial messages use show_tutorial() method
+- Track shown tutorials to avoid repetition
+- Reference: docs/design/prompt_notification_system_design.md (Tutorial Messages)
 
 ### Task 29: Implement faction-specific ending variations
 

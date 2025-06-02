@@ -597,9 +597,9 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Reference: docs/design/living_world_event_system_mvp.md
 
 ### Task 19: Create event notification integration
-**User Story:** As a player, I want to be notified of important events when they happen nearby, so that I can react to the changing world.
+**User Story:** As a player, I want to be notified of important world events through contextual notifications like news broadcasts and emergency alerts, so that I stay informed about the changing station environment.
 
-**Design Reference:** `docs/design/living_world_event_system_mvp.md`
+**Design Reference:** `docs/design/living_world_event_system_mvp.md`, `docs/design/prompt_notification_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -612,11 +612,19 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   3. Priority levels respected
   4. Integrates with PromptNotificationSystem
   5. Some events silent until discovered
+  6. Special notification types for news broadcasts
+  7. Emergency alert system for critical events
+  8. Station-wide announcements for major occurrences
+  9. Tutorial messages for first-time experiences
 
 **Implementation Notes:**
 - Connect to notification system from I5
 - Only notify if player can perceive event
-- Reference: docs/design/prompt_notification_system_design.md
+- News broadcasts use STORY notification type
+- Emergency alerts use CRITICAL type and clear queue
+- Station announcements reach all players
+- Tutorial messages check GameSettings.tutorials_enabled
+- Reference: docs/design/prompt_notification_system_design.md (Special Use Cases section)
 
 ### Task 20: Implement event serialization
 **User Story:** As a player, I want events to persist across save/load cycles, so that the world state remains consistent.
