@@ -41,162 +41,242 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 
 ## Tasks
 
-### 1. Spaceport District Population
-**Priority:** High  
-**Estimated Hours:** 20
+### District Population Tasks
+- [ ] Task 1: Spaceport District Population
+- [ ] Task 2: Security District Population
+- [ ] Task 3: Medical District Population
+- [ ] Task 4: Mall District Population
+- [ ] Task 5: District Event Implementation
+- [ ] Task 6: Ambient Crowd Systems
+- [ ] Task 7: Environmental Storytelling
 
-**Description:**  
-Populate the Spaceport with 20 NPCs including dock workers, customs officers, travelers, and ship crews.
+### Job Implementation Tasks
+- [ ] Task 8: Dock Worker Job Implementation
+- [ ] Task 9: Medical Courier Job Implementation
+- [ ] Task 10: Retail Clerk Job Implementation
 
-**User Story:**  
-*As a player, I want the Spaceport to feel like a busy hub of interstellar travel with workers, travelers, and unique characters.*
+## User Stories
 
-**Acceptance Criteria:**
-- [ ] 20 unique NPCs with personalities
-- [ ] Loading dock job quests (3)
-- [ ] Customs inspection quests (2)
-- [ ] Ship arrival/departure events
-- [ ] Ambient traveler crowds
-- [ ] Environmental storytelling elements
+### Task 1: Spaceport District Population
+**User Story:** As a player, I want the Spaceport to feel like a busy hub of interstellar travel with workers, travelers, and unique characters, so that the district feels alive and provides job opportunities.
 
-**Dependencies:**
-- Core NPCs (Iteration 17)
-- Job system (Iteration 11)
-- Event system (Iteration 15)
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-### 2. Security District Population
-**Priority:** High  
-**Estimated Hours:** 20
+**Requirements:**
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+  1. 20 unique NPCs with personalities
+  2. Loading dock job quests (3)
+  3. Customs inspection quests (2)
+  4. Ship arrival/departure events
+  5. Ambient traveler crowds
+  6. Environmental storytelling elements
 
-**Description:**  
-Populate Security with 20 NPCs including officers, detectives, prisoners, and administrative staff.
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md
+- NPCs should follow docs/design/template_npc_design.md
+- Integrate with job system from Iteration 11
+- Coordinate with Dock Worker job implementation (Task 8)
 
-**User Story:**  
-*As a player, I want the Security district to feel like an active law enforcement center with ongoing investigations and prisoner management.*
+### Task 2: Security District Population
+**User Story:** As a player, I want the Security district to feel like an active law enforcement center with ongoing investigations and prisoner management, so that I can engage with the justice system and uncover corruption.
 
-**Acceptance Criteria:**
-- [ ] 20 NPCs including prisoner rotation
-- [ ] Investigation assistance quests (3)
-- [ ] Prisoner interview quests (2)
-- [ ] Crime/security breach events
-- [ ] Brig population system
-- [ ] Evidence room interactions
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Dependencies:**
-- Investigation system (Iteration 15)
-- Access control (Iteration 9)
-- Crime events (Iteration 11)
+**Requirements:**
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (unexpected events)
+- **Acceptance Criteria:**
+  1. 20 NPCs including prisoner rotation
+  2. Investigation assistance quests (3)
+  3. Prisoner interview quests (2)
+  4. Crime/security breach events
+  5. Brig population system
+  6. Evidence room interactions
 
-### 3. Medical District Population
-**Priority:** High  
-**Estimated Hours:** 18
+**Implementation Notes:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Integrate with investigation system from Iteration 15
+- Security patrol job already implemented in Iteration 11 (First Quest)
 
-**Description:**  
-Populate Medical with 15 NPCs including doctors, nurses, patients, and researchers.
+### Task 3: Medical District Population
+**User Story:** As a player, I want the Medical district to feel like a functioning hospital with staff, patients, and ongoing medical situations, so that I can witness the assimilation's impact on healthcare.
 
-**User Story:**  
-*As a player, I want the Medical district to feel like a functioning hospital with staff, patients, and ongoing medical situations.*
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Acceptance Criteria:**
-- [ ] 15 NPCs with medical roles
-- [ ] Patient care quests (3)
-- [ ] Research assistance quests (2)
-- [ ] Medical emergency events
-- [ ] Patient rotation system
-- [ ] Lab mystery elements
+**Requirements:**
+- **Linked to:** Business Requirements (believable communities), User Requirements (environmental stories)
+- **Acceptance Criteria:**
+  1. 15 NPCs with medical roles
+  2. Patient care quests (3)
+  3. Research assistance quests (2)
+  4. Medical emergency events
+  5. Patient rotation system
+  6. Lab mystery elements
 
-**Dependencies:**
-- NPC state system (Iteration 10)
-- Emergency events (Iteration 15)
-- Research mechanics (Iteration 11)
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md
+- Coordinate with Medical Courier job implementation (Task 9)
+- Emergency events should hint at assimilation spread
 
-### 4. Mall District Population
-**Priority:** High  
-**Estimated Hours:** 24
+### Task 4: Mall District Population
+**User Story:** As a player, I want the Mall to feel like a bustling commerce center with diverse shops, crowds, and social interactions, so that I can observe society's facade of normalcy.
 
-**Description:**  
-Populate the Mall with 30 NPCs - the largest population including shopkeepers, customers, and service workers.
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**User Story:**  
-*As a player, I want the Mall to feel like a bustling commerce center with diverse shops, crowds, and social interactions.*
+**Requirements:**
+- **Linked to:** Business Requirements (job gameplay variety), User Requirements (alive districts)
+- **Acceptance Criteria:**
+  1. 30 NPCs (shopkeepers, customers, workers)
+  2. Retail job quests (4)
+  3. Service job quests (2)
+  4. Shopping events and sales
+  5. Dynamic customer crowds
+  6. Shop inventory systems
 
-**Acceptance Criteria:**
-- [ ] 30 NPCs (shopkeepers, customers, workers)
-- [ ] Retail job quests (4)
-- [ ] Service job quests (2)
-- [ ] Shopping events and sales
-- [ ] Dynamic customer crowds
-- [ ] Shop inventory systems
+**Implementation Notes:**
+- Reference: docs/design/economy_system_design.md (Shop System)
+- Coordinate with Retail Clerk job implementation (Task 10)
+- Largest NPC population requires performance optimization
 
-**Dependencies:**
-- Economy system (Iteration 7)
-- Inventory system (Iteration 7)
-- Crowd system (new)
+### Task 5: District Event Implementation
+**User Story:** As a player, I want each district to have unique events that make the world feel alive and unpredictable, so that repeated visits reveal new situations and opportunities.
 
-### 5. District Event Implementation
-**Priority:** Medium  
-**Estimated Hours:** 16
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Description:**  
-Implement district-specific events that occur randomly or on schedule to create dynamic experiences.
+**Requirements:**
+- **Linked to:** Business Requirements (dynamic experiences), User Requirements (unexpected events)
+- **Acceptance Criteria:**
+  1. Spaceport: arrivals, departures, cargo incidents
+  2. Security: arrests, escapes, investigations
+  3. Medical: emergencies, outbreaks, breakthroughs
+  4. Mall: sales, thefts, social gatherings
+  5. Event scheduling system
+  6. Player involvement options
 
-**User Story:**  
-*As a player, I want each district to have unique events that make the world feel alive and unpredictable.*
+**Implementation Notes:**
+- Reference: docs/design/living_world_event_system_design.md
+- Events should create job opportunities and investigation leads
+- Some events reveal assimilation progress
 
-**Acceptance Criteria:**
-- [ ] Spaceport: arrivals, departures, cargo incidents
-- [ ] Security: arrests, escapes, investigations
-- [ ] Medical: emergencies, outbreaks, breakthroughs
-- [ ] Mall: sales, thefts, social gatherings
-- [ ] Event scheduling system
-- [ ] Player involvement options
+### Task 6: Ambient Crowd Systems
+**User Story:** As a developer, I want to implement lightweight crowd NPCs that add life without full interaction complexity, so that busy areas feel populated without impacting performance.
 
-**Dependencies:**
-- Event system (Iteration 15)
-- Time system (Iteration 5)
-- NPC reactions (Iteration 10)
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-### 6. Ambient Crowd Systems
-**Priority:** Medium  
-**Estimated Hours:** 12
+**Requirements:**
+- **Linked to:** Technical Requirements (performance with 85+ NPCs), User Requirements (alive districts)
+- **Acceptance Criteria:**
+  1. Lightweight crowd NPCs
+  2. Path-based movement
+  3. Time-based density
+  4. Performance optimization
+  5. Visual variety
 
-**Description:**  
-Create ambient crowd NPCs that add life without full interaction complexity.
+**Implementation Notes:**
+- Reference: docs/design/template_npc_design.md (Ambient NPCs section)
+- Target 60 FPS with full crowds
+- Use LOD and culling aggressively
 
-**User Story:**  
-*As a player, I want to see background crowds that make busy areas feel populated without overwhelming the game systems.*
+### Task 7: Environmental Storytelling
+**User Story:** As a player, I want to discover stories through environmental details, so that exploration reveals the station's history and hidden narratives.
 
-**Acceptance Criteria:**
-- [ ] Lightweight crowd NPCs
-- [ ] Path-based movement
-- [ ] Time-based density
-- [ ] Performance optimization
-- [ ] Visual variety
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Dependencies:**
-- NPC system (Iteration 10)
-- Performance profiling (Iteration 15)
+**Requirements:**
+- **Linked to:** User Requirements (environmental stories), Business Requirements (district uniqueness)
+- **Acceptance Criteria:**
+  1. Personal items and notes
+  2. Visual story elements
+  3. District history hints
+  4. Character backstory clues
+  5. Mystery breadcrumbs
 
-### 7. Environmental Storytelling
-**Priority:** Medium  
-**Estimated Hours:** 10
+**Implementation Notes:**
+- Reference: docs/design/investigation_clue_system_design.md
+- Environmental clues should support main narrative
+- Each district needs 5-10 environmental stories
 
-**Description:**  
-Add environmental details, notes, and visual storytelling elements to each district.
+### Task 8: Dock Worker Job Implementation
+**User Story:** As a player, I want to work as a dock worker loading and unloading cargo, so that I can earn credits while discovering clues about mysterious shipments.
 
-**User Story:**  
-*As a player, I want to discover stories through environmental details, making exploration rewarding.*
+**Design Reference:** `docs/design/job_work_quest_system_design.md` (Spaceport - Dock Worker, lines 88-187)
 
-**Acceptance Criteria:**
-- [ ] Personal items and notes
-- [ ] Visual story elements
-- [ ] District history hints
-- [ ] Character backstory clues
-- [ ] Mystery breadcrumbs
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Dependencies:**
-- Interactive objects (Iteration 2)
-- Investigation system (Iteration 15)
+**Requirements:**
+- **Linked to:** Business Requirements (job gameplay variety), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+  1. Foreman Chen NPC as quest giver
+  2. Intro quest: "New Hire Orientation"
+  3. 3 shift variants: Standard Cargo, Rush Delivery, Night Shift
+  4. Cargo loading mini-game mechanics
+  5. Performance evaluation system
+  6. Mysterious shipment clue opportunities
+  7. Gender-based difficulty modifiers
+
+**Implementation Notes:**
+- Physical labor job - male characters have 10% easier time
+- Female characters face 15% harder difficulty and harassment events
+- Night shift variant provides best investigation opportunities
+- Base pay: 40 credits per 4-hour shift
+
+### Task 9: Medical Courier Job Implementation
+**User Story:** As a player, I want to work as a medical courier delivering critical supplies, so that I can access restricted medical areas and discover contamination clues.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md` (Medical - Supply Courier, lines 266-354)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (job gameplay variety), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+  1. Nurse Patel NPC as quest giver
+  2. Intro quest: "Emergency Supplies"
+  3. 3 shift variants: Routine Delivery, Biohazard Transport, Blood Drive
+  4. Time-critical delivery mechanics
+  5. Medical access badge rewards
+  6. Contamination/assimilation clues
+  7. Gender dynamics in medical setting
+
+**Implementation Notes:**
+- Caregiving role - female characters have 5% easier time
+- Male characters face 5% harder difficulty (suspicion)
+- Biohazard transport variant has 15% chance of sample leak
+- Base pay: 60 credits per 3-hour shift
+
+### Task 10: Retail Clerk Job Implementation
+**User Story:** As a player, I want to work as a retail clerk serving customers and preventing theft, so that I can observe drone behavior patterns and build mall connections.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md` (Mall - Retail Clerk, lines 356-455)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (job gameplay variety), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+  1. Manager Kim NPC as quest giver
+  2. Intro quest: "Sales Training"
+  3. 3 shift variants: Sales Floor, Loss Prevention, Overnight Inventory
+  4. Customer service interaction system
+  5. Shoplifter detection mechanics
+  6. Drone customer behavior clues
+  7. Gender-specific customer interactions
+
+**Implementation Notes:**
+- Service role - female characters expected (normal difficulty)
+- Male characters face 10% harder difficulty (customer skepticism)
+- Female characters face more harassment events
+- Base pay: 35 credits per 4-hour shift
 
 ## Testing Criteria
 - All 85 NPCs function without conflicts
@@ -206,10 +286,17 @@ Add environmental details, notes, and visual storytelling elements to each distr
 - Districts feel uniquely populated
 - Crowd systems don't impact gameplay
 - Environmental stories discoverable
+- Dock Worker shifts advance time correctly
+- Medical Courier deliveries respect time limits
+- Retail Clerk customer interactions work
+- Gender modifiers apply correctly to all jobs
+- Job performance evaluations calculate properly
+- Workplace clues discoverable during shifts
+- Job payments integrate with economy
 
 ## Timeline
-- **Estimated Duration:** 5-6 weeks
-- **Total Hours:** 120
+- **Estimated Duration:** 6-7 weeks
+- **Total Hours:** 170 (120 + 50 for job implementations)
 - **Critical Path:** NPCs must be created before quests can be assigned
 
 ## Definition of Done

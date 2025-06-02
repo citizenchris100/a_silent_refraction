@@ -57,28 +57,31 @@ This iteration completes Phase 3.2 by populating the remaining three districts. 
 - [ ] Task 11: Add security checkpoint NPCs with access verification dialog
 - [ ] Task 12: Implement borrowed keycard quest mechanics
 
-### 1. Trading Floor District Population
-**Priority:** High  
-**Estimated Hours:** 24
+### Job Implementation Tasks
+- [ ] Task 13: Janitor Job Implementation
 
-**Description:**  
-Populate Trading Floor with 25 NPCs including traders, executives, clerks, and corporate staff.
+## User Stories
 
-**User Story:**  
-*As a player, I want the Trading Floor to feel like a high-stakes financial center with corporate intrigue and market dynamics.*
+### Task 1: Trading Floor District Population
+**User Story:** As a player, I want the Trading Floor to feel like a high-stakes financial center with corporate intrigue and market dynamics, so that I can experience the station's economic elite.
 
-**Acceptance Criteria:**
-- [ ] 25 NPCs with financial roles
-- [ ] Trading desk job quests (3)
-- [ ] Corporate espionage quests (2)
-- [ ] Market event system
-- [ ] Executive interactions
-- [ ] Trading floor ambience
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Dependencies:**
-- Economy system (Iteration 7)
-- Trading minigame (Iteration 11)
-- Corporate hierarchy (Iteration 10)
+**Requirements:**
+- **Linked to:** Business Requirements (unique gameplay), User Requirements (financial trading)
+- **Acceptance Criteria:**
+  1. 25 NPCs with financial roles
+  2. Trading desk job quests (3)
+  3. Corporate espionage quests (2)
+  4. Market event system
+  5. Executive interactions
+  6. Trading floor ambience
+
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md
+- Integrate with trading minigame from Iteration 11
+- NPCs should reflect 1950s corporate culture
 
 ### 2. Trading Minigame Integration
 **Priority:** High  
@@ -103,30 +106,28 @@ Fully integrate the trading floor minigame with NPCs, market events, and progres
 - Economy system (Iteration 7)
 - Terminal UI (Iteration 3)
 
-### 3. Black Market Integration
-**Priority:** Medium  
-**Estimated Hours:** 12
-
-**Description:**  
-Implement underground economy in Trading Floor and Engineering districts with illegal items and secretive traders.
-
-**User Story:**  
-*As a player, I want to access black market goods and services, so that I can obtain restricted items at the risk of increased suspicion.*
+### Task 3: Black Market Integration
+**User Story:** As a player, I want to access black market goods and services, so that I can obtain restricted items at the risk of increased suspicion.
 
 **Design Reference:** `docs/design/economy_system_design.md` (Black Market - Medium Priority)
 
-**Acceptance Criteria:**
-- [ ] Hidden shop locations established
-- [ ] Black market NPCs configured
-- [ ] Illegal item inventory created
-- [ ] Reputation system for access
-- [ ] Integration with suspicion system
-- [ ] Higher prices but unique items
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Dependencies:**
-- Shop system expansion (Iteration 11)
-- Suspicion system (Iteration 9)
-- Coalition system (Iteration 12)
+**Requirements:**
+- **Linked to:** Business Requirements (unique gameplay), User Requirements (restricted area access)
+- **Acceptance Criteria:**
+  1. Hidden shop locations established
+  2. Black market NPCs configured
+  3. Illegal item inventory created
+  4. Reputation system for access
+  5. Integration with suspicion system
+  6. Higher prices but unique items
+
+**Implementation Notes:**
+- Access requires coalition connections or discovered passwords
+- Items include: forged credentials, restricted tools, banned substances
+- Prices 2-3x normal shop prices
 
 ### 4. Barracks District Population
 **Priority:** High  
@@ -242,32 +243,27 @@ Test all seven populated districts together ensuring smooth transitions and cons
 - All previous district work
 - Performance optimization (Iteration 15)
 
-### 8. Implement Engineering biometric locks for high-security areas
-**Priority:** High  
-**Estimated Hours:** 8
+### Task 9: Implement Engineering biometric locks for high-security areas
+**User Story:** As a player, I want Engineering's critical areas to require biometric authentication, so that accessing the station's core systems feels appropriately challenging.
 
-**Description:**  
-Add biometric security systems to Engineering's most restricted areas containing critical station systems.
+**Design Reference:** `docs/design/district_access_control_system_design.md` (Biometric Security)
 
-**User Story:**  
-*As a player, I want Engineering's critical areas to require biometric authentication, so that accessing the station's core systems feels appropriately challenging.*
+**Status History:**
+- **⏳ PENDING** (06/01/25)
 
-**Acceptance Criteria:**
-- [ ] Place biometric scanners at key locations
-- [ ] Configure authorized personnel lists
-- [ ] Implement bypass challenges
-- [ ] Add visual security indicators
-- [ ] Create failure consequences
-
-**Dependencies:**
-- Biometric system (Iteration 15, Task 44)
-- Engineering district (Iteration 17)
+**Requirements:**
+- **Linked to:** Business Requirements (end-game challenges), Technical Requirements (security clearance)
+- **Acceptance Criteria:**
+  1. Place biometric scanners at key locations
+  2. Configure authorized personnel lists
+  3. Implement bypass challenges
+  4. Add visual security indicators
+  5. Create failure consequences
 
 **Implementation Notes:**
-- Reference: docs/design/district_access_control_system_design.md
-- Use biometric scanner prefabs from Iteration 15
-- Configure for Engineering-specific personnel
-- Consider fail-safe overrides for emergencies
+- Use BiometricLock class from Iteration 15
+- Engineering personnel only (15 authorized)
+- Bypass methods: hacking, borrowed credentials, system override
 
 ### 9. Create maintenance tunnel access network in Engineering
 **Priority:** Medium  
@@ -350,6 +346,31 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 - Time limits: 2-8 hours based on trust level
 - Trust penalty for not returning: -20 points
 
+### Task 13: Janitor Job Implementation
+**User Story:** As a player, I want to work as a janitor performing cleaning and maintenance duties, so that I can gain universal station access while appearing invisible to most NPCs.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md` (Barracks - Janitor, lines 457-563)
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (job gameplay variety), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+  1. Supervisor Jones NPC as quest giver
+  2. Intro quest: "Mop and Bucket Brigade"
+  3. 3 shift variants: Routine Cleaning, Deep Clean, Emergency Cleanup
+  4. Master keycard access reward
+  5. Environmental discovery mechanics
+  6. Assimilation evidence cleanup events
+  7. "Invisible" status during work
+
+**Implementation Notes:**
+- Most important job for investigation - provides universal access
+- Gender neutral difficulty - janitors are ignored equally
+- Deep Clean variant provides access to all restricted areas
+- Base pay: 35 credits per 3-hour shift
+
 ## Testing Criteria
 - All 65 NPCs function properly
 - Trading minigame fully integrated
@@ -364,10 +385,14 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 - Performance with 150 total NPCs
 - All districts feel complete
 - Unique mechanics work smoothly
+- Janitor master keycard provides universal access
+- Janitor shifts grant "invisible" status
+- Environmental cleanup reveals clues
+- All job quests complete full cycles
 
 ## Timeline
-- **Estimated Duration:** 5-6 weeks
-- **Total Hours:** 126
+- **Estimated Duration:** 6 weeks
+- **Total Hours:** 142 (126 + 16 for janitor job)
 - **Critical Path:** District population must complete before integration testing
 
 ## Definition of Done
