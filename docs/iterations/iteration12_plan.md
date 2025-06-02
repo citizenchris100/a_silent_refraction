@@ -864,8 +864,10 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Track personality shifts
 - Success based on investigation skill
 
-### Task 52: Create investigation interaction system
-**User Story:** As a player, I want specific dialog options for investigating suspected assimilated, so that I can gather evidence through conversation.
+### Task 52: Create investigation interaction system with advanced investigation mechanics
+**User Story:** As a player, I want specific dialog options for investigating suspected assimilated through a multi-phase investigation system with investigator assignment and report filing, so that I can gather evidence through conversation while facing organized investigation attempts against me.
+
+**Design Reference:** `docs/design/assimilation_system_design.md`, `docs/design/suspicion_system_full_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -873,17 +875,29 @@ As a player, I experience a living station where the mysterious assimilation spr
 **Requirements:**
 - **Linked to:** U1, U3
 - **Acceptance Criteria:**
-  1. Investigation dialog branch
-  2. Skill-based success
-  3. Evidence gathering
-  4. NPC reactions vary
-  5. False accusations penalized
+  1. Investigation dialog branch with suspicion-based responses
+  2. Skill-based success with personality modifiers
+  3. Evidence gathering system integrated with clue tracking
+  4. NPC reactions vary by assimilation type and relationship
+  5. False accusations penalized with suspicion increases
+  6. **Multi-Phase Investigations:** Automated investigator assignment when suspicion reaches 0.6+
+  7. **Investigation System:** Formal investigation with questioning, evidence gathering, and conclusions
+  8. **Player Questioning:** Events triggered when player becomes investigation target
+  9. **Report Filing:** Investigations conclude with reports filed to security system
 
 **Implementation Notes:**
-- Reference: docs/design/assimilation_system_design.md
-- Special dialog options unlock
-- Leaders deflect skillfully
-- Track investigation attempts
+- Reference: docs/design/assimilation_system_design.md (investigation dialog)
+- Reference: docs/design/suspicion_system_full_design.md lines 282-516 (Investigation System)
+- **Investigation Phases:** questioning (30min), evidence gathering (1hr), conclusion (2hrs total)
+- **Investigator Assignment:** Priority order: security personnel, assimilated leaders, high-suspicion NPCs
+- **Evidence Thresholds:** Need 3+ evidence for "guilty", -3 for "innocent" conclusions
+- **Assimilated Responses:** Leaders excellent liars (-1 evidence weight), drones may slip up (40% chance +1 evidence)
+- **Player Investigations:** Can trigger when suspicion > 0.6, emit player_questioned signal
+- **Conclusion Effects:** Guilty (+0.4 suspicion), Innocent (-0.3 suspicion), Inconclusive (+0.1 suspicion)
+- Special dialog options unlock based on investigation skill
+- Leaders deflect skillfully with coordinated stories
+- Track investigation attempts and build resistance patterns
+- Failed investigations may trigger counter-investigations against player
 
 ### Task 53: Implement financial investigation mechanics
 **User Story:** As a player with financial access, I want to investigate transaction records, so that I can uncover the economic conspiracy.

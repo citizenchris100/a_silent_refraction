@@ -904,6 +904,148 @@ Create a visual interface for inspecting save state during development and debug
 - Test edge cases thoroughly
 - Document all test scenarios
 
+### Suspicion System Visual Integration
+- [ ] Task 15: Create district heat map visualization
+- [ ] Task 16: Implement suspicion network visualization UI
+- [ ] Task 17: Add suspicion flow animations between districts
+- [ ] Task 18: Create investigation status indicators
+- [ ] Task 19: Implement security presence visual overlays
+
+### Task 15: Create district heat map visualization
+**User Story:** As a player, I want to see a visual heat map of district suspicion levels, so that I can understand which areas are safe or dangerous.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U1, U2
+- **Acceptance Criteria:**
+  1. Color-coded district visualization showing suspicion levels
+  2. Heat map overlay on station map interface
+  3. Real-time updates as district suspicion changes
+  4. Smooth color transitions between districts
+  5. Integration with existing UI system
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1116-1123 (District Heat Map)
+- **Color Coding:** Green (safe) → Yellow (elevated) → Orange (high) → Red (critical)
+- Use gradient shaders for smooth district transitions
+- Map overlay toggleable on/off
+- District boundaries clearly defined
+- Update frequency: every 5 seconds for performance
+
+### Task 16: Implement suspicion network visualization UI
+**User Story:** As a player, I want to see how suspicion spreads through NPC networks, so that I can understand the social connections that affect my actions.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U1, U3
+- **Acceptance Criteria:**
+  1. Node-based network visualization showing NPCs and connections
+  2. Connection strength indicated by line thickness/color
+  3. Information flow animations along network edges
+  4. Zoom/pan interface for large networks
+  5. Filter options for different relationship types
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1104-1105 (Network Visualization)
+- Use GraphEdit node for interactive network display
+- **Visual Elements:**
+  - NPCs as nodes with colored borders (suspicion level)
+  - Connections as lines with varying thickness
+  - Animated pulses showing information flow
+  - Cluster highlighting for related groups
+- Optional debug/developer mode feature
+
+### Task 17: Add suspicion flow animations between districts
+**User Story:** As a player, I want to see animated indications when suspicion spreads between districts, so that I can understand the consequences of my actions across the station.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U1, U2
+- **Acceptance Criteria:**
+  1. Animated flow effects showing suspicion spreading between districts
+  2. Particle effects or animated lines indicating direction and intensity
+  3. Visual indication of spread rate and decay
+  4. Integration with district heat map
+  5. Performance optimized for multiple concurrent flows
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1119-1121 (Suspicion Flow Animations)
+- Use particle systems for flow visualization
+- **Animation Types:**
+  - Gradient waves flowing between district boundaries
+  - Particle streams with varying intensity
+  - Pulsing effects at district centers
+  - Decay animations showing suspicion reduction
+- Trigger on district_suspicion_changed signal
+
+### Task 18: Create investigation status indicators
+**User Story:** As a player, I want clear visual indicators when I'm under investigation, so that I can understand my current threat level and react appropriately.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U2, U3
+- **Acceptance Criteria:**
+  1. Investigation UI panel showing active investigations
+  2. Evidence counter and phase indicators
+  3. Time until conclusion display
+  4. Investigator location and status
+  5. Warning icons for high-risk investigations
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1107-1114 (Investigation UI)
+- **UI Components:**
+  - Active investigation panel with investigator name/photo
+  - Progress bar showing investigation phase
+  - Evidence counter with visual icons
+  - Timer showing time until conclusion
+  - Risk level indicator (low/medium/high)
+- Position in HUD corner with expandable details
+- Warning animations for critical phases
+
+### Task 19: Implement security presence visual overlays
+**User Story:** As a player, I want to see visual indicators of security presence and camera coverage, so that I can plan my movements to avoid detection.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U2, U3
+- **Acceptance Criteria:**
+  1. Camera coverage zones visible on map
+  2. Security patrol route indicators
+  3. Alert level visual changes to environment
+  4. Safe zone highlighting
+  5. Real-time updates based on security alert level
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1121-1122 (Security Presence Indicators)
+- **Visual Overlays:**
+  - Camera coverage: semi-transparent colored overlays
+  - Patrol routes: dotted lines with direction indicators
+  - Alert levels: environmental color tints
+  - Safe zones: green highlight areas
+  - Security equipment: glowing indicators
+- Toggle visibility in options menu
+- Performance optimized with LOD system
+
 ## Links to Relevant Code
 - src/core/visual/perspective_scaler.gd
 - src/core/visual/occlusion_manager.gd
@@ -917,6 +1059,11 @@ Create a visual interface for inspecting save state during development and debug
 - src/shaders/crt_screen.shader
 - src/core/animation/animation_polish.gd
 - src/core/visual/atmosphere_effects.gd
+- src/ui/suspicion/district_heat_map.gd (to be created)
+- src/ui/suspicion/network_visualization.gd (to be created)
+- src/ui/suspicion/investigation_status_ui.gd (to be created)
+- src/ui/suspicion/security_overlay.gd (to be created)
 - docs/design/sprite_perspective_scaling_plan.md
 - docs/design/sprite_perspective_scaling_full_plan.md
 - docs/design/foreground_occlusion_mvp_plan.md
+- docs/design/suspicion_system_full_design.md

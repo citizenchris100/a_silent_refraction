@@ -794,9 +794,131 @@ As a player, I want to experience a fully diegetic audio environment where all s
 - docs/design/audio_system_technical_implementation.md
 - docs/design/audio_system_iteration3_mvp.md
 
+### Suspicion System Audio Integration
+- [ ] Task 30: Create suspicion level audio cues
+- [ ] Task 31: Implement investigation phase sound effects
+- [ ] Task 32: Add district alert level ambient sounds
+- [ ] Task 33: Create suspicion network propagation audio feedback
+
+### Task 30: Create suspicion level audio cues
+**User Story:** As a player, I want to hear audio cues that indicate rising suspicion levels, so that I can react to threats even when focused on other UI elements.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`, `docs/design/audio_system_technical_implementation.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Distinct audio cues for each suspicion tier (none, low, medium, high, critical)
+  2. Layered audio that builds intensity with suspicion level
+  3. Spatial audio positioning for suspicious NPCs
+  4. Audio cues integrate with diegetic audio system
+  5. Volume scales with proximity to suspicious NPCs
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md (UI Components)
+- Reference: docs/design/audio_system_technical_implementation.md (environmental audio)
+- **Audio Cue Design:**
+  - Low suspicion: subtle tension drones, barely perceptible
+  - Medium: increased heartbeat effects, more prominent tension
+  - High: sharp audio stingers, urgent musical cues
+  - Critical: intense alarm-like sounds, maximum tension
+- Use 3D audio positioning for individual NPC suspicion
+- Layer multiple suspicion sources for cumulative effect
+- Integrate with AudioZone system for district-wide ambience
+
+### Task 31: Implement investigation phase sound effects
+**User Story:** As a player, I want audio feedback during investigation events, so that formal investigations feel distinct and threatening.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Audio cues for investigation start/end events
+  2. Ambient sound changes during active investigations
+  3. Investigator footsteps and movement sounds
+  4. Evidence discovery sound effects
+  5. Different audio for investigation conclusions (guilty/innocent/inconclusive)
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 282-516 (Investigation System)
+- **Investigation Audio Events:**
+  - investigation_started: ominous musical sting
+  - questioning phase: muffled interrogation sounds
+  - evidence_gathering: rustling papers, typing sounds
+  - investigation_concluded: resolution chord (major/minor based on outcome)
+- Use DiegeticAudioController for realistic spatial audio
+- Investigator NPCs have enhanced footstep audio
+- Evidence discovery plays satisfying "clue found" audio
+
+### Task 32: Add district alert level ambient sounds
+**User Story:** As a player, I want each district's ambient audio to reflect the current security alert level, so that I can hear the station's tension level.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Alert levels 0-5 each have distinct ambient audio profiles
+  2. District ambience changes smoothly with alert level transitions
+  3. PA system announcements reflect current alert status
+  4. Security equipment sounds increase with higher alert levels
+  5. Civilian chatter becomes more nervous at higher alerts
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 645-692 (Security Alert Effects)
+- **Alert Level Audio:**
+  - Level 0 (Green): normal background ambience
+  - Level 1 (Blue): subtle tension in background music
+  - Level 2 (Yellow): increased security chatter, more frequent announcements
+  - Level 3 (Orange): alarm tones, urgent PA announcements
+  - Level 4 (Red): klaxons, evacuation sounds
+  - Level 5 (Black): emergency sirens, lockdown audio
+- Use DistrictAudioConfig to apply alert-specific audio mixes
+- PA announcements become more frequent and urgent
+- Security radio chatter increases with alert level
+
+### Task 33: Create suspicion network propagation audio feedback
+**User Story:** As a player, I want audio cues when suspicion spreads through NPC networks, so that I can hear gossip and information traveling between characters.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Audio cues for suspicion network formation and propagation
+  2. Whisper sounds when NPCs share suspicion information
+  3. Audio indicates direction and intensity of information flow
+  4. Network propagation creates subtle environmental tension
+  5. Group suspicion events have coordinated audio responses
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 152-198 (Network Propagation)
+- **Network Audio Events:**
+  - suspicion_network_formed: subtle connection sound
+  - information spreading: layered whisper effects between NPCs
+  - network propagation: audio "ping" traveling through social connections
+  - group coordination: synchronized audio cues from multiple NPCs
+- Use 3D audio to indicate direction of information flow
+- Whisper audio positioned between communicating NPCs
+- Network events create brief environmental tension spikes
+
 ## Notes
 - This iteration completes the audio system designed in the technical implementation document
 - Builds directly on the MVP foundation from Iteration 3
 - Focuses on purely diegetic audio - no UI sounds or non-world audio
 - Performance optimization is critical with many simultaneous sources
 - The system should enhance the atmosphere of corporate banality and creeping dread
+- Suspicion audio integration creates an adaptive soundscape that responds to player actions

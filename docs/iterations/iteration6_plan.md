@@ -1221,11 +1221,157 @@ As a player, I want to create a character that represents me in the game world a
 - Verb UI is critical for game's identity as SCUMM-style adventure
 - Main menu sets first impression - polish is important
 
+### Suspicion-Based Dialog System Extension
+- [ ] Task 47: Implement suspicion-based dialog modifications
+- [ ] Task 48: Create group suspicion behavior responses
+- [ ] Task 49: Add tier-based NPC behavioral changes for suspicion
+- [ ] Task 50: Implement suspicion dialog tone modifiers
+- [ ] Task 51: Create panic/flee dialog variations for critical suspicion
+
+### Task 47: Implement suspicion-based dialog modifications
+**User Story:** As a player, I want NPCs to speak differently based on their suspicion of me, so that social interactions become more tense and realistic as suspicion rises.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Dialog tone changes based on suspicion tier (none, low, medium, high, critical)
+  2. Dialog options restricted at higher suspicion levels
+  3. NPCs use appropriate greetings for suspicion level
+  4. Conversation content filtered by trust relationship
+  5. Integration with existing dialog system architecture
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 871-911 (modify_dialog_for_suspicion)
+- **Suspicion Tiers:** none (normal), low (guarded), medium (actively suspicious), high (panicked), critical (no dialog)
+- **Dialog Modifications:**
+  - Low: "Oh... hello.", "Can I help you?", tone = "guarded"
+  - Medium: "Stay back!", "I don't want trouble.", refuse_interaction = true
+  - High: "Get away from me!", "SECURITY! HELP!", force_end_dialog = true
+  - Critical: no_dialog = true, immediate_action = "flee_or_attack"
+- Integrate with dialog_manager.gd refactoring
+- Store suspicion-modified dialog in parallel trees
+
+### Task 48: Create group suspicion behavior responses
+**User Story:** As an NPC in a group, I want to coordinate with other suspicious NPCs when facing a threat, so that groups respond realistically to dangerous situations.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Groups of 3+ suspicious NPCs coordinate responses
+  2. Different group compositions trigger different strategies
+  3. Security-heavy groups attempt capture
+  4. Assimilated-heavy groups set traps
+  5. Civilian-heavy groups flee and spread panic
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 913-967 (coordinate_group_response)
+- **Group Response Types:**
+  - Security groups (50%+ security): coordinate_capture_attempt with perimeter formation
+  - Assimilated groups (50%+ assimilated): coordinate_assimilated_trap with deception
+  - Civilian groups: coordinate_civilian_panic with area evacuation
+- Minimum 3 NPCs required for group behavior
+- Calculate surrounding positions for capture attempts
+- Leaders maintain cover in assimilated traps
+- Dialog reflects group coordination plans
+
+### Task 49: Add tier-based NPC behavioral changes for suspicion
+**User Story:** As an NPC, I want my behavior to change gradually as my suspicion of the player increases, so that escalation feels natural and gives the player clear feedback.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Movement speed increases with suspicion (1.0x to 1.6x)
+  2. Interaction willingness decreases (1.0 to 0.0)
+  3. Special actions triggered by suspicion tier
+  4. Visual indicators for behavioral changes
+  5. Smooth transitions between behavior tiers
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 834-869 (get_tier_behaviors)
+- **Behavior Modifiers by Tier:**
+  - None: movement_speed 1.0, interaction_willingness 1.0, no special actions
+  - Low: movement_speed 1.1, interaction_willingness 0.8, actions: ["glance_at_player", "whisper_to_others"]
+  - Medium: movement_speed 1.2, interaction_willingness 0.5, actions: ["avoid_player", "report_to_security"]
+  - High: movement_speed 1.4, interaction_willingness 0.2, actions: ["flee_from_player", "call_security"]
+  - Critical: movement_speed 1.6, interaction_willingness 0.0, actions: ["panic", "lockdown_area"]
+- Apply modifiers in NPC _process() and interaction methods
+- Visual cues: nervous animations, looking over shoulder, backing away
+
+### Task 50: Implement suspicion dialog tone modifiers
+**User Story:** As a player, I want to hear the suspicion in NPCs' voices through word choice and sentence structure, so that rising tension is communicated clearly.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Dialog modifier affects word choice and phrasing
+  2. Tone ranges from friendly to hostile to panicked
+  3. Sentence structure becomes shorter/more clipped at high suspicion
+  4. Question deflection increases with suspicion
+  5. Integration with personality-based speech patterns
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md (dialog modifications)
+- **Tone Modifiers:**
+  - Friendly (low suspicion): verbose, helpful, asks follow-up questions
+  - Guarded (medium): shorter responses, evasive answers
+  - Hostile (high): clipped speech, demands, threats
+  - Panicked (critical): fragmented speech, repetition, fear
+- Modify base dialog through tone filters before display
+- Combine with personality traits for unique voices
+
+### Task 51: Create panic/flee dialog variations for critical suspicion
+**User Story:** As an NPC at maximum suspicion, I want to express genuine fear and panic in my final interactions, so that the escalation feels dramatic and consequential.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Critical suspicion triggers panic dialog variations
+  2. Dialog includes calls for help and security
+  3. NPCs express knowledge of player's true nature
+  4. Different panic responses based on NPC role/personality
+  5. Dialog can trigger immediate flee or attack behaviors
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md (critical suspicion responses)
+- **Panic Dialog Examples:**
+  - Security: "I KNOW WHAT YOU ARE! CODE RED!"
+  - Civilian: "SOMEONE HELP ME! THEY'RE ONE OF THEM!"
+  - Medical: "Stay back! I won't let you assimilate me!"
+- Trigger immediate state changes: FLEEING, CALLING_SECURITY, LOCKDOWN
+- Some NPCs may attempt to bargain or negotiate
+- Dialog duration shortened to 1-2 exchanges before action
+
 ### Design Documents Implemented
 - docs/design/character_gender_selection_system.md
 - docs/design/dialog_system_refactoring_plan.md
 - docs/design/verb_ui_system_refactoring_plan.md
 - docs/design/main_menu_start_game_ui_design.md
+- docs/design/suspicion_system_full_design.md (behavioral response system)
 
 ### Template References
 - Dialog implementation should follow patterns in docs/design/template_dialog_design.md

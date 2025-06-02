@@ -863,8 +863,112 @@ As a developer, I need a robust serialization system that allows all game system
 - Include in automated test suite
 - Log recommendations for optimization
 
+### Suspicion System Serialization Extension
+- [ ] Task 32: Create SuspicionSerializerFull implementation
+- [ ] Task 33: Implement suspicion network compression
+- [ ] Task 34: Add migration support from MVP to full suspicion system
+
+### Task 32: Create SuspicionSerializerFull implementation
+**User Story:** As a developer, I want a comprehensive serializer for the full suspicion system that preserves all network effects and investigation states, so that the complex suspicion dynamics persist correctly across game sessions.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T2, T3
+- **Acceptance Criteria:**
+  1. Serializes all MVP suspicion data for backward compatibility
+  2. Saves district suspicion levels and modifiers
+  3. Preserves suspicion network structures with compression
+  4. Stores active investigation states and history
+  5. Maintains security alert levels and flagged individuals
+  6. Supports version migration from MVP to full system
+  7. Efficient compression for network data and investigation history
+  8. Validates data integrity on load
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 969-1056 (Advanced Serialization)
+- Extends existing suspicion_serializer.gd with full system features
+- Priority 15 (high importance for gameplay state preservation)
+- **Network Compression:** Store only active networks with connections
+- **Investigation Compression:** Limit to active investigations and last 20 player actions
+- **Version Support:** Migrate from version 1 (MVP) to version 2 (full)
+- **Data Structure:**
+  ```gdscript
+  {
+    "global_level": float,
+    "npc_suspicion": Dictionary,
+    "district_suspicion": Dictionary,
+    "district_modifiers": Dictionary,
+    "security_alert": int,
+    "suspicion_networks": Dictionary, // compressed
+    "active_investigations": Dictionary, // compressed
+    "flagged_individuals": Dictionary,
+    "investigation_history": Array // last 20 events
+  }
+  ```
+
+### Task 33: Implement suspicion network compression
+**User Story:** As a developer, I want efficient compression of suspicion network data, so that save files remain manageable while preserving complex social relationships.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Compresses network structures to essential connections only
+  2. Rebuilds networks on load with minimal data loss
+  3. Maintains network integrity and social distance calculations
+  4. Reduces save file size impact by 70%+ vs full network storage
+  5. Supports incremental network updates for performance
+  6. Validates network consistency on save/load
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1035-1041 (_compress_networks)
+- Store only networks with active connections (size > 0)
+- Rebuild role-based and location-based connections from NPC data
+- Compress investigation data to essential fields (investigator, suspect, reason, time, evidence count)
+- Use lookup tables for common connection types
+- Network validation during load to catch corruption
+
+### Task 34: Add migration support from MVP to full suspicion system
+**User Story:** As a player, I want my existing save files to continue working when the full suspicion system is implemented, so that I don't lose progress when the game updates.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T2
+- **Acceptance Criteria:**
+  1. Detects MVP save format (version 1) vs full format (version 2)
+  2. Migrates existing suspicion data without loss
+  3. Initializes new full system features with reasonable defaults
+  4. Maintains backward compatibility for one version
+  5. Provides clear migration success/failure feedback
+  6. Handles corrupted migration gracefully
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md lines 1017-1033 (migrate method)
+- **Migration Steps:**
+  1. Preserve all existing MVP data (global_level, npc_suspicion)
+  2. Initialize district_suspicion from global level (0.8x multiplier)
+  3. Set default district_modifiers to 1.0 for all districts
+  4. Initialize empty networks and investigations
+  5. Set security_alert to 0
+- **Validation:** Ensure all required full system fields exist after migration
+- **Fallback:** Revert to MVP mode if migration fails
+- **Logging:** Track migration success rates for debugging
+
 ## Notes
 - This iteration was reorganized from the original plan to establish serialization first
 - Critical foundation for save/sleep system in Iteration 7
 - Self-registration pattern reduces coupling and maintenance
 - Consider save file encryption for future anti-cheat measures
+- Suspicion system serialization enables complex social dynamics to persist

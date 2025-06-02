@@ -271,8 +271,10 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Visual and audio cues for different notification priorities
 - Pattern detection through automatic analysis of observation history
 
-### Task 6: Expand suspicion system to full implementation
-**User Story:** As a player, I want my suspicious activities to have graduated consequences that can escalate to detection, so that risk management becomes a core part of gameplay strategy.
+### Task 6: Expand suspicion system to full implementation with Enhanced Suspicion Manager
+**User Story:** As a player, I want my suspicious activities to have graduated consequences that can escalate to detection through a comprehensive system that tracks district-wide suspicion, network effects, and behavioral responses, so that risk management becomes a core part of gameplay strategy with station-wide implications.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -280,19 +282,40 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 **Requirements:**
 - **Linked to:** B2, U2, T2
 - **Acceptance Criteria:**
-  1. Multi-stage suspicion system with clear thresholds
-  2. Different suspicious activities have appropriate severity
-  3. Suspicion decays over time with good behavior
-  4. Environmental factors affect suspicion generation
-  5. NPCs have individual suspicion tracking
+  1. Multi-stage suspicion system with clear thresholds (none, low, medium, high, critical)
+  2. Different suspicious activities have appropriate severity levels
+  3. Suspicion decays over time with good behavior (0.05/second individual, hourly district)
+  4. Environmental factors affect suspicion generation (time of day, location, security presence)
+  5. NPCs have individual suspicion tracking with personality and role modifiers
   6. Integration with observation system risk calculations
+  7. **Enhanced Features:** District-based suspicion tracking and propagation
+  8. **Network Effects:** Suspicion spreads through NPC social networks with degradation
+  9. **Personality Modifiers:** Paranoid (0.5x gain, 1.5x loss), Trusting (1.3x gain, 0.7x loss)
+  10. **Security Integration:** Alert levels affect base suspicion rates station-wide
 
 **Implementation Notes:**
-- Reference: docs/design/suspicion_system_full_design.md
-- Suspicious activities include prolonged observation, restricted area access
-- Suspicion affects NPC behavior and dialog options
-- Clear visual indicators for current suspicion level
-- Integration with mutual observation system
+- Reference: docs/design/suspicion_system_full_design.md lines 36-280 (Enhanced Suspicion Manager)
+- Implement suspicion_manager_full.gd extending the MVP suspicion_manager.gd
+- **District Suspicion:** Track and modify suspicion per district with spread mechanics:
+  ```gdscript
+  var district_suspicion: Dictionary = {} # {district_id: suspicion_level}
+  var district_modifiers: Dictionary = {} # {district_id: modifier}
+  ```
+- **Network Propagation:** Build social networks and spread suspicion with decay:
+  ```gdscript
+  var suspicion_networks: Dictionary = {} # {npc_id: [connected_npcs]}
+  var information_spread_rate: float = 0.3
+  var network_decay_rate: float = 0.8
+  ```
+- **Personality/Role Modifiers:** Apply from configuration dictionaries:
+  - Personality types: paranoid, trusting, analytical, emotional
+  - Roles: security_chief (1.4x), detective (1.5x), maintenance (0.6x)
+- **Time of Day Modifiers:** Night (1.2x), Morning (0.9x), Afternoon (1.0x), Evening (1.1x)
+- **Security Alert Integration:** Each alert level adds 0.2x modifier to all suspicion
+- Suspicious activities include prolonged observation, restricted area access, carrying contraband
+- Suspicion affects NPC behavior, dialog options, and triggers investigations at 0.6+
+- Clear visual indicators for current suspicion level with district heat map
+- Integration with mutual observation system and investigation triggers
 
 ### Task 7: Create detection state machine
 **User Story:** As a guard NPC, I need to detect and respond to suspicious player behavior, so that restricted areas remain secure and the player faces consequences for reckless actions.
