@@ -157,9 +157,12 @@ As a player, I want to interact with NPCs who feel like real people with their o
   6. Tracks faction standings affecting member trust
   7. Logs interaction history for reference
   8. Provides API for trust queries and modifications
+  9. **Hover Text Integration:** Provides trust-based NPC hover descriptions
+  10. **Relationship Awareness:** Connects relationship state to dynamic hover text
 
 **Implementation Notes:**
 - Reference: docs/design/npc_trust_relationship_system_design.md (RelationshipManager)
+- Reference: docs/design/scumm_hover_text_system_design.md (NPC State Display section)
 - Core structure:
   ```gdscript
   var relationships: Dictionary = {}  # npc_id: RelationshipData
@@ -170,6 +173,14 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Signals: trust_changed, relationship_milestone, trust_decayed, reputation_changed
 - Auto-initialize relationships on first access
 - Apply personality and gender modifiers to all trust changes
+- **Hover Integration:** Implement relationship-aware hover text provider:
+  ```gdscript
+  # In RelationshipManager
+  func get_npc_relationship_hover_text(npc_id: String) -> String
+  func get_trust_level_descriptor(npc_id: String) -> String
+  func should_show_relationship_hint(npc_id: String) -> bool
+  ```
+- **Trust Display:** Connect trust levels to hover descriptions ("wary", "friendly", "suspicious", "trusted")
 
 ### Task 2: Implement trust level mechanics
 **User Story:** As a player, I want my actions to build or destroy trust with NPCs across multiple dimensions (personal, professional, emotional, ideological, fear), so that relationships feel nuanced and my choices have complex social consequences throughout the game.
@@ -223,13 +234,23 @@ As a player, I want to interact with NPCs who feel like real people with their o
   4. Memories can be shared between NPCs (gossip system)
   5. Memory saves with game state including all relationship data
   6. **Phase 4:** Full NPCMemory with relationship tracking
+  7. **Hover Text Integration:** Provides memory-based NPC activity descriptions
+  8. **Activity Context:** Shows what NPCs are currently doing and why based on their memory/schedule
   7. **Phase 4:** Integration with trust milestone events
   8. Track favors done/owed for reciprocity mechanics
   9. Remember specific trust-building actions
 
 **Implementation Notes:**
 - Reference: docs/design/npc_trust_relationship_system_design.md (Memory System)
+- Reference: docs/design/scumm_hover_text_system_design.md (NPC State Display section)
 - Memory types: Interactions, Promises, Betrayals, Shared_Events, Trust_Milestones
+- **Hover Integration:** Implement activity-aware hover text based on NPC memory and schedule:
+  ```gdscript
+  # In NPCMemory
+  func get_current_activity_description() -> String
+  func get_activity_context_for_hover() -> String
+  func should_show_activity_details() -> bool
+  ```
 - Relationship event structure:
   ```gdscript
   var remembered_events: Array = [
@@ -324,12 +345,24 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Behavioral consistency requirements
   4. Biometric scans for high security
   5. Backup plans when caught
+  6. **Hover Text Integration:** Provides disguise-aware hover descriptions
+  7. **Role Awareness:** Shows role-specific object and NPC descriptions based on current disguise
 
 **Implementation Notes:**
 - Reference: docs/design/disguise_clothing_system_design.md
+- Reference: docs/design/scumm_hover_text_system_design.md (Disguise System Integration section)
 - Verification types: Visual, Verbal, Documentation, Biometric
 - Quick-time events for tense moments
 - Consider allowing bluff/persuasion options
+- **Hover Integration:** Implement disguise-aware hover text system:
+  ```gdscript
+  # In DisguiseManager
+  func get_disguise_aware_hover_text(obj: Node) -> String
+  func get_role_specific_description(obj: Node, role: String) -> String
+  func is_object_accessible_to_role(obj: Node, role: String) -> bool
+  ```
+- **Role-Based Descriptions:** Objects show different names/descriptions based on player's current role
+- **Access Indicators:** Hover text shows "off-limits", "authorized access", "fellow staff member" based on disguise
 
 ### Task 26: Implement ring-based district layout with distance calculation
 **User Story:** As a player, I want travel costs to reflect actual distances, so that strategic planning of my routes saves both time and money.

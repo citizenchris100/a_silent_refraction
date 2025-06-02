@@ -129,6 +129,9 @@ As a player, I need to manage my limited credits while finding safe places to sl
 ### Notification System Integration
 - [ ] Task 52: Implement prompt notification serialization
 
+### Hover Text System Serialization
+- [ ] Task 53: Implement hover text serialization system
+
 ## User Stories
 
 ### Task 1: Create EconomyManager singleton

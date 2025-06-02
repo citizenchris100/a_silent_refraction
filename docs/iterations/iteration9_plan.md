@@ -109,8 +109,10 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 
 ## User Stories
 
-### Task 1: Create ObservationManager singleton with full observation types
-**User Story:** As a developer, I want a centralized observation management system that supports all observation types, so that environmental scanning, NPC watching, camera surveillance, eavesdropping, and pattern analysis are coordinated through a single interface.
+### Task 1: Create ObservationManager singleton with full observation types and progressive information revelation
+**User Story:** As a developer, I want a centralized observation management system that supports all observation types and implements progressive information revelation through hover text, so that environmental scanning, NPC watching, camera surveillance, eavesdropping, and pattern analysis are coordinated through a single interface that enriches the player's understanding over time.
+
+**Design Reference:** `docs/design/observation_system_full_design.md`, `docs/design/scumm_hover_text_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -123,13 +125,57 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   3. Observation history tracking and data management
   4. Integration with mutual observation system for NPCs watching player
   5. Signal-based communication with other managers
+  6. **Progressive Information Revelation:** Implements full InformationRevealer system for dynamic hover text
+  7. **State-Aware Descriptions:** Connects observed details to hover text system for enriched descriptions
+  8. **Discovery Tracking:** Maintains revealed_info dictionary for each observed object
+  9. **Context-Based Revelation:** Information revealed based on player actions and investigation progress
 
 **Implementation Notes:**
 - Reference: docs/design/observation_system_full_design.md (ObservationManager design lines 27-259)
-- Implement as autoload singleton
-- Support observation instances with different durations and complexities
-- Include observation skills tracking and environmental factors
-- Handle risk calculation for being observed while observing
+- Reference: docs/design/scumm_hover_text_system_design.md (Progressive Information Revelation lines 301-326)
+- Implement as autoload singleton with integrated InformationRevealer:
+  ```gdscript
+  class InformationRevealer:
+      var revealed_info = {}  # object_id -> revealed_facts
+      
+      func get_progressive_description(obj: InteractiveObject) -> String:
+          var base = obj.display_name
+          var facts = revealed_info.get(obj.id, [])
+          
+          if "examined" in facts:
+              base = obj.examined_name
+          if "used_correct_item" in facts:
+              base += " (unlocked)"
+          if "overheard_conversation" in facts:
+              base += " (important)"
+          
+          # Puzzle integration
+          if PuzzleManager.has_clue_about(obj.id):
+              var clue = PuzzleManager.get_clue(obj.id)
+              base += " (" + clue.hint + ")"
+          
+          return base
+  ```
+- **Observation Integration:** Track what information has been revealed through observation:
+  ```gdscript
+  func observe_object(obj_id: String, observation_type: ObservationType):
+      # Reveal information based on observation type and skill
+      if observation_type == ObservationType.DETAILED:
+          information_revealer.add_revealed_fact(obj_id, "examined")
+      elif observation_type == ObservationType.PATTERN_ANALYSIS:
+          information_revealer.add_revealed_fact(obj_id, "pattern_detected")
+  ```
+- **Hover Text Provider Interface:** Implement methods for hover text system integration:
+  ```gdscript
+  func get_observation_hover_info(object_id: String) -> Dictionary:
+      return {
+          "description": information_revealer.get_progressive_description(object_id),
+          "revealed_facts": revealed_info.get(object_id, []),
+          "observation_level": get_observation_level(object_id)
+      }
+  ```
+- **Discovery Feedback:** Signal emission when new information is revealed for UI notification
+- **Persistence:** Serialize revealed_info with observation data for save/load continuity
 
 ### Task 2: Implement observable properties system
 **User Story:** As a player, I want to examine objects, NPCs, and environments for subtle details and environmental changes, so that I can gather clues about the assimilation threat through multiple observation types.
@@ -390,15 +436,27 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   4. Emits appropriate signals
   5. Integrates with existing systems
   6. Reports overnight heat decay to MorningReportManager
+  7. **Hover Text Integration:** Provides real-time detection risk warnings in hover text
+  8. **Action Risk Assessment:** Calculates and displays risk levels for planned actions
 
 **Implementation Notes:**
 - Reference: docs/design/suspicion_system_full_design.md (DetectionManager design)
 - Reference: docs/design/morning_report_manager_design.md lines 197-211 (detection integration)
+- Reference: docs/design/scumm_hover_text_system_design.md (Detection State Warnings section)
 - Implement as autoload singleton
 - Follow detection state machine design
 - Coordinate with NPCRegistry
 - Handle escape routes calculation
 - Call MorningReportManager.add_event() when heat reduces overnight
+- **Risk Assessment Integration:** Implement hover text risk calculation:
+  ```gdscript
+  # In DetectionManager
+  func calculate_action_risk(action: String, target: Node = null) -> float
+  func get_risk_warning_text(risk_level: float) -> String
+  func is_action_restricted(action: String, target: Node) -> bool
+  ```
+- **Warning System:** Add detection risk indicators to hover text ("[HIGH RISK]", "[risky]", "[THEFT]", "[RESTRICTED]")
+- **State Integration:** Connect current detection state to hover text for context-aware warnings
 
 ### Task 16: Implement detection triggers system
 **User Story:** As a player, I want my suspicious actions to have consequences, so that I must be careful about what I say and do.
@@ -463,26 +521,37 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Use graph structure for clue connections
 - Consider red herrings for complexity
 
-### Task 29: Implement keycard/credential mechanics
-**User Story:** As a player, I want to gain access to restricted areas through various means, so that I can investigate deeper into the station's mysteries.
+### Task 21: Create investigation journal UI with hover text integration
+**User Story:** As a player, I want an investigation journal that shows my discovered clues and their connections, with rich hover text that helps me understand the significance of each piece of evidence, so that I can track my progress and make informed investigative decisions.
+
+**Design Reference:** `docs/design/investigation_clue_tracking_system_design.md`, `docs/design/scumm_hover_text_system_design.md`
 
 **Status History:**
-- **⏳ PENDING** (05/26/25)
+- **⏳ PENDING** (06/01/25)
 
 **Requirements:**
-- **Linked to:** B2, U2
+- **Linked to:** B1, U3
 - **Acceptance Criteria:**
-  1. Different access levels (Guest, Staff, Security, Admin)
-  2. Cards can be found, stolen, or forged
-  3. Biometric locks for high security
-  4. Temporary passes with time limits
-  5. Access logs track usage
+  1. **Investigation UI:** Journal interface showing discovered clues, connections, and investigation progress
+  2. **Clue Hover Text:** Rich hover descriptions for each clue explaining context and significance
+  3. **Connection Visualization:** Visual representation of clue relationships with hover explanations
+  4. **Progress Tracking:** Visual indicators of investigation completion with helpful hover hints
+  5. **Evidence Integration:** Hover text shows how inventory items relate to investigation goals
+  6. **Quest Awareness:** Investigation UI integrates with quest system via contextual hover information
 
 **Implementation Notes:**
-- Reference: docs/design/district_access_control_system_design.md
-- Integrate with inventory system
-- Consider social engineering options
-- Access violations increase suspicion
+- Reference: docs/design/investigation_clue_tracking_system_design.md (Journal UI requirements)
+- Reference: docs/design/scumm_hover_text_system_design.md (Quest-Aware Descriptions section)
+- Implement InvestigationJournalUI with hover text integration:
+  ```gdscript
+  class_name InvestigationJournalUI extends Control
+  func get_clue_hover_text(clue_id: String) -> String
+  func get_connection_hover_text(connection_id: String) -> String
+  func get_progress_hover_text(investigation_id: String) -> String
+  ```
+- **Clue Descriptions:** Dynamic hover text based on discovery method and current investigation state
+- **Hint System:** Contextual hints via hover text for next investigation steps
+- **Evidence Integration:** Connect inventory items to investigation clues through hover descriptions
 
 ### Task 23: Create BaseInteractiveObject class
 **User Story:** As a developer, I want a robust base class for all interactive objects, so that I can quickly create consistent interactable items throughout the game world.
@@ -605,6 +674,27 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Reference: docs/design/district_access_control_system_design.md
 - Foundation for all access control features
 - Consider future expansion for special permissions
+
+### Task 29: Implement keycard/credential mechanics
+**User Story:** As a player, I want to gain access to restricted areas through various means, so that I can investigate deeper into the station's mysteries.
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Different access levels (Guest, Staff, Security, Admin)
+  2. Cards can be found, stolen, or forged
+  3. Biometric locks for high security
+  4. Temporary passes with time limits
+  5. Access logs track usage
+
+**Implementation Notes:**
+- Reference: docs/design/district_access_control_system_design.md
+- Integrate with inventory system
+- Consider social engineering options
+- Access violations increase suspicion
 
 ### Task 30: Add restricted area warnings
 **User Story:** As a player, I want clear visual and audio warnings when approaching restricted areas, so that I don't accidentally trespass and raise suspicion.

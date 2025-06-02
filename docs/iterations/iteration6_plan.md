@@ -266,6 +266,47 @@ As a player, I want to create a character that represents me in the game world a
 - Color scheme matches game aesthetic
 - Consider tooltip descriptions for verbs
 
+### Task 12: Implement comprehensive verb hover text and highlighting system with inventory integration
+**User Story:** As a player, I want rich hover feedback on verbs that shows me exactly what action I'm about to perform, including inventory item interactions and combination hints, so that I can make informed interaction choices and understand the classic adventure game interface.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`, `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. **Verb Highlighting:** Verbs highlight visually when hovered (color, glow, or outline effect)
+  2. **Verb-Object Integration:** Selected verb + hovered object shows "Verb Object" format in hover text
+  3. **Context Hints:** Hover text shows appropriate prepositions ("Look at", "Talk to", "Use", etc.)
+  4. **State Feedback:** Unavailable verb combinations show helpful feedback ("Can't talk to that")
+  5. **Tooltip Descriptions:** Optional tooltips explain what each verb does for new players
+  6. **Visual Polish:** Smooth hover transitions and consistent styling with game aesthetic
+  7. **Enhanced Inventory Integration:** Verb system shows inventory item interaction descriptions
+  8. **Item Combination Preview:** Hover text shows potential item combinations with verb context
+  9. **Contextual Item Interaction:** "Use item with object" shows helpful guidance in hover text
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md (Verb Integration, Inventory Integration sections)
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (hover behavior)
+- Reference: docs/design/inventory_system_design.md (item combination hints)
+- Integrate with main hover text system from Iteration 8
+- Connect to verb selection state management
+- Implement VerbHoverHandler class for verb-specific hover behavior:
+  ```gdscript
+  class_name VerbHoverHandler extends Node
+  func get_verb_hover_text(verb: String, target: Node = null) -> String
+  func get_verb_preposition(verb: String) -> String
+  func is_verb_available_for_target(verb: String, target: Node) -> bool
+  func get_inventory_item_verb_text(verb: String, item_id: String, target: Node = null) -> String
+  func get_item_combination_hint(verb: String, item1: String, item2: String) -> String
+  ```
+- **Enhanced Item Integration:** Connect verb system to inventory hover descriptions
+- **Combination Guidance:** Show "Try combining with..." hints for Use verb on inventory items
+- **Visual Effects:** Use shader effects for smooth hover highlighting
+- **Performance:** Cache verb-object combination validity checks
+
 ### Task 16: Create title screen with minimalist UI layout
 **User Story:** As a player, I want a clean and atmospheric title screen that immediately sets the tone, so that I'm immersed in the game world from the very first moment.
 

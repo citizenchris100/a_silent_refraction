@@ -1054,6 +1054,59 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Meal times: 12:00-13:00, 18:00-19:00
 - Birthday tracking in NPC data
 
+### Task 37: Implement hover text debug mode for development
+**User Story:** As a developer, I want a debug overlay that shows detailed hover text information including object IDs, state data, and interaction flags, so that I can debug hover text issues and verify object states during development.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. **Debug Toggle:** F12 key toggles debug hover mode in debug builds
+  2. **Object Information:** Show instance ID, class name, and groups
+  3. **State Display:** Current state machine state and available transitions
+  4. **Interaction Flags:** Display all interaction flags and verb availability
+  5. **NPC Data:** For NPCs, show state, assimilation status, and suspicion level
+  6. **Performance Metrics:** Show hover text update frequency and cache hits
+  7. **Visual Overlay:** Debug info appears alongside normal hover text
+  8. **Production Safety:** Debug mode completely disabled in release builds
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md lines 481-504 (Debug Features)
+- Implement HoverDebugMode static class:
+  ```gdscript
+  class HoverDebugMode:
+      static func show_debug_info(obj: Node) -> String:
+          if not OS.is_debug_build():
+              return ""
+          
+          var debug_info = []
+          
+          # Object ID
+          debug_info.append("ID: " + str(obj.get_instance_id()))
+          
+          # Interaction flags
+          if obj.has_method("get_interaction_flags"):
+              debug_info.append("Flags: " + str(obj.get_interaction_flags()))
+          
+          # State info
+          if obj is BaseNPC:
+              debug_info.append("State: " + obj.current_state)
+              debug_info.append("Assim: " + str(AssimilationManager.is_assimilated(obj.id)))
+          
+          return " [" + ", ".join(debug_info) + "]"
+  ```
+- **Toggle System:** Use InputMap for F12 debug toggle, save preference
+- **Visual Design:** Debug text in different color (yellow/cyan) with monospace font
+- **Performance Tracking:** Show cache hit rate and update frequency
+- **NPC Debug Info:** Include personality values, trust levels, current activity
+- **Object Debug Info:** Show all state variables, ownership, quest relevance
+- **Integration:** Hook into existing HoverTextManager display pipeline
+- **Safety:** Wrap all debug code in OS.is_debug_build() checks
+
 ## Testing Criteria
 - All districts accessible and explorable
 - Core NPCs have functional interactions

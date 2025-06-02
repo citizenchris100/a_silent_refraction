@@ -1142,10 +1142,10 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Some visible, some hidden
 - Affect spread rate
 
-### Task 6: Create CoalitionManager
-**User Story:** As a developer, I want a central system to manage the resistance coalition with morning report integration, so that recruitment, resources, and operations are coordinated with overnight mission results properly reported.
+### Task 6: Create CoalitionManager with hover text integration
+**User Story:** As a developer, I want a central system to manage the resistance coalition with morning report and hover text integration, so that recruitment, resources, and operations are coordinated with overnight mission results properly reported and coalition information displayed in hover text.
 
-**Design Reference:** `docs/design/coalition_resistance_system_design.md` & `docs/design/morning_report_manager_design.md`
+**Design Reference:** `docs/design/coalition_resistance_system_design.md`, `docs/design/morning_report_manager_design.md`, `docs/design/scumm_hover_text_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -1154,17 +1154,37 @@ As a player, I experience a living station where the mysterious assimilation spr
 - **Linked to:** B2, T2
 - **Acceptance Criteria:**
   1. Singleton pattern implemented
-  2. Track coalition members
+  2. Track coalition members with roles and trust levels
   3. Manage shared resources
   4. Calculate coalition strength
   5. Handle coalition events
   6. Report overnight mission results to MorningReportManager
+  7. **Hover Text Integration:** Provide coalition awareness information for NPC hover text
+  8. **Member Role Display:** Show coalition roles in hover descriptions
+  9. **Recruitment Potential:** Indicate recruitability in hover text for non-members
 
 **Implementation Notes:**
 - Reference: docs/design/coalition_resistance_system_design.md
 - Reference: docs/design/morning_report_manager_design.md lines 109-133 (coalition integration)
-- Central coalition authority
-- Integrate with other systems
+- Reference: docs/design/scumm_hover_text_system_design.md lines 528-540 (Coalition Network Awareness)
+- Central coalition authority with hover text provider interface:
+  ```gdscript
+  # Coalition hover text integration
+  func add_coalition_info(base_text: String, npc: BaseNPC) -> String:
+      if not is_member(npc.id):
+          # Show recruitment potential
+          if can_recruit(npc.id):
+              return "potential ally " + base_text
+      else:
+          # Show role in coalition
+          var role = get_member_role(npc.id)
+          return base_text + " (" + role + ")"
+      
+      return base_text
+  ```
+- **Member Information:** Track and expose member roles (intelligence, operations, support, etc.)
+- **Recruitment Analysis:** Provide can_recruit() method checking trust, alignment, and suspicion
+- **Hover Text Provider:** Implement interface for HoverTextManager to query coalition status
 - Signal major coalition events
 - Call MorningReportManager.report_coalition_activities() after overnight operations
 

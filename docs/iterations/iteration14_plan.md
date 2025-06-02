@@ -773,6 +773,11 @@ As a player, I want to experience a visually cohesive world where characters sca
 ### Asset Import Optimization
 - [ ] Task 43: Implement comprehensive asset import optimization
 
+### Hover Text Visual Polish
+- [ ] Task 44: Implement SCUMM hover text visual styling and animation system
+- [ ] Task 45: Create compound object hover descriptions with visual indicators
+- [ ] Task 46: Add hover text transition animations and polish effects
+
 ### Task 31: Create inventory grid animations
 **User Story:** As a player, I want smooth animations when items move in my inventory, so that inventory management feels polished and responsive.
 
@@ -901,6 +906,75 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Smooth return animation on cancel
 - Multi-item shows stack count badge
 - Keyboard mode: Space to "grab", arrows to move, Enter to drop
+
+### Task 44: Implement SCUMM hover text visual styling and animation system
+**User Story:** As a player, I want beautifully styled hover text with smooth animations and classic SCUMM aesthetics, so that the interface feels polished and authentic to the adventure game genre.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, B3, U1
+- **Acceptance Criteria:**
+  1. **Visual Styling:** Consistent SCUMM-style font, colors, and outline effects for readability
+  2. **Animation System:** Smooth fade-in/out transitions for hover text appearance
+  3. **Color Theming:** Dynamic color coding based on object types and interaction states
+  4. **Performance:** Optimized rendering for real-time hover text updates
+  5. **Accessibility:** High contrast mode and scalable font options
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md (Visual Design, Text Styling sections)
+- Implement HoverTextStyleManager for consistent theming across all hover text
+- Use shader effects for outline and glow effects
+- Optimize text rendering for frequent updates
+
+### Task 45: Create compound object hover descriptions with visual indicators
+**User Story:** As a player, I want rich hover descriptions that show relationships between objects and potential interactions, so that I can understand complex object combinations and environmental storytelling.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. **Compound Descriptions:** Show relationships between multiple objects in hover text
+  2. **Visual Indicators:** Icons or symbols indicating combinable items or special interactions
+  3. **Context Awareness:** Descriptions adapt based on player knowledge and game state
+  4. **Preview System:** Show potential outcomes of object combinations
+  5. **Discovery Feedback:** Visual cues for newly discovered object relationships
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md (Compound Object Descriptions section)
+- Implement CompoundHoverDescriptor for multi-object relationships
+- Add visual icons for interaction types (combinable, evidence, quest-relevant)
+- Connect to puzzle and combination systems for preview functionality
+
+### Task 46: Add hover text transition animations and polish effects
+**User Story:** As a player, I want polished hover text with smooth transitions and delightful micro-animations, so that exploring and interacting with the world feels satisfying and responsive.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U1, U3
+- **Acceptance Criteria:**
+  1. **Transition Animations:** Smooth text transitions when hovering between objects
+  2. **Content Updates:** Animated text changes for dynamic descriptions
+  3. **Polish Effects:** Subtle visual feedback for important discoveries or warnings
+  4. **Performance:** Animations maintain 60 FPS without stuttering
+  5. **Customization:** Animation speed and intensity can be adjusted in settings
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md (Dynamic Description Updates section)
+- Implement HoverTextAnimator for smooth text transitions
+- Use tweening system for smooth content updates
+- Add particle effects for special discovery moments
 
 ## Testing Criteria
 - Perspective scaling works in all districts
@@ -1131,6 +1205,51 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Implement batch processing for existing assets
 - Add validation scripts to ensure compliance
 - Create asset pipeline documentation
+
+### Task 47: Implement inventory item hover text with context-sensitive descriptions
+**User Story:** As a player, I want rich hover text when examining inventory items that shows context-sensitive information based on how I might use them, so that I can make informed decisions about item usage and combinations.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`, `docs/design/inventory_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. **Item Hover Text:** Rich descriptions for inventory items showing name, state, and hints
+  2. **Context Sensitivity:** Different hover text when item selected vs examining
+  3. **Combination Hints:** Show potential uses when hovering item over targets
+  4. **Item-on-Target Preview:** Display what will happen before using items
+  5. **State-Based Descriptions:** Quest items show progress, damaged items show condition
+  6. **Gift Appropriateness:** Show NPC reactions when hovering gift items
+  7. **Evidence Integration:** Investigation items show clue connections
+  8. **Performance:** Efficient caching for frequently viewed items
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md lines 127-150 (Inventory Integration)
+- Reference: docs/design/inventory_system_design.md (item properties and states)
+- Implement inventory hover handler:
+  ```gdscript
+  func get_inventory_hover_text(item: ItemData, target: Node = null) -> String:
+      if not target:
+          # Hovering over item in inventory
+          return item.display_name + format_item_count(item)
+      
+      # Using item on something
+      if target is BaseNPC:
+          return format_item_npc_interaction(item, target)
+      elif target is InteractiveObject:
+          return format_item_object_interaction(item, target)
+      else:
+          return "Use " + item.display_name
+  ```
+- **Context-Aware Formatting:** Different text for examine vs use contexts
+- **NPC Reactions:** "Give medical supplies to grateful doctor" vs "Give keycard to suspicious guard"
+- **Combination Preview:** "Use keycard on security door" with success likelihood
+- **Quest Integration:** Show quest relevance in hover text
+- **Evidence Connections:** Link to investigation system for clue items
+- **Performance Optimization:** Cache static descriptions, update only dynamic elements
 
 ## Notes
 - Visual polish makes huge difference in perception

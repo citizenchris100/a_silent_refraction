@@ -460,6 +460,71 @@ Create a visual interface for inspecting save state during development and debug
 - **Risk:** Visual style inconsistency
   - **Mitigation:** Clear art direction guidelines
 
+### Task 15: Implement comprehensive object state hover text system
+**User Story:** As a player, I want hover text to dynamically reflect the current state of all interactive objects (doors, containers, terminals, evidence), so that I can understand the world state at a glance and make informed interaction decisions.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`, `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. **Door States:** Show "locked door", "open door", "jammed door" based on state
+  2. **Container States:** Display "empty container", "locked chest", "searched drawer"
+  3. **Terminal States:** Show "active terminal", "powered-down terminal", "corrupted database"
+  4. **Evidence States:** Indicate "analyzed evidence", "unexamined clue", "contaminated sample"
+  5. **Ownership Display:** Show "belongs to [NPC]" when ownership is known
+  6. **Quest Integration:** Highlight quest-relevant states in hover text
+  7. **State Persistence:** Object states persist and reflect in hover text after save/load
+  8. **Performance:** Efficient state caching for frequently viewed objects
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md lines 91-125 (Object State Reflection)
+- Reference: docs/design/template_interactive_object_design.md (state machine system)
+- Implement ObjectStateHandler for hover text system:
+  ```gdscript
+  func get_object_hover_text(obj: InteractiveObject) -> String:
+      var description = obj.display_name
+      
+      # State-based descriptions
+      match obj.type:
+          "door":
+              if obj.is_locked:
+                  description = "locked " + description
+              elif obj.is_open:
+                  description = "open " + description
+                  
+          "container":
+              if obj.is_empty:
+                  description = "empty " + description
+              elif obj.requires_key:
+                  description = "locked " + description
+                  
+          "terminal":
+              if obj.is_active:
+                  description = "active " + description
+              else:
+                  description = "powered-down " + description
+                  
+          "evidence":
+              if PuzzleManager.is_evidence_analyzed(obj.id):
+                  description += " (analyzed)"
+      
+      # Ownership information
+      if obj.has_owner and NPCTrustManager.knows_owner(obj.id):
+          description += " (belongs to " + obj.owner_name + ")"
+      
+      return description
+  ```
+- **State Categories:** Support all interactive object types from template system
+- **Dynamic Updates:** Hook into object state change events for real-time hover updates
+- **Quest Awareness:** Check QuestManager for object relevance to active quests
+- **Investigation Integration:** Connect to investigation system for evidence states
+- **Ownership Tracking:** Interface with NPCTrustManager for ownership knowledge
+- **Performance Optimization:** Cache static states, update only on state changes
+
 ## Links to Relevant Code
 - src/core/visual/perspective_scaler.gd
 - src/core/visual/occlusion_manager.gd

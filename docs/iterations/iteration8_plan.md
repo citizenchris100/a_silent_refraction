@@ -281,26 +281,42 @@ As a player, I want to explore multiple unique districts populated with NPCs who
               # Even lighting distribution
   ```
 
-### Task 28: Implement SCUMM hover text system
-**User Story:** As a player, I want to see object names when I hover over them, so that I know what I can interact with in the classic adventure game style.
+### Task 28: Implement comprehensive SCUMM hover text system
+**User Story:** As a player, I want rich, context-sensitive hover text that provides dynamic information about objects, NPCs, and the environment, so that I can understand the game world and make informed decisions using the classic adventure game interface.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
 
 **Requirements:**
-- **Linked to:** B1, U2
+- **Linked to:** B1, B3, U1, U2
 - **Acceptance Criteria:**
-  1. Text appears at bottom of screen on hover
-  2. Shows object name in readable font
-  3. Updates instantly as mouse moves
-  4. Works with all interactive objects
-  5. Respects UI scaling settings
+  1. **Core System:** Text appears at bottom of screen above verb UI with classic SCUMM formatting
+  2. **Object State Reflection:** Shows dynamic object states (locked/open doors, powered terminals, empty containers)
+  3. **Environmental Context:** Displays distance warnings, exit descriptions, and travel costs for locations
+  4. **Time-Sensitive Descriptions:** Shows shop hours, NPC availability, and schedule-based information
+  5. **Verb Integration:** Properly formats "Verb Object" combinations with correct prepositions
+  6. **Color Coding:** Uses color themes for different interaction states and object types
+  7. **Performance Optimization:** Implements caching strategies and efficient mouse detection
+  8. **Visual Styling:** Consistent monospace font, outlines, and positioning system
 
 **Implementation Notes:**
-- Reference: docs/design/scumm_hover_text_system_design.md
-- Use Label with outline for readability
-- Consider color coding by object type
-- Must work with verb UI system
+- Reference: docs/design/scumm_hover_text_system_design.md (Core System, Object State Reflection, Environmental Context sections)
+- Implement HoverTextManager singleton with modular components:
+  ```gdscript
+  # Core components
+  class_name HoverTextManager extends Node
+  var object_state_handler: ObjectStateHandler
+  var environmental_handler: EnvironmentalHandler  
+  var time_sensitive_handler: TimeSensitiveHandler
+  var performance_cache: HoverTextCache
+  ```
+- **Object State Integration:** Connect to interactive object state machines for dynamic descriptions
+- **Environmental Integration:** Interface with district system for location-based descriptions
+- **Time Integration:** Connect to TimeManager and NPCScheduleManager for schedule awareness
+- **Performance:** Implement static/dynamic description caching with frame-based updates
+- **Visual System:** Use HoverTextStyle class for consistent theming and color management
 
 ### Task 38: Create quest flow from ship to engineering
 **User Story:** As a player, I want to experience a complete quest from beginning to end, so that I understand the game's objectives and mechanics.
@@ -1054,8 +1070,8 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Supports gameplay variety
 - Reference: docs/design/template_district_design.md
 
-### Task 29: Create hover text configuration
-**User Story:** As a developer, I want hover text behavior to be configurable, so that we can fine-tune the user experience.
+### Task 29: Create comprehensive hover text configuration and accessibility system
+**User Story:** As a player, I want fully configurable hover text with accessibility features, so that the interface works well for my specific needs and preferences.
 
 **Design Reference:** `docs/design/scumm_hover_text_system_design.md`
 
@@ -1063,18 +1079,31 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - **⏳ PENDING** (05/26/25)
 
 **Requirements:**
-- **Linked to:** U2
+- **Linked to:** B1, U2
 - **Acceptance Criteria:**
-  1. Font size options
-  2. Color settings
-  3. Position adjustments
-  4. Fade timing
-  5. Debug options
+  1. **Configuration System:** Font size, color themes, position adjustments, and fade timing options
+  2. **Accessibility Features:** High contrast mode, screen reader support, and larger font options
+  3. **Debug Features:** Development overlay with object IDs, state information, and performance metrics
+  4. **Dynamic Updates:** Real-time configuration changes without restart
+  5. **Serialization:** Save user preferences and restore on game load
+  6. **Performance Monitoring:** Built-in performance tracking for hover text system
 
 **Implementation Notes:**
-- Settings menu integration
-- Save preferences
-- Reference: docs/design/scumm_hover_text_system_design.md
+- Reference: docs/design/scumm_hover_text_system_design.md (Accessibility Features, Debug Features, Visual Design sections)
+- Implement HoverTextSettings resource with configuration options:
+  ```gdscript
+  # Configuration system
+  class_name HoverTextSettings extends Resource
+  export var font_size: int = 14
+  export var high_contrast_mode: bool = false
+  export var screen_reader_enabled: bool = false
+  export var debug_mode_enabled: bool = false
+  export var color_theme: String = "default"
+  ```
+- **Accessibility Integration:** Connect to GameSettings for accessibility options and screen reader API
+- **Debug System:** Implement HoverDebugMode for development information overlay
+- **Performance Tracking:** Add hover text performance monitoring and optimization suggestions
+- **Settings Integration:** Full integration with game settings menu and user preferences
 
 ### Task 30: Complete time/calendar UI display
 **User Story:** As a player, I want to see the current time and date clearly, so that I can plan my activities effectively.

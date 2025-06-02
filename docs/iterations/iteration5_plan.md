@@ -117,6 +117,9 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - [ ] Task 50: Implement notification export/import
 - [ ] Task 51: Create automated notification testing
 
+### Hover Text Time Integration
+- [ ] Task 52: Integrate hover text with time-sensitive systems
+
 ## User Stories
 
 ### Task 1: Create TimeManager singleton
@@ -983,6 +986,32 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Must handle text overflow gracefully
 - Z-order ensures always on top
 - Reference: docs/design/prompt_notification_system_design.md (UI Specifications section)
+
+### Task 52: Integrate hover text with time-sensitive systems
+**User Story:** As a player, I want hover text to show time-sensitive information like shop hours and NPC availability, so that I can make informed decisions about when and where to go without constantly checking menus.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md`, `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, B2, U1, U2
+- **Acceptance Criteria:**
+  1. Shop hours display in hover text ("closing soon", "opens at X:00")
+  2. NPC availability context ("about to leave", "sleeping", "on break")
+  3. Time-based environmental context integration
+  4. Business hours warnings for services
+  5. Integration with TimeManager and NPCScheduleManager
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md (Time-Sensitive Descriptions section)
+- Reference: docs/design/time_calendar_display_ui_design.md (contextual time information)
+- Add time context to hover text generation pipeline
+- Shop hours: show "closing soon" if < 1 hour, "opens at X" if closed
+- NPC context: check current schedule activity and time until next transition
+- Environmental context: show travel warnings, distance information
+- Integration with existing PromptNotificationSystem for time warnings
 
 ## Testing Criteria
 - Time advances correctly for all actions

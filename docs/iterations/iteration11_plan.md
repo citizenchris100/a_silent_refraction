@@ -332,13 +332,24 @@ As a player, I need structured objectives that guide my investigation while allo
   6. Time investment vs deadline alerts
   7. Quest completion notifications
   8. Failed quest consequence alerts
+  9. **Hover Text Integration:** Provides quest-aware hover descriptions for objects and NPCs
+  10. **Objective Hints:** Shows relevance of items and NPCs to active quest objectives
 
 **Implementation Notes:**
 - Reference: docs/design/quest_log_ui_design.md lines 607-710 (Quest Notification System)
 - Reference: docs/design/prompt_notification_system_design.md (notification framework)
+- Reference: docs/design/scumm_hover_text_system_design.md (Quest-Aware Descriptions section)
 - Use priority levels for different notification types
 - Allow player to configure notification preferences
 - Integrate with morning report system
+- **Hover Integration:** Implement quest-aware hover text provider:
+  ```gdscript
+  # In QuestManager
+  func get_quest_relevance_hover_text(object_id: String) -> String
+  func is_object_relevant_to_active_quests(object_id: String) -> bool
+  func get_objective_hint_for_object(object_id: String) -> String
+  ```
+- **Quest Hints:** Connect active quest objectives to hover descriptions for helpful player guidance
 
 ### Task 21: Implement role obligation mechanics in DisguiseManager
 **User Story:** As a player wearing a disguise, I want to be required to perform job duties appropriate to my role, so that infiltration requires active participation rather than just wearing the right clothes.
@@ -861,13 +872,24 @@ As a player, I need structured objectives that guide my investigation while allo
   6. Time window indicators for objectives
   7. Suspicion threshold meters
   8. Escape route availability
+  9. **Hover Text Integration:** Rich hover descriptions for quest-related items and locations
+  10. **Item Relevance Display:** Hover text shows how inventory items relate to quest objectives
 
 **Implementation Notes:**
 - Reference: docs/design/quest_log_ui_design.md lines 289-326 (Transportation/Access)
 - Reference: docs/design/quest_log_ui_design.md lines 268-286 (Disguise Requirements)
+- Reference: docs/design/scumm_hover_text_system_design.md (Quest-Aware Descriptions, Inventory Integration sections)
 - Show optimal travel routes on mini-map
 - Highlight missing requirements in red
 - Provide item location hints
+- **Hover Integration:** Implement quest-aware item hover text:
+  ```gdscript
+  # In QuestInfoDisplay
+  func get_item_quest_relevance_text(item_id: String) -> String
+  func get_location_quest_context_text(location_id: String) -> String
+  func show_acquisition_hints_in_hover(item_id: String) -> String
+  ```
+- **Item Guidance:** Connect inventory items to quest requirements through contextual hover descriptions
 
 ### Task 58: Create Quest Performance Tracking System
 **User Story:** As a player, I want to track my quest completion performance and learn from past attempts, so that I can improve my strategies and discover new approaches.
