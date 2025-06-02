@@ -455,7 +455,7 @@ As a developer, I want to implement the final advanced features and polish all s
 ### Task 14: Build environment puzzles (switches, doors) with perspective awareness
 **User Story:** As a player, I want to interact with the environment to solve physical puzzles that adapt to the current perspective, so that exploration feels rewarding and perspective changes create new puzzle opportunities.
 
-**Design Reference:** `docs/design/puzzle_system_design.md`, `docs/design/multi_perspective_character_system_plan.md`
+**Design Reference:** `docs/design/puzzle_system_design.md`, `docs/design/multi_perspective_character_system_plan.md`, `docs/design/sprite_perspective_scaling_full_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -470,6 +470,8 @@ As a developer, I want to implement the final advanced features and polish all s
   5. Environmental state persistence
   6. **Enhanced:** Some puzzles only solvable in specific perspectives
   7. **Enhanced:** Visual cues change based on camera angle
+  8. **Enhanced:** Puzzle elements scale appropriately with sprite perspective system
+  9. **Enhanced:** Interactive objects respect ScalingZoneManager boundaries
 
 **Implementation Notes:**
 - Reference: docs/design/puzzle_system_design.md
@@ -479,11 +481,13 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Enhanced:** Side-scrolling reveals vertical puzzle elements
 - **Enhanced:** Isometric shows spatial relationships
 - **Enhanced:** Top-down reveals floor patterns
+- **Enhanced:** Integrate with PerspectiveController for proper scaling
+- **Enhanced:** Ensure puzzle objects use ZoneDetector for correct depth perception
 
 ### Task 15: Create observation puzzles
 **User Story:** As a player, I want puzzles that require comprehensive observation skills across multiple mechanics, so that mastering the observation system unlocks complex investigative challenges.
 
-**Design Reference:** `docs/design/observation_system_full_design.md` lines 1046-1133, `docs/design/puzzle_system_design.md`
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 1046-1133, `docs/design/puzzle_system_design.md`, `docs/design/sprite_perspective_scaling_full_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -498,6 +502,8 @@ As a developer, I want to implement the final advanced features and polish all s
   5. **Enhanced:** Temporal observation puzzles requiring pattern tracking over time
   6. **Enhanced:** Mutual observation evasion challenges
   7. **Enhanced:** Camera surveillance puzzle sequences
+  8. **Enhanced:** Observation distance affects visibility based on sprite scale
+  9. **Enhanced:** Perspective scaling influences observation range and detail
 
 **Implementation Notes:**
 - Reference: docs/design/observation_system_full_design.md (Observation Puzzles lines 1046-1133)
@@ -508,11 +514,13 @@ As a developer, I want to implement the final advanced features and polish all s
 - Temporal puzzles track changes over multiple observation sessions
 - Stealth observation challenges where being caught observing affects puzzle state
 - Camera puzzle sequences requiring feed manipulation and evidence collection
+- **Enhanced:** Use sprite scale to determine observation clarity and range
+- **Enhanced:** Smaller sprites (distant objects) require equipment to observe clearly
 
 ### Task 16: Implement social engineering puzzles with memory optimization
 **User Story:** As a player, I want to manipulate NPCs through dialog and actions to achieve my goals, so that social interactions become meaningful puzzles while maintaining smooth performance.
 
-**Design Reference:** `docs/design/puzzle_system_design.md`, `docs/design/multi_perspective_character_system_plan.md`
+**Design Reference:** `docs/design/puzzle_system_design.md`, `docs/design/multi_perspective_character_system_plan.md`, `docs/design/sprite_perspective_scaling_full_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -527,6 +535,8 @@ As a developer, I want to implement the final advanced features and polish all s
   5. Information gathering mechanics
   6. **Enhanced:** Memory optimization for dialog-heavy puzzles
   7. **Enhanced:** LOD system for distant character perspectives
+  8. **Enhanced:** NPCs scale appropriately during conversation distance
+  9. **Enhanced:** Dialog UI adjusts to character's visual scale
 
 **Implementation Notes:**
 - Reference: docs/design/puzzle_system_design.md
@@ -536,6 +546,8 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Enhanced:** Implement LOD system for characters during social puzzles
 - **Enhanced:** Optimize perspective asset loading for dialog scenes
 - **Enhanced:** Memory pooling for conversation UI elements
+- **Enhanced:** Use PerspectiveController to manage NPC scale during conversations
+- **Enhanced:** Dialog range influenced by perspective scale settings
 
 ### Task 17: Build technical puzzles (hacking, repairs)
 **User Story:** As a player, I want to hack systems and repair equipment through engaging minigames, so that technical challenges feel interactive rather than passive skill checks.

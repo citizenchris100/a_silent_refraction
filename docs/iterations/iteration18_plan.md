@@ -486,9 +486,9 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Base pay: 35 credits per 4-hour shift
 
 ### Task 18: Validate perspective configurations for new districts
-**User Story:** As a developer, I want to ensure that Medical Bay and Market Square districts have appropriate perspective settings, so that characters display correctly and the multi-perspective system works seamlessly in all game areas.
+**User Story:** As a developer, I want to ensure that Medical Bay and Market Square districts have appropriate perspective settings with full sprite scaling integration, so that characters display correctly and the depth perception system works seamlessly in all game areas.
 
-**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 136-151
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 136-151, `docs/design/sprite_perspective_scaling_full_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (06/02/25)
@@ -502,6 +502,12 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
   4. Perspective transitions work from/to these districts
   5. Audio scaling adjusts appropriately
   6. Performance remains optimal with perspective changes
+  7. **Enhanced:** District-specific DistrictPerspectiveConfig resources created
+  8. **Enhanced:** Scaling zones properly defined for each new district
+  9. **Enhanced:** Movement speed scaling calibrated for district layouts
+  10. **Enhanced:** LOD thresholds optimized for district NPC density
+  11. **Enhanced:** Foreground occlusion layers work with perspective scaling
+  12. **Enhanced:** Zone transitions tested at district boundaries
 
 **Implementation Notes:**
 - Test with both male and female Alex sprites
@@ -509,6 +515,12 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Check camera settings match perspective type
 - Validate foreground occlusion works correctly
 - Test memory usage during perspective transitions
+- **Enhanced:** Create Medical Bay config with tighter scaling for clinical feel
+- **Enhanced:** Create Market Square config with varied zones for open/crowded areas
+- **Enhanced:** Test with 30+ NPCs in Mall district for performance
+- **Enhanced:** Verify scaling zone boundaries align with walkable areas
+- **Enhanced:** Test perspective + scaling transitions between connected districts
+- **Enhanced:** Profile performance with full perspective system active
 
 ## Testing Criteria
 - All 85 NPCs function without conflicts
@@ -529,6 +541,12 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Character sprites display correctly per perspective
 - setup_multi_perspective.sh creates all required infrastructure
 - generate_perspective_sprites.sh processes sprites correctly
+- **Enhanced:** Sprite scaling creates proper depth illusion in all new districts
+- **Enhanced:** Zone transitions maintain smooth scaling between districts
+- **Enhanced:** Movement speed adjustments feel natural in populated areas
+- **Enhanced:** Audio attenuation properly reflects sprite distances
+- **Enhanced:** LOD system maintains 60 FPS with 85+ NPCs
+- **Enhanced:** District boundaries handle perspective + scaling transitions
 
 ### Task 19: Create setup_multi_perspective.sh automation script
 **User Story:** As a developer, I want an automated script to set up the multi-perspective character system infrastructure, so that new team members or fresh installations can quickly configure the system correctly.

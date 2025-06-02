@@ -81,11 +81,21 @@ Implement dynamic sprite scaling based on Y-position to create convincing depth 
 - [ ] Proper sprite sorting for depth
 - [ ] Integration with movement system
 - [ ] Performance optimized for multiple sprites
+- [ ] **Enhanced:** Implement ScalingZoneManager for zone-based scaling
+- [ ] **Enhanced:** Create DistrictPerspectiveConfig resource system
+- [ ] **Enhanced:** PerspectiveController component for all scalable entities
+- [ ] **Enhanced:** Integration with multi-perspective character system
 
 **Dependencies:**
 - Player controller (Iteration 2)
 - NPC system (Iteration 2)
 - District system (Iteration 8)
+
+**Implementation Notes:**
+- Reference: docs/design/sprite_perspective_scaling_full_plan.md lines 107-242 (Zone-based System)
+- Implement core components: ScalingZoneManager, ZoneDetector, PerspectiveController
+- Create district-specific configuration resources
+- Ensure smooth transitions between zones
 
 ### 2. Foreground Occlusion System
 **Priority:** High  
@@ -97,7 +107,7 @@ Create system for foreground objects to properly occlude characters and create l
 **User Story:**  
 *As a player, I want to walk behind foreground objects naturally, so that the environment feels layered and three-dimensional.*
 
-**Design Reference:** `docs/design/foreground_occlusion_mvp_plan.md`, `docs/design/foreground_occlusion_full_plan.md`
+**Design Reference:** `docs/design/foreground_occlusion_mvp_plan.md`, `docs/design/foreground_occlusion_full_plan.md`, `docs/design/sprite_perspective_scaling_full_plan.md`
 
 **Acceptance Criteria:**
 - [ ] Dynamic occlusion based on Y-position
@@ -105,11 +115,20 @@ Create system for foreground objects to properly occlude characters and create l
 - [ ] Support for complex occlusion shapes
 - [ ] Editor tools for occlusion setup
 - [ ] Minimal performance impact
+- [ ] **Enhanced:** Integration with sprite perspective scaling for depth consistency
+- [ ] **Enhanced:** Foreground objects scale appropriately with perspective zones
+- [ ] **Enhanced:** Occlusion respects ScalingZoneManager boundaries
 
 **Dependencies:**
 - Sprite scaling system (this iteration)
 - District system (Iteration 8)
 - Camera system (Iteration 1)
+
+**Implementation Notes:**
+- Reference: docs/design/sprite_perspective_scaling_full_plan.md lines 1036-1050 (Foreground Integration)
+- Ensure foreground occlusion layers work with perspective scaling
+- Apply consistent scaling to foreground elements
+- Maintain proper depth sorting with scaled sprites
 
 ### 3. Holographic Shader Effects
 **Priority:** Medium  
@@ -190,7 +209,7 @@ Polish and optimize animation systems for smooth character movement and transiti
 **User Story:**  
 *As a player, I want character animations to be smooth and responsive, so that movement feels natural and polished.*
 
-**Design Reference:** `docs/design/multi_perspective_character_system_plan.md`
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md`, `docs/design/sprite_perspective_scaling_full_plan.md`
 
 **Acceptance Criteria:**
 - [ ] Smooth animation blending
@@ -198,11 +217,20 @@ Polish and optimize animation systems for smooth character movement and transiti
 - [ ] Idle animation variations
 - [ ] Context-sensitive animations
 - [ ] Animation event system
+- [ ] **Enhanced:** Animation speed adjusts based on sprite scale
+- [ ] **Enhanced:** Smooth transitions during scale changes
+- [ ] **Enhanced:** Walk animation sync with movement speed scaling
 
 **Dependencies:**
 - Player controller (Iteration 2)
 - NPC system (Iteration 2)
 - Animation config system (Iteration 3)
+
+**Implementation Notes:**
+- Reference: docs/design/sprite_perspective_scaling_full_plan.md lines 701-720 (Movement Speed Scaling)
+- Animation playback speed should match movement speed adjustments
+- Ensure smooth visual transitions during scale changes
+- Prevent animation glitches when crossing zone boundaries
 
 ### 7. Atmospheric Visual Effects
 **Priority:** Low  
@@ -428,12 +456,31 @@ Create a visual interface for inspecting save state during development and debug
 - Performance profiler identifies bottlenecks correctly
 - Save state inspector displays save data accurately
 - Debug tools are not accessible in production builds
+- **Enhanced:** Zone-based scaling system provides smooth transitions
+- **Enhanced:** Movement speed scaling feels natural with perspective
+- **Enhanced:** Audio attenuation reinforces depth perception
+- **Enhanced:** LOD system improves performance with 50+ sprites
+- **Enhanced:** Editor tools enable efficient zone creation
+- **Enhanced:** Multi-perspective integration works seamlessly
+- **Enhanced:** Performance dashboard accurately tracks metrics
+- **Enhanced:** Serialization preserves all perspective states
 
 ## Timeline
-- **Estimated Duration:** 4-5 weeks
-- **Total Hours:** 132 (86 + 46 for debug tools)
+- **Estimated Duration:** 6-7 weeks
+- **Total Hours:** 264 (86 + 46 for debug tools + 132 for perspective enhancements)
 - **Critical Path:** Sprite scaling and occlusion are foundational
 - **Debug Tools:** Can be developed in parallel with visual systems
+- **Perspective Tasks Breakdown:**
+  - Zone-based scaling system: 20 hours
+  - District configurations: 8 hours
+  - Movement & audio scaling: 16 hours
+  - LOD system: 12 hours
+  - Editor tools: 16 hours
+  - Advanced visual features: 20 hours
+  - Intelligent zone generation: 16 hours
+  - Performance monitoring: 8 hours
+  - Multi-perspective integration: 12 hours
+  - Testing suite: 16 hours
 
 ## Definition of Done
 - [ ] All visual systems implemented and polished
@@ -446,6 +493,13 @@ Create a visual interface for inspecting save state during development and debug
 - [ ] Debug save tools implemented and tested
 - [ ] Save system performance profiling complete
 - [ ] Debug tools properly secured from production builds
+- [ ] **Enhanced:** Zone-based scaling fully functional in all districts
+- [ ] **Enhanced:** Movement and audio scaling create believable depth
+- [ ] **Enhanced:** LOD system provides measurable performance gains
+- [ ] **Enhanced:** Editor tools documented and tested
+- [ ] **Enhanced:** All perspective features integrate with existing systems
+- [ ] **Enhanced:** Performance metrics meet or exceed targets
+- [ ] **Enhanced:** Comprehensive test coverage for perspective system
 
 ## Dependencies
 - Core game systems (Iterations 1-3)
@@ -525,13 +579,344 @@ Create a visual interface for inspecting save state during development and debug
 - **Ownership Tracking:** Interface with NPCTrustManager for ownership knowledge
 - **Performance Optimization:** Cache static states, update only on state changes
 
+### Task 16: Implement Zone-Based Scaling System
+**User Story:** As a developer, I want a sophisticated zone-based scaling system that provides precise control over perspective effects in different areas of each district, so that we can create believable depth illusions tailored to each environment.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 107-242
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (visual quality), Technical Requirements (efficient sprite scaling)
+- **Acceptance Criteria:**
+  1. ScalingZoneManager singleton manages all scaling zones
+  2. Zone definitions support polygon shapes with arbitrary vertices
+  3. Smooth transitions between zones with configurable blend distances
+  4. Priority system for overlapping zones
+  5. Runtime zone modification support for dynamic environments
+  6. Visual debugging tools to see zone boundaries
+  7. Performance optimized for 10+ zones per district
+  8. Integration with district loading system
+
+**Implementation Notes:**
+- Create ScalingZoneManager as autoload singleton
+- Implement zone detection using Area2D nodes
+- Support smooth interpolation between zone parameters
+- Cache zone lookups for performance
+- Provide editor tools for zone creation
+- Test with complex overlapping scenarios
+
+### Task 17: Create District Perspective Configuration Resources
+**User Story:** As a level designer, I want to configure perspective settings for each district through resource files, so that each area can have unique depth characteristics that enhance its atmosphere.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 244-326
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (district uniqueness), Technical Requirements (configurable scaling)
+- **Acceptance Criteria:**
+  1. DistrictPerspectiveConfig custom resource type
+  2. Global scaling parameters per district
+  3. Multiple scaling zone definitions
+  4. Audio distance attenuation curves
+  5. Movement speed adjustment settings
+  6. Foreground occlusion integration parameters
+  7. Export/import functionality for configs
+  8. Validation to prevent invalid configurations
+
+**Implementation Notes:**
+- Extend Resource class for DistrictPerspectiveConfig
+- Include default presets for common scenarios
+- Support hot-reloading during development
+- Create example configs for each district type
+- Document all configuration parameters
+
+### Task 18: Implement Movement Speed Scaling
+**User Story:** As a player, I want my character to move slower when they appear smaller (further away) and faster when larger (closer), so that movement feels natural and maintains the depth illusion.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 701-720
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (visual quality), User Requirements (natural movement)
+- **Acceptance Criteria:**
+  1. Movement speed scales proportionally with sprite scale
+  2. Configurable speed scaling curves
+  3. Smooth speed transitions when crossing zones
+  4. NPCs and player both affected
+  5. Animation speed syncs with movement speed
+  6. No jarring speed changes
+  7. Override options for special cases
+  8. Performance impact < 1% CPU
+
+**Implementation Notes:**
+- Modify player and NPC movement controllers
+- Use PerspectiveController to get current scale
+- Apply scale factor to movement vectors
+- Ensure pathfinding accounts for speed changes
+- Test with various movement patterns
+
+### Task 19: Add Audio Distance Attenuation
+**User Story:** As a player, I want sounds from distant objects to be quieter and sounds from nearby objects to be louder, so that audio reinforces the visual depth perception.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 723-768
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (consistent art style), User Requirements (audio feedback)
+- **Acceptance Criteria:**
+  1. Audio volume scales with sprite distance
+  2. Configurable attenuation curves
+  3. Support for 2D and 3D audio sources
+  4. Dialog volume maintains clarity
+  5. Ambient sounds properly positioned
+  6. Smooth audio transitions
+  7. Per-sound-type attenuation settings
+  8. Integration with existing audio system
+
+**Implementation Notes:**
+- Reference: hardware_validation_plan.md confirms 2D audio only
+- Extend AudioStreamPlayer2D with perspective awareness
+- Create custom attenuation curves per sound type
+- Ensure dialog remains audible at all distances
+- Test with multiple simultaneous audio sources
+
+### Task 20: Implement Perspective-Aware LOD System
+**User Story:** As a developer, I want a Level of Detail system that reduces visual complexity for distant objects, so that we maintain performance while having many scaled sprites on screen.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 771-812
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (performance optimization), Business Requirements (60 FPS)
+- **Acceptance Criteria:**
+  1. Three LOD levels: Near (full), Medium (reduced), Far (minimal)
+  2. Automatic LOD switching based on scale
+  3. Smooth visual transitions between LODs
+  4. Animation frame reduction for distant sprites
+  5. Shadow/effect culling for far objects
+  6. Configurable LOD thresholds
+  7. Performance monitoring integration
+  8. < 20% performance gain with 50+ sprites
+
+**Implementation Notes:**
+- Implement in PerspectiveController component
+- Use scale thresholds: Near > 0.7, Medium 0.3-0.7, Far < 0.3
+- Reduce animation frames for distant objects
+- Cull particle effects and shadows at distance
+- Monitor performance improvements
+
+### Task 21: Create Editor Tools for Perspective System
+**User Story:** As a developer, I want visual editor tools for creating and testing perspective zones, so that level designers can efficiently set up proper depth perception in each district.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 1180-1234
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (efficient development), Technical Requirements (editor tools)
+- **Acceptance Criteria:**
+  1. Visual zone editor with polygon drawing
+  2. Real-time preview of scaling effects
+  3. Zone overlap visualization
+  4. Scale gradient overlay display
+  5. Import/export zone configurations
+  6. Undo/redo support
+  7. Preset zone templates
+  8. Integration with Godot editor
+
+**Implementation Notes:**
+- Create custom EditorPlugin
+- Use Godot's polygon editing tools
+- Provide visual feedback with overlays
+- Support keyboard shortcuts
+- Include comprehensive tooltips
+
+### Task 22: Implement Advanced Visual Features
+**User Story:** As a player, I want advanced visual effects like sprite deformation and dynamic shadows that enhance the depth illusion, so that the game world feels more immersive and three-dimensional.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 815-923
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (visual quality), User Requirements (immersion)
+- **Acceptance Criteria:**
+  1. Subtle sprite deformation at extreme scales
+  2. Dynamic shadow scaling and positioning
+  3. Depth-based color grading
+  4. Atmospheric haze for distant objects
+  5. Perspective-correct sprite rotation
+  6. All effects togglable for performance
+  7. Smooth transitions for all effects
+  8. Consistent visual style maintained
+
+**Implementation Notes:**
+- Implement vertex deformation for extreme perspectives
+- Use shaders for atmospheric effects
+- Keep effects subtle to maintain art style
+- Provide quality settings for each effect
+- Test on minimum spec hardware
+
+### Task 23: Create Intelligent Zone Generation System
+**User Story:** As a developer, I want an automated system that can generate appropriate scaling zones based on district layout analysis, so that we can quickly prototype and refine perspective settings.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 926-1033
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (efficient development), Technical Requirements (automation)
+- **Acceptance Criteria:**
+  1. Analyzes walkable areas to suggest zones
+  2. Identifies natural depth boundaries
+  3. Generates initial zone configurations
+  4. Suggests appropriate scaling parameters
+  5. Handles corridors vs open areas
+  6. Export results for manual refinement
+  7. Learns from designer adjustments
+  8. Batch processing for all districts
+
+**Implementation Notes:**
+- Use navigation mesh analysis
+- Detect natural boundaries (walls, doors)
+- Generate zones based on spatial patterns
+- Provide confidence scores for suggestions
+- Allow manual override of all parameters
+
+### Task 24: Implement Performance Monitoring Dashboard
+**User Story:** As a developer, I want a real-time dashboard showing perspective system performance metrics, so that I can optimize scaling zones and ensure smooth gameplay.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 1105-1177
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (performance), Business Requirements (60 FPS)
+- **Acceptance Criteria:**
+  1. Real-time FPS with perspective system active
+  2. Zone calculation time per frame
+  3. Number of scaled entities
+  4. Memory usage for perspective data
+  5. LOD distribution visualization
+  6. Performance history graphs
+  7. Export performance reports
+  8. Warning system for performance issues
+
+**Implementation Notes:**
+- Create debug UI overlay
+- Track key metrics per frame
+- Use circular buffers for history
+- Color-code performance warnings
+- Include in debug builds only
+
+### Task 25: Add Multi-Perspective Integration
+**User Story:** As a player, I want sprite scaling to work correctly with different camera perspectives (isometric, side-scrolling, top-down), so that each view maintains proper depth perception.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md`, `docs/design/multi_perspective_character_system_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (visual consistency), Technical Requirements (multi-perspective)
+- **Acceptance Criteria:**
+  1. Scaling system detects current perspective type
+  2. Adjusts scaling algorithms per perspective
+  3. Smooth transitions during perspective changes
+  4. Maintains visual consistency across views
+  5. Per-perspective zone configurations
+  6. Testing for all three perspective types
+  7. No visual artifacts during transitions
+  8. Performance maintained across all modes
+
+**Implementation Notes:**
+- Integrate with MultiPerspectiveCharacter system
+- Create perspective-specific scaling algorithms
+- Test thoroughly during perspective transitions
+- Ensure no z-fighting or sorting issues
+- Document perspective-specific considerations
+
+### Task 26: Implement Serialization for Perspective System
+**User Story:** As a player, I want the perspective scaling system state to save and load correctly, so that the visual experience remains consistent across game sessions.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 1237-1265
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (save system), Business Requirements (persistence)
+- **Acceptance Criteria:**
+  1. Current zone states save correctly
+  2. Entity scale values persist
+  3. LOD states maintained
+  4. Zone modifications saved
+  5. Performance optimized saves
+  6. Version migration support
+  7. Minimal save file impact
+  8. Fast loading times maintained
+
+**Implementation Notes:**
+- Extend modular serialization system
+- Save only dynamic state changes
+- Use differential saves for zones
+- Compress perspective data
+- Test with complex zone setups
+
+### Task 27: Create Comprehensive Testing Suite
+**User Story:** As a developer, I want automated tests that verify all aspects of the perspective scaling system, so that we can confidently make changes without breaking functionality.
+
+**Design Reference:** `docs/design/sprite_perspective_scaling_full_plan.md` lines 1268-1310
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (testing), Business Requirements (quality)
+- **Acceptance Criteria:**
+  1. Unit tests for all core components
+  2. Integration tests for system interactions
+  3. Performance benchmarks
+  4. Visual regression tests
+  5. Zone boundary edge cases
+  6. Multi-perspective scenarios
+  7. Save/load verification
+  8. 90%+ code coverage
+
+**Implementation Notes:**
+- Use Godot testing framework
+- Create visual diff tools
+- Automate performance benchmarks
+- Test edge cases thoroughly
+- Document all test scenarios
+
 ## Links to Relevant Code
 - src/core/visual/perspective_scaler.gd
 - src/core/visual/occlusion_manager.gd
+- src/core/visual/scaling_zone_manager.gd (to be created)
+- src/core/visual/perspective_controller.gd (to be created)
+- src/resources/district_perspective_config.gd (to be created)
+- src/core/visual/perspective_lod_system.gd (to be created)
+- src/tools/perspective_zone_editor.gd (to be created)
 - src/shaders/hologram.shader
 - src/shaders/heat_distortion.shader
 - src/shaders/crt_screen.shader
 - src/core/animation/animation_polish.gd
 - src/core/visual/atmosphere_effects.gd
 - docs/design/sprite_perspective_scaling_plan.md
+- docs/design/sprite_perspective_scaling_full_plan.md
 - docs/design/foreground_occlusion_mvp_plan.md
