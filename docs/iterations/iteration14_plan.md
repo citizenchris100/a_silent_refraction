@@ -744,6 +744,12 @@ As a player, I want to experience a visually cohesive world where characters sca
 - [ ] Task 37: Create perspective-specific interaction mechanics
 - [ ] Task 38: Optimize perspective resource loading
 
+### Visual Observation Enhancement
+- [ ] Task 39: Create pattern analysis board UI
+- [ ] Task 40: Implement "being watched" visual indicators
+- [ ] Task 41: Add observation equipment visual effects
+- [ ] Task 42: Create camera feed interface with pan/zoom controls
+
 ### Task 31: Create inventory grid animations
 **User Story:** As a player, I want smooth animations when items move in my inventory, so that inventory management feels polished and responsive.
 
@@ -974,6 +980,106 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Cache recently used perspective sprites
 - Monitor memory usage and unload unused assets
 - Profile loading times for optimization
+
+### Task 39: Create pattern analysis board UI
+**User Story:** As a player, I want a visual investigation board that shows connections between observations and clues, so that I can see patterns and relationships in my discoveries like a detective.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 1134-1142
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T2
+- **Acceptance Criteria:**
+  1. Visual cork board metaphor with connected observations
+  2. Drag-and-drop clue positioning and connection drawing
+  3. Different connection types and strengths visualization
+  4. Pattern highlighting when discoveries are made
+  5. Export investigation map as summary report
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Pattern Analysis Board lines 1134-1142)
+- Use GraphEdit node for visual connection system
+- Node types: Observations, Clues, Deductions, NPCs, Locations
+- Connection visualization with animated lines and thickness indicating strength
+- Pattern completion triggers visual celebration effects
+- Integration with ObservationManager and investigation system
+
+### Task 40: Implement "being watched" visual indicators
+**User Story:** As a player, I want clear visual feedback when NPCs are observing me, so that I can react appropriately to mutual observation and adjust my behavior.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 1143-1151
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T2
+- **Acceptance Criteria:**
+  1. "Being Watched" indicator appears when under observation
+  2. Direction hints showing where observation is coming from
+  3. Intensity visualization showing observation threat level
+  4. Evasion options highlighted when available
+  5. Clear visual distinction between casual and suspicious observation
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Mutual Observation Indicator lines 1143-1151)
+- Eye icon with direction arrow and intensity glow
+- Red/yellow/orange color coding for threat levels
+- Subtle screen edge highlights indicating observer direction
+- Integration with MutualObservation system from observation design
+- Options to hide/crouch/evade highlighted when being watched
+
+### Task 41: Add observation equipment visual effects
+**User Story:** As a player, I want visual feedback when using observation equipment, so that I understand what the equipment is doing and feel the enhancement it provides.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 874-973
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T2
+- **Acceptance Criteria:**
+  1. Binoculars show zoom overlay with range indicators
+  2. UV flashlight reveals hidden elements with glow effects
+  3. Audio amplifier shows sound wave visualization
+  4. Evidence camera provides viewfinder interface
+  5. Equipment durability and battery indicators
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Observation Equipment lines 874-973)
+- Binoculars: zoom overlay, distance measurements, enhanced detail highlighting
+- UV Flashlight: purple glow reveals hidden UV-reactive elements
+- Audio Amplifier: sound wave visualization and directional indicators
+- Evidence Camera: camera viewfinder with focus indicators and flash effects
+- Visual feedback for all equipment usage and effectiveness
+
+### Task 42: Create camera feed interface with pan/zoom controls
+**User Story:** As a player, I want to view and control security camera feeds with intuitive pan/zoom controls, so that surveillance feels like using real security equipment.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 1125-1133
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1, T2
+- **Acceptance Criteria:**
+  1. Camera feed display with simplified graphics rendering
+  2. Pan/zoom controls with smooth camera movement
+  3. Recording indicator and evidence capture functionality
+  4. Timestamp overlay and camera ID information
+  5. Quick-save evidence button for important discoveries
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Camera Feed Interface lines 1125-1133)
+- Simplified viewport rendering for performance
+- Mouse/keyboard controls for pan (WASD) and zoom (scroll wheel)
+- Recording red dot indicator and evidence timestamp system
+- Integration with CameraObservation system from observation design
+- Screenshot capture functionality for evidence collection
 
 ## Notes
 - Visual polish makes huge difference in perception

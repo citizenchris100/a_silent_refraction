@@ -90,6 +90,9 @@ As a developer, I need a robust serialization system that allows all game system
 ### Multi-Perspective System
 - [ ] Task 28: Create MultiPerspectiveSerializer for character perspective states
 
+### Observation System Serialization
+- [ ] Task 29: Create ObservationSerializer for observation history and discovered clues
+
 ## User Stories
 
 ### Task 1: Create SerializationManager singleton
@@ -761,6 +764,32 @@ As a developer, I need a robust serialization system that allows all game system
 - Include custom perspective overrides if any
 - Use differential saving (only save non-default values)
 - Integrate with character controller from Iteration 3
+
+### Task 29: Create ObservationSerializer for observation history and discovered clues
+**User Story:** As a player, I want my observation progress and discovered clues to persist across save/load cycles, so that my investigative progress is never lost and pattern analysis can continue between sessions.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 977-1061
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. ObservationSerializer extends BaseSerializer
+  2. Registers with SaveManager at priority 35 (medium-high priority)
+  3. Saves compressed observation history (last 100 observations)
+  4. Preserves discovered clues and pattern analysis data
+  5. Maintains observation skills and camera access levels
+  6. Handles version migration for observation data format
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Observation Serialization lines 977-1061)
+- Compress observation history to reduce save file size
+- Save only essential data: target IDs, observation types, timestamps, success status
+- Preserve known_assimilated list for MVP compatibility
+- Include observation skills progression and equipment bonuses
+- Store captured evidence and identified patterns efficiently
 
 ## Notes
 - This iteration was reorganized from the original plan to establish serialization first

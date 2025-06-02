@@ -266,7 +266,9 @@ As a developer, I want to implement the final advanced features and polish all s
 - Integration with journal UI
 
 ### Task 7: Implement clue collection from multiple sources
-**User Story:** As a player, I want to discover clues through various gameplay mechanics, so that investigation feels integrated with all game systems.
+**User Story:** As a player, I want to discover clues through various gameplay mechanics including comprehensive observation systems, so that investigation feels integrated with all game systems.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 47-130
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -275,16 +277,22 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Linked to:** B1, U2
 - **Acceptance Criteria:**
   1. Dialog reveals clues
-  2. Observation discovers clues
+  2. **Enhanced:** Environmental observation discovers clues (DAMAGE, BIOLOGICAL, TRACES, DISTURBANCES, HIDDEN_OBJECTS, ATMOSPHERIC)
   3. Item examination yields clues
-  4. Environmental clues
+  4. **Enhanced:** NPC behavior observation reveals personality patterns and suspicious activities
   5. Document/data clues
+  6. **Enhanced:** Camera surveillance provides recorded evidence
+  7. **Enhanced:** Audio eavesdropping reveals conversations and hidden activities
+  8. **Enhanced:** Pattern analysis connects multiple observations into meaningful clues
 
 **Implementation Notes:**
-- Standardized clue discovery interface
-- Different discovery methods per clue
-- Some clues require prerequisites
-- Visual/audio feedback on discovery
+- Reference: docs/design/observation_system_full_design.md (ObservationType enum lines 47-130)
+- Standardized clue discovery interface extended for observation types
+- Environmental observations include: damage assessment, biological traces, atmospheric changes
+- NPC observation tracks behavior patterns over time
+- Camera feeds provide visual evidence for investigations
+- Audio observations reveal conversations and mechanical anomalies
+- Pattern analysis automatically suggests clue connections
 
 ### Task 8: Build evidence combination mechanics
 **User Story:** As a player, I want to combine related clues to form new insights, so that investigation rewards careful analysis.
@@ -329,7 +337,9 @@ As a developer, I want to implement the final advanced features and polish all s
 - Search functionality
 
 ### Task 10: Integrate with dialog and observation systems
-**User Story:** As a player, I want investigation to seamlessly integrate with dialog and observation, so that all detective tools work together.
+**User Story:** As a player, I want investigation to seamlessly integrate with dialog and comprehensive observation systems, so that all detective tools work together to reveal the conspiracy.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 1134-1225
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -338,16 +348,21 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Linked to:** B3, U2
 - **Acceptance Criteria:**
   1. Clues unlock dialog options
-  2. Observations add clues
-  3. Dialog references known clues
-  4. Confrontation mechanics
-  5. Evidence presentation
+  2. **Enhanced:** All observation types add clues (environmental, NPC behavior, surveillance, eavesdropping, pattern analysis)
+  3. Dialog references known clues and observations
+  4. **Enhanced:** Confrontation mechanics use observation evidence
+  5. **Enhanced:** Evidence presentation includes observation data with timestamps and credibility
+  6. **Enhanced:** Mutual observation affects dialog options (NPCs react if they've seen player observing)
+  7. **Enhanced:** Pattern analysis provides dialog hints about NPC relationships
 
 **Implementation Notes:**
-- Extend dialog system for clue checks
-- Observation reveals clue locations
-- Some clues change NPC behavior
-- Support accusation scenarios
+- Reference: docs/design/observation_system_full_design.md (Investigation Integration lines 1134-1225)
+- Extend dialog system for observation checks and mutual observation states
+- ObservationManager integration provides context for all conversations
+- Observation evidence includes credibility ratings affecting dialog weight
+- Pattern analysis suggests questions and conversation topics
+- Mutual observation creates dynamic dialog branches
+- Support accusation scenarios with comprehensive observation evidence
 
 ### Task 11: Implement Basic Banking System
 **User Story:** As a player, I want to access banking services at the Trading Floor, so that I can save credits and investigate financial records for clues about the assimilation conspiracy.
@@ -444,7 +459,9 @@ As a developer, I want to implement the final advanced features and polish all s
 - **Enhanced:** Top-down reveals floor patterns
 
 ### Task 15: Create observation puzzles
-**User Story:** As a player, I want puzzles that require careful observation of my surroundings, so that attention to detail is rewarded.
+**User Story:** As a player, I want puzzles that require comprehensive observation skills across multiple mechanics, so that mastering the observation system unlocks complex investigative challenges.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 1046-1133, `docs/design/puzzle_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -452,17 +469,23 @@ As a developer, I want to implement the final advanced features and polish all s
 **Requirements:**
 - **Linked to:** B1, U3
 - **Acceptance Criteria:**
-  1. Hidden object finding
-  2. Spot-the-difference mechanics
-  3. Pattern recognition in environment
-  4. Clue synthesis puzzles
-  5. Timed observation challenges
+  1. **Enhanced:** Multi-type observation puzzles combining environmental, NPC behavior, and surveillance
+  2. **Enhanced:** Equipment-enhanced observation challenges (binoculars, UV light, audio amplifier)
+  3. Pattern recognition in environment and behavior
+  4. **Enhanced:** Cross-observation clue synthesis (audio + visual + environmental)
+  5. **Enhanced:** Temporal observation puzzles requiring pattern tracking over time
+  6. **Enhanced:** Mutual observation evasion challenges
+  7. **Enhanced:** Camera surveillance puzzle sequences
 
 **Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Observation Puzzles lines 1046-1133)
 - Reference: docs/design/puzzle_system_design.md
-- Integrate with observation system
-- Examples: Finding hidden panels, noting changes
-- Support red herrings and misdirection
+- Multi-mechanic puzzles requiring environmental observation, NPC behavior tracking, and camera feed analysis
+- Equipment bonuses affect puzzle difficulty and available solutions
+- Pattern analysis board integration for complex observation synthesis
+- Temporal puzzles track changes over multiple observation sessions
+- Stealth observation challenges where being caught observing affects puzzle state
+- Camera puzzle sequences requiring feed manipulation and evidence collection
 
 ### Task 16: Implement social engineering puzzles with memory optimization
 **User Story:** As a player, I want to manipulate NPCs through dialog and actions to achieve my goals, so that social interactions become meaningful puzzles while maintaining smooth performance.
@@ -723,8 +746,8 @@ As a developer, I want to implement the final advanced features and polish all s
 - Create performance HUD
 - Log performance metrics
 
-### Task 28: Profile all major systems
-**User Story:** As a developer, I want to profile each game system, so that I can identify which systems need optimization.
+### Task 28: Profile all major systems with comprehensive observation system analysis
+**User Story:** As a developer, I want to profile each game system including comprehensive observation system performance, so that I can identify which systems need optimization.
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -737,15 +760,22 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Identify bottlenecks
   4. Memory leak detection
   5. Performance reports
+  6. **Enhanced:** Comprehensive observation system profiling across all observation types
+  7. **Enhanced:** Mutual observation performance analysis with multiple watchers
+  8. **Enhanced:** Pattern analysis system performance under complex observation data
 
 **Implementation Notes:**
 - Test with 100+ NPCs active
 - Stress test each system
 - Document findings
 - Prioritize optimizations
+- **Enhanced:** Profile ObservationManager with 20+ simultaneous observations
+- **Enhanced:** Test environmental observation with complex scene details
+- **Enhanced:** Benchmark camera surveillance system with multiple feeds
+- **Enhanced:** Measure pattern analysis performance with large observation datasets
 
-### Task 29: Implement object pooling for common objects
-**User Story:** As a developer, I want object pooling for frequently created/destroyed objects, so that memory allocation overhead is minimized.
+### Task 29: Implement object pooling for common objects including observation system components
+**User Story:** As a developer, I want object pooling for frequently created/destroyed objects including observation system components, so that memory allocation overhead is minimized.
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -758,15 +788,22 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Pools for UI elements
   4. Pools for particles
   5. Automatic sizing
+  6. **Enhanced:** Observation instance pooling for frequent observation operations
+  7. **Enhanced:** UI element pools for observation interfaces (camera feeds, pattern boards)
+  8. **Enhanced:** Equipment effect pooling for observation tool visual feedback
 
 **Implementation Notes:**
 - Start with most allocated objects
 - Configurable pool sizes
 - Warm pools on load
 - Monitor pool efficiency
+- **Enhanced:** Pool ObservationInstance objects for frequent observe/cancel cycles
+- **Enhanced:** Pool camera feed UI components for surveillance system
+- **Enhanced:** Pool pattern analysis UI nodes for investigation board
+- **Enhanced:** Pool observation notification objects
 
-### Task 30: Optimize NPC update cycles
-**User Story:** As a developer, I want NPCs to update efficiently based on relevance, so that many NPCs can exist without impacting performance.
+### Task 30: Optimize NPC update cycles including mutual observation tracking
+**User Story:** As a developer, I want NPCs to update efficiently based on relevance including optimized mutual observation tracking, so that many NPCs can exist without impacting performance.
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -779,15 +816,22 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Offscreen optimizations
   4. Batch processing
   5. State caching
+  6. **Enhanced:** Efficient mutual observation update cycles with distance-based optimization
+  7. **Enhanced:** Observer tracking LOD system (only check visibility for nearby NPCs)
+  8. **Enhanced:** Batch processing for multiple NPCs observing player simultaneously
 
 **Implementation Notes:**
 - Near/far/offscreen tiers
 - Critical NPCs update more
 - Quantum state for distant NPCs
 - Batch similar operations
+- **Enhanced:** Mutual observation only updates for NPCs within observation range
+- **Enhanced:** Use spatial hashing for efficient observer queries
+- **Enhanced:** Cache line-of-sight calculations for frequently observed NPCs
+- **Enhanced:** Reduce observation intensity calculations for distant NPCs
 
-### Task 31: Reduce memory allocations
-**User Story:** As a developer, I want to minimize runtime allocations, so that garbage collection doesn't cause frame drops.
+### Task 31: Reduce memory allocations including observation system optimization
+**User Story:** As a developer, I want to minimize runtime allocations including observation system memory usage, so that garbage collection doesn't cause frame drops.
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -800,12 +844,20 @@ As a developer, I want to implement the final advanced features and polish all s
   3. Preallocate buffers
   4. String optimization
   5. Texture atlasing
+  6. **Enhanced:** Observation history compression and smart pruning
+  7. **Enhanced:** Pattern analysis caching to avoid redundant calculations
+  8. **Enhanced:** Observation result object reuse and shared string pools
 
 **Implementation Notes:**
 - Profile allocations per frame
 - Cache commonly used strings
 - Reuse data structures
 - Optimize texture memory
+- **Enhanced:** Compress observation history by storing only essential data
+- **Enhanced:** Cache pattern analysis results to avoid recalculation
+- **Enhanced:** Reuse observation result dictionaries and arrays
+- **Enhanced:** Use string pools for common observation descriptions
+- **Enhanced:** Limit observation history size with intelligent pruning (keep important discoveries)
 
 ### Task 32: Test all system interactions
 **User Story:** As a developer, I want comprehensive testing of system interactions, so that edge cases and conflicts are identified.
@@ -934,25 +986,35 @@ As a developer, I want to implement the final advanced features and polish all s
 - 6 base emotions + combinations
 
 ### Task 38: Implement camera surveillance system
-**User Story:** As station security, I want camera surveillance coverage throughout the station, so that crimes and suspicious activities can be detected even when guards aren't present.
+**User Story:** As station security and as a player investigating the conspiracy, I want comprehensive camera surveillance that provides both security detection and investigation opportunities through feed viewing and evidence collection.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 608-761, `docs/design/crime_security_event_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Crime/Security System
+- **Linked to:** Crime/Security System, Investigation System
 - **Acceptance Criteria:**
-  1. Camera nodes with vision cones
-  2. Pan/scan behaviors
-  3. Detection of crimes in view
-  4. Recording system for evidence
-  5. Camera destruction/hacking
+  1. Camera nodes with vision cones and SURVEILLANCE observation type
+  2. **Enhanced:** Multiple camera types (fixed, rotating, tracking, hidden)
+  3. Detection of crimes and suspicious activities in view
+  4. **Enhanced:** Recording system with evidence timestamps and camera ID
+  5. **Enhanced:** Player-accessible camera feed interface with pan/zoom controls
+  6. Camera destruction/hacking with investigation consequences
+  7. **Enhanced:** Access level restrictions on camera system usage
+  8. **Enhanced:** Evidence export functionality for investigation integration
 
 **Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Camera Surveillance System lines 608-761)
 - Reference: docs/design/crime_security_event_system_design.md
-- SecurityCamera extends Area2D
-- Different camera types (fixed, rotating, tracking)
-- Integrate with crime detection system
+- CameraObservation extends SecurityCamera with observation capabilities
+- Player can access camera feeds through security terminals
+- Feed UI includes pan/zoom controls, recording indicators, timestamp overlay
+- Integration with ClueManager for camera evidence
+- Different access levels for camera system (security, maintenance, restricted)
+- Evidence screenshots automatically saved with metadata
+- Hidden cameras provide covert observation opportunities
 
 ### Task 39: Create advanced security AI behaviors
 **User Story:** As a player, I want security guards to exhibit intelligent behaviors like investigating disturbances and coordinating responses, so that evading them feels challenging and rewarding.
@@ -1321,6 +1383,13 @@ As a developer, I want to implement the final advanced features and polish all s
 - Key copying and black market systems integrate
 - Access degradation from corruption works
 - Advanced UI components display properly
+- **Enhanced:** Observation system maintains performance with 20+ simultaneous observations
+- **Enhanced:** Mutual observation tracking remains efficient with multiple watchers
+- **Enhanced:** Pattern analysis performs well with large observation datasets
+- **Enhanced:** Camera surveillance system handles multiple feeds without frame drops
+- **Enhanced:** Environmental observation processing stays within performance budget
+- **Enhanced:** Observation UI elements (camera feeds, pattern boards) display smoothly
+- **Enhanced:** Observation memory usage remains stable during extended investigation sessions
 
 ## Timeline
 - Start date: After Iterations 9-14 completion

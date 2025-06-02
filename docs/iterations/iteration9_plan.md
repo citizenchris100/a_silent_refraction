@@ -59,11 +59,11 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 ## Tasks
 
 ### Observation System
-- [ ] Task 1: Create ObservationManager singleton
+- [ ] Task 1: Create ObservationManager singleton with full observation types
 - [ ] Task 2: Implement observable properties system
-- [ ] Task 3: Create observation UI interface
-- [ ] Task 4: Add observation skill progression
-- [ ] Task 5: Implement observation notifications
+- [ ] Task 3: Create observation UI interface with camera feeds and mutual observation indicators
+- [ ] Task 4: Add observation skill progression with equipment bonuses and specialization
+- [ ] Task 5: Implement observation notifications with pattern detection and mutual observation alerts
 
 ### Detection and Suspicion
 - [ ] Task 6: Expand suspicion system to full implementation
@@ -109,8 +109,30 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 
 ## User Stories
 
+### Task 1: Create ObservationManager singleton with full observation types
+**User Story:** As a developer, I want a centralized observation management system that supports all observation types, so that environmental scanning, NPC watching, camera surveillance, eavesdropping, and pattern analysis are coordinated through a single interface.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. ObservationManager singleton supports all ObservationType enums (NPC_BEHAVIOR, ENVIRONMENTAL, SURVEILLANCE, EAVESDROPPING, PATTERN_ANALYSIS)
+  2. Unified observation interface for all game systems
+  3. Observation history tracking and data management
+  4. Integration with mutual observation system for NPCs watching player
+  5. Signal-based communication with other managers
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (ObservationManager design lines 27-259)
+- Implement as autoload singleton
+- Support observation instances with different durations and complexities
+- Include observation skills tracking and environmental factors
+- Handle risk calculation for being observed while observing
+
 ### Task 2: Implement observable properties system
-**User Story:** As a player, I want to examine objects and NPCs for subtle details, so that I can gather clues about the assimilation threat.
+**User Story:** As a player, I want to examine objects, NPCs, and environments for subtle details and environmental changes, so that I can gather clues about the assimilation threat through multiple observation types.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -118,17 +140,113 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 **Requirements:**
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
-  1. Objects have observable properties list
-  2. Properties revealed based on observation skill
-  3. Some properties only visible under conditions
-  4. Observations logged for later review
-  5. Visual feedback when discovering properties
+  1. Objects and environments have observable properties lists
+  2. Properties revealed based on observation skill level
+  3. Environmental observations include atmospheric details (sounds, smells, temperature)
+  4. Some properties only visible under specific conditions or with equipment
+  5. Observations logged for later review and pattern analysis
+  6. Visual feedback when discovering properties
+  7. Support for crime scene and assimilation trace detection
 
 **Implementation Notes:**
-- Properties: appearance, behavior, recent_changes, hidden_details
-- Skill levels: Novice (1-2 props), Skilled (3-4), Expert (all)
-- Reference: docs/design/observation_system_full_design.md
-- Consider highlighting observable areas
+- Properties: appearance, behavior, recent_changes, hidden_details, atmospheric_conditions
+- Environmental categories: DAMAGE, BIOLOGICAL, TRACES, DISTURBANCES, HIDDEN_OBJECTS, ATMOSPHERIC
+- Skill levels: Novice (1-2 props), Skilled (3-4), Expert (all + hidden details)
+- Reference: docs/design/observation_system_full_design.md (EnvironmentalObservation lines 262-426)
+- Support crime scene and assimilation event observations
+- Consider highlighting observable areas and environmental changes
+
+### Task 3: Create observation UI interface with camera feeds and mutual observation indicators
+**User Story:** As a player, I want comprehensive observation interfaces including camera feed viewing and indicators when I'm being watched, so that I can effectively use all observation tools while staying aware of my own exposure.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Unified observation UI showing current observation mode and progress
+  2. Camera feed interface with pan/zoom controls and recording indicators
+  3. "Being watched" indicator showing mutual observation status
+  4. Equipment bonus display and observation modifier indicators
+  5. Quick evidence review panel for recent observations
+  6. Risk level indicator showing detection probability
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (UI Components lines 1114-1151)
+- Camera feed UI with simplified graphics representation
+- Mutual observation indicators showing observer direction and intensity
+- Integration with existing SCUMM verb interface
+- Visual feedback for observation skill improvements
+
+### Task 4: Add observation skill progression with equipment bonuses and specialization
+**User Story:** As a player, I want my observation skills to improve with practice and be enhanced by equipment, so that investigation becomes more rewarding and specialized tools feel valuable.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U3, T1
+- **Acceptance Criteria:**
+  1. Skill progression from successful observations (start 50%, max +30% bonus)
+  2. Equipment bonuses stack with skill progression
+  3. Specialization paths for different observation types
+  4. Skill level affects observation duration and success rates
+  5. Equipment unlocks new observation capabilities
+  6. Clear feedback on skill improvements
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Balance Considerations lines 1154-1173)
+- Equipment: binoculars (+0.3 bonus, 3x range), UV flashlight (reveals hidden), audio amplifier (+0.4 bonus)
+- Each successful observation: +1% skill improvement
+- Different skill tracks for different observation types
+- Visual progression indicators in UI
+
+### Task 5: Implement observation notifications with pattern detection and mutual observation alerts
+**User Story:** As a player, I want clear notifications when I discover something important or when I'm being observed, so that I can react appropriately to new information and threats.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B1, U2, T1
+- **Acceptance Criteria:**
+  1. Pattern detection alerts when observations connect
+  2. Mutual observation warnings when NPCs start watching
+  3. Discovery notifications for important clues
+  4. Risk escalation warnings during extended observation
+  5. Equipment status notifications (battery low, etc.)
+  6. Investigation breakthrough alerts
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Mutual Observation lines 428-565)
+- Integration with existing notification system
+- Different alert types: discovery, risk, pattern, equipment
+- Visual and audio cues for different notification priorities
+- Pattern detection through automatic analysis of observation history
+
+### Task 6: Expand suspicion system to full implementation
+**User Story:** As a player, I want my suspicious activities to have graduated consequences that can escalate to detection, so that risk management becomes a core part of gameplay strategy.
+
+**Status History:**
+- **⏳ PENDING** (06/01/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. Multi-stage suspicion system with clear thresholds
+  2. Different suspicious activities have appropriate severity
+  3. Suspicion decays over time with good behavior
+  4. Environmental factors affect suspicion generation
+  5. NPCs have individual suspicion tracking
+  6. Integration with observation system risk calculations
+
+**Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md
+- Suspicious activities include prolonged observation, restricted area access
+- Suspicion affects NPC behavior and dialog options
+- Clear visual indicators for current suspicion level
+- Integration with mutual observation system
 
 ### Task 7: Create detection state machine
 **User Story:** As a guard NPC, I need to detect and respond to suspicious player behavior, so that restricted areas remain secure and the player faces consequences for reckless actions.

@@ -126,6 +126,12 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 ### Morning Report Validation
 - [ ] Task 46: Validate morning report integration with all systems during Intro Quest
 
+### Environmental Observation Infrastructure
+- [ ] Task 47: Create observable environmental details per district
+- [ ] Task 48: Implement crime scene observation mechanics
+- [ ] Task 49: Add atmospheric observation (sounds, smells, temperature)
+- [ ] Task 50: Create hidden object discovery system
+
 ## User Stories
 
 ### Task 1: Create BaseDistrict template class
@@ -1209,6 +1215,103 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Multiple testers needed
 - Fresh eyes important
 - Polish based on feedback
+
+### Task 47: Create observable environmental details per district
+**User Story:** As a player, I want to observe environmental details that tell stories about what happened in each district, so that careful observation reveals the history and current state of different areas.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 262-426
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U1, T1
+- **Acceptance Criteria:**
+  1. Each district has observable environmental details (damage, biological traces, disturbances)
+  2. Observable details support different visibility conditions and skill levels
+  3. Environmental storytelling through observable elements
+  4. Integration with district template system for easy content creation
+  5. Observable details register with ObservationManager automatically
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (EnvironmentalObservation lines 262-426)
+- Categories: DAMAGE, BIOLOGICAL, TRACES, DISTURBANCES, HIDDEN_OBJECTS, ATMOSPHERIC
+- Each district template includes observable_details configuration
+- Some details only visible under specific conditions (time, equipment, events)
+- Support for dynamic observable details that change based on world events
+
+### Task 48: Implement crime scene observation mechanics
+**User Story:** As a player, I want to investigate crime scenes through detailed observation, so that I can piece together what happened and gather evidence.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 370-425
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U4, T1
+- **Acceptance Criteria:**
+  1. Crime scenes generate specific observable details based on crime type
+  2. Blood trails, scuff marks, and evidence can be discovered through observation
+  3. Crime scene observations link to clue discovery system
+  4. Some crime evidence requires specific observation skills or equipment
+  5. Crime scenes degrade over time, affecting observable detail availability
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (Crime Scene Observations lines 370-401)
+- Crime types: assault (blood trails, struggle marks), theft (lock picking signs), vandalism (symbolic damage)
+- Integration with future crime system and assimilation events
+- Observable details have base_visibility ratings affecting discovery chance
+- Time-sensitive observations that fade or change
+
+### Task 49: Add atmospheric observation (sounds, smells, temperature)
+**User Story:** As a player, I want to notice atmospheric changes like strange sounds or smells, so that my senses help me detect threats and understand the environment.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 274-281, 402-425
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U1, T1
+- **Acceptance Criteria:**
+  1. Atmospheric observations include sounds, smells, and temperature changes
+  2. Assimilation events leave atmospheric traces (metallic taste, thick air)
+  3. Different districts have unique atmospheric signatures
+  4. Atmospheric changes indicate recent events or hidden dangers
+  5. Some atmospheric details only detectable by skilled observers
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (ATMOSPHERIC observation type)
+- Examples: "The air feels oddly thick here, with a faint metallic taste"
+- District-specific atmospherics: engineering (machine sounds), spaceport (fuel smell)
+- Assimilation residue: greenish coating on vents, strange atmospheric pressure
+- Integration with audio system for atmospheric sound cues
+
+### Task 50: Create hidden object discovery system
+**User Story:** As a player, I want to discover hidden objects and compartments through careful observation, so that thorough investigation is rewarded with valuable finds.
+
+**Design Reference:** `docs/design/observation_system_full_design.md` lines 274-281 (HIDDEN_OBJECTS)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1, T1
+- **Acceptance Criteria:**
+  1. Hidden objects and compartments discoverable through observation
+  2. Discovery requires specific observation skills or conditions
+  3. Hidden objects contain valuable items, clues, or story elements
+  4. Visual hints available for observant players
+  5. Discovery tracked in investigation progress
+
+**Implementation Notes:**
+- Reference: docs/design/observation_system_full_design.md (HIDDEN_OBJECTS category)
+- Examples: hidden panels, secret compartments, concealed items
+- Some require UV light or special equipment to reveal
+- Higher observation skill increases discovery chance
+- Integration with inventory system for hidden item rewards
+- Environmental storytelling through hidden object placement
 
 ## Testing Criteria
 - Districts load and transition smoothly
