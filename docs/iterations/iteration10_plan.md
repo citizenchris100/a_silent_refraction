@@ -136,6 +136,21 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - [ ] Task 47: Create forced homeless sleep mechanics
 - [ ] Task 48: Add squat sleep penalties and risks
 
+### Coalition Safe House Sleep System
+- [ ] Task 49: Implement coalition safe house sleep locations
+- [ ] Task 50: Create trust-based safe house access
+- [ ] Task 51: Add coalition sleep benefits
+
+### Emergency Wake Events
+- [ ] Task 52: Implement emergency wake system
+- [ ] Task 53: Create station emergency types
+- [ ] Task 54: Add partial rest mechanics
+
+### Advanced Sleep Integration
+- [ ] Task 55: Implement overnight detection decay
+- [ ] Task 56: Create overnight coalition operations
+- [ ] Task 57: Add overnight theft mechanics
+
 ## User Stories
 
 ### Task 1: Create RelationshipManager singleton
@@ -983,6 +998,581 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Use DetectionManager.increase_base_suspicion(5)
 - FatigueSystem.apply_poor_sleep_penalty() reduces recovery
 
+### Task 3: Build relationship graph structure
+**User Story:** As a developer, I want NPCs to have interconnected relationships with each other, so that social dynamics create emergent storytelling opportunities.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Relationship Networks)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. NPCs track relationships with other NPCs
+  2. Graph structure supports bidirectional connections
+  3. Relationship values range from -100 to 100
+  4. Updates propagate through network
+  5. Efficient queries for relationship chains
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md
+- Use adjacency list for performance
+- Support relationship types: friend, rival, family, colleague
+- Enable pathfinding through social connections
+
+### Task 4: Create relationship UI display
+**User Story:** As a player, I want to see my relationships with NPCs visually, so that I can track my social progress and plan interactions.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (UI Components)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U1
+- **Acceptance Criteria:**
+  1. Journal page shows relationship summary
+  2. Trust levels displayed with visual bars
+  3. Recent interactions listed
+  4. Relationship milestones marked
+  5. Sort/filter by trust level or faction
+
+**Implementation Notes:**
+- Integrate with quest log UI
+- Color coding: green (positive), yellow (neutral), red (negative)
+- Show multi-dimensional trust breakdown on hover
+- Include relationship history timeline
+
+### Task 9: Add emotional state tracking
+**User Story:** As an NPC, I want to have emotional states that affect my behavior, so that I react realistically to events and create dynamic interactions.
+
+**Design Reference:** `docs/design/template_npc_design.md` (Emotional States)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Track current emotional state (happy, sad, angry, fearful, neutral)
+  2. Emotions affect dialog tone and choices
+  3. Recent events influence emotional state
+  4. Emotions decay over time to baseline
+  5. Visible through animations and hover text
+
+**Implementation Notes:**
+- Reference: docs/design/template_npc_design.md
+- Emotion values: -1.0 to 1.0 on multiple axes
+- Personality affects emotional volatility
+- Integrate with dialog system for tone modifiers
+
+### Task 10: Build NPC reaction tables
+**User Story:** As a developer, I want NPCs to have consistent reactions to player actions, so that the world responds logically to player choices.
+
+**Design Reference:** `docs/design/template_npc_design.md` (Reaction System)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. Define reaction categories (help, harm, ignore, etc.)
+  2. Personality modifies reaction intensity
+  3. Context affects reaction choice
+  4. Reactions trigger appropriate responses
+  5. Data-driven for easy modification
+
+**Implementation Notes:**
+- Store in JSON reaction tables
+- Consider trust level in reaction selection
+- Support delayed reactions for complex events
+- Enable reaction chaining for escalation
+
+### Task 12: Add routine interruption handling
+**User Story:** As an NPC, I want to handle interruptions to my routine gracefully, so that unexpected events don't break my behavior.
+
+**Design Reference:** `docs/design/template_npc_design.md` (Schedule System)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Remember interrupted activity
+  2. React appropriately to interruption type
+  3. Resume or abandon based on priority
+  4. Update schedule dynamically
+  5. Communicate disruption to player
+
+**Implementation Notes:**
+- Priority levels for activities
+- Emergency overrides for critical events
+- Grace period before abandoning tasks
+- Stack interruptions for complex scenarios
+
+### Task 13: Create activity animations/states
+**User Story:** As a player, I want to see NPCs performing their activities visually, so that the world feels alive and inhabited.
+
+**Design Reference:** `docs/design/template_npc_design.md` (Activity System)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. Animations for common activities (eating, working, talking)
+  2. Props appear during activities
+  3. Smooth transitions between states
+  4. Activities match schedule entries
+  5. Interruptible with appropriate reactions
+
+**Implementation Notes:**
+- Use state machine for activity transitions
+- Preload common activity animations
+- Support location-specific activities
+- Enable ambient activity sounds
+
+### Task 15: Add routine variation system
+**User Story:** As an NPC, I want my routine to have natural variations, so that I don't feel robotic or completely predictable.
+
+**Design Reference:** `docs/design/template_npc_design.md` (Dynamic Schedules)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U3
+- **Acceptance Criteria:**
+  1. 10-20% time variation in activities
+  2. Occasional schedule deviations
+  3. Weather/events affect routines
+  4. Personality influences variation amount
+  5. Core activities remain predictable
+
+**Implementation Notes:**
+- Add random factors to schedule timing
+- Special events can override routine
+- Maintain investigatability despite variations
+- Log variations for player discovery
+
+### Task 16: Create DisguiseManager
+**User Story:** As a developer, I want a centralized system to manage all disguise mechanics, so that identity verification and role-playing elements work consistently.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` (Core Architecture)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Track current disguise and effectiveness
+  2. Calculate detection chances
+  3. Manage disguise inventory
+  4. Handle quick-change mechanics
+  5. Integrate with suspicion system
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md
+- Singleton pattern for global access
+- Support partial disguises
+- Track disguise wear and tear
+
+### Task 17: Implement clothing/uniform system
+**User Story:** As a player, I want to collect and wear different uniforms, so that I can access restricted areas and blend in with various groups.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` (Clothing System)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Multiple uniform types (security, medical, maintenance)
+  2. Visual representation on player
+  3. Inventory integration
+  4. Condition affects effectiveness
+  5. Size/fit considerations
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md
+- Each uniform has access permissions
+- Damaged uniforms less effective
+- Some uniforms have special properties
+
+### Task 19: Add disguise effectiveness ratings
+**User Story:** As a player, I want to see how effective my disguise is, so that I can gauge the risk of detection before entering dangerous situations.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` (Effectiveness Calculation)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Effectiveness score 0-100%
+  2. Factors: completeness, condition, behavior
+  3. Visual indicator in UI
+  4. Context-sensitive warnings
+  5. Real-time updates
+
+**Implementation Notes:**
+- Base effectiveness from clothing quality
+- Behavior modifiers (walking, running, actions)
+- NPC familiarity reduces effectiveness
+- Environmental factors (lighting, crowds)
+
+### Task 20: Create disguise detection system
+**User Story:** As an NPC, I want to detect suspicious individuals in disguise, so that security feels meaningful and infiltration requires skill.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` (Detection Mechanics)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Detection checks based on proximity and attention
+  2. Different NPCs have different detection skills
+  3. Gradual suspicion building
+  4. Behavioral giveaways increase detection
+  5. Environmental factors affect detection
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md
+- Security NPCs have higher detection
+- Close scrutiny increases detection chance
+- Quick-time events for tense moments
+
+### Task 21: Implement social group dynamics
+**User Story:** As a developer, I want NPCs to form and maintain social groups, so that the station feels like a real community with cliques and alliances.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Social Networks)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. NPCs belong to multiple social groups
+  2. Groups have leaders and hierarchies
+  3. Group membership affects behavior
+  4. Groups can merge or split
+  5. Player actions affect group dynamics
+
+**Implementation Notes:**
+- Groups: department, shift, social, interest-based
+- Group events bring members together
+- Gossip spreads faster within groups
+- Group loyalty affects trust building
+
+### Task 22: Create gossip/information spread
+**User Story:** As a player, I want information to spread naturally through NPC networks, so that my actions have social consequences and reputation matters.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` (Information Networks)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Information spreads based on relationships
+  2. Details change/distort over time
+  3. Speed based on importance and trust
+  4. Player can influence spread
+  5. Some NPCs are gossip hubs
+
+**Implementation Notes:**
+- Information has accuracy value that degrades
+- Trust level affects sharing likelihood
+- Critical info spreads faster
+- Can plant false information
+
+### Task 23: Add faction reputation tracking
+**User Story:** As a player, I want my actions to affect my standing with different factions, so that choices have long-term social consequences.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Faction System)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Multiple factions with different goals
+  2. Actions affect faction standing
+  3. Standing affects member interactions
+  4. Faction conflicts create choices
+  5. Reputation unlocks opportunities
+
+**Implementation Notes:**
+- Factions: Security, Medical, Labor, Coalition
+- Standing: -100 (hostile) to 100 (allied)
+- Some actions please one faction but anger another
+- High standing unlocks faction-specific content
+
+### Task 24: Build social event system
+**User Story:** As a player, I want to participate in social events, so that I can build relationships and discover information in natural settings.
+
+**Design Reference:** `docs/design/living_world_event_system_mvp.md` (Social Events)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Scheduled social gatherings
+  2. Dynamic attendee lists
+  3. Event-specific interactions
+  4. Relationship building opportunities
+  5. Information gathering chances
+
+**Implementation Notes:**
+- Events: shift meetings, meal times, recreation
+- Attendance based on schedules and relationships
+- Special dialog options during events
+- Can overhear useful information
+
+### Task 25: Implement relationship consequences with social puzzles
+**User Story:** As a player, I want my relationships to unlock puzzle solutions and create new obstacles, so that social gameplay integrates with problem-solving.
+
+**Design Reference:** `docs/design/puzzle_system_design.md` (Social Puzzles)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. High trust unlocks cooperation
+  2. Low trust creates obstacles
+  3. Multiple social solutions to puzzles
+  4. Betrayal has lasting consequences
+  5. Relationship networks affect solutions
+
+**Implementation Notes:**
+- Reference: docs/design/puzzle_system_design.md
+- Some puzzles require multiple NPCs
+- Trust level gates certain solutions
+- Social engineering as puzzle mechanic
+
+### Task 49: Implement coalition safe house sleep locations
+**User Story:** As a player allied with the coalition, I want access to safe house sleeping locations, so that I have alternatives when I lose barracks access.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Coalition System Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Multiple safe house locations
+  2. Better than mall squat (80% quality)
+  3. No cost but requires trust
+  4. Limited availability
+  5. Risk of discovery
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 405-426
+- Locations hidden until discovered
+- Only available when trust > 50
+- Can be compromised by security
+
+### Task 50: Create trust-based safe house access
+**User Story:** As a coalition member, I want my trust level to determine safe house access, so that loyalty to the coalition has tangible benefits.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Coalition Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Trust threshold of 50 for basic access
+  2. Higher trust unlocks better locations
+  3. Access can be revoked for betrayal
+  4. Emergency access in crisis
+  5. Shared with other coalition members
+
+**Implementation Notes:**
+- Check CoalitionManager.get_trust_level()
+- Different safe houses have different requirements
+- Emergency override for critical situations
+- Track usage to prevent overuse
+
+### Task 51: Add coalition sleep benefits
+**User Story:** As a player sleeping in coalition safe houses, I want unique benefits, so that building coalition relationships provides gameplay advantages.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Coalition Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Coalition members may visit overnight
+  2. Information exchange opportunities
+  3. Reduced suspicion decay
+  4. Access to coalition supplies
+  5. Planning sessions before sleep
+
+**Implementation Notes:**
+- NPCs share intel during rest
+- Can coordinate next day's actions
+- Small chance of raid/discovery
+- Better morning reports with coalition info
+
+### Task 52: Implement emergency wake system
+**User Story:** As a player, I want to be woken by station emergencies, so that critical events feel impactful and sleep isn't always safe.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Emergency Wake Events)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U1
+- **Acceptance Criteria:**
+  1. Emergencies interrupt sleep
+  2. Partial rest based on time slept
+  3. Emergency type affects urgency
+  4. Location affects wake probability
+  5. Clear emergency notifications
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 495-519
+- Check EventManager.should_trigger_emergency()
+- Calculate partial rest: hours_slept / 6
+- Immediate scene transition on wake
+
+### Task 53: Create station emergency types
+**User Story:** As a developer, I want various emergency events that can wake the player, so that the world feels dangerous and unpredictable.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Emergency Types)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Assimilation outbreak events
+  2. Coalition raid emergencies
+  3. System malfunction alerts
+  4. Security lockdown warnings
+  5. Different wake probabilities
+
+**Implementation Notes:**
+- Each emergency has urgency level
+- Some locations immune to certain emergencies
+- Barracks less likely to be interrupted
+- Consequences for ignoring emergencies
+
+### Task 54: Add partial rest mechanics
+**User Story:** As a player woken early, I want to suffer fatigue penalties, so that interrupted sleep has gameplay consequences.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Partial Rest)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Rest quality based on hours slept
+  2. Minimum 2 hours for any benefit
+  3. Fatigue penalties for partial rest
+  4. Accumulating sleep debt
+  5. Visual indicators of exhaustion
+
+**Implementation Notes:**
+- Partial rest = hours_slept / 6 * base_quality
+- FatigueSystem.apply_partial_rest(percentage)
+- Sleep debt increases exhaustion rate
+- Multiple interruptions compound penalties
+
+### Task 55: Implement overnight detection decay
+**User Story:** As a player, I want my heat level to decrease while sleeping, so that rest provides a strategic way to reduce suspicion.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Detection System Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2
+- **Acceptance Criteria:**
+  1. Heat decays during sleep
+  2. Decay rate varies by location
+  3. Barracks provides best decay (70%)
+  4. Mall squat adds base suspicion
+  5. Integrates with DetectionManager
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 380-403
+- DetectionManager.apply_overnight_decay(rate)
+- Barracks: 0.7, Coalition: 0.5, Squat: 0.3
+- Squat adds +5 base suspicion
+
+### Task 56: Create overnight coalition operations
+**User Story:** As a coalition ally, I want the coalition to conduct operations while I sleep, so that the resistance feels active and independent.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Coalition Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3
+- **Acceptance Criteria:**
+  1. Coalition missions execute overnight
+  2. Success based on member skills
+  3. Player absence enables certain ops
+  4. Results in morning report
+  5. Can fail with consequences
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 417-426
+- CoalitionManager.get_scheduled_overnight_actions()
+- Some missions require player absence
+- Success affects coalition resources
+
+### Task 57: Add overnight theft mechanics
+**User Story:** As a player sleeping rough, I want to risk having items stolen, so that unsafe sleep locations have real consequences.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Theft Risk)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. 15% theft chance in mall squat
+  2. Lose 1-3 random items
+  3. Credits prioritized by thieves
+  4. Morning report shows losses
+  5. Can't lose key/quest items
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 250-255
+- Select items by value/type
+- Some items have theft_priority
+- Add to overnight_events["theft"]
+
 ## Testing Criteria
 - Trust levels change appropriately
 - NPC memories persist correctly
@@ -1001,6 +1591,22 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Squat sleep penalties apply appropriately
 - Security discovery in squat has consequences
 - Item theft risk functions in squat
+- Coalition safe houses accessible with proper trust
+- Safe house sleep quality provides 80% recovery
+- Emergency wake events interrupt sleep appropriately
+- Partial rest mechanics calculate correctly
+- Station emergencies trigger based on conditions
+- Overnight detection decay reduces heat levels
+- Coalition overnight operations execute properly
+- Overnight theft only affects non-critical items
+- All sleep locations integrate with save system
+- Relationship graph structure performs efficiently
+- Emotional states affect NPC behavior
+- Social groups form and maintain correctly
+- Gossip system spreads information realistically
+- Faction reputation affects interactions
+- Disguise effectiveness calculations work properly
+- Identity verification provides appropriate challenges
 
 ## Timeline
 - Start date: After Iteration 9
@@ -1023,6 +1629,12 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - src/characters/npc/base_npc_full.gd (to be created)
 - src/core/economy/rent_manager.gd (to be created)
 - src/core/economy/barracks_serializer.gd (to be created)
+- src/core/sleep/coalition_sleep_handler.gd (to be created)
+- src/core/sleep/emergency_wake_handler.gd (to be created)
+- src/core/sleep/overnight_event_processor.gd (to be created)
+- src/characters/npc/npc_emotional_state.gd (to be created)
+- src/core/social/gossip_manager.gd (to be created)
+- src/core/social/faction_manager.gd (to be created)
 - docs/design/npc_trust_relationship_system_design.md
 - docs/design/disguise_clothing_system_design.md
 - docs/design/template_npc_design.md

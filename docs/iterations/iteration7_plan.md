@@ -132,6 +132,16 @@ As a player, I need to manage my limited credits while finding safe places to sl
 ### Hover Text System Serialization
 - [ ] Task 53: Implement hover text serialization system
 
+### Sleep System Core Implementation
+- [ ] Task 54: Create SleepSystemManager singleton
+- [ ] Task 55: Implement midnight forced return mechanics
+- [ ] Task 56: Create SleepSystemSerializer
+- [ ] Task 57: Integrate overnight assimilation processing
+- [ ] Task 58: Add security discovery mechanics for mall squat
+- [ ] Task 59: Implement forced sleep warning system
+- [ ] Task 60: Create sleep quality calculation system
+- [ ] Task 61: Add overnight event coordination system
+
 ## User Stories
 
 ### Task 1: Create EconomyManager singleton
@@ -1428,6 +1438,267 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Statistics include total_shown and by_type counts
 - Old entries automatically pruned on save
 
+### Task 53: Implement hover text serialization system
+**User Story:** As a player, I want my hover text preferences and history to persist between sessions, so that the game remembers my UI settings and interaction patterns.
+
+**Design Reference:** `docs/design/scumm_hover_text_system_design.md` (Serialization Integration section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. HoverTextSerializer extends BaseSerializer
+  2. Saves hover text visibility preferences
+  3. Tracks recently hovered objects for patterns
+  4. Integrates with SaveManager at priority 85
+  5. Handles version migration properly
+  6. Minimal save file impact
+
+**Implementation Notes:**
+- Reference: docs/design/scumm_hover_text_system_design.md (Serialization section)
+- Priority 85 makes it very low priority (UI preference)
+- Save hover_enabled state and display preferences
+- Track last 50 hovered objects for analytics
+- Compress old hover history on save
+
+### Task 54: Create SleepSystemManager singleton
+**User Story:** As a developer, I want a centralized manager for all sleep-related mechanics, so that forced sleep, quality calculations, and location management are handled consistently throughout the game.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Core Mechanics section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Singleton manages all sleep states and mechanics
+  2. Tracks player sleep status (barracks resident vs squat dweller)
+  3. Handles forced sleep at midnight
+  4. Manages sleep quality calculations
+  5. Coordinates with SaveManager for sleep-to-save
+  6. Emits signals for sleep events
+  7. Integrates with TimeManager for scheduling
+  8. Provides API for sleep location queries
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 9-40 (Two Sleep Modes)
+- Core state tracking:
+  ```gdscript
+  var is_barracks_resident: bool = true
+  var current_sleep_location: String = "barracks"
+  var last_sleep_quality: float = 1.0
+  var consecutive_squat_nights: int = 0
+  ```
+- Signals: sleep_initiated, sleep_completed, forced_sleep_warning, became_squat_dweller
+- Coordinate all sleep subsystems
+
+### Task 55: Implement midnight forced return mechanics
+**User Story:** As a player with barracks access, I want to be forced to return home at midnight, so that the game creates natural daily rhythms and sleep becomes a strategic consideration.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Forced Return at Midnight section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Warning at 11:30 PM for barracks residents
+  2. Final warning at 11:45 PM with urgency
+  3. Forced tram return at midnight exactly
+  4. Late night tram surcharge (50% extra)
+  5. Automatic sleep on arrival at barracks
+  6. Can't afford tram = become squat dweller
+  7. Integrates with PromptNotificationSystem
+  8. Travel time calculated based on current district
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 99-178 (MidnightEnforcer)
+- Warning messages use notification priorities (warning, critical)
+- Calculate tram cost with surcharge: base_cost * 1.5
+- Use TramSystem.calculate_time() for travel duration
+- Force scene change to barracks on arrival
+- Trigger make_squat_dweller() if can't afford fare
+
+### Task 56: Create SleepSystemSerializer
+**User Story:** As a player, I want my sleep status and history to persist across game sessions, so that I can't avoid the consequences of homelessness by reloading.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Modular Serialization section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Extends BaseSerializer with proper versioning
+  2. Serializes squat dweller status and history
+  3. Saves warning states and timing
+  4. Tracks sleep quality history
+  5. Preserves consecutive squat nights
+  6. Integrates with SaveManager at priority 35
+  7. Handles save/load corruption gracefully
+  8. Compresses sleep history to last 7 days
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 577-615 (SleepSystemSerializer)
+- Priority 35 (medium-high, affects gameplay)
+- Serialize: is_squat_dweller, eviction_day, sleep_history, warning_shown states
+- Compress older sleep records for save file efficiency
+- Version 1 format for future migration support
+
+### Task 57: Integrate overnight assimilation processing
+**User Story:** As a player, I want the assimilation to spread while I sleep, so that resting has strategic consequences and the world feels alive even during downtime.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Assimilation System Integration section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U3
+- **Acceptance Criteria:**
+  1. Assimilation spreads during sleep (2-3% typical)
+  2. Spread rate higher when player is homeless (1.2x)
+  3. Critical NPCs tracked for morning report
+  4. Overnight spread affects multiple NPCs
+  5. Results stored for morning report display
+  6. Integrates with AssimilationManager
+  7. Different rates by sleep location
+  8. Emergency events if spread exceeds threshold
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 359-377 (process_overnight_assimilation)
+- Call AssimilationManager.calculate_overnight_spread(modifier)
+- Squat dwelling: spread_modifier = 1.2
+- Track new_assimilations array for report
+- Check for critical NPCs using NPCRegistry.is_critical()
+- Store results in overnight_events Dictionary
+
+### Task 58: Add security discovery mechanics for mall squat
+**User Story:** As a player sleeping in the mall, I want to risk discovery by security, so that choosing unsafe sleep locations has meaningful consequences.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Security Discovery section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. 15% chance of discovery per night
+  2. Security confrontation dialog options
+  3. Can bribe (50 credits), bluff, run, or comply
+  4. Consequences affect suspicion and location
+  5. Disguises provide additional options
+  6. Discovery patterns increase with consecutive nights
+  7. Morning report reflects discovery events
+  8. Integrates with DetectionManager
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 475-492 (handle_security_discovery)
+- Check disguises with DisguiseManager.has_uniform("security")
+- Bribe option only if credits >= 50
+- Compliance increases suspicion by 10
+- Running triggers chase sequence
+- Pattern tracking increases discovery chance
+
+### Task 59: Implement forced sleep warning system
+**User Story:** As a player, I want clear warnings before forced sleep, so that I can prepare for the mandatory rest period and make strategic decisions.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (UI Components section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Visual fatigue indicators as exhaustion builds
+  2. Text warnings at key thresholds
+  3. Screen effects at extreme exhaustion
+  4. Different warnings for barracks vs homeless
+  5. Countdown timer in final 30 minutes
+  6. Audio cues for urgency
+  7. Integrates with UI systems
+  8. Clear but non-intrusive design
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 541-556 (Forced Return Warning)
+- Use PromptNotificationSystem for text warnings
+- Screen darkening effect as fatigue increases
+- Pulsing red border at critical exhaustion
+- Different warning text for squat dwellers
+- Timer shows "Sleep in: XX:XX" in HUD
+
+### Task 60: Create sleep quality calculation system
+**User Story:** As a player, I want different sleep locations to provide different rest quality, so that economic decisions about accommodations have gameplay consequences.
+
+**Design Reference:** `docs/design/sleep_system_design.md` (Sleep Quality System)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Barracks provides 100% rest quality
+  2. Mall squat provides 50% rest quality
+  3. Coalition safe houses provide 80% quality
+  4. Quality affects fatigue recovery rate
+  5. Poor quality adds negative status effects
+  6. Quality visible in morning report
+  7. Affects next day's performance
+  8. Integrates with FatigueSystem
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 331-357 (Fatigue System Integration)
+- Quality calculation:
+  ```gdscript
+  var quality_by_location = {
+      "barracks": 1.0,
+      "mall_squat": 0.5,
+      "coalition_safehouse": 0.8
+  }
+  ```
+- Apply to FatigueSystem.apply_quality_rest(quality)
+- Poor quality reduces action speeds next day
+
+### Task 61: Add overnight event coordination system
+**User Story:** As a developer, I want overnight events from all systems to be processed in the correct order, so that dependencies are resolved and the morning report accurately reflects all changes.
+
+**Design Reference:** `docs/design/sleep_system_design.md` & `docs/design/save_system_design.md` (Overnight Processing)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Process systems in dependency order
+  2. Time → Assimilation → Coalition → Economy → NPCs
+  3. Each system reports events to MorningReportManager
+  4. Handle failures gracefully
+  5. Transaction-like rollback on critical errors
+  6. Performance optimized for many NPCs
+  7. Results aggregated for morning display
+  8. Emergency interrupts handled properly
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 328-360 (overnight processing order)
+- Reference: docs/design/sleep_system_design.md (Integration sections)
+- Processing order ensures dependencies:
+  1. TimeManager.advance_to_morning()
+  2. AssimilationManager.process_overnight_spread()
+  3. CoalitionManager.execute_overnight_actions()
+  4. EconomyManager.process_overnight_transactions()
+  5. NPCManager.update_all_npc_states()
+- Wrap in try-catch for error handling
+- Log all events to overnight_events Dictionary
+
 ## Testing Criteria
 - Economy transactions process correctly
 - Shop purchases validate credit balance
@@ -1474,6 +1745,20 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Accessibility modes function correctly
 - Screen reader announces all actions
 - Colorblind modes clearly distinguish categories
+- SleepSystemManager properly tracks sleep states
+- Midnight warnings trigger at correct times
+- Forced return calculates tram costs with surcharge
+- Sleep quality affects recovery appropriately
+- Mall squat discovery chance works correctly
+- Security confrontation provides all dialog options
+- Overnight assimilation spread calculates properly
+- Sleep serialization preserves all states
+- Warning states persist across save/load
+- Overnight event processing follows correct order
+- Emergency wake events interrupt sleep properly
+- Sleep location affects morning report content
+- Forced sleep prevents save-scumming exploits
+- All sleep systems integrate without conflicts
 
 ## Timeline
 - Start date: After Iteration 6 completion
@@ -1495,6 +1780,11 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - src/core/save/save_manager.gd (to be created)
 - src/core/save/morning_report_manager.gd (to be created)
 - src/core/serializers/morning_report_serializer.gd (to be created)
+- src/core/sleep/sleep_system_manager.gd (to be created)
+- src/core/sleep/midnight_enforcer.gd (to be created)
+- src/core/sleep/squat_sleep_enforcer.gd (to be created)
+- src/core/serializers/sleep_system_serializer.gd (to be created)
+- src/core/serializers/hover_text_serializer.gd (to be created)
 - src/districts/barracks/ (to be created)
 - src/core/inventory/inventory_manager.gd (to be created)
 - src/ui/inventory/inventory_ui.gd (to be created)

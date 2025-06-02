@@ -1667,7 +1667,9 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Physical storage location
 
 ### Task 68: Build safe house management
-**User Story:** As a coalition, we want to maintain secret safe houses, so that members have places to hide and meet.
+**User Story:** As a coalition, we want to maintain secret safe houses, so that members have places to hide, meet, and rest safely.
+
+**Design Reference:** `docs/design/coalition_resistance_system_design.md` & `docs/design/sleep_system_design.md` (Coalition Integration)
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -1680,12 +1682,19 @@ As a player, I experience a living station where the mysterious assimilation spr
   3. Provide rest and resources
   4. Meeting locations
   5. Upgrade possibilities
+  6. **Sleep functionality with 80% quality**
+  7. **Trust threshold of 50 for sleep access**
+  8. **Integration with SleepSystemManager**
 
 **Implementation Notes:**
 - Reference: docs/design/coalition_resistance_system_design.md
+- Reference: docs/design/sleep_system_design.md lines 405-426 (Coalition sleep integration)
 - One per major district when established
 - Infiltrators can compromise
 - Fallback locations available
+- Sleep quality = 0.8 (better than squat, worse than barracks)
+- Only accessible when trust >= 50
+- Check CoalitionManager.get_accessible_safe_houses()
 
 ### Task 69: Add resource request/contribution mechanics
 **User Story:** As a coalition member in need, I want to request specific resources from the coalition, so that I can complete my missions.
