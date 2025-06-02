@@ -107,6 +107,11 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - [ ] Task 24: Performance optimization pass
 - [ ] Task 25: Bug fixing and polish
 
+### Trust and Relationship UI Systems
+- [ ] Task 26: Create RelationshipManager singleton system
+- [ ] Task 27: Implement relationship UI components (HUD, journal, trust breakdown)
+- [ ] Task 28: Add relationship milestone and opportunity system
+
 ## User Stories
 
 ### Task 1: Implement all 7 district backgrounds
@@ -734,6 +739,90 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Create bug database
 - Prioritize player-facing issues
 
+### Task 26: Create RelationshipManager singleton system
+
+**User Story:** As a game system, I need a centralized RelationshipManager to coordinate all multi-dimensional trust relationships, NPC connections, and faction standings, so that the social dynamics work consistently across all game systems.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (System Architecture - RelationshipManager)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, T2
+- **Acceptance Criteria:**
+  1. Singleton manages all player-NPC relationships
+  2. Tracks multi-dimensional trust (personal, professional, emotional, ideological, fear)
+  3. Manages NPC-to-NPC connection networks
+  4. Handles faction-wide reputation systems
+  5. Emits signals for trust changes and milestones
+  6. Integrates with dialog, quest, and coalition systems
+  7. Provides comprehensive relationship API
+  8. Optimized for 150+ NPCs
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (Core Components)
+- Implement as autoload singleton
+- Use signals for system communication
+- Cache frequently accessed relationships
+- Lazy-load NPC connections
+
+### Task 27: Implement relationship UI components (HUD, journal, trust breakdown)
+
+**User Story:** As a player, I want clear visual feedback about my relationships with NPCs including trust levels, relationship types, and trust breakdown across dimensions, so that I can make informed social decisions.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (UI Components)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U2, U3
+- **Acceptance Criteria:**
+  1. Relationship HUD shows when talking to NPCs
+  2. Trust bar with color-coded relationship status
+  3. Trust breakdown visible for trusted NPCs (>40 trust)
+  4. Relationship journal tracks all NPC relationships
+  5. Journal groups NPCs by relationship type
+  6. Gender dynamics and barriers shown in tooltips
+  7. Visual indicators for relationship milestones
+  8. Quick reference for recent trust changes
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (Relationship Status Display)
+- HUD appears contextually during conversations
+- Journal accessible from main menu
+- Use color coding: green (friend), yellow (neutral), red (hostile)
+- Show trust barriers based on gender/profession
+
+### Task 28: Add relationship milestone and opportunity system
+
+**User Story:** As a player, I want to receive notifications about relationship milestones and special opportunities to maintain friendships, so that relationships feel dynamic and require active maintenance.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Time-Based Decay & Special Occasions)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Milestone notifications at trust thresholds (30, 50, 70)
+  2. Daily trust decay after 3 days without interaction
+  3. Relationship maintenance opportunities (meals, birthdays)
+  4. Special event notifications (NPC in distress)
+  5. Trust decay warnings for neglected relationships
+  6. Context-sensitive trust actions available
+  7. Milestone rewards unlock new dialog/quests
+  8. Visual/audio feedback for milestones
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (check_relationship_opportunities)
+- Integrate with TimeManager for daily checks
+- Queue notifications to avoid overwhelming player
+- Meal times: 12:00-13:00, 18:00-19:00
+- Birthday tracking in NPC data
+
 ## Testing Criteria
 - All districts accessible and explorable
 - Core NPCs have functional interactions
@@ -747,6 +836,12 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Save/load works throughout final quests
 - Performance maintains 60 FPS baseline
 - No critical bugs in core content
+- RelationshipManager tracks all relationships correctly
+- Multi-dimensional trust calculates properly
+- Relationship UI displays accurate information
+- Trust milestones trigger at correct thresholds
+- Relationship decay functions as designed
+- Trust opportunities appear contextually
 
 ## Timeline
 - **Estimated Duration:** 6-8 weeks (expanded from 4-6)

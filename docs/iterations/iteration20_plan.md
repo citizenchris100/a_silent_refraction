@@ -36,6 +36,9 @@
 - [ ] Task 8: Track memory usage metrics per quest
 - [ ] Task 9: Monitor district load times during quests
 - [ ] Task 10: Implement thermal monitoring integration
+- [ ] Task 11: Add trust-based quest gating and variations
+- [ ] Task 12: Create relationship-focused side quests
+- [ ] Task 13: Implement special trust-building quest rewards
 
 ### Task 1: Implement ~25 job quests with daily rotations
 
@@ -108,7 +111,9 @@
 
 ### Task 4: Create 15-20 personal side stories for NPCs
 
-**User Story:** As a player, I want to help NPCs with personal problems to deepen relationships and learn their stories, so that the station feels populated by real people with real lives.
+**User Story:** As a player, I want to help NPCs with personal problems to deepen multi-dimensional trust relationships and learn their stories, so that the station feels populated by real people whose trust I must earn across personal, professional, and emotional dimensions.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Romance System & Trust Integration)
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -116,18 +121,22 @@
 **Requirements:**
 - **Linked to:** B1, U1
 - **Acceptance Criteria:**
-  1. 4 romance quest chains with meaningful choices
-  2. 4 family drama quests exploring NPC backgrounds
-  3. 4 professional ambition quests about career goals
-  4. 4 personal crisis quests requiring player support
-  5. 4 friendship quests building bonds
-  6. Emotional resonance through quality writing
+  1. 4 romance quest chains requiring multi-dimensional trust (60+ personal, 50+ emotional)
+  2. 4 family drama quests exploring NPC backgrounds and trust barriers
+  3. 4 professional ambition quests building professional respect dimension
+  4. 4 personal crisis quests requiring emotional bond to unlock
+  5. 4 friendship quests progressing through trust milestones
+  6. Gender dynamics affect romance availability and progression
+  7. Trust requirements gate quest stages appropriately
+  8. Quest outcomes affect specific trust dimensions
 
 **Implementation Notes:**
-- Write character-driven narratives
-- Create branching dialog trees
-- Connect to relationship system
-- Design meaningful rewards beyond items
+- Reference: docs/design/npc_trust_relationship_system_design.md (Romance & Quest Integration)
+- Romance requires: check_romance_potential() validation
+- Gender compatibility checks for 1950s setting
+- Trust thresholds: Friend (40+), Close Friend (60+), Romance (70+)
+- Quest rewards include trust dimension bonuses
+- Failed quests damage appropriate trust dimensions
 
 ### Task 5: Build quest interconnection system
 
@@ -261,6 +270,90 @@
 - Correlate with quest events
 - Add thermal overlay option
 
+### Task 11: Add trust-based quest gating and variations
+
+**User Story:** As a player, I want quests to unlock and vary based on my trust relationships with NPCs, so that building relationships opens new gameplay opportunities and creates unique experiences.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Trust Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Quest availability checks trust thresholds
+  2. Dialog options vary by trust level
+  3. Quest outcomes differ based on trust
+  4. Trust gates: 20 (basic), 40 (personal), 60 (sensitive)
+  5. Multi-dimensional trust affects specific quests
+  6. Failed trust checks provide feedback
+  7. Alternative paths for low-trust players
+  8. Trust affects quest rewards
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (get_trust_gated_dialog)
+- Professional quests require professional respect > 50
+- Personal quests require personal trust > 40
+- Romance quests require emotional bond > 60
+- Coalition quests require ideological alignment > 50
+
+### Task 12: Create relationship-focused side quests
+
+**User Story:** As a player, I want quests specifically designed to deepen relationships through shared experiences, so that trust-building feels like an integral part of gameplay rather than just dialog choices.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Trust Building Mechanics)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. 5 "helping hand" quests for professional trust
+  2. 5 "personal favor" quests for personal trust
+  3. 5 "emotional support" quests for emotional bond
+  4. 3 "ideological debate" quests for alignment
+  5. Quests reflect NPC personality types
+  6. Gender dynamics affect quest availability
+  7. Completion grants major trust bonuses
+  8. Failure damages specific dimensions
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (TRUST_ACTIONS)
+- Helping hand: +15 professional, +5 personal
+- Personal favor: +10 personal, +5 emotional
+- Emotional support: +15 emotional, +10 personal
+- Design quests around NPC needs and personality
+
+### Task 13: Implement special trust-building quest rewards
+
+**User Story:** As a player, I want completing certain quests to unlock special trust-building opportunities and relationship milestones, so that quest completion feels rewarding beyond just items and credits.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Relationship Milestones)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Quest completion unlocks trust actions
+  2. Special relationship flags from quests
+  3. Shared memories enhance future dialog
+  4. Trust milestone rewards (30, 50, 70)
+  5. Permanent trust bonuses for major quests
+  6. Relationship achievements unlock content
+  7. Gender-specific quest rewards
+  8. Visual feedback for relationship progress
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (Special flags)
+- Major quest flags: saved_their_life (+30 personal, +25 emotional)
+- Shared experience: has_shared_adventure flag
+- Unlock special dialog branches permanently
+- Create memorable moments through quests
+
 ## Testing Criteria
 - All quests completable without bugs
 - Quest chains progress logically
@@ -271,6 +364,11 @@
 - Player always has available quests
 - Dynamic elements create variety
 - All branches reachable through play
+- Trust-based quest gating works correctly
+- Relationship quests build appropriate trust dimensions
+- Trust rewards apply properly to relationships
+- Gender dynamics affect quest availability as designed
+- Quest variations based on trust level function properly
 
 ## Timeline
 - Start date: 2026-02-19

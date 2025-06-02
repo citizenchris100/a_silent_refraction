@@ -133,10 +133,45 @@ As a player, I want to interact with NPCs who feel like real people with their o
 
 ## User Stories
 
-### Task 2: Implement trust level mechanics
-**User Story:** As a player, I want my actions to build or destroy trust with NPCs, so that my choices have meaningful social consequences throughout the game.
+### Task 1: Create RelationshipManager singleton
+**User Story:** As a game system, I need a centralized manager to track and maintain all NPC relationships with multi-dimensional trust, so that complex social dynamics can be consistently managed across the entire game.
 
-**BaseNPC Migration Phase 2a:** This task implements the dialog context system required for personality-driven interactions and prepares for gender dynamics.
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Core Components - RelationshipManager)
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Singleton RelationshipManager tracks all player-NPC relationships
+  2. Stores multi-dimensional RelationshipData for each NPC
+  3. Handles trust modifications with personality modifiers
+  4. Emits signals for trust changes and milestones
+  5. Manages NPC-to-NPC connection networks
+  6. Tracks faction standings affecting member trust
+  7. Logs interaction history for reference
+  8. Provides API for trust queries and modifications
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (RelationshipManager)
+- Core structure:
+  ```gdscript
+  var relationships: Dictionary = {}  # npc_id: RelationshipData
+  var npc_connections: Dictionary = {}  # npc_id: {other_npc_id: relationship_value}
+  var faction_standings: Dictionary = {}  # faction: reputation_value
+  var interaction_history: Array = []
+  ```
+- Signals: trust_changed, relationship_milestone, trust_decayed, reputation_changed
+- Auto-initialize relationships on first access
+- Apply personality and gender modifiers to all trust changes
+
+### Task 2: Implement trust level mechanics
+**User Story:** As a player, I want my actions to build or destroy trust with NPCs across multiple dimensions (personal, professional, emotional, ideological, fear), so that relationships feel nuanced and my choices have complex social consequences throughout the game.
+
+**BaseNPC Migration Phase 2a:** This task implements the multi-dimensional trust system and dialog context required for personality-driven interactions with gender dynamics.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -144,26 +179,32 @@ As a player, I want to interact with NPCs who feel like real people with their o
 **Requirements:**
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
-  1. Trust levels: Hostile (-100), Suspicious (-50), Neutral (0), Friendly (50), Trusted (100)
-  2. Actions modify trust incrementally
-  3. Trust affects available dialog options
-  4. Trust changes trigger NPC reactions
-  5. Trust persists across sessions
-  6. **Phase 2a:** Dialog context Dictionary passed to all dialog methods
-  7. **Phase 2a:** Context includes player_gender and npc_gender fields
+  1. Multi-dimensional trust: Personal (0-100), Professional (0-100), Emotional (0-100), Ideological (0-100), Fear (0-100)
+  2. RelationshipData structure tracks all dimensions with weighted total trust calculation
+  3. Actions modify specific trust dimensions based on context
+  4. Trust affects available dialog options with dimension-specific thresholds
+  5. Trust changes trigger NPC reactions and milestone events
+  6. Trust persists across sessions with full dimension data
+  7. **Phase 2a:** Dialog context Dictionary passed to all dialog methods
+  8. **Phase 2a:** Context includes player_gender and npc_gender fields for gender dynamics
+  9. Trust milestone system triggers at key thresholds (30, 50, 70)
+  10. Personality modifiers affect trust gain/loss rates
 
 **Implementation Notes:**
-- Reference: docs/design/npc_trust_relationship_system_design.md
-- Trust changes: Help (+10), Betray (-30), Small talk (+2)
-- Consider trust decay over time without interaction
-- Different NPCs have different trust gain rates
-- **Phase 2a:** Modify dialog methods to accept context: `{"player_gender": String, "npc_gender": String, "time_of_day": String, "location": String}`
-- **Phase 2a:** Store trust values in interaction_memory Dictionary
+- Reference: docs/design/npc_trust_relationship_system_design.md (Core Components)
+- Trust actions: Complete favor (+5 personal, +10 professional), Share story (+8 personal, +5 emotional), Betray (-40 personal, -30 emotional)
+- Implement daily trust decay: -1/day after 3 days no interaction (emotional decays fastest at 1.5x)
+- Different NPCs have personality-based trust modifiers (paranoid: gains 0.5x, loses 1.5x)
+- **Phase 2a:** Full context structure: `{"player_gender": String, "npc_gender": String, "time_of_day": String, "location": String, "player_job": String, "trust_level": float}`
+- **Phase 2a:** Store RelationshipData in interaction_memory with all dimensions
+- Special relationship flags: knows_player_name, has_shared_meal, saved_their_life, betrayed_trust
 
 ### Task 8: Implement memory system for NPCs
-**User Story:** As an NPC, I want to remember my interactions with the player, so that our relationship feels continuous and meaningful across multiple encounters.
+**User Story:** As an NPC, I want to remember my interactions with the player including relationship events and favors, so that our relationship history affects trust building and creates meaningful long-term consequences.
 
-**BaseNPC Migration Phase 4:** This task fully implements the memory system from the template design, completing the NPC enhancement framework.
+**BaseNPC Migration Phase 4:** This task implements the comprehensive memory system with relationship event tracking.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Relationship Memory)
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -171,30 +212,41 @@ As a player, I want to interact with NPCs who feel like real people with their o
 **Requirements:**
 - **Linked to:** B3, T1
 - **Acceptance Criteria:**
-  1. NPCs remember last 10 interactions
-  2. Memory affects future dialog
-  3. Significant events never forgotten
-  4. Memories can be shared between NPCs
-  5. Memory saves with game state
-  6. **Phase 4:** Full NPCMemory class implementation as per template
-  7. **Phase 4:** Integration with procedural dialog generation
+  1. NPCs remember last 10 interactions with trust context
+  2. Memory affects future dialog and trust calculations
+  3. Significant relationship events never forgotten
+  4. Memories can be shared between NPCs (gossip system)
+  5. Memory saves with game state including all relationship data
+  6. **Phase 4:** Full NPCMemory with relationship tracking
+  7. **Phase 4:** Integration with trust milestone events
+  8. Track favors done/owed for reciprocity mechanics
+  9. Remember specific trust-building actions
 
 **Implementation Notes:**
-- Memory types: Interactions, Promises, Betrayals, Shared_Events
-- Use circular buffer for recent memories
-- Flag important memories as permanent
-- Consider "gossip" system for memory sharing
-- **Phase 4:** Implement full memory structure from template_npc_design.md:
+- Reference: docs/design/npc_trust_relationship_system_design.md (Memory System)
+- Memory types: Interactions, Promises, Betrayals, Shared_Events, Trust_Milestones
+- Relationship event structure:
+  ```gdscript
+  var remembered_events: Array = [
+      {"topic": String, "response": String, "time": float, "trust_level": float},
+      {"event": "shared_meal", "date": int, "impact": {"emotional": 8, "personal": 5}}
+  ]
+  ```
+- **Phase 4:** Enhanced memory structure:
   ```gdscript
   var interaction_memory: Dictionary = {
       "times_talked": 0,
       "topics_discussed": [],
       "given_quests": [],
       "player_reputation": 0.0,
-      "last_interaction_day": -1
+      "last_interaction_day": -1,
+      "favors_done": 0,
+      "favors_owed": 0,
+      "relationship_milestones": [],
+      "trust_actions": []  # Track specific trust-building/damaging actions
   }
   ```
-- **Phase 4:** Create NPCMemory class with short_term Array and long_term Dictionary
+- NPCs reference past events in dialog based on trust level
 
 ### Task 5: Add relationship-based dialog branches
 **User Story:** As a player, I want NPCs to speak differently based on our relationship, so that building trust feels rewarding and meaningful.
@@ -533,9 +585,11 @@ As a player, I want to interact with NPCs who feel like real people with their o
   ```
 
 ### Task 7: Create personality trait system
-**User Story:** As an NPC, I want personality traits that affect my behavior and dialog, so that each character feels unique and consistent.
+**User Story:** As an NPC, I want personality traits including detailed gender dynamics that affect my behavior, dialog, and trust interactions, so that each character feels unique with realistic social barriers and biases reflective of the 1950s setting.
 
-**BaseNPC Migration Phase 2b-2c:** This task creates the personality system that drives NPC individuality and social dynamics.
+**BaseNPC Migration Phase 2b-2c:** This task creates the comprehensive personality system with gender-aware trust modifiers.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Personality & Gender Modifiers)
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -543,23 +597,29 @@ As a player, I want to interact with NPCs who feel like real people with their o
 **Requirements:**
 - **Linked to:** B3, U3
 - **Acceptance Criteria:**
-  1. Personality traits affect dialog tone
-  2. Traits influence NPC reactions
-  3. Gender dynamics create varied interactions
+  1. Personality traits affect dialog tone and trust gain/loss rates
+  2. Traits influence NPC reactions with specific modifiers
+  3. Gender dynamics create varied trust building barriers
   4. Personality persists across saves
   5. Traits are data-driven (JSON configurable)
-  6. **Phase 2b:** Core personality traits implemented
-  7. **Phase 2c:** Gender-aware traits added
+  6. **Phase 2b:** Core personality traits with trust modifiers
+  7. **Phase 2c:** Comprehensive gender-aware trust dynamics
+  8. Gender-profession barriers affect initial trust
+  9. Personality types modify trust calculations
 
 **Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (Trust Modifiers)
 - Trait ranges: 0.0 to 1.0
-- Default personalities for NPC types
-- **Phase 2b:** Core traits: formality, suspicion, friendliness, verbosity
-- **Phase 2c:** Gender traits per template design:
-  - progressiveness: Traditional vs progressive attitudes
-  - sexism_level: Degree of sexist behavior
-  - competitiveness: Same-gender rivalry
-  - gender_comfort: Opposite-gender ease
+- **Phase 2b:** Core traits with trust effects:
+  - personality_type: paranoid (trust gains 0.5x, losses 1.5x), trusting (gains 1.3x, losses 0.7x), analytical (all changes 0.8x), emotional (large changes 1.4x)
+  - formality, suspicion, friendliness, verbosity
+- **Phase 2c:** Gender trust modifiers:
+  - progressiveness (0-1): Affects gender barrier strength
+  - sexism_level (0-1): Creates professional trust barriers
+  - competitiveness (0-1): Same-gender rivalry reduces professional trust
+  - gender_comfort (0-1): Opposite-gender interaction ease
+- Gender-profession barriers: female_security (-15), female_dock_worker (-20), male_nurse (-10)
+- Progressive NPCs (>0.7) reduce gender barriers by 70%
 
 ### Task 11: Enhance schedule system from MVP
 **User Story:** As an NPC, I want to follow daily routines and schedules, so that the station feels alive and my behavior is predictable for strategic players.

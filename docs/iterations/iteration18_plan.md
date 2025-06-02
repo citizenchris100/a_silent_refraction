@@ -62,6 +62,11 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - [ ] Task 12: Create setup_multi_perspective.sh automation script
 - [ ] Task 13: Create generate_perspective_sprites.sh script
 
+### Trust Building Activities
+- [ ] Task 14: Add district-specific trust-building activities
+- [ ] Task 15: Create shared meal and social interaction opportunities
+- [ ] Task 16: Implement location-based relationship events
+
 ## User Stories
 
 ### Task 1: Spaceport District Population
@@ -379,6 +384,83 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Output: organized perspective-specific sprite sheets
 - Support for the 85 NPCs being created in this iteration
 - Integration with existing sprite pipeline tools
+
+### Task 14: Add district-specific trust-building activities
+**User Story:** As a player, I want each district to offer unique opportunities to build trust with NPCs through activities that match the district's theme, so that relationship building feels integrated with the world.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Trust Building Mechanics)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (memorable characters)
+- **Acceptance Criteria:**
+  1. Spaceport: Help with cargo, share travel stories
+  2. Security: Assist investigations, vouch for NPCs
+  3. Medical: Comfort patients, donate to research
+  4. Mall: Shop together, recommend products
+  5. Each activity grants appropriate trust dimensions
+  6. Activities respect NPC schedules and routines
+  7. Visual feedback when activities available
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (TRUST_ACTIONS)
+- Spaceport cargo help: +10 professional, +5 personal
+- Security investigation: +15 professional, +5 ideological
+- Medical comfort: +15 emotional, +10 personal
+- Mall shopping: +8 personal, +5 emotional
+
+### Task 15: Create shared meal and social interaction opportunities
+**User Story:** As a player, I want to share meals and have social moments with NPCs during their break times, so that relationships can develop naturally through everyday interactions.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Special Occasions)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** User Requirements (meaningful relationships)
+- **Acceptance Criteria:**
+  1. Meal times at 12:00-13:00 and 18:00-19:00
+  2. NPCs available based on schedules
+  3. Cafeteria areas in each district
+  4. First meal together: +8 emotional, +5 personal
+  5. Birthday celebrations when applicable
+  6. Group meals with multiple NPCs
+  7. Dialog reflects shared meal history
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (check_relationship_opportunities)
+- Track has_shared_meal flag per NPC
+- Group meals enable NPC introductions
+- Birthday bonus: +15 personal, +10 emotional
+
+### Task 16: Implement location-based relationship events
+**User Story:** As a player, I want spontaneous relationship-building opportunities to emerge based on where I am and who's nearby, so that the world feels reactive to my presence.
+
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Context-Sensitive Actions)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** User Requirements (unexpected events)
+- **Acceptance Criteria:**
+  1. NPCs in distress trigger help opportunities
+  2. Workplace interactions during job shifts
+  3. Random encounters in district spaces
+  4. Coalition members share intel discretely
+  5. Context determines available actions
+  6. 10-20% chance per area visit
+  7. Events reflect current game state
+
+**Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md (get_available_trust_actions)
+- Distress events: +15 emotional, +10 personal
+- Workplace help: +10 professional
+- Intel sharing requires trust > 60
+- More events as assimilation spreads
 
 ## Timeline
 - **Estimated Duration:** 6-7 weeks

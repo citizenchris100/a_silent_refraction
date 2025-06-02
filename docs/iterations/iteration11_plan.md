@@ -150,6 +150,12 @@ As a player, I need structured objectives that guide my investigation while allo
 ### Morning Report Integration
 - [ ] Task 71: Integrate QuestManager with MorningReportManager for overnight quest updates
 
+### Trust and Relationship Systems
+- [ ] Task 72: Create comprehensive trust building system
+- [ ] Task 73: Implement NPC-to-NPC relationship networks
+- [ ] Task 74: Create faction-wide reputation system
+- [ ] Task 75: Add relationship ripple effects system
+
 ## User Stories
 
 ### Task 2: Implement quest state machine
@@ -1085,6 +1091,12 @@ As a player, I need structured objectives that guide my investigation while allo
 - Time consumption matches expected rates
 - Mini-game saves and loads progress properly
 - Practice mode functions without affecting main game
+- Trust building actions calculate correctly with personality modifiers
+- Trust decay occurs appropriately after 3 days without interaction
+- NPC-to-NPC relationships create proper ripple effects
+- Faction reputation affects all member trust levels
+- Gender dynamics modify trust calculations as designed
+- Relationship maintenance opportunities trigger correctly
 
 ## Timeline
 - Start date: After Iteration 10
