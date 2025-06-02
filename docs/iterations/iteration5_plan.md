@@ -211,6 +211,52 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Update all dependent systems
 - Reference: docs/design/time_management_system_mvp.md
 
+### Task 5: Implement action duration system
+**User Story:** As a player, I want different actions to take different amounts of time, so that I must make strategic choices about how to spend my limited time.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Actions have configurable duration in minutes
+  2. Time advances when actions complete
+  3. Player sees time cost before committing to actions
+  4. Can't perform actions that would exceed day limits
+  5. Duration data is easily configurable
+
+**Implementation Notes:**
+- Example durations: Talk (10 min), Travel (30 min), Work (4 hours)
+- Store durations in resource files for easy balancing
+- Show time cost in hover text and confirmations
+- Maximum single action: 8 hours (work shift)
+
+### Task 6: Create time-based event scheduler
+**User Story:** As a developer, I want a system that can trigger events at specific times, so that the world can have scheduled activities and deadlines.
+
+**Design Reference:** `docs/design/time_management_system_mvp.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Can schedule events for specific times
+  2. Triggers callbacks when time reached
+  3. Supports recurring events
+  4. Handles missed events gracefully
+  5. Integrates with TimeManager
+
+**Implementation Notes:**
+- Foundation for living world in I8
+- Simple callback system for MVP
+- Consider performance with many events
+- Reference: docs/design/time_management_system_mvp.md
+
 ### Task 7: Create PromptNotificationSystem singleton
 **User Story:** As a player, I want to receive clear notifications about game events with appropriate visual styling and performance constraints, so that I never miss important information while maintaining smooth gameplay.
 
@@ -329,52 +375,6 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - No actual audio in Phase 1
 - Structure ready for Phase 2 audio
 - Reference: docs/design/prompt_notification_system_design.md
-
-### Task 5: Implement action duration system
-**User Story:** As a player, I want different actions to take different amounts of time, so that I must make strategic choices about how to spend my limited time.
-
-**Design Reference:** `docs/design/time_management_system_mvp.md`
-
-**Status History:**
-- **⏳ PENDING** (05/26/25)
-
-**Requirements:**
-- **Linked to:** B1, U3
-- **Acceptance Criteria:**
-  1. Actions have configurable duration in minutes
-  2. Time advances when actions complete
-  3. Player sees time cost before committing to actions
-  4. Can't perform actions that would exceed day limits
-  5. Duration data is easily configurable
-
-**Implementation Notes:**
-- Example durations: Talk (10 min), Travel (30 min), Work (4 hours)
-- Store durations in resource files for easy balancing
-- Show time cost in hover text and confirmations
-- Maximum single action: 8 hours (work shift)
-
-### Task 6: Create time-based event scheduler
-**User Story:** As a developer, I want a system that can trigger events at specific times, so that the world can have scheduled activities and deadlines.
-
-**Design Reference:** `docs/design/time_management_system_mvp.md`
-
-**Status History:**
-- **⏳ PENDING** (05/26/25)
-
-**Requirements:**
-- **Linked to:** B1, T1
-- **Acceptance Criteria:**
-  1. Can schedule events for specific times
-  2. Triggers callbacks when time reached
-  3. Supports recurring events
-  4. Handles missed events gracefully
-  5. Integrates with TimeManager
-
-**Implementation Notes:**
-- Foundation for living world in I8
-- Simple callback system for MVP
-- Consider performance with many events
-- Reference: docs/design/time_management_system_mvp.md
 
 ### Task 12: Create clock UI display
 **User Story:** As a player, I want to see the current time clearly displayed at all times, so that I can manage my activities effectively.
@@ -623,7 +623,7 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Performance: lazy load event data
 
 ### Task 23: Integrate time display with quest deadlines
-**User Story:** As a player, I want to see quest deadlines in the time display, so that I can prioritize time-sensitive objectives.
+**User Story:** As a player, I want to see quest deadlines in the time display with comprehensive time investment information, so that I can prioritize time-sensitive objectives and plan multi-step quest chains effectively.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
@@ -637,9 +637,13 @@ As a player, I need to feel the passage of time creating urgency in my investiga
   2. Displays quest name and time remaining
   3. Color codes by urgency
   4. Updates when quests complete
-  5. Links to quest log when available
-
+  5. Time investment calculator for quest chains
+  6. Travel time estimation for multi-district quests
+  7. Shift schedule conflict detection
+  8. Deadline feasibility warnings
+  9. Links to quest log when available
 **Implementation Notes:**
+- Reference: docs/design/quest_log_ui_design.md lines 953-975 (Time Investment Calculator)
 - Connect to QuestManager signals
 - Filter by time_limit property
 - Show most urgent quest if multiple
