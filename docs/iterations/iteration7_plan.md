@@ -312,8 +312,8 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Basic job states: not_started, in_progress, completed
 - Schedule completion with TimeManager
 
-### Task 9: Create SaveManager (extends SerializationManager)
-**User Story:** As a developer, I want a dedicated save system that extends the serialization framework including MorningReportSerializer implementation, so that game saves are handled consistently and reliably with full morning report history preservation.
+### Task 9: Create SaveManager with validation and corruption detection
+**User Story:** As a developer, I want a dedicated save system that extends the serialization framework with comprehensive validation and corruption detection, so that game saves are handled consistently and reliably with full integrity checking.
 
 **Design Reference:** `docs/design/save_system_design.md` & `docs/design/morning_report_manager_design.md`
 
@@ -329,15 +329,21 @@ As a player, I need to manage my limited credits while finding safe places to sl
   4. Save metadata tracking
   5. Version compatibility checks
   6. Includes MorningReportSerializer with compression and version support
+  7. Save file validation with checksum verification
+  8. Corruption detection and recovery mechanisms
+  9. Backup save management and restoration
 
 **Implementation Notes:**
 - Reference: docs/design/save_system_design.md (SaveManager architecture)
 - Reference: docs/design/serialization_manager_design.md (base class)
 - Reference: docs/design/morning_report_manager_design.md lines 329-377 (MorningReportSerializer)
+- Reference: docs/design/save_system_design.md lines 295-298 (checksum calculation)
 - Store metadata: playtime, day, location
 - Handle save file corruption gracefully
 - Implement save file versioning
 - MorningReportSerializer compresses history to last 7 days
+- Add validate_save_file() method with checksum checking
+- Implement corruption recovery flow from save_system_design.md lines 406-441
 
 ### Task 10: Implement sleep locations and costs
 **User Story:** As a player, I want various sleep locations with different costs and safety levels, so that I can balance my budget against the risk of cheaper accommodations.
@@ -385,8 +391,8 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Use PromptNotificationSystem for confirmations
 - Show last save: "Day 5, 14:30 - 3 hours played"
 
-### Task 12: Implement save file management (single slot)
-**User Story:** As a player, I want a simple single-slot save system, so that I can maintain one continuous playthrough without save-scumming.
+### Task 12: Implement save file management with comprehensive backup system
+**User Story:** As a player, I want a robust single-slot save system with automatic backup protection, so that I can maintain one continuous playthrough without losing progress to corruption or errors.
 
 **Design Reference:** `docs/design/save_system_design.md`
 
@@ -397,20 +403,27 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - **Linked to:** B2, T2
 - **Acceptance Criteria:**
   1. Single save slot only
-  2. Auto-backup of previous save
-  3. Save file validation
-  4. Clear save location
+  2. Auto-backup of previous save before overwrite
+  3. Save file validation with integrity checking
+  4. Clear save location with platform-specific directories
   5. Cross-platform compatibility
+  6. Backup rotation to preserve last valid save
+  7. Backup restoration capability on corruption detection
+  8. Atomic save operations to prevent partial writes
 
 **Implementation Notes:**
 - Reference: docs/design/save_system_design.md (file management)
+- Reference: docs/design/save_system_design.md lines 445-481 (platform-specific paths)
 - Save location: user://saves/game.save
 - Backup: user://saves/game.save.bak
-- Use Godot's File API
+- Use Godot's File API with atomic write operations
 - Compress save data
+- Create backup before each save operation
+- Validate backup integrity before cleanup
+- Implement write_save_file() with temporary file and atomic rename
 
-### Task 13: Add save failure handling
-**User Story:** As a player, I want the game to handle save failures gracefully, so that I don't lose progress due to technical issues.
+### Task 13: Add comprehensive save failure handling with backup fallback
+**User Story:** As a player, I want the game to handle save failures gracefully with backup recovery options, so that I don't lose progress due to technical issues and can understand recovery options.
 
 **Design Reference:** `docs/design/save_system_design.md`
 
@@ -420,18 +433,25 @@ As a player, I need to manage my limited credits while finding safe places to sl
 **Requirements:**
 - **Linked to:** B2, T2
 - **Acceptance Criteria:**
-  1. Detect save failures
-  2. Retry mechanism
-  3. Clear error messages
-  4. Alternative save location
-  5. Prevent sleep without save
+  1. Detect save failures with specific error types
+  2. Retry mechanism with exponential backoff
+  3. Clear error messages with specific failure reasons
+  4. Backup restoration when save fails
+  5. Prevent sleep without save completion
+  6. Fallback to backup save on persistent failures
+  7. Recovery guidance for common errors
+  8. Never lose progress due to save failure
 
 **Implementation Notes:**
 - Reference: docs/design/save_system_design.md (error handling)
-- Retry up to 3 times
+- Reference: docs/design/save_system_design.md lines 376-403 (save failure handling)
+- Retry up to 3 times with 1s, 2s, 4s delays
 - Show specific error (disk full, permissions)
 - Log failures for debugging
 - Rollback sleep if save fails
+- Implement handle_save_failure() with recovery options
+- Use PromptNotificationSystem for error display with options
+- Include backup availability information in error messages
 
 ### Task 14: Create MorningReportManager
 **User Story:** As a developer, I want a centralized system to manage overnight events and generate morning reports with static API methods, so that players receive consistent and meaningful updates about world changes and other systems can easily integrate.
@@ -460,10 +480,10 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Store last 3 reports for review
 - Implement static helper methods for easy integration
 
-### Task 15: Implement event collection during sleep
-**User Story:** As a developer, I want the game world to progress while the player sleeps including sleep quality modifications, so that the world feels alive and dynamic with reports that reflect the player's rest quality.
+### Task 15: Implement coordinated overnight event processing with system integration
+**User Story:** As a developer, I want coordinated overnight event processing that manages all game systems in proper order, so that the world progresses consistently and all system dependencies are handled correctly.
 
-**Design Reference:** `docs/design/morning_report_manager_design.md` & `docs/design/sleep_system_design.md`
+**Design Reference:** `docs/design/morning_report_manager_design.md`, `docs/design/sleep_system_design.md`, `docs/design/save_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -477,15 +497,22 @@ As a player, I need to manage my limited credits while finding safe places to sl
   4. Random events can occur
   5. All events are logged for morning report
   6. Sleep quality affects report content
+  7. Proper processing order enforced across all systems
+  8. System coordination and dependency management
+  9. Error handling for overnight processing failures
 
 **Implementation Notes:**
 - Reference: docs/design/morning_report_manager_design.md (event collection)
 - Reference: docs/design/morning_report_manager_design.md lines 299-324 (sleep quality integration)
 - Reference: docs/design/sleep_system_design.md (overnight progression)
+- Reference: docs/design/save_system_design.md lines 328-360 (overnight event processing order)
 - Events have priority levels for report ordering
 - Maximum 10 events shown in report
 - Poor sleep adds fatigue warnings to report
 - Squat sleeping increases security suspicion events
+- Implement proper processing order: Time → Assimilation → Coalition → Economy → NPCs → Detection → Puzzles → Endings
+- Add error handling for each system's overnight processing
+- Coordinate event reporting to MorningReportManager
 
 ### Task 16: Design morning report UI
 **User Story:** As a player, I want an attractive and readable morning report interface, so that I can quickly understand what happened overnight.

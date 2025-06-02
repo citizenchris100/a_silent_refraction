@@ -93,6 +93,10 @@ As a developer, I need a robust serialization system that allows all game system
 ### Observation System Serialization
 - [ ] Task 29: Create ObservationSerializer for observation history and discovered clues
 
+### Performance Monitoring
+- [ ] Task 30: Implement save/load performance metrics
+- [ ] Task 31: Create performance target validation
+
 ## User Stories
 
 ### Task 1: Create SerializationManager singleton
@@ -183,10 +187,10 @@ As a developer, I need a robust serialization system that allows all game system
 - Log version changes for debugging
 - Consider semantic versioning for save format
 
-### Task 5: Create compressed save file format
-**User Story:** As a player, I want my save files to be small and load quickly, so that I don't waste disk space or time.
+### Task 5: Create compressed save file format with validation
+**User Story:** As a player, I want my save files to be small, load quickly, and be protected against corruption, so that I don't waste disk space or time and my progress is safe.
 
-**Design Reference:** `docs/design/serialization_system.md`
+**Design Reference:** `docs/design/serialization_system.md`, `docs/design/save_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -199,12 +203,18 @@ As a developer, I need a robust serialization system that allows all game system
   3. Load time remains under 2 seconds
   4. File format includes header with version info
   5. Corruption detection via checksum
+  6. Checksum calculation and validation implemented
+  7. Save file header validation before decompression
+  8. Corruption detection with specific error messages
 
 **Implementation Notes:**
 - Use Godot's built-in compression (File.COMPRESSION_ZSTD)
 - Include metadata header before compressed data
 - Implement CRC32 checksum for integrity
 - Consider chunked compression for very large saves
+- Reference: docs/design/save_system_design.md lines 287-288 (checksum calculation)
+- Add validate_checksum() method to detect corruption
+- Include save file magic number for format validation
 
 ### Task 6: Implement player state serialization
 **User Story:** As a player, I want my character's position, inventory, and stats to be saved, so that I can continue my game exactly where I left off.
@@ -491,8 +501,10 @@ As a developer, I need a robust serialization system that allows all game system
 - Document endianness and encoding
 - Provide parsing examples
 
-### Task 18: Create platform abstraction layer for hardware detection
-**User Story:** As a developer, I want a platform abstraction layer that detects whether the game is running on Raspberry Pi 5 or Orange Pi 5 Plus, so that I can apply platform-specific optimizations automatically.
+### Task 18: Create platform abstraction layer with save directory management
+**User Story:** As a developer, I want a platform abstraction layer that detects hardware platforms and manages platform-specific save directories, so that saves work correctly across different operating systems and hardware.
+
+**Design Reference:** `docs/design/save_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -505,12 +517,19 @@ As a developer, I need a robust serialization system that allows all game system
   3. Fallback for unknown platforms
   4. Platform info accessible to all systems
   5. No performance overhead from detection
+  6. Platform-specific save directory resolution
+  7. File permission handling per platform
+  8. Cloud save preparation hooks for future expansion
 
 **Implementation Notes:**
 - Check /proc/cpuinfo and device tree
 - Create PlatformManager singleton
 - Support x86_64, ARM64 (Pi 5), ARM64 (Orange Pi)
 - Cache platform info after first detection
+- Reference: docs/design/save_system_design.md lines 453-481 (platform-specific save paths)
+- Implement get_save_directory() with platform detection
+- Handle Windows, Linux, macOS save locations correctly
+- Set appropriate file permissions (700 on Unix systems)
 
 ### Task 19: Implement build system for multi-platform support
 **User Story:** As a developer, I want a unified build system that can produce optimized binaries for both Raspberry Pi 5 and Orange Pi 5 Plus from a single codebase, so that I can maintain one codebase while supporting multiple hardware targets.
@@ -722,6 +741,10 @@ As a developer, I need a robust serialization system that allows all game system
 - Container states maintain across saves
 - Loadout system saves and restores correctly
 - Inventory migration handles version changes
+- Save file corruption detection works correctly
+- Platform-specific save directories function properly
+- Performance metrics track and validate targets
+- Checksum validation prevents data corruption
 
 ## Timeline
 - Start date: TBD
@@ -790,6 +813,55 @@ As a developer, I need a robust serialization system that allows all game system
 - Preserve known_assimilated list for MVP compatibility
 - Include observation skills progression and equipment bonuses
 - Store captured evidence and identified patterns efficiently
+
+### Task 30: Implement save/load performance metrics
+**User Story:** As a developer, I want to measure save/load performance against defined targets, so that I can ensure the save system meets performance requirements and optimize if needed.
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Measures save time in milliseconds
+  2. Measures load time in milliseconds
+  3. Tracks save file size in kilobytes
+  4. Calculates compression ratio
+  5. Logs performance metrics for analysis
+  6. Warns when targets are exceeded
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 522-548 (performance targets and measurement)
+- Target save time: <1000ms, load time: <2000ms, file size: <1024KB
+- Use OS.get_ticks_msec() for timing measurements
+- Include metrics in debug builds
+- Store metrics in development logs for analysis
+
+### Task 31: Create performance target validation
+**User Story:** As a developer, I want automated validation of save/load performance targets, so that performance regressions are caught immediately during development.
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T3
+- **Acceptance Criteria:**
+  1. Validates against defined performance targets
+  2. Issues warnings for performance degradation
+  3. Provides optimization recommendations
+  4. Integrates with testing framework
+  5. Generates performance reports
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 522-548 (performance validation)
+- Check save_time_ms, load_time_ms, file_size_kb, compression_ratio
+- Push warnings for missed targets
+- Include in automated test suite
+- Log recommendations for optimization
 
 ## Notes
 - This iteration was reorganized from the original plan to establish serialization first

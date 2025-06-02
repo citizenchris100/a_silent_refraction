@@ -131,6 +131,11 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - [ ] Task 44: Implement Security Chief NPC with advanced routines
 - [ ] Task 45: Create Bank Teller NPC with economic integration
 
+### Mall Squat Sleep System
+- [ ] Task 46: Implement Mall maintenance area squat location
+- [ ] Task 47: Create forced homeless sleep mechanics
+- [ ] Task 48: Add squat sleep penalties and risks
+
 ## User Stories
 
 ### Task 1: Create RelationshipManager singleton
@@ -867,6 +872,84 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Knows about station financial status
 - Reference: docs/design/template_npc_design.md
 
+### Task 46: Implement Mall maintenance area squat location
+**User Story:** As a player who has been evicted from barracks, I need a fallback sleep location in the Mall, so that I can continue playing even when I can't afford safe accommodations.
+
+**Design Reference:** `docs/design/save_system_design.md`, `docs/design/sleep_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Hidden maintenance area accessible when evicted
+  2. No cost to sleep but increased risks
+  3. Discovery chance by security
+  4. Poor sleep quality (comfort 0.3)
+  5. Wake earlier than barracks (5:00 AM)
+  6. Integration with eviction system
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 107-137 (HomelessSquat class)
+- Reference: docs/design/sleep_system_design.md (forced sleep mechanics)
+- Location: mall_maintenance_area sub-location
+- 20% discovery risk per night
+- Only available when has_barracks_access = false
+- Apply poor sleep penalties to all stats
+
+### Task 47: Create forced homeless sleep mechanics
+**User Story:** As a player without barracks access, I need the game to force sleep at midnight, so that I can't avoid the consequences of homelessness but still continue playing.
+
+**Design Reference:** `docs/design/sleep_system_design.md`, `docs/design/save_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Cannot voluntarily sleep when homeless
+  2. Forced sleep at midnight (24:00)
+  3. Automatic transport to Mall squat
+  4. No player control over sleep timing
+  5. Warning system before forced sleep
+  6. Integrates with save system
+
+**Implementation Notes:**
+- Reference: docs/design/sleep_system_design.md lines 100-150 (forced sleep flow)
+- Reference: docs/design/save_system_design.md lines 107-137 (homeless sleep)
+- Warnings at 23:30 and 23:45
+- Force sleep triggers automatically at midnight
+- Use same save integration as barracks sleep
+- Spawn player on Mall main floor after sleep
+
+### Task 48: Add squat sleep penalties and risks
+**User Story:** As a player sleeping in the Mall squat, I need to face realistic consequences for this risky choice, so that maintaining barracks access feels valuable and the game has meaningful economic pressure.
+
+**Design Reference:** `docs/design/save_system_design.md`, `docs/design/sleep_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Poor sleep reduces morale by 10
+  2. Increased base suspicion by 5
+  3. 10% chance of item theft
+  4. Security discovery triggers consequences
+  5. Fatigue recovery reduced (poor sleep penalty)
+  6. Morning reports reflect squat risks
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 132-137 (squat penalties)
+- Reference: docs/design/sleep_system_design.md (sleep quality effects)
+- Apply penalties in handle_security_discovery()
+- Integrate with morning report system for theft/discovery events
+- Use DetectionManager.increase_base_suspicion(5)
+- FatigueSystem.apply_poor_sleep_penalty() reduces recovery
+
 ## Testing Criteria
 - Trust levels change appropriately
 - NPC memories persist correctly
@@ -880,6 +963,11 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Eviction process follows proper timeline
 - Re-admittance through Concierge works
 - Rent persists across save/load cycles
+- Mall squat location only accessible when evicted
+- Forced sleep triggers correctly at midnight
+- Squat sleep penalties apply appropriately
+- Security discovery in squat has consequences
+- Item theft risk functions in squat
 
 ## Timeline
 - Start date: After Iteration 9

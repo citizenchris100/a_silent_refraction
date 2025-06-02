@@ -393,8 +393,10 @@ As a player, I want to create a character that represents me in the game world a
 - Create initial save after initialization
 - Set GameData.new_game = true flag
 
-### Task 22: Implement direct load functionality (no UI)
-**User Story:** As a player with a saved game, I want to jump directly into my game without additional menus, so that I can resume playing as quickly as possible.
+### Task 22: Implement comprehensive load functionality with progress tracking
+**User Story:** As a player with a saved game, I want to load my game with clear progress feedback and robust error handling, so that I can resume playing confidently and understand any issues that occur.
+
+**Design Reference:** `docs/design/save_system_design.md`, `docs/design/main_menu_start_game_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -403,16 +405,23 @@ As a player, I want to create a character that represents me in the game world a
 - **Linked to:** B2, U2
 - **Acceptance Criteria:**
   1. Load button immediately starts loading process
-  2. Simple "Loading..." overlay appears
+  2. Comprehensive loading screen with progress indicators
   3. No save slot selection (single slot system)
   4. Direct transition to game at saved position
-  5. Error handling returns to title screen
+  5. Module-by-module load progress display
+  6. Load failure recovery flow with specific error messages
+  7. Save file validation before load attempt
+  8. Loading screen shows current module being loaded
 
 **Implementation Notes:**
 - Reference: docs/design/main_menu_start_game_ui_design.md
-- No intermediate UI needed
-- Show loading overlay with fade
-- Use SaveManager.load_game() directly
+- Reference: docs/design/save_system_design.md lines 219-245 (load system implementation)
+- Show loading overlay with module progress
+- Use SaveManager.load_game() with progress callbacks
+- Connect to modular load events: module_load_start, module_load_complete
+- Validate save file before attempting load
+- Show loading screen similar to save system design mockup
+- Handle corruption recovery and backup restoration
 
 ### Task 23: Add atmospheric effects and CRT shader
 **User Story:** As a player, I want the title screen to have a retro-futuristic atmosphere, so that the game's aesthetic is established immediately.
@@ -435,8 +444,10 @@ As a player, I want to create a character that represents me in the game world a
 - Ambient sound at -20db volume
 - 2-second fade-in on startup
 
-### Task 24: Create error handling for failed loads
-**User Story:** As a player, I want clear feedback if my save file can't be loaded, so that I understand what happened and can take appropriate action.
+### Task 24: Create comprehensive error handling for failed loads with backup recovery
+**User Story:** As a player, I want comprehensive feedback if my save file can't be loaded, with automatic backup recovery options, so that I can understand what happened and recover my progress when possible.
+
+**Design Reference:** `docs/design/save_system_design.md`, `docs/design/main_menu_start_game_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
@@ -444,17 +455,24 @@ As a player, I want to create a character that represents me in the game world a
 **Requirements:**
 - **Linked to:** B2, U2, T2
 - **Acceptance Criteria:**
-  1. Clear error message displayed
+  1. Clear error message displayed with specific failure reason
   2. Automatic return to title screen
   3. No crash or hang on corrupted save
   4. Option to start new game after error
   5. Error logged for debugging
+  6. Backup save recovery attempt when available
+  7. Corruption detection with specific error types
+  8. Fallback to backup save when corruption detected
 
 **Implementation Notes:**
 - Reference: docs/design/main_menu_start_game_ui_design.md
-- Use simple dialog for error display
+- Reference: docs/design/save_system_design.md lines 406-441 (corruption recovery)
+- Use PromptNotificationSystem for error display
 - Log full error details to console
-- Consider save backup system for future
+- Implement backup save recovery flow
+- Detect corruption types: checksum mismatch, missing modules, format errors
+- Show backup availability info to player
+- Automatic backup restoration attempt before showing error
 
 ### Task 25: Integrate with existing game systems
 **User Story:** As a developer, I want the main menu to properly connect with all game systems, so that the transition from menu to gameplay is seamless.

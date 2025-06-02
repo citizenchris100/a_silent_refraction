@@ -55,6 +55,12 @@ This new iteration focuses on advanced visual features that enhance immersion an
 - [ ] Task 9: Rendering Pipeline Optimizations
 - [ ] Task 10: Platform-Specific Rendering Optimizations
 
+### Debug Save Tools
+- [ ] Task 11: Create debug save commands (force_save, corrupt_save, analyze_save)
+- [ ] Task 12: Implement save file analyzer tool
+- [ ] Task 13: Add save performance profiler
+- [ ] Task 14: Create save state inspector UI
+
 ## User Stories
 
 ### 1. Sprite Perspective Scaling System
@@ -305,6 +311,110 @@ Implement platform-specific optimizations to ensure optimal performance across W
 - Core rendering system
 - Quality settings (Iteration 14)
 
+### 11. Create debug save commands (force_save, corrupt_save, analyze_save)
+**Priority:** Medium  
+**Estimated Hours:** 8
+
+**Description:**  
+Implement debug console commands for testing and analyzing the save system during development.
+
+**User Story:**  
+*As a developer, I want debug commands to test save system edge cases, so that I can verify save functionality works correctly in all scenarios.*
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Acceptance Criteria:**
+- [ ] force_save command bypasses sleep requirement
+- [ ] corrupt_save command tests corruption handling
+- [ ] analyze_save command shows save file metrics
+- [ ] Commands only available in debug builds
+- [ ] Clear error messages for invalid usage
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 487-517 (debug features)
+- Only available when OS.is_debug_build() returns true
+- Register commands with Console system
+- Implement DebugSaveCommands static class
+- Include safety checks to prevent production exposure
+
+### 12. Implement save file analyzer tool
+**Priority:** Medium  
+**Estimated Hours:** 12
+
+**Description:**  
+Create a comprehensive tool for analyzing save file structure, performance, and integrity.
+
+**User Story:**  
+*As a developer, I want detailed save file analysis, so that I can debug save issues and optimize save performance.*
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Acceptance Criteria:**
+- [ ] Shows save file size and compression metrics
+- [ ] Displays module breakdown and sizes
+- [ ] Analyzes save/load performance
+- [ ] Validates save file integrity
+- [ ] Exports debug-friendly save data
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 503-517 (save analytics)
+- Implement analyze_current_save() method
+- Include file size, module count, compression ratio
+- Track largest modules and performance metrics
+- Generate detailed analysis reports
+
+### 13. Add save performance profiler
+**Priority:** Medium  
+**Estimated Hours:** 10
+
+**Description:**  
+Implement performance profiling for save/load operations to ensure target metrics are met.
+
+**User Story:**  
+*As a developer, I want save performance profiling, so that I can ensure save operations meet performance targets and optimize bottlenecks.*
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Acceptance Criteria:**
+- [ ] Measures save/load times per module
+- [ ] Tracks compression performance
+- [ ] Identifies performance bottlenecks
+- [ ] Generates performance reports
+- [ ] Warns when targets are missed
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md lines 522-548 (performance monitoring)
+- Use OS.get_ticks_msec() for precise timing
+- Track per-module save/load times
+- Include in measure_save_performance() method
+- Generate warnings for performance regressions
+
+### 14. Create save state inspector UI
+**Priority:** Low  
+**Estimated Hours:** 16
+
+**Description:**  
+Create a visual interface for inspecting save state during development and debugging.
+
+**User Story:**  
+*As a developer, I want a visual save state inspector, so that I can debug save-related issues through an intuitive interface.*
+
+**Design Reference:** `docs/design/save_system_design.md`
+
+**Acceptance Criteria:**
+- [ ] Visual display of save file structure
+- [ ] Real-time save state monitoring
+- [ ] Module-by-module inspection
+- [ ] Save validation results display
+- [ ] Export functionality for debugging
+
+**Implementation Notes:**
+- Reference: docs/design/save_system_design.md (debug features)
+- Create debug UI panel for save inspection
+- Show save file hierarchy and module data
+- Include real-time save state updates
+- Provide export options for debugging
+
 ## Testing Criteria
 - Sprite scaling creates convincing depth illusion
 - Occlusion system handles all edge cases smoothly
@@ -313,11 +423,17 @@ Implement platform-specific optimizations to ensure optimal performance across W
 - Visual effects maintain 60 FPS performance
 - All systems integrate without visual artifacts
 - Effects scale properly at different resolutions
+- Debug save commands function correctly in debug builds
+- Save file analyzer provides accurate metrics
+- Performance profiler identifies bottlenecks correctly
+- Save state inspector displays save data accurately
+- Debug tools are not accessible in production builds
 
 ## Timeline
-- **Estimated Duration:** 3-4 weeks
-- **Total Hours:** 86
+- **Estimated Duration:** 4-5 weeks
+- **Total Hours:** 132 (86 + 46 for debug tools)
 - **Critical Path:** Sprite scaling and occlusion are foundational
+- **Debug Tools:** Can be developed in parallel with visual systems
 
 ## Definition of Done
 - [ ] All visual systems implemented and polished
@@ -327,6 +443,9 @@ Implement platform-specific optimizations to ensure optimal performance across W
 - [ ] Shader fallbacks for older hardware
 - [ ] Documentation for content creators
 - [ ] Code reviewed and approved
+- [ ] Debug save tools implemented and tested
+- [ ] Save system performance profiling complete
+- [ ] Debug tools properly secured from production builds
 
 ## Dependencies
 - Core game systems (Iterations 1-3)
