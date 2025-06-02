@@ -41,28 +41,195 @@ This iteration completes Phase 3.2 by populating the remaining three districts. 
 
 ## Tasks
 
+### Asset Creation for Final Districts
+- [ ] Task 1: Create Trading Floor NPC sprite batch (25 NPCs)
+- [ ] Task 2: Create Barracks NPC sprite batch (25 NPCs)
+- [ ] Task 3: Create Engineering NPC sprite batch (15 NPCs)
+- [ ] Task 4: Design district-specific interactive objects
+- [ ] Task 5: Create financial and technical item sprites
+- [ ] Task 6: Produce final district audio assets
+
 ### District Population
-- [ ] Task 1: Trading Floor District Population
-- [ ] Task 2: Trading Minigame Integration
-- [ ] Task 3: Black Market Integration
-- [ ] Task 4: Barracks District Population
-- [ ] Task 5: Player Housing Implementation
-- [ ] Task 6: Engineering District Population
-- [ ] Task 7: Restricted Area Implementation
-- [ ] Task 8: District Integration Testing
+- [ ] Task 7: Trading Floor District Population
+- [ ] Task 8: Trading Minigame Integration
+- [ ] Task 9: Black Market Integration
+- [ ] Task 10: Barracks District Population
+- [ ] Task 11: Player Housing Implementation
+- [ ] Task 12: Engineering District Population
+- [ ] Task 13: Restricted Area Implementation
+- [ ] Task 14: District Integration Testing
 
 ### District Access Control Implementation
-- [ ] Task 9: Implement Engineering biometric locks for high-security areas
-- [ ] Task 10: Create maintenance tunnel access network in Engineering
-- [ ] Task 11: Add security checkpoint NPCs with access verification dialog
-- [ ] Task 12: Implement borrowed keycard quest mechanics
+- [ ] Task 15: Implement Engineering biometric locks for high-security areas
+- [ ] Task 16: Create maintenance tunnel access network in Engineering
+- [ ] Task 17: Add security checkpoint NPCs with access verification dialog
+- [ ] Task 18: Implement borrowed keycard quest mechanics
 
 ### Job Implementation Tasks
-- [ ] Task 13: Janitor Job Implementation
+- [ ] Task 19: Janitor Job Implementation
 
 ## User Stories
 
-### Task 1: Trading Floor District Population
+### Task 1: Create Trading Floor NPC sprite batch (25 NPCs)
+
+**User Story:** As a solo developer, I want to create all 25 Trading Floor NPC sprites to represent the financial elite and corporate culture, so that the district feels like a high-stakes business environment.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (unique gameplay), Technical Requirements (65 NPCs)
+- **Acceptance Criteria:**
+  1. 10 traders in business attire with suspenders
+  2. 8 executives in high-end suits
+  3. 7 clerks and support staff
+  4. 1950s Wall Street aesthetic
+  5. Visible stress/intensity in animations
+  6. Some showing drone-like efficiency
+  7. Status symbols visible (watches, pins)
+
+**Implementation Notes:**
+- Reference Mad Men era business fashion
+- Traders need frantic energy in poses
+- Executives show authority/arrogance
+- Include power dynamics in visual hierarchy
+- Some NPCs corrupted by greed (assimilation metaphor)
+
+### Task 2: Create Barracks NPC sprite batch (25 NPCs)
+
+**User Story:** As a solo developer, I want to create all 25 Barracks NPC sprites to populate the residential area with diverse neighbors and staff, so that the living quarters feel like a real community.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (personal connection), User Requirements (neighbor relationships)
+- **Acceptance Criteria:**
+  1. 15 diverse residents (various ages/professions)
+  2. 5 maintenance staff in work uniforms
+  3. 5 service staff (concierge, security, etc.)
+  4. Casual/home attire for residents
+  5. Mix of military and civilian backgrounds
+  6. Neighborly body language
+  7. Personal touches in appearance
+
+**Implementation Notes:**
+- Show variety in economic status
+- Some in robes/casual wear
+- Include elderly and young adults
+- Military veterans visible
+- Create "lived-in" feel
+
+### Task 3: Create Engineering NPC sprite batch (15 NPCs)
+
+**User Story:** As a solo developer, I want to create all 15 Engineering NPC sprites with technical gear and professional attire, so that the district feels like the station's technical heart.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (end-game challenges), Technical Requirements (restricted areas)
+- **Acceptance Criteria:**
+  1. 7 engineers with tool belts and gear
+  2. 5 technicians in coveralls
+  3. 3 scientists in lab coats
+  4. Safety equipment visible (helmets, goggles)
+  5. Technical competence in posture
+  6. Some showing exhaustion
+  7. Access badges prominently displayed
+
+**Implementation Notes:**
+- Practical work attire focus
+- Tools as character accessories
+- Oil stains and wear on clothes
+- Higher security badges visible
+- Mix of theoretical and hands-on workers
+
+### Task 4: Design district-specific interactive objects
+
+**User Story:** As a player, I want each final district to have unique interactive objects that support their specialized gameplay, so that interaction matches the district theme.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (specialized gameplay), User Requirements (district-specific features)
+- **Acceptance Criteria:**
+  1. Trading Floor: terminals, tickers, vault doors
+  2. Barracks: personal items, doors, mailboxes
+  3. Engineering: control panels, machinery, tools
+  4. Consistent interaction highlighting
+  5. State changes for important objects
+  6. Clear visual feedback
+  7. Quest-specific variations
+
+**Implementation Notes:**
+- Trading terminals need screen graphics
+- Personal items tell neighbor stories
+- Engineering panels show system status
+- Some objects hide clues
+
+### Task 5: Create financial and technical item sprites
+
+**User Story:** As a player, I want specialized items from these districts to be visually distinct and functional, so that finding them feels rewarding and purposeful.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`, `docs/design/economy_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (trading minigame), User Requirements (engineering puzzles)
+- **Acceptance Criteria:**
+  1. Financial: stock certificates, ledgers, stamps
+  2. Technical: circuit boards, tools, manuals
+  3. Black market: forged items, contraband
+  4. Housing: decorations, personal effects
+  5. Clear item purposes
+  6. 32x32 consistent sizing
+  7. Rarity visual indicators
+
+**Implementation Notes:**
+- Financial items hint at corruption
+- Technical items enable access
+- Black market items look illicit
+- Personal items build character
+
+### Task 6: Produce final district audio assets
+
+**User Story:** As a player, I want the final three districts to have distinctive soundscapes that reinforce their unique purposes, so that audio navigation remains intuitive.
+
+**Design Reference:** `docs/design/audio_system_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (district atmosphere), User Requirements (audio feedback)
+- **Acceptance Criteria:**
+  1. Trading Floor: ticker tape, phones, shouting
+  2. Barracks: domestic sounds, HVAC, footsteps
+  3. Engineering: machinery, alarms, ventilation
+  4. Positional audio placement
+  5. Event-triggered sounds
+  6. Ambient loops per district
+  7. Normalized audio levels
+
+**Implementation Notes:**
+- Trading Floor needs frenetic energy
+- Barracks should feel quieter, homey
+- Engineering has industrial drone
+- Include warning klaxons for events
+
+### Task 7: Trading Floor District Population
 **User Story:** As a player, I want the Trading Floor to feel like a high-stakes financial center with corporate intrigue and market dynamics, so that I can experience the station's economic elite.
 
 **Status History:**
@@ -83,7 +250,7 @@ This iteration completes Phase 3.2 by populating the remaining three districts. 
 - Integrate with trading minigame from Iteration 11
 - NPCs should reflect 1950s corporate culture
 
-### 2. Trading Minigame Integration
+### Task 8: Trading Minigame Integration
 **Priority:** High  
 **Estimated Hours:** 16
 
@@ -106,7 +273,7 @@ Fully integrate the trading floor minigame with NPCs, market events, and progres
 - Economy system (Iteration 7)
 - Terminal UI (Iteration 3)
 
-### Task 3: Black Market Integration
+### Task 9: Black Market Integration
 **User Story:** As a player, I want to access black market goods and services, so that I can obtain restricted items at the risk of increased suspicion.
 
 **Design Reference:** `docs/design/economy_system_design.md` (Black Market - Medium Priority)
@@ -129,7 +296,7 @@ Fully integrate the trading floor minigame with NPCs, market events, and progres
 - Items include: forged credentials, restricted tools, banned substances
 - Prices 2-3x normal shop prices
 
-### 4. Barracks District Population
+### Task 10: Barracks District Population
 **Priority:** High  
 **Estimated Hours:** 24
 
@@ -152,7 +319,7 @@ Populate Barracks with 25 residential NPCs including neighbors, maintenance staf
 - Housing system (new)
 - Personal storage (Iteration 7)
 
-### 4. Player Housing Implementation
+### Task 11: Player Housing Implementation
 **Priority:** High  
 **Estimated Hours:** 16
 
@@ -175,7 +342,7 @@ Implement player room customization and personal space mechanics in the Barracks
 - Inventory system (Iteration 7)
 - Object placement (new)
 
-### 5. Engineering District Population
+### Task 12: Engineering District Population
 **Priority:** High  
 **Estimated Hours:** 18
 
@@ -221,7 +388,34 @@ Create restricted areas in Engineering with progressive access and hidden secret
 - Puzzle system (Iteration 15)
 - Investigation mechanics (Iteration 15)
 
-### 7. District Integration Testing
+### Task 13: Restricted Area Implementation
+
+**User Story:** As a player, I want Engineering to have clearly marked restricted areas that require special clearance or skills to access, so that progression feels earned.
+
+**Design Reference:** `docs/design/district_access_control_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (end-game challenges), Technical Requirements (security clearance)
+- **Acceptance Criteria:**
+  1. Define restricted zones in Engineering
+  2. Place access control mechanisms
+  3. Configure clearance requirements
+  4. Add visual security indicators
+  5. Implement override options
+  6. Create consequence system
+  7. Test all access paths
+
+**Implementation Notes:**
+- Core reactor area highest security
+- Life support systems restricted
+- Maintenance areas medium security
+- Use existing access control classes
+- Some areas require puzzle solving
+
+### Task 14: District Integration Testing
 **Priority:** Critical  
 **Estimated Hours:** 16
 
@@ -243,7 +437,7 @@ Test all seven populated districts together ensuring smooth transitions and cons
 - All previous district work
 - Performance optimization (Iteration 15)
 
-### Task 9: Implement Engineering biometric locks for high-security areas
+### Task 15: Implement Engineering biometric locks for high-security areas
 **User Story:** As a player, I want Engineering's critical areas to require biometric authentication, so that accessing the station's core systems feels appropriately challenging.
 
 **Design Reference:** `docs/design/district_access_control_system_design.md` (Biometric Security)
@@ -265,7 +459,7 @@ Test all seven populated districts together ensuring smooth transitions and cons
 - Engineering personnel only (15 authorized)
 - Bypass methods: hacking, borrowed credentials, system override
 
-### 9. Create maintenance tunnel access network in Engineering
+### Task 16: Create maintenance tunnel access network in Engineering
 **Priority:** Medium  
 **Estimated Hours:** 10
 
@@ -292,7 +486,7 @@ Build the maintenance tunnel network throughout Engineering providing alternativ
 - Include environmental hazards (steam, electrical)
 - Tool requirements: screwdriver, flashlight
 
-### 10. Add security checkpoint NPCs with access verification dialog
+### Task 17: Add security checkpoint NPCs with access verification dialog
 **Priority:** High  
 **Estimated Hours:** 8
 
@@ -319,7 +513,7 @@ Place security checkpoint guards who verify credentials through dialog interacti
 - Use dialog conditions for credential checks
 - Different responses based on clearance level
 
-### 11. Implement borrowed keycard quest mechanics
+### Task 18: Implement borrowed keycard quest mechanics
 **Priority:** Medium  
 **Estimated Hours:** 6
 
@@ -346,7 +540,7 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 - Time limits: 2-8 hours based on trust level
 - Trust penalty for not returning: -20 points
 
-### Task 13: Janitor Job Implementation
+### Task 19: Janitor Job Implementation
 **User Story:** As a player, I want to work as a janitor performing cleaning and maintenance duties, so that I can gain universal station access while appearing invisible to most NPCs.
 
 **Design Reference:** `docs/design/job_work_quest_system_design.md` (Barracks - Janitor, lines 457-563)
@@ -391,11 +585,19 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 - All job quests complete full cycles
 
 ## Timeline
-- **Estimated Duration:** 6 weeks
-- **Total Hours:** 142 (126 + 16 for janitor job)
-- **Critical Path:** District population must complete before integration testing
+- **Estimated Duration:** 8 weeks (including asset creation)
+- **Total Hours:** 240 (126 + 16 for janitor job + 98 for asset creation)
+- **Critical Path:** Asset creation → District population → Integration testing
+- **Asset Creation Breakdown:**
+  - 65 NPCs × 1.5 hours average = 97.5 hours
+  - Interactive objects: 4 hours
+  - Items and audio: 6 hours
 
 ## Definition of Done
+- [ ] 65 NPC sprites created for final districts
+- [ ] District-specific objects designed
+- [ ] Financial and technical items created
+- [ ] Final audio assets produced
 - [ ] All 7 districts fully populated
 - [ ] 150 total NPCs implemented
 - [ ] Trading minigame integrated

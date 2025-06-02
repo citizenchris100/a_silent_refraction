@@ -41,35 +41,230 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 
 ## Tasks
 
+### Asset Creation for Districts
+- [ ] Task 1: Create Spaceport NPC sprite batch (20 NPCs)
+- [ ] Task 2: Create Security NPC sprite batch (20 NPCs)
+- [ ] Task 3: Create Medical NPC sprite batch (15 NPCs)
+- [ ] Task 4: Create Mall NPC sprite batch (30 NPCs)
+- [ ] Task 5: Design district-specific interactive objects
+- [ ] Task 6: Produce additional district audio assets
+- [ ] Task 7: Create job-specific item sprites
+
 ### District Population Tasks
-- [ ] Task 1: Spaceport District Population
-- [ ] Task 2: Security District Population
-- [ ] Task 3: Medical District Population
-- [ ] Task 4: Mall District Population
-- [ ] Task 5: District Event Implementation
-- [ ] Task 6: Ambient Crowd Systems
-- [ ] Task 7: Environmental Storytelling
+- [ ] Task 8: Spaceport District Population
+- [ ] Task 9: Security District Population
+- [ ] Task 10: Medical District Population
+- [ ] Task 11: Mall District Population
+- [ ] Task 12: District Event Implementation
+- [ ] Task 13: Ambient Crowd Systems
+- [ ] Task 14: Environmental Storytelling
 
 ### Job Implementation Tasks
-- [ ] Task 8: Dock Worker Job Implementation
-- [ ] Task 9: Medical Courier Job Implementation
-- [ ] Task 10: Retail Clerk Job Implementation
+- [ ] Task 15: Dock Worker Job Implementation
+- [ ] Task 16: Medical Courier Job Implementation
+- [ ] Task 17: Retail Clerk Job Implementation
 
 ### Perspective Validation Task
-- [ ] Task 11: Validate perspective configurations for new districts
+- [ ] Task 18: Validate perspective configurations for new districts
 
 ### Automation Scripts
-- [ ] Task 12: Create setup_multi_perspective.sh automation script
-- [ ] Task 13: Create generate_perspective_sprites.sh script
+- [ ] Task 19: Create setup_multi_perspective.sh automation script
+- [ ] Task 20: Create generate_perspective_sprites.sh script
 
 ### Trust Building Activities
-- [ ] Task 14: Add district-specific trust-building activities
-- [ ] Task 15: Create shared meal and social interaction opportunities
-- [ ] Task 16: Implement location-based relationship events
+- [ ] Task 21: Add district-specific trust-building activities
+- [ ] Task 22: Create shared meal and social interaction opportunities
+- [ ] Task 23: Implement location-based relationship events
 
 ## User Stories
 
-### Task 1: Spaceport District Population
+### Task 1: Create Spaceport NPC sprite batch (20 NPCs)
+
+**User Story:** As a solo developer, I want to create all 20 Spaceport NPC sprites with their animations in a batch, so that the district can be populated efficiently with visually distinct characters.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (believable communities), Technical Requirements (85+ NPCs)
+- **Acceptance Criteria:**
+  1. 5 dock workers with coveralls and tools
+  2. 5 travelers with luggage and varied attire  
+  3. 5 ship crew members in uniforms
+  4. 5 officials (customs, security, admin)
+  5. Gender mix approximately 12M/8F
+  6. All standard animations (walk, idle, talk)
+  7. Consistent with retro-futuristic aesthetic
+
+**Implementation Notes:**
+- Use base template from Iteration 17
+- Dock workers need grease stains, tool belts
+- Travelers should have variety (business, tourist, etc.)
+- Ship crews in matching uniform sets
+- Consider 1950s fashion influences
+
+### Task 2: Create Security NPC sprite batch (20 NPCs)
+
+**User Story:** As a solo developer, I want to create all 20 Security district NPC sprites including officers and prisoners, so that the law enforcement area feels properly staffed and active.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (believable communities), Technical Requirements (85+ NPCs)
+- **Acceptance Criteria:**
+  1. 7 uniformed security officers
+  2. 5 detectives in suits/formal wear
+  3. 5 prisoners in station jumpsuits
+  4. 3 administrative staff
+  5. Authority visual hierarchy clear
+  6. Prisoner rotation variety
+  7. Equipment visible (badges, cuffs)
+
+**Implementation Notes:**
+- Officers need authority presence
+- Detectives more noir aesthetic
+- Prisoners diverse backgrounds
+- Some officers corrupted (subtle hints)
+- Include female officers/detectives
+
+### Task 3: Create Medical NPC sprite batch (15 NPCs)
+
+**User Story:** As a solo developer, I want to create all 15 Medical district NPC sprites with appropriate medical attire, so that the hospital environment feels authentic and professional.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (believable communities), Technical Requirements (85+ NPCs)
+- **Acceptance Criteria:**
+  1. 5 doctors in white coats
+  2. 5 nurses in period-appropriate uniforms
+  3. 5 patients in hospital gowns
+  4. Medical equipment accessories
+  5. Clear role identification
+  6. Some showing fatigue/stress
+  7. Sterile color palette
+
+**Implementation Notes:**
+- 1950s medical fashion references
+- Stethoscopes, clipboards as props
+- Patients show various conditions
+- Some staff show assimilation signs
+- Gender balance in medical roles
+
+### Task 4: Create Mall NPC sprite batch (30 NPCs)
+
+**User Story:** As a solo developer, I want to create all 30 Mall district NPC sprites representing the commercial diversity, so that the shopping area feels bustling and varied.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (believable communities), Technical Requirements (85+ NPCs)
+- **Acceptance Criteria:**
+  1. 10 shopkeepers with store-appropriate attire
+  2. 10 diverse customers/shoppers
+  3. 10 mall workers (janitors, security, food court)
+  4. Wide variety of ages and styles
+  5. Shopping bags and packages
+  6. Consumer culture aesthetic
+  7. Some robotic/drone behaviors
+
+**Implementation Notes:**
+- Each shopkeeper unique to store type
+- Customers span all demographics
+- 1950s consumer fashion
+- Some showing assimilated shopping patterns
+- Highest NPC count needs optimization
+
+### Task 5: Design district-specific interactive objects
+
+**User Story:** As a player, I want each district to have unique interactive objects that support both gameplay and atmosphere, so that exploration reveals district-appropriate interactions.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (environmental stories)
+- **Acceptance Criteria:**
+  1. Spaceport: cargo crates, terminals, airlocks
+  2. Security: evidence lockers, cells, terminals
+  3. Medical: beds, equipment, medicine cabinets
+  4. Mall: shop displays, kiosks, benches
+  5. Consistent interaction highlighting
+  6. Multiple states where appropriate
+  7. Clear hotspot definition
+
+**Implementation Notes:**
+- 5-8 unique objects per district
+- Reuse base objects with variations
+- Include quest-specific objects
+- Consider investigation opportunities
+
+### Task 6: Produce additional district audio assets
+
+**User Story:** As a player, I want each district to have rich, layered audio that includes both ambience and specific sound effects, so that the soundscape feels complete and immersive.
+
+**Design Reference:** `docs/design/audio_system_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (alive districts)
+- **Acceptance Criteria:**
+  1. Spaceport: ship engines, cargo movement, PA
+  2. Security: cell doors, radio chatter, alarms
+  3. Medical: monitor beeps, PA calls, equipment
+  4. Mall: cash registers, crowd murmur, muzak
+  5. Positional audio sources defined
+  6. Event-triggered sounds ready
+  7. Seamless integration with base ambience
+
+**Implementation Notes:**
+- Build on ambience from Iteration 17
+- Focus on diegetic sources
+- Each district needs 10-15 SFX
+- Keep file sizes optimized
+
+### Task 7: Create job-specific item sprites
+
+**User Story:** As a player working various jobs, I want job-specific items and tools to be visually distinct, so that my work activities feel authentic and grounded.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (job variety), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+  1. Dock worker: cargo scanner, manifest pad
+  2. Medical courier: medical supplies, cooler
+  3. Retail clerk: price gun, security tag remover
+  4. Universal work items: ID badge, timecard
+  5. Clear item purpose from visuals
+  6. Consistent 32x32 size
+  7. Inventory-ready sprites
+
+**Implementation Notes:**
+- Match aesthetic to job locations
+- Some items reveal clues when examined
+- Include worn/used appearance
+- Color coding for job types
+
+### Task 8: Spaceport District Population
 **User Story:** As a player, I want the Spaceport to feel like a busy hub of interstellar travel with workers, travelers, and unique characters, so that the district feels alive and provides job opportunities.
 
 **Status History:**
@@ -91,7 +286,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Integrate with job system from Iteration 11
 - Coordinate with Dock Worker job implementation (Task 8)
 
-### Task 2: Security District Population
+### Task 9: Security District Population
 **User Story:** As a player, I want the Security district to feel like an active law enforcement center with ongoing investigations and prisoner management, so that I can engage with the justice system and uncover corruption.
 
 **Status History:**
@@ -112,7 +307,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Integrate with investigation system from Iteration 15
 - Security patrol job already implemented in Iteration 11 (First Quest)
 
-### Task 3: Medical District Population
+### Task 10: Medical District Population
 **User Story:** As a player, I want the Medical district to feel like a functioning hospital with staff, patients, and ongoing medical situations, so that I can witness the assimilation's impact on healthcare.
 
 **Status History:**
@@ -133,7 +328,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Coordinate with Medical Courier job implementation (Task 9)
 - Emergency events should hint at assimilation spread
 
-### Task 4: Mall District Population
+### Task 11: Mall District Population
 **User Story:** As a player, I want the Mall to feel like a bustling commerce center with diverse shops, crowds, and social interactions, so that I can observe society's facade of normalcy.
 
 **Status History:**
@@ -154,7 +349,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Coordinate with Retail Clerk job implementation (Task 10)
 - Largest NPC population requires performance optimization
 
-### Task 5: District Event Implementation
+### Task 12: District Event Implementation
 **User Story:** As a player, I want each district to have unique events that make the world feel alive and unpredictable, so that repeated visits reveal new situations and opportunities.
 
 **Status History:**
@@ -175,7 +370,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Events should create job opportunities and investigation leads
 - Some events reveal assimilation progress
 
-### Task 6: Ambient Crowd Systems
+### Task 13: Ambient Crowd Systems
 **User Story:** As a developer, I want to implement lightweight crowd NPCs that add life without full interaction complexity, so that busy areas feel populated without impacting performance.
 
 **Status History:**
@@ -195,7 +390,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Target 60 FPS with full crowds
 - Use LOD and culling aggressively
 
-### Task 7: Environmental Storytelling
+### Task 14: Environmental Storytelling
 **User Story:** As a player, I want to discover stories through environmental details, so that exploration reveals the station's history and hidden narratives.
 
 **Status History:**
@@ -215,7 +410,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Environmental clues should support main narrative
 - Each district needs 5-10 environmental stories
 
-### Task 8: Dock Worker Job Implementation
+### Task 15: Dock Worker Job Implementation
 **User Story:** As a player, I want to work as a dock worker loading and unloading cargo, so that I can earn credits while discovering clues about mysterious shipments.
 
 **Design Reference:** `docs/design/job_work_quest_system_design.md` (Spaceport - Dock Worker, lines 88-187)
@@ -240,7 +435,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Night shift variant provides best investigation opportunities
 - Base pay: 40 credits per 4-hour shift
 
-### Task 9: Medical Courier Job Implementation
+### Task 16: Medical Courier Job Implementation
 **User Story:** As a player, I want to work as a medical courier delivering critical supplies, so that I can access restricted medical areas and discover contamination clues.
 
 **Design Reference:** `docs/design/job_work_quest_system_design.md` (Medical - Supply Courier, lines 266-354)
@@ -265,7 +460,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Biohazard transport variant has 15% chance of sample leak
 - Base pay: 60 credits per 3-hour shift
 
-### Task 10: Retail Clerk Job Implementation
+### Task 17: Retail Clerk Job Implementation
 **User Story:** As a player, I want to work as a retail clerk serving customers and preventing theft, so that I can observe drone behavior patterns and build mall connections.
 
 **Design Reference:** `docs/design/job_work_quest_system_design.md` (Mall - Retail Clerk, lines 356-455)
@@ -290,7 +485,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Female characters face more harassment events
 - Base pay: 35 credits per 4-hour shift
 
-### Task 11: Validate perspective configurations for new districts
+### Task 18: Validate perspective configurations for new districts
 **User Story:** As a developer, I want to ensure that Medical Bay and Market Square districts have appropriate perspective settings, so that characters display correctly and the multi-perspective system works seamlessly in all game areas.
 
 **Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 136-151
@@ -335,7 +530,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - setup_multi_perspective.sh creates all required infrastructure
 - generate_perspective_sprites.sh processes sprites correctly
 
-### Task 12: Create setup_multi_perspective.sh automation script
+### Task 19: Create setup_multi_perspective.sh automation script
 **User Story:** As a developer, I want an automated script to set up the multi-perspective character system infrastructure, so that new team members or fresh installations can quickly configure the system correctly.
 
 **Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 117-123
@@ -360,7 +555,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Include validation checks for dependencies
 - Document usage in script header
 
-### Task 13: Create generate_perspective_sprites.sh script
+### Task 20: Create generate_perspective_sprites.sh script
 **User Story:** As a content creator, I want an automated script to generate character sprites for all perspective types, so that creating multi-perspective NPCs is efficient and consistent.
 
 **Design Reference:** `docs/design/multi_perspective_character_system_plan.md` lines 124-135
@@ -385,7 +580,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Support for the 85 NPCs being created in this iteration
 - Integration with existing sprite pipeline tools
 
-### Task 14: Add district-specific trust-building activities
+### Task 21: Add district-specific trust-building activities
 **User Story:** As a player, I want each district to offer unique opportunities to build trust with NPCs through activities that match the district's theme, so that relationship building feels integrated with the world.
 
 **Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Trust Building Mechanics)
@@ -411,7 +606,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Medical comfort: +15 emotional, +10 personal
 - Mall shopping: +8 personal, +5 emotional
 
-### Task 15: Create shared meal and social interaction opportunities
+### Task 22: Create shared meal and social interaction opportunities
 **User Story:** As a player, I want to share meals and have social moments with NPCs during their break times, so that relationships can develop naturally through everyday interactions.
 
 **Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Special Occasions)
@@ -436,7 +631,7 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - Group meals enable NPC introductions
 - Birthday bonus: +15 personal, +10 emotional
 
-### Task 16: Implement location-based relationship events
+### Task 23: Implement location-based relationship events
 **User Story:** As a player, I want spontaneous relationship-building opportunities to emerge based on where I am and who's nearby, so that the world feels reactive to my presence.
 
 **Design Reference:** `docs/design/npc_trust_relationship_system_design.md` (Context-Sensitive Actions)
@@ -463,11 +658,20 @@ This iteration implements the first half of Phase 3.2, focusing on populating fo
 - More events as assimilation spreads
 
 ## Timeline
-- **Estimated Duration:** 6-7 weeks
-- **Total Hours:** 175 (120 + 50 for job implementations + 5 for automation scripts)
-- **Critical Path:** NPCs must be created before quests can be assigned
+- **Estimated Duration:** 8-9 weeks (including asset creation)
+- **Total Hours:** 310 (120 + 50 for job implementations + 5 for automation scripts + 135 for asset creation)
+- **Critical Path:** Asset creation → NPCs implementation → Quest assignment
+- **Asset Creation Breakdown:**
+  - 85 NPCs × 1.5 hours average = 127.5 hours
+  - Interactive objects: 5 hours
+  - Audio assets: 5 hours
+  - Job items: 2.5 hours
 
 ## Definition of Done
+- [ ] 85 NPC sprites created with animations
+- [ ] District-specific interactive objects designed
+- [ ] Additional audio assets produced
+- [ ] Job-specific items created
 - [ ] 85 NPCs implemented across 4 districts
 - [ ] All job quests functional
 - [ ] District events triggering properly

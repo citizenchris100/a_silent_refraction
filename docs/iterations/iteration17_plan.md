@@ -74,47 +74,272 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 
 ## Tasks
 
+### Asset Creation Prerequisites
+- [ ] Task 1: Create base character template and animation rig
+- [ ] Task 2: Design UI element sprites (verbs, inventory, dialog)
+- [ ] Task 3: Create common inventory item sprites (keycards, tools, etc.)
+- [ ] Task 4: Design all 7 district background art assets
+- [ ] Task 5: Create 50 core NPC sprite assets with animations
+- [ ] Task 6: Design interactive object sprites for all districts
+- [ ] Task 7: Produce district ambient audio loops and sound effects
+- [ ] Task 8: Create system UI sounds and feedback audio
+
 ### District Implementation
-- [ ] Task 1: Implement all 7 district backgrounds
-- [ ] Task 2: Configure walkable areas and navigation
-- [ ] Task 3: Place interactive objects throughout districts
-- [ ] Task 4: Create district foreground occlusion content
-- [ ] Task 5: Configure district audio atmosphere
-- [ ] Task 6: Set up tram system integration
+- [ ] Task 9: Implement all 7 district backgrounds
+- [ ] Task 10: Configure walkable areas and navigation
+- [ ] Task 11: Place interactive objects throughout districts
+- [ ] Task 12: Create district foreground occlusion content
+- [ ] Task 13: Configure district audio atmosphere
+- [ ] Task 14: Set up tram system integration
 
 ### NPC and Story Implementation
-- [ ] Task 7: Implement 50 core story NPCs
-- [ ] Task 8: Create main story quest progression
-- [ ] Task 9: Implement investigation quest chains
-- [ ] Task 10: Build coalition formation quests
+- [ ] Task 15: Implement 50 core story NPCs
+- [ ] Task 16: Create main story quest progression
+- [ ] Task 17: Implement investigation quest chains
+- [ ] Task 18: Build coalition formation quests
 
 ### Multiple Endings System
-- [ ] Task 11: Create EndingManager singleton
-- [ ] Task 12: Implement critical evaluation day system
-- [ ] Task 13: Build assimilation ratio calculation
-- [ ] Task 14: Create control path final quest
-- [ ] Task 15: Create escape path final quest
-- [ ] Task 16: Implement ending determination logic
-- [ ] Task 17: Build ending display UI
-- [ ] Task 18: Create ending serialization system
-- [ ] Task 19: Integrate with existing game systems
-- [ ] Task 20: Add evaluation countdown warnings
-- [ ] Task 21: Implement faction-specific ending variations
-- [ ] Task 22: Create partial success states
+- [ ] Task 19: Create EndingManager singleton
+- [ ] Task 20: Implement critical evaluation day system
+- [ ] Task 21: Build assimilation ratio calculation
+- [ ] Task 22: Create control path final quest
+- [ ] Task 23: Create escape path final quest
+- [ ] Task 24: Implement ending determination logic
+- [ ] Task 25: Build ending display UI
+- [ ] Task 26: Create ending serialization system
+- [ ] Task 27: Integrate with existing game systems
+- [ ] Task 28: Add evaluation countdown warnings
+- [ ] Task 29: Implement faction-specific ending variations
+- [ ] Task 30: Create partial success states
 
 ### Testing and Polish
-- [ ] Task 23: Test critical path to all endings
-- [ ] Task 24: Performance optimization pass
-- [ ] Task 25: Bug fixing and polish
+- [ ] Task 31: Test critical path to all endings
+- [ ] Task 32: Performance optimization pass
+- [ ] Task 33: Bug fixing and polish
 
 ### Trust and Relationship UI Systems
-- [ ] Task 26: Create RelationshipManager singleton system
-- [ ] Task 27: Implement relationship UI components (HUD, journal, trust breakdown)
-- [ ] Task 28: Add relationship milestone and opportunity system
+- [ ] Task 34: Create RelationshipManager singleton system
+- [ ] Task 35: Implement relationship UI components (HUD, journal, trust breakdown)
+- [ ] Task 36: Add relationship milestone and opportunity system
 
 ## User Stories
 
-### Task 1: Implement all 7 district backgrounds
+### Task 1: Create base character template and animation rig
+
+**User Story:** As a solo developer, I want a reusable character template with standard animations and proportions, so that I can efficiently create 150 unique NPCs while maintaining visual consistency.
+
+**Design Reference:** `docs/design/multi_perspective_character_system_plan.md`, `docs/design/template_npc_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, T2
+- **Acceptance Criteria:**
+  1. Base character proportions defined (64x64 sprite size)
+  2. Animation frames standardized (8-frame walk, 4-frame idle, 2-frame talk)
+  3. Gender variant templates created
+  4. Pivot points and sizing consistent
+  5. Reusable template files created
+  6. Layer organization for easy customization
+  7. Export settings documented
+
+**Implementation Notes:**
+- Use consistent pivot point at character feet
+- Create male and female base templates
+- Include all 8 directional walk cycles
+- Set up animation naming conventions
+- Consider 1950s noir aesthetic in proportions
+
+### Task 2: Design UI element sprites (verbs, inventory, dialog)
+
+**User Story:** As a player, I want clear, readable UI elements that match the retro-noir aesthetic, so that the interface feels integrated with the game world.
+
+**Design Reference:** `docs/design/verb_ui_design.md`, `docs/design/dialog_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. 9 verb button sprites created (Look, Talk, Use, etc.)
+  2. Inventory slot graphics designed
+  3. Dialog UI elements (boxes, arrows, portraits)
+  4. Button states (normal, hover, pressed)
+  5. Consistent color palette and style
+  6. Readable at 320x240 and scaled resolutions
+  7. SCUMM-style aesthetic achieved
+
+**Implementation Notes:**
+- Reference classic SCUMM games for verb layout
+- Use art deco inspired borders
+- Ensure high contrast for readability
+- Include disabled states for verbs
+
+### Task 3: Create common inventory item sprites (keycards, tools, etc.)
+
+**User Story:** As a player, I want inventory items to be visually distinct and immediately recognizable, so that I can quickly identify what I'm carrying.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. Universal keycard designs (5 security levels)
+  2. Common tools (screwdriver, wrench, etc.)
+  3. Investigation items (notebook, magnifying glass)
+  4. Key story items placeholder art
+  5. Consistent 32x32 item size
+  6. Clear silhouettes for recognition
+  7. Item state variations (used/unused)
+
+**Implementation Notes:**
+- Use color coding for keycard security levels
+- Ensure items read well at small size
+- Consider inventory UI constraints
+- Include sparkle/highlight for important items
+
+### Task 4: Design all 7 district background art assets
+
+**User Story:** As a player, I want each district to have a unique visual identity that immediately communicates its purpose and atmosphere, so that navigation feels intuitive and exploration rewarding.
+
+**Design Reference:** `docs/design/template_district_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1, T1
+- **Acceptance Criteria:**
+  1. Spaceport - retro-futuristic docking bays
+  2. Security - authoritarian offices and brig
+  3. Medical - sterile hospital environments  
+  4. Mall - busy commercial center
+  5. Trading Floor - corporate financial hub
+  6. Barracks - utilitarian living quarters
+  7. Engineering - industrial machinery spaces
+  8. All at 320x240 base resolution
+  9. Foreground elements separated for occlusion
+
+**Implementation Notes:**
+- Maintain consistent perspective across districts
+- Use limited color palettes per district
+- Include ambient animation opportunities
+- Design with walkable areas in mind
+- Reference 1950s architectural styles
+
+### Task 5: Create 50 core NPC sprite assets with animations
+
+**User Story:** As a player, I want the main story NPCs to be visually memorable and distinct, so that I can form emotional connections and easily identify important characters.
+
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U2, T2
+- **Acceptance Criteria:**
+  1. 50 unique character designs based on templates
+  2. Mix of genders, ages, and professions
+  3. All standard animations implemented
+  4. Distinctive silhouettes and color schemes
+  5. Story-relevant visual details
+  6. Assimilation visual indicators ready
+  7. Consistent with 1950s aesthetic
+
+**Implementation Notes:**
+- Prioritize main quest givers
+- Include faction leaders
+- Design with personality in mind
+- Some NPCs need multiple states
+- Reference character background documents
+
+### Task 6: Design interactive object sprites for all districts
+
+**User Story:** As a player, I want interactive objects to stand out subtly from the background while maintaining visual cohesion, so that I can identify opportunities without breaking immersion.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1, T1
+- **Acceptance Criteria:**
+  1. 5-10 unique objects per district
+  2. Consistent interaction highlighting
+  3. Multiple states where needed (open/closed)
+  4. Appropriate to district themes
+  5. Clear interaction hotspots
+  6. Readable at game resolution
+  7. Animation frames for active objects
+
+**Implementation Notes:**
+- Terminals, doors, containers primary
+- Include flavor objects for atmosphere
+- Design hover/highlight states
+- Consider perspective scaling needs
+
+### Task 7: Produce district ambient audio loops and sound effects
+
+**User Story:** As a player, I want each district to have a unique soundscape that reinforces its purpose and atmosphere, so that audio enhances the sense of place.
+
+**Design Reference:** `docs/design/audio_system_design.md`, `docs/design/phase3_content_implementation_roadmap.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1, T1
+- **Acceptance Criteria:**
+  1. Unique 2-3 minute ambient loop per district
+  2. Seamless looping without pops/clicks
+  3. District-appropriate sound palette
+  4. Diegetic sound sources identified
+  5. Day/night variations where appropriate
+  6. Proper audio format (OGG Vorbis)
+  7. Normalized volume levels
+
+**Implementation Notes:**
+- Spaceport: engines, announcements
+- Medical: monitors, ventilation
+- Mall: crowd murmur, muzak
+- Engineering: machinery, computers
+- Keep ambience subtle, not overwhelming
+
+### Task 8: Create system UI sounds and feedback audio
+
+**User Story:** As a player, I want clear audio feedback for my actions and UI interactions, so that the game feels responsive and polished.
+
+**Design Reference:** `docs/design/audio_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. UI click/hover sounds
+  2. Inventory interaction sounds
+  3. Dialog advance sounds
+  4. Notification alerts
+  5. Success/failure feedback
+  6. Consistent volume levels
+  7. Non-intrusive design
+
+**Implementation Notes:**
+- Keep UI sounds subtle
+- Use consistent audio palette
+- Consider frequency ranges
+- Test with repeated use
+- Ensure no listener fatigue
+
+### Task 9: Implement all 7 district backgrounds
 
 **User Story:** As a player, I want to explore all seven unique districts of the space station, each with its own distinct atmosphere and purpose, so that the world feels complete and varied.
 
@@ -142,7 +367,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Consider perspective requirements per district
 - Implement proper scaling for different screen sizes
 
-### Task 2: Configure walkable areas and navigation
+### Task 10: Configure walkable areas and navigation
 
 **User Story:** As a player, I want to move naturally through each district without getting stuck or accessing unintended areas, so that exploration feels smooth and intuitive.
 
@@ -168,7 +393,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Ensure tram station connections work
 - Account for perspective changes affecting navigation
 
-### Task 3: Place interactive objects throughout districts
+### Task 11: Place interactive objects throughout districts
 
 **User Story:** As a player, I want each district to feel alive with objects I can examine, use, or interact with to learn more about the world, so that exploration is rewarding.
 
@@ -193,7 +418,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Some objects should hint at assimilation threat
 - Ensure proper z-ordering for click detection
 
-### Task 4: Create district foreground occlusion content
+### Task 12: Create district foreground occlusion content
 
 **User Story:** As a player, I want to walk behind foreground objects in each district, creating a sense of depth and immersion in the environment.
 
@@ -218,7 +443,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Test with both Alex character models
 - Performance target: <5% FPS impact
 
-### Task 5: Configure district audio atmosphere
+### Task 13: Configure district audio atmosphere
 
 **User Story:** As a player, I want each district to have unique ambient sounds that reinforce its purpose and atmosphere, so that audio enhances immersion.
 
@@ -243,7 +468,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Ensure loops are seamless
 - Consider perspective impact on audio
 
-### Task 6: Set up tram system integration
+### Task 14: Set up tram system integration
 
 **User Story:** As a player, I want to use the tram system to travel between districts while experiencing the journey, so that travel feels integrated into the world.
 
@@ -268,7 +493,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Loading should happen during transition
 - Time should advance based on distance
 
-### Task 7: Implement 50 core story NPCs
+### Task 15: Implement 50 core story NPCs
 
 **User Story:** As a player, I want to meet the key characters who drive the main story, each with distinct personalities and roles, so that the narrative feels character-driven.
 
@@ -294,7 +519,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Include mix of potential allies and threats
 - Some NPCs should be secretly assimilated
 
-### Task 8: Create main story quest progression
+### Task 16: Create main story quest progression
 
 **User Story:** As a player, I want to experience the full narrative arc from discovering the assimilation threat to choosing how to resolve it, so that my journey feels complete and meaningful.
 
@@ -320,7 +545,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Connect to investigation and coalition systems
 - Build toward Day 30 evaluation
 
-### Task 9: Implement investigation quest chains
+### Task 17: Implement investigation quest chains
 
 **User Story:** As a player, I want to uncover the assimilation conspiracy through investigation and deduction, so that I feel like a detective solving a mystery.
 
@@ -345,7 +570,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Some clues only available with high trust
 - Investigation success affects coalition strength
 
-### Task 10: Build coalition formation quests
+### Task 18: Build coalition formation quests
 
 **User Story:** As a player, I want to build a resistance coalition by recruiting allies and earning trust, so that I'm not alone in fighting the threat.
 
@@ -370,7 +595,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Some NPCs have conflicting loyalties
 - Coalition strength affects ending success
 
-### Task 11: Create EndingManager singleton
+### Task 19: Create EndingManager singleton
 
 **User Story:** As a developer, I want a centralized system to manage ending determination and execution, so that all ending logic is consistent and maintainable.
 
@@ -395,7 +620,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Emit signals for UI updates
 - Track historical ratio data
 
-### Task 12: Implement critical evaluation day system
+### Task 20: Implement critical evaluation day system
 
 **User Story:** As a player, I want the game to evaluate my progress on a specific day and determine my path forward, so that my actions throughout the game have meaningful consequences.
 
@@ -420,7 +645,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Make evaluation day visible in UI
 - Consider dynamic evaluation date in future
 
-### Task 13: Build assimilation ratio calculation
+### Task 21: Build assimilation ratio calculation
 
 **User Story:** As a developer, I want accurate tracking of station-wide assimilation percentages, so that the ending evaluation reflects the true game state.
 
@@ -445,7 +670,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Leaders count more in some calculations
 - Display ratio in UI leading to Day 30
 
-### Task 14: Create control path final quest
+### Task 22: Create control path final quest
 
 **User Story:** As a player who has kept assimilation under control, I want to fight to maintain station independence from corporate takeover, so that my success in containing the threat matters.
 
@@ -470,7 +695,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Coalition strength affects difficulty
 - Assimilation continues during quest
 
-### Task 15: Create escape path final quest
+### Task 23: Create escape path final quest
 
 **User Story:** As a player who failed to contain the assimilation, I want to organize an escape for the remaining survivors, so that some hope remains even in defeat.
 
@@ -495,7 +720,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Some "survivors" may be infiltrators
 - Capacity limits on escape vessels
 
-### Task 16: Implement ending determination logic
+### Task 24: Implement ending determination logic
 
 **User Story:** As a developer, I want clear logic that determines which ending path activates based on game state, so that the system reliably delivers appropriate conclusions.
 
@@ -520,7 +745,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Consider faction influence on ending
 - Lock in path immediately
 
-### Task 17: Build ending display UI
+### Task 25: Build ending display UI
 
 **User Story:** As a player, I want to see my ending presented clearly with statistics about my journey, so that I understand the consequences of my choices.
 
@@ -545,7 +770,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Text variations based on success degree
 - Terminal/newspaper aesthetic
 
-### Task 18: Create ending serialization system
+### Task 26: Create ending serialization system
 
 **User Story:** As a player, I want my ending choice and progress to save properly, so that I can complete the final quest across multiple sessions.
 
@@ -570,7 +795,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Handle missing ending data gracefully
 - Support save during final quest
 
-### Task 19: Integrate with existing game systems
+### Task 27: Integrate with existing game systems
 
 **User Story:** As a developer, I want the ending system to properly integrate with all existing systems, so that endings reflect the complete game state.
 
@@ -595,7 +820,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - No circular dependencies
 - Clean API for system queries
 
-### Task 20: Add evaluation countdown warnings
+### Task 28: Add evaluation countdown warnings
 
 **User Story:** As a player, I want clear warnings as the evaluation day approaches, so that I can prepare for the consequences and make final preparations.
 
@@ -620,7 +845,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Show exact numbers in later warnings
 - Integrate with morning reports
 
-### Task 21: Implement faction-specific ending variations
+### Task 29: Implement faction-specific ending variations
 
 **User Story:** As a player, I want my coalition composition to affect ending details, so that the type of allies I gathered influences the outcome.
 
@@ -645,7 +870,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Mixed creates unique text
 - Some factions better for certain endings
 
-### Task 22: Create partial success states
+### Task 30: Create partial success states
 
 **User Story:** As a player, I want degrees of success within each ending path, so that my performance during the final quest affects the ultimate outcome.
 
@@ -670,7 +895,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Affects ending text tone
 - May unlock special achievements
 
-### Task 23: Test critical path to all endings
+### Task 31: Test critical path to all endings
 
 **User Story:** As a developer, I want to verify all ending paths are achievable through normal gameplay, so that players can reach any ending through their choices.
 
@@ -693,7 +918,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Test edge cases
 - Verify with different play styles
 
-### Task 24: Performance optimization pass
+### Task 32: Performance optimization pass
 
 **User Story:** As a developer, I want to ensure the game maintains 60 FPS with all content loaded, so that players have a smooth experience throughout.
 
@@ -716,7 +941,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Implement aggressive culling
 - Consider dynamic LOD for NPCs
 
-### Task 25: Bug fixing and polish
+### Task 33: Bug fixing and polish
 
 **User Story:** As a developer, I want to fix all critical bugs and polish rough edges, so that the core game experience is smooth and professional.
 
@@ -739,7 +964,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Create bug database
 - Prioritize player-facing issues
 
-### Task 26: Create RelationshipManager singleton system
+### Task 34: Create RelationshipManager singleton system
 
 **User Story:** As a game system, I need a centralized RelationshipManager to coordinate all multi-dimensional trust relationships, NPC connections, and faction standings, so that the social dynamics work consistently across all game systems.
 
@@ -767,7 +992,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Cache frequently accessed relationships
 - Lazy-load NPC connections
 
-### Task 27: Implement relationship UI components (HUD, journal, trust breakdown)
+### Task 35: Implement relationship UI components (HUD, journal, trust breakdown)
 
 **User Story:** As a player, I want clear visual feedback about my relationships with NPCs including trust levels, relationship types, and trust breakdown across dimensions, so that I can make informed social decisions.
 
@@ -795,7 +1020,7 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Use color coding: green (friend), yellow (neutral), red (hostile)
 - Show trust barriers based on gender/profession
 
-### Task 28: Add relationship milestone and opportunity system
+### Task 36: Add relationship milestone and opportunity system
 
 **User Story:** As a player, I want to receive notifications about relationship milestones and special opportunities to maintain friendships, so that relationships feel dynamic and require active maintenance.
 
@@ -844,11 +1069,19 @@ This iteration implements Phase 3.1 from the content roadmap, creating the core 
 - Trust opportunities appear contextually
 
 ## Timeline
-- **Estimated Duration:** 6-8 weeks (expanded from 4-6)
-- **Total Hours:** 220 (expanded from 148)
-- **Critical Path:** Districts → NPCs → Quests → Endings
+- **Estimated Duration:** 10-12 weeks (expanded to include asset creation)
+- **Total Hours:** 380 (expanded to include ~160 hours asset creation)
+- **Critical Path:** Assets → Districts → NPCs → Quests → Endings
 
 ## Definition of Done
+- [ ] Base character template and animation rig created
+- [ ] All UI sprites designed and implemented
+- [ ] Common inventory items created
+- [ ] All 7 district backgrounds created with layers
+- [ ] 50 core NPC sprites with animations complete
+- [ ] Interactive object sprites for all districts done
+- [ ] District audio ambience loops produced
+- [ ] System UI sounds created
 - [ ] All 7 districts implemented and polished
 - [ ] 50 core NPCs placed and functional
 - [ ] Main story playable start to finish

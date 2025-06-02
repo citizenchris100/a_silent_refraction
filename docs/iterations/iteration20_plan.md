@@ -1,5 +1,14 @@
 # Iteration 20: Quest Implementation
 
+## Epic Description
+As a content creator, I want to implement all quest content including job quests, coalition missions, investigations, and personal stories, so that players have meaningful activities that interconnect and respond to their choices.
+
+## Cohesive Goal
+**"Every choice matters and every story connects"**
+
+## Overview
+This iteration implements Phase 3.3 from the content roadmap, creating all quest content that brings the game world to life. This includes approximately 25 job quests with daily rotations, 10-15 coalition resistance missions, 5-8 investigation mystery chains, and 15-20 personal side stories that deepen relationships and reveal character backstories.
+
 ## Goals
 - Implement main story and job quests
 - Create ~25 job quests across all districts
