@@ -147,6 +147,9 @@ As a player, I need structured objectives that guide my investigation while allo
 - [ ] Task 69: Implement Scientist Lead NPC with quest integration
 - [ ] Task 70: Create Dock Foreman NPC with job system ties
 
+### Morning Report Integration
+- [ ] Task 71: Integrate QuestManager with MorningReportManager for overnight quest updates
+
 ## User Stories
 
 ### Task 2: Implement quest state machine
@@ -1009,6 +1012,31 @@ As a player, I need structured objectives that guide my investigation while allo
 - Early morning start times
 - Reference: docs/design/template_npc_design.md
 
+### Task 71: Integrate QuestManager with MorningReportManager for overnight quest updates
+**User Story:** As a player, I want to see quest-related events in my morning report, so that I'm aware of overnight quest developments like expired deadlines or new opportunities.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md` & `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Expired quests appear in morning report
+  2. New quest opportunities announced
+  3. Quest progress milestones reported
+  4. Failed quests show consequences
+  5. Priority based on quest importance
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md lines 172-195 (quest integration)
+- Reference: docs/design/quest_system_framework_design.md (quest events)
+- Use MorningReportManager.add_event() API
+- Report categories: expired, new, progressed
+- EventPriority.HIGH for expired quests
+- Include quest name and brief reason
+
 ## Testing Criteria
 - Quest states transition correctly
 - Jobs function with proper schedules
@@ -1020,6 +1048,7 @@ As a player, I need structured objectives that guide my investigation while allo
 - First Quest completable via multiple paths
 - Performance with many active quests
 - Quest notifications work properly
+- Quest events appear in morning reports correctly
 - All systems integrate smoothly
 - Role obligations trigger when wearing disguises
 - Obligation timers and deadlines work correctly

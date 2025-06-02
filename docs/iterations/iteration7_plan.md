@@ -105,9 +105,6 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - [ ] Task 33: Create item selling mechanics
 - [ ] Task 34: Add contraband detection system
 - [ ] Task 35: Implement container system basics
-- [ ] Task 46: Implement inventory performance optimizations
-- [ ] Task 47: Create inventory comparison and analysis tools
-- [ ] Task 48: Implement advanced inventory accessibility
 
 ### Advanced Time Management
 - [ ] Task 36: Create DeadlineManager for time-sensitive objectives
@@ -120,6 +117,14 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - [ ] Task 43: Implement flexible scheduling and time optimization
 - [ ] Task 44: Add activity interruption and resumption system
 - [ ] Task 45: Create time pressure visualization UI
+- [ ] Task 46: Implement inventory performance optimizations
+- [ ] Task 47: Create inventory comparison and analysis tools
+- [ ] Task 48: Implement advanced inventory accessibility
+
+### Morning Report Integration
+- [ ] Task 49: Implement MorningReportSerializer with history compression
+- [ ] Task 50: Create static API helpers for external system integration
+- [ ] Task 51: Add sleep quality integration to morning reports
 
 ## User Stories
 
@@ -305,9 +310,9 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Schedule completion with TimeManager
 
 ### Task 9: Create SaveManager (extends SerializationManager)
-**User Story:** As a developer, I want a dedicated save system that extends the serialization framework, so that game saves are handled consistently and reliably.
+**User Story:** As a developer, I want a dedicated save system that extends the serialization framework including MorningReportSerializer implementation, so that game saves are handled consistently and reliably with full morning report history preservation.
 
-**Design Reference:** `docs/design/save_system_design.md`
+**Design Reference:** `docs/design/save_system_design.md` & `docs/design/morning_report_manager_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -320,13 +325,16 @@ As a player, I need to manage my limited credits while finding safe places to sl
   3. Atomic save operations
   4. Save metadata tracking
   5. Version compatibility checks
+  6. Includes MorningReportSerializer with compression and version support
 
 **Implementation Notes:**
 - Reference: docs/design/save_system_design.md (SaveManager architecture)
 - Reference: docs/design/serialization_manager_design.md (base class)
+- Reference: docs/design/morning_report_manager_design.md lines 329-377 (MorningReportSerializer)
 - Store metadata: playtime, day, location
 - Handle save file corruption gracefully
 - Implement save file versioning
+- MorningReportSerializer compresses history to last 7 days
 
 ### Task 10: Implement sleep locations and costs
 **User Story:** As a player, I want various sleep locations with different costs and safety levels, so that I can balance my budget against the risk of cheaper accommodations.
@@ -423,7 +431,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Rollback sleep if save fails
 
 ### Task 14: Create MorningReportManager
-**User Story:** As a developer, I want a centralized system to manage overnight events and generate morning reports, so that players receive consistent and meaningful updates about world changes.
+**User Story:** As a developer, I want a centralized system to manage overnight events and generate morning reports with static API methods, so that players receive consistent and meaningful updates about world changes and other systems can easily integrate.
 
 **Design Reference:** `docs/design/morning_report_manager_design.md`
 
@@ -438,16 +446,21 @@ As a player, I need to manage my limited credits while finding safe places to sl
   3. Priority-based sorting
   4. Category organization
   5. Report data structure
+  6. Static API methods (add_event, was_report_shown, get_report_for_day)
 
 **Implementation Notes:**
 - Reference: docs/design/morning_report_manager_design.md (architecture)
+- Reference: docs/design/morning_report_manager_design.md lines 382-405 (API methods)
 - Event categories: NPC, Coalition, Assimilation, Security
 - Priority levels: Critical, High, Normal, Low
 - Maximum 10 events per report
 - Store last 3 reports for review
+- Implement static helper methods for easy integration
 
 ### Task 15: Implement event collection during sleep
-**User Story:** As a developer, I want the game world to progress while the player sleeps, so that the world feels alive and dynamic.
+**User Story:** As a developer, I want the game world to progress while the player sleeps including sleep quality modifications, so that the world feels alive and dynamic with reports that reflect the player's rest quality.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md` & `docs/design/sleep_system_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -460,12 +473,16 @@ As a player, I need to manage my limited credits while finding safe places to sl
   3. Coalition performs operations
   4. Random events can occur
   5. All events are logged for morning report
+  6. Sleep quality affects report content
 
 **Implementation Notes:**
 - Reference: docs/design/morning_report_manager_design.md (event collection)
+- Reference: docs/design/morning_report_manager_design.md lines 299-324 (sleep quality integration)
 - Reference: docs/design/sleep_system_design.md (overnight progression)
 - Events have priority levels for report ordering
 - Maximum 10 events shown in report
+- Poor sleep adds fatigue warnings to report
+- Squat sleeping increases security suspicion events
 
 ### Task 16: Design morning report UI
 **User Story:** As a player, I want an attractive and readable morning report interface, so that I can quickly understand what happened overnight.
@@ -1270,6 +1287,82 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Audio cues: pickup, drop, transfer, error sounds
 - High contrast: increased borders, bold text
 
+### Task 49: Implement MorningReportSerializer with history compression
+**User Story:** As a developer, I want morning report history to be efficiently serialized with compression, so that save files remain manageable while preserving important event history.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md` & `docs/design/modular_serialization_architecture.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T2
+- **Acceptance Criteria:**
+  1. Implements BaseSerializer interface
+  2. Compresses report history to last 7 days
+  3. Stores only essential event data
+  4. Integrates with SaveManager
+  5. Handles version migration
+  6. Priority order 75 in serialization chain
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md lines 329-377 (MorningReportSerializer)
+- Reference: docs/design/modular_serialization_architecture.md (serializer patterns)
+- Compress events to id, category, priority, message only
+- Register with SaveManager.register_serializer("morning_report", self, 75)
+- Support decompression on load
+- Handle missing/corrupt data gracefully
+
+### Task 50: Create static API helpers for external system integration
+**User Story:** As a developer, I want simple static methods to integrate with MorningReportManager, so that other systems can easily add events without complex coupling.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, T1
+- **Acceptance Criteria:**
+  1. Static add_event() method for simple events
+  2. Static add_events() for batch additions
+  3. Static was_report_shown() check method
+  4. Static get_report_for_day() retrieval
+  5. Thread-safe implementation
+  6. Clear documentation for integrators
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md lines 382-405 (API methods)
+- Methods access singleton instance internally
+- Validate parameters before processing
+- Log integration calls for debugging
+- Example: MorningReportManager.add_event("Security alert", EventCategory.SECURITY, EventPriority.HIGH)
+
+### Task 51: Add sleep quality integration to morning reports
+**User Story:** As a player, I want my sleep quality to affect morning reports, so that choosing cheaper accommodations has narrative consequences beyond just safety.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md` & `docs/design/sleep_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** U2, U3
+- **Acceptance Criteria:**
+  1. Poor sleep adds fatigue warning to report
+  2. Squat sleeping increases security suspicion
+  3. Quality affects event generation
+  4. Different locations provide different reports
+  5. Sleep quality visible in report header
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md lines 299-324 (sleep quality integration)
+- Reference: docs/design/sleep_system_design.md (sleep quality mechanics)
+- Quality < 0.5 triggers fatigue warning
+- Mall squat adds security suspicion event
+- Insert quality events at beginning of report
+- Modify report tone based on rest quality
+
 ## Testing Criteria
 - Economy transactions process correctly
 - Shop purchases validate credit balance
@@ -1277,6 +1370,9 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - Basic job system executes and pays credits
 - Save/sleep operation is atomic and reliable
 - Morning reports generate appropriate content
+- MorningReportSerializer compresses history correctly
+- Static API methods integrate seamlessly
+- Sleep quality affects morning report content
 - Barracks district loads and performs well
 - Inventory system handles capacity correctly
 - All systems integrate with serialization
@@ -1333,6 +1429,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - src/resources/job_data.gd (to be created)
 - src/core/save/save_manager.gd (to be created)
 - src/core/save/morning_report_manager.gd (to be created)
+- src/core/serializers/morning_report_serializer.gd (to be created)
 - src/districts/barracks/ (to be created)
 - src/core/inventory/inventory_manager.gd (to be created)
 - src/ui/inventory/inventory_ui.gd (to be created)

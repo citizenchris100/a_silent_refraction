@@ -1054,7 +1054,9 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Performance benchmarks
 
 ### Task 1: Create AssimilationManager singleton
-**User Story:** As a developer, I want a central system to manage all assimilation mechanics, so that the infection spread is coordinated and consistent across the game.
+**User Story:** As a developer, I want a central system to manage all assimilation mechanics with morning report integration, so that the infection spread is coordinated and consistent across the game with overnight events properly reported.
+
+**Design Reference:** `docs/design/assimilation_system_design.md` & `docs/design/morning_report_manager_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -1067,12 +1069,15 @@ As a player, I experience a living station where the mysterious assimilation spr
   3. Manages spread mechanics
   4. Provides API for other systems
   5. Handles save/load state
+  6. Reports overnight spread to MorningReportManager
 
 **Implementation Notes:**
 - Reference: docs/design/assimilation_system_design.md
+- Reference: docs/design/morning_report_manager_design.md lines 78-107 (assimilation integration)
 - Central authority for assimilation state
 - Emit signals for major events
 - Thread-safe for performance
+- Call MorningReportManager.report_assimilation_spread() during overnight processing
 
 ### Task 3: Build assimilation detection methods
 **User Story:** As a player, I want ways to detect who might be assimilated, so that I can investigate and uncover the conspiracy.
@@ -1138,7 +1143,9 @@ As a player, I experience a living station where the mysterious assimilation spr
 - Affect spread rate
 
 ### Task 6: Create CoalitionManager
-**User Story:** As a developer, I want a central system to manage the resistance coalition, so that recruitment, resources, and operations are coordinated.
+**User Story:** As a developer, I want a central system to manage the resistance coalition with morning report integration, so that recruitment, resources, and operations are coordinated with overnight mission results properly reported.
+
+**Design Reference:** `docs/design/coalition_resistance_system_design.md` & `docs/design/morning_report_manager_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -1151,12 +1158,15 @@ As a player, I experience a living station where the mysterious assimilation spr
   3. Manage shared resources
   4. Calculate coalition strength
   5. Handle coalition events
+  6. Report overnight mission results to MorningReportManager
 
 **Implementation Notes:**
 - Reference: docs/design/coalition_resistance_system_design.md
+- Reference: docs/design/morning_report_manager_design.md lines 109-133 (coalition integration)
 - Central coalition authority
 - Integrate with other systems
 - Signal major coalition events
+- Call MorningReportManager.report_coalition_activities() after overnight operations
 
 ### Task 8: Build coalition strength tracking
 **User Story:** As a player, I want to see how strong our coalition is, so that I understand our chances against the assimilation threat.

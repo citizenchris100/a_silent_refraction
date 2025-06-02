@@ -6,30 +6,30 @@ This file tracks the progress of all iterations for the project.
 
 | Iteration | Name | Status | Progress |
 |-----------|------|--------|----------|
-| 10 | Advanced NPC Systems | Not started | 0% (0/35) |
-| 11 | Quest and Progression Systems | Not started | 0% (0/35) |
-| 12 | Assimilation and Coalition | Not started | 0% (0/35) |
-| 13 | Full Audio Integration | Not started | 0% (0/25) |
-| 14 | Visual Polish Systems | Not started | 0% (0/25) |
-| 15 | Advanced Features & Polish | Not started | 0% (0/72) |
-| 16 | Advanced Visual Systems | Not started | 0% (0/42) |
-| 17 | Core Content Foundation | Not started | 0% (0/50) |
-| 18 | District Population Part 1 | Not started | 0% (0/47) |
-| 19 | District Population Part 2 | Not started | 0% (0/49) |
+| 10 | Advanced NPC Systems | Not started | 0% (0/45) |
+| 11 | Quest and Progression Systems | Not started | 0% (0/70) |
+| 12 | Assimilation and Coalition | Not started | 0% (0/120) |
+| 13 | Complete Diegetic Audio System | Not started | 0% (0/25) |
+| 14 | Visual Polish Systems | Not started | 0% (0/35) |
+| 15 | Advanced Features & Polish | Not started | 0% (0/54) |
+| 16 | Advanced Visual Systems | Not started | 0% (0/47) |
+| 17 | Core Content Foundation | Not started | 0% (0/55) |
+| 18 | District Population Part 1 | Not started | 0% (0/17) |
+| 19 | District Population Part 2 | Not started | 0% (0/71) |
 | 1 | Basic Environment and Navigation | COMPLETE | 100% (8/8) |
-| 20 | Quest Implementation | Not started | 0% (0/51) |
+| 20 | Quest Implementation | Not started | 0% (0/10) |
 | 21 | Dialog and Narrative | Not started | 0% (0/55) |
 | 22 | Polish and Integration | Not started | 0% (0/56) |
 | 23 | Post-Launch Support and Expansion | Not started | 0% (0/56) |
 | 24 | Hardware Validation and Distribution | Not started | 0% (0/23) |
 | 2 | NPC Framework and Suspicion System | COMPLETE | 100% (6/6) |
 | 3 | Navigation Refactoring and Multi-Perspective Character System | IN PROGRESS | 26% (12/45) |
-| 4 | Serialization Foundation | Not started | 0% (0/17) |
-| 5 | Time and Notification Systems | Not started | 0% (0/29) |
-| 6 | Dialog and Character Systems | Not started | 0% (0/25) |
-| 7 | Economy and Save/Sleep | Not started | 0% (0/35) |
-| 8 | Districts and Living World MVP | Not started | 0% (0/35) |
-| 9 | Core Gameplay Systems | Not started | 0% (0/25) |
+| 4 | Serialization Foundation | Not started | 0% (0/27) |
+| 5 | Time and Notification Systems | Not started | 0% (0/36) |
+| 6 | Dialog and Character Systems | Not started | 0% (0/46) |
+| 7 | Economy and Save/Sleep | Not started | 0% (0/48) |
+| 8 | Districts and Living World MVP | Not started | 0% (0/45) |
+| 9 | Core Gameplay Systems | Not started | 0% (0/51) |
 
 ## Detailed Progress
 
@@ -42,15 +42,19 @@ This file tracks the progress of all iterations for the project.
 - Build Disguise System for infiltration gameplay
 - Establish social simulation foundation
 - Create believable station inhabitants
+- Implement Barracks Rent System for economic pressure
 - **B1:** Develop deep NPC relationships and trust mechanics
 - **B2:** Enable disguise mechanics for stealth gameplay
 - **B3:** Create living NPCs with believable behaviors
+- **B4:** Establish economic pressure through rent system
 - **U1:** As a player, I want to build relationships with NPCs
 - **U2:** As a player, I want to use disguises for infiltration
 - **U3:** As a player, I want NPCs to have predictable routines
+- **U4:** As a player, I want to manage weekly rent payments
 - **T1:** Design scalable relationship tracking system
 - **T2:** Create flexible disguise detection mechanics
 - **T3:** Implement performance-optimized routine system
+- **T4:** Create automated rent collection system
 - [ ] Task 1: Create RelationshipManager singleton
 - [ ] Task 2: Implement trust level mechanics
 - [ ] Task 3: Build relationship graph structure
@@ -76,16 +80,6 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Add faction reputation tracking
 - [ ] Task 24: Build social event system
 - [ ] Task 25: Implement relationship consequences
-- [ ] Task 26: Implement ring-based district layout with distance calculation
-- [ ] Task 27: Create dynamic pricing system with time/demand modifiers
-- [ ] Task 28: Build transit screen with route visualization
-- [ ] Task 29: Implement transit event system with NPC encounters
-- [ ] Task 30: Add transit passes and subscription system
-- [ ] Task 31: Create route disruption mechanics
-- [ ] Task 32: Implement transit security and scanning
-- [ ] Task 33: Add coalition transit benefits
-- [ ] Task 34: Build emergency transit mechanics
-- [ ] Task 35: Create economic pressure through travel costs
 
 **Key Requirements:**
 - **B1:** Develop deep NPC relationships and trust mechanics
@@ -107,20 +101,30 @@ This file tracks the progress of all iterations for the project.
 - Performance stays smooth with many NPCs
 - All systems integrate properly
 - Save/load preserves all NPC states
+- Rent deducted correctly every Friday
+- Eviction process follows proper timeline
+- Re-admittance through Concierge works
+- Rent persists across save/load cycles
 - Start date: After Iteration 9
 - Target completion: 3 weeks (complex systems)
 - Critical for: Social gameplay foundation
 - Iteration 9: Detection system (for disguise integration)
 - Iteration 8: Living World MVP (routine foundation)
 - Iteration 2: Base NPC system
+- Iteration 7: Economy system (for rent transactions)
+- Iteration 5: Time system (for weekly cycles)
+- Iteration 5: Notification system (for rent warnings)
 - src/core/social/relationship_manager.gd (to be created)
 - src/characters/npc/npc_memory.gd (to be created)
 - src/characters/npc/npc_routine_full.gd (to be created)
 - src/core/disguise/disguise_manager.gd (to be created)
 - src/characters/npc/base_npc_full.gd (to be created)
+- src/core/economy/rent_manager.gd (to be created)
+- src/core/economy/barracks_serializer.gd (to be created)
 - docs/design/npc_trust_relationship_system_design.md
 - docs/design/disguise_clothing_system_design.md
 - docs/design/template_npc_design.md
+- docs/design/barracks_system_design.md
 
 ### Iteration 11: Quest and Progression Systems
 
@@ -160,21 +164,6 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 18: Implement quest scripting system
 - [ ] Task 19: Add quest validation tools
 - [ ] Task 20: Create quest debug commands
-- [ ] Task 21: Design First Quest narrative
-- [ ] Task 22: Implement all quest objectives
-- [ ] Task 23: Create quest-specific content
-- [ ] Task 24: Add multiple solution paths
-- [ ] Task 25: Full integration testing
-- [ ] Task 26: Create TradingTerminal scene with Game Boy UI layout
-- [ ] Task 27: Implement BlockTrader core Tetris-style gameplay mechanics
-- [ ] Task 28: Create Game Boy shader and visual effects
-- [ ] Task 29: Implement score-to-credits conversion system
-- [ ] Task 30: Add gender-based modifiers and harassment events
-- [ ] Task 31: Create persistent leaderboard system
-- [ ] Task 32: Implement time consumption mechanics
-- [ ] Task 33: Integrate minigame with job shift system
-- [ ] Task 34: Add save/load functionality for minigame progress
-- [ ] Task 35: Create practice mode and tutorial
 
 **Key Requirements:**
 - **B1:** Implement comprehensive quest and job systems
@@ -192,10 +181,39 @@ This file tracks the progress of all iterations for the project.
 - Jobs function with proper schedules
 - Quest log displays accurate information
 - Save/load preserves quest progress
+- Dynamic pricing system adjusts correctly
+- Shop inventories track stock properly
+- Job performance metrics calculate bonuses
 - First Quest completable via multiple paths
 - Performance with many active quests
 - Quest notifications work properly
 - All systems integrate smoothly
+- Role obligations trigger when wearing disguises
+- Obligation timers and deadlines work correctly
+- Performance evaluation tracks actions accurately
+- Role knowledge tests present appropriate questions
+- NPCs react to out-of-character behavior
+- Behavioral consistency checking functions properly
+- Role HUD displays obligations and performance clearly
+- Quick change interface allows disguise swapping
+- Role reputation affects future infiltrations
+- DisguiseSerializer saves/loads all disguise state
+- Complex multi-phase obligations execute in sequence
+- Disguise combinations and layers work as designed
+- Obligation failures have appropriate consequences
+- Role-specific behaviors are properly enforced
+- Disguise acquisition mechanics integrate with economy
+- Obligation hints help players understand requirements
+- Security patrol routes execute correctly
+- Guard detection mechanics work at proper distances
+- Line-of-sight calculations are accurate
+- Disguise bypass functions properly
+- Security dialog trees display correct options
+- Patrol schedules align with game time
+- Chase sequences initiate smoothly
+- Patrol states persist across save/load
+- Area checking discovers player actions
+- Security encounters provide player agency
 - Trading terminal launches correctly from job system
 - Tetris-style gameplay mechanics work smoothly
 - Game Boy visual aesthetic renders correctly
@@ -206,7 +224,7 @@ This file tracks the progress of all iterations for the project.
 - Mini-game saves and loads progress properly
 - Practice mode functions without affecting main game
 - Start date: After Iteration 10
-- Target completion: 2-3 weeks
+- Target completion: 3-4 weeks (increased due to disguise obligation system)
 - Critical for: Phase 2 validation
 - Iteration 10: NPC relationships (for social quests)
 - Iteration 9: Investigation system
@@ -214,12 +232,24 @@ This file tracks the progress of all iterations for the project.
 - src/core/quests/quest_manager.gd (to be created)
 - src/core/quests/quest_state_machine.gd (to be created)
 - src/core/jobs/job_manager.gd (to be created)
+- src/core/economy/price_modifier_system.gd (to be created)
+- src/core/economy/shop_inventory_manager.gd (to be created)
+- src/core/jobs/job_performance_tracker.gd (to be created)
+- src/core/disguise/role_obligation.gd (to be created)
+- src/core/disguise/role_performance.gd (to be created)
+- src/core/disguise/role_reputation.gd (to be created)
+- src/core/serializers/disguise_serializer.gd (to be created)
 - src/ui/quest_log/quest_log_ui.gd (to be created)
+- src/ui/disguise/role_hud.gd (to be created)
+- src/ui/disguise/quick_change_ui.gd (to be created)
 - data/quests/first_quest.json (to be created)
+- data/disguises/role_obligations.json (to be created)
+- data/disguises/role_knowledge_tests.json (to be created)
 - docs/design/job_work_quest_system_design.md
 - docs/design/quest_log_ui_design.md
 - docs/design/template_quest_design.md
 - docs/design/trading_floor_minigame_system_design.md
+- docs/design/disguise_clothing_system_design.md
 
 ### Iteration 12: Assimilation and Coalition
 
@@ -244,36 +274,36 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 3: Build assimilation detection methods
 - [ ] Task 4: Create visual indicators for infected
 - [ ] Task 5: Add assimilation event system
+- [ ] Task 36: Implement leader/drone assimilation types
+- [ ] Task 37: Create AssimilatedBehaviors system
+- [ ] Task 38: Build leader strategic planning AI
+- [ ] Task 39: Implement drone behavioral degradation
+- [ ] Task 40: Create leader-drone coordination system
+- [ ] Task 41: Implement station property value tracking
+- [ ] Task 42: Create economic manipulation mechanics
+- [ ] Task 43: Build asset transfer system for assimilated
+- [ ] Task 44: Implement financial anomaly detection
+- [ ] Task 45: Create hostile takeover progression
+- [ ] Task 46: Create DroneCrimeEvents system
+- [ ] Task 47: Implement vandalism and property damage
+- [ ] Task 48: Build theft and resource drain mechanics
+- [ ] Task 49: Create public disturbance events
+- [ ] Task 50: Implement coordinated crime waves
+- [ ] Task 51: Build behavioral pattern analysis
+- [ ] Task 52: Create investigation interaction system
+- [ ] Task 53: Implement financial investigation mechanics
+- [ ] Task 54: Add speech pattern detection
+- [ ] Task 55: Create discovery consequence system
+- [ ] Task 56: Create AssimilationSerializer
+- [ ] Task 57: Implement data compression for saves
+- [ ] Task 58: Build version migration support
+- [ ] Task 59: Add differential serialization
+- [ ] Task 60: Create save/load integration tests
 - [ ] Task 6: Create CoalitionManager
 - [ ] Task 7: Implement recruitment mechanics
 - [ ] Task 8: Build coalition strength tracking
 - [ ] Task 9: Create resistance mission system
 - [ ] Task 10: Add coalition meeting events
-- [ ] Task 11: Create SecurityManager
-- [ ] Task 12: Implement crime detection system
-- [ ] Task 13: Build security alert levels
-- [ ] Task 14: Create lockdown mechanics
-- [ ] Task 15: Add security response teams
-- [ ] Task 16: Create EndingManager
-- [ ] Task 17: Define ending conditions
-- [ ] Task 18: Build ending determination logic
-- [ ] Task 19: Create ending cutscenes
-- [ ] Task 20: Implement ending achievements
-- [ ] Task 21: Connect all systems to world state
-- [ ] Task 22: Create emergent event system
-- [ ] Task 23: Build faction conflict mechanics
-- [ ] Task 24: Add news/rumor system
-- [ ] Task 25: Implement cascade effects
-- [ ] Task 26: Create advanced event scheduler with conditional chains
-- [ ] Task 27: Implement sophisticated NPC state machine
-- [ ] Task 28: Build rumor propagation system with accuracy decay
-- [ ] Task 29: Create evidence discovery and decay mechanics
-- [ ] Task 30: Implement reaction chain system for events
-- [ ] Task 31: Add performance optimization for 100+ NPCs
-- [ ] Task 32: Create quantum simulation for background NPCs
-- [ ] Task 33: Build temporal reputation tracking
-- [ ] Task 34: Implement differential serialization for world state
-- [ ] Task 35: Create emergent narrative generation system
 
 **Key Requirements:**
 - **B1:** Create dynamic station response to assimilation threat
@@ -291,6 +321,13 @@ This file tracks the progress of all iterations for the project.
 - Coalition mechanics function properly
 - Security responds appropriately
 - Endings trigger correctly
+- Detection network propagation works correctly
+- Coalition escape routes calculate properly
+- Detection cooldown mechanics function as designed
+- Environmental triggers detect appropriately
+- Bribery mechanics scale with detection severity
+- Chase sequences integrate with detection system
+- Hiding mechanics provide realistic escape options
 - All systems affect world state
 - Save/load preserves all states
 - Performance with many active systems
@@ -305,6 +342,42 @@ This file tracks the progress of all iterations for the project.
 - Reputation affects NPC interactions
 - Differential saves remain small and fast
 - Emergent narratives feel coherent
+- Leader/drone behaviors are distinct and appropriate
+- Economic warfare reduces station value correctly
+- Drone crimes trigger and affect districts
+- Financial anomalies are detectable
+- Speech pattern slips occur at correct frequencies
+- Investigation mechanics reveal assimilation
+- Coordinated crimes overwhelm security
+- Behavioral degradation progresses naturally
+- Assimilation serialization handles all data
+- Version migration preserves save integrity
+- Coalition intelligence network provides accurate information
+- Surveillance assignments detect assimilation correctly
+- Resource sharing mechanics work without exploits
+- Heist phase system executes properly
+- Skill checks provide appropriate challenge
+- Infiltrator detection catches some but not all attempts
+- Paranoia mechanics affect coalition effectiveness
+- Trust building unlocks recruitment at correct thresholds
+- Coalition HQ scene functions as hub
+- All coalition UI interfaces are intuitive
+- Coalition serialization compresses intelligence efficiently
+- Economic benefits apply correctly to coalition members
+- Coalition resistance factor slows assimilation appropriately
+- Coalition strength affects ending availability
+- Achievement tracking records coalition milestones
+- Crime witnesses are detected and tracked correctly
+- NPCs report crimes based on personality
+- Player crime choices present appropriate options
+- Evidence generates and decays properly
+- Crime scenes can be investigated
+- Security responds to bribery attempts appropriately
+- Chase sequences function smoothly
+- Crime statistics track all metrics accurately
+- Economic impacts calculate correctly
+- CrimeSecuritySerializer preserves all state
+- Player security records persist across sessions
 - Start date: After Iteration 11
 - Target completion: 3 weeks (complex interactions)
 - Critical for: Complete game experience
@@ -312,6 +385,10 @@ This file tracks the progress of all iterations for the project.
 - Iteration 10: NPC relationships (for recruitment)
 - Iteration 9: Detection system (for security)
 - src/core/assimilation/assimilation_manager.gd (to be created)
+- src/core/assimilation/assimilated_behaviors.gd (to be created)
+- src/core/assimilation/drone_crime_events.gd (to be created)
+- src/core/assimilation/assimilation_network.gd (to be created)
+- src/core/serializers/assimilation_serializer.gd (to be created)
 - src/core/coalition/coalition_manager.gd (to be created)
 - src/core/security/security_manager.gd (to be created)
 - src/core/endings/ending_manager.gd (to be created)
@@ -321,56 +398,57 @@ This file tracks the progress of all iterations for the project.
 - docs/design/multiple_endings_system_design.md
 - docs/design/living_world_event_system_mvp.md (from iteration 8)
 - docs/design/living_world_event_system_full.md (extends MVP with advanced events)
+- docs/design/modular_serialization_architecture.md (for serializer implementation)
 
-### Iteration 13: Full Audio Integration
+### Iteration 13: Complete Diegetic Audio System
 
 **Goals:**
-- Implement Audio Event Bridge for system integration
-- Create Diegetic Audio Implementation
-- Design unique District Ambiences
-- Add comprehensive UI Audio Feedback
-- Establish 3D spatial audio
-- Create reactive audio system
-- **B1:** Bring the game world to life through comprehensive audio
-- **B2:** Implement diegetic audio for enhanced realism
-- **B3:** Create memorable audio identity
-- **U1:** As a player, I want immersive audio that enhances the atmosphere
-- **U2:** As a player, I want to locate sounds in the game world
-- **U3:** As a player, I want audio cues for important events
-- **T1:** Create event-driven audio architecture
-- **T2:** Implement efficient audio streaming
-- **T3:** Design flexible audio bus system
-- [ ] Task 1: Create AudioEventBridge singleton
-- [ ] Task 2: Implement audio event registration
-- [ ] Task 3: Build audio resource management
-- [ ] Task 4: Create audio pooling system
-- [ ] Task 5: Add audio debugging tools
-- [ ] Task 6: Implement DiegeticAudioController
-- [ ] Task 7: Create 3D spatial audio system
-- [ ] Task 8: Build audio occlusion system
-- [ ] Task 9: Add distance attenuation
-- [ ] Task 10: Implement reverb zones
-- [ ] Task 11: Create ambience system
-- [ ] Task 12: Design Spaceport soundscape
-- [ ] Task 13: Design Engineering soundscape
-- [ ] Task 14: Design Barracks soundscape
-- [ ] Task 15: Implement ambience transitions
-- [ ] Task 16: Create UI sound library
-- [ ] Task 17: Implement button/hover sounds
-- [ ] Task 18: Add notification audio
-- [ ] Task 19: Create dialog UI sounds
-- [ ] Task 20: Add inventory sounds
-- [ ] Task 21: Connect all systems to audio
-- [ ] Task 22: Create audio settings UI
-- [ ] Task 23: Implement audio accessibility
-- [ ] Task 24: Add subtitles system
-- [ ] Task 25: Performance optimization
+- Complete spatial audio implementation with stereo panning
+- Implement full district audio system with transitions
+- Create PA announcement system and audio zones
+- Add audio-gameplay integration features
+- Optimize performance with audio LOD system
+- Establish audio content production pipeline
+- **B1:** Create purely diegetic audio that enhances immersion
+- **B2:** Implement district-specific audio identities
+- **B3:** Establish efficient audio content pipeline
+- **U1:** As a player, I want to locate sounds in the game world
+- **U2:** As a player, I want audio that reinforces the visual perspective
+- **U3:** As a player, I want atmospheric audio that builds tension
+- **T1:** Implement custom 2D stereo panning
+- **T2:** Create resource-based audio configuration
+- **T3:** Design performance-optimized audio system
+- [ ] Task 1: Implement custom stereo panning system
+- [ ] Task 2: Create distance attenuation curves
+- [ ] Task 3: Add high-frequency rolloff for distance
+- [ ] Task 4: Build visual debug overlay for audio ranges
+- [ ] Task 5: Implement audio source priority system
+- [ ] Task 6: Create DistrictAudioConfig resource class
+- [ ] Task 7: Implement AudioSourceDefinition resources
+- [ ] Task 8: Build district audio transition system
+- [ ] Task 9: Create audio source spawning system
+- [ ] Task 10: Design district-specific audio configurations
+- [ ] Task 11: Implement PA announcement system
+- [ ] Task 12: Create AudioZone area system
+- [ ] Task 13: Add environmental reverb effects
+- [ ] Task 14: Build audio event scheduling
+- [ ] Task 15: Create announcement content system
+- [ ] Task 16: Connect audio to perspective scaling
+- [ ] Task 17: Implement interactive audio objects
+- [ ] Task 18: Create audio-based investigation clues
+- [ ] Task 19: Add dynamic ambience system
+- [ ] Task 20: Build tension through audio design
+- [ ] Task 21: Implement audio LOD system
+- [ ] Task 22: Create audio source pooling
+- [ ] Task 23: Add audio occlusion system
+- [ ] Task 24: Implement audio settings and saves
+- [ ] Task 25: Build content production pipeline
 
 **Key Requirements:**
-- **B1:** Bring the game world to life through comprehensive audio
-- **B2:** Implement diegetic audio for enhanced realism
-- **U1:** As a player, I want immersive audio that enhances the atmosphere
-- **U2:** As a player, I want to locate sounds in the game world
+- **B1:** Create purely diegetic audio that enhances immersion
+- **B2:** Implement district-specific audio identities
+- **U1:** As a player, I want to locate sounds in the game world
+- **U2:** As a player, I want audio that reinforces the visual perspective
 
 **Tasks:**
 
@@ -378,26 +456,31 @@ This file tracks the progress of all iterations for the project.
 |------|--------|--------------|
 
 **Testing Criteria:**
-- All systems trigger appropriate audio
-- Spatial audio accurately represents position
-- Ambiences create proper atmosphere
-- UI audio provides clear feedback
-- Performance remains smooth
-- Audio settings work correctly
-- No audio glitches or pops
-- Accessibility features function
+- Stereo panning accurately represents position
+- District transitions are smooth and seamless
+- PA announcements have appropriate processing
+- Audio zones apply effects correctly
+- Perspective scaling feels natural
+- Performance maintains 60 FPS with many sources
+- Audio LOD transitions are imperceptible
+- Save/load preserves audio preferences
+- Content pipeline produces consistent results
 - Start date: After Iteration 12
-- Target completion: 2-3 weeks
-- Critical for: Complete sensory experience
-- All previous systems (for audio hooks)
-- Particularly: Notification system, UI systems
-- src/core/audio/audio_event_bridge.gd (to be created)
-- src/core/audio/diegetic_audio_controller.gd (to be created)
-- src/core/audio/ambience_manager.gd (to be created)
-- src/ui/settings/audio_settings.gd (to be created)
-- assets/audio/ (to be organized)
-- docs/design/audio_system_iteration3_mvp.md
+- Target completion: 20-25 days (matching original estimate)
+- Critical for: Complete atmospheric experience
+- Iteration 3 (Audio MVP foundation)
+- Iteration 4 (District system)
+- Iteration 9 (Core gameplay systems)
+- All systems that generate audio events
+- src/core/audio/audio_manager.gd (extend from Iteration 3)
+- src/core/audio/diegetic_audio_controller.gd (extend from Iteration 3)
+- src/core/audio/district_audio_config.gd (to be created)
+- src/core/audio/audio_source_definition.gd (to be created)
+- src/core/audio/audio_zone.gd (to be created)
+- src/core/serializers/audio_serializer.gd (to be created)
+- tools/process_game_audio.sh (to be created)
 - docs/design/audio_system_technical_implementation.md
+- docs/design/audio_system_iteration3_mvp.md
 
 ### Iteration 14: Visual Polish Systems
 
@@ -442,6 +525,11 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Optimize shader usage
 - [ ] Task 24: Add quality settings
 - [ ] Task 25: Profile and optimize
+- [ ] Task 26: Implement polygon-based OcclusionZone resource
+- [ ] Task 27: Create multi-layer foreground system (near/mid/far)
+- [ ] Task 28: Add perspective-specific occlusion rules
+- [ ] Task 29: Implement soft edges and gradient occlusion
+- [ ] Task 30: Create occlusion serialization for save/load
 
 **Key Requirements:**
 - **B1:** Polish visual presentation to professional standards
@@ -487,38 +575,54 @@ This file tracks the progress of all iterations for the project.
 - Implement tram transportation system
 - Optimize performance across all systems
 - Ensure seamless integration of all features
-- Complete all remaining technical features before content phase
-- Achieve stable 60 FPS performance on target hardware
-- Ensure all systems integrate without conflicts
-- Create framework for content creators
-- Living world feels dynamic with emergent events
-- Investigation mechanics support detective gameplay
-- Puzzles integrate naturally with environment
-- Fast travel via tram system
-- Smooth, responsive gameplay
-- Event-driven architecture for living world
-- Flexible puzzle system supporting multiple types
-- Performance profiling and optimization
-- Memory management and object pooling
-- System integration validation
-- [ ] Event manager handles scheduled and random events
-- [ ] Events can chain and influence each other
-- [ ] Player actions affect event probability
-- [ ] NPCs react to world events
-- [ ] Events persist across save/load
-- Time management system (Iteration 5)
-- NPC routines (Iteration 10)
-- District system (Iteration 8)
-- [ ] Clue collection from multiple sources
-- [ ] Evidence combination mechanics
-- [ ] Deduction interface for theories
-- [ ] Clue persistence and organization
-- [ ] Integration with dialog and observation
-- Observation system (Iteration 11)
-- Dialog system (Iteration 6)
-- Inventory system (Iteration 7)
+- Add advanced dialog system
+- Polish security systems
+- **B1:** Complete all remaining technical features before content phase
+- **B2:** Achieve stable 60 FPS performance on target hardware
+- **B3:** Ensure all systems integrate without conflicts
+- **U1:** As a player, I want the world to feel alive with unexpected events
+- **U2:** As a player, I want to investigate clues and solve mysteries
+- **U3:** As a player, I want to solve integrated puzzles
+- **T1:** Implement event-driven architecture for living world
+- **T2:** Create flexible puzzle framework
+- **T3:** Optimize performance across all systems
+- [ ] Task 1: Create EventManager singleton with scheduling system
+- [ ] Task 2: Implement random event generation based on world state
+- [ ] Task 3: Build event chaining and consequence system
+- [ ] Task 4: Create NPC reaction system to world events
+- [ ] Task 5: Implement event persistence and serialization
+- [ ] Task 6: Create ClueManager for tracking evidence
+- [ ] Task 7: Implement clue collection from multiple sources
+- [ ] Task 8: Build evidence combination mechanics
+- [ ] Task 9: Create deduction interface UI
+- [ ] Task 10: Integrate with dialog and observation systems
+- [ ] Task 11: Implement Basic Banking System
+- [ ] Task 12: Create base puzzle framework
+- [ ] Task 13: Implement logic puzzles (riddles, patterns)
+- [ ] Task 14: Build environment puzzles (switches, doors)
+- [ ] Task 15: Create observation puzzles
+- [ ] Task 16: Implement social engineering puzzles
+- [ ] Task 17: Build technical puzzles (hacking, repairs)
+- [ ] Task 18: Create item combination puzzles
+- [ ] Task 19: Implement timing-based puzzles
+- [ ] Task 20: Add puzzle hint system with progressive hints
+- [ ] Task 21: Create puzzle state persistence
+- [ ] Task 22: Create TramSystem manager
+- [ ] Task 23: Implement tram station scenes
+- [ ] Task 24: Build schedule system with wait times
+- [ ] Task 25: Create travel time calculations
+- [ ] Task 26: Implement access control integration
+- [ ] Task 27: Set up performance profiling tools
+- [ ] Task 28: Profile all major systems
+- [ ] Task 29: Implement object pooling for common objects
+- [ ] Task 30: Optimize NPC update cycles
+- [ ] Task 31: Reduce memory allocations
 
 **Key Requirements:**
+- **B1:** Complete all remaining technical features before content phase
+- **B2:** Achieve stable 60 FPS performance on target hardware
+- **U1:** As a player, I want the world to feel alive with unexpected events
+- **U2:** As a player, I want to investigate clues and solve mysteries
 
 **Tasks:**
 
@@ -528,42 +632,57 @@ This file tracks the progress of all iterations for the project.
 **Testing Criteria:**
 - Living world events trigger and chain properly
 - Investigation system tracks all clue types
+- Banking system handles deposits/withdrawals correctly
+- Financial records integrate with investigation system
 - Puzzles save/load state correctly
 - Tram system integrates with time and access control
 - Performance maintains 60 FPS with all systems active
 - No conflicts between any systems
 - Memory usage remains stable over extended play
-- **Estimated Duration:** 3-4 weeks
-- **Total Hours:** 92
-- **Critical Path:** Performance optimization must validate all other systems
-- [ ] All tasks completed and tested
-- [ ] Performance targets achieved (60 FPS)
-- [ ] All systems integrate without conflicts
-- [ ] Comprehensive integration tests pass
-- [ ] Documentation updated for content creators
-- [ ] Code reviewed and approved
-- [ ] Phase 2 complete, ready for Phase 3
-- All Phase 1 iterations (4-8)
+- All detection sources integrate with DetectionManager
+- Environmental detection triggers work correctly
+- Detection cooldown mechanics function as designed
+- Security cameras properly report to detection system
+- Detection states remain consistent across all sources
+- Biometric security systems function correctly
+- Access sharing mechanics work with trust system
+- Maintenance routes provide alternative access
+- Security escalation responds dynamically
+- Key copying and black market systems integrate
+- Access degradation from corruption works
+- Advanced UI components display properly
+- Start date: After Iterations 9-14 completion
+- Target completion: 3-4 weeks
+- Critical for: Phase 2 completion
+- All Phase 1 iterations (1-8)
 - All previous Phase 2 iterations (9-14)
 - Performance requirements from hardware validation
-- **Risk:** Performance issues with all systems active
-- **Risk:** Integration conflicts between systems
-- **Risk:** Scope creep on "polish"
-- src/core/events/event_manager.gd
-- src/core/events/living_world_event.gd
-- src/core/investigation/investigation_manager.gd
-- src/core/investigation/clue.gd
-- src/core/puzzles/base_puzzle.gd
-- src/core/puzzles/puzzle_manager.gd
-- src/core/transport/tram_system.gd
-- src/core/transport/tram_station.gd
-- src/core/performance/profiler.gd
-- src/core/performance/object_pool.gd
+- src/core/events/event_manager.gd (to be created)
+- src/core/events/living_world_event.gd (to be created)
+- src/core/investigation/clue_manager.gd (to be created)
+- src/core/investigation/clue.gd (to be created)
+- src/core/economy/banking_system.gd (to be created)
+- src/core/investigation/financial_investigator.gd (to be created)
+- src/core/puzzles/base_puzzle.gd (to be created)
+- src/core/puzzles/puzzle_manager.gd (to be created)
+- src/core/transport/tram_system.gd (to be created)
+- src/core/transport/tram_station.gd (to be created)
+- src/core/performance/profiler.gd (to be created)
+- src/core/performance/object_pool.gd (to be created)
+- src/core/security/security_camera.gd (to be created)
+- src/core/detection/environmental_trigger.gd (to be created)
+- src/core/access/biometric_scanner.gd (to be created)
+- src/core/access/maintenance_access.gd (to be created)
+- src/core/access/security_escalation.gd (to be created)
+- src/core/access/access_trading.gd (to be created)
+- src/ui/access/biometric_interface.gd (to be created)
+- src/ui/access/security_terminal_ui.gd (to be created)
 - docs/design/living_world_event_system_full.md
 - docs/design/investigation_clue_tracking_system_design.md
 - docs/design/puzzle_system_design.md
 - docs/design/tram_transportation_system_design.md
-- docs/design/performance_optimization_plan.md
+- docs/design/crime_security_event_system_design.md
+- docs/design/detection_game_over_system_design.md
 
 ### Iteration 16: Advanced Visual Systems
 
@@ -739,24 +858,29 @@ This file tracks the progress of all iterations for the project.
 - Job system integrates smoothly
 - Crowd system for ambient NPCs
 - Memory management for assets
-- [ ] 20 unique NPCs with personalities
-- [ ] Loading dock job quests (3)
-- [ ] Customs inspection quests (2)
-- [ ] Ship arrival/departure events
-- [ ] Ambient traveler crowds
-- [ ] Environmental storytelling elements
-- Core NPCs (Iteration 17)
-- Job system (Iteration 11)
-- Event system (Iteration 15)
-- [ ] 20 NPCs including prisoner rotation
-- [ ] Investigation assistance quests (3)
-- [ ] Prisoner interview quests (2)
-- [ ] Crime/security breach events
-- [ ] Brig population system
-- [ ] Evidence room interactions
-- Investigation system (Iteration 15)
-- Access control (Iteration 9)
-- Crime events (Iteration 11)
+- [ ] Task 1: Spaceport District Population
+- [ ] Task 2: Security District Population
+- [ ] Task 3: Medical District Population
+- [ ] Task 4: Mall District Population
+- [ ] Task 5: District Event Implementation
+- [ ] Task 6: Ambient Crowd Systems
+- [ ] Task 7: Environmental Storytelling
+- [ ] Task 8: Dock Worker Job Implementation
+- [ ] Task 9: Medical Courier Job Implementation
+- [ ] Task 10: Retail Clerk Job Implementation
+- **⏳ PENDING** (06/01/25)
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (meaningful work)
+- **Acceptance Criteria:**
+- Reference: docs/design/template_district_design.md
+- NPCs should follow docs/design/template_npc_design.md
+- Integrate with job system from Iteration 11
+- Coordinate with Dock Worker job implementation (Task 8)
+- **⏳ PENDING** (06/01/25)
+- **Linked to:** Business Requirements (district uniqueness), User Requirements (unexpected events)
+- **Acceptance Criteria:**
+- Reference: docs/design/crime_security_event_system_design.md
+- Integrate with investigation system from Iteration 15
+- Security patrol job already implemented in Iteration 11 (First Quest)
 
 **Key Requirements:**
 
@@ -773,8 +897,15 @@ This file tracks the progress of all iterations for the project.
 - Districts feel uniquely populated
 - Crowd systems don't impact gameplay
 - Environmental stories discoverable
-- **Estimated Duration:** 5-6 weeks
-- **Total Hours:** 120
+- Dock Worker shifts advance time correctly
+- Medical Courier deliveries respect time limits
+- Retail Clerk customer interactions work
+- Gender modifiers apply correctly to all jobs
+- Job performance evaluations calculate properly
+- Workplace clues discoverable during shifts
+- Job payments integrate with economy
+- **Estimated Duration:** 6-7 weeks
+- **Total Hours:** 170 (120 + 50 for job implementations)
 - **Critical Path:** NPCs must be created before quests can be assigned
 - [ ] 85 NPCs implemented across 4 districts
 - [ ] All job quests functional
@@ -813,15 +944,25 @@ This file tracks the progress of all iterations for the project.
 - Neighbor interaction mechanics
 - Security clearance progression
 - Technical puzzle framework
-- [ ] 25 NPCs with financial roles
-- [ ] Trading desk job quests (3)
-- [ ] Corporate espionage quests (2)
-- [ ] Market event system
-- [ ] Executive interactions
-- [ ] Trading floor ambience
-- Economy system (Iteration 7)
-- Trading minigame (Iteration 11)
-- Corporate hierarchy (Iteration 10)
+- [ ] Task 1: Trading Floor District Population
+- [ ] Task 2: Trading Minigame Integration
+- [ ] Task 3: Black Market Integration
+- [ ] Task 4: Barracks District Population
+- [ ] Task 5: Player Housing Implementation
+- [ ] Task 6: Engineering District Population
+- [ ] Task 7: Restricted Area Implementation
+- [ ] Task 8: District Integration Testing
+- [ ] Task 9: Implement Engineering biometric locks for high-security areas
+- [ ] Task 10: Create maintenance tunnel access network in Engineering
+- [ ] Task 11: Add security checkpoint NPCs with access verification dialog
+- [ ] Task 12: Implement borrowed keycard quest mechanics
+- [ ] Task 13: Janitor Job Implementation
+- **⏳ PENDING** (06/01/25)
+- **Linked to:** Business Requirements (unique gameplay), User Requirements (financial trading)
+- **Acceptance Criteria:**
+- Reference: docs/design/template_district_design.md
+- Integrate with trading minigame from Iteration 11
+- NPCs should reflect 1950s corporate culture
 - [ ] Minigame accessible from terminals
 - [ ] Market influenced by events
 - [ ] NPC traders participate
@@ -842,13 +983,23 @@ This file tracks the progress of all iterations for the project.
 **Testing Criteria:**
 - All 65 NPCs function properly
 - Trading minigame fully integrated
+- Black market shops function with reputation gates
+- Illegal items integrate with suspicion system
 - Player housing saves correctly
 - Restricted areas properly gated
+- Engineering biometric locks function correctly
+- Maintenance tunnel network accessible
+- Security checkpoint dialogs work properly
+- Borrowed keycard mechanics track correctly
 - Performance with 150 total NPCs
 - All districts feel complete
 - Unique mechanics work smoothly
-- **Estimated Duration:** 5-6 weeks
-- **Total Hours:** 126
+- Janitor master keycard provides universal access
+- Janitor shifts grant "invisible" status
+- Environmental cleanup reveals clues
+- All job quests complete full cycles
+- **Estimated Duration:** 6 weeks
+- **Total Hours:** 142 (126 + 16 for janitor job)
 - **Critical Path:** District population must complete before integration testing
 - [ ] All 7 districts fully populated
 - [ ] 150 total NPCs implemented
@@ -931,46 +1082,43 @@ This file tracks the progress of all iterations for the project.
 ### Iteration 20: Quest Implementation
 
 **Goals:**
-- Implement ~25 job quests across all districts
-- Create 10-15 coalition resistance missions
-- Design 5-8 investigation mystery chains
+- Implement main story and job quests
+- Create ~25 job quests across all districts
+- Design 10-15 coalition resistance missions
+- Develop 5-8 investigation mystery chains
 - Add 15-20 personal side stories
-- Establish quest interconnections
-- Enable multiple solution paths
-- Rich quest content for 40+ hours gameplay
-- High replayability through branching
-- Meaningful character development
-- Reward player exploration
-- Always have something meaningful to do
-- Choices affect quest outcomes
-- Learn about characters through quests
-- Feel progression through quest chains
-- Discover secrets through investigation
-- Quest state management at scale
-- Complex prerequisite tracking
-- Dynamic quest generation
-- Performance with many active quests
-- Save system handles quest states
-- [ ] 25 total job quests implemented
-- [ ] Daily rotation system working
-- [ ] Performance affects rewards
-- [ ] Job-specific challenges
-- [ ] Coworker relationships impact
-- [ ] Economic progression
-- Job system (Iteration 11)
-- Economy system (Iteration 7)
-- Time management (Iteration 5)
-- [ ] Recruitment missions (5)
-- [ ] Sabotage operations (3)
-- [ ] Information gathering (3)
-- [ ] Safe house establishment (2)
-- [ ] Resource acquisition (2)
-- [ ] Risk/reward balance
-- Coalition system (Iteration 12)
-- Suspicion system (Iteration 9)
-- Faction mechanics (Iteration 12)
+- Establish quest interconnections and multiple solution paths
+- **B1:** Implement main story and job quests
+- **U1:** As a player, I want engaging main story content
+- **T1:** Quest state management at scale
+- [ ] Task 1: Implement ~25 job quests with daily rotations
+- [ ] Task 2: Create 10-15 coalition resistance missions
+- [ ] Task 3: Design 5-8 investigation mystery chains
+- [ ] Task 4: Create 15-20 personal side stories for NPCs
+- [ ] Task 5: Build quest interconnection system
+- [ ] Task 6: Add dynamic quest elements for replayability
+- [ ] Task 7: Create quest testing framework
+- [ ] Task 8: Track memory usage metrics per quest
+- [ ] Task 9: Monitor district load times during quests
+- [ ] Task 10: Implement thermal monitoring integration
+- **⏳ PENDING** (06/01/25)
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+- Create 3-5 job quests per district workplace
+- Implement performance tracking system
+- Connect to economy and relationship systems
+- Use existing time management for daily rotations
+- **⏳ PENDING** (06/01/25)
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+- Design missions with multiple approach options
+- Connect to suspicion and faction systems
+- Create consequences for mission success/failure
+- Ensure coalition strength affects available missions
 
 **Key Requirements:**
+- **B1:** Implement main story and job quests
+- **U1:** As a player, I want engaging main story content
 
 **Tasks:**
 
@@ -985,22 +1133,14 @@ This file tracks the progress of all iterations for the project.
 - Save/load preserves quest states
 - Rewards balance properly
 - Player always has available quests
-- **Estimated Duration:** 4-6 weeks
-- **Total Hours:** 128
-- **Critical Path:** Quest interconnections affect all content
-- [ ] 65+ quests fully implemented
-- [ ] All quest types represented
-- [ ] Interconnection system working
-- [ ] Dynamic elements functional
-- [ ] Comprehensive testing complete
-- [ ] Quest log UI supports all quests
-- [ ] Achievement tracking integrated
-- All districts populated (Iterations 18-19)
-- Quest system infrastructure (Iteration 11)
-- All gameplay systems operational
-- **Risk:** Quest bugs block progression
-- **Risk:** Too many quests overwhelm players
-- **Risk:** Interconnections create deadlocks
+- Dynamic elements create variety
+- All branches reachable through play
+- Start date: 2026-02-19
+- Target completion: 2026-03-05
+- Iteration 11 (Quest and Job Systems)
+- Iteration 18 (NPC Population - Initial Districts)
+- Iteration 19 (NPC Population - Remaining Districts)
+- No links yet
 
 ### Iteration 21: Dialog and Narrative
 
@@ -1581,13 +1721,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 15: Document serialization architecture
 - [ ] Task 16: Create serialization implementation guide
 - [ ] Task 17: Document save file format specification
-- **⏳ PENDING** (05/26/25)
-- **Linked to:** B1, T1
-- **Acceptance Criteria:**
-- Use Godot's autoload system for singleton
-- Implement using GDScript for consistency
-- Store saves in user://saves/ directory
-- Use .save extension for save files
+- [ ] Task 18: Create platform abstraction layer for hardware detection
+- [ ] Task 19: Implement build system for multi-platform support
+- [ ] Task 20: Add platform-specific configuration system
+- [ ] Task 21: Create InventorySerializer class
+- [ ] Task 22: Implement personal inventory serialization
+- [ ] Task 23: Implement barracks storage serialization
+- [ ] Task 24: Add container state persistence
+- [ ] Task 25: Implement loadout saving system
+- [ ] Task 26: Create item instance serialization with conditions
+- [ ] Task 27: Add inventory version migration support
 
 **Key Requirements:**
 - **B1:** Create a sense of progression and urgency through time management
@@ -1608,6 +1751,11 @@ This file tracks the progress of all iterations for the project.
 - Performance targets are met (save <1s, load <2s)
 - Save system handles errors gracefully
 - Unit tests achieve >90% coverage
+- Inventory items persist correctly between sessions
+- Item conditions and custom data save/load properly
+- Container states maintain across saves
+- Loadout system saves and restores correctly
+- Inventory migration handles version changes
 - Start date: TBD
 - Target completion: 2 weeks from start
 - Critical for: Iteration 5 (Time System) and Iteration 7 (Save/Sleep)
@@ -1615,8 +1763,10 @@ This file tracks the progress of all iterations for the project.
 - Iteration 3: Navigation System (completed - provides stable systems to test with)
 - src/core/serialization/serialization_manager.gd (to be created)
 - src/core/serialization/iserializable.gd (to be created)
+- src/core/serializers/inventory_serializer.gd (to be created)
 - docs/design/modular_serialization_architecture.md
 - docs/design/serialization_system.md
+- docs/design/inventory_system_design.md
 
 ### Iteration 5: Time and Notification Systems
 
@@ -1662,6 +1812,13 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 27: Add critical event flash warnings
 - [ ] Task 28: Implement time display serialization
 - [ ] Task 29: Create accessibility features for time display
+- [ ] Task 30: Implement performance telemetry framework
+- [ ] Task 31: Create in-game performance metric collection
+- [ ] Task 32: Add performance regression tracking system
+- [ ] Task 33: Design event system data structures
+- [ ] Task 34: Create base event serialization format
+- [ ] Task 35: Implement event timestamp tracking
+- [ ] Task 36: Create event notification categories
 
 **Key Requirements:**
 - **B1:** Create a sense of progression and urgency through time management
@@ -1737,6 +1894,16 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 23: Add atmospheric effects and CRT shader
 - [ ] Task 24: Create error handling for failed loads
 - [ ] Task 25: Integrate with existing game systems
+- [ ] Task 26: Implement ServiceRegistry singleton pattern
+- [ ] Task 27: Create IDialogService interface and DialogService
+- [ ] Task 28: Extract DialogData and dialog state classes
+- [ ] Task 29: Implement DialogUIFactory for UI separation
+- [ ] Task 30: Create NPCDialogController for dialog logic
+- [ ] Task 31: Implement DialogEventBus for signal architecture
+- [ ] Task 32: Create DialogValidator and error handling
+- [ ] Task 33: Build dialog testing infrastructure with mocks
+- [ ] Task 34: Implement LegacyDialogAdapter for migration
+- [ ] Task 35: Add feature flags for progressive rollout
 
 **Key Requirements:**
 - **B1:** Create inclusive character creation experience
@@ -1767,6 +1934,12 @@ This file tracks the progress of all iterations for the project.
 - Direct load bypasses all intermediate screens
 - Failed loads handled gracefully with clear messaging
 - All scene transitions work without memory leaks
+- Item examination shows detailed descriptions
+- Item combination interface works intuitively
+- Give verb properly transfers items to NPCs
+- Take verb respects inventory capacity
+- Dialog options reflect inventory contents
+- NPCs react appropriately to shown items
 - Start date: After Iteration 5 completion
 - Target completion: 2 weeks
 - Critical for: All future NPC interactions
@@ -1815,26 +1988,24 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 3: Create transaction system with validation
 - [ ] Task 4: Add economy UI display
 - [ ] Task 5: Implement vendor/shop interface
-- [ ] Task 6: Create SaveManager (extends SerializationManager)
-- [ ] Task 7: Implement sleep locations and costs
-- [ ] Task 8: Create sleep UI with save confirmation
-- [ ] Task 9: Implement save file management (single slot)
-- [ ] Task 10: Add save failure handling
-- [ ] Task 11: Create MorningReportManager
-- [ ] Task 12: Implement event collection during sleep
-- [ ] Task 13: Design morning report UI
-- [ ] Task 14: Create report generation logic
-- [ ] Task 15: Add priority/severity system for events
-- [ ] Task 16: Create Barracks district scene
-- [ ] Task 17: Implement player quarters (Room 306)
-- [ ] Task 18: Add quarter customization basics
-- [ ] Task 19: Create storage system in quarters
-- [ ] Task 20: Add Barracks common areas
-- [ ] Task 21: Create InventoryManager
-- [ ] Task 22: Implement item data structure
-- [ ] Task 23: Add inventory capacity limits
-- [ ] Task 24: Create inventory UI
-- [ ] Task 25: Implement item usage system
+- [ ] Task 6: Create Basic Shop System Architecture
+- [ ] Task 7: Implement Core Shop Items
+- [ ] Task 8: Create Basic Job Infrastructure
+- [ ] Task 9: Create SaveManager (extends SerializationManager)
+- [ ] Task 10: Implement sleep locations and costs
+- [ ] Task 11: Create sleep UI with save confirmation
+- [ ] Task 12: Implement save file management (single slot)
+- [ ] Task 13: Add save failure handling
+- [ ] Task 14: Create MorningReportManager
+- [ ] Task 15: Implement event collection during sleep
+- [ ] Task 16: Design morning report UI
+- [ ] Task 17: Create report generation logic
+- [ ] Task 18: Add priority/severity system for events
+- [ ] Task 19: Create Barracks district scene
+- [ ] Task 20: Implement player quarters (Room 306)
+- [ ] Task 21: Add quarter customization basics
+- [ ] Task 22: Create storage system in quarters
+- [ ] Task 23: Add Barracks common areas
 
 **Key Requirements:**
 - **B1:** Create resource management gameplay
@@ -1849,6 +2020,9 @@ This file tracks the progress of all iterations for the project.
 
 **Testing Criteria:**
 - Economy transactions process correctly
+- Shop purchases validate credit balance
+- Shop items available in Mall for First Quest
+- Basic job system executes and pays credits
 - Save/sleep operation is atomic and reliable
 - Morning reports generate appropriate content
 - Barracks district loads and performs well
@@ -1856,6 +2030,15 @@ This file tracks the progress of all iterations for the project.
 - All systems integrate with serialization
 - UI responds smoothly to all operations
 - Save files are valid and loadable
+- Dual storage system works correctly
+- Item transfer between storages functions properly
+- Item degradation reduces condition appropriately
+- Stackable items combine and split correctly
+- Item categories filter and sort properly
+- Selling items integrates with economy
+- Contraband detection increases suspicion
+- Containers can be searched and looted
+- Barracks access control works as designed
 - Deadlines track and warn appropriately
 - Deadline conflicts detected accurately
 - Fatigue affects gameplay as designed
@@ -1865,6 +2048,19 @@ This file tracks the progress of all iterations for the project.
 - Schedule optimization mechanics function
 - Activity interruption saves progress correctly
 - Time pressure UI provides clear feedback
+- Search and filter functionality works in real-time
+- Keyboard navigation covers all UI elements
+- Quick-access hotbar persists between sessions
+- Multi-select operations function correctly
+- Context menus provide all expected actions
+- Performance remains smooth with 500+ items
+- Icon caching reduces memory usage
+- Lazy loading prevents initial load delays
+- Item comparison shows meaningful differences
+- Transaction history tracks all operations
+- Accessibility modes function correctly
+- Screen reader announces all actions
+- Colorblind modes clearly distinguish categories
 - Start date: After Iteration 6 completion
 - Target completion: 2-3 weeks (complex integration)
 - Critical for: Phase 1 completion
@@ -1873,11 +2069,20 @@ This file tracks the progress of all iterations for the project.
 - Iteration 5: Notification System (save confirmations)
 - Iteration 6: Character System (save character data)
 - src/core/economy/economy_manager.gd (to be created)
+- src/core/economy/shop_system.gd (to be created)
+- src/core/economy/job_system.gd (to be created)
+- src/resources/shop_item.gd (to be created)
+- src/resources/job_data.gd (to be created)
 - src/core/save/save_manager.gd (to be created)
 - src/core/save/morning_report_manager.gd (to be created)
 - src/districts/barracks/ (to be created)
 - src/core/inventory/inventory_manager.gd (to be created)
 - src/ui/inventory/inventory_ui.gd (to be created)
+- src/ui/inventory/inventory_grid.gd (to be created)
+- src/ui/inventory/barracks_storage_ui.gd (to be created)
+- src/resources/item_data.gd (to be created)
+- src/core/inventory/item_instance.gd (to be created)
+- src/objects/base/container.gd (to be created)
 - docs/design/economy_system_design.md
 - docs/design/save_system_design.md
 - docs/design/sleep_system_design.md
@@ -1923,21 +2128,23 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 13: Add Science Lead 01 NPC
 - [ ] Task 14: Create quest-related interactive objects
 - [ ] Task 15: Implement district-specific mechanics
-- [ ] Task 16: Create EventManager singleton
-- [ ] Task 17: Implement NPC daily schedule system
-- [ ] Task 18: Add random event generation
+- [ ] Task 16: Create EventManager singleton with SimpleEventScheduler
+- [ ] Task 17: Implement NPCScheduleManager with daily routines
+- [ ] Task 18: Add event generation for 4 types (Assimilation, Security, Economic, Social)
 - [ ] Task 19: Create event notification integration
 - [ ] Task 20: Implement event serialization
+- [ ] Task 39: Create EventDiscovery system for missed events
+- [ ] Task 40: Implement schedule JSON format for 5 key NPCs
+- [ ] Task 41: Create Concierge NPC with full routine
+- [ ] Task 42: Create Security Chief NPC with full routine
+- [ ] Task 43: Create Bank Teller NPC with full routine
+- [ ] Task 44: Integrate event system with District spawning
+- [ ] Task 45: Integrate contextual dialog based on recent events
 - [ ] Task 21: Implement SCUMM hover text system
 - [ ] Task 22: Create hover text configuration
 - [ ] Task 23: Complete time/calendar UI display
 - [ ] Task 24: Add district name displays
 - [ ] Task 25: Polish UI integration
-- [ ] Task 26: Create TramManager singleton for district travel
-- [ ] Task 27: Implement simple fixed-cost travel between districts
-- [ ] Task 28: Build basic tram station UI
-- [ ] Task 29: Add travel confirmation and payment
-- [ ] Task 30: Integrate tram with time advancement
 
 **Key Requirements:**
 - **B1:** Complete Phase 1 MVP with explorable districts and living world
@@ -2014,21 +2221,23 @@ This file tracks the progress of all iterations for the project.
 - [ ] Task 8: Implement line-of-sight detection
 - [ ] Task 9: Add detection UI warnings
 - [ ] Task 10: Create game over sequence
-- [ ] Task 11: Create InvestigationManager singleton
-- [ ] Task 12: Implement clue discovery mechanics
-- [ ] Task 13: Build clue connection system
-- [ ] Task 14: Create investigation journal UI
-- [ ] Task 15: Add investigation progress tracking
-- [ ] Task 16: Create BaseInteractiveObject class
-- [ ] Task 17: Implement standard interaction verbs
-- [ ] Task 18: Create object state system
-- [ ] Task 19: Add interaction feedback system
-- [ ] Task 20: Build object template library
-- [ ] Task 21: Create access permission system
-- [ ] Task 22: Implement keycard/credential mechanics
-- [ ] Task 23: Add restricted area warnings
-- [ ] Task 24: Create security checkpoint system
-- [ ] Task 25: Implement access violation consequences
+- [ ] Task 11: Implement save file deletion on game over
+- [ ] Task 12: Create assimilation ending cinematics
+- [ ] Task 13: Build post-game revelation system
+- [ ] Task 14: Add detection state serialization
+- [ ] Task 15: Create DetectionManager singleton
+- [ ] Task 16: Implement detection triggers system
+- [ ] Task 17: Add detection evidence tracking
+- [ ] Task 18: Create InvestigationManager singleton
+- [ ] Task 19: Implement clue discovery mechanics
+- [ ] Task 20: Build clue connection system
+- [ ] Task 21: Create investigation journal UI
+- [ ] Task 22: Add investigation progress tracking
+- [ ] Task 23: Create BaseInteractiveObject class
+- [ ] Task 24: Implement standard interaction verbs
+- [ ] Task 25: Create object state system
+- [ ] Task 26: Add interaction feedback system
+- [ ] Task 27: Build object template library
 
 **Key Requirements:**
 - **B1:** Implement core observation and investigation mechanics
@@ -2043,11 +2252,34 @@ This file tracks the progress of all iterations for the project.
 
 **Testing Criteria:**
 - Observation system reveals appropriate details
-- Detection states transition correctly
+- Detection states transition correctly through all stages
 - Investigation progress saves/loads properly
 - Interactive objects respond to all verbs
 - Access control prevents/allows appropriately
+- AccessControlManager manages all access points correctly
+- All access item types function as designed
+- Access codes work with proper validation
+- UI components provide clear feedback
+- Access states persist through save/load
+- Lost item replacement system integrates with economy
 - Game over sequence triggers correctly
+- Save file deletion works as designed
+- Assimilation cinematics play properly
+- Post-game revelations display correctly
+- Detection evidence tracks accurately
+- Detection state persists across saves
+- DetectionManager coordinates all sources
+- Detection triggers fire appropriately
+- Item combinations work bidirectionally
+- Container search mechanics function properly
+- Evidence items connect to form conclusions
+- Security scans detect contraband correctly
+- Hidden items discoverable through observation
+- Quest item states persist and update
+- Puzzle mechanics accept multiple solutions
+- Investigation clues integrate with inventory
+- Container locks work with appropriate keys
+- Combination hints display appropriately
 - Performance remains smooth with many observables
 - All systems integrate with existing mechanics
 - Start date: After Phase 1 completion
@@ -2057,9 +2289,26 @@ This file tracks the progress of all iterations for the project.
 - Particularly: NPC system, Save system, Districts
 - src/core/observation/observation_manager.gd (to be created)
 - src/core/detection/detection_state_machine.gd (to be created)
+- src/core/detection/detection_manager.gd (to be created)
+- src/core/detection/detection_triggers.gd (to be created)
+- src/core/systems/game_over_manager.gd (to be created)
+- src/core/serializers/detection_serializer.gd (to be created)
+- src/ui/game_over/assimilation_ending.tscn (to be created)
+- src/ui/game_over/post_game_revelations.gd (to be created)
 - src/core/investigation/investigation_manager.gd (to be created)
 - src/objects/base/base_interactive_object.gd (to be refactored)
 - src/core/access/access_control_manager.gd (to be created)
+- src/core/access/access_point.gd (to be created)
+- src/resources/access_items.gd (to be created)
+- src/ui/access/access_interface.gd (to be created)
+- src/ui/access/keypad_interface.gd (to be created)
+- src/ui/access/card_reader_interface.gd (to be created)
+- src/ui/access/lost_access_ui.gd (to be created)
+- src/core/serializers/access_serializer.gd (to be created)
+- src/core/systems/item_combiner.gd (to be created)
+- src/resources/combination_data.gd (to be created)
+- src/core/investigation/evidence_chain.gd (to be created)
+- src/objects/base/container.gd (to be created)
 - docs/design/observation_system_full_design.md
 - docs/design/suspicion_system_full_design.md
 - docs/design/detection_game_over_system_design.md

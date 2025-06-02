@@ -256,7 +256,9 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Handle version migration
 
 ### Task 15: Create DetectionManager singleton
-**User Story:** As a developer, I need a central detection coordination system, so that all detection sources work together coherently.
+**User Story:** As a developer, I need a central detection coordination system with morning report integration, so that all detection sources work together coherently and overnight heat decay is properly reported.
+
+**Design Reference:** `docs/design/suspicion_system_full_design.md` & `docs/design/morning_report_manager_design.md`
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -269,12 +271,16 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   3. Handles state transitions smoothly
   4. Emits appropriate signals
   5. Integrates with existing systems
+  6. Reports overnight heat decay to MorningReportManager
 
 **Implementation Notes:**
+- Reference: docs/design/suspicion_system_full_design.md (DetectionManager design)
+- Reference: docs/design/morning_report_manager_design.md lines 197-211 (detection integration)
 - Implement as autoload singleton
 - Follow detection state machine design
 - Coordinate with NPCRegistry
 - Handle escape routes calculation
+- Call MorningReportManager.add_event() when heat reduces overnight
 
 ### Task 16: Implement detection triggers system
 **User Story:** As a player, I want my suspicious actions to have consequences, so that I must be careful about what I say and do.

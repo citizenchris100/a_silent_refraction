@@ -89,39 +89,42 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - [ ] Task 18: Add event generation for 4 types (Assimilation, Security, Economic, Social)
 - [ ] Task 19: Create event notification integration
 - [ ] Task 20: Implement event serialization
-- [ ] Task 39: Create EventDiscovery system for missed events
-- [ ] Task 40: Implement schedule JSON format for 5 key NPCs
-- [ ] Task 41: Create Concierge NPC with full routine
-- [ ] Task 42: Create Security Chief NPC with full routine
-- [ ] Task 43: Create Bank Teller NPC with full routine
-- [ ] Task 44: Integrate event system with District spawning
-- [ ] Task 45: Integrate contextual dialog based on recent events
+- [ ] Task 21: Create EventDiscovery system for missed events
+- [ ] Task 22: Implement schedule JSON format for 5 key NPCs
+- [ ] Task 23: Create Concierge NPC with full routine
+- [ ] Task 24: Create Security Chief NPC with full routine
+- [ ] Task 25: Create Bank Teller NPC with full routine
+- [ ] Task 26: Integrate event system with District spawning
+- [ ] Task 27: Integrate contextual dialog based on recent events
 
 ### UI Enhancements
-- [ ] Task 21: Implement SCUMM hover text system
-- [ ] Task 22: Create hover text configuration
-- [ ] Task 23: Complete time/calendar UI display
-- [ ] Task 24: Add district name displays
-- [ ] Task 25: Polish UI integration
+- [ ] Task 28: Implement SCUMM hover text system
+- [ ] Task 29: Create hover text configuration
+- [ ] Task 30: Complete time/calendar UI display
+- [ ] Task 31: Add district name displays
+- [ ] Task 32: Polish UI integration
 
 ### Tram Transportation System (MVP)
-- [ ] Task 26: Create TramManager singleton for district travel
-- [ ] Task 27: Implement simple fixed-cost travel between districts
-- [ ] Task 28: Build basic tram station UI
-- [ ] Task 29: Add travel confirmation and payment
-- [ ] Task 30: Integrate tram with time advancement
+- [ ] Task 33: Create TramManager singleton for district travel
+- [ ] Task 34: Implement simple fixed-cost travel between districts
+- [ ] Task 35: Build basic tram station UI
+- [ ] Task 36: Add travel confirmation and payment
+- [ ] Task 37: Integrate tram with time advancement
 
 ### Intro Quest Implementation
-- [ ] Task 31: Create quest flow from ship to engineering
-- [ ] Task 32: Implement all quest dialogs
-- [ ] Task 33: Add quest items and interactions
-- [ ] Task 34: Create quest completion validation
-- [ ] Task 35: Full playtest and polish
+- [ ] Task 38: Create quest flow from ship to engineering
+- [ ] Task 39: Implement all quest dialogs
+- [ ] Task 40: Add quest items and interactions
+- [ ] Task 41: Create quest completion validation
+- [ ] Task 42: Full playtest and polish
 
 ### Testing Infrastructure
-- [ ] Task 36: Set up ARM build validation in CI/CD
-- [ ] Task 37: Create remote Raspberry Pi testing infrastructure
-- [ ] Task 38: Implement platform parity testing
+- [ ] Task 43: Set up ARM build validation in CI/CD
+- [ ] Task 44: Create remote Raspberry Pi testing infrastructure
+- [ ] Task 45: Implement platform parity testing
+
+### Morning Report Validation
+- [ ] Task 46: Validate morning report integration with all systems during Intro Quest
 
 ## User Stories
 
@@ -257,7 +260,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   func _update_lod_states()
   ```
 
-### Task 21: Implement SCUMM hover text system
+### Task 28: Implement SCUMM hover text system
 **User Story:** As a player, I want to see object names when I hover over them, so that I know what I can interact with in the classic adventure game style.
 
 **Status History:**
@@ -278,7 +281,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Consider color coding by object type
 - Must work with verb UI system
 
-### Task 31: Create quest flow from ship to engineering
+### Task 38: Create quest flow from ship to engineering
 **User Story:** As a player, I want to experience a complete quest from beginning to end, so that I understand the game's objectives and mechanics.
 
 **Status History:**
@@ -299,7 +302,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Must work with all character genders
 - Reference: Intro Quest requirements from phased_development_approach.md
 
-### Task 26: Create TramManager singleton for district travel
+### Task 33: Create TramManager singleton for district travel
 **User Story:** As a player, I need a way to travel between districts, so that I can explore the station and complete quests.
 
 **Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
@@ -321,7 +324,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Fixed costs and times for Phase 1
 - Reference MVP section of tram design doc
 
-### Task 27: Implement simple fixed-cost travel between districts
+### Task 34: Implement simple fixed-cost travel between districts
 **User Story:** As a player, I want predictable travel costs and times, so that I can plan my movements without complex calculations.
 
 **Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
@@ -343,7 +346,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Simplifies balancing and testing
 - Full distance-based pricing in Phase 2
 
-### Task 28: Build basic tram station UI
+### Task 35: Build basic tram station UI
 **User Story:** As a player, I want a simple interface to select my destination, so that I can travel between districts easily.
 
 **Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
@@ -365,7 +368,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - No fancy animations
 - Focus on functionality
 
-### Task 29: Add travel confirmation and payment
+### Task 36: Add travel confirmation and payment
 **User Story:** As a player, I want to confirm my travel choice before spending credits, so that I don't waste money accidentally.
 
 **Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
@@ -387,7 +390,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - No transit screen animation
 - Instant travel after payment
 
-### Task 30: Integrate tram with time advancement
+### Task 37: Integrate tram with time advancement
 **User Story:** As a developer, I want tram travel to advance game time, so that movement has a time cost.
 
 **Design Reference:** `docs/design/tram_transportation_system_design.md` (MVP section)
@@ -409,7 +412,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Connect to TimeManager.advance_time(0.5)
 - Ensure NPCs update appropriately
 
-### Task 36: Set up ARM build validation in CI/CD
+### Task 43: Set up ARM build validation in CI/CD
 **User Story:** As a developer, I want automated ARM builds in our CI/CD pipeline, so that we catch platform-specific issues early and ensure the game compiles correctly for Raspberry Pi 5.
 
 **Status History:**
@@ -430,7 +433,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Store last 10 successful ARM builds
 - Add ARM build status to README
 
-### Task 37: Create remote Raspberry Pi testing infrastructure
+### Task 44: Create remote Raspberry Pi testing infrastructure
 **User Story:** As a developer, I want SSH-accessible Raspberry Pi devices for testing, so that I can validate performance and functionality on actual hardware without physical access.
 
 **Status History:**
@@ -451,7 +454,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Install performance monitoring tools
 - Document access procedures
 
-### Task 38: Implement platform parity testing
+### Task 45: Implement platform parity testing
 **User Story:** As a developer, I want automated tests that verify feature parity between x86 and ARM builds, so that players have the same experience regardless of platform.
 
 **Status History:**
@@ -606,7 +609,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Compress event history
 - Priority: 20 (high)
 
-### Task 39: Create EventDiscovery system for missed events
+### Task 21: Create EventDiscovery system for missed events
 **User Story:** As a player, I want to learn about events I missed through clues and dialog, so that the world continues to evolve even when I'm not present.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md`
@@ -629,7 +632,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Connect to investigation system later
 - Reference: docs/design/living_world_event_system_mvp.md
 
-### Task 40: Implement schedule JSON format for 5 key NPCs
+### Task 22: Implement schedule JSON format for 5 key NPCs
 **User Story:** As a developer, I want NPC schedules defined in data files, so that I can easily create and modify NPC routines without code changes.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md`
@@ -652,7 +655,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Include example for others to follow
 - Reference: docs/design/living_world_event_system_mvp.md
 
-### Task 41: Create Concierge NPC with full routine
+### Task 23: Create Concierge NPC with full routine
 **User Story:** As a player, I want the Concierge to follow a daily routine, so that I can find them predictably when I need assistance.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
@@ -675,7 +678,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Uses template NPC structure
 - Reference: docs/design/template_npc_design.md
 
-### Task 42: Create Security Chief NPC with full routine
+### Task 24: Create Security Chief NPC with full routine
 **User Story:** As a player, I want the Security Chief to patrol and work on a schedule, so that I can plan my activities around security presence.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
@@ -698,7 +701,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Patrol route varies by day
 - Reference: docs/design/template_npc_design.md
 
-### Task 43: Create Bank Teller NPC with full routine
+### Task 25: Create Bank Teller NPC with full routine
 **User Story:** As a player, I want the Bank Teller to maintain regular hours, so that I know when banking services are available.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
@@ -721,7 +724,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Handles player transactions
 - Reference: docs/design/template_npc_design.md
 
-### Task 44: Integrate event system with District spawning
+### Task 26: Integrate event system with District spawning
 **User Story:** As a developer, I want NPCs to spawn in districts based on their schedules, so that the world population changes realistically with time.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md`
@@ -744,7 +747,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Handle district transitions smoothly
 - Reference: docs/design/living_world_event_system_mvp.md
 
-### Task 45: Integrate contextual dialog based on recent events
+### Task 27: Integrate contextual dialog based on recent events
 **User Story:** As a player, I want NPCs to reference recent events in dialog, so that conversations feel dynamic and responsive to the world state.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md`
@@ -766,6 +769,30 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Track which NPCs know which events
 - Add event-specific dialog branches
 - Reference: docs/design/living_world_event_system_mvp.md
+
+### Task 46: Validate morning report integration with all systems during Intro Quest
+**User Story:** As a developer, I want to validate that morning reports properly integrate with all game systems, so that players receive comprehensive overnight updates throughout their journey.
+
+**Design Reference:** `docs/design/morning_report_manager_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1
+- **Acceptance Criteria:**
+  1. Sleep triggers morning report display
+  2. Events from multiple systems appear
+  3. Priority sorting works correctly
+  4. No duplicate or missing events
+  5. Performance remains smooth
+
+**Implementation Notes:**
+- Reference: docs/design/morning_report_manager_design.md (integration requirements)
+- Test during Intro Quest playthrough
+- Verify all systems report events
+- Check serialization works
+- Validate UI display
 
 ### Task 6: Create Spaceport scene from template
 **User Story:** As a player, I want to start my journey in the Spaceport, so that I have a clear entry point into the game world.
@@ -987,7 +1014,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Supports gameplay variety
 - Reference: docs/design/template_district_design.md
 
-### Task 22: Create hover text configuration
+### Task 29: Create hover text configuration
 **User Story:** As a developer, I want hover text behavior to be configurable, so that we can fine-tune the user experience.
 
 **Design Reference:** `docs/design/scumm_hover_text_system_design.md`
@@ -1009,7 +1036,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Save preferences
 - Reference: docs/design/scumm_hover_text_system_design.md
 
-### Task 23: Complete time/calendar UI display
+### Task 30: Complete time/calendar UI display
 **User Story:** As a player, I want to see the current time and date clearly, so that I can plan my activities effectively.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
@@ -1031,7 +1058,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Must be always visible
 - Reference: docs/design/time_calendar_display_ui_design.md
 
-### Task 24: Add district name displays
+### Task 31: Add district name displays
 **User Story:** As a player, I want to see which district I'm in, so that I can orient myself within the station.
 
 **Design Reference:** `docs/design/template_district_design.md`
@@ -1053,7 +1080,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Can be toggled in UI
 - Reference: docs/design/template_district_design.md
 
-### Task 25: Polish UI integration
+### Task 32: Polish UI integration
 **User Story:** As a player, I want all UI elements to work together seamlessly, so that the interface feels cohesive and professional.
 
 **Status History:**
@@ -1073,7 +1100,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Test all resolutions
 - Ensure accessibility
 
-### Task 32: Implement all quest dialogs
+### Task 39: Implement all quest dialogs
 **User Story:** As a player, I want meaningful conversations during the intro quest, so that I understand the story and objectives.
 
 **Design Reference:** `docs/design/template_dialog_design.md`
@@ -1095,7 +1122,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Test all branches
 - Reference: docs/design/template_dialog_design.md
 
-### Task 33: Add quest items and interactions
+### Task 40: Add quest items and interactions
 **User Story:** As a player, I want to collect and use items for the quest, so that I experience the core gameplay loop.
 
 **Design Reference:** `docs/design/template_interactive_object_design.md`
@@ -1117,7 +1144,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Simple but complete
 - Reference: docs/design/template_interactive_object_design.md
 
-### Task 34: Create quest completion validation
+### Task 41: Create quest completion validation
 **User Story:** As a developer, I want to validate the intro quest is completable, so that players have a smooth first experience.
 
 **Status History:**
@@ -1137,7 +1164,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Multiple playtests required
 - Document any issues
 
-### Task 35: Full playtest and polish
+### Task 42: Full playtest and polish
 **User Story:** As a player, I want a polished intro experience, so that my first impression of the game is positive.
 
 **Status History:**
@@ -1165,6 +1192,7 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - Time display updates properly
 - Intro Quest completable without bugs
 - All systems integrate correctly
+- Morning reports show events from all systems
 - Performance remains smooth with full districts
 
 ## Timeline
