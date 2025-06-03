@@ -154,21 +154,48 @@ As a player, I need structured objectives that guide my investigation while allo
 - [ ] Task 76: Integrate minigame with job shift system
 - [ ] Task 77: Add save/load functionality for minigame progress
 - [ ] Task 78: Create practice mode and tutorial
+- [ ] Task 79: Implement TradingBlock class with all piece types and rotations
+- [ ] Task 80: Create harassment overlay system and UI blocking mechanics
+- [ ] Task 81: Implement minigame performance optimizations
+- [ ] Task 82: Add NPC leaderboard score evolution system
 
 ### Key NPC Implementation (Phase 2 Continued)
-- [ ] Task 79: Implement Scientist Lead NPC with quest integration
-- [ ] Task 80: Create Dock Foreman NPC with job system ties
+- [ ] Task 83: Implement Scientist Lead NPC with quest integration
+- [ ] Task 84: Create Dock Foreman NPC with job system ties
 
 ### Morning Report Integration
-- [ ] Task 81: Integrate QuestManager with MorningReportManager for overnight quest updates
+- [ ] Task 85: Integrate QuestManager with MorningReportManager for overnight quest updates
 
 ### Trust and Relationship Systems
-- [ ] Task 82: Create comprehensive trust building system
-- [ ] Task 83: Implement NPC-to-NPC relationship networks
-- [ ] Task 84: Create faction-wide reputation system
-- [ ] Task 85: Add relationship ripple effects system
+- [ ] Task 86: Create comprehensive trust building system
+- [ ] Task 87: Implement NPC-to-NPC relationship networks
+- [ ] Task 88: Create faction-wide reputation system
+- [ ] Task 89: Add relationship ripple effects system
 
 ## User Stories
+
+### Task 1: Create QuestManager singleton
+**User Story:** As a developer, I want a centralized quest management system, so that all quest-related functionality is coordinated through a single authoritative source.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Singleton pattern implementation
+  2. Quest registration and tracking
+  3. Active quest list management
+  4. Quest event broadcasting
+  5. Integration with save system
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Follow existing singleton patterns (GameManager, etc.)
+- Implement quest started/completed/failed signals
+- Support for concurrent active quests
 
 ### Task 2: Implement quest state machine
 **User Story:** As a developer, I want quests to have clear states and transitions, so that complex quest logic remains manageable and bug-free.
@@ -191,6 +218,121 @@ As a player, I need structured objectives that guide my investigation while allo
 - Consider quest chains and dependencies
 - Support optional objectives
 
+### Task 3: Build quest prerequisite system
+**User Story:** As a developer, I want quests to have prerequisite conditions, so that quest availability can be controlled based on player progress and game state.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Multiple prerequisite types (quest completion, items, time, etc.)
+  2. AND/OR logic for complex conditions
+  3. Dynamic prerequisite checking
+  4. Clear error messages for unmet prerequisites
+  5. Prerequisite visualization in UI
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Support level, faction reputation, and custom prerequisites
+- Integrate with quest availability system
+- Consider soft vs hard prerequisites
+
+### Task 4: Create quest reward system
+**User Story:** As a player, I want meaningful rewards for completing quests, so that my efforts feel valued and contribute to my progression.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Multiple reward types (credits, items, reputation, access)
+  2. Conditional rewards based on completion method
+  3. Reward preview in quest log
+  4. Automatic reward distribution on completion
+  5. Reward failure rollback support
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Integrate with inventory and economy systems
+- Support immediate and delayed rewards
+- Track reward history for achievements
+
+### Task 5: Add quest save/load integration
+**User Story:** As a player, I want my quest progress to persist between sessions, so that I can continue my investigation without losing progress.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. All quest states serialize correctly
+  2. Objective progress tracked accurately
+  3. Quest timers resume properly
+  4. Failed quest history preserved
+  5. Version migration support
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Use QuestSerializer extending BaseSerializer
+- Handle quest data versioning
+- Compress completed quest data
+
+### Task 6: Create JobManager system
+**User Story:** As a developer, I want a centralized job management system, so that all employment-related mechanics are coordinated and consistent.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, T1
+- **Acceptance Criteria:**
+  1. Job registration and availability tracking
+  2. Shift scheduling system
+  3. Performance tracking per job
+  4. Payment calculation engine
+  5. Job-specific access management
+
+**Implementation Notes:**
+- Reference: docs/design/job_work_quest_system_design.md
+- Singleton pattern like QuestManager
+- Track employment history
+- Support multiple concurrent jobs
+
+### Task 7: Implement job board UI
+**User Story:** As a player, I want to browse available jobs at a job board, so that I can choose employment that fits my schedule and investigation needs.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Visual job board interface
+  2. Job filtering by type/location/pay
+  3. Detailed job descriptions
+  4. Shift time display
+  5. Application process UI
+
+**Implementation Notes:**
+- Reference: docs/design/job_work_quest_system_design.md
+- Show requirements clearly
+- Indicate access benefits
+- Display current employment status
+
 ### Task 8: Build work shift mechanics
 **User Story:** As a player, I want to work scheduled shifts at various jobs, so that I can earn credits while gaining access to restricted areas and information.
 
@@ -211,6 +353,53 @@ As a player, I need structured objectives that guide my investigation while allo
 - Shift durations: 2-4 hours game time
 - Jobs: Janitor, Clerk, Technician, Security
 - Performance mini-games for some jobs
+
+### Task 9: Create job performance evaluation
+**User Story:** As a player, I want my work performance to be evaluated fairly, so that good performance leads to better pay and opportunities.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Performance metrics per job type
+  2. Real-time performance tracking
+  3. Performance affects payment bonuses
+  4. Poor performance has consequences
+  5. Performance history affects job availability
+
+**Implementation Notes:**
+- Reference: docs/design/job_work_quest_system_design.md
+- Metrics: speed, accuracy, customer satisfaction
+- Bonus range: 20-40 credits
+- Track performance trends
+
+### Task 10: Add job-specific access permissions
+**User Story:** As a player with a job, I want temporary access to restricted areas during my shift, so that employment provides both economic and investigative benefits.
+
+**Design Reference:** `docs/design/job_work_quest_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Jobs grant area-specific access
+  2. Access limited to shift hours
+  3. Access revoked if fired
+  4. Some areas require specific job types
+  5. Access integrates with security system
+
+**Implementation Notes:**
+- Reference: docs/design/job_work_quest_system_design.md
+- Janitor: all public areas after hours
+- Security: restricted security zones
+- Technician: maintenance areas
+- Integrate with district access system
 
 ### Task 11: Design quest log interface
 **User Story:** As a player, I want an intuitive quest log that helps me track multiple objectives and surfaces critical information from all game systems, so that I can make strategic decisions about quest priorities and resource allocation.
@@ -364,6 +553,122 @@ As a player, I need structured objectives that guide my investigation while allo
   ```
 - **Quest Hints:** Connect active quest objectives to hover descriptions for helpful player guidance
 
+### Task 16: Create quest data format with puzzle objectives
+**User Story:** As a developer, I want a standardized data format for quests, so that quest content can be created and modified without code changes.
+
+**Design Reference:** `docs/design/template_quest_design.md` & `docs/design/puzzle_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. JSON/resource format for quest data
+  2. Support for all quest properties
+  3. Puzzle objective integration
+  4. Validation schema
+  5. Hot-reloading support
+
+**Implementation Notes:**
+- Reference: docs/design/template_quest_design.md
+- Reference: docs/design/puzzle_system_design.md
+- Include puzzle_type and puzzle_data fields
+- Support localization keys
+- Version field for migration
+
+### Task 17: Build quest template types
+**User Story:** As a designer, I want predefined quest templates, so that common quest patterns can be quickly implemented with consistent structure.
+
+**Design Reference:** `docs/design/template_quest_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Fetch quest template
+  2. Investigation quest template
+  3. Social quest template
+  4. Infiltration quest template
+  5. Economic quest template
+
+**Implementation Notes:**
+- Reference: docs/design/template_quest_design.md
+- Each template includes default objectives
+- Templates are customizable
+- Include example quests per template
+
+### Task 18: Implement quest scripting system
+**User Story:** As a designer, I want to script complex quest logic, so that quests can have dynamic behavior without programmer intervention.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. GDScript-based quest scripts
+  2. Quest event hooks
+  3. Condition checking functions
+  4. Action execution system
+  5. Debug/test mode
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Sandboxed execution environment
+- Common quest functions library
+- Error handling and logging
+
+### Task 19: Add quest validation tools
+**User Story:** As a designer, I want tools to validate quest data, so that quest issues are caught before they affect players.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Prerequisite chain validation
+  2. Reward balance checking
+  3. Objective completability tests
+  4. Dialog reference validation
+  5. Automated test generation
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Run validation on quest load
+- Generate validation reports
+- Integration with CI/CD pipeline
+
+### Task 20: Create quest debug commands
+**User Story:** As a developer, I want debug commands for quest testing, so that quest functionality can be quickly verified during development.
+
+**Design Reference:** `docs/design/quest_system_framework_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, T2
+- **Acceptance Criteria:**
+  1. Start/complete quest commands
+  2. Set quest state command
+  3. List active quests command
+  4. Skip to objective command
+  5. Quest variable inspection
+
+**Implementation Notes:**
+- Reference: docs/design/quest_system_framework_design.md
+- Console commands with autocomplete
+- Cheat mode flag required
+- Log all debug actions
+
 ### Task 21: Implement role obligation mechanics in DisguiseManager
 **User Story:** As a player wearing a disguise, I want to be required to perform job duties appropriate to my role, so that infiltration requires active participation rather than just wearing the right clothes.
 
@@ -407,6 +712,30 @@ As a player, I need structured objectives that guide my investigation while allo
 - Support special conditions and prerequisites
 - Example obligations per role (patrol, rounds, repairs)
 
+### Task 23: Build obligation scheduling and tracking system
+**User Story:** As a player in disguise, I want obligations to be scheduled realistically and tracked accurately, so that role-playing feels authentic and manageable.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 253-337
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Obligation queue management
+  2. Time-based scheduling logic
+  3. Location tracking for obligations
+  4. Priority-based ordering
+  5. Concurrent obligation handling
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 253-337
+- Immediate obligations take precedence
+- Recurring obligations scheduled appropriately
+- Max 3 active obligations at once
+- Clear notification of new obligations
+
 ### Task 24: Implement role performance evaluation
 **User Story:** As the game system, I want to evaluate how well players perform their disguised roles, so that maintaining cover requires consistent appropriate behavior.
 
@@ -449,6 +778,30 @@ As a player, I need structured objectives that guide my investigation while allo
 - Medical: dosages, protocols, staff names
 - Failed tests dramatically reduce performance score
 
+### Task 26: Build behavioral consistency checking
+**User Story:** As an NPC, I want to notice when someone behaves inconsistently with their role, so that imposters can be detected through their actions.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 339-405
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Track expected vs actual behaviors
+  2. Consistency score calculation
+  3. NPCs react to inconsistencies
+  4. Different tolerance per NPC type
+  5. Gradual suspicion increase
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 339-405
+- Walking in restricted areas as janitor = suspicious
+- Running in hospital as doctor = odd
+- Context matters for behavior evaluation
+- Some NPCs more observant than others
+
 ### Task 27: Implement obligation UI components (Role HUD)
 **User Story:** As a player in disguise, I want a clear UI showing my current obligations and performance, so that I can successfully maintain my cover role.
 
@@ -469,6 +822,30 @@ As a player, I need structured objectives that guide my investigation while allo
 - Obligation timers with visual urgency
 - Performance bar with color states (green/yellow/red)
 - Integrate with existing UI framework
+
+### Task 28: Create quick change interface
+**User Story:** As a player, I want to quickly change between disguises, so that I can adapt to situations without breaking gameplay flow.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 853-892
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Quick access hotkey (Q)
+  2. Radial menu for disguise selection
+  3. Preview of role obligations
+  4. Cooldown between changes
+  5. Location restrictions for changing
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 853-892
+- Can't change in view of NPCs
+- Show equipped vs available disguises
+- Quick swap between favorites
+- Visual feedback for change success/failure
 
 ### Task 29: Build role reputation system
 **User Story:** As a player repeatedly using disguises, I want to build reputation within roles, so that consistent good performance makes future infiltrations easier.
@@ -511,6 +888,244 @@ As a player, I need structured objectives that guide my investigation while allo
 - Extend BaseSerializer, priority 55
 - Handle obligation timer restoration
 - Version migration support
+
+### Task 31: Create complex multi-phase obligations
+**User Story:** As a player in deep cover, I want some obligations to have multiple phases, so that role-playing feels more realistic and challenging.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 407-473
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Multi-step obligation chains
+  2. Phase completion tracking
+  3. Branching obligation paths
+  4. Time limits per phase
+  5. Failure cascades
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 407-473
+- Example: Medical emergency → diagnosis → treatment → paperwork
+- Each phase can have different locations
+- Later phases depend on earlier success
+
+### Task 32: Build disguise layer/combination system
+**User Story:** As a player, I want to combine disguise elements, so that I can create custom disguises for specific situations.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 475-514
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Layer multiple clothing items
+  2. Partial disguise effectiveness
+  3. Mix-and-match components
+  4. Visual feedback on completeness
+  5. Combination bonuses
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 475-514
+- Lab coat + ID badge = partial scientist
+- Full uniform required for best effect
+- Some combinations create unique roles
+
+### Task 33: Implement role-specific behavior requirements
+**User Story:** As a disguised player, I want each role to require specific behaviors, so that maintaining cover requires active role-playing.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 516-554
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Behavior rules per role
+  2. Context-sensitive requirements
+  3. Violation detection
+  4. Warning system
+  5. Behavior hints
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 516-554
+- Security: must respond to alarms
+- Medical: can't ignore injured NPCs
+- Maintenance: expected in certain areas
+- Behavioral expectations vary by location
+
+### Task 34: Create obligation failure consequences
+**User Story:** As a player who fails obligations, I want clear and fair consequences, so that I understand the stakes but am not unfairly punished.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 606-652
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Graduated consequence system
+  2. Performance score reduction
+  3. Suspicion increase mechanics
+  4. Cover blown threshold
+  5. Recovery opportunities
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 606-652
+- Minor failures: -10% performance
+- Major failures: immediate suspicion
+- Three strikes system for most roles
+- Some failures are unrecoverable
+
+### Task 35: Build disguise acquisition mechanics
+**User Story:** As a player, I want multiple ways to acquire disguises, so that infiltration planning offers strategic choices.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 654-680
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Purchase from shops
+  2. Steal from locations
+  3. Borrow from allies
+  4. Find in world
+  5. Quest rewards
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 654-680
+- Shop prices vary by quality
+- Stealing has suspicion risk
+- Some disguises are unique
+- Quality affects effectiveness
+
+### Task 36: Implement economic impact of role obligations
+**User Story:** As a player using disguises for jobs, I want role obligations to affect my earnings, so that there's a trade-off between access and profit.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 705-745
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B3, U2
+- **Acceptance Criteria:**
+  1. Performance affects job pay
+  2. Obligation completion bonuses
+  3. Failure payment penalties
+  4. Role-specific pay scales
+  5. Reputation pay modifiers
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 705-745
+- Good performance: +20% pay
+- Failed obligations: -30% pay
+- Some roles pay better base rates
+- Reputation unlocks better shifts
+
+### Task 37: Create role-based access integration
+**User Story:** As a player in disguise, I want my role to grant appropriate access permissions, so that disguises provide tangible infiltration benefits.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 894-933
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Role determines accessible areas
+  2. Time-based access windows
+  3. Security system integration
+  4. Keycard emulation
+  5. Access logging
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 894-933
+- Medical: hospital, emergency areas
+- Security: all public areas, some restricted
+- Maintenance: service corridors, utilities
+- Access tracked in security logs
+
+### Task 38: Build obligation hint and tutorial system
+**User Story:** As a new player, I want hints about role obligations, so that I can learn the disguise system without frustration.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 935-974
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Contextual obligation hints
+  2. Role tutorial mode
+  3. Obligation preview system
+  4. Difficulty settings
+  5. Hint frequency options
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 935-974
+- First-time role tutorials
+- Hints decrease with experience
+- Preview obligations before accepting
+- Optional simplified mode
+
+### Task 39: Implement disguise effectiveness decay
+**User Story:** As a player maintaining a disguise over time, I want effectiveness to decay realistically, so that long-term infiltration requires active maintenance.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md` lines 976-1015
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Time-based effectiveness decay
+  2. Activity-based wear
+  3. Maintenance mechanics
+  4. Visual wear indicators
+  5. Replacement requirements
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md lines 976-1015
+- Clean uniforms last 8 hours
+- Heavy activity accelerates wear
+- Laundry/repair restores effectiveness
+- Worn disguises increase suspicion
+
+### Task 40: Create role obligation testing framework
+**User Story:** As a QA tester, I want comprehensive testing tools for the obligation system, so that all disguise mechanics can be verified efficiently.
+
+**Design Reference:** `docs/design/disguise_clothing_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** T1, T3
+- **Acceptance Criteria:**
+  1. Automated obligation testing
+  2. Performance metric validation
+  3. Edge case coverage
+  4. Regression test suite
+  5. Debug visualization tools
+
+**Implementation Notes:**
+- Reference: docs/design/disguise_clothing_system_design.md
+- Test all obligation types
+- Verify timer accuracy
+- Check state transitions
+- Performance benchmarking
 
 ### Task 41: Create SecurityPatrol class and data structures
 **User Story:** As a developer, I want a robust patrol system for security guards, so that the First Quest can feature dynamic guard patrols that create tension and gameplay opportunities.
@@ -1389,7 +2004,103 @@ As a player, I need structured objectives that guide my investigation while allo
 - Consider ghost piece for practice mode
 - Allow difficulty selection in practice
 
-### Task 79: Implement Scientist Lead NPC with quest integration
+### Task 79: Implement TradingBlock class with all piece types and rotations
+**User Story:** As a developer, I want a complete implementation of all Tetris piece types with proper rotation mechanics, so that the block-falling gameplay feels authentic and responsive.
+
+**Design Reference:** `docs/design/trading_floor_minigame_system_design.md` lines 163-189
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. TradingBlock class with type, rotation, position, and color properties
+  2. All 7 piece types implemented (I, O, T, S, Z, L, J)
+  3. Rotation logic for each piece type with collision detection
+  4. Wall kick mechanics for rotation near boundaries
+  5. Color assignment based on Game Boy palette index
+
+**Implementation Notes:**
+- Reference: docs/design/trading_floor_minigame_system_design.md lines 163-189
+- I-piece needs special 4x4 rotation matrix
+- O-piece doesn't rotate
+- Implement Super Rotation System (SRS) for authentic feel
+- Test rotation near walls and other blocks
+
+### Task 80: Create harassment overlay system and UI blocking mechanics
+**User Story:** As a developer, I want to implement the harassment event overlays and effects, so that the gender discrimination theme is represented through gameplay mechanics that challenge without frustrating.
+
+**Design Reference:** `docs/design/trading_floor_minigame_system_design.md` lines 191-211
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. Create harassment_overlay.tscn scene with text display
+  2. Three harassment types with distinct effects
+  3. "Helpful colleague" blocks portion of screen for 5 seconds
+  4. "Patronizing explanation" adds 300ms input delay
+  5. "Credit theft" reduces score multiplier to 0.7
+
+**Implementation Notes:**
+- Reference: docs/design/trading_floor_minigame_system_design.md lines 191-211
+- Keep overlays semi-transparent to maintain playability
+- Text should be readable but not block entire view
+- Effects should challenge without making game unplayable
+- Add fade in/out animations for overlay appearance
+
+### Task 81: Implement minigame performance optimizations
+**User Story:** As a player, I want the trading mini-game to run smoothly without lag or stuttering, so that my performance reflects my skill rather than technical limitations.
+
+**Design Reference:** `docs/design/trading_floor_minigame_system_design.md` lines 367-373
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, T3
+- **Acceptance Criteria:**
+  1. Viewport scaling maintains pixel-perfect graphics
+  2. Block instances reused via object pooling
+  3. Input processed in _unhandled_input for responsiveness
+  4. 60 FPS maintained during gameplay
+  5. Memory usage remains stable during long sessions
+
+**Implementation Notes:**
+- Reference: docs/design/trading_floor_minigame_system_design.md lines 367-373
+- Pre-allocate block pool at game start
+- Use viewport texture for scaling
+- Profile performance with Godot profiler
+- Test on minimum spec hardware
+
+### Task 82: Add NPC leaderboard score evolution system
+**User Story:** As a player, I want the NPC scores on the leaderboard to evolve realistically over time, so that the competition feels dynamic and I have new targets to beat as days pass.
+
+**Design Reference:** `docs/design/trading_floor_minigame_system_design.md` lines 349-365
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, U2
+- **Acceptance Criteria:**
+  1. NPC scores increase gradually based on skill level
+  2. Daily evolution checks when accessing terminal
+  3. Some NPCs improve faster than others
+  4. Score caps prevent unrealistic progression
+  5. Player actions can influence NPC performance
+
+**Implementation Notes:**
+- Reference: docs/design/trading_floor_minigame_system_design.md lines 349-365
+- Evolution formula: new_score = old_score * (1 + skill_factor * days_passed)
+- Skill factors: 0.01-0.05 based on NPC trader skill
+- Cap at realistic human limits (50,000-100,000)
+- Consider special events affecting scores
+
+### Task 83: Implement Scientist Lead NPC with quest integration
 **User Story:** As a player, I want the Scientist Lead to be central to research-based quests, so that scientific investigations feel guided by expertise.
 
 **Design Reference:** `docs/design/living_world_event_system_mvp.md` & `docs/design/template_npc_design.md`
