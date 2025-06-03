@@ -317,6 +317,75 @@ func test_async_operation():
 	end_test(signal_received, "Signal emitted within timeout")
 ```
 
+### 3.1 Test Suite Yield Pattern
+
+When writing test suites with multiple tests that use yields, follow the established pattern:
+
+**❌ WRONG - Individual test cleanup pattern:**
+```gdscript
+func test_suite_example():
+    # Test 1
+    start_test("test_something")
+    setup_test_objects()
+    yield(get_tree(), "idle_frame")
+    # ... test logic ...
+    end_test(condition, "message")
+    cleanup_test_objects()  # DON'T cleanup inside suite
+    
+    # Test 2 - This may not run!
+    start_test("test_another_thing")
+    # ...
+```
+
+**✅ CORRECT - Suite-level setup/cleanup pattern:**
+```gdscript
+func _ready():
+    yield(run_tests(), "completed")  # Yield on run_tests if it's a coroutine
+    # ... print summary ...
+    get_tree().quit(tests_failed)
+
+func run_tests():
+    if run_all_tests or test_feature:
+        print("\n===== TEST SUITE: Feature Tests =====")
+        setup_test_scene()  # Setup once for the suite
+        yield(test_suite_feature(), "completed")  # Yield on the suite
+        cleanup_test_scene()  # Cleanup once after suite
+        yield(get_tree(), "idle_frame")
+
+func test_suite_feature():
+    # Test 1
+    start_test("test_something")
+    # ... test logic with yields ...
+    yield(get_tree(), "idle_frame")
+    end_test(condition, "message")
+    
+    # Test 2 - This WILL run
+    start_test("test_another_thing")
+    # ... more tests ...
+    
+    # No cleanup here - done at suite level
+
+func setup_test_scene():
+    # Create test objects
+    test_obj = TestClass.new()
+    add_child(test_obj)
+    yield(get_tree(), "idle_frame")
+
+func cleanup_test_scene():
+    if test_obj:
+        test_obj.set_process(false)  # Disable processing first
+        test_obj.queue_free()
+        test_obj = null
+    yield(get_tree().create_timer(0.1), "timeout")
+```
+
+**Key Points:**
+- Setup/cleanup happen at the suite level, not per test
+- Individual tests run sequentially within a suite
+- Only yield on suite functions in `run_tests()`, not on individual test functions
+- If test functions don't yield, don't try to yield on them
+- Always disable processing before cleanup to prevent hanging yields
+
 ### 4. Test Independence
 
 - Each test should be independent

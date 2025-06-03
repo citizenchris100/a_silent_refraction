@@ -1,0 +1,23 @@
+{
+    "perspective_type": "side_scrolling",
+    "direction_count": 2,
+    "movement_speed_multiplier": 1.2,
+    "sprite_scale": [1.0, 1.0],
+    "supports_diagonal_movement": false,
+    "camera_zoom_level": 1.0,
+    "y_sort_enabled": false,
+    "animation_prefix": "side_",
+    "valid_directions": ["left", "right"],
+    "movement_constraints": {
+        "allow_8_way_movement": false,
+        "lock_vertical_movement": false,
+        "gravity_enabled": true,
+        "jump_enabled": true
+    },
+    "sprite_requirements": {
+        "required_animations": ["idle", "walk", "jump", "fall"],
+        "required_directions": 2,
+        "sprite_size": [64, 96],
+        "anchor_offset": [0, 0]
+    }
+}

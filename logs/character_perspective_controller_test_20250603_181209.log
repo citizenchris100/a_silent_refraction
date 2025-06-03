@@ -1,0 +1,41 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERPERSPECTIVECONTROLLER TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Controller Basic Tests =====
+
+[TEST] test_controller_initialization
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node (character_perspective_controller.gd)'.
+          at: test_suite_controller_basics (res://src/unit_tests/character_perspective_controller_test.gd:69)
+
+===== TEST SUITE: Perspective Animation Tests =====
+
+[TEST] test_animation_prefix_management
+  ✓ PASS: test_animation_prefix_management: Animation prefixes are correct
+
+[TEST] test_animation_name_conversion
+  ✓ PASS: test_animation_name_conversion: Animation names formatted correctly
+
+[TEST] test_fallback_animation_handling
+  ✓ PASS: test_fallback_animation_handling: Fallback animations extracted correctly
+
+==================================================
+ SUMMARY: 3 passed, 0 failed
+==================================================
+
+[PASS] All CharacterPerspectiveController tests passed!
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)

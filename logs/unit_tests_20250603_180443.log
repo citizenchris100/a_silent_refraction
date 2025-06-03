@@ -1,0 +1,12 @@
+=== Test: perspective_type_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Compile Error: Identifier not found: PerspectiveConfiguration
+          at: GDScript::reload (res://src/core/perspective/perspective_configuration.gd:28)
+SCRIPT ERROR: Parse Error: Couldn't fully preload the script, possible cyclic reference or compilation error. Use "load()" instead if a cyclic reference is intended.
+          at: GDScript::reload (res://src/unit_tests/perspective_type_test.gd:22)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+

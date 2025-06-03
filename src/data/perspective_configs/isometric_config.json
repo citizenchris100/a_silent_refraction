@@ -1,0 +1,24 @@
+{
+    "perspective_type": "isometric",
+    "direction_count": 8,
+    "movement_speed_multiplier": 1.0,
+    "sprite_scale": [1.0, 1.0],
+    "supports_diagonal_movement": true,
+    "camera_zoom_level": 1.0,
+    "y_sort_enabled": true,
+    "animation_prefix": "iso_",
+    "valid_directions": [
+        "north", "northeast", "east", "southeast",
+        "south", "southwest", "west", "northwest"
+    ],
+    "movement_constraints": {
+        "allow_8_way_movement": true,
+        "diagonal_speed_modifier": 0.707
+    },
+    "sprite_requirements": {
+        "required_animations": ["idle", "walk"],
+        "required_directions": 8,
+        "sprite_size": [64, 96],
+        "anchor_offset": [0, -32]
+    }
+}

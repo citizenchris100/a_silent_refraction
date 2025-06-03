@@ -1,0 +1,116 @@
+=== Test: perspective_type_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PERSPECTIVETYPE TEST SUITE
+==================================================
+
+
+===== TEST SUITE: PerspectiveType Enum Tests =====
+
+[TEST] test_perspective_enum_constants
+  ✓ PASS: test_perspective_enum_constants: All perspective constants exist
+
+[TEST] test_perspective_enum_values
+  ✓ PASS: test_perspective_enum_values: Enum values are correct
+
+[TEST] test_get_perspective_name
+  ✓ PASS: test_get_perspective_name: Perspective names are correct
+
+[TEST] test_get_perspective_from_string
+WARNING: Unknown perspective type: invalid, defaulting to ISOMETRIC
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+  ✓ PASS: test_get_perspective_from_string: String to perspective conversion works correctly
+
+[TEST] test_get_valid_directions_isometric
+  ✓ PASS: test_get_valid_directions_isometric: Isometric has 8 valid directions
+
+[TEST] test_get_valid_directions_side_scrolling
+  ✓ PASS: test_get_valid_directions_side_scrolling: Side scrolling has 2 valid directions
+
+[TEST] test_get_valid_directions_top_down
+  ✓ PASS: test_get_valid_directions_top_down: Top down has 4 valid directions
+
+===== TEST SUITE: PerspectiveConfiguration Tests =====
+
+[TEST] test_create_default_configuration
+  ✓ PASS: test_create_default_configuration: Default configuration has required properties
+
+[TEST] test_isometric_configuration
+  ✓ PASS: test_isometric_configuration: Isometric configuration is correct
+
+[TEST] test_side_scrolling_configuration
+  ✓ PASS: test_side_scrolling_configuration: Side scrolling configuration is correct
+
+[TEST] test_top_down_configuration
+  ✓ PASS: test_top_down_configuration: Top down configuration is correct
+
+[TEST] test_configuration_validation
+  ✓ PASS: test_configuration_validation: Configuration validation works correctly
+
+==================================================
+ SUMMARY: 12 passed, 0 failed
+==================================================
+
+[PASS] All PerspectiveType tests passed!
+
+=== Test: character_perspective_controller_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERPERSPECTIVECONTROLLER TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Controller Basic Tests =====
+
+[TEST] test_controller_initialization
+  ✓ PASS: test_controller_initialization: Controller initializes with correct defaults
+
+[TEST] test_attach_to_character
+  ✓ PASS: test_attach_to_character: Controller attaches to character correctly
+
+[TEST] test_set_perspective
+  ✓ PASS: test_set_perspective: Perspective changes correctly
+
+[TEST] test_perspective_change_signal
+  ✓ PASS: test_perspective_change_signal: Signal emitted with correct parameters
+
+[TEST] test_get_current_configuration
+  ✓ PASS: test_get_current_configuration: Configuration retrieved correctly
+
+[TEST] test_direction_conversion
+  ✓ PASS: test_direction_conversion: Direction conversion works for different perspectives
+
+[TEST] test_invalid_perspective_handling
+WARNING: Invalid perspective type: 999
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+  ✓ PASS: test_invalid_perspective_handling: Invalid perspective rejected correctly
+
+===== TEST SUITE: Perspective Animation Tests =====
+
+[TEST] test_animation_prefix_management
+  ✓ PASS: test_animation_prefix_management: Animation prefixes are correct
+
+[TEST] test_animation_name_conversion
+  ✓ PASS: test_animation_name_conversion: Animation names formatted correctly
+
+[TEST] test_fallback_animation_handling
+  ✓ PASS: test_fallback_animation_handling: Fallback animations extracted correctly
+
+==================================================
+ SUMMARY: 10 passed, 0 failed
+==================================================
+
+[PASS] All CharacterPerspectiveController tests passed!
+

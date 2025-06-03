@@ -1,0 +1,21 @@
+{
+    "perspective_type": "top_down",
+    "direction_count": 4,
+    "movement_speed_multiplier": 1.0,
+    "sprite_scale": [0.8, 0.8],
+    "supports_diagonal_movement": false,
+    "camera_zoom_level": 0.8,
+    "y_sort_enabled": true,
+    "animation_prefix": "top_",
+    "valid_directions": ["north", "east", "south", "west"],
+    "movement_constraints": {
+        "allow_8_way_movement": false,
+        "snap_to_cardinal_directions": true
+    },
+    "sprite_requirements": {
+        "required_animations": ["idle", "walk"],
+        "required_directions": 4,
+        "sprite_size": [64, 64],
+        "anchor_offset": [0, 0]
+    }
+}

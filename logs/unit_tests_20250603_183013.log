@@ -1,0 +1,32 @@
+=== Test: character_perspective_controller_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERPERSPECTIVECONTROLLER TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Controller Basic Tests =====
+
+[TEST] test_controller_initialization
+  ✓ PASS: test_controller_initialization: Controller initializes with correct defaults
+
+==================================================
+ SUMMARY: 1 passed, 0 failed
+==================================================
+
+[PASS] All CharacterPerspectiveController tests passed!
+
+[TEST] test_attach_to_character
+  ✓ PASS: test_attach_to_character: Controller attaches to character correctly
+
+[TEST] test_set_perspective
+  ✓ PASS: test_set_perspective: Perspective changes correctly
+
+[TEST] test_perspective_change_signal
+

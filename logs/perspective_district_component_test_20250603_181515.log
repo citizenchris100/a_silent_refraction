@@ -1,0 +1,33 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PERSPECTIVEDISTRICTCOMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: District Perspective Integration =====
+
+[TEST] test_district_perspective_property
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node2D (mock_district_with_perspective.gd)'.
+          at: test_suite_district_perspective (res://src/component_tests/perspective_district_component_test.gd:69)
+
+===== TEST SUITE: Perspective Configuration Loading =====
+
+[TEST] test_load_configuration_from_district
+  ✓ PASS: test_load_configuration_from_district: Controller loads configuration from district
+
+[TEST] test_configuration_affects_behavior
+  ✓ PASS: test_configuration_affects_behavior: Configuration affects valid directions
+
+[TEST] test_configuration_persistence
+  ✓ PASS: test_configuration_persistence: Configuration can be changed and reverted
+
+==================================================
+ SUMMARY: 3 passed, 0 failed
+==================================================
+
+[PASS] All PerspectiveDistrictComponent tests passed!

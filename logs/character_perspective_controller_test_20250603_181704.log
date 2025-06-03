@@ -1,0 +1,36 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERPERSPECTIVECONTROLLER TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Controller Basic Tests =====
+
+[TEST] test_controller_initialization
+  ✓ PASS: test_controller_initialization: Controller initializes with correct defaults
+
+[TEST] test_attach_to_character
+
+===== TEST SUITE: Perspective Animation Tests =====
+
+[TEST] test_animation_prefix_management
+  ✓ PASS: test_animation_prefix_management: Animation prefixes are correct
+
+[TEST] test_animation_name_conversion
+  ✓ PASS: test_animation_name_conversion: Animation names formatted correctly
+
+[TEST] test_fallback_animation_handling
+  ✓ PASS: test_fallback_animation_handling: Fallback animations extracted correctly
+
+==================================================
+ SUMMARY: 4 passed, 0 failed
+==================================================
+
+[PASS] All CharacterPerspectiveController tests passed!
+SCRIPT ERROR: Invalid get index 'character_node' (on base: 'Nil').
+          at: test_suite_controller_basics (res://src/unit_tests/character_perspective_controller_test.gd:84)
