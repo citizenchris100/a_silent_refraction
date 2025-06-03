@@ -175,6 +175,20 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   ```gdscript
   export var color_theme: String = "industrial"
   const COLOR_THEMES = {...}  # Canonical palette subsets
+  ```
+- **Enhanced:** Add sub-location foundation:
+  ```gdscript
+  var sub_locations: Dictionary = {}
+  var current_sub_location: String = "main"
+  func transition_to_sub_location(location_name: String, entry_point: String = "default")
+  func _create_multi_room_layout()
+  ```
+- **Enhanced:** Add memory pooling for district content:
+  ```gdscript
+  var content_pool: Dictionary = {}
+  func _initialize_content_pool()
+  func _pool_district_content(content_type: String)
+  ```
 
 ### Task 16: Create EventManager singleton with SimpleEventScheduler
 **User Story:** As a developer, I want a centralized event management system with scheduling capabilities, so that the living world can trigger events at specific times and conditions.
@@ -245,6 +259,9 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   8. **Phase 4b:** LOD system for complex districts
   9. **Enhanced:** Perspective-specific visual adjustments (depth fog, lighting angles)
   10. **Enhanced:** Camera configuration per perspective type
+  11. **Enhanced:** Time-based lighting and environmental changes
+  12. **Enhanced:** Progressive assimilation visualization foundation
+  13. **Enhanced:** Basic performance LOD for district content
 
 **Implementation Notes:**
 - Use Light2D nodes for dynamic lighting
@@ -279,6 +296,19 @@ As a player, I want to explore multiple unique districts populated with NPCs who
               # Apply parallax-friendly lighting
           "TOP_DOWN":
               # Even lighting distribution
+  ```
+- **Enhanced:** Time-based environmental system:
+  ```gdscript
+  var time_based_elements: Dictionary = {}
+  func _setup_time_based_changes()
+  func _update_time_based_elements(time_period: String)
+  ```
+- **Enhanced:** Assimilation visualization foundation:
+  ```gdscript
+  func show_assimilation_progress(level: float)
+  func _add_goo_traces()
+  func _enable_light_flickering()
+  func _damage_environment()
   ```
 
 ### Task 28: Implement comprehensive SCUMM hover text system

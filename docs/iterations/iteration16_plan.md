@@ -16,6 +16,9 @@ This new iteration focuses on advanced visual features that enhance immersion an
 - Implement CRT screen effects for terminals
 - Polish animation systems for smooth movement
 - Create atmospheric visual effects
+- Implement multi-room sub-location system for districts
+- Add advanced environmental effects and storytelling
+- Create district performance optimization systems
 
 ## Requirements
 
@@ -60,6 +63,11 @@ This new iteration focuses on advanced visual features that enhance immersion an
 - [ ] Task 12: Implement save file analyzer tool
 - [ ] Task 13: Add save performance profiler
 - [ ] Task 14: Create save state inspector UI
+
+### Template District Design Implementation
+- [ ] Task 15: Multi-Room Sub-Location System
+- [ ] Task 16: Advanced Environmental Effects
+- [ ] Task 17: District Performance Optimization
 
 ## User Stories
 
@@ -464,10 +472,13 @@ Create a visual interface for inspecting save state during development and debug
 - **Enhanced:** Multi-perspective integration works seamlessly
 - **Enhanced:** Performance dashboard accurately tracks metrics
 - **Enhanced:** Serialization preserves all perspective states
+- Multi-room sub-location transitions work smoothly
+- Advanced environmental effects enhance storytelling
+- District performance optimization maintains 60 FPS with complex content
 
 ## Timeline
-- **Estimated Duration:** 6-7 weeks
-- **Total Hours:** 264 (86 + 46 for debug tools + 132 for perspective enhancements)
+- **Estimated Duration:** 7-8 weeks
+- **Total Hours:** 300 (86 + 46 for debug tools + 132 for perspective enhancements + 36 for Template District Design)
 - **Critical Path:** Sprite scaling and occlusion are foundational
 - **Debug Tools:** Can be developed in parallel with visual systems
 - **Perspective Tasks Breakdown:**
@@ -500,6 +511,9 @@ Create a visual interface for inspecting save state during development and debug
 - [ ] **Enhanced:** All perspective features integrate with existing systems
 - [ ] **Enhanced:** Performance metrics meet or exceed targets
 - [ ] **Enhanced:** Comprehensive test coverage for perspective system
+- [ ] Multi-room sub-location system implemented and tested
+- [ ] Advanced environmental effects system functional
+- [ ] District performance optimization achieves target metrics
 
 ## Dependencies
 - Core game systems (Iterations 1-3)
@@ -905,13 +919,13 @@ Create a visual interface for inspecting save state during development and debug
 - Document all test scenarios
 
 ### Suspicion System Visual Integration
-- [ ] Task 15: Create district heat map visualization
-- [ ] Task 16: Implement suspicion network visualization UI
-- [ ] Task 17: Add suspicion flow animations between districts
-- [ ] Task 18: Create investigation status indicators
-- [ ] Task 19: Implement security presence visual overlays
+- [ ] Task 18: Create district heat map visualization
+- [ ] Task 19: Implement suspicion network visualization UI
+- [ ] Task 20: Add suspicion flow animations between districts
+- [ ] Task 21: Create investigation status indicators
+- [ ] Task 22: Implement security presence visual overlays
 
-### Task 15: Create district heat map visualization
+### Task 18: Create district heat map visualization
 **User Story:** As a player, I want to see a visual heat map of district suspicion levels, so that I can understand which areas are safe or dangerous.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -936,7 +950,7 @@ Create a visual interface for inspecting save state during development and debug
 - District boundaries clearly defined
 - Update frequency: every 5 seconds for performance
 
-### Task 16: Implement suspicion network visualization UI
+### Task 19: Implement suspicion network visualization UI
 **User Story:** As a player, I want to see how suspicion spreads through NPC networks, so that I can understand the social connections that affect my actions.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -963,7 +977,7 @@ Create a visual interface for inspecting save state during development and debug
   - Cluster highlighting for related groups
 - Optional debug/developer mode feature
 
-### Task 17: Add suspicion flow animations between districts
+### Task 20: Add suspicion flow animations between districts
 **User Story:** As a player, I want to see animated indications when suspicion spreads between districts, so that I can understand the consequences of my actions across the station.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -990,7 +1004,7 @@ Create a visual interface for inspecting save state during development and debug
   - Decay animations showing suspicion reduction
 - Trigger on district_suspicion_changed signal
 
-### Task 18: Create investigation status indicators
+### Task 21: Create investigation status indicators
 **User Story:** As a player, I want clear visual indicators when I'm under investigation, so that I can understand my current threat level and react appropriately.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -1018,7 +1032,7 @@ Create a visual interface for inspecting save state during development and debug
 - Position in HUD corner with expandable details
 - Warning animations for critical phases
 
-### Task 19: Implement security presence visual overlays
+### Task 22: Implement security presence visual overlays
 **User Story:** As a player, I want to see visual indicators of security presence and camera coverage, so that I can plan my movements to avoid detection.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -1045,6 +1059,114 @@ Create a visual interface for inspecting save state during development and debug
   - Security equipment: glowing indicators
 - Toggle visibility in options menu
 - Performance optimized with LOD system
+
+### Task 15: Multi-Room Sub-Location System
+**User Story:** As a player, I want to explore districts with multiple connected rooms and sub-areas, so that each district feels expansive and complex with meaningful navigation choices.
+
+**Design Reference:** `docs/design/template_district_design.md` lines 291-543
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (visual quality), User Requirements (believable depth)
+- **Acceptance Criteria:**
+  1. Sub-location transition mechanics implemented
+  2. Dynamic room loading and unloading system
+  3. Complex district layout management
+  4. Player spawning at correct entry points per sub-location
+  5. State preservation during sub-location transitions
+  6. Memory optimization for large multi-room districts
+  7. Camera bounds adjustment for sub-locations
+  8. Integration with existing district system
+
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md lines 291-543 (Full Implementation Phase 2)
+- Implement multi-room district layout system:
+  ```gdscript
+  var sub_locations: Dictionary = {}
+  var current_sub_location: String = "main"
+  func transition_to_sub_location(location_name: String, entry_point: String = "default")
+  func _create_multi_room_layout()
+  func _update_camera_for_sub_location(bounds: Rect2)
+  ```
+- Support for main area + 3-5 connected rooms per district
+- Dynamic background loading based on sub-location
+- Entry/exit point management between sub-locations
+- Integration with tram system for district-level transitions
+
+### Task 16: Advanced Environmental Effects
+**User Story:** As a player, I want rich environmental storytelling through dynamic visual effects, so that I can discover the station's history and the assimilation threat through environmental clues.
+
+**Design Reference:** `docs/design/template_district_design.md` lines 394-543
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (immersion), User Requirements (environmental discovery)
+- **Acceptance Criteria:**
+  1. Progressive assimilation visualization system
+  2. Advanced particle systems for atmospheric effects
+  3. Environmental storytelling through visual changes
+  4. Time-based environmental state changes
+  5. Dynamic lighting effects for atmosphere
+  6. Complex environmental state management
+  7. Performance-efficient particle rendering
+  8. Integration with story progression
+
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md lines 394-543 (Full Implementation environmental systems)
+- Implement advanced environmental features:
+  ```gdscript
+  func show_assimilation_progress(level: float)
+  func _add_goo_traces()
+  func _enable_light_flickering()
+  func _damage_environment()
+  func _show_heavy_infestation()
+  ```
+- **Environmental States:** normal, suspicious, infested
+- **Particle Effects:** steam vents, sparks, goo drips, toxic fumes
+- **Dynamic Elements:** flickering lights, animated objects, environmental hazards
+- **Storytelling:** Visual clues about station degradation and assimilation spread
+- **Performance:** LOD system for complex environmental effects
+
+### Task 17: District Performance Optimization
+**User Story:** As a developer, I want advanced performance optimization systems for complex multi-room districts, so that the game maintains 60 FPS even with rich environmental content and many NPCs.
+
+**Design Reference:** `docs/design/template_district_design.md` lines 627-663
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Technical Requirements (60 FPS), Business Requirements (smooth gameplay)
+- **Acceptance Criteria:**
+  1. Advanced LOD system for complex districts
+  2. Memory optimization for multi-room layouts
+  3. Visibility culling for off-screen content
+  4. Performance monitoring and optimization tools
+  5. NPC optimization for 20+ NPCs per district
+  6. Particle system optimization
+  7. Audio source optimization
+  8. Smooth performance with full content load
+
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md lines 627-663 (Performance Optimization section)
+- Implement DistrictOptimizer class:
+  ```gdscript
+  class DistrictOptimizer:
+      func optimize_district(district: BaseDistrict)
+      func setup_visibility_culling(district: BaseDistrict)
+      func optimize_audio_sources(district: BaseDistrict)
+      func optimize_particle_systems(district: BaseDistrict)
+      func optimize_npc_updates(district: BaseDistrict)
+  ```
+- **Visibility Culling:** Only render objects in camera view
+- **Audio Optimization:** Limit concurrent audio streams (max 8)
+- **Particle Optimization:** LOD and culling for particle effects
+- **NPC Optimization:** Update rate scaling based on distance and visibility
+- **Memory Management:** Content pooling and aggressive garbage collection
 
 ## Links to Relevant Code
 - src/core/visual/perspective_scaler.gd

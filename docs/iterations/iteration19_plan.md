@@ -68,6 +68,9 @@ This iteration completes Phase 3.2 by populating the remaining three districts. 
 ### Job Implementation Tasks
 - [ ] Task 19: Janitor Job Implementation
 
+### Advanced District Features
+- [ ] Task 20: Advanced District Audio Systems
+
 ## User Stories
 
 ### Task 1: Create Trading Floor NPC sprite batch (25 NPCs)
@@ -565,6 +568,42 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 - Deep Clean variant provides access to all restricted areas
 - Base pay: 35 credits per 3-hour shift
 
+### Task 20: Advanced District Audio Systems
+**User Story:** As a player, I want each district to have rich, layered audio with complex diegetic sources and environmental audio zones, so that the soundscape creates immersive atmosphere and audio-based navigation cues.
+
+**Design Reference:** `docs/design/template_district_design.md` lines 419-446, `docs/design/audio_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** Business Requirements (district atmosphere), User Requirements (immersive audio)
+- **Acceptance Criteria:**
+  1. Diegetic music sources placed throughout districts
+  2. Complex audio zone management systems
+  3. Environmental audio storytelling elements
+  4. Advanced spatial audio positioning
+  5. Audio cue system for narrative elements
+  6. Performance optimization for multiple audio sources
+  7. Dynamic audio mixing based on context
+  8. Integration with time-based audio changes
+
+**Implementation Notes:**
+- Reference: docs/design/template_district_design.md lines 419-446 (Advanced Audio Features)
+- Implement advanced audio zone system:
+  ```gdscript
+  func _initialize_audio_sources()
+  func add_ambient_sound(position: Vector2, sound_path: String)
+  func _setup_diegetic_music_sources()
+  func _create_environmental_audio_zones()
+  ```
+- **Audio Zone Types:** ambient, music, narrative, environmental
+- **Diegetic Sources:** PA systems, radios, machinery, conversations
+- **Environmental Audio:** ventilation, electrical hum, distant machinery
+- **Narrative Audio:** hidden recordings, overheard conversations, clues
+- **Dynamic Mixing:** Context-sensitive audio priority and mixing
+- **Performance:** Audio LOD system with maximum 8 concurrent streams
+
 ## Testing Criteria
 - All 65 NPCs function properly
 - Trading minigame fully integrated
@@ -583,10 +622,14 @@ Create quests where NPCs lend keycards with time limits and consequences for not
 - Janitor shifts grant "invisible" status
 - Environmental cleanup reveals clues
 - All job quests complete full cycles
+- Advanced audio systems create immersive soundscapes
+- Diegetic music sources function correctly
+- Audio zones provide proper spatial positioning
+- Environmental audio storytelling works as intended
 
 ## Timeline
-- **Estimated Duration:** 8 weeks (including asset creation)
-- **Total Hours:** 240 (126 + 16 for janitor job + 98 for asset creation)
+- **Estimated Duration:** 8-9 weeks (including asset creation)
+- **Total Hours:** 252 (126 + 16 for janitor job + 12 for advanced audio + 98 for asset creation)
 - **Critical Path:** Asset creation → District population → Integration testing
 - **Asset Creation Breakdown:**
   - 65 NPCs × 1.5 hours average = 97.5 hours
