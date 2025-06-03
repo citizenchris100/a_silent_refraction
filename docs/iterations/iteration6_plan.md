@@ -245,8 +245,10 @@ As a player, I want to create a character that represents me in the game world a
 - Test with all existing dialog content
 - Reference: docs/design/dialog_system_refactoring_plan.md
 
-### Task 11: Create verb UI panel with 9 verbs
-**User Story:** As a player, I want to see all available actions clearly displayed, so that I know what interactions are possible in the game.
+### Task 11: Create verb UI panel with 9 verbs and architectural foundation
+**User Story:** As a player, I want to see all available actions clearly displayed with a robust underlying architecture, so that I know what interactions are possible and the system can be extended and maintained effectively.
+
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -259,15 +261,34 @@ As a player, I want to create a character that represents me in the game world a
   3. Selected verb shows different visual state
   4. Verb panel always visible during gameplay
   5. Responsive to different screen sizes
+  6. **Architecture:** Implement VerbConfiguration resource system for data-driven verb definitions
+  7. **Architecture:** Create VerbUIFactory for UI generation following factory pattern
+  8. **Architecture:** Establish basic VerbEventBus for UI event communication
 
 **Implementation Notes:**
-- Reference: docs/design/verb_ui_system_refactoring_plan.md
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Phase 1-2: Service Architecture)
 - Use retro pixel font for authenticity
 - Color scheme matches game aesthetic
 - Consider tooltip descriptions for verbs
+- **VerbConfiguration:** Create resource class for verb definitions:
+  ```gdscript
+  class_name VerbConfiguration extends Resource
+  export var verb_definitions: Array = []
+  export var default_responses: Dictionary = {}
+  ```
+- **VerbUIFactory:** Implement factory pattern for UI creation:
+  ```gdscript
+  class_name VerbUIFactory extends Reference
+  func create_verb_ui(parent: Control, verbs: Array, theme: VerbUITheme) -> VerbUIController
+  ```
+- **VerbEventBus:** Basic event system for verb selection:
+  ```gdscript
+  signal verb_selected(verb_name: String)
+  signal verb_button_pressed(verb_name: String)
+  ```
 
-### Task 12: Implement comprehensive verb hover text and highlighting system with inventory integration
-**User Story:** As a player, I want rich hover feedback on verbs that shows me exactly what action I'm about to perform, including inventory item interactions and combination hints, so that I can make informed interaction choices and understand the classic adventure game interface.
+### Task 12: Implement comprehensive verb hover text and highlighting system with architectural context
+**User Story:** As a player, I want rich hover feedback on verbs that shows me exactly what action I'm about to perform with proper context tracking, including inventory item interactions and combination hints, so that I can make informed interaction choices and the system can handle complex interaction scenarios.
 
 **Design Reference:** `docs/design/scumm_hover_text_system_design.md`, `docs/design/verb_ui_system_refactoring_plan.md`
 
@@ -286,26 +307,154 @@ As a player, I want to create a character that represents me in the game world a
   7. **Enhanced Inventory Integration:** Verb system shows inventory item interaction descriptions
   8. **Item Combination Preview:** Hover text shows potential item combinations with verb context
   9. **Contextual Item Interaction:** "Use item with object" shows helpful guidance in hover text
+  10. **Architecture:** Create InteractionContext system for tracking interaction state
+  11. **Architecture:** Implement IVerbUIService interface for hover text integration
 
 **Implementation Notes:**
 - Reference: docs/design/scumm_hover_text_system_design.md (Verb Integration, Inventory Integration sections)
-- Reference: docs/design/verb_ui_system_refactoring_plan.md (hover behavior)
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Phase 1: InteractionContext, IVerbUIService)
 - Reference: docs/design/inventory_system_design.md (item combination hints)
 - Integrate with main hover text system from Iteration 8
 - Connect to verb selection state management
-- Implement VerbHoverHandler class for verb-specific hover behavior:
+- **InteractionContext:** Create context tracking system:
   ```gdscript
-  class_name VerbHoverHandler extends Node
-  func get_verb_hover_text(verb: String, target: Node = null) -> String
-  func get_verb_preposition(verb: String) -> String
-  func is_verb_available_for_target(verb: String, target: Node) -> bool
-  func get_inventory_item_verb_text(verb: String, item_id: String, target: Node = null) -> String
-  func get_item_combination_hint(verb: String, item1: String, item2: String) -> String
+  class_name InteractionContext extends Resource
+  export var verb: String
+  export var target_object: Node
+  export var inventory_item: Node
+  export var player_position: Vector2
+  export var timestamp: int
+  export var metadata: Dictionary = {}
   ```
+- **IVerbUIService:** Interface for UI services:
+  ```gdscript
+  class_name IVerbUIService extends Reference
+  func update_verb_selection(verb_name: String) -> void
+  func set_enabled(enabled: bool) -> void
+  signal verb_button_pressed(verb_name: String)
+  ```
+- Implement VerbHoverHandler class for verb-specific hover behavior
 - **Enhanced Item Integration:** Connect verb system to inventory hover descriptions
 - **Combination Guidance:** Show "Try combining with..." hints for Use verb on inventory items
 - **Visual Effects:** Use shader effects for smooth hover highlighting
 - **Performance:** Cache verb-object combination validity checks
+
+### Task 13: Create verb-object interaction system with service architecture
+**User Story:** As a player, I want verbs to interact properly with all game objects through a well-architected system, so that my actions have consistent and predictable results while enabling complex interactions.
+
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Verb actions trigger appropriate object responses
+  2. Invalid verb-object combinations handled gracefully
+  3. Visual feedback during interactions
+  4. Support for item-based interactions
+  5. Context-sensitive responses based on object state
+  6. **Architecture:** Implement VerbProcessingService with IVerbService interface
+  7. **Architecture:** Create InteractionResult system for standardized responses
+  8. **Architecture:** Add IInteractionProcessor interface and basic processors
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Phase 2-3: Processing Pipeline)
+- Reference: docs/design/template_interactive_object_design.md (interaction patterns)
+- **VerbProcessingService:** Core service for processing interactions:
+  ```gdscript
+  class_name VerbProcessingService extends Node
+  implements IVerbService
+  func process_interaction(verb: String, target_object, context: InteractionContext) -> InteractionResult
+  ```
+- **InteractionResult:** Standardized response system:
+  ```gdscript
+  class_name InteractionResult extends Resource
+  enum ResultType {SUCCESS, FAILURE, INVALID_VERB, INVALID_TARGET, REQUIRES_INVENTORY}
+  export var result_type: int = ResultType.SUCCESS
+  export var response_text: String = ""
+  export var should_move_player: bool = false
+  ```
+- **IInteractionProcessor:** Interface for processing different object types:
+  ```gdscript
+  class_name IInteractionProcessor extends Reference
+  func can_handle(context: InteractionContext) -> bool
+  func process(context: InteractionContext) -> InteractionResult
+  ```
+- Implement NPCInteractionProcessor and ObjectInteractionProcessor
+- Support for future extension with new processors
+
+### Task 14: Add verb shortcuts/hotkeys with configuration system
+**User Story:** As a player, I want to use keyboard shortcuts for verbs, so that I can interact more efficiently without constantly clicking the verb panel.
+
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Each verb has a default keyboard shortcut
+  2. Shortcuts displayed on verb buttons
+  3. Customizable hotkey mapping
+  4. Visual feedback when hotkey pressed
+  5. Accessibility considerations for key choices
+  6. **Architecture:** Integrate with VerbConfiguration for hotkey mapping
+  7. **Architecture:** Connect to VerbEventBus for input handling
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (VerbConfiguration)
+- Default mappings: Q-Look, W-Talk, E-Use, etc.
+- Store custom mappings in settings
+- **VerbConfiguration Integration:**
+  ```gdscript
+  export var verb_hotkeys: Dictionary = {
+    "Look at": "Q",
+    "Talk to": "W",
+    "Use": "E"
+  }
+  ```
+- **VerbEventBus Integration:** Route hotkey events through event bus
+- Show hotkey hints on verb buttons
+- Consider modifier keys for advanced users
+
+### Task 15: Implement context-sensitive verb availability with validation
+**User Story:** As a player, I want only relevant verbs to be available for each object, so that the interface provides helpful constraints and guidance.
+
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (05/26/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Verbs enable/disable based on target object
+  2. Visual indication of unavailable verbs
+  3. Tooltip explains why verb is unavailable
+  4. Dynamic updates as context changes
+  5. Support for conditional availability
+  6. **Architecture:** Create IInteractionValidator interface and validators
+  7. **Architecture:** Implement validation pipeline in VerbProcessingService
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Phase 3: Validation)
+- Reference: docs/design/template_interactive_object_design.md (supported verbs)
+- **IInteractionValidator:** Interface for validation:
+  ```gdscript
+  class_name IInteractionValidator extends Reference
+  func validate(context: InteractionContext) -> InteractionResult
+  func get_priority() -> int
+  ```
+- **Built-in Validators:**
+  - VerbExistsValidator: Check if verb is valid
+  - TargetExistsValidator: Check if target is valid
+  - StateValidator: Check object state compatibility
+- **Validation Pipeline:** Run validators in priority order
+- Gray out unavailable verbs
+- Update availability in real-time
 
 ### Task 16: Create title screen with minimalist UI layout
 **User Story:** As a player, I want a clean and atmospheric title screen that immediately sets the tone, so that I'm immersed in the game world from the very first moment.
@@ -578,43 +727,6 @@ As a player, I want to create a character that represents me in the game world a
 - **MVP Template:** Implement TemplateDialogMVP class from design document lines 29-99
 - **MVP Template:** Create MVP_DIALOG_PATTERNS constant from design document lines 104-133
 - **MVP Template:** Add basic template validation and state tracking
-
-### Task 7: Implement gender-aware text substitution
-**User Story:** As a player, I want NPCs to address me with appropriate pronouns and gender-specific language, so that conversations feel natural and personalized.
-
-**Dialog Manager Migration Phase 2a:** This task implements the context system required for gender-aware and personality-driven dialog generation.
-
-**Status History:**
-- **⏳ PENDING** (05/26/25)
-
-**Requirements:**
-- **Linked to:** B1, U1, U3
-- **Acceptance Criteria:**
-  1. Pronoun system replaces {PLAYER_PRONOUN} tags correctly
-  2. Gender-specific dialog variations work seamlessly
-  3. NPCs use appropriate titles (Mr./Ms./Mx.)
-  4. Context passed to all dialog methods
-  5. System handles all three gender options gracefully
-  6. **Phase 2a:** Full DialogContext system implemented
-  7. **Phase 2a:** Context includes gender, time, location, relationship data
-
-**Implementation Notes:**
-- Reference: docs/design/character_gender_selection_system.md
-- Create PronounManager singleton
-- Implement text substitution engine
-- **Phase 2a:** Create DialogContext class from template_dialog_design.md:
-  ```gdscript
-  var dialog_context = {
-      "player_gender": GameManager.player_gender,
-      "npc_gender": npc.gender,
-      "time_of_day": TimeManager.get_time_period(),
-      "location": get_current_district(),
-      "player_reputation": interaction_memory.player_reputation,
-      "is_assimilated": is_assimilated,
-      "suspicion_level": suspicion_level
-  }
-  ```
-- Pass context to all dialog generation methods
 
 ### Task 8: Create dialog tree editor improvements with template pattern support
 **User Story:** As a content creator, I want improved tools for creating complex dialog trees with template pattern support, so that I can efficiently write branching conversations using reusable patterns that support the game's investigation mechanics.

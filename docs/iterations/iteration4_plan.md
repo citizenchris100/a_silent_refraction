@@ -97,6 +97,16 @@ As a developer, I need a robust serialization system that allows all game system
 - [ ] Task 30: Implement save/load performance metrics
 - [ ] Task 31: Create performance target validation
 
+### Verb System Serialization
+- [ ] Task 32: Create VerbSerializer extending BaseSerializer
+- [ ] Task 33: Implement VerbStateManager for state persistence
+- [ ] Task 34: Add verb preference serialization (hotkeys, custom settings)
+
+### Suspicion System Serialization Extension
+- [ ] Task 35: Create SuspicionSerializerFull implementation
+- [ ] Task 36: Implement suspicion network compression
+- [ ] Task 37: Add migration support from MVP to full suspicion system
+
 ## User Stories
 
 ### Task 1: Create SerializationManager singleton
@@ -863,12 +873,105 @@ As a developer, I need a robust serialization system that allows all game system
 - Include in automated test suite
 - Log recommendations for optimization
 
-### Suspicion System Serialization Extension
-- [ ] Task 32: Create SuspicionSerializerFull implementation
-- [ ] Task 33: Implement suspicion network compression
-- [ ] Task 34: Add migration support from MVP to full suspicion system
+### Task 32: Create VerbSerializer extending BaseSerializer
+**User Story:** As a player, I want my verb UI preferences and current verb selection to persist between game sessions, so that the interface maintains my customizations and selected verb.
 
-### Task 32: Create SuspicionSerializerFull implementation
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Extends BaseSerializer interface properly
+  2. Saves current verb selection
+  3. Preserves user preferences (custom hotkeys, verb order)
+  4. Stores UI customizations (button size, colors)
+  5. Integrates with SaveManager at priority 50
+  6. Handles version migration
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Phase 7: Serialization lines 812-868)
+- Reference: docs/design/modular_serialization_architecture.md (serializer pattern)
+- **Priority:** Medium (50) - UI state loads after core game state
+- **Data to serialize:**
+  ```gdscript
+  {
+    "current_verb": VerbStateManager.current_verb,
+    "verb_preferences": serialize_preferences(),
+    "custom_themes": serialize_custom_themes(),
+    "ui_enabled": VerbUIController.is_enabled()
+  }
+  ```
+- Self-register with SaveManager in _ready()
+- Handle missing data gracefully on load
+
+### Task 33: Implement VerbStateManager for state persistence
+**User Story:** As a developer, I want a dedicated state manager for the verb system, so that all verb-related state is centralized and easily serializable.
+
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Manages current verb selection
+  2. Tracks verb usage history
+  3. Stores custom user settings
+  4. Provides clean API for state queries
+  5. Supports state change notifications
+  6. Integrates with VerbSerializer
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (Phase 7: VerbStateManager lines 789-811)
+- **State tracking:**
+  ```gdscript
+  var current_verb: String = "Look at"
+  var verb_history: Array = []  # Last N verbs used
+  var custom_verb_settings: Dictionary = {}
+  var verb_statistics: Dictionary = {}  # Usage tracking
+  ```
+- Emit signals on state changes
+- Provide get_save_data() and load_save_data() methods
+- Track statistics for achievement system
+
+### Task 34: Add verb preference serialization (hotkeys, custom settings)
+**User Story:** As a player, I want my custom verb hotkeys and UI preferences to be saved, so that I don't have to reconfigure them each time I play.
+
+**Design Reference:** `docs/design/verb_ui_system_refactoring_plan.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1, T2
+- **Acceptance Criteria:**
+  1. Custom hotkey mappings persist
+  2. Verb display order saves if customized
+  3. Hidden/disabled verbs remembered
+  4. UI theme customizations preserved
+  5. Per-profile preference support
+  6. Import/export preferences capability
+
+**Implementation Notes:**
+- Reference: docs/design/verb_ui_system_refactoring_plan.md (serialization preferences)
+- **Preference structure:**
+  ```gdscript
+  {
+    "hotkeys": {"Look at": "Q", "Talk to": "W", ...},
+    "verb_order": ["Look at", "Talk to", "Use", ...],
+    "hidden_verbs": ["Pull", "Push"],
+    "theme": {"button_size": Vector2(100, 30), "selected_color": "#FFFF00"}
+  }
+  ```
+- Store in user://verb_preferences.cfg
+- Support resetting to defaults
+- Validate preferences on load
+
+### Task 35: Create SuspicionSerializerFull implementation
 **User Story:** As a developer, I want a comprehensive serializer for the full suspicion system that preserves all network effects and investigation states, so that the complex suspicion dynamics persist correctly across game sessions.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -910,7 +1013,7 @@ As a developer, I need a robust serialization system that allows all game system
   }
   ```
 
-### Task 33: Implement suspicion network compression
+### Task 36: Implement suspicion network compression
 **User Story:** As a developer, I want efficient compression of suspicion network data, so that save files remain manageable while preserving complex social relationships.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
@@ -936,7 +1039,7 @@ As a developer, I need a robust serialization system that allows all game system
 - Use lookup tables for common connection types
 - Network validation during load to catch corruption
 
-### Task 34: Add migration support from MVP to full suspicion system
+### Task 37: Add migration support from MVP to full suspicion system
 **User Story:** As a player, I want my existing save files to continue working when the full suspicion system is implemented, so that I don't lose progress when the game updates.
 
 **Design Reference:** `docs/design/suspicion_system_full_design.md`
