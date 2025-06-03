@@ -473,11 +473,16 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   3. Updates all time-dependent systems
   4. Works with save/load
   5. No complex time calculations
+  6. Ensure tram state is properly saved/loaded with time system
+  7. Implement basic travel history tracking for MVP
 
 **Implementation Notes:**
 - MVP: Fixed time advancement
 - Connect to TimeManager.advance_time(0.5)
 - Ensure NPCs update appropriately
+- Store current district in save data
+- Track last 5 trips for basic history
+- Integrate with SaveManager registration
 
 ### Task 43: Set up ARM build validation in CI/CD
 **User Story:** As a developer, I want automated ARM builds in our CI/CD pipeline, so that we catch platform-specific issues early and ensure the game compiles correctly for Raspberry Pi 5.

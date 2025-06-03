@@ -803,6 +803,10 @@ As a player, I want to experience a fully diegetic audio environment where all s
 - [ ] Task 35: Create advanced accessibility features for time display
 - [ ] Task 36: Develop debug and developer tools for time display
 
+### Tram System Audio Integration
+- [ ] Task 37: Create tram system audio integration
+- [ ] Task 38: Implement assimilation-affected tram audio
+
 ### Task 30: Create suspicion level audio cues
 **User Story:** As a player, I want to hear audio cues that indicate rising suspicion levels, so that I can react to threats even when focused on other UI elements.
 
@@ -989,6 +993,55 @@ As a player, I want to experience a fully diegetic audio environment where all s
 - Time manipulation: set time, advance time, schedule test events
 - Event viewer: visual timeline of all scheduled events
 - Validation tools: check for time inconsistencies and conflicts
+
+### Task 37: Create tram system audio integration
+**User Story:** As a player, I want to hear immersive tram station sounds and announcements, so that the transportation system feels like a real part of the living station.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (UI Components), `docs/design/audio_system_technical_implementation.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. Station announcement system with arrival/departure messages
+  2. Tram arrival and departure sound effects
+  3. Audio cues for transit events (delays, disruptions)
+  4. Integration with dynamic audio based on corruption levels
+  5. Ambient station sounds (crowds, machinery)
+
+**Implementation Notes:**
+- Reference: docs/design/tram_transportation_system_design.md (Transit Screen)
+- Create announcement variations for each district
+- Layer ambient sounds based on time of day and crowd levels
+- Implement audio ducking during announcements
+- Add positional audio for approaching/departing trams
+
+### Task 38: Implement assimilation-affected tram audio
+**User Story:** As a player, I want tram audio to reflect the station's assimilation state, so that I can sense the spreading corruption through atmospheric changes.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Assimilation Integration)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Distorted announcements at high corruption levels
+  2. Eerie ambient sounds during infected travel
+  3. Audio warnings for dangerous routes
+  4. Glitched/corrupted announcement effects
+  5. Unsettling mechanical sounds on affected trams
+
+**Implementation Notes:**
+- Reference: docs/design/tram_transportation_system_design.md (lines 417-442)
+- Apply audio distortion based on district corruption percentage
+- Create procedural glitch effects for announcements
+- Add subtle wrongness to mechanical sounds
+- Implement creepy whispers or breathing in highly infected areas
+- Scale audio corruption with AssimilationManager.get_station_corruption_level()
 
 ## Notes
 - This iteration completes the audio system designed in the technical implementation document

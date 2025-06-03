@@ -430,11 +430,16 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Surge pricing in crisis areas
   4. Corruption affects all prices
   5. Coalition discounts available
+  6. Assimilated leaders with transit administrator roles can set surge pricing in their districts
+  7. Dynamic surge pricing based on district assimilation levels
 
 **Implementation Notes:**
 - Morning rush: 07:00-09:00
 - Evening rush: 17:00-19:00
 - Integrate with AssimilationManager for corruption
+- Check for assimilated NPCs with transit_administrator role
+- Apply leader-controlled surge pricing multipliers (1.5x base)
+- Scale pricing with district assimilation percentage
 
 ### Task 28: Build transit screen with route visualization
 **User Story:** As a player, I want to see my journey progress visually, so that travel time feels meaningful and engaging.
@@ -474,11 +479,16 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Coalition members can pass intel
   4. Pickpocket attempts possible
   5. Overhear useful rumors
+  6. Implement assimilation spread mechanics during travel - each hour of travel gives 2% chance of random NPC assimilation
+  7. Add time-based spread calculations that process during transit duration
 
 **Implementation Notes:**
 - Events influenced by current game state
 - Security checks more common near Security district
 - More events during longer trips
+- Call AssimilationManager.trigger_random_spread() with travel duration
+- Process spread chance: 0.02 * hours_traveled
+- Log assimilation events during travel for player discovery
 
 ### Task 30: Add transit passes and subscription system
 **User Story:** As a player, I want to purchase travel passes for savings, so that I can optimize my credits for frequent travel.

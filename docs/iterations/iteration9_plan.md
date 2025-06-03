@@ -338,6 +338,52 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Use state pattern for clean implementation
 - Consider "heat" cooldown mechanic
 
+### Task 8: Implement line-of-sight detection
+**User Story:** As an NPC, I want to detect the player based on line-of-sight, so that stealth gameplay requires strategic positioning and environmental awareness.
+
+**Design Reference:** `docs/design/detection_game_over_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2, T2
+- **Acceptance Criteria:**
+  1. NPCs have vision cones with configurable range
+  2. Obstacles block line of sight properly
+  3. Detection accumulates based on time in sight
+  4. Different light levels affect detection range
+  5. Peripheral vision less sensitive than direct
+
+**Implementation Notes:**
+- Use raycasting for obstacle detection
+- Vision cone visualization for debug mode
+- Integrate with detection state machine
+- Performance optimization for multiple NPCs
+
+### Task 9: Add detection UI warnings
+**User Story:** As a player, I want clear visual feedback when I'm being detected, so that I can react appropriately to avoid capture.
+
+**Design Reference:** `docs/design/detection_game_over_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Visual indicators show detection level
+  2. Directional warnings indicate detecting NPC
+  3. Audio cues supplement visual warnings
+  4. Different warning levels for detection stages
+  5. Clear but non-intrusive UI design
+
+**Implementation Notes:**
+- Reference detection UI in design document
+- Use screen edge indicators for off-screen threats
+- Escalating urgency in warnings
+- Accessibility considerations for colorblind players
+
 ### Task 10: Create game over sequence
 **User Story:** As a player, I want a dramatic and informative game over sequence when I'm caught, so that I understand what went wrong and feel motivated to try again.
 
@@ -523,6 +569,29 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Display in post-game revelations
 - Help players understand mistakes
 
+### Task 18: Create InvestigationManager singleton
+**User Story:** As a game system, I need a centralized investigation manager, so that all clues, evidence, and deductions are tracked consistently across the game.
+
+**Design Reference:** `docs/design/investigation_clue_tracking_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Singleton tracks all discovered clues
+  2. Manages clue connections and deductions
+  3. Integrates with dialog and inventory systems
+  4. Provides API for clue queries
+  5. Handles clue state persistence
+
+**Implementation Notes:**
+- Central repository for all investigation data
+- Emit signals when new connections formed
+- Support clue categories and types
+- Track discovery timestamps and locations
+
 ### Task 19: Implement clue discovery mechanics
 **User Story:** As a player, I want to discover clues through various investigation methods, so that I can piece together the mystery of the assimilation.
 
@@ -543,6 +612,29 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Reference: docs/design/investigation_clue_tracking_system_design.md
 - Use graph structure for clue connections
 - Consider red herrings for complexity
+
+### Task 20: Build clue connection system
+**User Story:** As a player, I want clues to automatically connect when I find related evidence, so that the investigation feels dynamic and rewarding.
+
+**Design Reference:** `docs/design/investigation_clue_tracking_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Automatic connection of related clues
+  2. Visual feedback when connections form
+  3. New deductions from connected clues
+  4. Connection strength varies by evidence
+  5. Support for red herrings
+
+**Implementation Notes:**
+- Use connection rules defined in data
+- Trigger events when major connections made
+- Some connections require multiple clues
+- Visual/audio feedback for discoveries
 
 ### Task 21: Create investigation journal UI with hover text integration
 **User Story:** As a player, I want an investigation journal that shows my discovered clues and their connections, with rich hover text that helps me understand the significance of each piece of evidence, so that I can track my progress and make informed investigative decisions.
@@ -575,6 +667,29 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - **Clue Descriptions:** Dynamic hover text based on discovery method and current investigation state
 - **Hint System:** Contextual hints via hover text for next investigation steps
 - **Evidence Integration:** Connect inventory items to investigation clues through hover descriptions
+
+### Task 22: Add investigation progress tracking
+**User Story:** As a player, I want to see my overall investigation progress, so that I know how close I am to uncovering the truth.
+
+**Design Reference:** `docs/design/investigation_clue_tracking_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U3
+- **Acceptance Criteria:**
+  1. Progress percentage for each investigation thread
+  2. Visual progress indicators in journal
+  3. Milestone notifications
+  4. Completion rewards/unlocks
+  5. Clear next steps guidance
+
+**Implementation Notes:**
+- Calculate progress from discovered clues
+- Support multiple investigation threads
+- Integrate with quest system
+- Provide hints for stuck players
 
 ### Task 23: Create BaseInteractiveObject class
 **User Story:** As a developer, I want a robust base class for all interactive objects, so that I can quickly create consistent interactable items throughout the game world.
@@ -612,6 +727,29 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   func _get_item_combination_response(item: String)
   ```
 
+### Task 24: Implement standard interaction verbs
+**User Story:** As a player, I want consistent verb interactions across all objects, so that I can intuitively interact with the game world using familiar SCUMM-style commands.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Support for all 9 SCUMM verbs
+  2. Consistent response patterns
+  3. Context-appropriate defaults
+  4. Clear feedback for invalid actions
+  5. Verb-specific animations where applicable
+
+**Implementation Notes:**
+- LOOK, USE, TAKE, TALK_TO, GIVE, OPEN, CLOSE, PUSH, PULL
+- Default responses for unsupported verbs
+- Override in derived classes for specific behaviors
+- Integration with animation system
+
 ### Task 25: Create object state system
 **User Story:** As a player, I want objects to have persistent states that change based on my interactions, so that the game world feels responsive and dynamic.
 
@@ -647,6 +785,29 @@ As a player, I need to carefully observe my surroundings for clues about who mig
   export var interaction_responses: Dictionary = {}
   func _get_interaction_response(verb: String, item = null)
   ```
+
+### Task 26: Add interaction feedback system
+**User Story:** As a player, I want clear visual and audio feedback when I interact with objects, so that I understand the results of my actions.
+
+**Design Reference:** `docs/design/template_interactive_object_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B3, U4
+- **Acceptance Criteria:**
+  1. Visual highlighting on hover
+  2. Animation feedback for interactions
+  3. Audio cues for different verb types
+  4. Particle effects for special interactions
+  5. Clear failure feedback
+
+**Implementation Notes:**
+- Integrate with audio system from Iteration 13
+- Support for custom feedback per object type
+- Accessibility considerations
+- Performance optimization for multiple objects
 
 ### Task 27: Build object template library
 **User Story:** As a content creator, I want a library of pre-built object templates, so that I can quickly populate game scenes with interactive elements.
@@ -1234,6 +1395,10 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 ### Quest Event System
 - [ ] Task 57: Implement comprehensive quest event handling system
 
+### Tram System Serialization
+- [ ] Task 58: Implement TramSerializer for save system
+- [ ] Task 59: Add tram-specific observation opportunities
+
 ## User Stories (continued)
 
 ### Task 52: Create access puzzle templates (keycards, passwords, biometrics)
@@ -1394,6 +1559,56 @@ As a player, I need to carefully observe my surroundings for clues about who mig
 - Pre-filter events by quest requirements for performance
 - Support quest prerequisite checking before activation
 - Emit appropriate signals for quest system integration
+
+### Task 58: Implement TramSerializer for save system
+**User Story:** As a player, I want my tram travel state to be saved and restored correctly, so that I don't lose progress or get stuck in transit when loading a saved game.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Serialization section)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Create TramSerializer extending BaseSerializer
+  2. Handle current district, in-transit state, and destination
+  3. Serialize surge pricing and disruptions
+  4. Compress travel history to last 20 trips
+  5. Register with SaveManager at medium priority (50)
+  6. Resume transit UI if saved while traveling
+
+**Implementation Notes:**
+- Reference: docs/design/tram_transportation_system_design.md (lines 716-772)
+- Implement serialize() and deserialize() methods
+- Store active passes and their remaining uses/expiry
+- Compress travel history with relative timestamps
+- Update PlayerController.current_district on load
+- Handle in-transit state restoration
+
+### Task 59: Add tram-specific observation opportunities
+**User Story:** As a player, I want to observe suspicious behavior during tram travel, so that I can gather clues and witness important events while in transit.
+
+**Design Reference:** `docs/design/tram_transportation_system_design.md` (Transit Events)
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Create observation events during tram travel
+  2. Allow player to notice suspicious behavior on trams
+  3. Integration with detection system for following NPCs
+  4. Connect to investigation system for clue discovery
+  5. Add ambient NPC observations
+
+**Implementation Notes:**
+- Reference: docs/design/tram_transportation_system_design.md (Transit Events System)
+- Integrate with ObservationManager from this iteration
+- NPCs can be observed acting suspiciously during travel
+- Pursuing NPCs have 30% chance to follow player
+- Overhearing conversations can reveal investigation clues
 
 ## Testing Criteria
 - Observation system reveals appropriate details
