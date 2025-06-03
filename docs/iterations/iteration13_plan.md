@@ -799,6 +799,9 @@ As a player, I want to experience a fully diegetic audio environment where all s
 - [ ] Task 31: Implement investigation phase sound effects
 - [ ] Task 32: Add district alert level ambient sounds
 - [ ] Task 33: Create suspicion network propagation audio feedback
+- [ ] Task 34: Implement performance optimization for time display
+- [ ] Task 35: Create advanced accessibility features for time display
+- [ ] Task 36: Develop debug and developer tools for time display
 
 ### Task 30: Create suspicion level audio cues
 **User Story:** As a player, I want to hear audio cues that indicate rising suspicion levels, so that I can react to threats even when focused on other UI elements.
@@ -914,6 +917,78 @@ As a player, I want to experience a fully diegetic audio environment where all s
 - Use 3D audio to indicate direction of information flow
 - Whisper audio positioned between communicating NPCs
 - Network events create brief environmental tension spikes
+
+### Task 34: Implement performance optimization for time display
+**User Story:** As a developer, I want optimized performance for the time display system, so that constant time updates don't impact game performance and the system scales efficiently.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, T1
+- **Acceptance Criteria:**
+  1. Update throttling implementation with configurable intervals
+  2. Lazy loading for calendar data and event information
+  3. Performance monitoring and metrics collection
+  4. Memory efficient event storage and retrieval
+  5. Frame-based update scheduling for smooth performance
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 487-516
+- Update throttling: configurable update intervals (default 1 second)
+- Lazy loading: only load calendar data when requested
+- Performance metrics: track update times and memory usage
+- Frame scheduling: distribute updates across multiple frames
+
+### Task 35: Create advanced accessibility features for time display
+**User Story:** As a player with accessibility needs, I want advanced accessibility features for the time display, so that I can use the interface comfortably regardless of my visual or motor capabilities.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. High visibility mode with enhanced contrast and larger fonts
+  2. Screen reader support with comprehensive audio descriptions
+  3. Keyboard navigation for all time display functions
+  4. Configurable font sizes and color schemes
+  5. Alternative input methods for time display interaction
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 449-482
+- High visibility: 1.5x font scaling, high contrast colors, thick borders
+- Screen reader: comprehensive text descriptions of all time information
+- Keyboard navigation: full keyboard support for calendar expansion
+- Accessibility text includes critical deadline information
+
+### Task 36: Develop debug and developer tools for time display
+**User Story:** As a developer, I want comprehensive debug tools for the time display system, so that I can diagnose issues and optimize performance during development.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** T1
+- **Acceptance Criteria:**
+  1. Time manipulation debug tools for testing
+  2. Event schedule viewer and editor
+  3. Performance metrics display and analysis
+  4. Time validation tools and consistency checks
+  5. Debug overlay with real-time information
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 519-534
+- Debug overlay: real-time performance metrics and system state
+- Time manipulation: set time, advance time, schedule test events
+- Event viewer: visual timeline of all scheduled events
+- Validation tools: check for time inconsistencies and conflicts
 
 ## Notes
 - This iteration completes the audio system designed in the technical implementation document

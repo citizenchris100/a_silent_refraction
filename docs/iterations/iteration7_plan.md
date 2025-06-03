@@ -141,6 +141,7 @@ As a player, I need to manage my limited credits while finding safe places to sl
 - [ ] Task 59: Implement forced sleep warning system
 - [ ] Task 60: Create sleep quality calculation system
 - [ ] Task 61: Add overnight event coordination system
+- [ ] Task 62: Integrate sleep system with time display UI
 
 ## User Stories
 
@@ -1698,6 +1699,33 @@ As a player, I need to manage my limited credits while finding safe places to sl
   5. NPCManager.update_all_npc_states()
 - Wrap in try-catch for error handling
 - Log all events to overnight_events Dictionary
+
+### Task 62: Integrate sleep system with time display UI
+**User Story:** As a player, I want the time display to show when I can sleep and warn me about sleep availability, so that I can plan my rest periods and understand sleep-related constraints.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md` & `docs/design/sleep_system_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Show when player can sleep (after 20:00 or when exhausted)
+  2. Display sleep location availability and costs
+  3. Warn about consequences of not sleeping
+  4. Show overnight event previews
+  5. Integration with sleep quality indicators
+  6. Emergency sleep warnings when exhausted
+  7. Sleep location travel time estimates
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 536-542
+- Reference: docs/design/sleep_system_design.md (Time Display Integration)
+- Show "You can sleep now" after 20:00
+- Display sleep costs and quality indicators
+- Warn about forced sleep approaching at 02:00
+- Integration with contextual time information system from Task 25
 
 ## Testing Criteria
 - Economy transactions process correctly

@@ -1135,8 +1135,8 @@ As a player, I want to explore multiple unique districts populated with NPCs who
 - **Performance Tracking:** Add hover text performance monitoring and optimization suggestions
 - **Settings Integration:** Full integration with game settings menu and user preferences
 
-### Task 30: Complete time/calendar UI display
-**User Story:** As a player, I want to see the current time and date clearly, so that I can plan my activities effectively.
+### Task 30: Complete time/calendar UI display with advanced features
+**User Story:** As a player, I want to see the current time and date clearly with advanced calendar and event management features, so that I can plan my activities effectively and manage complex scheduling.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
@@ -1151,11 +1151,18 @@ As a player, I want to explore multiple unique districts populated with NPCs who
   3. Expandable calendar view
   4. Event indicators
   5. Clean visual design
+  6. Monthly calendar view implementation
+  7. Event details panel with comprehensive information
+  8. Enhanced visual design with consistent theming
+  9. Advanced positioning and layout system
 
 **Implementation Notes:**
 - Builds on I5 time system
 - Must be always visible
 - Reference: docs/design/time_calendar_display_ui_design.md
+- Monthly view: docs/design/time_calendar_display_ui_design.md lines 347-374
+- Event details: docs/design/time_calendar_display_ui_design.md lines 377-404
+- Visual design: docs/design/time_calendar_display_ui_design.md lines 279-343
 
 ### Task 31: Add district name displays
 **User Story:** As a player, I want to see which district I'm in, so that I can orient myself within the station.

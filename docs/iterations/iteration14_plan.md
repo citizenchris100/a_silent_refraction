@@ -777,6 +777,9 @@ As a player, I want to experience a visually cohesive world where characters sca
 - [ ] Task 44: Implement SCUMM hover text visual styling and animation system
 - [ ] Task 45: Create compound object hover descriptions with visual indicators
 - [ ] Task 46: Add hover text transition animations and polish effects
+- [ ] Task 47: Implement time display visual polish and effects
+- [ ] Task 48: Create enhanced time display positioning and layout system
+- [ ] Task 49: Add critical event flash warnings and visual feedback
 
 ### Task 31: Create inventory grid animations
 **User Story:** As a player, I want smooth animations when items move in my inventory, so that inventory management feels polished and responsive.
@@ -975,6 +978,75 @@ As a player, I want to experience a visually cohesive world where characters sca
 - Implement HoverTextAnimator for smooth text transitions
 - Use tweening system for smooth content updates
 - Add particle effects for special discovery moments
+
+### Task 47: Implement time display visual polish and effects
+**User Story:** As a player, I want polished visual design for the time display with smooth animations and visual feedback, so that time management feels professional and engaging.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B1, U1
+- **Acceptance Criteria:**
+  1. Enhanced visual states and smooth transitions
+  2. Improved color schemes and theming
+  3. Polished animations for state changes
+  4. Visual consistency with game aesthetic
+  5. Smooth fade in/out animations for all elements
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 300-320
+- Visual states: normal, warning, critical with smooth transitions
+- Enhanced color palette with accessibility considerations
+- Smooth animations for deadline warnings and state changes
+
+### Task 48: Create enhanced time display positioning and layout system
+**User Story:** As a player, I want flexible positioning options for the time display, so that it works well with my preferred UI layout and screen configuration.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U1
+- **Acceptance Criteria:**
+  1. Advanced positioning system with multiple anchor points
+  2. Custom margin and offset configuration
+  3. Screen edge snapping and collision detection
+  4. Resolution-aware positioning and scaling
+  5. Settings integration for persistent preferences
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 281-298
+- Anchor system: corners, edges, custom positions
+- Smart positioning: avoid UI element collisions
+- Settings persistence: save custom position preferences
+
+### Task 49: Add critical event flash warnings and visual feedback
+**User Story:** As a player, I want unmissable visual warnings for critical events, so that I'm immediately aware of urgent situations requiring my attention.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
+
+**Status History:**
+- **⏳ PENDING** (06/02/25)
+
+**Requirements:**
+- **Linked to:** B2, U2
+- **Acceptance Criteria:**
+  1. Flash animations for critical deadlines and events
+  2. Different flash patterns for different event types
+  3. Non-blocking but attention-grabbing visual effects
+  4. Acknowledgment system to stop flash warnings
+  5. Integration with audio system for future sound cues
+
+**Implementation Notes:**
+- Reference: docs/design/time_calendar_display_ui_design.md lines 720-741
+- Flash patterns: pulsing for deadlines, constant for pursuit
+- AnimationPlayer-based flash effects
+- Visual feedback without blocking gameplay
 
 ## Testing Criteria
 - Perspective scaling works in all districts

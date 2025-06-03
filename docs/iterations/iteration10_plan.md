@@ -754,8 +754,10 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Grace period: 7 days after first missed payment
 - Eviction after 2 weeks of non-payment
 
-### Task 37: Implement weekly rent collection mechanics
-**User Story:** As a player, I want rent automatically deducted every Friday, so that I must maintain steady income to keep my housing.
+### Task 37: Implement weekly rent collection mechanics with enhanced time display integration
+**User Story:** As a player, I want rent automatically deducted every Friday with clear time display integration, so that I must maintain steady income to keep my housing and always know when payment is due.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -768,15 +770,22 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Failed payment starts grace period
   4. Transaction logged in EconomyManager
   5. Notification shows payment result
+  6. Rent due dates displayed in calendar view
+  7. Time display shows rent countdown
+  8. Economic deadline tracking integration
 
 **Implementation Notes:**
 - Check happens at day change to Friday
 - If insufficient funds, increment weeks_owed
 - First failure triggers grace period
 - Second failure triggers eviction
+- Reference: docs/design/time_calendar_display_ui_design.md lines 190-203
+- Calendar integration: show rent due dates with cost information
 
-### Task 38: Add rent warning and notification system
-**User Story:** As a player, I want advance warning about rent payments, so that I can ensure I have sufficient credits before Friday.
+### Task 38: Add rent warning and notification system with enhanced economic tracking
+**User Story:** As a player, I want advance warning about rent payments with comprehensive economic deadline management, so that I can ensure I have sufficient credits before Friday and plan around market events.
+
+**Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -789,12 +798,17 @@ As a player, I want to interact with NPCs who feel like real people with their o
   3. Eviction notice explains re-admittance
   4. All notices use PromptNotificationSystem
   5. Critical deadlines shown in time display
+  6. Market event scheduling integration
+  7. Economic deadline prioritization
+  8. Enhanced deadline warning system
 
 **Implementation Notes:**
 - Wednesday warning: 2 days before rent due
 - Use notification types: info, warning, critical
 - Add to quest log as reminders
 - Time display shows "Eviction in X days" when applicable
+- Reference: docs/design/time_calendar_display_ui_design.md lines 190-203
+- Market event integration: track special sales, price changes
 
 ### Task 39: Create eviction process with grace period
 **User Story:** As a player, I want a grace period after missing rent, so that temporary financial hardship doesn't immediately cost me my home.

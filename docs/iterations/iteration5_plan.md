@@ -580,8 +580,8 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Mouse hover triggers expansion
 - Reference: docs/design/time_calendar_display_ui_design.md
 
-### Task 21: Implement deadline warning system with color coding
-**User Story:** As a player, I want visual warnings when deadlines approach, so that I never miss critical events or quest objectives.
+### Task 21: Implement deadline warning system with color coding and coalition integration
+**User Story:** As a player, I want visual warnings when deadlines approach and coalition timers are active, so that I never miss critical events, quest objectives, or time-sensitive coalition operations.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
@@ -596,11 +596,18 @@ As a player, I need to feel the passage of time creating urgency in my investiga
   3. Critical state (red + flash) for < 1 day
   4. Alert icon appears for urgent deadlines
   5. Integrates with notification system
+  6. Coalition operation timers with infiltration warnings
+  7. Detection escalation countdown timers
+  8. Shift end warnings for disguised operations
+  9. Enhanced deadline feasibility calculations
 
 **Implementation Notes:**
 - Color constants: NORMAL, WARNING, CRITICAL
 - Flash animation for critical deadlines
 - Priority system for multiple deadlines
+- Coalition timer integration: show shift end times when disguised
+- Detection timer integration: escalation warnings during pursuit
+- Reference: docs/design/time_calendar_display_ui_design.md lines 247-276
 
 ### Task 22: Create expandable calendar view with event listings
 **User Story:** As a player, I want to view a full calendar showing all upcoming events, so that I can plan my investigation strategy effectively.
@@ -625,7 +632,7 @@ As a player, I need to feel the passage of time creating urgency in my investiga
 - Popup panel for detailed view
 - Performance: lazy load event data
 
-### Task 23: Integrate time display with quest deadlines
+### Task 23: Integrate time display with quest deadlines and advanced planning
 **User Story:** As a player, I want to see quest deadlines in the time display with comprehensive time investment information, so that I can prioritize time-sensitive objectives and plan multi-step quest chains effectively.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
@@ -645,14 +652,20 @@ As a player, I need to feel the passage of time creating urgency in my investiga
   7. Shift schedule conflict detection
   8. Deadline feasibility warnings
   9. Links to quest log when available
+  10. Multi-step quest time planning with dependencies
+  11. Resource availability timing (shops, NPCs, services)
+  12. Alternative timeline suggestions for impossible deadlines
+
 **Implementation Notes:**
 - Reference: docs/design/quest_log_ui_design.md lines 953-975 (Time Investment Calculator)
+- Reference: docs/design/time_calendar_display_ui_design.md lines 171-188
 - Connect to QuestManager signals
 - Filter by time_limit property
 - Show most urgent quest if multiple
+- Enhanced time investment calculation includes travel, preparation, and contingency time
 
-### Task 24: Add assimilation countdown display
-**User Story:** As a player, I want constant awareness of the station's assimilation progress and evaluation deadline, so that I understand the stakes and urgency of my mission.
+### Task 24: Add assimilation countdown display with detection integration
+**User Story:** As a player, I want constant awareness of the station's assimilation progress, evaluation deadline, and current detection status, so that I understand the stakes and urgency of my mission.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
@@ -667,14 +680,21 @@ As a player, I need to feel the passage of time creating urgency in my investiga
   3. Color indicates ending trajectory
   4. Critical warnings near evaluation
   5. Always visible in time display
+  6. Detection state integration with pursuit timers
+  7. Escalation countdown display during detection
+  8. Flash warnings during active pursuit
+  9. Integration with multiple ending system trajectories
 
 **Implementation Notes:**
 - Green < 35% (escape), Yellow 35-65% (undecided), Blue >= 65% (control)
 - Flash warnings when < 5 days remain
 - Connect to AssimilationManager signals
+- Detection integration: show escalation timers, pursuit warnings
+- Reference: docs/design/time_calendar_display_ui_design.md lines 264-276
+- Flash patterns: pursuit = constant, critical deadline = pulsing
 
-### Task 25: Implement contextual time information system
-**User Story:** As a player, I want relevant time information based on my current location and situation, so that I can make informed decisions about my immediate actions.
+### Task 25: Implement contextual time information system with NPC integration
+**User Story:** As a player, I want relevant time information based on my current location and situation, including NPC availability, so that I can make informed decisions about my immediate actions.
 
 **Design Reference:** `docs/design/time_calendar_display_ui_design.md`
 
@@ -689,11 +709,18 @@ As a player, I need to feel the passage of time creating urgency in my investiga
   3. Indicates when sleep is available
   4. Warns about exhaustion effects
   5. Updates based on player location
+  6. NPC availability and schedule information
+  7. Important NPC next availability times
+  8. Quest-related NPC status display
+  9. Service availability warnings (bank, shops, etc.)
 
 **Implementation Notes:**
 - Context detection from current district
 - Dynamic info panel below main display
 - Prioritize most relevant information
+- NPC schedule integration: show when key NPCs are available
+- Reference: docs/design/time_calendar_display_ui_design.md lines 230-244
+- Connect to NPCScheduleManager for availability data
 
 ### Task 26: Create time display positioning system
 **User Story:** As a player, I want to customize where the time display appears, so that it doesn't interfere with my preferred UI layout.

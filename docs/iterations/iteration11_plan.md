@@ -240,8 +240,10 @@ As a player, I need structured objectives that guide my investigation while allo
 - Search/filter functionality
 - Integrate with all major game systems for information display
 
-### Task 12: Implement quest tracking HUD with puzzle indicators
-**User Story:** As a player, I want a persistent HUD element that tracks my active quests and shows critical information at a glance, so that I can make informed decisions without constantly opening the full quest log.
+### Task 12: Implement quest tracking HUD with enhanced time display integration
+**User Story:** As a player, I want a persistent HUD element that tracks my active quests and shows critical information at a glance, including enhanced deadline warnings in the time display, so that I can make informed decisions without constantly opening the full quest log.
+
+**Design Reference:** `docs/design/quest_log_ui_design.md` & `docs/design/time_calendar_display_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -257,13 +259,17 @@ As a player, I need structured objectives that guide my investigation while allo
   6. Puzzle objective indicators with progress
   7. Quick access to full quest log from HUD
   8. Minimizable/expandable HUD options
+  9. Enhanced deadline warnings in time display integration
+  10. Real-time feasibility analysis for quest completion
 
 **Implementation Notes:**
 - Reference: docs/design/quest_log_ui_design.md lines 78-115 (Quest Information Display)
 - Reference: docs/design/puzzle_system_design.md (puzzle integration)
+- Reference: docs/design/time_calendar_display_ui_design.md lines 171-188
 - Keep HUD minimal but informative
 - Use icons and color coding for quick comprehension
 - Update in real-time as quest states change
+- Integration with time display for deadline visualization
 
 ### Task 13: Create quest detail view
 **User Story:** As a player, I want to see comprehensive details about any quest including all costs, requirements, and consequences, so that I can plan my approach and understand the full implications of my choices.
@@ -315,8 +321,10 @@ As a player, I need structured objectives that guide my investigation while allo
 - Quick filter presets for common searches
 - Remember last used filters
 
-### Task 15: Build quest notification system
-**User Story:** As a player, I want timely notifications about quest events and critical thresholds, so that I never miss important opportunities or deadlines.
+### Task 15: Build quest notification system with enhanced deadline integration
+**User Story:** As a player, I want timely notifications about quest events and critical thresholds with enhanced deadline notification integration, so that I never miss important opportunities or deadlines and receive comprehensive time management support.
+
+**Design Reference:** `docs/design/quest_log_ui_design.md` & `docs/design/time_calendar_display_ui_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -334,14 +342,19 @@ As a player, I need structured objectives that guide my investigation while allo
   8. Failed quest consequence alerts
   9. **Hover Text Integration:** Provides quest-aware hover descriptions for objects and NPCs
   10. **Objective Hints:** Shows relevance of items and NPCs to active quest objectives
+  11. Enhanced deadline notification integration with time display
+  12. Multi-step quest deadline coordination
+  13. Feasibility warnings for impossible quest chains
 
 **Implementation Notes:**
 - Reference: docs/design/quest_log_ui_design.md lines 607-710 (Quest Notification System)
 - Reference: docs/design/prompt_notification_system_design.md (notification framework)
 - Reference: docs/design/scumm_hover_text_system_design.md (Quest-Aware Descriptions section)
+- Reference: docs/design/time_calendar_display_ui_design.md lines 171-188
 - Use priority levels for different notification types
 - Allow player to configure notification preferences
 - Integrate with morning report system
+- **Enhanced Time Integration:** Connect quest deadlines to time display system
 - **Hover Integration:** Implement quest-aware hover text provider:
   ```gdscript
   # In QuestManager
