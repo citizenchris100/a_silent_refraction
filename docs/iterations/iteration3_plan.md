@@ -170,12 +170,8 @@ These systems provide the foundation for all future gameplay elements and will b
 **User Story:** As a player, I want the game camera to track my character smoothly and accurately with proper visual display (no grey bars or visual artifacts), so that I can focus on gameplay rather than managing my view of the action.
 
 **Status History:**
-- **⏳ PENDING** (05/22/25)
 - **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
-**Status History:**
-- **✅ COMPLETE** (05/22/25)
+
 **Requirements:**
 - **Linked to:** B1, U1, T1
 - **Acceptance Criteria:**
@@ -846,6 +842,32 @@ These systems provide the foundation for all future gameplay elements and will b
 - Update code examples to use new functionality
 - Ensure cross-referencing between related documentation
 
+### Sprite Perspective Scaling System
+- [ ] Task 28: Create simple POC test sprites for perspective scaling validation
+- [ ] Task 29: Implement basic sprite perspective scaling system
+- [ ] Task 30: Create sprite scaling test scene for validation
+
+### Audio System MVP Foundation
+- [ ] Task 31: Create audio system directory structure and core architecture
+- [ ] Task 32: Implement basic AudioManager singleton
+- [ ] Task 33: Create simplified DiegeticAudioController component
+- [ ] Task 34: Implement diegetic audio scaling system for perspective immersion
+- [ ] Task 35: Integrate audio with perspective scaling system
+- [ ] Task 36: Create audio foundation test scene and verify integration
+
+### Foreground Occlusion MVP
+- [ ] Task 37: Create ForegroundOcclusionManager singleton for Y-position based sprite layering
+- [ ] Task 38: Implement basic foreground element loading in base_district.gd
+- [ ] Task 39: Extend district JSON configuration for foreground elements
+- [ ] Task 40: Create test foreground sprites for camera test backgrounds
+- [ ] Task 41: Build foreground occlusion test scene with debug visualization
+
+### Player Character Sprite Creation
+- [ ] Task 42: Create male Alex character sprites following sprite workflow
+- [ ] Task 43: Create female Alex character sprites following sprite workflow
+- [ ] Task 44: Generate character portraits for gender selection screen
+- [ ] Task 45: Validate both sprite sets work with multi-perspective system
+
 ### Task 28: Create simple POC test sprites for perspective scaling validation
 
 **User Story:** As a developer, I want simple geometric test sprites at multiple scales, so that I can validate the perspective scaling system without complex art assets.
@@ -870,6 +892,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a developer, I want sprites to scale based on Y-position in perspective backgrounds, so that depth illusion is maintained in scenes with visual perspective.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** B2, B3, U2, T2
 - **Acceptance Criteria:**
@@ -889,6 +914,9 @@ These systems provide the foundation for all future gameplay elements and will b
 ### Task 30: Create sprite scaling test scene for validation
 
 **User Story:** As a developer, I want a dedicated test scene for sprite scaling, so that I can validate perspective effects work correctly with different backgrounds and movement patterns.
+
+**Status History:**
+- **⏳ PENDING** (06/03/25)
 
 **Requirements:**
 - **Linked to:** B2, B3, T2
@@ -911,6 +939,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a developer, I want to establish the foundational audio system architecture and file structure, so that all future audio development builds on a solid, well-organized base.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** B2, B3, T2
 - **Acceptance Criteria:**
@@ -929,6 +960,9 @@ These systems provide the foundation for all future gameplay elements and will b
 ### Task 32: Implement basic AudioManager singleton
 
 **User Story:** As a developer, I want a central AudioManager singleton that tracks the player's position and manages all diegetic audio sources, so that audio can respond dynamically to player movement.
+
+**Status History:**
+- **⏳ PENDING** (06/03/25)
 
 **Requirements:**
 - **Linked to:** B2, B3, T1, T2
@@ -949,6 +983,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a developer, I want a reusable audio component that automatically adjusts volume based on distance from the player, so that we can easily add spatial audio to any game object.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** B2, B3, U2
 - **Acceptance Criteria:**
@@ -968,6 +1005,9 @@ These systems provide the foundation for all future gameplay elements and will b
 ### Task 34: Implement diegetic audio scaling system for perspective immersion
 
 **User Story:** As a player, I want environmental sounds to naturally fade and pan based on my position and distance, so that the game world feels spatially realistic and immersive.
+
+**Status History:**
+- **⏳ PENDING** (06/03/25)
 
 **Requirements:**
 - **Linked to:** B2, B3, U2, U3
@@ -991,6 +1031,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a player, I want audio volume to reflect not just distance but also the visual perspective scale, so that sounds feel naturally integrated with the visual depth of the scene.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** B2, B3, U2, U3
 - **Acceptance Criteria:**
@@ -1010,6 +1053,9 @@ These systems provide the foundation for all future gameplay elements and will b
 ### Task 36: Create audio foundation test scene and verify integration
 
 **User Story:** As a developer, I want a comprehensive test scene for the audio MVP, so that I can verify all audio systems work correctly and establish a testing baseline for future development.
+
+**Status History:**
+- **⏳ PENDING** (06/03/25)
 
 **Requirements:**
 - **Linked to:** B2, B3, T1
@@ -1032,6 +1078,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a player, I want to see my character naturally pass behind objects in the environment, so that the game world feels more three-dimensional and immersive.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** B2, U2, T2
 - **Acceptance Criteria:**
@@ -1051,6 +1100,9 @@ These systems provide the foundation for all future gameplay elements and will b
 ### Task 38: Implement basic foreground element loading in base_district.gd
 
 **User Story:** As a developer, I want districts to automatically load and manage foreground elements, so that adding visual depth to new areas is straightforward and consistent.
+
+**Status History:**
+- **⏳ PENDING** (06/03/25)
 
 **Requirements:**
 - **Linked to:** B2, T2
@@ -1072,6 +1124,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a developer, I want a simple configuration format for foreground elements, so that I can quickly add occlusion objects without writing code.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** T2
 - **Acceptance Criteria:**
@@ -1092,6 +1147,9 @@ These systems provide the foundation for all future gameplay elements and will b
 
 **User Story:** As a developer, I want test foreground sprites for the camera test backgrounds, so that I can validate the occlusion system works correctly in various scenarios.
 
+**Status History:**
+- **⏳ PENDING** (06/03/25)
+
 **Requirements:**
 - **Linked to:** B2, U2
 - **Acceptance Criteria:**
@@ -1111,6 +1169,9 @@ These systems provide the foundation for all future gameplay elements and will b
 ### Task 41: Build foreground occlusion test scene with debug visualization
 
 **User Story:** As a developer, I want a dedicated test scene for the foreground occlusion system, so that I can verify correct behavior and debug issues efficiently.
+
+**Status History:**
+- **⏳ PENDING** (06/03/25)
 
 **Requirements:**
 - **Linked to:** T1, T2

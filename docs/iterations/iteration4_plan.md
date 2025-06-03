@@ -738,41 +738,6 @@ As a developer, I need a robust serialization system that allows all game system
 - Log all migrations performed
 - Test with sample save files
 
-## Testing Criteria
-- SerializationManager successfully saves and loads game state
-- All registered systems persist their data correctly
-- Save files are compressed and validate properly
-- Backwards compatibility is maintained
-- Performance targets are met (save <1s, load <2s)
-- Save system handles errors gracefully
-- Unit tests achieve >90% coverage
-- Inventory items persist correctly between sessions
-- Item conditions and custom data save/load properly
-- Container states maintain across saves
-- Loadout system saves and restores correctly
-- Inventory migration handles version changes
-- Save file corruption detection works correctly
-- Platform-specific save directories function properly
-- Performance metrics track and validate targets
-- Checksum validation prevents data corruption
-
-## Timeline
-- Start date: TBD
-- Target completion: 2 weeks from start
-- Critical for: Iteration 5 (Time System) and Iteration 7 (Save/Sleep)
-
-## Dependencies
-- Iteration 2: NPC Framework (need base classes to serialize)
-- Iteration 3: Navigation System (completed - provides stable systems to test with)
-
-## Code Links
-- src/core/serialization/serialization_manager.gd (to be created)
-- src/core/serialization/iserializable.gd (to be created)
-- src/core/serializers/inventory_serializer.gd (to be created)
-- docs/design/modular_serialization_architecture.md
-- docs/design/serialization_system.md
-- docs/design/inventory_system_design.md
-
 ### Task 28: Create MultiPerspectiveSerializer for character perspective states
 **User Story:** As a player, I want character perspective states to persist across save/load cycles, so that characters maintain their correct appearance when loading a save and I don't experience jarring visual transitions.
 
@@ -1068,6 +1033,41 @@ As a developer, I need a robust serialization system that allows all game system
 - **Validation:** Ensure all required full system fields exist after migration
 - **Fallback:** Revert to MVP mode if migration fails
 - **Logging:** Track migration success rates for debugging
+
+## Testing Criteria
+- SerializationManager successfully saves and loads game state
+- All registered systems persist their data correctly
+- Save files are compressed and validate properly
+- Backwards compatibility is maintained
+- Performance targets are met (save <1s, load <2s)
+- Save system handles errors gracefully
+- Unit tests achieve >90% coverage
+- Inventory items persist correctly between sessions
+- Item conditions and custom data save/load properly
+- Container states maintain across saves
+- Loadout system saves and restores correctly
+- Inventory migration handles version changes
+- Save file corruption detection works correctly
+- Platform-specific save directories function properly
+- Performance metrics track and validate targets
+- Checksum validation prevents data corruption
+
+## Timeline
+- Start date: TBD
+- Target completion: 2 weeks from start
+- Critical for: Iteration 5 (Time System) and Iteration 7 (Save/Sleep)
+
+## Dependencies
+- Iteration 2: NPC Framework (need base classes to serialize)
+- Iteration 3: Navigation System (completed - provides stable systems to test with)
+
+## Code Links
+- src/core/serialization/serialization_manager.gd (to be created)
+- src/core/serialization/iserializable.gd (to be created)
+- src/core/serializers/inventory_serializer.gd (to be created)
+- docs/design/modular_serialization_architecture.md
+- docs/design/serialization_system.md
+- docs/design/inventory_system_design.md
 
 ## Notes
 - This iteration was reorganized from the original plan to establish serialization first
