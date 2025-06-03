@@ -110,7 +110,7 @@ As a developer, I want to implement the final advanced features and polish all s
 - [ ] Task 36: Polish user experience across systems
 
 ### Advanced Dialog System
-- [ ] Task 37: Implement advanced dialog feature enhancements
+- [ ] Task 37: Implement full procedural dialog generation system
 
 ### Security System Polish
 - [ ] Task 38: Implement camera surveillance system
@@ -158,6 +158,13 @@ As a developer, I want to implement the final advanced features and polish all s
 - [ ] Task 68: Create Quest Log Performance Optimization
 - [ ] Task 69: Build Quest Ending Trajectory Preview
 - [ ] Task 70: Implement Quest UI Polish Features
+
+### Full Template Dialog System Implementation
+- [ ] Task 71: Create DialogTemplates library with personality patterns
+- [ ] Task 72: Implement DialogContext system for procedural generation
+- [ ] Task 73: Add personality-driven text modulation
+- [ ] Task 74: Create AssimilationDialogEffects system
+- [ ] Task 75: Integrate procedural dialog with existing NPCs
 
 ## User Stories
 
@@ -1026,26 +1033,30 @@ As a developer, I want to implement the final advanced features and polish all s
 - Improve onboarding
 - Polish rough edges
 
-### Task 37: Implement advanced dialog feature enhancements
-**User Story:** As a player, I want the dialog system to show character portraits, emotional states, and rich narrative context, so that conversations feel immersive and cinematic.
+### Task 37: Implement full procedural dialog generation system
+**User Story:** As a player, I want NPCs to generate dynamic, personality-driven conversations that adapt to context and relationships, so that every conversation feels natural and responsive to the game state.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
 
 **Status History:**
 - **⏳ PENDING** (05/27/25)
 
 **Requirements:**
-- **Linked to:** Enhanced dialog experience
+- **Linked to:** B1, B3
 - **Acceptance Criteria:**
-  1. Multiple portrait support with names/titles
-  2. Dynamic portrait positioning
-  3. Emotional state expressions (6+ emotions)
-  4. Thought bubbles/internal monologue
-  5. Trust level affects tone/wording
+  1. TemplateDialogFull class implemented with procedural generation
+  2. DialogGenerator creates personality-driven text
+  3. Context-aware dialog adapts to time, location, and events
+  4. Personality affects word choice and phrasing
+  5. Integration with existing dialog system from Iteration 6
+  6. Performance suitable for real-time generation
 
 **Implementation Notes:**
-- Reference: docs/design/dialog_manager_design.md
-- Extend existing dialog manager
-- Portrait art requirements documented
-- 6 base emotions + combinations
+- Reference: docs/design/template_dialog_design.md (Full Implementation, lines 177-332)
+- Implement TemplateDialogFull class from design document
+- Create DialogGenerator with personality modulation
+- Build on MVP template dialog from Iteration 6
+- Ensure backward compatibility with existing NPCs
 
 ### Task 38: Implement camera surveillance system
 **User Story:** As station security and as a player investigating the conspiracy, I want comprehensive camera surveillance that provides both security detection and investigation opportunities through feed viewing and evidence collection.
@@ -1861,6 +1872,133 @@ As a developer, I want to implement the final advanced features and polish all s
 - Ensure all animations can be disabled
 - Add particle effects for quest completion
 - Use audio feedback sparingly
+
+### Full Template Dialog System Implementation
+- [ ] Task 71: Create DialogTemplates library with personality patterns
+- [ ] Task 72: Implement DialogContext system for procedural generation
+- [ ] Task 73: Add personality-driven text modulation
+- [ ] Task 74: Create AssimilationDialogEffects system
+- [ ] Task 75: Integrate procedural dialog with existing NPCs
+
+### Task 71: Create DialogTemplates library with personality patterns
+**User Story:** As a content creator, I want a comprehensive library of dialog templates with personality variations, so that I can create diverse NPC conversations without writing every response manually.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. DialogTemplates class with greeting, topic, and suspicion templates
+  2. Personality-based template variations (formal/casual, friendly/suspicious)
+  3. Template selection based on NPC traits
+  4. Support for multiple template categories
+  5. Template validation and error handling
+
+**Implementation Notes:**
+- Reference: docs/design/template_dialog_design.md (Dialog Templates Library, lines 472-602)
+- Implement GREETING_TEMPLATES, TOPIC_TEMPLATES, SUSPICION_RESPONSES
+- Create personality key system (formal_friendly, casual_suspicious, etc.)
+- Support template inheritance and overrides
+- Include fallback templates for missing combinations
+
+### Task 72: Implement DialogContext system for procedural generation
+**User Story:** As a developer, I want a comprehensive context system that provides all necessary information for dialog generation, so that NPCs can create contextually appropriate responses.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. DialogContext class with all contextual data
+  2. Integration with TimeManager and EventManager
+  3. Context passed to all dialog generation methods
+  4. Performance optimized for frequent updates
+  5. Extensible for future context types
+
+**Implementation Notes:**
+- Reference: docs/design/template_dialog_design.md (Contextual Dialog System, lines 604-663)
+- Implement DialogContext with current_hour, recent_events, emotional_state
+- Connect to existing game systems (TimeManager, EventManager, Districts)
+- Add computed properties (is_meal_time, time_period, stress_level)
+- Ensure context updates efficiently during gameplay
+
+### Task 73: Add personality-driven text modulation
+**User Story:** As a player, I want NPCs to speak in ways that reflect their personality, so that each character feels unique and conversations are more immersive.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Text modulation based on formality, verbosity, and friendliness
+  2. Speech pattern variations (casual vs formal language)
+  3. Personality affects word choice and sentence structure
+  4. Integration with existing personality system from Iteration 10
+  5. Performance suitable for real-time text generation
+
+**Implementation Notes:**
+- Reference: docs/design/template_dialog_design.md (Guideline-Driven Generation Engine, lines 336-467)
+- Implement _apply_personality_modulation, _make_casual, _make_formal functions
+- Connect to NPCPersonality from Iteration 10
+- Add speech pattern transformations and elaboration/terseness
+- Ensure compatibility with existing dialog system
+
+### Task 74: Create AssimilationDialogEffects system
+**User Story:** As a player, I want assimilated NPCs to speak differently in ways that hint at their transformation, so that I can detect the conspiracy through careful observation of speech patterns.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Assimilation level affects dialog transformation
+  2. Subtle changes at low levels, obvious changes at high levels
+  3. Collective consciousness speech patterns ("we" instead of "I")
+  4. Unsettling additions and pauses
+  5. Integration with assimilation system
+
+**Implementation Notes:**
+- Reference: docs/design/template_dialog_design.md (Assimilation Effects on Dialog, lines 725-788)
+- Implement AssimilationDialogEffects with subtle/moderate/severe transformations
+- Add collective speech patterns and creepy additions
+- Connect to assimilation level from game state
+- Ensure effects are discoverable but not too obvious
+
+### Task 75: Integrate procedural dialog with existing NPCs
+**User Story:** As a developer, I want existing NPCs to seamlessly use the new procedural dialog system, so that the enhanced conversation system works across the entire game.
+
+**Design Reference:** `docs/design/template_dialog_design.md`
+
+**Status History:**
+- **⏳ PENDING** (05/27/25)
+
+**Requirements:**
+- **Linked to:** B1, B3
+- **Acceptance Criteria:**
+  1. Backward compatibility with existing dialog trees
+  2. Smooth transition between template and traditional dialog
+  3. Performance testing with 20+ NPCs using procedural dialog
+  4. Template dialog caching for frequently used patterns
+  5. All existing NPCs updated to use new system
+
+**Implementation Notes:**
+- Reference: docs/design/template_dialog_design.md (Implementation Guidelines, Performance Considerations)
+- Implement dialog caching system (1 game hour cache duration)
+- Create migration path from old to new dialog system
+- Add performance monitoring and optimization
+- Test with existing NPCs from previous iterations
 
 ## Testing Criteria
 - Living world events trigger and chain properly

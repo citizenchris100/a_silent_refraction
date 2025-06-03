@@ -289,10 +289,12 @@ As a player, I want to interact with NPCs who feel like real people with their o
   ```
 - NPCs reference past events in dialog based on trust level
 
-### Task 5: Add relationship-based dialog branches
-**User Story:** As a player, I want NPCs to speak differently based on our relationship, so that building trust feels rewarding and meaningful.
+### Task 5: Add relationship-based dialog branches with template dialog integration
+**User Story:** As a player, I want NPCs to speak differently based on our relationship using template-driven dialog generation, so that building trust feels rewarding and meaningful through personality-aware conversations.
 
-**BaseNPC Migration Phase 2a:** This task establishes the dialog context system that enables personality and relationship-driven conversations.
+**Design Reference:** `docs/design/npc_trust_relationship_system_design.md`, `docs/design/template_dialog_design.md`
+
+**BaseNPC Migration Phase 2a:** This task establishes the dialog context system that enables personality and relationship-driven conversations with template dialog support.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -307,11 +309,16 @@ As a player, I want to interact with NPCs who feel like real people with their o
   5. Dialog reflects relationship history
   6. **Phase 2a:** Dialog context system implemented
   7. **Phase 2a:** All dialog methods accept context Dictionary
+  8. **Template Integration:** Context passed to template dialog generation
+  9. **Template Integration:** Trust level affects template selection
+  10. **Template Integration:** Relationship history influences dialog patterns
 
 **Implementation Notes:**
+- Reference: docs/design/npc_trust_relationship_system_design.md
+- Reference: docs/design/template_dialog_design.md (Contextual Dialog System, lines 604-663)
 - Trust thresholds: Hostile < -50, Neutral -50 to 50, Friendly > 50
 - Trusted NPCs reveal sensitive information
-- **Phase 2a:** Implement dialog context structure:
+- **Phase 2a:** Implement dialog context structure compatible with template system:
   ```gdscript
   var dialog_context = {
       "time_of_day": TimeManager.get_time_period(),
@@ -320,10 +327,16 @@ As a player, I want to interact with NPCs who feel like real people with their o
       "is_assimilated": is_assimilated,
       "suspicion_level": suspicion_level,
       "player_gender": GameManager.player_gender,
-      "npc_gender": npc_gender
+      "npc_gender": npc_gender,
+      "relationship_level": get_relationship_level(),
+      "trust_dimensions": get_trust_dimensions(),
+      "recent_events": get_recent_relationship_events()
   }
   ```
 - **Phase 2a:** Pass context to all dialog generation methods
+- **Template Integration:** Connect context to template dialog system from Iteration 6
+- **Template Integration:** Relationship state affects greeting template selection
+- **Template Integration:** Trust level influences topic availability and response tone
 
 ### Task 14: Implement need-based behaviors
 **User Story:** As an NPC, I want to fulfill my basic needs throughout the day, so that my routine feels natural and provides opportunities for player interaction.
@@ -599,10 +612,12 @@ As a player, I want to interact with NPCs who feel like real people with their o
 - Essential travel vs investigation
 - Major choice pressure
 
-### Task 6: Expand BaseNPC with full behavior set
-**User Story:** As a developer, I want to enhance BaseNPC to support the full template design, so that all NPCs can utilize advanced features without breaking existing functionality.
+### Task 6: Expand BaseNPC with full behavior set and template dialog personality support
+**User Story:** As a developer, I want to enhance BaseNPC to support the full template design with template dialog personality integration, so that all NPCs can utilize advanced features including personality-driven dialog generation without breaking existing functionality.
 
-**BaseNPC Migration Phase 2b-2c:** This task implements personality-driven responses and gender dynamics as core NPC features.
+**Design Reference:** `docs/design/template_npc_design.md`, `docs/design/template_dialog_design.md`
+
+**BaseNPC Migration Phase 2b-2c:** This task implements personality-driven responses and gender dynamics as core NPC features with template dialog support.
 
 **Status History:**
 - **⏳ PENDING** (05/26/25)
@@ -617,15 +632,21 @@ As a player, I want to interact with NPCs who feel like real people with their o
   5. All state handlers properly implemented
   6. **Phase 2b:** Personality affects dialog generation
   7. **Phase 2c:** Gender dynamics traits fully integrated
+  8. **Template Dialog:** Personality traits compatible with template dialog system
+  9. **Template Dialog:** Personality affects dialog pattern selection
+  10. **Template Dialog:** Formality and verbosity drive template modulation
 
 **Implementation Notes:**
 - Reference: docs/design/template_npc_design.md
+- Reference: docs/design/template_dialog_design.md (Personality-Driven Generation, lines 381-467)
 - Maintain backward compatibility
 - Use feature flags for new behaviors
-- **Phase 2b:** Implement personality-based dialog modifiers:
+- **Phase 2b:** Implement personality-based dialog modifiers compatible with template system:
   ```gdscript
   if personality.friendliness > 0.7:
       dialog_modifier = "friendly"
+  # Also set template personality for dialog generation
+  dialog_personality = NPCPersonality.new(personality)
   ```
 - **Phase 2c:** Add gender dynamics to personality Dictionary:
   ```gdscript
@@ -633,9 +654,15 @@ As a player, I want to interact with NPCs who feel like real people with their o
       "progressiveness": 0.5,
       "sexism_level": 0.3,
       "competitiveness": 0.5,
-      "gender_comfort": 0.7
+      "gender_comfort": 0.7,
+      "formality": 0.6,          # For template dialog modulation
+      "verbosity": 0.4,          # For template dialog modulation
+      "friendliness": 0.8        # For template dialog tone
   }
   ```
+- **Template Dialog:** Connect personality to template dialog generation from Iteration 6
+- **Template Dialog:** Implement NPCPersonality wrapper for template dialog compatibility
+- **Template Dialog:** Ensure personality changes affect dialog generation in real-time
 
 ### Task 7: Create personality trait system
 **User Story:** As an NPC, I want personality traits including detailed gender dynamics that affect my behavior, dialog, and trust interactions, so that each character feels unique with realistic social barriers and biases reflective of the 1950s setting.

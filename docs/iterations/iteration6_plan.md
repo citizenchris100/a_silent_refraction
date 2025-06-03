@@ -536,8 +536,10 @@ As a player, I want to create a character that represents me in the game world a
 - Ensure proper cleanup on scene change
 - Verify autoload singletons persist
 
-### Task 6: Refactor dialog system architecture
-**User Story:** As a developer, I want a clean, maintainable dialog system architecture that supports procedural generation, so that I can efficiently implement complex personality-driven conversations.
+### Task 6: Refactor dialog system architecture with MVP template dialog support
+**User Story:** As a developer, I want a clean, maintainable dialog system architecture that supports template-based dialog generation, so that I can efficiently implement complex personality-driven conversations using reusable dialog patterns.
+
+**Design Reference:** `docs/design/dialog_system_refactoring_plan.md`, `docs/design/template_dialog_design.md`
 
 **Dialog Manager Migration Phase 1a-1c:** This task establishes the foundation for the template dialog system by implementing core navigation and state tracking features.
 
@@ -555,9 +557,13 @@ As a player, I want to create a character that represents me in the game world a
   6. **Phase 1a:** Extended dialog_panel UI with personality/mood indicators
   7. **Phase 1b:** Flexible node navigation methods (get_entry_node, get_node_options)
   8. **Phase 1c:** Option selection tracking for future personality adaptation
+  9. **MVP Template:** TemplateDialogMVP resource class implemented
+  10. **MVP Template:** Basic dialog pattern library (MVP_DIALOG_PATTERNS) created
+  11. **MVP Template:** Template-based dialog tree structure support
 
 **Implementation Notes:**
 - Reference: docs/design/dialog_system_refactoring_plan.md
+- Reference: docs/design/template_dialog_design.md (MVP Implementation section)
 - Follow service registry pattern for dependency injection
 - Create IDialogService interface
 - **Phase 1a:** Add visual personality hints to dialog UI (mood icon, tone indicator)
@@ -566,8 +572,12 @@ As a player, I want to create a character that represents me in the game world a
   func get_entry_node() -> String
   func get_node_text(node_id: String) -> String
   func get_node_options(node_id: String) -> Array
+  func process_option_selection(node_id: String, option_index: int) -> Dictionary
   ```
 - **Phase 1c:** Track player choices in conversation_history for future analysis
+- **MVP Template:** Implement TemplateDialogMVP class from design document lines 29-99
+- **MVP Template:** Create MVP_DIALOG_PATTERNS constant from design document lines 104-133
+- **MVP Template:** Add basic template validation and state tracking
 
 ### Task 7: Implement gender-aware text substitution
 **User Story:** As a player, I want NPCs to address me with appropriate pronouns and gender-specific language, so that conversations feel natural and personalized.
@@ -606,8 +616,10 @@ As a player, I want to create a character that represents me in the game world a
   ```
 - Pass context to all dialog generation methods
 
-### Task 8: Create dialog tree editor improvements
-**User Story:** As a content creator, I want improved tools for creating complex dialog trees, so that I can efficiently write branching conversations that support the game's investigation mechanics.
+### Task 8: Create dialog tree editor improvements with template pattern support
+**User Story:** As a content creator, I want improved tools for creating complex dialog trees with template pattern support, so that I can efficiently write branching conversations using reusable patterns that support the game's investigation mechanics.
+
+**Design Reference:** `docs/design/dialog_system_refactoring_plan.md`, `docs/design/template_dialog_design.md`
 
 **Dialog Manager Migration Phase 2b:** This task enhances the dialog system with template support and guideline-based generation preparation.
 
@@ -624,9 +636,13 @@ As a player, I want to create a character that represents me in the game world a
   5. Export/import JSON dialog format
   6. **Phase 2b:** Dialog template library structure
   7. **Phase 2b:** Personality-based response variations
+  8. **MVP Template:** Template pattern validation in editor
+  9. **MVP Template:** Preview with template variable substitution
+  10. **MVP Template:** Import/export of MVP template testing data
 
 **Implementation Notes:**
 - Reference: docs/design/dialog_system_refactoring_plan.md
+- Reference: docs/design/template_dialog_design.md (MVP Testing Data section, lines 137-175)
 - Build on Godot's GraphEdit node
 - Support node types: Text, Choice, Condition, Action
 - **Phase 2b:** Implement DialogTemplates class structure:
@@ -636,6 +652,9 @@ As a player, I want to create a character that represents me in the game world a
   const SUSPICION_RESPONSES = {}
   ```
 - Prepare for personality-driven text modulation
+- **MVP Template:** Add template pattern validation for MVP_DIALOG_PATTERNS
+- **MVP Template:** Implement preview system with variable substitution ({NPC_NAME}, {WORK_VERB}, etc.)
+- **MVP Template:** Support import/export of test_npc_dialog JSON format from design document
 
 ### Task 9: Add dialog history/log system
 **User Story:** As a player, I want to review past conversations with NPCs, so that I can track important information and notice inconsistencies that might indicate assimilation.
