@@ -1130,8 +1130,10 @@ As a player, I need structured objectives that guide my investigation while allo
 - Different coalition introductions
 - Path tracking for achievements
 
-### Task 68: Full integration testing
-**User Story:** As a QA tester, I want to thoroughly test all First Quest paths and edge cases, so that players have a bug-free experience.
+### Task 68: Full integration testing with comprehensive quest system integration
+**User Story:** As a QA tester, I want to thoroughly test all First Quest paths, edge cases, and all quest system integration points, so that players have a bug-free experience and all game systems work together seamlessly.
+
+**Design Reference:** `docs/design/template_quest_design.md` lines 849-858
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -1144,6 +1146,13 @@ As a player, I need structured objectives that guide my investigation while allo
   3. Performance acceptable
   4. Save/load works at all points
   5. No sequence breaks possible
+  6. **Quest System Integration:** NPCSystem ↔ Quest dialog integration verified
+  7. **Quest System Integration:** DialogSystem ↔ Quest progression triggers tested
+  8. **Quest System Integration:** InventorySystem ↔ Quest item requirements validated
+  9. **Quest System Integration:** TimeManager ↔ Time-sensitive quest mechanics confirmed
+  10. **Quest System Integration:** LocationManager ↔ Location-based objectives working
+  11. **Quest System Integration:** EventSystem ↔ Quest triggers and consequences functional
+  12. **Quest System Integration:** SuspicionSystem ↔ Quest action consequences verified
 
 **Implementation Notes:**
 - Test matrix for all paths
@@ -1151,6 +1160,10 @@ As a player, I need structured objectives that guide my investigation while allo
 - Save corruption prevention
 - Dialog state verification
 - Achievement unlock testing
+- Reference: docs/design/template_quest_design.md (Integration Points lines 849-858)
+- Verify all quest system dependencies and interactions
+- Test quest event propagation through all systems
+- Ensure quest state changes properly affect all connected systems
 
 ### Task 69: Create TradingTerminal scene with Game Boy UI layout
 **User Story:** As a player, I want to access a retro-styled trading terminal at my job, so that I can engage in a nostalgic mini-game that provides both entertainment and income.

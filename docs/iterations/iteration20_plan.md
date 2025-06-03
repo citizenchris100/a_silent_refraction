@@ -200,9 +200,11 @@ This iteration implements Phase 3.3 from the content roadmap, creating all quest
 - Design variable reward tables
 - Build emergent complication triggers
 
-### Task 7: Create quest testing framework
+### Task 7: Create comprehensive quest testing framework with QuestTestFramework
 
-**User Story:** As a developer, I want to quickly test any quest path to ensure all branches work correctly, so that we can deliver bug-free quest content to players.
+**User Story:** As a developer, I want a comprehensive quest testing framework that matches the template design to ensure all quest branches, edge cases, and performance requirements work correctly, so that we can deliver bug-free quest content to players.
+
+**Design Reference:** `docs/design/template_quest_design.md` lines 774-839
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -216,15 +218,28 @@ This iteration implements Phase 3.3 from the content roadmap, creating all quest
   4. Branch visualization shows all quest paths
   5. Automated testing validates quest logic
   6. Bug reporting integration for QA
+  7. **Template Compliance:** Linear progression testing implemented
+  8. **Template Compliance:** Branching quest validation with choice tracking
+  9. **Template Compliance:** Time-sensitive failure testing automated
+  10. **Template Compliance:** Parallel objectives testing with completion validation
+  11. **Template Compliance:** Performance benchmarking for quest execution
+  12. **Template Compliance:** Save/load cycle testing for quest states
 
 **Implementation Notes:**
 - Extend debug tools for quest testing
 - Create quest visualization system
 - Build automated test runners
 - Implement state manipulation commands
+- Reference: docs/design/template_quest_design.md (QuestTestFramework lines 774-839)
+- Implement test_linear_progression(), test_branching_quest() methods
+- Add test_time_sensitive_failure() for deadline validation
+- Create test_parallel_objectives() for complex quest validation
+- Include achievement unlock testing and edge case validation
 
-### Task 8: Track memory usage metrics per quest
-**User Story:** As a developer, I want to monitor memory usage for each quest system, so that I can ensure quests don't exceed the 4GB memory target on Raspberry Pi 5 hardware.
+### Task 8: Implement quest performance optimizations and memory tracking
+**User Story:** As a developer, I want to monitor memory usage and implement all quest performance optimizations from the template design, so that quests run efficiently and don't exceed the 4GB memory target on Raspberry Pi 5 hardware.
+
+**Design Reference:** `docs/design/template_quest_design.md` lines 841-847
 
 **Status History:**
 - **⏳ PENDING** (06/01/25)
@@ -237,12 +252,22 @@ This iteration implements Phase 3.3 from the content roadmap, creating all quest
   3. Peak memory tracking during quest events
   4. Memory reports per quest type
   5. Alerts when exceeding thresholds
+  6. **Performance Optimization:** Only process active quest objectives
+  7. **Performance Optimization:** Pre-filter events by quest requirements
+  8. **Performance Optimization:** Batch UI updates for quest notifications
+  9. **Performance Optimization:** Quest objective culling for inactive quests
+  10. **Performance Optimization:** Memory management for large quest counts
 
 **Implementation Notes:**
 - Hook into quest state changes
 - Track object allocations per quest
 - Monitor dialog and asset loading
 - Create quest memory report tool
+- Reference: docs/design/template_quest_design.md (Performance Considerations lines 841-847)
+- Implement active quest filtering to reduce processing overhead
+- Add event pre-filtering system to avoid unnecessary quest checks
+- Create batched UI update system for quest log refresh
+- Implement quest objective pooling and culling systems
 
 ### Task 9: Monitor district load times during quests
 **User Story:** As a developer, I want to track how quests affect district loading times, so that I can ensure we meet the <5 second transition target even with complex quest states.
