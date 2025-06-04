@@ -1,0 +1,96 @@
+=== Test: district_perspective_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ DISTRICTPERSPECTIVE TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Perspective Properties =====
+
+[TEST] test_perspective_type_property_exists
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node2D (base_district.gd)'.
+          at: test_suite_perspective_properties (res://src/unit_tests/district_perspective_test.gd:77)
+
+===== TEST SUITE: Perspective Configuration =====
+
+[TEST] test_get_perspective_configuration_method
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+  ✓ PASS: test_get_perspective_configuration_method: District has get_perspective_configuration method
+
+[TEST] test_configuration_returns_correct_type
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Resource (perspective_configuration.gd)'.
+          at: test_suite_perspective_configuration (res://src/unit_tests/district_perspective_test.gd:121)
+
+===== TEST SUITE: Perspective Signals =====
+
+[TEST] test_perspective_changed_signal_exists
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+  ✓ PASS: test_perspective_changed_signal_exists: District has perspective_changed signal
+
+[TEST] test_signal_emitted_on_change
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+
+===== TEST SUITE: Backward Compatibility =====
+
+[TEST] test_mock_district_compatibility
+
+==================================================
+ SUMMARY: 2 passed, 0 failed
+==================================================
+
+[PASS] All DistrictPerspective tests passed!
+  ✓ PASS: test_mock_district_compatibility: Signal emitted with correct perspective type
+
+[TEST] test_no_signal_on_same_perspective
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+  ✓ PASS: test_no_signal_on_same_perspective: Existing districts work without perspective support
+  ✓ PASS: test_no_signal_on_same_perspective: No signal when perspective unchanged
+
+[TEST] test_default_values_safe
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+  ✓ PASS: test_default_values_safe: Walkable area methods still work
+
+[TEST] test_camera_setup_compatible
+Test District loaded
+CoordinateManager: Current district set to Test District
+Registered district with CoordinateManager
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1363
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Test District with initial view: right
+  ✓ PASS: test_camera_setup_compatible: Camera setup still works with perspective
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)
+

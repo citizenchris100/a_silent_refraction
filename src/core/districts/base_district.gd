@@ -19,6 +19,10 @@ export(String, "left", "right", "center") var initial_camera_view = "right"  # I
 export var camera_initial_position = Vector2.ZERO  # Custom initial position (overrides initial_camera_view if not zero)
 export(String, "LINEAR", "EASE_IN", "EASE_OUT", "EASE_IN_OUT", "EXPONENTIAL", "SINE", "ELASTIC", "CUBIC", "QUAD") var camera_easing_type = "SINE"  # Easing type for camera movement
 
+# Perspective properties
+export(int, "Isometric", "Side Scrolling", "Top Down") var perspective_type = 0  # Default to ISOMETRIC
+export var perspective_parameters = {}  # Custom perspective parameters
+
 # Areas where the player can walk
 var walkable_areas = []
 
@@ -34,6 +38,7 @@ var camera = null
 # Signals
 signal district_entered(district_name)
 signal district_exited(district_name)
+signal perspective_changed(new_perspective)
 
 func _ready():
     # Initialize the district
@@ -391,3 +396,36 @@ func get_camera() -> Camera2D:
             camera = child
             return camera
     return null
+
+# Get the perspective configuration for this district
+func get_perspective_configuration():
+    var PerspectiveConfig = preload("res://src/core/perspective/perspective_configuration.gd")
+    var config = null
+    
+    # Create configuration based on perspective type
+    match perspective_type:
+        0:  # ISOMETRIC
+            config = PerspectiveConfig.create_isometric_config()
+        1:  # SIDE_SCROLLING
+            config = PerspectiveConfig.create_side_scrolling_config()
+        2:  # TOP_DOWN
+            config = PerspectiveConfig.create_top_down_config()
+        _:
+            config = PerspectiveConfig.create_isometric_config()
+    
+    # Merge custom parameters if any
+    if config and perspective_parameters and perspective_parameters.size() > 0:
+        for key in perspective_parameters:
+            config[key] = perspective_parameters[key]
+    
+    return config
+
+# Set the perspective type and emit signal if changed
+func set_perspective_type(type: int):
+    if perspective_type != type:
+        perspective_type = type
+        emit_signal("perspective_changed", type)
+
+# Internal method to emit perspective changed signal
+func _emit_perspective_changed():
+    emit_signal("perspective_changed", perspective_type)
