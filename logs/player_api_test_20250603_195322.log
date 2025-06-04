@@ -1,0 +1,42 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERAPITEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Navigation Path API =====
+
+[TEST] test_get_navigation_path_exists
+  ✓ PASS: test_get_navigation_path_exists: Player should have get_navigation_path method
+
+[TEST] test_get_navigation_path_empty_when_idle
+  ✓ PASS: test_get_navigation_path_empty_when_idle: Should return empty array when idle
+
+[TEST] test_get_navigation_path_returns_path_when_moving
+  ✓ PASS: test_get_navigation_path_returns_path_when_moving: Should return navigation path when set
+
+===== TEST SUITE: State API =====
+
+[TEST] test_get_state_exists
+  ✓ PASS: test_get_state_exists: Player should have get_state method
+
+[TEST] test_get_state_returns_string
+  ✓ PASS: test_get_state_returns_string: get_state should return a string
+
+[TEST] test_get_state_returns_correct_names
+  ✓ PASS: test_get_state_returns_correct_names: All state names should match enum values
+
+==================================================
+ SUMMARY: 6 passed, 0 failed
+==================================================
+
+[PASS] All PlayerAPITest tests passed!
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:43
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:43
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)

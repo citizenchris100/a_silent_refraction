@@ -1,0 +1,80 @@
+=== Test: character_perspective_controller_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERPERSPECTIVECONTROLLER TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Controller Basic Tests =====
+
+[TEST] test_controller_initialization
+  ✓ PASS: test_controller_initialization: Controller initializes with correct defaults
+
+[TEST] test_attach_to_character
+  ✓ PASS: test_attach_to_character: Controller attaches to character correctly
+
+[TEST] test_set_perspective
+  ✓ PASS: test_set_perspective: Perspective changes correctly
+
+[TEST] test_perspective_change_signal
+  ✓ PASS: test_perspective_change_signal: Signal emitted with correct parameters
+
+[TEST] test_get_current_configuration
+  ✓ PASS: test_get_current_configuration: Configuration retrieved correctly
+
+[TEST] test_direction_conversion
+  ✓ PASS: test_direction_conversion: Direction conversion works for different perspectives
+
+[TEST] test_invalid_perspective_handling
+WARNING: Invalid perspective type: 999
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+  ✓ PASS: test_invalid_perspective_handling: Invalid perspective rejected correctly
+
+===== TEST SUITE: Perspective Animation Tests =====
+
+[TEST] test_animation_prefix_management
+  ✓ PASS: test_animation_prefix_management: Animation prefixes are correct
+
+[TEST] test_animation_name_conversion
+  ✓ PASS: test_animation_name_conversion: Animation names formatted correctly
+
+[TEST] test_fallback_animation_handling
+  ✓ PASS: test_fallback_animation_handling: Fallback animations extracted correctly
+
+===== TEST SUITE: Animation State Tests =====
+
+[TEST] test_animation_state_initialization
+  ✓ PASS: test_animation_state_initialization: Animation state initializes correctly
+
+[TEST] test_play_animation_state_change
+  ✓ PASS: test_play_animation_state_change: Play animation updates state correctly
+
+[TEST] test_animation_with_sprite
+  ✓ PASS: test_animation_with_sprite: Controller finds and uses AnimatedSprite
+
+[TEST] test_animation_state_persistence
+  ✓ PASS: test_animation_state_persistence: Animation state persists direction when not specified
+
+===== TEST SUITE: Animation Integration Tests =====
+
+[TEST] test_animation_change_signal
+  ✓ PASS: test_animation_change_signal: Animation changed signal emitted correctly
+
+[TEST] test_fallback_animation
+  ✓ PASS: test_fallback_animation: Fallback animation used when perspective-specific not found
+
+[TEST] test_animation_priority
+  ✓ PASS: test_animation_priority: Perspective-specific animation preferred over generic
+
+==================================================
+ SUMMARY: 17 passed, 0 failed
+==================================================
+
+[PASS] All CharacterPerspectiveController tests passed!
+

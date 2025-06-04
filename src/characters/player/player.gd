@@ -30,6 +30,10 @@ var current_path_index = 0
 
 # Signals
 signal movement_state_changed(new_state)
+signal movement_direction_changed(direction_vector)
+
+# Character controller reference
+var character_controller = null
 
 func _ready():
     target_position = position
@@ -41,6 +45,12 @@ func _ready():
     
     # Get navigation map RID for Navigation2DServer
     _setup_navigation()
+    
+    # Look for character controller
+    for child in get_children():
+        if child.has_method("convert_movement_to_direction"):
+            character_controller = child
+            break
 
 func _find_current_district():
     var districts = get_tree().get_nodes_in_group("district")
@@ -242,6 +252,21 @@ func _adjust_position_to_stay_in_bounds(pos):
 func _update_visuals():
     # Update the player's visual appearance based on movement
     # This could include changing animations, facing direction, etc.
+    
+    # Update character controller animations if available
+    if character_controller:
+        if current_movement_state == MovementState.IDLE or current_movement_state == MovementState.ARRIVED:
+            # Play idle animation
+            if velocity.length() < 5:  # Nearly stopped
+                character_controller.play_animation("idle")
+        elif velocity.length() > 10:  # Moving
+            # Convert velocity to direction and play walk animation
+            var direction = character_controller.convert_movement_to_direction(velocity)
+            if direction != "":
+                character_controller.play_animation("walk", direction)
+                emit_signal("movement_direction_changed", velocity)
+    
+    # Legacy sprite flipping
     if has_node("Sprite") and velocity != Vector2.ZERO:
         var sprite = get_node("Sprite")
         

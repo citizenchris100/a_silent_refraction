@@ -1,0 +1,27 @@
+=== Component Test: character_movement_component_test ===
+Exit code: 124
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERMOVEMENTINTEGRATION COMPONENT TEST SUITE
+==================================================
+
+SCRIPT ERROR: Invalid call. Nonexistent function 'add_walkable_area' in base 'Node2D (mock_district.gd)'.
+          at: CharacterMovementComponentTest.setup_test_environment (res://src/component_tests/character_movement_component_test.gd:92)
+
+===== TEST SUITE: Movement Animation Integration =====
+
+[TEST] test_idle_animation_on_start
+SCRIPT ERROR: Invalid get index 'animation' (on base: 'Nil').
+          at: CharacterMovementComponentTest.test_suite_movement_animation (res://src/component_tests/character_movement_component_test.gd:162)
+
+===== TEST SUITE: Perspective Switching During Movement =====
+SCRIPT ERROR: Invalid set index 'position' (on base: 'Nil') with value of type 'Vector2'.
+          at: CharacterMovementComponentTest.test_suite_perspective_switching (res://src/component_tests/character_movement_component_test.gd:211)
+SCRIPT ERROR: First argument of yield() not of type object.
+          at: CharacterMovementComponentTest.run_test_suite (res://src/component_tests/character_movement_component_test.gd:154)
+

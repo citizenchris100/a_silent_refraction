@@ -1,0 +1,7 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+SCRIPT ERROR: Parse Error: Variable "wait_time" already defined in the scope (at line 187).
+          at: GDScript::reload (res://src/component_tests/character_movement_component_test.gd:220)
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized

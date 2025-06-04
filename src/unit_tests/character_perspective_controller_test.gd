@@ -8,6 +8,8 @@ var log_debug_info = true  # Set to true for verbose output
 # Test-specific flags
 var test_controller_basics = true
 var test_perspective_animations = true
+var test_animation_states = true
+var test_animation_integration = true
 
 # Test state
 var test_name = "CharacterPerspectiveController"
@@ -22,11 +24,14 @@ var CharacterPerspectiveController = preload("res://src/characters/perspective/c
 var PerspectiveType = preload("res://src/core/perspective/perspective_type.gd")
 var mock_character = null
 var controller = null
+var mock_animated_sprite = null
 
 # Signal tracking
 var signal_received = false
 var old_perspective_received = null
 var new_perspective_received = null
+var animation_changed_signal_received = false
+var last_animation_name = ""
 
 func _ready():
     print("\n" + "==================================================")
@@ -61,6 +66,20 @@ func run_tests():
     if run_all_tests or test_perspective_animations:
         print("\n===== TEST SUITE: Perspective Animation Tests =====")
         test_suite_perspective_animations()
+    
+    if run_all_tests or test_animation_states:
+        print("\n===== TEST SUITE: Animation State Tests =====")
+        setup_test_scene()
+        yield(test_suite_animation_states(), "completed")
+        cleanup_test_scene()
+        yield(get_tree(), "idle_frame")
+    
+    if run_all_tests or test_animation_integration:
+        print("\n===== TEST SUITE: Animation Integration Tests =====")
+        setup_test_scene()
+        yield(test_suite_animation_integration(), "completed")
+        cleanup_test_scene()
+        yield(get_tree(), "idle_frame")
 
 func test_suite_controller_basics():
     # Test controller initialization
@@ -190,6 +209,119 @@ func test_suite_perspective_animations():
     controller.queue_free()
     controller = null
 
+# New test suites for animation support
+func test_suite_animation_states():
+    # Test animation state management
+    start_test("test_animation_state_initialization")
+    controller = CharacterPerspectiveController.new()
+    controller.attach_to_character(mock_character)
+    yield(get_tree(), "idle_frame")
+    
+    var initial_state = controller.current_animation_state
+    var initial_direction = controller.current_direction
+    end_test(initial_state == "idle" and initial_direction == "south",
+             "Animation state initializes correctly")
+    
+    # Test play animation method
+    start_test("test_play_animation_state_change")
+    controller.play_animation("walk", "north")
+    end_test(controller.current_animation_state == "walk" and 
+             controller.current_direction == "north",
+             "Play animation updates state correctly")
+    
+    # Test animation with AnimatedSprite
+    start_test("test_animation_with_sprite")
+    # Create mock AnimatedSprite
+    mock_animated_sprite = AnimatedSprite.new()
+    mock_animated_sprite.frames = SpriteFrames.new()
+    # Add test animations
+    mock_animated_sprite.frames.add_animation("iso_walk_north")
+    mock_animated_sprite.frames.add_animation("iso_idle_south")
+    mock_character.add_child(mock_animated_sprite)
+    yield(get_tree(), "idle_frame")
+    
+    # Re-attach controller to find sprite
+    controller.queue_free()
+    controller = CharacterPerspectiveController.new()
+    controller.attach_to_character(mock_character)
+    yield(get_tree(), "idle_frame")
+    
+    controller.play_animation("walk", "north")
+    yield(get_tree(), "idle_frame")
+    
+    end_test(controller.animated_sprite != null,
+             "Controller finds and uses AnimatedSprite")
+    
+    # Test animation state persistence
+    start_test("test_animation_state_persistence")
+    controller.play_animation("walk")  # No direction specified
+    end_test(controller.current_direction == "north",  # Should keep previous
+             "Animation state persists direction when not specified")
+
+func test_suite_animation_integration():
+    # Test animation change signal
+    start_test("test_animation_change_signal")
+    animation_changed_signal_received = false
+    last_animation_name = ""
+    
+    controller = CharacterPerspectiveController.new()
+    controller.attach_to_character(mock_character)
+    
+    # Add AnimatedSprite with animations
+    mock_animated_sprite = AnimatedSprite.new()
+    mock_animated_sprite.frames = SpriteFrames.new()
+    mock_animated_sprite.frames.add_animation("iso_walk_east")
+    mock_character.add_child(mock_animated_sprite)
+    yield(get_tree(), "idle_frame")
+    
+    # Re-attach to find sprite
+    controller.queue_free()
+    controller = CharacterPerspectiveController.new()
+    controller.connect("animation_changed", self, "_on_animation_changed")
+    controller.attach_to_character(mock_character)
+    yield(get_tree(), "idle_frame")
+    
+    controller.play_animation("walk", "east")
+    yield(get_tree(), "idle_frame")
+    
+    end_test(animation_changed_signal_received and last_animation_name == "iso_walk_east",
+             "Animation changed signal emitted correctly")
+    
+    if controller.is_connected("animation_changed", self, "_on_animation_changed"):
+        controller.disconnect("animation_changed", self, "_on_animation_changed")
+    
+    # Test fallback animation
+    start_test("test_fallback_animation")
+    animation_changed_signal_received = false
+    mock_animated_sprite.frames.add_animation("walk")  # Generic fallback
+    
+    controller.connect("animation_changed", self, "_on_animation_changed")
+    controller.play_animation("walk", "northwest")  # No iso_walk_northwest
+    yield(get_tree(), "idle_frame")
+    
+    end_test(animation_changed_signal_received and last_animation_name == "walk",
+             "Fallback animation used when perspective-specific not found")
+    
+    if controller.is_connected("animation_changed", self, "_on_animation_changed"):
+        controller.disconnect("animation_changed", self, "_on_animation_changed")
+    
+    # Test animation priority (perspective-specific over generic)
+    start_test("test_animation_priority")
+    mock_animated_sprite.frames.add_animation("side_idle_left")
+    controller.set_perspective(PerspectiveType.SIDE_SCROLLING)
+    yield(get_tree(), "idle_frame")
+    
+    animation_changed_signal_received = false
+    controller.connect("animation_changed", self, "_on_animation_changed")
+    controller.play_animation("idle", "left")
+    yield(get_tree(), "idle_frame")
+    
+    end_test(last_animation_name == "side_idle_left",
+             "Perspective-specific animation preferred over generic")
+    
+    if controller.is_connected("animation_changed", self, "_on_animation_changed"):
+        controller.disconnect("animation_changed", self, "_on_animation_changed")
+
 # Helper functions
 func setup_test_scene():
     mock_character = Node2D.new()
@@ -201,9 +333,15 @@ func cleanup_test_scene():
     if controller:
         if controller.has_signal("perspective_changed") and controller.is_connected("perspective_changed", self, "_on_perspective_changed"):
             controller.disconnect("perspective_changed", self, "_on_perspective_changed")
+        if controller.has_signal("animation_changed") and controller.is_connected("animation_changed", self, "_on_animation_changed"):
+            controller.disconnect("animation_changed", self, "_on_animation_changed")
         controller.set_process(false)
         controller.queue_free()
         controller = null
+    
+    if mock_animated_sprite:
+        mock_animated_sprite.queue_free()
+        mock_animated_sprite = null
     
     if mock_character:
         mock_character.queue_free()
@@ -230,3 +368,7 @@ func _on_perspective_changed(old, new):
     signal_received = true
     old_perspective_received = old
     new_perspective_received = new
+
+func _on_animation_changed(animation_name):
+    animation_changed_signal_received = true
+    last_animation_name = animation_name

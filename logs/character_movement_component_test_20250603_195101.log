@@ -1,0 +1,76 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERMOVEMENTINTEGRATION COMPONENT TEST SUITE
+==================================================
+
+Player linked to district: Test District
+
+===== TEST SUITE: Movement Animation Integration =====
+
+[TEST] test_idle_animation_on_start
+  Animation changed to: iso_idle_south
+  ✓ PASS: test_idle_animation_on_start: Character starts with idle animation
+
+[TEST] test_walk_animation_on_movement
+Moving to: (500, 300)
+Controller successfully found AnimatedSprite
+  Animation changed to: iso_walk_east
+  ✓ PASS: test_walk_animation_on_movement: Walk animation triggered on movement
+  Animation changed to: iso_idle_east
+
+[TEST] test_idle_animation_after_stop
+  Animation changed to: iso_idle_east
+  ✓ PASS: test_idle_animation_after_stop: Returns to idle animation after stopping
+
+[TEST] test_direction_based_animations
+Moving to: (400, 200)
+  Animation changed to: walk
+  ✓ PASS: test_direction_based_animations: Direction-specific animations play correctly
+
+===== TEST SUITE: Perspective Switching During Movement =====
+
+[TEST] test_animation_updates_on_perspective_change
+  Animation changed to: walk
+  Animation changed to: walk
+  Current perspective: 1
+  Current animation state: walk
+  Current direction: northwest
+  Expected animation: side_walk_northwest
+  ✗ FAIL: test_animation_updates_on_perspective_change: Animation switches to perspective-specific version
+
+[TEST] test_movement_in_side_scrolling
+  Animation changed to: side_walk_left
+Moving to: (500, 300)
+  Animation changed to: side_walk_left
+  ✓ PASS: test_movement_in_side_scrolling: Side-scrolling animations work correctly
+  Animation changed to: side_idle_left
+  Animation changed to: idle
+
+===== TEST SUITE: State Transition Animations =====
+
+[TEST] test_animation_during_acceleration
+Moving to: (700, 300)
+  Animation changed to: iso_walk_east
+  ✓ PASS: test_animation_during_acceleration: Acceleration state detected during movement
+
+[TEST] test_rapid_direction_changes
+  Animation changed to: iso_walk_east
+Moving to: (150, 300)
+  Animation changed to: iso_walk_east
+  Animation changed to: iso_walk_east
+Moving to: (100, 250)
+Moving to: (150, 250)
+  Animation changed to: iso_walk_west
+  ✓ PASS: test_rapid_direction_changes: Multiple direction animations played during rapid changes
+
+==================================================
+ SUMMARY: 7 passed, 1 failed
+==================================================
+
+[FAIL] Some tests failed!
+  - test_animation_updates_on_perspective_change

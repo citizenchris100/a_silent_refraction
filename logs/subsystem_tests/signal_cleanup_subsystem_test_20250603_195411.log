@@ -1,0 +1,201 @@
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+Signal Cleanup Test District loaded
+CoordinateManager: Current district set to Signal Cleanup Test District
+Registered district with CoordinateManager
+Using standard walkable area: WalkableArea
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1331
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Signal Cleanup Test District with initial view: center
+Added standard player character at position (960, 540)
+Setting target_player to: Player:[Node2D:1343]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Camera set to follow player
+Added standard player controller for point-and-click navigation
+Creating input manager...
+Creating dialog manager...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: Player
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1920, 1080)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (1820, 100), Global: (1820, 100)
+Point 2 - Local: (1820, 980), Global: (1820, 980)
+Point 3 - Local: (100, 980), Global: (100, 980)
+Note: Rect2.expand() did not change bounds for point (100, 980) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 100, 1720, 880)
+Bounds after margin adjustment: (99, 99, 1722, 882)
+Final corrected bounds: (99, 99, 1722, 882)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 99, 1722, 882)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Camera bounds set from district: (99, 99, 1722, 882)
+Initializing DefaultBoundsValidator with bounds: (99, 99, 1722, 882)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: center
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (1692.444458, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1692.444458, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1692.444458, 952)
+Background wide enough for scrolling: False
+Background width: 1692.444458, Min width for scrolling: 2136
+Using CENTER initial view setting
+Positioning camera at center: (846.222229, 476)
+Setting camera position to: (846.222229, 476)
+Camera position after setting: (846, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+[CAMERA DEBUG] Walkable area polygon points: [(100, 100), (1820, 100), (1820, 980), (100, 980)]
+[CAMERA DEBUG] Calculated walkable area center: (960, 540)
+[CAMERA DEBUG] Distance from camera to walkable center: 130.736374
+Camera positioned for initial view: center at (846, 476)
+View ratio: 84% of background is visible (1424 pixels of 1692.444458 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Player linked to district: Signal Cleanup Test District
+Player controller initialized
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  [INFO] Components found:
+    - GameManager: yes
+    - InputManager: yes
+    - Player: yes
+    - Camera: yes
+
+============================================================
+ SIGNAL CLEANUP SUBSYSTEM TEST
+============================================================
+
+
+===== SCENARIO: Signal Connection Tracking =====
+
+  Testing: game_manager_tracks_connections
+    ✓ PASS: GameManager should track active signal connections (0.00s)
+
+  Testing: can_query_connection_count
+    ✓ PASS: Should be able to query active connection count (0.00s)
+
+===== SCENARIO: Scene Change Cleanup =====
+
+  Testing: connections_before_scene_change
+Connected to NPC: @@9
+Connected to NPC: @@9
+Connected to NPC: @@10
+Connected to NPC: @@10
+Connected to NPC: @@11
+Connected to NPC: @@11
+  [INFO] Initial connection count: 7
+    ✓ PASS: GameManager should be connected to player and camera signals (0.48s)
+
+  Testing: cleanup_on_scene_change
+Disconnected from NPC: @@9
+Disconnected from NPC: @@10
+Disconnected from NPC: @@11
+Cleaned up all signal connections
+Disconnected from NPC: @@9
+Disconnected from NPC: @@10
+Disconnected from NPC: @@11
+  [INFO] Connection count after cleanup: 0
+    ✓ PASS: Scene change should cleanup old connections (0.50s)
+
+  Testing: no_orphaned_connections
+    ✓ PASS: No orphaned connections to freed objects should exist (0.00s)
+
+===== SCENARIO: Component Removal During Runtime =====
+
+  Testing: safe_player_removal
+Connected to player movement_state_changed signal
+    ✓ PASS: Player removal/addition should be handled safely (0.98s)
+
+  Testing: dynamic_npc_lifecycle
+Connected to NPC: @@12
+Connected to NPC: @@12
+Connected to NPC: @@13
+Connected to NPC: @@13
+Connected to NPC: @@14
+Connected to NPC: @@14
+Connected to NPC: @@15
+Connected to NPC: @@15
+Connected to NPC: @@16
+Connected to NPC: @@16
+  [INFO] Connections before NPC removal: 6
+Disconnected from NPC: @@12
+Disconnected from NPC: @@13
+Disconnected from NPC: @@14
+Disconnected from NPC: @@15
+Disconnected from NPC: @@16
+  [INFO] Connections after NPC removal: 1
+    ✓ PASS: Dynamic NPC lifecycle should be properly managed (1.06s)
+
+===== SCENARIO: Duplicate Connection Protection =====
+
+  Testing: prevent_duplicate_connections
+    ✓ PASS: Duplicate connections should be prevented (0.00s)
+
+  Testing: connection_integrity_check
+    ✓ PASS: Should have connection integrity verification (0.00s)
+
+--------------------------------------------------
+ Test Summary
+--------------------------------------------------
+Tests Passed: 9
+Tests Failed: 0
+Cleaned up all signal connections
+Cleaned up all signal connections
+SCRIPT ERROR: Invalid call. Nonexistent function '_exit_tree'.
+          at: _exit_tree (res://src/subsystem_tests/signal_cleanup_subsystem_test.gd:512)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)

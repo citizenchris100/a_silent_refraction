@@ -1,0 +1,2138 @@
+=== Component Test: camera_player_sync_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CAMERAPLAYERSYNCCOMPONENTTEST TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Process Synchronization Tests =====
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1309
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+
+[TEST] test_camera_and_player_use_same_process_method
+  ✓ PASS: test_camera_and_player_use_same_process_method: Camera and player should use the same process method (both physics or both regular)
+
+===== TEST SUITE: Movement Synchronization Tests =====
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1321
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+
+[TEST] test_camera_tracks_player_without_lag
+Cannot move to: (500, 300) - not in walkable area
+  ✓ PASS: test_camera_tracks_player_without_lag: Camera should stay within 5 pixels of player (0.0% frames exceeded limit)
+
+===== TEST SUITE: Frame Timing Tests =====
+Setting test_mode to: True
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1331
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+
+[TEST] test_camera_updates_after_player
+
+==================================================
+ SUMMARY: 2 passed, 0 failed
+==================================================
+
+[PASS] All CameraPlayerSyncComponentTest tests passed!
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:43
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:444
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+Setting target_player to: @@11:[Node2D:1329]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:43
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_ready()' after yield, but class instance is gone. At script: res://src/core/camera/scrolling_camera.gd:444
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+Setting target_player to: @@11:[Node2D:1329]
+Player linked to district: Test District
+Camera found player: @@11
+Using default camera bounds based on screen size
+Initializing TestBoundsValidator for test mode
+TestBoundsValidator initialized - bounds validation disabled for testing
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (512, 300)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+Setting target_player to: @@11:[Node2D:1329]
+  Frame 0: physics=0, process=0
+ensure_valid_target called with position: (657, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (657, 300)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 300) -> (705, 453)
+ensure_valid_target called with position: (657, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (657, 300)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 300) -> (699, 433)
+ensure_valid_target called with position: (657, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (657, 300)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 300) -> (694, 416)
+ensure_valid_target called with position: (657, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (657, 300)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 300) -> (689, 401)
+ensure_valid_target called with position: (657, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (657, 300)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 300) -> (685, 388)
+ensure_valid_target called with position: (657, 300)
+Current test_mode value: True
+[TEST] Bypassing all bounds validation due to test_mode=true for: (657, 300)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 300) -> (681, 377)
+  Frame 1: physics=0, process=0
+
+=== Component Test: camera_walkable_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Camera-Walkable Area component test...
+Setting test_mode to: False
+Initializing DefaultBoundsValidator with bounds: (0, 0, 0, 0)
+BoundsValidator initialized: Reference
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1306
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Test scene created with district, walkable area, camera, and player
+Starting Camera-Walkable Area component tests...
+Running test suite: bounds_calculation with timeout protection
+===== TEST SUITE: Bounds Calculation =====
+Running test: Camera Calculates Bounds
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (900, 100), Global: (900, 100)
+Point 2 - Local: (900, 500), Global: (900, 500)
+Point 3 - Local: (100, 500), Global: (100, 500)
+Note: Rect2.expand() did not change bounds for point (100, 500) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 100, 800, 400)
+Bounds after margin adjustment: (99, 99, 802, 402)
+Final corrected bounds: (99, 99, 802, 402)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 99, 802, 402)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Camera Calculates Bounds: Camera should calculate bounds from walkable areas
+Running test: Bounds Contain Walkable Areas
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (900, 100), Global: (900, 100)
+Point 2 - Local: (900, 500), Global: (900, 500)
+Point 3 - Local: (100, 500), Global: (100, 500)
+Note: Rect2.expand() did not change bounds for point (100, 500) - this is normal for some polygon arrangements
+Raw calculated bounds: (100, 100, 800, 400)
+Bounds after margin adjustment: (99, 99, 802, 402)
+Final corrected bounds: (99, 99, 802, 402)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (99, 99, 802, 402)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Bounds Contain Walkable Areas: Camera bounds should contain all walkable area points
+Running test: Bounds Update on District Change
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 1
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 1
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (200, 200), Global: (200, 200)
+Point 1 - Local: (800, 200), Global: (800, 200)
+Point 2 - Local: (800, 400), Global: (800, 400)
+Point 3 - Local: (200, 400), Global: (200, 400)
+Note: Rect2.expand() did not change bounds for point (200, 400) - this is normal for some polygon arrangements
+Raw calculated bounds: (200, 200, 600, 200)
+Bounds after margin adjustment: (199, 199, 602, 202)
+Final corrected bounds: (199, 199, 602, 202)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+INFO: Walkable area height is 202 pixels
+This is normal for floor-based walkable areas
+Adjusting camera height bounds to 285.6 pixels for better visibility
+Height-to-viewport ratio: 0.3 (30%)
+This preserves the exact floor walkable area while improving camera view
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+Final district bounds: (199, 157.199997, 602, 285.600006)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+✓ PASS: Bounds Update on District Change: Camera bounds should update when walkable areas change
+Suite completed: 3/3 tests passed
+Running test suite: camera_constraint with timeout protection
+===== TEST SUITE: Camera Constraint =====
+Running test: Camera Stays Within Bounds
+ensure_valid_target called with position: (2000, 2000)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+Position adjusted by bounds: (2000, 2000) -> (500, 300)
+Position adjusted by bounds validator: (2000, 2000) -> (500, 300)
+move_to_position called with pos=(2000, 2000), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+ensure_valid_target called with position: (500, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+move_to_position called with pos=(500, 300), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+✓ PASS: Camera Stays Within Bounds: Camera should stay within calculated bounds
+Running test: Camera Handles Invalid Targets
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+ensure_valid_target called with position: (nan, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+move_to_position called with pos=(nan, 100), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+ensure_valid_target called with position: (500, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+WARNING: Camera width exceeds bounds width. Centering camera horizontally.
+WARNING: Camera height exceeds bounds height. Centering camera vertically.
+move_to_position called with pos=(500, 300), immediate=True
+Target position after validation: (500, 300)
+Immediate move from (500, 300) to (500, 300)
+✓ PASS: Camera Handles Invalid Targets: Camera should handle invalid target positions
+Running test: Camera Uses BoundsCalculator
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (1000, 600)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 2
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 2
+Using get_polygon() interface method
+Processing walkable area: WalkableArea with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (100, 100), Global: (100, 100)
+Point 1 - Local: (900, 100), Global: (900, 100)
+Point 2 - Local: (900, 500), Global: (900, 500)
+Point 3 - Local: (100, 500), Global: (100, 500)
+Note: Rect2.expand() did not change bounds for point (100, 500) - this is normal for some polygon arrangements
+Using get_polygon() interface method
+Processing walkable area: @WalkableArea@3 with 4 points
+Area transform: ((1, 0), (0, 1), (0, 0))
+Point 0 - Local: (0, 0), Global: (0, 0)
+Point 1 - Local: (1000, 0), Global: (1000, 0)
+Point 2 - Local: (1000, 600), Global: (1000, 600)
+Point 3 - Local: (0, 600), Global: (0, 600)
+Note: Rect2.expand() did not change bounds for point (0, 600) - this is normal for some polygon arrangements
+Raw calculated bounds: (0, 0, 1000, 600)
+Bounds after margin adjustment: (-1, -1, 1002, 602)
+Final corrected bounds: (-1, -1, 1002, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+Final district bounds: (-1, -1, 1002, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+✓ PASS: Camera Uses BoundsCalculator: Camera should use BoundsCalculator to calculate bounds
+Suite completed: 3/3 tests passed
+Running test suite: coordinate_transformations with timeout protection
+===== TEST SUITE: Coordinate Transformations =====
+Running test: Screen to World with Camera
+✓ PASS: Screen to World with Camera: Screen-to-world conversion should map screen center to camera position
+Running test: World to Screen with Camera
+✓ PASS: World to Screen with Camera: World-to-screen conversion should map camera position to screen center
+Running test: District Camera Coordinate Methods Match
+✓ PASS: District Camera Coordinate Methods Match: District and camera coordinate methods should give consistent results
+Suite completed: 3/3 tests passed
+Running test suite: view_modes with timeout protection
+===== TEST SUITE: View Modes =====
+Running test: World View Coordinate Transformations
+✓ PASS: World View Coordinate Transformations: World view coordinates should be properly transformed to game view
+Running test: Game View Coordinate Transformations
+✓ PASS: Game View Coordinate Transformations: Game view coordinates should be properly transformed to world view
+Running test: View Mode Transformation Consistency
+✓ PASS: View Mode Transformation Consistency: View mode transformations should be consistent when applied bidirectionally
+Suite completed: 3/3 tests passed
+Running test suite: player_movement with timeout protection
+===== TEST SUITE: Player Movement =====
+Running test: Camera Follows Player Movement
+Setting target_player to: MockPlayer:[Node2D:1311]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Running test: Camera Stops at Boundaries
+Setting target_player to: MockPlayer:[Node2D:1311]
+Running test: Player Stays Within Walkable Areas
+✓ PASS: Player Stays Within Walkable Areas: Walkable area detection should correctly identify valid positions
+Suite completed: 1/1 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 13
+Passed: 13
+Failed: 0
+
+All tests passed! 🎉
+Tests complete - exiting...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/camera/scrolling_camera.gd:444
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+
+=== Component Test: character_movement_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CHARACTERMOVEMENTINTEGRATION COMPONENT TEST SUITE
+==================================================
+
+Player linked to district: Test District
+
+===== TEST SUITE: Movement Animation Integration =====
+
+[TEST] test_idle_animation_on_start
+  Animation changed to: iso_idle_south
+  ✓ PASS: test_idle_animation_on_start: Character starts with idle animation
+
+[TEST] test_walk_animation_on_movement
+Moving to: (500, 300)
+Controller successfully found AnimatedSprite
+  Animation changed to: iso_walk_east
+  ✓ PASS: test_walk_animation_on_movement: Walk animation triggered on movement
+  Animation changed to: iso_idle_east
+
+[TEST] test_idle_animation_after_stop
+  Animation changed to: iso_idle_east
+  ✓ PASS: test_idle_animation_after_stop: Returns to idle animation after stopping
+
+[TEST] test_direction_based_animations
+Moving to: (400, 200)
+  Animation changed to: walk
+  ✓ PASS: test_direction_based_animations: Direction-specific animations play correctly
+
+===== TEST SUITE: Perspective Switching During Movement =====
+  Animation changed to: idle
+
+[TEST] test_animation_updates_on_perspective_change
+  Animation changed to: side_idle_left
+  Animation changed to: side_idle_left
+  Current perspective: 1
+  Current animation state: idle
+  Current direction: left
+  Expected animation: side_idle_left
+  ✓ PASS: test_animation_updates_on_perspective_change: Animation switches to perspective-specific version
+
+[TEST] test_movement_in_side_scrolling
+  Animation changed to: side_walk_left
+Moving to: (500, 300)
+  Animation changed to: side_walk_left
+  ✓ PASS: test_movement_in_side_scrolling: Side-scrolling animations work correctly
+  Animation changed to: side_idle_left
+  Animation changed to: idle
+
+===== TEST SUITE: State Transition Animations =====
+
+[TEST] test_animation_during_acceleration
+Moving to: (700, 300)
+  Animation changed to: iso_walk_east
+  ✓ PASS: test_animation_during_acceleration: Acceleration state detected during movement
+
+[TEST] test_rapid_direction_changes
+  Animation changed to: iso_walk_east
+Moving to: (150, 300)
+  Animation changed to: iso_walk_east
+  Animation changed to: iso_walk_east
+Moving to: (100, 250)
+Moving to: (150, 250)
+  Animation changed to: iso_walk_west
+  ✓ PASS: test_rapid_direction_changes: Multiple direction animations played during rapid changes
+
+==================================================
+ SUMMARY: 8 passed, 0 failed
+==================================================
+
+[PASS] All CharacterMovementIntegration tests passed!
+
+=== Component Test: click_feedback_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKFEEDBACKCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: Feedback Creation on Click =====
+
+[TEST] test_creates_feedback_on_valid_click
+  ✓ PASS: test_creates_feedback_on_valid_click: Should create feedback marker at click position
+
+[TEST] test_creates_feedback_on_invalid_click
+  ✓ PASS: test_creates_feedback_on_invalid_click: Should create invalid feedback marker for invalid clicks
+
+[TEST] test_handles_multiple_rapid_clicks
+  ✓ PASS: test_handles_multiple_rapid_clicks: Should handle multiple rapid clicks without issues
+
+===== TEST SUITE: Feedback Visual States =====
+
+[TEST] test_valid_click_shows_green_feedback
+  ✓ PASS: test_valid_click_shows_green_feedback: Valid clicks should show green feedback
+
+[TEST] test_invalid_click_shows_red_feedback
+  ✓ PASS: test_invalid_click_shows_red_feedback: Invalid clicks should show red feedback
+
+[TEST] test_adjusted_click_shows_yellow_feedback
+  ✓ PASS: test_adjusted_click_shows_yellow_feedback: Adjusted clicks should show both original and final positions
+
+[TEST] test_feedback_includes_adjustment_line
+  ✓ PASS: test_feedback_includes_adjustment_line: Adjusted clicks should show a line from original to adjusted position
+
+===== TEST SUITE: Feedback Timing and Duration =====
+
+[TEST] test_feedback_fades_after_duration
+  ✓ PASS: test_feedback_fades_after_duration: Feedback should automatically fade after duration
+
+[TEST] test_feedback_fade_animation
+  ✓ PASS: test_feedback_fade_animation: Feedback should fade gradually over time
+
+===== TEST SUITE: Feedback Cleanup and Performance =====
+
+[TEST] test_clear_all_feedback
+  ✓ PASS: test_clear_all_feedback: Clear all should remove all active feedback
+
+[TEST] test_feedback_performance_with_many_clicks
+  ✓ PASS: test_feedback_performance_with_many_clicks: Should handle many feedbacks efficiently (took 1ms)
+
+[TEST] test_old_feedback_cleanup
+  ✓ PASS: test_old_feedback_cleanup: System should clean up expired feedback nodes
+
+==================================================
+ SUMMARY: 12 passed, 0 failed
+==================================================
+
+[PASS] All ClickFeedbackComponentTest tests passed!
+
+=== Component Test: click_signal_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ CLICKSIGNALCOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+
+===== TEST: Basic Signal Flow =====
+
+[TEST] Components created successfully
+  ✓ PASS: All components should be created
+
+[TEST] InputManager emits click signal
+
+==================================================
+ SUMMARY: 1 passed, 0 failed
+==================================================
+
+  ✓ PASS: Click detected signal should be emitted
+
+[TEST] Priority system processes clicks
+  ✓ PASS: Priority system should process valid clicks
+
+[TEST] Priority system rejects UI clicks
+
+=== Component Test: coordinate_transformation_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Coordinate Transformation component test...
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1305
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Test scene created with district and camera
+Starting Coordinate Transformation component tests...
+Running test suite: screen_world_transformations with timeout protection
+===== TEST SUITE: Screen World Transformations =====
+Running test: Scrolling Camera Screen to World
+✓ PASS: Scrolling Camera Screen to World: Camera screen_to_world should map screen center to camera position
+Running test: Scrolling Camera World to Screen
+✓ PASS: Scrolling Camera World to Screen: Camera world_to_screen should map camera position to screen center
+Running test: CoordinateSystem Screen to World
+✓ PASS: CoordinateSystem Screen to World: CoordinateSystem screen_to_world should map screen center to camera position
+Running test: CoordinateSystem World to Screen
+✓ PASS: CoordinateSystem World to Screen: CoordinateSystem world_to_screen should map camera position to screen center
+Running test: District Coordinate Methods
+✓ PASS: District Coordinate Methods: District coordinate methods should use camera methods correctly
+Suite completed: 5/5 tests passed
+Running test suite: game_world_view_transformations with timeout protection
+===== TEST SUITE: Game World View Transformations =====
+Running test: CoordinateSystem World to Game
+✓ PASS: CoordinateSystem World to Game: world_view_to_game_view should divide coordinates by scale factor
+Running test: CoordinateSystem Game to World
+✓ PASS: CoordinateSystem Game to World: game_view_to_world_view should multiply coordinates by scale factor
+Running test: CoordinateManager View Transformations
+CoordinateManager initialized
+✓ PASS: CoordinateManager View Transformations: CoordinateManager view transformations should work correctly in both directions
+Running test: Scale Factor Handling
+✓ PASS: Scale Factor Handling: Scale factor operations should work correctly with different factors
+Suite completed: 4/4 tests passed
+Running test suite: round_trip_transformations with timeout protection
+===== TEST SUITE: Round Trip Transformations =====
+Running test: Screen World Round Trip
+✓ PASS: Screen World Round Trip: Screen-to-world-to-screen round trip should preserve coordinates
+Running test: Game World View Round Trip
+✓ PASS: Game World View Round Trip: Game-view-to-world-view-to-game-view round trip should preserve coordinates
+Running test: Full Coordinate Pipeline
+CoordinateManager initialized
+✓ PASS: Full Coordinate Pipeline: Full coordinate transformation pipeline should preserve coordinates
+Suite completed: 3/3 tests passed
+Running test suite: coordinate_systems_integration with timeout protection
+===== TEST SUITE: Coordinate Systems Integration =====
+Running test: Camera CoordinateSystem Consistency
+✓ PASS: Camera CoordinateSystem Consistency: Camera and CoordinateSystem methods should give consistent results
+Running test: District CoordinateManager Consistency
+CoordinateManager initialized
+✓ PASS: District CoordinateManager Consistency: District and CoordinateManager methods should give consistent results
+Running test: Cross System Transformations
+CoordinateManager initialized
+Cross-system transformation difference: 0 pixels
+✓ PASS: Cross System Transformations: Coordinate transformations should work consistently across different systems
+Suite completed: 3/3 tests passed
+Running test suite: edge_cases with timeout protection
+===== TEST SUITE: Edge Cases =====
+Running test: Handle NaN Values
+WARNING: world_view_to_game_view received NaN coordinates: (nan, 100)
+WARNING: world_view_to_game_view received NaN coordinates: (100, nan)
+WARNING: world_view_to_game_view received NaN coordinates: (nan, nan)
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (NaN). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+✓ PASS: Handle NaN Values: Coordinate systems should properly handle NaN values
+Running test: Handle Infinity Values
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+WARNING: Camera: Invalid coordinate detected (Infinite). Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+✓ PASS: Handle Infinity Values: Coordinate systems should properly handle infinity values
+Running test: Handle Large Coordinates
+WARNING: Camera: Suspiciously large coordinate detected. Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Large coordinate detected: (1000000, 1000000)
+WARNING: Camera: Suspiciously large coordinate detected. Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Large coordinate detected: (-1000000, 1000000)
+WARNING: Camera: Suspiciously large coordinate detected. Using camera position as fallback.
+     at: call (modules/gdscript/gdscript_functions.cpp:789)
+[CAMERA DEBUG] Large coordinate detected: (1000000, -1000000)
+✓ PASS: Handle Large Coordinates: Coordinate systems should properly handle very large coordinates
+Running test: Handle Negative Coordinates
+✓ PASS: Handle Negative Coordinates: Coordinate systems should properly handle negative coordinates
+Suite completed: 4/4 tests passed
+Running test suite: performance with timeout protection
+===== TEST SUITE: Performance =====
+Running test: Batch Transformations
+Batch transformation time for 100 points: 1ms
+✓ PASS: Batch Transformations: Batch transformations should complete without errors
+Running test: Large Array Transformations
+CoordinateManager initialized
+Large array transformation time for 1000 points: 2ms
+✓ PASS: Large Array Transformations: Large array transformations should preserve array size
+Suite completed: 2/2 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 21
+Passed: 21
+Failed: 0
+
+All tests passed! 🎉
+Tests complete - exiting...
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+ERROR: Resumed function '_ready()' after yield, but script is gone. At script: res://src/core/camera/scrolling_camera.gd:444
+   at: resume (modules/gdscript/gdscript_function.cpp:1795)
+
+=== Component Test: game_manager_camera_signal_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERCAMERASIGNAL COMPONENT TEST SUITE
+==================================================
+
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1321
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+Creating input manager...
+Creating dialog manager...
+
+===== TEST SUITE: Camera Signal Connection =====
+
+[TEST] test_game_manager_connects_to_camera
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+Camera found player: Player
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (1920, 1080)
+Current background scale: (1, 1)
+Effective background size with current scale: (1920, 1080)
+Scale needed to fill viewport height: 0.881481
+Applied new scale to background: (0.881481, 0.881481)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1692.444458, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera initialized in FOLLOWING_PLAYER state
+WARNING: No district found for the player
+ERROR: No district found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+Connected to camera signals
+Game Manager initialized
+  ✓ PASS: test_game_manager_connects_to_camera: GameManager should connect to camera signals
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+
+[TEST] test_camera_move_started_signal
+ensure_valid_target called with position: (500, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (500, 300) -> (712, 476)
+Position adjusted by bounds validator: (500, 300) -> (712, 476)
+move_to_position called with pos=(500, 300), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+  [SIGNAL] camera_move_started to (712, 476)
+Camera move started to: (712, 476)
+Camera state changed from 2 to 1 because: requested_position_change
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (712, 476), Target (712, 476)
+Camera move completed at: (712, 476)
+Camera state changed from 1 to 2 because: movement_complete_follow_enabled
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (712, 476), took 0.041s
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+  ✓ PASS: test_camera_move_started_signal: camera_move_started should emit with target position
+
+[TEST] test_camera_move_completed_signal
+ensure_valid_target called with position: (200, 200)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (200, 200) -> (712, 476)
+Position adjusted by bounds validator: (200, 200) -> (712, 476)
+move_to_position called with pos=(200, 200), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+Camera move started to: (712, 476)
+Camera state changed from 2 to 1 because: requested_position_change
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (712, 476), Target (712, 476)
+  [SIGNAL] camera_move_completed at (712, 476)
+Camera move completed at: (712, 476)
+Camera state changed from 1 to 2 because: movement_complete_follow_enabled
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (712, 476), took 0.023s
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+  ✓ PASS: test_camera_move_completed_signal: camera_move_completed should emit when movement finishes
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+
+===== TEST SUITE: Movement Coordination =====
+
+[TEST] test_camera_follows_player_movement
+Setting target_player to: Player:[Node2D:1323]
+ensure_valid_target called with position: (657, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (657, 100) -> (712, 476)
+Position adjusted by bounds validator: (657, 100) -> (712, 476)
+[CAMERA DEBUG] Smoothing value: 5, weight: 0.083333
+[CAMERA DEBUG] Using normal interpolation
+[CAMERA DEBUG] Camera following player: (100, 100) -> (712, 476)
+  ✓ PASS: test_camera_follows_player_movement: Camera should follow player movement
+
+===== TEST SUITE: State Synchronization =====
+
+[TEST] test_camera_state_change_signals
+ensure_valid_target called with position: (300, 300)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (300, 300) -> (712, 476)
+Position adjusted by bounds validator: (300, 300) -> (712, 476)
+move_to_position called with pos=(300, 300), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+Camera move started to: (712, 476)
+  [SIGNAL] camera_state_changed to 1
+Camera state changed from 2 to 1 because: requested_position_change
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (712, 476), Target (712, 476)
+Camera move completed at: (712, 476)
+  [SIGNAL] camera_state_changed to 2
+Camera state changed from 1 to 2 because: movement_complete_follow_enabled
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (712, 476), took 0.015s
+  ✓ PASS: test_camera_state_change_signals: Camera state changes should emit signals
+
+[TEST] test_game_manager_responds_to_camera_states
+ensure_valid_target called with position: (100, 100)
+Current test_mode value: False
+Camera half size: (712, 476)
+Position adjusted by bounds: (100, 100) -> (712, 476)
+Position adjusted by bounds validator: (100, 100) -> (712, 476)
+move_to_position called with pos=(100, 100), immediate=False
+Target position after validation: (712, 476)
+Starting animated movement to (712, 476)
+Camera move started to: (712, 476)
+Camera state changed from 2 to 1 because: requested_position_change
+[CAMERA DEBUG] Camera state changed from FOLLOWING_PLAYER to MOVING
+[CAMERA DEBUG] Camera transition: Progress 0.083333, Position (712, 476), Target (712, 476)
+Camera move completed at: (712, 476)
+Camera state changed from 1 to 2 because: movement_complete_follow_enabled
+[CAMERA DEBUG] Camera state changed from MOVING to FOLLOWING_PLAYER
+[CAMERA DEBUG] Camera transition completed to (712, 476), took 0.014s
+  ✓ PASS: test_game_manager_responds_to_camera_states: GameManager should handle all camera states
+
+==================================================
+ SUMMARY: 6 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerCameraSignal tests passed!
+Cleaned up all signal connections
+
+=== Component Test: game_manager_player_signal_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ GAMEMANAGERPLAYERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+WARNING: No district found for the player
+Creating input manager...
+Creating dialog manager...
+ERROR: No district found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Connected to InputManager object_clicked signal
+Found player: Player
+Connected to player movement_state_changed signal
+No camera found in 'camera' group for signal connection
+Game Manager initialized
+
+===== TEST SUITE: Signal Connection =====
+
+[TEST] test_game_manager_connects_to_player
+  ✓ PASS: test_game_manager_connects_to_player: GameManager should connect to player movement_state_changed
+
+[TEST] test_signal_flow_player_to_game_manager
+  [SIGNAL] Test received movement_state_changed: 1
+Player movement state changed to: 1
+  ✓ PASS: test_signal_flow_player_to_game_manager: Signal should flow from Player to GameManager
+
+===== TEST SUITE: State Response =====
+
+[TEST] test_game_manager_handles_movement_states
+Player movement state changed to: 0
+Player movement state changed to: 1
+Player movement state changed to: 2
+Player movement state changed to: 3
+Player movement state changed to: 4
+  ✓ PASS: test_game_manager_handles_movement_states: GameManager should handle all movement states
+
+[TEST] test_rapid_state_changes
+Player movement state changed to: 0
+Player movement state changed to: 1
+Player movement state changed to: 2
+Player movement state changed to: 3
+Player movement state changed to: 4
+Player movement state changed to: 0
+Player movement state changed to: 1
+Player movement state changed to: 2
+Player movement state changed to: 3
+Player movement state changed to: 4
+  ✓ PASS: test_rapid_state_changes: System should remain stable during rapid state changes
+
+===== TEST SUITE: Cleanup Handling =====
+
+[TEST] test_cleanup_on_player_removal
+  ✓ PASS: test_cleanup_on_player_removal: System should remain stable when player is removed
+
+==================================================
+ SUMMARY: 5 passed, 0 failed
+==================================================
+
+[PASS] All GameManagerPlayerSignal tests passed!
+Cleaned up all signal connections
+
+=== Component Test: input_coordinate_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Unknown District loaded
+CoordinateManager: Current district set to Unknown District
+Registered district with CoordinateManager
+
+==================================================
+ INPUTCOORDINATECOMPONENTTEST COMPONENT TEST SUITE
+==================================================
+
+Test Input Coordinate District loaded
+CoordinateManager: Current district set to Test Input Coordinate District
+Registered district with CoordinateManager
+Setting debug_draw to: True
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1315
+[TRACE] Camera initialized with screen size: (1424, 952)
+[OVERLAY DEBUG] Created debug overlay
+No target player set
+Added scrolling camera to Test Input Coordinate District with initial view: right
+CoordinateManager: Current district set to Test Input Coordinate District
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+
+========== DISTRICT BOUNDS CALCULATION STARTED ==========
+Background dimensions: (2400, 1800)
+Screen size: (1424, 952)
+Current camera zoom: (1, 1)
+Number of walkable areas: 0
+
+========== BOUNDS CALCULATION STARTED ==========
+Number of walkable areas: 0
+WARNING: No valid walkable areas found, using default bounds
+Raw calculated bounds: (0, 0, 800, 600)
+Bounds after margin adjustment: (-1, -1, 802, 602)
+Final corrected bounds: (-1, -1, 802, 602)
+========== BOUNDS CALCULATION COMPLETED ==========
+
+Viewport-aware height calculation: 952 * 0.3 = 285.6
+NOTE: Walkable area is much smaller than background.
+This is often intentional for floor-based walkable areas.
+Using the exact walkable area as specified in the coordinates.
+Final district bounds: (-1, -1, 802, 602)
+========== DISTRICT BOUNDS CALCULATION COMPLETED ==========
+
+Camera bounds set from district: (-1, -1, 802, 602)
+Initializing DefaultBoundsValidator with bounds: (-1, -1, 802, 602)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (0, 0)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Found background sprite with texture size: (2400, 1800)
+Current background scale: (1, 1)
+Effective background size with current scale: (2400, 1800)
+Scale needed to fill viewport height: 0.528889
+Applied new scale to background: (0.528889, 0.528889)
+[SCALING DEBUG] Background vertical positioning applied:
+[SCALING DEBUG] - Viewport height: 952
+[SCALING DEBUG] - Scaled background height: 952
+[SCALING DEBUG] - Applied y_offset: 0
+New effective background size: (1269.333374, 952)
+Camera zoom left at 1.0 (since we're scaling the background)
+Updated district.background_size to (1269.333374, 952)
+Updated camera bounds to match scaled background for visual correctness: (0, 0, 1269.333374, 952)
+Updated bounds validator with new camera bounds
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1269.333374, 952)
+Background wide enough for scrolling: False
+Background width: 1269.333374, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (634.666687, 476)
+Setting camera position to: (634.666687, 476)
+Camera position after setting: (635, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (635, 476)
+View ratio: 112% of background is visible (1424 pixels of 1269.333374 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+
+===== TEST SUITE: Basic Coordinate Conversion =====
+
+[TEST] test_click_converts_to_world
+Added standard player character at position (960, 540)
+Setting target_player to: @Player@4:[Node2D:1344]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Camera set to follow player
+Added standard player controller for point-and-click navigation
+  Captured world position: (-312, -176)
+Player linked to district: Test Input Coordinate District
+Player controller initialized
+  Screen click: (400, 300)
+  Expected world: (-312, -176)
+  Actual world: (-312, -176)
+  Distance: 0.00
+  ✓ PASS: test_click_converts_to_world: Screen coordinates correctly converted to world coordinates
+
+===== TEST SUITE: Different Camera States =====
+
+[TEST] test_conversion_with_camera_offset
+  Captured world position: (748, 364)
+  Camera offset: (500, 300)
+  Screen click: (960, 540)
+  Expected world: (748, 364)
+  Actual world: (748, 364)
+  ✓ PASS: test_conversion_with_camera_offset: Conversion accounts for camera offset
+
+[TEST] test_conversion_with_camera_zoom
+  Captured world position: (-116, -103)
+  Camera zoom: (0.5, 0.5)
+  Screen click: (480, 270)
+  Expected world: (-116, -103)
+  Actual world: (-116, -103)
+  ✓ PASS: test_conversion_with_camera_zoom: Conversion accounts for camera zoom
+
+===== TEST SUITE: Edge Cases =====
+
+[TEST] test_screen_boundary_clicks
+  Captured world position: (-712, -476)
+  Captured world position: (711, -476)
+  Captured world position: (-712, 475)
+  Captured world position: (711, 475)
+  ✓ PASS: test_screen_boundary_clicks: Screen boundary clicks are converted correctly
+
+[TEST] test_rapid_click_conversion
+  Captured world position: (-312, -176)
+  Captured world position: (-262, -146)
+  Captured world position: (-212, -116)
+  Captured world position: (-162, -86)
+  Captured world position: (-112, -56)
+  Captured world position: (-62, -26)
+  Captured world position: (-12, 4)
+  Captured world position: (38, 34)
+  Captured world position: (88, 64)
+  Captured world position: (138, 94)
+  ✓ PASS: test_rapid_click_conversion: Rapid clicks are all converted correctly
+
+==================================================
+ SUMMARY: 5 passed, 0 failed
+==================================================
+
+[PASS] All InputCoordinateComponentTest tests passed!
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+ERROR: Condition "_first != nullptr" is true.
+   at: ~List (./core/self_list.h:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object.cpp:2070)
+ERROR: Resources still in use at exit (run with --verbose for details).
+   at: clear (core/resource.cpp:417)
+
+=== Component Test: input_game_manager_signal_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ INPUTGAMEMANAGERSIGNAL COMPONENT TEST SUITE
+==================================================
+
+Found existing InputManager in group
+Creating dialog manager...
+
+===== TEST SUITE: Existing Connection =====
+
+[TEST] test_game_manager_uses_existing_input_manager
+  Our InputManager: InputManager:[Node:1286]
+  GM's InputManager: InputManager:[Node:1286]
+  Same instance? True
+  ✓ PASS: test_game_manager_uses_existing_input_manager: GameManager should find and use our existing InputManager
+
+[TEST] test_input_manager_to_game_manager_connected
+ERROR: No player found in the scene!
+   at: call (modules/gdscript/gdscript_functions.cpp:775)
+Connected to InputManager object_clicked signal
+Player not found
+No player found in 'player' group for signal connection
+No camera found in 'camera' group for signal connection
+Game Manager initialized
+Our InputManager: InputManager:[Node:1286]
+GameManager's InputManager: InputManager:[Node:1286]
+Are they the same? True
+Is connected? True
+  Connection exists? True
+  GameManager has handle_object_click? True
+  InputManager has object_clicked signal? True
+  Total connections to object_clicked: 1
+    - Connected to: GameManager:[Node:1288] method: handle_object_click
+  ✓ PASS: test_input_manager_to_game_manager_connected: InputManager.object_clicked should be connected to GameManager.handle_object_click
+
+===== TEST SUITE: Click Handling =====
+
+[TEST] test_object_click_handling
+  ✓ PASS: test_object_click_handling: GameManager should handle object_clicked signal
+
+[TEST] test_null_object_handling
+  ✓ PASS: test_null_object_handling: System should handle null object clicks gracefully
+
+===== TEST SUITE: Signal Data Flow =====
+
+[TEST] test_signal_data_integrity
+  [SIGNAL] Test received object_clicked: TestObject at (123, 456)
+  ✓ PASS: test_signal_data_integrity: Signal data should maintain integrity through chain
+
+[TEST] test_rapid_click_handling
+  ✓ PASS: test_rapid_click_handling: System should handle rapid clicks without issues
+
+==================================================
+ SUMMARY: 6 passed, 0 failed
+==================================================
+
+[PASS] All InputGameManagerSignal tests passed!
+Cleaned up all signal connections
+
+=== Component Test: navigation_oscillation_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up Navigation Oscillation component test...
+Creating test scene...
+
+===== RUNNING INTEGRATION TESTS =====
+
+
+=== Test Suite: Corner Navigation ===
+Player linked to district: Navigation Test District
+
+[TEST] sharp_corner_oscillation
+Testing navigation from (300, 380) to (220, 500)
+Moving to: (220, 500)
+Test scene created successfully
+  Time: 0.5, Pos: (260.665405, 395), Dist to target: 112.6
+  Time: 1.0, Pos: (235.960114, 395), Dist to target: 106.2
+  OSCILLATION DETECTED at (229.347595, 404.940338) (count: 3)
+  Time: 1.5, Pos: (222.171097, 477.921417), Dist to target: 22.2
+  ✓ PASS: Player successfully navigated corner
+
+=== Test Suite: Narrow Corridor ===
+
+[TEST] narrow_corridor_oscillation
+Testing narrow corridor navigation to corner junction
+Moving to: (220, 420)
+  OSCILLATION DETECTED at (171.609604, 392.348328) (count: 3)
+  Time: 0.5, Pos: (213.257263, 412.383698), Dist to target: 10.2
+  ✓ PASS: Player successfully navigated narrow corridor
+
+=== Test Suite: Boundary Interaction ===
+
+[TEST] boundary_pushback_oscillation
+Testing boundary pushback near corner
+Moving to: (220, 410)
+  ✓ PASS: Player navigated smoothly with minimal pushback
+
+===== TEST RESULTS =====
+Total tests: 3
+Passed: 3
+Failed: 0
+Tests complete - exiting...
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:209
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+=== Component Test: navigation_pathfinding_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ NAVIGATIONPATHFINDINGCOMPONENTTEST TEST SUITE
+==================================================
+
+Player linked to district: Test District
+
+===== TEST SUITE: Navigation Setup Tests =====
+
+[TEST] test_player_finds_navigation_node
+  ✓ PASS: test_player_finds_navigation_node: Player can find navigation node in parent hierarchy
+
+[TEST] test_navigation2d_setup
+  ✓ PASS: test_navigation2d_setup: Navigation2D and NavigationPolygon are properly configured
+
+[TEST] test_district_navigation_reference
+  ✓ PASS: test_district_navigation_reference: District has correct navigation reference
+
+===== TEST SUITE: Pathfinding Tests =====
+
+[TEST] test_get_simple_path
+  ✓ PASS: test_get_simple_path: Navigation2DServer returns valid path with at least 2 points
+
+[TEST] test_path_within_bounds
+  ✓ PASS: test_path_within_bounds: All path points stay within navigation polygon bounds
+
+[TEST] test_path_to_unreachable
+  ✓ PASS: test_path_to_unreachable: Pathfinding handles unreachable destinations correctly
+
+===== TEST SUITE: Path Following Tests =====
+
+[TEST] test_player_path_request
+  ✓ PASS: test_player_path_request: Player can request and store navigation path
+
+[TEST] test_movement_state_with_navigation
+Moving to: (200, 150)
+  ✓ PASS: test_movement_state_with_navigation: Player enters correct movement state when following path
+
+[TEST] test_path_following_movement
+Moving to: (150, 50)
+  ✓ PASS: test_path_following_movement: Player position updates when following path
+
+===== TEST SUITE: Obstacle Avoidance Tests =====
+
+[TEST] test_path_avoids_obstacle
+  ✓ PASS: test_path_avoids_obstacle: Skipping - Godot 3.5.2 Navigation2D hole handling has known limitations
+
+===== TEST SUITE: Fallback Behavior Tests =====
+
+[TEST] test_fallback_to_direct_movement
+Moving to: (200, 150)
+  ✓ PASS: test_fallback_to_direct_movement: Player falls back to direct movement when navigation unavailable
+
+[TEST] test_walkable_validation_with_navigation
+Cannot move to: (500, 500) - not in walkable area
+  ✓ PASS: test_walkable_validation_with_navigation: Movement still validates against walkable areas
+
+==================================================
+ SUMMARY: 12 passed, 0 failed
+==================================================
+
+[PASS] All NavigationPathfindingComponentTest tests passed!
+
+=== Component Test: perspective_district_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PERSPECTIVEDISTRICTCOMPONENT TEST SUITE
+==================================================
+
+
+===== TEST SUITE: District Perspective Integration =====
+
+[TEST] test_district_perspective_property
+SCRIPT ERROR: Invalid call. Nonexistent function 'has' in base 'Node2D (mock_district_with_perspective.gd)'.
+          at: test_suite_district_perspective (res://src/component_tests/perspective_district_component_test.gd:69)
+
+===== TEST SUITE: Perspective Configuration Loading =====
+
+[TEST] test_load_configuration_from_district
+  ✓ PASS: test_load_configuration_from_district: Controller loads configuration from district
+
+[TEST] test_configuration_affects_behavior
+  ✓ PASS: test_configuration_affects_behavior: Configuration affects valid directions
+
+[TEST] test_configuration_persistence
+  ✓ PASS: test_configuration_persistence: Configuration can be changed and reverted
+
+==================================================
+ SUMMARY: 3 passed, 0 failed
+==================================================
+
+[PASS] All PerspectiveDistrictComponent tests passed!
+
+=== Component Test: player_navigation_progress_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERNAVIGATIONPROGRESSCOMPONENTTEST TEST SUITE
+==================================================
+
+
+[TEST] test_player_makes_progress_along_path
+  Start position: (975, 150)
+  End position: (900, 375)
+  Total distance traveled: 539.93
+  Final waypoint index: 0
+  Current state: ARRIVED
+  ✓ PASS: test_player_makes_progress_along_path: Player should make progress along navigation path
+Player linked to district: Test District
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:209
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+[TEST] test_waypoint_reaching_with_overshoot
+  Player position after movement: (115.884789, 100)
+  Distance to waypoint: 4.12
+  Waypoint index advanced: True
+  ✓ PASS: test_waypoint_reaching_with_overshoot: Player should advance waypoint even with slight overshoot
+Player linked to district: Test District
+
+[TEST] test_navigation_stuck_at_intermediate_waypoint
+  Start position: (975, 150)
+  End position: (834.025085, 366.37207)
+  Final waypoint: 3 of 3
+  Final state: MOVING
+  Made progress: True
+  Got stuck: False
+  Reached destination: True
+  ✓ PASS: test_navigation_stuck_at_intermediate_waypoint: Player should navigate around obstacles without getting stuck
+Player linked to district: Test District
+
+[TEST] test_velocity_direction_mismatch_handling
+  Waypoint transition 0 -> 1
+    Position: (808.092896, 200.157349)
+    Velocity: (167.407196, 9.834524) (magnitude: 167.70)
+    State: MOVING
+    Velocity dot with new direction: 0.08
+  Waypoint transition 1 -> 2
+    Position: (810.292236, 299.742188)
+    Velocity: (-46.690575, 192.979538) (magnitude: 198.55)
+    State: MOVING
+    Velocity dot with new direction: 0.97
+  First transition velocity: (167.407196, 9.834524)
+  Second transition velocity: (-46.690575, 192.979538)
+  Final position: (809.860901, 382.783752)
+  Target reached: True
+  ✓ PASS: test_velocity_direction_mismatch_handling: Player should handle sharp turns at waypoints without getting stuck
+Player linked to district: Test District
+
+[TEST] test_waypoint_index_reset_bug
+  Waypoint index changed: 0 -> 1 at position (199.711929, 100)
+  Distance to final target: 200.29
+  Waypoint index changed: 1 -> 2 at position (298.912048, 100)
+  Distance to final target: 101.09
+  Waypoint index changed: 2 -> 3 at position (394.912415, 100)
+  Distance to final target: 5.09
+  Indices visited: [0, 1, 2, 3]
+  Sequential: True
+  Index reset detected: False
+  Final position: (400, 100)
+  Final state: ARRIVED
+  ✓ PASS: test_waypoint_index_reset_bug: Waypoints should be followed sequentially without resetting to 0
+Player linked to district: Test District
+
+==================================================
+ SUMMARY: 5 passed, 0 failed
+==================================================
+
+[PASS] All PlayerNavigationProgressComponentTest tests passed!
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:209
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+=== Component Test: player_navigation_stuck_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+
+==================================================
+ PLAYERNAVIGATIONSTUCKCOMPONENTTEST TEST SUITE
+==================================================
+
+Player linked to district: Test Navigation District
+
+===== TEST SUITE: Coordinate Consistency Tests =====
+
+[TEST] test_position_vs_global_position
+  ✓ PASS: test_position_vs_global_position: Player should move when using consistent coordinates
+
+[TEST] test_navigation_path_coordinate_space
+  ✓ PASS: test_navigation_path_coordinate_space: Navigation path should be in player's coordinate space
+
+===== TEST SUITE: Waypoint Reaching Tests =====
+
+[TEST] test_waypoint_threshold
+  Distance to waypoint: 9.487999
+  ✓ PASS: test_waypoint_threshold: Waypoint threshold test completed (threshold behavior documented)
+
+[TEST] test_waypoint_sequential_following
+  Indices visited: [0, 1, 2, 3]
+  Final path index: 0
+  ✓ PASS: test_waypoint_sequential_following: Waypoints should be followed sequentially
+
+===== TEST SUITE: Path Following Stability Tests =====
+
+[TEST] test_high_speed_stability
+  ✓ PASS: test_high_speed_stability: Player should not oscillate at high speeds
+
+[TEST] test_eventual_arrival
+  Frames to arrive: 38
+  Final distance: 0.000000
+  Final state: ARRIVED
+  ✓ PASS: test_eventual_arrival: Player should eventually arrive at destination
+
+===== TEST SUITE: Deceleration Recovery Tests =====
+
+[TEST] test_deceleration_recovery
+  State transitions: [DECELERATING, ACCELERATING, MOVING]
+  ✓ PASS: test_deceleration_recovery: Player should recover from DECELERATING state when target not reached
+
+[TEST] test_stuck_detection
+  Distance traveled in 1 second: 182.960526
+  State changes: 1
+  Final state: MOVING
+  ✓ PASS: test_stuck_detection: Player should not get stuck oscillating between states
+
+==================================================
+ SUMMARY: 8 passed, 0 failed
+==================================================
+
+[PASS] All PlayerNavigationStuckComponentTest tests passed!
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:209
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+ERROR: Resumed function '_handle_movement()' after yield, but class instance is gone. At script: res://src/characters/player/player.gd:209
+   at: resume (modules/gdscript/gdscript_function.cpp:1802)
+
+=== Component Test: view_mode_transition_component_test ===
+Exit code: 0
+Godot Engine v3.5.2.stable.official.170ba337a - https://godotengine.org
+OpenGL ES 2.0 Renderer: Mesa Intel(R) Graphics (ADL GT2)
+ 
+[DEBUG SINGLETON] Initialized - Press backtick (`) key for console
+CoordinateManager initialized
+Setting up View Mode Transition component test...
+Master timeout set for 30 seconds
+ScrollingCamera._ready() called - Script Path: res://src/core/camera/scrolling_camera.gd
+ScrollingCamera class loaded - Script ID: 1306
+[TRACE] Camera initialized with screen size: (1424, 952)
+Debug drawing is disabled
+No target player set
+ERROR: Can't add child 'MockDebugManager' to 'ViewModeTransitionTest', already has a parent 'ViewModeTransitionTest'.
+   at: add_child (scene/main/node.cpp:1282)
+Test scene created with district, camera, and debug manager
+[CAMERA DEBUG] CoordinateManager singleton not available for registration
+WARNING: ScrollingCamera could not find a player node
+Using default camera bounds based on screen size
+Initializing DefaultBoundsValidator with bounds: (0, 0, 1424, 952)
+BoundsValidator initialized: Reference
+
+===== CAMERA INITIAL POSITION SETUP =====
+Current camera position: (500, 300)
+Initial position setting: (0, 0)
+Initial view setting: right
+Screen size: (1424, 952)
+
+===== CALCULATING OPTIMAL ZOOM =====
+Could not find background information - camera zoom unchanged
+===== ZOOM CALCULATION COMPLETE =====
+
+Camera half size (screen size / 2 / zoom): (712, 476)
+Camera bounds: (0, 0, 1424, 952)
+Background wide enough for scrolling: False
+Background width: 1424, Min width for scrolling: 2136
+Using RIGHT initial view setting
+Centering camera on walkable area: (712, 476)
+Setting camera position to: (712, 476)
+Camera position after setting: (712, 476)
+[CAMERA DEBUG] Checking camera position against walkable area center
+Camera positioned for initial view: right at (712, 476)
+View ratio: 100% of background is visible (1424 pixels of 1424 pixels)
+===== CAMERA INITIAL POSITION SETUP COMPLETE =====
+
+[CAMERA DEBUG] Camera initialized in IDLE state
+Starting View Mode Transition component tests...
+Running suite: View Mode Switching
+===== TEST SUITE: View Mode Switching =====
+Running test: Toggle World View Mode
+WARNING: Missing suite in test_results: Toggle. Creating it now.
+✓ PASS: Toggle World View Mode: Camera world_view_mode should be toggleable
+Running test: Game to World View Transition
+WARNING: Missing suite in test_results: Game. Creating it now.
+✓ PASS: Game to World View Transition: World view mode flag can be toggled without errors
+Running test: World to Game View Transition
+Setting target_player to: TempPlayer:[Node2D:1326]
+[CAMERA DEBUG] Camera state changed from IDLE to FOLLOWING_PLAYER
+Setting target_player to: Null
+WARNING: Setting target_player to null
+WARNING: Missing suite in test_results: World. Creating it now.
+✓ PASS: World to Game View Transition: Transitioning from world view to game view can enable player following
+Suite completed: 1/1 tests passed
+Running suite: Camera View Mode Behavior
+===== TEST SUITE: Camera View Mode Behavior =====
+Running test: Camera Zoom in World View
+WARNING: Missing suite in test_results: Camera. Creating it now.
+✓ PASS: Camera Zoom in World View: Camera zoom can be changed in world view mode
+Running test: Camera Bounds in World View
+✓ PASS: Camera Bounds in World View: Camera bounds behavior should be consistent in world view mode
+Running test: Player Following in World View
+Setting target_player to: MockPlayer:[Node2D:1345]
+WARNING: Missing suite in test_results: Player. Creating it now.
+✓ PASS: Player Following in World View: Camera should not follow player in world view mode
+Suite completed: 1/1 tests passed
+Running suite: Coordinate Transformations
+===== TEST SUITE: Coordinate Transformations =====
+Running test: Screen to World in View Modes
+WARNING: Missing suite in test_results: Screen. Creating it now.
+✓ PASS: Screen to World in View Modes: Screen-to-world coordinates can be obtained in both view modes
+Running test: World to Screen in View Modes
+✓ PASS: World to Screen in View Modes: World-to-screen coordinates should return valid results in both view modes
+Running test: Coordinate Transformations During Transition
+CoordinateManager initialized
+CoordinateManager: Applied scale factor 2 to world position: (-224, -152)
+WARNING: Missing suite in test_results: Coordinate. Creating it now.
+✓ PASS: Coordinate Transformations During Transition: Coordinate transformations should respect scale factor during view mode transitions
+Suite completed: 1/1 tests passed
+Running suite: View Mode Detection
+===== TEST SUITE: View Mode Detection =====
+Running test: Detect View Mode from Debug
+WARNING: CoordinateSystem class not found, skipping test
+WARNING: Missing suite in test_results: Detect. Creating it now.
+✓ PASS: Detect View Mode from Debug: CoordinateSystem should correctly detect world view mode from debug manager
+Running test: CoordinateSystem View Mode Detection
+WARNING: CoordinateSystem class not found, skipping test
+✓ PASS: CoordinateSystem View Mode Detection: CoordinateSystem should correctly detect view mode in all cases
+Running test: CoordinateManager View Mode Detection
+CoordinateManager initialized
+DEBUG: Detected World View mode via full_view_mode property
+CoordinateManager: View mode changed to WORLD_VIEW
+✓ PASS: CoordinateManager View Mode Detection: CoordinateManager should correctly detect world view mode from debug manager
+Suite completed: 3/3 tests passed
+Running suite: Debug Manager Integration
+===== TEST SUITE: Debug Manager Integration =====
+Running test: Debug Manager Controls View Mode
+WARNING: Missing suite in test_results: Debug. Creating it now.
+✓ PASS: Debug Manager Controls View Mode: Camera view mode should be controllable by debug manager
+Running test: Debug Indicators in View Modes
+Setting debug_draw to: True
+[OVERLAY DEBUG] Created debug overlay
+Setting debug_draw to: False
+✓ PASS: Debug Indicators in View Modes: Debug indicators should handle view mode transitions without errors
+Running test: Debug Coordinate Picker in View Modes
+✓ PASS: Debug Coordinate Picker in View Modes: Debug coordinate picker should record the correct view mode
+Suite completed: 3/3 tests passed
+All tests completed.
+
+===== TEST RESULTS =====
+Total Tests: 15
+Passed: 15
+Failed: 0
+
+All tests passed! 🎉
+Master timeout cancelled - tests completed normally
+
