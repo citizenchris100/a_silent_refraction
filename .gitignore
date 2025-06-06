@@ -42,3 +42,11 @@ src/assets/debug/*.mp4
 
 # Ignore GIF files
 *.gif
+
+# GIMP-specific ignores
+*.xcf
+*.xcf.bz2
+*.xcf.gz
+*-autosave-*.xcf*
+.gimprc
+.gimp-*
