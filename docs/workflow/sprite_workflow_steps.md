@@ -46,7 +46,10 @@ This guide breaks down the sprite creation process into simple, manageable steps
    - Style consistency: High
    - Motion amount: Low-Medium
 
-4. **Download the video** as `character_walk.mp4`
+4. **Download the video** to the `runway_downloads` folder:
+   - Save as something descriptive like `character_walk.mp4`
+   - Keep your downloads organized in `runway_downloads/`
+   - You can even create subfolders by character: `runway_downloads/dock_worker/`
 
 ### Step 3: Process Your Animation (Command Line)
 
@@ -55,14 +58,41 @@ This guide breaks down the sprite creation process into simple, manageable steps
    cd /path/to/your/project
    ```
 
-2. **Run the sprite processing script:**
+2. **Choose your visual style:**
+   
+   Before running the script, decide which retro game console style you want:
+   
+   - **Neo Geo** (default): Creates tall, arcade-fighter style sprites with bold colors and clean edges. Think Street Fighter or King of Fighters - characters look crisp and powerful.
+   
+   - **Saturn**: Makes sprites with smoother color gradients and softer edges. Characters look more detailed and realistic, like in story-driven RPGs.
+   
+   - **32X**: Produces compact sprites with sharper contrast. Great for action games where characters need to be clearly visible against busy backgrounds.
+
+3. **Run the sprite processing script:**
+   
+   For **Neo Geo style** (or just use default):
    ```bash
-   ./master_sprite_pipeline.sh my_character walk character_walk.mp4
+   ./tools/master_sprite_pipeline.sh my_character walk runway_downloads/character_walk.mp4
+   ```
+   
+   For **Saturn style** (smoother, more colors):
+   ```bash
+   ./tools/master_sprite_pipeline.sh my_character walk runway_downloads/character_walk.mp4 saturn
+   ```
+   
+   For **32X style** (sharper, more compact):
+   ```bash
+   ./tools/master_sprite_pipeline.sh my_character walk runway_downloads/character_walk.mp4 32x
+   ```
+   
+   **Tip:** If you organized by character subfolder:
+   ```bash
+   ./tools/master_sprite_pipeline.sh dock_worker walk runway_downloads/dock_worker/front_walk.mp4
    ```
 
-3. **Wait for processing** (usually takes 1-2 minutes)
+4. **Wait for processing** (usually takes 1-2 minutes)
 
-4. **Find your results in these folders:**
+5. **Find your results in these folders:**
    - `sprite_sheets/` - Your final sprite sheet
    - `sprite_sheets/my_character_walk_preview.png` - A preview at 2x size
    - `qa/` - Quality check images
@@ -109,6 +139,30 @@ character talking animation, subtle hand gestures, facing camera,
 white background
 ```
 
+## Visual Style Comparison
+
+### Quick Guide: Which Style Should I Choose?
+
+**Neo Geo Style**
+- **Looks like:** Street Fighter, King of Fighters, Metal Slug
+- **Best for:** Fighting games, action games, arcade-style games
+- **Character appearance:** Tall and imposing, bold colors, clear outlines
+- **Technical:** 64x128 pixels, great for characters that need to look powerful
+
+**Saturn Style**
+- **Looks like:** Guardian Heroes, Panzer Dragoon Saga, RPGs
+- **Best for:** Story games, RPGs, games with detailed characters
+- **Character appearance:** More realistic proportions, subtle shading, smoother colors
+- **Technical:** 80x120 pixels, allows for more color variety
+
+**32X Style**
+- **Looks like:** Virtua Fighter, Knuckles Chaotix, action platformers
+- **Best for:** Fast action games, platformers, games with busy backgrounds
+- **Character appearance:** Compact and clear, high contrast, easy to see
+- **Technical:** 64x96 pixels, perfect for standard game characters
+
+**Not sure?** Start with Neo Geo (the default) - it's the most versatile!
+
 ## Tips for Success
 
 ### Character Creation Tips
@@ -134,7 +188,7 @@ white background
 ### "Command not found" error
 Make the script executable first:
 ```bash
-chmod +x master_sprite_pipeline.sh
+chmod +x tools/master_sprite_pipeline.sh
 ```
 
 ### Background not fully removed
@@ -148,17 +202,25 @@ The script automatically adjusts colors for a retro game look. This is normal!
 
 ## File Organization
 
-After processing, you'll have:
+Your project structure:
 ```
 your_project/
-├── sprite_sheets/
-│   ├── my_character_walk.png          (your sprite sheet)
+├── runway_downloads/              (your Runway videos)
+│   ├── character_walk.mp4
+│   └── dock_worker/              (optional: organize by character)
+│       ├── front_walk.mp4
+│       ├── back_walk.mp4
+│       └── side_walk.mp4
+├── sprite_sheets/                 (created after processing)
+│   ├── my_character_walk.png     (your sprite sheet)
 │   ├── my_character_walk_preview.png  (2x preview)
 │   └── my_character_walk.png.import   (Godot settings)
-├── qa/
-│   ├── bg_removal_comparison.png      (quality check)
-│   └── analysis.txt                   (technical info)
-└── processed/                         (individual frames)
+├── qa/                           (quality check files)
+│   ├── bg_removal_comparison.png
+│   └── analysis.txt
+├── processed/                    (individual frames)
+└── tools/
+    └── master_sprite_pipeline.sh (the processing script)
 ```
 
 ## Next Steps

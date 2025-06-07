@@ -50,3 +50,12 @@ src/assets/debug/*.mp4
 *-autosave-*.xcf*
 .gimprc
 .gimp-*
+
+# Sprite processing temporary directories
+raw_frames/
+bg_removed/
+processed/
+qa/
+
+# Keep sprite sheets but ignore runway downloads
+runway_downloads/
